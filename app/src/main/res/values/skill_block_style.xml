@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="skill_block">
+        <item name="android:layout_margin">2dp</item>
+    </style>
+    <style name="skill_proficiency">
+
+    </style>
+    <style name="skill_label">
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+    <style name="skill_bonus">
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+</resources>

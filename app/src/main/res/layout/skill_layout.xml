@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical|center_horizontal"
+    style="@style/skill_block">
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:src="@drawable/half_proficient"
+        android:id="@+id/proficient"
+        style="@style/skill_proficiency"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="+2"
+        android:id="@+id/bonus"
+        style="@style/skill_bonus"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Skill"
+        android:id="@+id/skill_label"
+        style="@style/skill_label"/>
+
+</LinearLayout>
