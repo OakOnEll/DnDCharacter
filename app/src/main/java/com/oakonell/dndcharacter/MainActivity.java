@@ -145,6 +145,10 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "Clicked delete character ", Toast.LENGTH_SHORT).show();
             return true;
         }
+        if (id == R.id.action_level_up) {
+            Toast.makeText(this, "Clicked level-up character ", Toast.LENGTH_SHORT).show();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

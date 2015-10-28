@@ -16,6 +16,10 @@
         android:title="Long Rest"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_level_up"
+        android:title="Level Up"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_delete"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="Delete"
