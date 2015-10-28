@@ -1,0 +1,58 @@
+<background>
+    <name>Acolyte</name>
+    <skills>
+        <proficiency>Insight</proficiency>
+        <proficiency>Religion</proficiency>
+    </skills>
+    <languages>
+        <choose number="2"/>
+    </languages>
+    <equipment>
+        <item>holy symbol (a gift when you entered the priesthood)</item>
+        <choose>
+            <or><item>prayer book</item></or>
+            <or><item>prayerwheel</item></or>
+        </choose>
+        <item>belt pouch</item>
+        <money>15gp</money>
+    </equipment>
+    <feature>
+        <name>Shelter of the Faithful</name>
+        <shortDescription>Those who share your religion will support (only) you in a modest lifestyle.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>I idolize a particular hero of my faith, and constantly refer to that person’s deeds and example.</trait>
+        <trait>I can find common ground between the fiercest enemies, empathizing with them and always working toward peace.</trait>
+        <trait>I see omens in every event and action. The gods try to speak to us, we just need to listen</trait>
+        <trait>Nothing can shake my optimistic attitude.</trait>
+        <trait>I quote (or misquote) sacred texts and proverbs in almost every situation.</trait>
+        <trait>I am tolerant (or intolerant) of other faiths and respect (or condemn) the worship of other gods.</trait>
+        <trait>I’ve enjoyed fine food, drink, and high society among my temple’s elite. Rough living grates on me.</trait>
+        <trait>I’ve spent so long in the temple that I have little practical experience dealing with people in the outside world.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Tradition. The ancient traditions of worship and sacrifice must be preserved and upheld. (Lawful)</ideal>
+        <ideal>Charity. I always try to help those in need, no matter what the personal cost. (Good)</ideal>
+        <ideal>Change. We must help bring about the changes the gods are constantly working in the world. (Chaotic)</ideal>
+        <ideal>Power. I hope to one day rise to the top of my faith’s religious hierarchy. (Lawful)</ideal>
+        <ideal>Faith. I trust that my deity will guide my actions. I have faith that if I work hard, things will go well. (Lawful)</ideal>
+        <ideal>Aspiration. I seek to prove myself worthy of my god’s favor by matching my actions against his or her teachings. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>I would die to recover an ancient relic of my faith that was lost long ago.</bond>
+        <bond>I will someday get revenge on the corrupt temple hierarchy who branded me a heretic.</bond>
+        <bond>I owe my life to the priest who took me in when my parents died.</bond>
+        <bond>Everything I do is for the common people.</bond>
+        <bond>I will do anything to protect the temple where I served.</bond>
+        <bond>I seek to preserve a sacred text that my enemies consider heretical and seek to destroy.</bond>
+    </bonds>
+    <flaws>
+        <flaw>I judge others harshly, and myself even more severely.</flaw>
+        <flaw>I put too much trust in those who wield power within my temple’s hierarchy.</flaw>
+        <flaw>My piety sometimes leads me to blindly trust those that profess faith in my god.</flaw>
+        <flaw>I am inflexible in my thinking.</flaw>
+        <flaw>I am suspicious of strangers and expect the worst of them.</flaw>
+        <flaw>Once I pick a goal, I become obsessed with it to the detriment of everything else in my life.</flaw>
+    </flaws>
+</background>

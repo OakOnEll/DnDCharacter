@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.FeatureBlockView;
 import com.oakonell.dndcharacter.views.SavingThrowBlockView;
 import com.oakonell.dndcharacter.views.SkillBlockView;
@@ -24,11 +25,13 @@ import java.util.Map;
 /**
  * Created by Rob on 10/22/2015.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends AbstractSheetFragment {
 
     Map<StatType, StatBlockView> statViewsByType = new HashMap<StatType, StatBlockView>();
     Map<StatType, SavingThrowBlockView> saveThrowViewsByType = new HashMap<StatType, SavingThrowBlockView>();
     Map<SkillType, SkillBlockView> skillViewsByType = new HashMap<SkillType, SkillBlockView>();
+
+    private Character character;
     TextView character_name;
     TextView classes;
     TextView race;
@@ -36,7 +39,6 @@ public class MainFragment extends Fragment {
 
     TextView speed;
     TextView ac;
-    private Character character;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,12 +86,15 @@ public class MainFragment extends Fragment {
         skillViewsByType.put(SkillType.STEALTH, (SkillBlockView) rootView.findViewById(R.id.stealth_skill));
         skillViewsByType.put(SkillType.SURVIVAL, (SkillBlockView) rootView.findViewById(R.id.survival_skill));
 
-        updateViews(rootView, character);
+        updateViews(rootView);
 
         return rootView;
     }
 
-    private void updateViews(View rootView, Character character) {
+    public void updateViews() {
+        updateViews((ViewGroup) getView());
+    }
+    private void updateViews(View rootView) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(character.getName());
         character_name.setText(character.getName());
 
@@ -137,7 +142,7 @@ public class MainFragment extends Fragment {
     public void setCharacter(Character character) {
         this.character = character;
         if (getView() != null) {
-            updateViews(getView(), character);
+            updateViews(getView());
         }
     }
 }

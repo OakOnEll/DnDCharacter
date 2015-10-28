@@ -11,18 +11,21 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.FeatureBlockView;
 
 /**
  * Created by Rob on 10/26/2015.
  */
-public class NotesFragment extends Fragment {
+public class NotesFragment extends AbstractSheetFragment {
     private com.oakonell.dndcharacter.model.Character character;
     TextView character_name;
     TextView classes;
     TextView race;
     TextView background;
-EditText notes;
+
+    EditText notes;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.notes_sheet, container, false);

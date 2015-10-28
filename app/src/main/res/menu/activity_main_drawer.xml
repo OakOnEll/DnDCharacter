@@ -2,21 +2,54 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_camara" android:icon="@android:drawable/ic_menu_camera"
-            android:title="Import" />
-        <item android:id="@+id/nav_gallery" android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item android:id="@+id/nav_slideshow" android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item android:id="@+id/nav_manage" android:icon="@android:drawable/ic_menu_manage"
-            android:title="Tools" />
+        <item
+            android:id="@+id/nav_characters"
+            android:icon="@android:drawable/ic_menu_camera"
+            android:title="Characters"></item>
+        <item
+            android:id="@+id/nav_backgrounds"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="Backgrounds" />
+        <item
+            android:id="@+id/nav_races"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="Races" />
+        <item
+            android:id="@+id/nav_classes"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="Classes" />
+        <item
+            android:id="@+id/nav_items"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="Items" />
+        <item
+            android:id="@+id/nav_feats"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="Feats" />
     </group>
 
-    <item android:title="Communicate">
+    <item
+        android:id="@+id/nav_recent_characters"
+        android:title="Recent Characters">
         <menu>
-            <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
+            <item
+                android:id="@+id/create_new"
+                android:title="Feng" />
+            <item
+                android:id="@+id/open"
+                android:title="Morgran Fireforge" />
+        </menu>
+    </item>
+
+    <item android:title="Export">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@android:drawable/ic_menu_share"
                 android:title="Share" />
-            <item android:id="@+id/nav_send" android:icon="@android:drawable/ic_menu_send"
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@android:drawable/ic_menu_send"
                 android:title="Send" />
         </menu>
     </item>

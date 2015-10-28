@@ -1,0 +1,92 @@
+<class>
+    <name>Fighter(free)</name>
+    <hitDice>1d10</hitDice>
+    <armor>
+        <proficency category="heavy armor"></proficency>
+        <proficency category="light armor"></proficency>
+        <proficency category="medium armor"></proficency>
+        <proficency>shield</proficency>
+    </armor>
+    <weapons>
+        <proficency category="simple weapons"></proficency>
+        <proficency category="martial weapons"></proficency>
+    </weapons>
+    <savingThrows>
+        <savingThrow>Strength</savingThrow>
+        <savingThrow>Constitution</savingThrow>
+    </savingThrows>
+    <skills>
+        <choose number="2">
+            <proficiency>Acrobatics</proficiency>
+            <proficiency>Animal Handling</proficiency>
+            <proficiency>Athletics</proficiency>
+            <proficiency>History</proficiency>
+            <proficiency>Insight</proficiency>
+            <proficiency>Intimidation</proficiency>
+            <proficiency>Perception</proficiency>
+            <proficiency>Survival</proficiency>
+        </choose>
+    </skills>
+    <equipment>
+        <choose>
+            <or><item>chain mail</item></or>
+            <or>
+                <item>leather armor</item>
+                <item>long bow</item>
+                <item count="20">arrow</item>
+            </or>
+        </choose>
+        <choose>
+            <or>
+                <item category="martial weapon"/>
+                <item>shield</item>
+            </or>
+            <or>
+                <item category="martial weapon"/>
+                <item category="martial weapon"/>
+            </or>
+        </choose>
+        <choose>
+            <or>
+                <item>light crossbow</item>
+                <item count="20">crossbow bolt</item>
+            </or>
+            <or>
+                <item count="2">handaxe</item>
+            </or>
+        </choose>
+        <choose>
+            <or><pack>dungeoneer's pack</pack></or>
+            <or><pack>explorer's pack</pack></or>
+        </choose>
+    </equipment>
+    <choose>
+        <or>
+            <feature>
+                <name>Archery</name>
+                <shortDescription>You gain a +2 bonus to attack rolls you make with ranged weapons.</shortDescription>
+            </feature>
+            <feature>
+                <name>Defense</name>
+                <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.</shortDescription>
+            </feature>
+        </or>
+    </choose>
+    <feature>
+        <name>Second Wind</name>
+        <uses refreshOn="rest">1</uses>
+        <action>hp += 1d10 + {classLevel}</action>
+        <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.</shortDescription>
+    </feature>
+    <level value="2">
+        <feature>
+            <name>Action Surge</name>
+            <uses refreshOn="rest">1</uses>
+            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.</shortDescription>
+        </feature>
+    </level>
+    <level value="3">
+        <name>Improved Critical</name>
+        <shortDescription>Your weapon attacks score a critical hit on a roll of 19 or 20.</shortDescription>
+    </level>
+</class>

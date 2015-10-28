@@ -7,6 +7,8 @@ public class CharacterClass extends BaseCharacterComponent {
     private String name;
     // derivable from order in character...
     private int level;
+    private int hpRoll;
+    private String hitDie;
 
     @Override
     public String getName() {
@@ -32,5 +34,12 @@ public class CharacterClass extends BaseCharacterComponent {
 
     public int getLevel() {
         return level;
+    }
+
+    public int getHPRoll() {
+        return hpRoll;
+    }
+    public String getHitDie() {
+        return hitDie;
     }
 }

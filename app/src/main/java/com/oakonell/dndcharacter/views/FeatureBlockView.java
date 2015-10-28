@@ -84,6 +84,14 @@ public class FeatureBlockView extends LinearLayout {
             int usesRemaining = character.getUsesRemaining(info.getFeature());
             usesButton.setText(usesRemaining + " / " + maxUses);
             refreshes_label.setText("Refreshes on " + info.getFeature().getRefreshesOn().toString());
+            usesButton.setEnabled(usesRemaining > 0);
+            usesButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    character.useFeature(info.getFeature());
+                    updateViews();
+                }
+            });
         }
         shortDescription.setText(info.getShortDescription());
     }

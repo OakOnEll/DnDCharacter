@@ -3,15 +3,22 @@ package com.oakonell.dndcharacter.model;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 /**
  * Created by Rob on 10/21/2015.
  */
 public class Character {
+    // relatively static data
     private String name;
     private CharacterBackground background;
     private CharacterRace race;
@@ -19,6 +26,7 @@ public class Character {
     private Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
 
 
+    // more fluid data
     int hp;
     int tempHpMax;
     int tempHp;
@@ -100,6 +108,18 @@ public class Character {
      * derivable info
      */
 
+    public int getMaxHP() {
+        int hp = 0;
+        StatBlock conBlock = getStatBlock(StatType.CONSTITUTION);
+        int conMod = conBlock.getModifier();
+
+        for (CharacterClass each : classes) {
+            hp += each.getHPRoll();
+            hp += conMod;
+        }
+        // TODO what about race, like dwarf, that effects hp
+        return hp;
+    }
 
     public StatBlock getStatBlock(StatType type) {
         return new StatBlock(this, type);
@@ -237,12 +257,66 @@ public class Character {
     }
 
     public void useFeature(Feature feature) {
-        int remaining = getUsesRemaining(feature);
-        remaining = remaining - 1;
-        usedFeatures.put(feature.getName(), remaining);
+        // TODO apply known effects from feature
+        int uses = getUses(feature);
+        uses = uses + 1;
+        usedFeatures.put(feature.getName(), uses);
     }
 
     public String getNotes() {
         return notes;
     }
+
+    public Document toXML() {
+      /*  DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document document = documentBuilder.newDocument();
+        Element root = document.createElement("character");
+        document.appendChild(root);
+
+        Element nameElem = document.createElement("name");
+        nameElem.setTextContent(name);
+        root.appendChild(nameElem);
+
+        Element nameElem = document.createElement("name");
+        nameElem.setTextContent(name);
+        root.appendChild(nameElem);
+
+
+
+        return document;*/
+        return null;
+    }
+
+    public void longRest() {
+        // need to take an input context ?
+        //     which features to refresh, to apply full HP, etc
+
+        // temp HP disappear, unless a spell/effect
+
+        List<FeatureInfo> featureInfos = getFeatureInfos();
+        for (FeatureInfo each : featureInfos) {
+            if (each.getFeature().getRefreshesOn() == RefreshType.LONG_REST) {
+                usedFeatures.put(each.getFeature().getName(), 0);
+            }
+        }
+        hp = getMaxHP();
+        // restore hit die / 2
+        //refresh features
+    }
+
+    public void shortRest() {
+        // need to take an input context ?
+        //     which features to refresh, how many hit die to apply, etc
+
+        List<FeatureInfo> featureInfos = getFeatureInfos();
+        for (FeatureInfo each : featureInfos) {
+            if (each.getFeature().getRefreshesOn() == RefreshType.SHORT_REST) {
+                usedFeatures.put(each.getFeature().getName(), 0);
+            }
+        }
+        hp = getMaxHP();
+    }
+
+
 }

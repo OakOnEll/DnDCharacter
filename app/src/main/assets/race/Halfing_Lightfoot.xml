@@ -1,0 +1,33 @@
+<race>
+    <name>Halfing, Lightfoot</name>
+    <baseHeight>31</baseHeight>
+    <baseWeight>35</baseWeight>
+    <heightModifier>2d6</heightModifier>
+    <weightMultiplier>1</weightMultiplier>
+    <size>small</size>
+    <speed>25</speed>
+    <trait>
+        <name>Lucky</name>
+        <description>When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll</description>
+    </trait>
+    <trait>
+        <name>Brave</name>
+        <description> You have advantage on saving throws against being frightened</description>
+    </trait>
+    <trait>
+        <name>Halfling Nimbleness</name>
+        <description>You can move through the space of any creature that is of a size larger than yours</description>
+    </trait>
+    <trait>
+        <name>Naturally Stealthy</name>
+        <description>You can hide...</description>
+    </trait>
+    <languages>
+        <language>Halfling</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Dexterity">2</increase>
+        <increase name="Charisma">1</increase>
+    </stat>
+</race>

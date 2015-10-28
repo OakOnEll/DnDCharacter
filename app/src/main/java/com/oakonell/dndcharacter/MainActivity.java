@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.SkillBlockView;
 import com.oakonell.dndcharacter.views.StatBlockView;
 
@@ -52,6 +53,9 @@ public class MainActivity extends AppCompatActivity
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private MainFragment mainFragment;
+    private FeaturesFragment featuresFragment;
+    private NotesFragment notesFragment;
 
 
     @Override
@@ -122,10 +126,33 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "Clicked settings ", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (id == R.id.action_long_rest) {
+            Toast.makeText(this, "Clicked long rest ", Toast.LENGTH_SHORT).show();
+            character.longRest();
+            updateViews();
+            return true;
+        }
+        if (id == R.id.action_short_rest) {
+            Toast.makeText(this, "Clicked short rest ", Toast.LENGTH_SHORT).show();
+            character.shortRest();
+            updateViews();
+            return true;
+        }
+        if (id == R.id.action_delete) {
+            Toast.makeText(this, "Clicked delete character ", Toast.LENGTH_SHORT).show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateViews() {
+        if (mainFragment != null) mainFragment.updateViews();
+        if (featuresFragment != null) featuresFragment.updateViews();
+        if (notesFragment != null) notesFragment.updateViews();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -134,14 +161,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_characters) {
+            Toast.makeText(this, "Clicked characters ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_backgrounds) {
+            Toast.makeText(this, "Clicked backgrounds ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_classes) {
+            Toast.makeText(this, "Clicked classes ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_races) {
+            Toast.makeText(this, "Clicked races ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_items) {
+            Toast.makeText(this, "Clicked items ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_feats) {
+            Toast.makeText(this, "Clicked feats ", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -167,19 +198,19 @@ public class MainActivity extends AppCompatActivity
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                MainFragment fragment = new MainFragment();
-                fragment.setCharacter(character);
-                return fragment;
+                mainFragment = new MainFragment();
+                mainFragment.setCharacter(character);
+                return mainFragment;
             }
             if (position == 1) {
-                FeaturesFragment fragment = new FeaturesFragment();
-                fragment.setCharacter(character);
-                return fragment;
+                featuresFragment = new FeaturesFragment();
+                featuresFragment.setCharacter(character);
+                return featuresFragment;
             }
             if (position == 5) {
-                NotesFragment fragment = new NotesFragment();
-                fragment.setCharacter(character);
-                return fragment;
+                notesFragment = new NotesFragment();
+                notesFragment.setCharacter(character);
+                return notesFragment;
 
             }
             // getItem is called to instantiate the fragment for the given page.
@@ -215,7 +246,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends AbstractSheetFragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.

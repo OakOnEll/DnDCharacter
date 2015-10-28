@@ -1,0 +1,22 @@
+<race>
+    <name>Human</name>
+    <baseHeight>56</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+    <size>medium</size>
+    <speed>30</speed>
+
+    <languages>
+        <language>Common</language>
+        <choose number="1"></choose>
+    </languages>
+    <stat>
+        <increase name="Strength">1</increase>
+        <increase name="Dexterity">1</increase>
+        <increase name="Constitution">1</increase>
+        <increase name="Wisdom">1</increase>
+        <increase name="Intelligence">1</increase>
+        <increase name="Charisma">1</increase>
+    </stat>
+</race>
