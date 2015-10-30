@@ -4,6 +4,7 @@ package com.oakonell.dndcharacter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.FeatureBlockView;
+import com.oakonell.dndcharacter.views.HitPointDiaogFragment;
 import com.oakonell.dndcharacter.views.SavingThrowBlockView;
 import com.oakonell.dndcharacter.views.SkillBlockView;
 import com.oakonell.dndcharacter.views.StatBlockView;
@@ -50,6 +52,15 @@ public class MainFragment extends AbstractSheetFragment {
         background = (TextView) rootView.findViewById(R.id.background);
         speed = (TextView) rootView.findViewById(R.id.speed);
         ac = (TextView) rootView.findViewById(R.id.ac);
+        rootView.findViewById(R.id.hp_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = MainFragment.this.getChildFragmentManager();
+                HitPointDiaogFragment hpFragment = new HitPointDiaogFragment();
+                hpFragment.setCharacter(character);
+                hpFragment.show(fm, "fragment_edit_name");
+            }
+        });
 
 
         statViewsByType.put(StatType.STRENGTH, (StatBlockView) rootView.findViewById(R.id.strength_stat));
@@ -94,6 +105,7 @@ public class MainFragment extends AbstractSheetFragment {
     public void updateViews() {
         updateViews((ViewGroup) getView());
     }
+
     private void updateViews(View rootView) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(character.getName());
         character_name.setText(character.getName());

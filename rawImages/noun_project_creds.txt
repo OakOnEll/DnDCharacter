@@ -1,2 +1,10 @@
 https://thenounproject.com/search/?q=bandage&i=78712
 https://thenounproject.com/search/?q=Tent&i=170514
+heart
+ https://thenounproject.com/search/?q=heart&i=130262
+shield
+ https://thenounproject.com/search/?q=shield&i=171293
+boot
+ https://thenounproject.com/search/?q=boot&i=110413
+cube
+ https://thenounproject.com/search/?q=dice&i=6887
