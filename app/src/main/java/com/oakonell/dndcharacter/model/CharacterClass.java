@@ -6,19 +6,14 @@ import org.simpleframework.xml.Element;
  * Created by Rob on 10/24/2015.
  */
 public class CharacterClass extends BaseCharacterComponent {
-    @Element
-    private String name;
     // derivable from order in character...
     private int level;
-    @Element
-    private int hpRoll;
-    @Element
-    private String hitDie;
 
-    @Override
-    public String getName() {
-        return name;
-    }
+    @Element(required = false)
+    private int hpRoll;
+    @Element(required = false)
+    private int hitDie;
+
 
     @Override
     public ComponentType getType() {
@@ -29,10 +24,6 @@ public class CharacterClass extends BaseCharacterComponent {
         return getType().toString() + ": " + getName() + " " + level;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setLevel(int level) {
         this.level = level;
     }
@@ -41,10 +32,20 @@ public class CharacterClass extends BaseCharacterComponent {
         return level;
     }
 
-    public int getHPRoll() {
-        return hpRoll;
+    public void setHitDie(int hitDie) {
+        this.hitDie = hitDie;
     }
-    public String getHitDie() {
+    public int getHitDie() {
         return hitDie;
     }
+
+    public int getHpRoll() {
+        return hpRoll;
+    }
+
+    public void setHpRoll(int hpRoll) {
+        this.hpRoll = hpRoll;
+    }
+
+
 }

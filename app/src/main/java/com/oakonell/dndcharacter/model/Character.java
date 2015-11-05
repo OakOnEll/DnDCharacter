@@ -9,6 +9,8 @@ import org.simpleframework.xml.ElementMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,26 +27,26 @@ public class Character {
     @Element(required = false)
     private CharacterRace race;
 
-    //    @ElementList
+    @ElementList(required = false)
     private List<CharacterClass> classes = new ArrayList<CharacterClass>();
-    //    @ElementMap(entry="stat", key="type")
+    @ElementMap(entry = "stat", key = "name", value = "value", required = false)
     private Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
 
     // more fluid data
-    @Element
+    @Element(required = false)
     int hp;
-    @Element
+    @Element(required = false)
     int tempHpMax;
-    @Element
+    @Element(required = false)
     int tempHp;
     @Element(required = false)
     private String notes;
 
-    //    @ElementMap(entry="feature", key="name")
+    @ElementMap(entry = "feature", key = "name", value = "uses", required = false)
     Map<String, Integer> usedFeatures = new HashMap<String, Integer>();
 
 
-    public Character() {
+    public Character(boolean defaults) {
         name = "Feng";
 
         baseStats.put(StatType.STRENGTH, 12);
@@ -101,8 +103,14 @@ public class Character {
         tides.setFormula("1");
         tides.setRefreshesOn(RefreshType.LONG_REST);
         sorcerer.addFeature(tides);
+        sorcerer.setHitDie(6);
+        sorcerer.setHpRoll(6);
 
         classes.add(sorcerer);
+    }
+
+    public Character() {
+
 
     }
 
@@ -112,6 +120,9 @@ public class Character {
 
     public String getName() {
         return name;
+    }
+    public void setName(String s) {
+        name = s;
     }
 
     /**
@@ -124,7 +135,7 @@ public class Character {
         int conMod = conBlock.getModifier();
 
         for (CharacterClass each : classes) {
-            hp += each.getHPRoll();
+            hp += each.getHpRoll();
             hp += conMod;
         }
         // TODO what about race, like dwarf, that effects hp
@@ -214,9 +225,15 @@ public class Character {
     }
 
     public int getProficiency() {
-        // TODO
-        // base off classes.size()
-        return 2;
+        if (classes == null) {
+            return 2;
+        }
+        int charLevel = classes.size();
+        if (charLevel < 5) return 2;
+        if (charLevel < 9) return 3;
+        if (charLevel < 13) return 4;
+        if (charLevel < 17) return 5;
+        return 6;
     }
 
     public Proficient deriveSaveProciency(StatType type) {
@@ -294,9 +311,7 @@ public class Character {
         //refresh features
     }
 
-    public int getHP() {
-        return hp;
-    }
+
 
     public void shortRest() {
         // need to take an input context ?
@@ -310,6 +325,30 @@ public class Character {
         hp = getMaxHP();
     }
 
+    public String getHitDiceString() {
+        if (classes == null) return "";
+
+        Map<Integer, Integer> dice = getHitDiceCounts();
+        StringBuilder builder = new StringBuilder();
+        Iterator<Map.Entry<Integer, Integer>> entryIter = dice.entrySet().iterator();
+        while (entryIter.hasNext()) {
+            Map.Entry<Integer, Integer> entry = entryIter.next();
+            builder.append(entry.getValue() + "d" + entry.getKey());
+        }
+        return builder.toString();
+    }
+
+    public Map<Integer, Integer> getHitDiceCounts() {
+        Map<Integer, Integer> dice = new LinkedHashMap<>();
+        if (classes == null) return dice;
+
+        for (CharacterClass each : classes) {
+            Integer dieCount = dice.get(each.getHitDie());
+            if (dieCount == null) dieCount = 1;
+            dice.put(each.getHitDie(), dieCount++);
+        }
+        return dice;
+    }
 
     public void setHP(int HP) {
         this.hp = HP;
@@ -322,4 +361,9 @@ public class Character {
     public void setTempHP(int tempHP) {
         this.tempHp = tempHP;
     }
+
+    public int getHP() {
+        return hp + tempHp;
+    }
+
 }

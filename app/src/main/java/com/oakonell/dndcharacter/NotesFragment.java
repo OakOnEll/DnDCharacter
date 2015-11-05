@@ -46,7 +46,8 @@ public class NotesFragment extends AbstractSheetFragment {
                     serializer.write(character, out);
                     out.close();
                 } catch (Exception e) {
-                    notes.setText("Error converting to xml");
+                    notes.setText("Error converting to xml\n" + e.toString());
+
                     return;
                 }
                 notes.setText(out.toString());

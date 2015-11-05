@@ -17,48 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/character_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Feng"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/race"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="Half-Orc"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Urchin"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/classes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="Sorcerer 1"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
+        <include layout="@layout/common_character_section"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -377,6 +336,39 @@
                             android:layout_below="@id/passive_perception_lbl"
                             android:layout_centerHorizontal="true"
                             android:text="11"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        style="@style/ac_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <!--                <ImageView
+                                            android:id="@+id/imageView4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerInParent="true"
+                                            android:scaleType="fitCenter"
+                                            android:src="@drawable/ac" />
+                        -->
+                        <TextView
+                            android:id="@+id/proficiency_lbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="Proficiency"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/proficiency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/proficiency_lbl"
+                            android:layout_centerHorizontal="true"
+                            android:text="2"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
                     </RelativeLayout>
                 </LinearLayout>

@@ -15,15 +15,28 @@ import java.util.Map;
  * Created by Rob on 10/24/2015.
  */
 public abstract class BaseCharacterComponent {
-    //    @ElementMap(entry="statMod", key="type")
+    @ElementMap(entry = "statMod", key = "name",value="mod", required = false)
     private Map<StatType, Integer> statModifiers = new HashMap<StatType, Integer>();
-    //    @ElementMap(entry="skill", key="type")
-    private Map<SkillType, Proficient> skillModifiers = new HashMap<SkillType, Proficient>();
-    //    @ElementMap(entry="saveMod", key="type")
-    private Map<StatType, Proficient> saveModifiers = new HashMap<StatType, Proficient>();
 
-    //    @ElementList
+    @ElementMap(entry = "skill", key = "name",value="proficiency", required = false)
+    private Map<SkillType, Proficient> skillProficiencies = new HashMap<SkillType, Proficient>();
+    @ElementMap(entry = "saveMod", key = "name",value="proficiency", required = false)
+    private Map<StatType, Proficient> saveProficiencies = new HashMap<StatType, Proficient>();
+    @ElementList(required = false)
     private List<Feature> features = new ArrayList<Feature>();
+
+    @Element
+    private String name;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public int getStatModifier(StatType type) {
         Integer value = statModifiers.get(type);
@@ -36,27 +49,25 @@ public abstract class BaseCharacterComponent {
     }
 
     public void addSkill(SkillType type, Proficient proficient) {
-        skillModifiers.put(type, proficient);
+        skillProficiencies.put(type, proficient);
     }
 
     public void addSaveThrow(StatType type, Proficient proficient) {
-        saveModifiers.put(type, proficient);
+        saveProficiencies.put(type, proficient);
     }
 
     public Proficient getSkillProficient(SkillType type) {
-        Proficient proficient = skillModifiers.get(type);
+        Proficient proficient = skillProficiencies.get(type);
         if (proficient == null) return Proficient.NONE;
         return proficient;
     }
 
 
     public Proficient getSaveProficient(StatType type) {
-        Proficient proficient = saveModifiers.get(type);
+        Proficient proficient = saveProficiencies.get(type);
         if (proficient == null) return Proficient.NONE;
         return proficient;
     }
-
-    public abstract String getName();
 
     public abstract ComponentType getType();
 

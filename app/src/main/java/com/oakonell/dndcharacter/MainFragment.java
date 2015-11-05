@@ -1,11 +1,8 @@
 package com.oakonell.dndcharacter;
 
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oakonell.dndcharacter.model.*;
-import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
-import com.oakonell.dndcharacter.views.FeatureBlockView;
 import com.oakonell.dndcharacter.views.HitPointDiaogFragment;
 import com.oakonell.dndcharacter.views.SavingThrowBlockView;
 import com.oakonell.dndcharacter.views.SkillBlockView;
@@ -36,6 +31,8 @@ public class MainFragment extends AbstractSheetFragment {
     TextView speed;
     TextView ac;
     TextView hp;
+    TextView hitDice;
+    TextView proficiency;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +40,8 @@ public class MainFragment extends AbstractSheetFragment {
 
         superCreateViews(rootView);
         hp = (TextView) rootView.findViewById(R.id.hp);
+        hitDice = (TextView) rootView.findViewById(R.id.hit_dice);
+        proficiency = (TextView) rootView.findViewById(R.id.proficiency);
 
         speed = (TextView) rootView.findViewById(R.id.speed);
         ac = (TextView) rootView.findViewById(R.id.ac);
@@ -140,6 +139,8 @@ public class MainFragment extends AbstractSheetFragment {
         }
         ac.setText(character.getArmorClass() + "");
         hp.setText(character.getHP() + " / " + character.getMaxHP());
+        hitDice.setText(character.getHitDiceString());
+        proficiency.setText(character.getProficiency() + "");
 
         for (final Map.Entry<StatType, StatBlockView> entry : statViewsByType.entrySet()) {
             entry.getValue().setCharacter(character);

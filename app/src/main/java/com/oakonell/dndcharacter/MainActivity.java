@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.storage.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.SkillBlockView;
 import com.oakonell.dndcharacter.views.StatBlockView;
@@ -35,6 +37,8 @@ import com.oakonell.dndcharacter.views.StatBlockView;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -43,6 +47,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String CHARACTER_ID = "character_id";
+
+    long id = -1;
     com.oakonell.dndcharacter.model.Character character = null;
 
 
@@ -95,39 +102,76 @@ public class MainActivity extends AppCompatActivity
 
 
         // Load recent used character
-        // otherwise if no character, launch either wizard (no characters in list) or character list to choose
-        Serializer serializer = new Persister();
-        InputStream input = null;
-        try {
-            // offload this to a new thread
-//            deleteFile("feng.xml");
-            input = openFileInput("feng.xml");
-            character = serializer.read(Character.class, input);
-            input.close();
-        } catch (FileNotFoundException e) {
-            character = new Character();
-        } catch (Exception e) {
-            throw new RuntimeException("Error loading file", e);
+        long savedId = -1;
+        if (savedInstanceState != null) {
+            savedId = savedInstanceState.getLong(CHARACTER_ID, -1);
         }
+        if (savedId == -1 && getIntent().getExtras() != null) {
+            savedId = getIntent().getExtras().getLong(CHARACTER_ID);
+        }
+        if (savedId == -1) {
+            // otherwise if no character, launch either wizard (no characters in list) or character list to choose
+            Toast.makeText(this, "Making a new Character", Toast.LENGTH_SHORT).show();
+            character = new Character(true);
+        } else {
+            id = savedId;
+            Toast.makeText(this, "Loading an existing Character id=" + id, Toast.LENGTH_SHORT).show();
+            CharacterRow characterRow = CharacterRow.load(CharacterRow.class, id);
 
+            if (characterRow.xml == null || characterRow.xml.trim().length() == 0) {
+                character = new Character(true);
+            } else {
+                Serializer serializer = new Persister();
+                InputStream input = null;
+                try {
+                    // offload this to a new thread
+                    input = new ByteArrayInputStream(characterRow.xml.getBytes());
+                    character = serializer.read(Character.class, input);
+                    input.close();
+                } catch (Exception e) {
+                    throw new RuntimeException("Error loading xml", e);
+                }
+            }
+        }
     }
 
+
     @Override
-    protected void onPause() {
+    protected void onStop() {
+        super.onStop();
         if (character != null) {
             Serializer serializer = new Persister();
             OutputStream out = null;
             try {
-                out = openFileOutput("feng.xml", MODE_PRIVATE);
+                out = new ByteArrayOutputStream();
                 serializer.write(character, out);
                 out.close();
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException("Error opening file to write", e);
             } catch (Exception e) {
-                throw new RuntimeException("Error writing file", e);
+                throw new RuntimeException("Error writing character xml", e);
             }
+            String xml = out.toString();
+            CharacterRow row;
+            String action;
+            if (id >= 0) {
+                row = CharacterRow.load(CharacterRow.class, id);
+                action = "Updated";
+            } else {
+                row = new CharacterRow();
+                action = "Added";
+            }
+            row.classesString = character.getClassesString();
+            row.name = character.getName();
+            row.xml = xml;
+            id = row.save();
+            Toast.makeText(this, action + " character '" + row.name + "', id = " + id, Toast.LENGTH_SHORT).show();
         }
-        super.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putLong(CHARACTER_ID, id);
     }
 
     @Override

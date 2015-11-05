@@ -15,10 +15,20 @@
         android:id="@+id/name" />
 
     <TextView
+        android:layout_marginLeft="16dp"
+        android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/classes"
-        android:layout_marginRight="16dp"/>
+        />
+
+
+    <ImageView
+        android:id="@+id/action_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:src="@android:drawable/ic_menu_delete"/>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,12 +18,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,27 +59,7 @@ public class CharactersListActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int num = new Select()
-                        .from(CharacterRow.class).count();
-
-
-                CharacterRow charRow = new CharacterRow();
-                charRow.name = "Character " + (num + 1);
-                charRow.classesString = "Sorcerer 1";
-                charRow.save();
-
-                adapter.notifyDataSetInvalidated();
-
-                List<CharacterRow> characters = new Select()
-                        .from(CharacterRow.class).execute();
-                StringBuilder builder = new StringBuilder();
-                for (CharacterRow each : characters) {
-                    builder.append(each + "\n");
-                }
-                Toast.makeText(CharactersListActivity.this, builder.toString(), Toast.LENGTH_SHORT).show();
-
-                Snackbar.make(view, "Added a character '" + charRow.name + "'", Snackbar.LENGTH_LONG)
-                        .setAction("Create a new character", null).show();
+                createCharacter(view);
             }
         });
 
@@ -199,25 +182,26 @@ public class CharactersListActivity extends AppCompatActivity
     static class ViewHolder {
         TextView name;
         TextView classes;
+        ImageView deleteButton;
     }
 
     static class CharacterListAdapter extends ResourceCursorAdapter {
-        private final Context context;
+        private final CharactersListActivity context;
         int nameIndex = -1;
         int idIndex = -1;
         int classesIndex = -1;
 
-        public CharacterListAdapter(Context context, int layout, Cursor c, boolean autoRequery) {
+        public CharacterListAdapter(CharactersListActivity context, int layout, Cursor c, boolean autoRequery) {
             super(context, layout, c, autoRequery);
             this.context = context;
         }
 
-        public CharacterListAdapter(Context context, int layout, Cursor c, int flags) {
+        public CharacterListAdapter(CharactersListActivity context, int layout, Cursor c, int flags) {
             super(context, layout, c, flags);
             this.context = context;
         }
 
-        public CharacterListAdapter(Context context, int layout, Cursor c) {
+        public CharacterListAdapter(CharactersListActivity context, int layout, Cursor c) {
             super(context, layout, c);
             this.context = context;
         }
@@ -241,18 +225,26 @@ public class CharactersListActivity extends AppCompatActivity
                 nameIndex = cursor.getColumnIndex("name");
                 classesIndex = cursor.getColumnIndex("classesString");
             }
-            final int id = cursor.getInt(idIndex);
+            final long id = cursor.getInt(idIndex);
             final String name = cursor.getString(nameIndex);
-            String classes = cursor.getString(classesIndex);
+            final String classes = cursor.getString(classesIndex);
             holder.name.setText(name);
             holder.classes.setText(classes);
+            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                                                       @Override
+                                                       public void onClick(View v) {
+                                                           CharacterListAdapter.this.context.promptToDelete(id, name, classes);
+                                                       }
+                                                   }
+            );
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Clicked character '" + name + "' (id=" + id + ")", Toast.LENGTH_SHORT).show();
+                    CharacterListAdapter.this.context.openCharacter(id);
                 }
             });
         }
+
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -265,8 +257,62 @@ public class CharactersListActivity extends AppCompatActivity
             ViewHolder holder = new ViewHolder();
             holder.name = (TextView) newView.findViewById(R.id.name);
             holder.classes = (TextView) newView.findViewById(R.id.classes);
+            holder.deleteButton = (ImageView) newView.findViewById(R.id.action_delete);
             newView.setTag(holder);
         }
+    }
+
+
+    private void promptToDelete(final long charId, String name, String classes) {
+        // Use the Builder class for convenient dialog construction
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete Character " + name)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // FIRE ZE MISSILES!
+                        CharacterRow.delete(CharacterRow.class, charId);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+        // Create the AlertDialog object and return it
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void openCharacter(long id) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.CHARACTER_ID, id);
+        startActivity(intent);
+    }
+
+    private void createCharacter(View view) {
+        CharacterRow charRow = new CharacterRow();
+        long id = charRow.save();
+        openCharacter(id);
+
+        adapter.notifyDataSetInvalidated();
+
+/*
+                int num = new Select()
+                .from(CharacterRow.class).count();
+
+
+        List<CharacterRow> characters = new Select()
+                .from(CharacterRow.class).execute();
+        StringBuilder builder = new StringBuilder();
+        for (CharacterRow each : characters) {
+            builder.append(each + "\n");
+        }
+        Toast.makeText(CharactersListActivity.this, builder.toString(), Toast.LENGTH_SHORT).show();
+
+        Snackbar.make(view, "Added a character '" + charRow.name + "'", Snackbar.LENGTH_LONG)
+                .setAction("Create a new character", null).show();
+                */
     }
 
 }

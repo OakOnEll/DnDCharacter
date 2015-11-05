@@ -6,14 +6,14 @@ import org.simpleframework.xml.Element;
  * Created by Rob on 10/24/2015.
  */
 public class Feature {
-    @Element
+    @Element(required = false)
     private String name;
-    @Element
+    @Element(required = false)
     private String description;
-    @Element
+    @Element(required = false)
     private String usesFormula;
-    @Element
-    private RefreshType type;
+    @Element(required = false)
+    private RefreshType refreshType;
 
     public String getName() {
         return name;
@@ -40,10 +40,10 @@ public class Feature {
     }
 
     public void setRefreshesOn(RefreshType type) {
-        this.type = type;
+        this.refreshType = type;
     }
 
     public RefreshType getRefreshesOn() {
-        return type;
+        return refreshType;
     }
 }
