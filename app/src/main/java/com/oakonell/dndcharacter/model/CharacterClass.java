@@ -1,13 +1,18 @@
 package com.oakonell.dndcharacter.model;
 
+import org.simpleframework.xml.Element;
+
 /**
  * Created by Rob on 10/24/2015.
  */
 public class CharacterClass extends BaseCharacterComponent {
+    @Element
     private String name;
     // derivable from order in character...
     private int level;
+    @Element
     private int hpRoll;
+    @Element
     private String hitDie;
 
     @Override

@@ -33,23 +33,17 @@ public class MainFragment extends AbstractSheetFragment {
     Map<StatType, SavingThrowBlockView> saveThrowViewsByType = new HashMap<StatType, SavingThrowBlockView>();
     Map<SkillType, SkillBlockView> skillViewsByType = new HashMap<SkillType, SkillBlockView>();
 
-    private Character character;
-    TextView character_name;
-    TextView classes;
-    TextView race;
-    TextView background;
-
     TextView speed;
     TextView ac;
+    TextView hp;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_sheet, container, false);
 
-        character_name = (TextView) rootView.findViewById(R.id.character_name);
-        classes = (TextView) rootView.findViewById(R.id.classes);
-        race = (TextView) rootView.findViewById(R.id.race);
-        background = (TextView) rootView.findViewById(R.id.background);
+        superCreateViews(rootView);
+        hp = (TextView) rootView.findViewById(R.id.hp);
+
         speed = (TextView) rootView.findViewById(R.id.speed);
         ac = (TextView) rootView.findViewById(R.id.ac);
         rootView.findViewById(R.id.hp_block).setOnClickListener(new View.OnClickListener() {
@@ -58,6 +52,7 @@ public class MainFragment extends AbstractSheetFragment {
                 FragmentManager fm = MainFragment.this.getChildFragmentManager();
                 HitPointDiaogFragment hpFragment = new HitPointDiaogFragment();
                 hpFragment.setCharacter(character);
+                hpFragment.setFragment(MainFragment.this);
                 hpFragment.show(fm, "fragment_edit_name");
             }
         });
@@ -102,18 +97,49 @@ public class MainFragment extends AbstractSheetFragment {
         return rootView;
     }
 
-    public void updateViews() {
-        updateViews((ViewGroup) getView());
-    }
 
-    private void updateViews(View rootView) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(character.getName());
-        character_name.setText(character.getName());
+    protected void updateViews(View rootView) {
+        super.updateViews(rootView);
+        if (character == null) {
+            ac.setText("");
+            hp.setText("0 / 0");
+            for (final Map.Entry<StatType, StatBlockView> entry : statViewsByType.entrySet()) {
+                entry.getValue().setCharacter(null);
+                entry.getValue().setType(entry.getKey());
+                entry.getValue().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainFragment.this.getActivity(), "Clicked stat " + entry.getKey(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
-        race.setText(character.getRaceName());
+            for (final Map.Entry<StatType, SavingThrowBlockView> entry : saveThrowViewsByType.entrySet()) {
+                entry.getValue().setCharacter(null);
+                entry.getValue().setType(entry.getKey());
+                entry.getValue().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainFragment.this.getActivity(), "Clicked stat " + entry.getKey(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            for (final Map.Entry<SkillType, SkillBlockView> entry : skillViewsByType.entrySet()) {
+                entry.getValue().setCharacter(null);
+                entry.getValue().setType(entry.getKey());
+                entry.getValue().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainFragment.this.getActivity(), "Clicked skill " + entry.getKey(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            return;
+        }
         ac.setText(character.getArmorClass() + "");
-        background.setText(character.getBackgroundName());
-        classes.setText(character.getClassesString());
+        hp.setText(character.getHP() + " / " + character.getMaxHP());
 
         for (final Map.Entry<StatType, StatBlockView> entry : statViewsByType.entrySet()) {
             entry.getValue().setCharacter(character);
@@ -151,10 +177,4 @@ public class MainFragment extends AbstractSheetFragment {
 
     }
 
-    public void setCharacter(Character character) {
-        this.character = character;
-        if (getView() != null) {
-            updateViews(getView());
-        }
-    }
 }

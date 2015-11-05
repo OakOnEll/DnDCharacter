@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="skill_block">
+        <item name="android:background">@drawable/list_selector</item>
         <item name="android:layout_margin">2dp</item>
     </style>
     <style name="skill_proficiency">

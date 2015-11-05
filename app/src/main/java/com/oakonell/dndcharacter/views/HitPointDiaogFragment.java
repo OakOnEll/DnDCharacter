@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import com.oakonell.dndcharacter.MainFragment;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.DamageType;
@@ -33,6 +34,7 @@ public class HitPointDiaogFragment extends DialogFragment {
     Button subtract;
     Button done;
     Button cancel;
+    MainFragment fragment;
 
     private Character character;
 
@@ -70,7 +72,6 @@ public class HitPointDiaogFragment extends DialogFragment {
         View.OnClickListener radioListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (v == damage && damage.isChecked()) {
                     heal.setChecked(false);
                     tempHP.setChecked(false);
@@ -113,6 +114,15 @@ public class HitPointDiaogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 // TODO apply changes to character
+                int currentHP = character.getHP();
+                if (damage.isChecked()) {
+                    character.setHP(currentHP - getHp());
+                } else if (heal.isChecked()) {
+                    character.setHP(currentHP + getHp());
+                } else if (tempHP.isChecked()) {
+                    character.setTempHP(Math.max(character.getTempHp(), getHp()));
+                }
+                fragment.updateViews();
                 getDialog().dismiss();
             }
         });
@@ -174,5 +184,9 @@ public class HitPointDiaogFragment extends DialogFragment {
 
     public Character getCharacter() {
         return character;
+    }
+
+    public void setFragment(MainFragment fragment) {
+        this.fragment = fragment;
     }
 }

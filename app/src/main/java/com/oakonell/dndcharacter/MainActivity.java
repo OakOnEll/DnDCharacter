@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -31,12 +32,18 @@ import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.SkillBlockView;
 import com.oakonell.dndcharacter.views.StatBlockView;
 
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    com.oakonell.dndcharacter.model.Character character = new com.oakonell.dndcharacter.model.Character();
+    com.oakonell.dndcharacter.model.Character character = null;
 
 
     /**
@@ -65,16 +72,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -97,8 +94,41 @@ public class MainActivity extends AppCompatActivity
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
 
+        // Load recent used character
+        // otherwise if no character, launch either wizard (no characters in list) or character list to choose
+        Serializer serializer = new Persister();
+        InputStream input = null;
+        try {
+            // offload this to a new thread
+//            deleteFile("feng.xml");
+            input = openFileInput("feng.xml");
+            character = serializer.read(Character.class, input);
+            input.close();
+        } catch (FileNotFoundException e) {
+            character = new Character();
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading file", e);
+        }
+
     }
 
+    @Override
+    protected void onPause() {
+        if (character != null) {
+            Serializer serializer = new Persister();
+            OutputStream out = null;
+            try {
+                out = openFileOutput("feng.xml", MODE_PRIVATE);
+                serializer.write(character, out);
+                out.close();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException("Error opening file to write", e);
+            } catch (Exception e) {
+                throw new RuntimeException("Error writing file", e);
+            }
+        }
+        super.onPause();
+    }
 
     @Override
     public void onBackPressed() {
@@ -166,7 +196,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_characters) {
-            Toast.makeText(this, "Clicked characters ", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, CharactersListActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_backgrounds) {
             Toast.makeText(this, "Clicked backgrounds ", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_classes) {

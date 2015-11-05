@@ -3,35 +3,46 @@ package com.oakonell.dndcharacter.model;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.ElementMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Created by Rob on 10/21/2015.
  */
 public class Character {
     // relatively static data
+    @Element(required = false)
     private String name;
+    @Element(required = false)
     private CharacterBackground background;
+    @Element(required = false)
     private CharacterRace race;
-    private List<CharacterClass> classes;
+
+    //    @ElementList
+    private List<CharacterClass> classes = new ArrayList<CharacterClass>();
+    //    @ElementMap(entry="stat", key="type")
     private Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
 
-
     // more fluid data
+    @Element
     int hp;
+    @Element
     int tempHpMax;
+    @Element
     int tempHp;
-    Map<String, Integer> usedFeatures = new HashMap<String, Integer>();
+    @Element(required = false)
     private String notes;
+
+    //    @ElementMap(entry="feature", key="name")
+    Map<String, Integer> usedFeatures = new HashMap<String, Integer>();
+
 
     public Character() {
         name = "Feng";
@@ -76,7 +87,6 @@ public class Character {
         fastTravel.setDescription("Can travel quickly in cities");
         background.addFeature(fastTravel);
 
-        classes = new ArrayList<CharacterClass>();
         CharacterClass sorcerer = new CharacterClass();
         sorcerer.setName("Sorcerer");
         sorcerer.setLevel(1);
@@ -267,27 +277,6 @@ public class Character {
         return notes;
     }
 
-    public Document toXML() {
-      /*  DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.newDocument();
-        Element root = document.createElement("character");
-        document.appendChild(root);
-
-        Element nameElem = document.createElement("name");
-        nameElem.setTextContent(name);
-        root.appendChild(nameElem);
-
-        Element nameElem = document.createElement("name");
-        nameElem.setTextContent(name);
-        root.appendChild(nameElem);
-
-
-
-        return document;*/
-        return null;
-    }
-
     public void longRest() {
         // need to take an input context ?
         //     which features to refresh, to apply full HP, etc
@@ -305,10 +294,13 @@ public class Character {
         //refresh features
     }
 
+    public int getHP() {
+        return hp;
+    }
+
     public void shortRest() {
         // need to take an input context ?
         //     which features to refresh, how many hit die to apply, etc
-
         List<FeatureInfo> featureInfos = getFeatureInfos();
         for (FeatureInfo each : featureInfos) {
             if (each.getFeature().getRefreshesOn() == RefreshType.SHORT_REST) {
@@ -319,4 +311,15 @@ public class Character {
     }
 
 
+    public void setHP(int HP) {
+        this.hp = HP;
+    }
+
+    public int getTempHp() {
+        return tempHp;
+    }
+
+    public void setTempHP(int tempHP) {
+        this.tempHp = tempHP;
+    }
 }

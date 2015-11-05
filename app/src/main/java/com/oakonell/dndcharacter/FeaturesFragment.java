@@ -20,11 +20,6 @@ import com.oakonell.dndcharacter.views.FeatureBlockView;
  * Created by Rob on 10/26/2015.
  */
 public class FeaturesFragment extends AbstractSheetFragment {
-    private Character character;
-    TextView character_name;
-    TextView classes;
-    TextView race;
-    TextView background;
 
     FeatureAdapter adapter;
 
@@ -32,10 +27,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.feature_sheet, container, false);
 
-        character_name = (TextView) rootView.findViewById(R.id.character_name);
-        classes = (TextView) rootView.findViewById(R.id.classes);
-        race = (TextView) rootView.findViewById(R.id.race);
-        background = (TextView) rootView.findViewById(R.id.background);
+        superCreateViews(rootView);
 
         adapter = new FeatureAdapter(this.getActivity(), character);
         GridView gridView = (GridView) rootView.findViewById(R.id.features);
@@ -46,29 +38,22 @@ public class FeaturesFragment extends AbstractSheetFragment {
         return rootView;
     }
 
-    public void updateViews() {
-        updateViews((ViewGroup) getView());
-    }
 
     private void updateViews(ViewGroup rootView) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(character.getName());
-        character_name.setText(character.getName());
+        super.updateViews(rootView);
+        if (character == null) {
+            adapter.notifyDataSetInvalidated();
 
-        race.setText(character.getRaceName());
-        background.setText(character.getBackgroundName());
-        classes.setText(character.getClassesString());
+            return;
+        }
         adapter.notifyDataSetInvalidated();
     }
 
     public void setCharacter(Character character) {
-        this.character = character;
+        super.setCharacter(character);
         if (adapter != null) {
             adapter.setCharacter(character);
         }
-        if (getView() != null) {
-            updateViews();
-        }
-
     }
 
 
@@ -85,7 +70,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
             FeatureBlockView gridView;
 
             if (convertView == null) {
-                 gridView = new FeatureBlockView(context);
+                gridView = new FeatureBlockView(context);
             } else {
                 gridView = (FeatureBlockView) convertView;
             }
@@ -103,7 +88,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
         @Override
         public FeatureInfo getItem(int position) {
-            if (character==null) return null;
+            if (character == null) return null;
             return character.getFeatureInfos().get(position);
         }
 

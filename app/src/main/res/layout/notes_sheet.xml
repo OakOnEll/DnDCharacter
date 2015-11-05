@@ -65,20 +65,26 @@
         android:text="Notes"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To XML"
+        android:id="@+id/to_xml" />
+
     <EditText
         android:id="@+id/notes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:autoLink="web"
-        android:ems="10"
         android:enabled="true"
         android:focusable="true"
         android:gravity="left|top"
         android:hint="Enter notes"
         android:inputType="textMultiLine"
-        android:lines="10"
         android:minLines="10"
         android:overScrollMode="always"
         android:scrollbarStyle="insideInset"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:ems="10" />
 </LinearLayout>

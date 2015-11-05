@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -14,46 +15,58 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.FeatureBlockView;
 
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  * Created by Rob on 10/26/2015.
  */
 public class NotesFragment extends AbstractSheetFragment {
-    private com.oakonell.dndcharacter.model.Character character;
-    TextView character_name;
-    TextView classes;
-    TextView race;
-    TextView background;
-
+    Button toXml;
     EditText notes;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.notes_sheet, container, false);
 
-        character_name = (TextView) rootView.findViewById(R.id.character_name);
-        classes = (TextView) rootView.findViewById(R.id.classes);
-        race = (TextView) rootView.findViewById(R.id.race);
-        background = (TextView) rootView.findViewById(R.id.background);
+        superCreateViews(rootView);
+        toXml = (Button) rootView.findViewById(R.id.to_xml);
         notes = (EditText) rootView.findViewById(R.id.notes);
 
+        toXml.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Serializer serializer = new Persister();
+                OutputStream out = new ByteArrayOutputStream();
+                try {
+                    serializer.write(character, out);
+                    out.close();
+                } catch (Exception e) {
+                    notes.setText("Error converting to xml");
+                    return;
+                }
+                notes.setText(out.toString());
+            }
+        });
+
+
+        // need to hook a notes text watcher, to update the model
         return rootView;
     }
 
     private void updateViews(ViewGroup rootView, Character character) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(character.getName());
-        character_name.setText(character.getName());
 
-        race.setText(character.getRaceName());
-        background.setText(character.getBackgroundName());
-        classes.setText(character.getClassesString());
-
-        notes.setText(character.getNotes());
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
-        if (getView() != null) {
-            updateViews((ViewGroup) getView(), character);
+        super.updateViews(rootView);
+        if (character == null) {
+            notes.setText("");
+        } else {
+            notes.setText(character.getNotes());
         }
     }
+
+
 }

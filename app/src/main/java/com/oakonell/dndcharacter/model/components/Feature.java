@@ -1,12 +1,18 @@
 package com.oakonell.dndcharacter.model.components;
 
+import org.simpleframework.xml.Element;
+
 /**
  * Created by Rob on 10/24/2015.
  */
 public class Feature {
+    @Element
     private String name;
+    @Element
     private String description;
+    @Element
     private String usesFormula;
+    @Element
     private RefreshType type;
 
     public String getName() {

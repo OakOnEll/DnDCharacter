@@ -68,24 +68,32 @@
             <RelativeLayout
                 style="@style/ac_style"
                 android:layout_width="0dp"
-
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/imageView4"
+                <!--                <ImageView
+                                    android:id="@+id/imageView4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/ac" />
+                -->
+                <TextView
+                    android:id="@+id/ac_lbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ac" />
+                    android:layout_centerHorizontal="true"
+                    android:text="AC"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
                     android:id="@+id/ac"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_below="@id/ac_lbl"
+                    android:layout_centerHorizontal="true"
                     android:text="11"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </RelativeLayout>
@@ -99,21 +107,29 @@
                 android:layout_weight="1"
                 android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/imageView5"
+                <!--                <ImageView
+                                    android:id="@+id/imageView5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/speed" />
+                -->
+                <TextView
+                    android:id="@+id/speed_lbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/speed" />
+                    android:layout_centerHorizontal="true"
+                    android:text="Speed"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
                     android:id="@+id/speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingRight="50dp"
-                    android:text="11"
+                    android:layout_below="@id/speed_lbl"
+                    android:layout_centerHorizontal="true"
+                    android:text="25"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </RelativeLayout>
 
@@ -125,14 +141,22 @@
                 android:layout_weight="1"
                 android:gravity="center">
 
+                <TextView
+                    android:id="@+id/initiative_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Initiative"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
                     android:id="@+id/initiative"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_below="@id/initiative_lbl"
+                    android:layout_centerHorizontal="true"
 
-                    android:text="11"
+                    android:text="2"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </RelativeLayout>
 
@@ -140,32 +164,40 @@
 
         <LinearLayout
             android:id="@+id/hp_block"
-            style="@style/hitpoints_style"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="0dp"
-
+                style="@style/hitpoints_style"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageView
+<!--                <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:scaleType="fitCenter"
                     android:src="@drawable/hp" />
-
+-->
                 <TextView
-                    android:id="@+id/hp"
+                    android:id="@+id/hp_lbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Hit Points"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
+                    android:id="@+id/hp"
+                    android:layout_below="@id/hp_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:text="8 / 8"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -175,27 +207,35 @@
             <RelativeLayout
                 android:id="@+id/temp_hp_layout"
                 android:layout_width="0dp"
-
+                style="@style/hitpoints_style"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/temp_hp_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Temp HP"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
                     android:id="@+id/temp_hp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/temp_hp_lbl"
                     android:text="8 / 8"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <ImageView
+<!--                <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/hp" />
+                    android:src="@drawable/hp" />-->
             </RelativeLayout>
 
             <RelativeLayout
@@ -204,23 +244,31 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                style="@style/hitpoints_style"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:id="@+id/hit_die_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Hit Die"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
                 <TextView
                     android:id="@+id/hit_dice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/hit_die_lbl"
                     android:text="2d8, 1d10"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/imageView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/hit_dice" />
+                    android:src="@drawable/hit_dice" />-->
             </RelativeLayout>
         </LinearLayout>
 
@@ -299,11 +347,38 @@
                     </com.oakonell.dndcharacter.views.StatBlockView>
 
 
-                    <TextView
+                    <RelativeLayout
+                        style="@style/ac_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="11" />
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <!--                <ImageView
+                                            android:id="@+id/imageView4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerInParent="true"
+                                            android:scaleType="fitCenter"
+                                            android:src="@drawable/ac" />
+                        -->
+                        <TextView
+                            android:id="@+id/passive_perception_lbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="Pass. Perc."
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/passive_perception"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/passive_perception_lbl"
+                            android:layout_centerHorizontal="true"
+                            android:text="11"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <ImageView

@@ -2,6 +2,10 @@ package com.oakonell.dndcharacter.model;
 
 import com.oakonell.dndcharacter.model.components.Feature;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.ElementMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,10 +15,14 @@ import java.util.Map;
  * Created by Rob on 10/24/2015.
  */
 public abstract class BaseCharacterComponent {
+    //    @ElementMap(entry="statMod", key="type")
     private Map<StatType, Integer> statModifiers = new HashMap<StatType, Integer>();
+    //    @ElementMap(entry="skill", key="type")
     private Map<SkillType, Proficient> skillModifiers = new HashMap<SkillType, Proficient>();
+    //    @ElementMap(entry="saveMod", key="type")
     private Map<StatType, Proficient> saveModifiers = new HashMap<StatType, Proficient>();
 
+    //    @ElementList
     private List<Feature> features = new ArrayList<Feature>();
 
     public int getStatModifier(StatType type) {
@@ -66,6 +74,7 @@ public abstract class BaseCharacterComponent {
         }
         return result;
     }
+
     public String getSourceString() {
         return getType().toString() + ": " + getName();
     }
