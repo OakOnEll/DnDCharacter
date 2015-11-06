@@ -147,7 +147,7 @@ public class MainFragment extends AbstractSheetFragment {
             return;
         }
         ac.setText(character.getArmorClass() + "");
-        initiative.setText(character.getStatBlock(StatType.DEXTERITY).getModifier());
+        initiative.setText(character.getStatBlock(StatType.DEXTERITY).getModifier() + "");
 
         hp.setText(character.getHP() + " / " + character.getMaxHP());
         int tempHpVal = character.getTempHp();
