@@ -38,14 +38,9 @@ public class FeaturesFragment extends AbstractSheetFragment {
         return rootView;
     }
 
-
-    private void updateViews(ViewGroup rootView) {
+    @Override
+    protected void updateViews(View rootView) {
         super.updateViews(rootView);
-        if (character == null) {
-            adapter.notifyDataSetInvalidated();
-
-            return;
-        }
         adapter.notifyDataSetInvalidated();
     }
 

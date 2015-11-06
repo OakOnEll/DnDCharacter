@@ -31,8 +31,11 @@ public class MainFragment extends AbstractSheetFragment {
     TextView speed;
     TextView ac;
     TextView hp;
+    View temp_hp_layout;
+    TextView tempHp;
     TextView hitDice;
     TextView proficiency;
+    private TextView initiative;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,11 +43,15 @@ public class MainFragment extends AbstractSheetFragment {
 
         superCreateViews(rootView);
         hp = (TextView) rootView.findViewById(R.id.hp);
+        tempHp = (TextView) rootView.findViewById(R.id.temp_hp);
+        temp_hp_layout = rootView.findViewById(R.id.temp_hp_layout);
+
         hitDice = (TextView) rootView.findViewById(R.id.hit_dice);
         proficiency = (TextView) rootView.findViewById(R.id.proficiency);
 
         speed = (TextView) rootView.findViewById(R.id.speed);
         ac = (TextView) rootView.findViewById(R.id.ac);
+        initiative = (TextView) rootView.findViewById(R.id.initiative);
         rootView.findViewById(R.id.hp_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +108,9 @@ public class MainFragment extends AbstractSheetFragment {
         super.updateViews(rootView);
         if (character == null) {
             ac.setText("");
+            initiative.setText("");
             hp.setText("0 / 0");
+            temp_hp_layout.setVisibility(View.GONE);
             for (final Map.Entry<StatType, StatBlockView> entry : statViewsByType.entrySet()) {
                 entry.getValue().setCharacter(null);
                 entry.getValue().setType(entry.getKey());
@@ -138,7 +147,17 @@ public class MainFragment extends AbstractSheetFragment {
             return;
         }
         ac.setText(character.getArmorClass() + "");
+        initiative.setText(character.getStatBlock(StatType.DEXTERITY).getModifier());
+
         hp.setText(character.getHP() + " / " + character.getMaxHP());
+        int tempHpVal = character.getTempHp();
+        if (tempHpVal > 0) {
+            temp_hp_layout.setVisibility(View.VISIBLE);
+            tempHp.setText(tempHpVal + "");
+        } else {
+            temp_hp_layout.setVisibility(View.GONE);
+        }
+
         hitDice.setText(character.getHitDiceString());
         proficiency.setText(character.getProficiency() + "");
 

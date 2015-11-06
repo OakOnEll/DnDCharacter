@@ -113,14 +113,12 @@ public class HitPointDiaogFragment extends DialogFragment {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO apply changes to character
-                int currentHP = character.getHP();
                 if (damage.isChecked()) {
-                    character.setHP(currentHP - getHp());
+                    character.damage(getHp());
                 } else if (heal.isChecked()) {
-                    character.setHP(currentHP + getHp());
+                    character.heal(getHp());
                 } else if (tempHP.isChecked()) {
-                    character.setTempHP(Math.max(character.getTempHp(), getHp()));
+                    character.addTempHp(getHp());
                 }
                 fragment.updateViews();
                 getDialog().dismiss();

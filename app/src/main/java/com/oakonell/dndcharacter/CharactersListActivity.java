@@ -40,8 +40,7 @@ import java.util.List;
 /**
  * Created by Rob on 11/2/2015.
  */
-public class CharactersListActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class CharactersListActivity extends AbstractBaseActivity {
     com.oakonell.dndcharacter.model.Character character = null;
     private ListView listView;
     private CursorAdapter adapter;
@@ -51,9 +50,7 @@ public class CharactersListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_characters);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        configureCommon();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -62,15 +59,6 @@ public class CharactersListActivity extends AppCompatActivity
                 createCharacter(view);
             }
         });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
 
         listView = (ListView) findViewById(R.id.listView);
@@ -92,7 +80,7 @@ public class CharactersListActivity extends AppCompatActivity
                 Toast.makeText(CharactersListActivity.this, "Loader created- cursor " + (cursor == null ? "is null!" : " bundled"), Toast.LENGTH_SHORT).show();
                 return new CursorLoader(CharactersListActivity.this,
                         ContentProvider.createUri(CharacterRow.class, null),
-                        null, null, null, null
+                        null, null, null, "last_updated desc"
                 );
             }
 
@@ -110,7 +98,6 @@ public class CharactersListActivity extends AppCompatActivity
         });
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -269,8 +256,9 @@ public class CharactersListActivity extends AppCompatActivity
         builder.setMessage("Delete Character " + name)
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
                         CharacterRow.delete(CharacterRow.class, charId);
+                        // if a deleted character was on the recently used list
+                        populateRecentCharacters();
                         adapter.notifyDataSetChanged();
                     }
                 })
@@ -282,12 +270,6 @@ public class CharactersListActivity extends AppCompatActivity
         // Create the AlertDialog object and return it
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    private void openCharacter(long id) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.CHARACTER_ID, id);
-        startActivity(intent);
     }
 
     private void createCharacter(View view) {

@@ -36,7 +36,10 @@ public class Character {
     @Element(required = false)
     int hp;
     @Element(required = false)
-    int tempHpMax;
+    @Deprecated
+    // TODO delete- will need to dump DB
+            int tempHpMax;
+
     @Element(required = false)
     int tempHp;
     @Element(required = false)
@@ -121,8 +124,9 @@ public class Character {
     public String getName() {
         return name;
     }
-    public void setName(String s) {
-        name = s;
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -312,7 +316,6 @@ public class Character {
     }
 
 
-
     public void shortRest() {
         // need to take an input context ?
         //     which features to refresh, how many hit die to apply, etc
@@ -363,7 +366,33 @@ public class Character {
     }
 
     public int getHP() {
+        return hp;
+    }
+
+    public int getTotalHP() {
         return hp + tempHp;
     }
 
+
+    public void damage(int amount) {
+        if (tempHp > 0) {
+            tempHp -= amount;
+            if (tempHp < 0) {
+                hp += tempHp;
+                tempHp = 0;
+            }
+        } else {
+            hp -= amount;
+        }
+    }
+
+    public void heal(int amount) {
+        this.hp += amount;
+        hp = Math.min(hp, getMaxHP());
+    }
+
+    public void addTempHp(int amount) {
+        // TODO special rules about tempHP?
+        tempHp += amount;
+    }
 }

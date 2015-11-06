@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -27,6 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.storage.CharacterRow;
@@ -42,11 +45,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
 
     long id = -1;
@@ -70,23 +74,14 @@ public class MainActivity extends AppCompatActivity
     private MainFragment mainFragment;
     private FeaturesFragment featuresFragment;
     private NotesFragment notesFragment;
+    private final String MyPREFERENCES = "prefs";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        configureCommon();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -102,37 +97,7 @@ public class MainActivity extends AppCompatActivity
 
 
         // Load recent used character
-        long savedId = -1;
-        if (savedInstanceState != null) {
-            savedId = savedInstanceState.getLong(CHARACTER_ID, -1);
-        }
-        if (savedId == -1 && getIntent().getExtras() != null) {
-            savedId = getIntent().getExtras().getLong(CHARACTER_ID);
-        }
-        if (savedId == -1) {
-            // otherwise if no character, launch either wizard (no characters in list) or character list to choose
-            Toast.makeText(this, "Making a new Character", Toast.LENGTH_SHORT).show();
-            character = new Character(true);
-        } else {
-            id = savedId;
-            Toast.makeText(this, "Loading an existing Character id=" + id, Toast.LENGTH_SHORT).show();
-            CharacterRow characterRow = CharacterRow.load(CharacterRow.class, id);
-
-            if (characterRow.xml == null || characterRow.xml.trim().length() == 0) {
-                character = new Character(true);
-            } else {
-                Serializer serializer = new Persister();
-                InputStream input = null;
-                try {
-                    // offload this to a new thread
-                    input = new ByteArrayInputStream(characterRow.xml.getBytes());
-                    character = serializer.read(Character.class, input);
-                    input.close();
-                } catch (Exception e) {
-                    throw new RuntimeException("Error loading xml", e);
-                }
-            }
-        }
+        loadCharacter(savedInstanceState);
     }
 
 
@@ -140,30 +105,7 @@ public class MainActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         if (character != null) {
-            Serializer serializer = new Persister();
-            OutputStream out = null;
-            try {
-                out = new ByteArrayOutputStream();
-                serializer.write(character, out);
-                out.close();
-            } catch (Exception e) {
-                throw new RuntimeException("Error writing character xml", e);
-            }
-            String xml = out.toString();
-            CharacterRow row;
-            String action;
-            if (id >= 0) {
-                row = CharacterRow.load(CharacterRow.class, id);
-                action = "Updated";
-            } else {
-                row = new CharacterRow();
-                action = "Added";
-            }
-            row.classesString = character.getClassesString();
-            row.name = character.getName();
-            row.xml = xml;
-            id = row.save();
-            Toast.makeText(this, action + " character '" + row.name + "', id = " + id, Toast.LENGTH_SHORT).show();
+            saveCharacter();
         }
     }
 
@@ -356,4 +298,83 @@ public class MainActivity extends AppCompatActivity
             return rootView;
         }
     }
+
+
+    private void saveCharacter() {
+        Serializer serializer = new Persister();
+        OutputStream out = null;
+        try {
+            out = new ByteArrayOutputStream();
+            serializer.write(character, out);
+            out.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Error writing character xml", e);
+        }
+        String xml = out.toString();
+        CharacterRow row;
+        String action;
+        if (id >= 0) {
+            row = CharacterRow.load(CharacterRow.class, id);
+            action = "Updated";
+        } else {
+            row = new CharacterRow();
+            action = "Added";
+        }
+        row.classesString = character.getClassesString();
+        row.name = character.getName();
+        row.xml = xml;
+        row.last_updated = new Date();
+
+        id = row.save();
+
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putLong(CHARACTER_ID, id);
+        editor.commit();
+
+        //Toast.makeText(this, action + " character '" + row.name + "', id = " + id, Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadCharacter(Bundle savedInstanceState) {
+        long savedId = -1;
+        // try to get a character id from
+        // 1.   the saved bundle
+        if (savedInstanceState != null) {
+            savedId = savedInstanceState.getLong(CHARACTER_ID, -1);
+        }
+        // 2.   the passed intent
+        if (savedId == -1 && getIntent().getExtras() != null) {
+            savedId = getIntent().getExtras().getLong(CHARACTER_ID);
+        }
+        // 3.   find the last viewed character
+        if (savedId == -1) {
+            SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            savedId = sharedpreferences.getLong(CHARACTER_ID, -1);
+        }
+        if (savedId == -1) {
+            // otherwise if no character, launch either wizard (no characters in list) or character list to choose
+            Toast.makeText(this, "Making a new Character", Toast.LENGTH_SHORT).show();
+            character = new Character(true);
+        } else {
+            id = savedId;
+            Toast.makeText(this, "Loading an existing Character id=" + id, Toast.LENGTH_SHORT).show();
+            CharacterRow characterRow = CharacterRow.load(CharacterRow.class, id);
+
+            if (characterRow.xml == null || characterRow.xml.trim().length() == 0) {
+                character = new Character(true);
+            } else {
+                Serializer serializer = new Persister();
+                InputStream input = null;
+                try {
+                    // offload this to a new thread
+                    input = new ByteArrayInputStream(characterRow.xml.getBytes());
+                    character = serializer.read(Character.class, input);
+                    input.close();
+                } catch (Exception e) {
+                    throw new RuntimeException("Error loading xml", e);
+                }
+            }
+        }
+    }
+
 }

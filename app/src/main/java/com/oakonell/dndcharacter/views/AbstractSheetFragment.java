@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
@@ -82,6 +83,8 @@ public class AbstractSheetFragment extends Fragment {
                 character.setName(character_name.getText().toString());
                 allowNameEdit(false);
                 updateViews();
+                // a name change should update recent characters
+                ((AbstractBaseActivity)getActivity()).populateRecentCharacters();
             }
         });
         cancelName.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +104,8 @@ public class AbstractSheetFragment extends Fragment {
         character_name.setVisibility(editVis);
         changeName.setVisibility(editVis);
         cancelName.setVisibility(editVis);
+
+        character_name.selectAll();
 
         character_name_read_only.setVisibility(readOnlyVis);
     }
