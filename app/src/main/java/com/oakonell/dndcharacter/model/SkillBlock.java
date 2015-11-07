@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model;
 
+import java.util.List;
+
 /**
  * Created by Rob on 10/22/2015.
  */
@@ -26,5 +28,17 @@ public class SkillBlock {
 
     public Proficient getProficiency() {
         return character.deriveSkillProciency(type);
+    }
+
+    public List<Character.ProficientAndReason> getProficiencies() {
+        return character.deriveSkillProciencies(type);
+    }
+
+    public int getStatModifier() {
+        return character.getStatBlock(type.getStatType()).getModifier();
+    }
+
+    public Character getCharacter() {
+        return character;
     }
 }

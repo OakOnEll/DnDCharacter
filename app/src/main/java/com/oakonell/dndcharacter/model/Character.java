@@ -189,21 +189,80 @@ public class Character {
         return 10 + getStatBlock(StatType.DEXTERITY).getModifier();
     }
 
+    public static class ModifierAndReason {
+        int modifier;
+        String reason;
+
+        @Override
+        public String toString() {
+            return modifier + " (" + reason + ")";
+        }
+    }
+
+    public List<ModifierAndReason> deriveStatReasons(StatType type) {
+        List<ModifierAndReason> result = new ArrayList<>();
+        if (baseStats != null) {
+            int value = baseStats.get(type);
+            if (value > 0) {
+                ModifierAndReason base = new ModifierAndReason();
+                base.modifier = value;
+                base.reason = "Base Stat";
+                result.add(base);
+            }
+        }
+        // look to background
+        if (background != null) {
+            int value = background.getStatModifier(type);
+            if (value > 0) {
+                ModifierAndReason base = new ModifierAndReason();
+                base.modifier = value;
+                base.reason = "Background " + background.getName();
+                result.add(base);
+            }
+        }
+        // look to race
+        if (race != null) {
+            int value = race.getStatModifier(type);
+            if (value > 0) {
+                ModifierAndReason base = new ModifierAndReason();
+                base.modifier = value;
+                base.reason = "Race " + race.getName();
+                result.add(base);
+            }
+        }
+        // look to classes
+        if (classes != null) {
+            for (CharacterClass each : classes) {
+                int value = each.getStatModifier(type);
+                if (value > 0) {
+                    ModifierAndReason base = new ModifierAndReason();
+                    base.modifier = value;
+                    base.reason = "Class " + each.getName() + " " + each.getLevel();
+                    result.add(base);
+                }
+            }
+        }
+        // go through equipment
+        // go through effects..
+
+        return result;
+    }
+
     public int deriveStatValue(StatType type) {
         // start with base stats
         int value = 0;
         if (baseStats != null) {
             value = baseStats.get(type);
         }
-        // look to background (proficiencies)
+        // look to background
         if (background != null) {
             value += background.getStatModifier(type);
         }
-        // look to race (proficiencies)
+        // look to race
         if (race != null) {
             value += race.getStatModifier(type);
         }
-        // look to classes (proficiencies, half, expert)
+        // look to classes
         if (classes != null) {
             for (CharacterClass each : classes) {
                 value += each.getStatModifier(type);
@@ -212,6 +271,54 @@ public class Character {
         // go through equipment
         // go through effects..
         return value;
+    }
+
+    public static class ProficientAndReason {
+        Proficient proficient;
+        String reason;
+
+        @Override
+        public String toString() {
+            return proficient + " (" + reason + ")";
+        }
+
+    }
+
+
+    public List<ProficientAndReason> deriveSkillProciencies(SkillType type) {
+        List<ProficientAndReason> result = new ArrayList<>();
+        if (background != null) {
+            Proficient proficient = background.getSkillProficient(type);
+            if (proficient != Proficient.NONE) {
+                ProficientAndReason reason = new ProficientAndReason();
+                reason.proficient = proficient;
+                reason.reason = background.getName();
+                result.add(reason);
+            }
+        }
+        if (race != null) {
+            Proficient raceProficient = race.getSkillProficient(type);
+            if (raceProficient != Proficient.NONE) {
+                ProficientAndReason reason = new ProficientAndReason();
+                reason.proficient = raceProficient;
+                reason.reason = race.getName();
+                result.add(reason);
+            }
+        }
+        if (classes != null) {
+            for (CharacterClass each : classes) {
+                Proficient classProficient = each.getSkillProficient(type);
+                if (classProficient != null) {
+                    if (classProficient != Proficient.NONE) {
+                        ProficientAndReason reason = new ProficientAndReason();
+                        reason.proficient = classProficient;
+                        reason.reason = each.getName();
+                        result.add(reason);
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     public Proficient deriveSkillProciency(SkillType type) {

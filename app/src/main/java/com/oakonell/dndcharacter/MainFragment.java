@@ -114,34 +114,16 @@ public class MainFragment extends AbstractSheetFragment {
             for (final Map.Entry<StatType, StatBlockView> entry : statViewsByType.entrySet()) {
                 entry.getValue().setCharacter(null);
                 entry.getValue().setType(entry.getKey());
-                entry.getValue().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MainFragment.this.getActivity(), "Clicked stat " + entry.getKey(), Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
 
             for (final Map.Entry<StatType, SavingThrowBlockView> entry : saveThrowViewsByType.entrySet()) {
                 entry.getValue().setCharacter(null);
                 entry.getValue().setType(entry.getKey());
-                entry.getValue().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MainFragment.this.getActivity(), "Clicked stat " + entry.getKey(), Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
 
             for (final Map.Entry<SkillType, SkillBlockView> entry : skillViewsByType.entrySet()) {
                 entry.getValue().setCharacter(null);
                 entry.getValue().setType(entry.getKey());
-                entry.getValue().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MainFragment.this.getActivity(), "Clicked skill " + entry.getKey(), Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
 
             return;
@@ -167,7 +149,8 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainFragment.this.getActivity(), "Clicked stat " + entry.getKey(), Toast.LENGTH_SHORT).show();
+                    StatBlockDialogFragment dialog = StatBlockDialogFragment.create(MainFragment.this, character.getStatBlock(entry.getKey()));
+                    dialog.show(getFragmentManager(), "stat_frag");
                 }
             });
         }
@@ -178,7 +161,7 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainFragment.this.getActivity(), "Clicked stat " + entry.getKey(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainFragment.this.getActivity(), "Clicked saving throw " + entry.getKey(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -189,7 +172,8 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainFragment.this.getActivity(), "Clicked skill " + entry.getKey(), Toast.LENGTH_SHORT).show();
+                    SkillBlockDialogFragment dialog = SkillBlockDialogFragment.create(MainFragment.this, character.getSkillBlock(entry.getKey()));
+                    dialog.show(getFragmentManager(), "skill_frag");
                 }
             });
         }
