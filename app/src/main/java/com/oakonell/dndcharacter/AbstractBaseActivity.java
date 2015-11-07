@@ -21,6 +21,8 @@ import java.util.List;
 public abstract class AbstractBaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final int NUM_RECENT_CHARACTERS = 3;
+
     protected void configureCommon() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -41,11 +43,7 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         List<CharacterRow> characters = new Select()
-                .from(CharacterRow.class).orderBy("last_updated desc").execute();
-
-        if (characters.size() > 3) {
-            characters = characters.subList(0, 3);
-        }
+                .from(CharacterRow.class).orderBy("last_viewed desc").limit(NUM_RECENT_CHARACTERS).execute();
 
         Menu m = navigationView.getMenu();
         MenuItem item = m.findItem(R.id.nav_recent_characters);

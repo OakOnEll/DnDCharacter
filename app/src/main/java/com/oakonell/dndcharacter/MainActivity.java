@@ -359,10 +359,14 @@ public class MainActivity extends AbstractBaseActivity {
             id = savedId;
             Toast.makeText(this, "Loading an existing Character id=" + id, Toast.LENGTH_SHORT).show();
             CharacterRow characterRow = CharacterRow.load(CharacterRow.class, id);
+            characterRow.last_viewed = new Date();
+            characterRow.save();
+            populateRecentCharacters();
 
             if (characterRow.xml == null || characterRow.xml.trim().length() == 0) {
                 character = new Character(true);
             } else {
+
                 Serializer serializer = new Persister();
                 InputStream input = null;
                 try {

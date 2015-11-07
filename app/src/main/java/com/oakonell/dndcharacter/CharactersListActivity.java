@@ -44,6 +44,7 @@ public class CharactersListActivity extends AbstractBaseActivity {
     com.oakonell.dndcharacter.model.Character character = null;
     private ListView listView;
     private CursorAdapter adapter;
+    private int loaderId;
 
 
     @Override
@@ -76,7 +77,8 @@ public class CharactersListActivity extends AbstractBaseActivity {
 
         getSupportLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override
-            public Loader<Cursor> onCreateLoader(int arg0, Bundle cursor) {
+            public Loader<Cursor> onCreateLoader(int theLoaderId, Bundle cursor) {
+                loaderId = theLoaderId;
                 Toast.makeText(CharactersListActivity.this, "Loader created- cursor " + (cursor == null ? "is null!" : " bundled"), Toast.LENGTH_SHORT).show();
                 return new CursorLoader(CharactersListActivity.this,
                         ContentProvider.createUri(CharacterRow.class, null),
@@ -107,6 +109,15 @@ public class CharactersListActivity extends AbstractBaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        populateRecentCharacters();
+        if (loaderId > 0) {
+            getLoaderManager().getLoader(loaderId).forceLoad();
+        }
+        super.onResume();
     }
 
     @Override
