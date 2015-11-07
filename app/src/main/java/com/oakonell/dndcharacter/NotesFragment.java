@@ -54,13 +54,14 @@ public class NotesFragment extends AbstractSheetFragment {
             }
         });
 
+        updateViews(rootView);
 
         // need to hook a notes text watcher, to update the model
         return rootView;
     }
 
-    private void updateViews(ViewGroup rootView, Character character) {
-
+    @Override
+    protected void updateViews(View rootView) {
         super.updateViews(rootView);
         if (character == null) {
             notes.setText("");

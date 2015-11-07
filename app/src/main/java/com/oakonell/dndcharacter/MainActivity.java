@@ -74,6 +74,7 @@ public class MainActivity extends AbstractBaseActivity {
     private MainFragment mainFragment;
     private FeaturesFragment featuresFragment;
     private NotesFragment notesFragment;
+    private PersonaFragment personaFragment;
     private final String MyPREFERENCES = "prefs";
 
 
@@ -227,6 +228,13 @@ public class MainActivity extends AbstractBaseActivity {
                 featuresFragment = new FeaturesFragment();
                 featuresFragment.setCharacter(character);
                 return featuresFragment;
+            }
+
+            if (position == 4) {
+                personaFragment = new PersonaFragment();
+                personaFragment.setCharacter(character);
+                return personaFragment;
+
             }
             if (position == 5) {
                 notesFragment = new NotesFragment();

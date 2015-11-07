@@ -47,6 +47,16 @@ public class Character {
 
     @ElementMap(entry = "feature", key = "name", value = "uses", required = false)
     Map<String, Integer> usedFeatures = new HashMap<String, Integer>();
+    @Element(required = false)
+    private String backstory;
+    @Element(required = false)
+    private String personalityTrait;
+    @Element(required = false)
+    private String ideals;
+    @Element(required = false)
+    private String bonds;
+    @Element(required = false)
+    private String flaws;
 
 
     public Character(boolean defaults) {
@@ -394,5 +404,45 @@ public class Character {
     public void addTempHp(int amount) {
         // TODO special rules about tempHP?
         tempHp += amount;
+    }
+
+    public void setPersonalityTrait(String personalityTrait) {
+        this.personalityTrait = personalityTrait;
+    }
+
+    public void setIdeals(String ideals) {
+        this.ideals = ideals;
+    }
+
+    public void setBonds(String bonds) {
+        this.bonds = bonds;
+    }
+
+    public void setFlaws(String flaws) {
+        this.flaws = flaws;
+    }
+
+    public void setBackstory(String backstory) {
+        this.backstory = backstory;
+    }
+
+    public String getBackstory() {
+        return backstory;
+    }
+
+    public String getPersonalityTrait() {
+        return personalityTrait;
+    }
+
+    public String getIdeals() {
+        return ideals;
+    }
+
+    public String getBonds() {
+        return bonds;
+    }
+
+    public String getFlaws() {
+        return flaws;
     }
 }
