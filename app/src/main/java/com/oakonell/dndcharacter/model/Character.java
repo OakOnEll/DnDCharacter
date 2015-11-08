@@ -8,6 +8,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -190,7 +191,6 @@ public class Character {
     }
 
 
-
     public static class ModifierAndReason {
         int modifier;
         String reason;
@@ -321,6 +321,7 @@ public class Character {
         }
         return result;
     }
+
     public List<ProficientAndReason> deriveSaveProficiencies(StatType type) {
         List<ProficientAndReason> result = new ArrayList<>();
         if (background != null) {
@@ -357,6 +358,7 @@ public class Character {
         return result;
 
     }
+
     public Proficient deriveSkillProciency(SkillType type) {
         Proficient proficient = Proficient.NONE;
         if (background != null) {
@@ -484,26 +486,45 @@ public class Character {
     public String getHitDiceString() {
         if (classes == null) return "";
 
-        Map<Integer, Integer> dice = getHitDiceCounts();
+        List<HitDieRow> dice = getHitDiceCounts();
         StringBuilder builder = new StringBuilder();
-        Iterator<Map.Entry<Integer, Integer>> entryIter = dice.entrySet().iterator();
-        while (entryIter.hasNext()) {
-            Map.Entry<Integer, Integer> entry = entryIter.next();
-            builder.append(entry.getValue() + "d" + entry.getKey());
+        Iterator<HitDieRow> iter = dice.iterator();
+        while (iter.hasNext()) {
+            HitDieRow entry = iter.next();
+            builder.append("(" + entry.numDiceRemaining + "/" + entry.totalDice + ")" + "d" + entry.dieSides);
         }
         return builder.toString();
     }
 
-    public Map<Integer, Integer> getHitDiceCounts() {
+    public static class HitDieRow {
+        public int dieSides;
+        public int numDiceRemaining;
+        public int totalDice;
+
+        public String toString() {
+            return "(" + numDiceRemaining + "/" + totalDice + ")" + "d" + dieSides;
+        }
+    }
+
+    public List<HitDieRow> getHitDiceCounts() {
         Map<Integer, Integer> dice = new LinkedHashMap<>();
-        if (classes == null) return dice;
+        if (classes == null) return Collections.emptyList();
 
         for (CharacterClass each : classes) {
             Integer dieCount = dice.get(each.getHitDie());
             if (dieCount == null) dieCount = 1;
             dice.put(each.getHitDie(), dieCount++);
         }
-        return dice;
+        List<HitDieRow> result = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : dice.entrySet()) {
+            HitDieRow row = new HitDieRow();
+            row.dieSides = entry.getKey();
+            row.totalDice = entry.getValue();
+            // TODO
+            row.numDiceRemaining = entry.getValue();
+            result.add(row);
+        }
+        return result;
     }
 
     public void setHP(int HP) {
