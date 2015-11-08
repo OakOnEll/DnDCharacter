@@ -33,6 +33,10 @@ public class StatBlock {
         return character.deriveStatReasons(type);
     }
 
+    public List<Character.ProficientAndReason> getSaveProficiencies() {
+        return character.deriveSaveProficiencies(type);
+    }
+
     public Proficient getSaveProficiency() {
         return character.deriveSaveProciency(type);
     }
@@ -59,6 +63,10 @@ public class StatBlock {
         builder.append(getModifier());
         builder.append("]");
         return builder.toString();
+    }
+
+    public Character getCharacter() {
+        return character;
     }
 
 }

@@ -161,7 +161,8 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainFragment.this.getActivity(), "Clicked saving throw " + entry.getKey(), Toast.LENGTH_SHORT).show();
+                    SaveThrowBlockDialogFragment dialog = SaveThrowBlockDialogFragment.create(MainFragment.this, character.getStatBlock(entry.getKey()));
+                    dialog.show(getFragmentManager(), "save_throw_frag");
                 }
             });
         }

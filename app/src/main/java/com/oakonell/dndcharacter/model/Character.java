@@ -189,6 +189,8 @@ public class Character {
         return 10 + getStatBlock(StatType.DEXTERITY).getModifier();
     }
 
+
+
     public static class ModifierAndReason {
         int modifier;
         String reason;
@@ -284,7 +286,6 @@ public class Character {
 
     }
 
-
     public List<ProficientAndReason> deriveSkillProciencies(SkillType type) {
         List<ProficientAndReason> result = new ArrayList<>();
         if (background != null) {
@@ -320,7 +321,42 @@ public class Character {
         }
         return result;
     }
+    public List<ProficientAndReason> deriveSaveProficiencies(StatType type) {
+        List<ProficientAndReason> result = new ArrayList<>();
+        if (background != null) {
+            Proficient proficient = background.getSaveProficient(type);
+            if (proficient != Proficient.NONE) {
+                ProficientAndReason reason = new ProficientAndReason();
+                reason.proficient = proficient;
+                reason.reason = background.getName();
+                result.add(reason);
+            }
+        }
+        if (race != null) {
+            Proficient raceProficient = race.getSaveProficient(type);
+            if (raceProficient != Proficient.NONE) {
+                ProficientAndReason reason = new ProficientAndReason();
+                reason.proficient = raceProficient;
+                reason.reason = race.getName();
+                result.add(reason);
+            }
+        }
+        if (classes != null) {
+            for (CharacterClass each : classes) {
+                Proficient classProficient = each.getSaveProficient(type);
+                if (classProficient != null) {
+                    if (classProficient != Proficient.NONE) {
+                        ProficientAndReason reason = new ProficientAndReason();
+                        reason.proficient = classProficient;
+                        reason.reason = each.getName();
+                        result.add(reason);
+                    }
+                }
+            }
+        }
+        return result;
 
+    }
     public Proficient deriveSkillProciency(SkillType type) {
         Proficient proficient = Proficient.NONE;
         if (background != null) {
