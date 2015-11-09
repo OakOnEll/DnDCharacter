@@ -8,8 +8,10 @@ import java.util.List;
  */
 public class HitDieUseRow {
     public int dieSides;
+
     public int numDiceRemaining;
     public int totalDice;
+    public int numUses;
 
     public List<Integer> rolls = new ArrayList<>();
 

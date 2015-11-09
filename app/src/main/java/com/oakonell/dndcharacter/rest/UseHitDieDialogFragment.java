@@ -54,6 +54,7 @@ public class UseHitDieDialogFragment extends DialogFragment {
                     int value = Integer.parseInt(valueString);
                     hitDieRow.rolls.add(value);
                     hitDieRow.numDiceRemaining--;
+                    hitDieRow.numUses++;
                     fragment.updateView();
                 }
                 dismiss();

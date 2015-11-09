@@ -147,7 +147,7 @@
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:id="@+id/listView2"
+            android:id="@+id/hit_dice_restore_list"
             android:layout_weight="1" />
 
     </LinearLayout>

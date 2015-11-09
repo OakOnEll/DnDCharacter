@@ -1,0 +1,32 @@
+package com.oakonell.dndcharacter.model;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by Rob on 11/8/2015.
+ */
+public class LongRestRequest {
+    private int healing;
+    private Map<Integer, Integer> hitDieRestores = new HashMap<>();
+
+    public void setHealing(int healing) {
+        this.healing = healing;
+    }
+
+    public int getHealing() {
+        return healing;
+    }
+
+    public void restoreHitDice(int dieSides, int numDiceToRestoreRequest) {
+        Integer numToRestore = hitDieRestores.get(dieSides);
+        if (numToRestore == null) numToRestore = 0;
+        numToRestore += numDiceToRestoreRequest;
+        hitDieRestores.put(dieSides, numToRestore);
+
+    }
+
+    public Map<Integer, Integer> getHitDiceToRestore() {
+        return hitDieRestores;
+    }
+}

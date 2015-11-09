@@ -2,9 +2,6 @@ package com.oakonell.dndcharacter.rest;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +13,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.ShortRestRequest;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,10 +46,8 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
 
         if (character.getHP() == character.getMaxHP()) {
-
             hitDiceListView.setVisibility(View.GONE);
         } else {
-
             hitDiceListView.setVisibility(View.VISIBLE);
         }
         List<Character.HitDieRow> diceCounts = character.getHitDiceCounts();
@@ -70,9 +66,14 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO call character short rest, with input of user choices/actions
+                ShortRestRequest request = new ShortRestRequest();
+                for (HitDieUseRow each : diceUses) {
+                    request.addHitDiceUsed(each.dieSides, each.numUses);
+                }
+                request.setHealing(getHealing());
+                // TODO add feature resets
                 character.heal(getHealing());
-                //character.shortRest();
+                character.shortRest(request);
                 ((MainActivity) getActivity()).updateViews();
                 dismiss();
             }

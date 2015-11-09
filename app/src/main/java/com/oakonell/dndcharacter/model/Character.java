@@ -48,6 +48,10 @@ public class Character {
 
     @ElementMap(entry = "feature", key = "name", value = "uses", required = false)
     Map<String, Integer> usedFeatures = new HashMap<String, Integer>();
+
+    @ElementMap(entry = "hitDie", key = "die", value = "uses", required = false)
+    private Map<Integer, Integer> hitDieUses = new HashMap<>();
+
     @Element(required = false)
     private String backstory;
     @Element(required = false)
@@ -453,25 +457,51 @@ public class Character {
         return notes;
     }
 
-    public void longRest() {
-        // need to take an input context ?
-        //     which features to refresh, to apply full HP, etc
+    public void longRest(LongRestRequest request) {
+        hp = Math.min(hp + request.getHealing(), getMaxHP());
 
-        // temp HP disappear, unless a spell/effect
+        // restore hit die / 2
+        for (Map.Entry<Integer, Integer> entry : request.getHitDiceToRestore().entrySet()) {
+            int die = entry.getKey();
+            int requestNumToRestore = entry.getValue();
 
+            Integer uses = hitDieUses.get(die);
+            if (uses == null) uses = 0;
+            uses -= requestNumToRestore;
+            if (uses <= 0) {
+                hitDieUses.remove(die);
+            } else {
+                hitDieUses.put(die, uses);
+            }
+        }
+
+        // temp HP disappear, unless a spell/effect?
+        tempHp = 0;
+
+
+        //refresh features
         List<FeatureInfo> featureInfos = getFeatureInfos();
         for (FeatureInfo each : featureInfos) {
             if (each.getFeature().getRefreshesOn() == RefreshType.LONG_REST) {
                 usedFeatures.put(each.getFeature().getName(), 0);
             }
         }
-        hp = getMaxHP();
-        // restore hit die / 2
-        //refresh features
     }
 
 
-    public void shortRest() {
+    public void shortRest(ShortRestRequest request) {
+        hp = Math.min(hp + request.getHealing(), getMaxHP());
+
+        for (Map.Entry<Integer, Integer> entry : request.getHitDieUses().entrySet()) {
+            int die = entry.getKey();
+            int requestUses = entry.getValue();
+
+            Integer uses = hitDieUses.get(die);
+            if (uses == null) uses = 0;
+            uses += requestUses;
+            hitDieUses.put(die, uses);
+        }
+
         // need to take an input context ?
         //     which features to refresh, how many hit die to apply, etc
         List<FeatureInfo> featureInfos = getFeatureInfos();
@@ -480,7 +510,6 @@ public class Character {
                 usedFeatures.put(each.getFeature().getName(), 0);
             }
         }
-        hp = getMaxHP();
     }
 
     public String getHitDiceString() {
@@ -512,8 +541,8 @@ public class Character {
 
         for (CharacterClass each : classes) {
             Integer dieCount = dice.get(each.getHitDie());
-            if (dieCount == null) dieCount = 1;
-            dice.put(each.getHitDie(), dieCount++);
+            if (dieCount == null) dieCount = 0;
+            dice.put(each.getHitDie(), dieCount + 1);
         }
         List<HitDieRow> result = new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry : dice.entrySet()) {
@@ -521,7 +550,12 @@ public class Character {
             row.dieSides = entry.getKey();
             row.totalDice = entry.getValue();
             // TODO
-            row.numDiceRemaining = entry.getValue();
+            Integer uses = hitDieUses.get(row.dieSides);
+            if (uses != null) {
+                row.numDiceRemaining = row.totalDice - uses;
+            } else {
+                row.numDiceRemaining = row.totalDice;
+            }
             result.add(row);
         }
         return result;
@@ -609,4 +643,5 @@ public class Character {
     public String getFlaws() {
         return flaws;
     }
+
 }
