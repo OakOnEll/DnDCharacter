@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -96,6 +97,13 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
             resetInfo.description = each.getShortDescription();
             resetInfo.reset = shouldReset(refreshOn);
             resetInfo.refreshOn = refreshOn;
+            int maxUses = character.evaluateMaxUses(each.getFeature());
+            int usesRemaining = character.getUsesRemaining(each.getFeature());
+            if (resetInfo.reset) {
+                resetInfo.numToRestore = maxUses - usesRemaining;
+            }
+            resetInfo.uses = usesRemaining + " / " + each.getUsesFormula();
+            resetInfo.needsResfesh = usesRemaining != maxUses;
             featureResets.add(resetInfo);
         }
         featureResetAdapter = new FeatureResetsAdapter(getActivity(), featureResets);
@@ -126,7 +134,7 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
     protected void updateCommonRequest(AbstractRestRequest request) {
         for (FeatureResetInfo each : featureResets) {
             if (each.reset) {
-                request.addFeatureReset(each.name);
+                request.addFeatureReset(each.name, each.numToRestore);
             }
         }
     }
@@ -139,6 +147,9 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
         class ViewHolder {
             CheckBox name;
             TextView description;
+            TextView uses;
+            EditText numToRestore;
+            public TextWatcher watcher;
         }
 
 
@@ -164,31 +175,69 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
 
         public View getView(int position, View convertView, ViewGroup parent) {
             View view;
-            ViewHolder viewHolder;
+            final ViewHolder viewHolder;
             if (convertView == null) {
                 view = View.inflate(context, R.layout.feature_reset_item, null);
                 viewHolder = new ViewHolder();
-                CheckBox name;
-                TextView description;
 
                 viewHolder.name = (CheckBox) view.findViewById(R.id.feature_name);
                 viewHolder.description = (TextView) view.findViewById(R.id.description);
+                viewHolder.uses = (TextView) view.findViewById(R.id.uses);
+                viewHolder.numToRestore = (EditText) view.findViewById(R.id.num_to_restore);
                 view.setTag(viewHolder);
 
             } else {
                 view = convertView;
                 viewHolder = (ViewHolder) view.getTag();
+                viewHolder.numToRestore.removeTextChangedListener(viewHolder.watcher);
+                viewHolder.name.setOnCheckedChangeListener(null);
             }
             final FeatureResetInfo row = getItem(position);
 
             viewHolder.name.setText(row.name);
             viewHolder.name.setChecked(row.reset);
+
             viewHolder.description.setText(row.description);
+
+            viewHolder.uses.setText(row.uses);
+
+            viewHolder.numToRestore.setText(row.numToRestore + "");
+            viewHolder.numToRestore.setEnabled(row.reset);
+
+            if (!row.needsResfesh) {
+                viewHolder.name.setChecked(false);
+                viewHolder.name.setEnabled(false);
+                viewHolder.numToRestore.setEnabled(false);
+            } else {
+                viewHolder.name.setEnabled(true);
+            }
+
+            TextWatcher watcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // TODO error handling
+                    row.numToRestore = Integer.parseInt(s.toString());
+                }
+            };
+            viewHolder.numToRestore.addTextChangedListener(watcher);
+            viewHolder.watcher = watcher;
+
 
             viewHolder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     row.reset = isChecked;
+                    viewHolder.numToRestore.setEnabled(row.reset);
                 }
             });
 

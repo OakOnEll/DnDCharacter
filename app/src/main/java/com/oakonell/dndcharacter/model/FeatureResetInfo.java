@@ -10,4 +10,7 @@ public class FeatureResetInfo {
     public String description;
     public boolean reset;
     public RefreshType refreshOn;
+    public String uses;
+    public int numToRestore;
+    public boolean needsResfesh;
 }

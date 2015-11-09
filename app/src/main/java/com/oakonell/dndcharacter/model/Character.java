@@ -486,9 +486,17 @@ public class Character {
     private void resetFeatures(AbstractRestRequest request) {
         List<FeatureInfo> featureInfos = getFeatureInfos();
         for (FeatureInfo each : featureInfos) {
-            if (!request.getFeatureResets().contains(each.getName())) continue;
+            Integer resetRequest = request.getFeatureResets().get(each.getName());
+            if (resetRequest == null || resetRequest == 0) continue;
+
             if (each.getFeature().getRefreshesOn() == RefreshType.LONG_REST) {
-                usedFeatures.put(each.getFeature().getName(), 0);
+                int used = usedFeatures.get(each.getName());
+                used = used - resetRequest;
+                if (used <= 0) {
+                    usedFeatures.remove(each.getName());
+                } else {
+                    usedFeatures.put(each.getFeature().getName(), used);
+                }
             }
         }
 
