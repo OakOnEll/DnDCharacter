@@ -15,15 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
+
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/hit_dice_label"
+                android:id="@+id/hit_point_heal_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Hit Dice Healing"
+                android:text="Hit Point Healing"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <LinearLayout
@@ -46,24 +46,37 @@
                     android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
 
-            <ListView
-                android:id="@+id/hit_dice_list"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+
+            <LinearLayout
+                android:id="@+id/full_heal_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/full_healing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Full healing" />
+
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/extra_heal_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Extra healing" />
+                    android:text="Healing" />
 
                 <EditText
                     android:id="@+id/extra_healing"
@@ -114,7 +127,32 @@
 
         </LinearLayout>
 
-        <include layout="@layout/feature_reset_layout" />
+    <LinearLayout
+        android:id="@+id/hit_dice_refresh"
+        style="@style/ac_style"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/hit_dice_restore_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Hit Dice Restoration"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/listView2"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <include layout="@layout/feature_reset_layout" />
 
         <Button
             android:id="@+id/done"

@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.shortRest;
+package com.oakonell.dndcharacter.rest;
 
 import java.util.ArrayList;
 import java.util.List;

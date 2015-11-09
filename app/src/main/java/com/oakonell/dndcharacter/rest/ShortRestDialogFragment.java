@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.shortRest;
+package com.oakonell.dndcharacter.rest;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -24,11 +24,8 @@ import java.util.List;
 /**
  * Created by Rob on 11/7/2015.
  */
-public class ShortRestDialogFragment extends DialogFragment {
-    private Character character;
+public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     private HitDiceAdapter diceAdapter;
-    private TextView extraHealingtextView;
-    private TextView finalHp;
     private final List<HitDieUseRow> diceUses = new ArrayList<>();
 
 
@@ -42,33 +39,20 @@ public class ShortRestDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.short_rest_dialog, container);
+        configureCommon(view);
+
         getDialog().setTitle("Short Rest");
         Button done = (Button) view.findViewById(R.id.done);
 
-        View featureResetsGroup = view.findViewById(R.id.feature_resets);
-        TextView startHp = (TextView) view.findViewById(R.id.start_hp);
-        finalHp = (TextView) view.findViewById(R.id.final_hp);
-        View finalHpGroup = (View) view.findViewById(R.id.final_hp_group);
-        View extraHealingGroup = (View) view.findViewById(R.id.extra_heal_group);
-        View noHealingGroup = (View) view.findViewById(R.id.no_healing_group);
         ListView hitDiceListView = (ListView) view.findViewById(R.id.hit_dice_list);
-        extraHealingtextView = (TextView) view.findViewById(R.id.extra_healing);
-
-        featureResetsGroup.setVisibility(View.GONE);
 
 
         if (character.getHP() == character.getMaxHP()) {
-            noHealingGroup.setVisibility(View.VISIBLE);
 
             hitDiceListView.setVisibility(View.GONE);
-            finalHpGroup.setVisibility(View.GONE);
-            extraHealingGroup.setVisibility(View.GONE);
         } else {
-            noHealingGroup.setVisibility(View.GONE);
 
             hitDiceListView.setVisibility(View.VISIBLE);
-            finalHpGroup.setVisibility(View.VISIBLE);
-            extraHealingGroup.setVisibility(View.VISIBLE);
         }
         List<Character.HitDieRow> diceCounts = character.getHitDiceCounts();
         for (Character.HitDieRow each : diceCounts) {
@@ -81,30 +65,14 @@ public class ShortRestDialogFragment extends DialogFragment {
         diceAdapter = new HitDiceAdapter(getActivity(), diceUses);
         hitDiceListView.setAdapter(diceAdapter);
 
-        extraHealingtextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                updateView();
-            }
-        });
-
-        startHp.setText(character.getHP() + " / " + character.getMaxHP());
         updateView();
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO call character short rest, with input of user choices/actions
                 character.heal(getHealing());
+                //character.shortRest();
                 ((MainActivity) getActivity()).updateViews();
                 dismiss();
             }
@@ -112,15 +80,13 @@ public class ShortRestDialogFragment extends DialogFragment {
         return view;
     }
 
+
     public void updateView() {
+        super.updateView();
         diceAdapter.notifyDataSetChanged();
-        int hp = character.getHP();
-        int healing = getHealing();
-        hp = Math.min(hp + healing, character.getMaxHP());
-        finalHp.setText(hp + " / " + character.getMaxHP());
     }
 
-    private int getHealing() {
+    protected int getHealing() {
         int healing = 0;
         for (HitDieUseRow each : diceUses) {
             for (Integer eachRoll : each.rolls) {
@@ -129,15 +95,8 @@ public class ShortRestDialogFragment extends DialogFragment {
             }
         }
 
-        String extraHealString = extraHealingtextView.getText().toString();
-        if (extraHealString != null && extraHealString.trim().length() > 0) {
-            healing += Integer.parseInt(extraHealString);
-        }
+        healing += getExtraHealing();
         return healing;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
     }
 
 

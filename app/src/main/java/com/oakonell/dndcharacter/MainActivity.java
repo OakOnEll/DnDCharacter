@@ -20,7 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.shortRest.ShortRestDialogFragment;
+import com.oakonell.dndcharacter.rest.LongRestDialogFragment;
+import com.oakonell.dndcharacter.rest.ShortRestDialogFragment;
 import com.oakonell.dndcharacter.storage.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 
@@ -130,18 +131,14 @@ public class MainActivity extends AbstractBaseActivity {
             return true;
         }
         if (id == R.id.action_long_rest) {
-            Toast.makeText(this, "Clicked long rest ", Toast.LENGTH_SHORT).show();
-            character.longRest();
-            updateViews();
+            LongRestDialogFragment dialog = LongRestDialogFragment.createDialog(character);
+            dialog.show(getSupportFragmentManager(), "short_rest_frag");
             return true;
         }
         if (id == R.id.action_short_rest) {
             ShortRestDialogFragment dialog = ShortRestDialogFragment.createDialog(character);
             dialog.show(getSupportFragmentManager(), "short_rest_frag");
 
-//            Toast.makeText(this, "Clicked short rest ", Toast.LENGTH_SHORT).show();
-//            character.shortRest();
-//            updateViews();
             return true;
         }
         if (id == R.id.action_delete) {

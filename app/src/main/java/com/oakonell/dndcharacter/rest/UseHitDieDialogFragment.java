@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.shortRest;
+package com.oakonell.dndcharacter.rest;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.oakonell.dndcharacter.R;
-
-import com.oakonell.dndcharacter.model.Character;
 
 import java.util.Random;
 
