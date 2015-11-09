@@ -16,6 +16,7 @@ import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.components.RefreshType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -99,7 +100,6 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 LongRestRequest request = new LongRestRequest();
                 request.setHealing(getHealing());
                 for (HitDieRestoreRow each : diceUses) {
@@ -107,12 +107,20 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
                         request.restoreHitDice(each.dieSides, each.numDiceToRestore);
                     }
                 }
+                updateCommonRequest(request);
                 character.longRest(request);
                 ((MainActivity) getActivity()).updateViews();
                 dismiss();
             }
         });
         return view;
+    }
+
+
+
+    @Override
+    protected boolean shouldReset(RefreshType refreshesOn) {
+        return true;
     }
 
     public void updateView() {

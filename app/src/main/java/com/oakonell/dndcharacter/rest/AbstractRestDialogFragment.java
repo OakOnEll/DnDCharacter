@@ -1,20 +1,33 @@
 package com.oakonell.dndcharacter.rest;
 
+import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.components.RefreshType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Rob on 11/8/2015.
  */
 public abstract class AbstractRestDialogFragment extends DialogFragment {
     protected com.oakonell.dndcharacter.model.Character character;
+    private FeatureResetsAdapter featureResetAdapter;
+    private List<FeatureResetInfo> featureResets;
 
     public void setCharacter(Character character) {
         this.character = character;
@@ -37,6 +50,9 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
         extraHealingGroup = (View) view.findViewById(R.id.extra_heal_group);
         extraHealingtextView = (TextView) view.findViewById(R.id.extra_healing);
         noHealingGroup = (View) view.findViewById(R.id.no_healing_group);
+
+        ListView featureListView = (ListView) view.findViewById(R.id.feature_list);
+
 
         if (character.getHP() == character.getMaxHP()) {
             noHealingGroup.setVisibility(View.VISIBLE);
@@ -69,8 +85,26 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
         startHp.setText(character.getHP() + " / " + character.getMaxHP());
 
 
-        featureResetsGroup.setVisibility(View.GONE);
+        List<FeatureInfo> features = character.getFeatureInfos();
+        featureResets = new ArrayList<>();
+        for (FeatureInfo each : features) {
+            RefreshType refreshOn = each.getFeature().getRefreshesOn();
+            if (refreshOn == null) continue;
+
+            FeatureResetInfo resetInfo = new FeatureResetInfo();
+            resetInfo.name = each.getName();
+            resetInfo.description = each.getShortDescription();
+            resetInfo.reset = shouldReset(refreshOn);
+            resetInfo.refreshOn = refreshOn;
+            featureResets.add(resetInfo);
+        }
+        featureResetAdapter = new FeatureResetsAdapter(getActivity(), featureResets);
+        featureListView.setAdapter(featureResetAdapter);
+
+        //featureResetsGroup.setVisibility(View.GONE);
     }
+
+    protected abstract boolean shouldReset(RefreshType refreshesOn);
 
     protected int getExtraHealing() {
         String extraHealString = extraHealingtextView.getText().toString();
@@ -88,5 +122,79 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
     }
 
     protected abstract int getHealing();
+
+    protected void updateCommonRequest(AbstractRestRequest request) {
+        for (FeatureResetInfo each : featureResets) {
+            if (each.reset) {
+                request.addFeatureReset(each.name);
+            }
+        }
+    }
+
+
+    static class FeatureResetsAdapter extends BaseAdapter {
+        private final List<FeatureResetInfo> resets;
+        private Context context;
+
+        class ViewHolder {
+            CheckBox name;
+            TextView description;
+        }
+
+
+        public FeatureResetsAdapter(Context context, List<FeatureResetInfo> resets) {
+            this.context = context;
+            this.resets = resets;
+        }
+
+        @Override
+        public int getCount() {
+            return resets.size();
+        }
+
+        @Override
+        public FeatureResetInfo getItem(int position) {
+            return resets.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view;
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                view = View.inflate(context, R.layout.feature_reset_item, null);
+                viewHolder = new ViewHolder();
+                CheckBox name;
+                TextView description;
+
+                viewHolder.name = (CheckBox) view.findViewById(R.id.feature_name);
+                viewHolder.description = (TextView) view.findViewById(R.id.description);
+                view.setTag(viewHolder);
+
+            } else {
+                view = convertView;
+                viewHolder = (ViewHolder) view.getTag();
+            }
+            final FeatureResetInfo row = getItem(position);
+
+            viewHolder.name.setText(row.name);
+            viewHolder.name.setChecked(row.reset);
+            viewHolder.description.setText(row.description);
+
+            viewHolder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    row.reset = isChecked;
+                }
+            });
+
+            return view;
+
+        }
+    }
 
 }

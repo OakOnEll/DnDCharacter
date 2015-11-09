@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by Rob on 11/8/2015.
  */
-public class ShortRestRequest {
+public class ShortRestRequest extends AbstractRestRequest {
 
 
     private int healing;

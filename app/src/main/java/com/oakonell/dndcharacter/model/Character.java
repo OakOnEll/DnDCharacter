@@ -480,12 +480,18 @@ public class Character {
 
 
         //refresh features
+        resetFeatures(request);
+    }
+
+    private void resetFeatures(AbstractRestRequest request) {
         List<FeatureInfo> featureInfos = getFeatureInfos();
         for (FeatureInfo each : featureInfos) {
+            if (!request.getFeatureResets().contains(each.getName())) continue;
             if (each.getFeature().getRefreshesOn() == RefreshType.LONG_REST) {
                 usedFeatures.put(each.getFeature().getName(), 0);
             }
         }
+
     }
 
 
@@ -510,6 +516,7 @@ public class Character {
                 usedFeatures.put(each.getFeature().getName(), 0);
             }
         }
+        resetFeatures(request);
     }
 
     public String getHitDiceString() {

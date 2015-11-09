@@ -14,6 +14,7 @@ import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.ShortRestRequest;
+import com.oakonell.dndcharacter.model.components.RefreshType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -71,8 +72,9 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                     request.addHitDiceUsed(each.dieSides, each.numUses);
                 }
                 request.setHealing(getHealing());
-                // TODO add feature resets
                 character.heal(getHealing());
+
+                updateCommonRequest(request);
                 character.shortRest(request);
                 ((MainActivity) getActivity()).updateViews();
                 dismiss();
@@ -81,6 +83,11 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         return view;
     }
 
+
+    @Override
+    protected boolean shouldReset(RefreshType refreshesOn) {
+        return refreshesOn == RefreshType.SHORT_REST;
+    }
 
     public void updateView() {
         super.updateView();

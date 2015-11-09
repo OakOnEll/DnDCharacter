@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by Rob on 11/8/2015.
  */
-public class LongRestRequest {
+public class LongRestRequest extends AbstractRestRequest{
     private int healing;
     private Map<Integer, Integer> hitDieRestores = new HashMap<>();
 
