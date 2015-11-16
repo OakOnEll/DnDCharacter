@@ -34,6 +34,7 @@ public class PersonaFragment extends AbstractSheetFragment {
     EditText bonds;
     EditText flaws;
     EditText backstory;
+    TextView languages;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,12 +47,14 @@ public class PersonaFragment extends AbstractSheetFragment {
         eyes = (TextView) rootView.findViewById(R.id.eyes);
         skin = (TextView) rootView.findViewById(R.id.skin);
         hair = (TextView) rootView.findViewById(R.id.hair);
+        languages = (TextView) rootView.findViewById(R.id.languages);
 
         traits = (EditText) rootView.findViewById(R.id.personality_traits);
         ideals = (EditText) rootView.findViewById(R.id.ideals);
         bonds = (EditText) rootView.findViewById(R.id.bonds);
         flaws = (EditText) rootView.findViewById(R.id.flaws);
         backstory = (EditText) rootView.findViewById(R.id.backstory);
+
 
         traits.addTextChangedListener(new AfterChangedWatcher() {
             @Override
@@ -98,6 +101,7 @@ public class PersonaFragment extends AbstractSheetFragment {
         ideals.setText(character.getIdeals());
         bonds.setText(character.getBonds());
         flaws.setText(character.getFlaws());
+        languages.setText(character.getLanguagesString());
     }
 
     private static abstract class AfterChangedWatcher implements TextWatcher {

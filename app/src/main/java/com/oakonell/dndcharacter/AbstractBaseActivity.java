@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.widget.Toast;
 
 import com.activeandroid.query.Select;
+import com.oakonell.dndcharacter.background.BackgroundsListActivity;
 import com.oakonell.dndcharacter.storage.CharacterRow;
 
 import java.util.List;
@@ -74,5 +77,58 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         intent.putExtra(MainActivity.CHARACTER_ID, id);
         startActivity(intent);
     }
+
+
+    // -------------
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        populateRecentCharacters();
+        super.onResume();
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_characters) {
+            Intent intent = new Intent(this, CharactersListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        } else if (id == R.id.nav_backgrounds) {
+            Intent intent = new Intent(this, BackgroundsListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        } else if (id == R.id.nav_classes) {
+            Toast.makeText(this, "Clicked classes ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_races) {
+            Toast.makeText(this, "Clicked races ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_items) {
+            Toast.makeText(this, "Clicked items ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_feats) {
+            Toast.makeText(this, "Clicked feats ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
 
 }

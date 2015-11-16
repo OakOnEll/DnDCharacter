@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model;
 
+import com.oakonell.dndcharacter.model.background.SavedChoices;
 import com.oakonell.dndcharacter.model.components.Feature;
 
 import org.simpleframework.xml.Element;
@@ -15,18 +16,25 @@ import java.util.Map;
  * Created by Rob on 10/24/2015.
  */
 public abstract class BaseCharacterComponent {
-    @ElementMap(entry = "statMod", key = "name",value="mod", required = false)
+    @ElementMap(entry = "statMod", key = "name", value = "mod", required = false)
     private Map<StatType, Integer> statModifiers = new HashMap<StatType, Integer>();
 
-    @ElementMap(entry = "skill", key = "name",value="proficiency", required = false)
+
+    @ElementMap(entry = "skill", key = "name", value = "proficiency", required = false)
     private Map<SkillType, Proficient> skillProficiencies = new HashMap<SkillType, Proficient>();
-    @ElementMap(entry = "saveMod", key = "name",value="proficiency", required = false)
+    @ElementMap(entry = "saveMod", key = "name", value = "proficiency", required = false)
     private Map<StatType, Proficient> saveProficiencies = new HashMap<StatType, Proficient>();
     @ElementList(required = false)
     private List<Feature> features = new ArrayList<Feature>();
 
+    @ElementList(required = false)
+    private List<String> languages = new ArrayList<>();
+
     @Element
     private String name;
+
+    @Element(required = false)
+    SavedChoices savedChoices = new SavedChoices();
 
 
     public String getName() {
@@ -89,5 +97,14 @@ public abstract class BaseCharacterComponent {
     public String getSourceString() {
         return getType().toString() + ": " + getName();
     }
+
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public SavedChoices getSavedChoices() {
+        return savedChoices;
+    }
+
 
 }

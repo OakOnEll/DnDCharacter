@@ -5,13 +5,13 @@
         <proficiency>Religion</proficiency>
     </skills>
     <languages>
-        <choose number="2"/>
+        <choose name="language" number="2"/>
     </languages>
     <equipment>
         <item>holy symbol (a gift when you entered the priesthood)</item>
-        <choose>
-            <or><item>prayer book</item></or>
-            <or><item>prayerwheel</item></or>
+        <choose name="equipment">
+            <or name="book"><item>prayer book</item></or>
+            <or name="wheel"><item>prayerwheel</item></or>
         </choose>
         <item>belt pouch</item>
         <money>15gp</money>

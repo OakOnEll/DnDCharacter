@@ -9,7 +9,7 @@ public class CharacterRace extends BaseCharacterComponent{
 
     @Override
     public ComponentType getType() {
-        return ComponentType.BACKGROUND;
+        return ComponentType.RACE;
     }
 
 }

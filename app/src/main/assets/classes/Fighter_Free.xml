@@ -27,37 +27,37 @@
             <proficiency>Survival</proficiency>
         </choose>
     </skills>
-    <equipment>
-        <choose>
-            <or><item>chain mail</item></or>
-            <or>
+    <equipment >
+        <choose name="armor">
+            <or name="chain"><item>chain mail</item></or>
+            <or name="leather">
                 <item>leather armor</item>
                 <item>long bow</item>
                 <item count="20">arrow</item>
             </or>
         </choose>
-        <choose>
-            <or>
+        <choose name="weapon">
+            <or name="shield">
                 <item category="martial weapon"/>
                 <item>shield</item>
             </or>
-            <or>
+            <or name="weapon">
                 <item category="martial weapon"/>
                 <item category="martial weapon"/>
             </or>
         </choose>
-        <choose>
-            <or>
+        <choose name="ranged">
+            <or name="crossbow">
                 <item>light crossbow</item>
                 <item count="20">crossbow bolt</item>
             </or>
-            <or>
+            <or name="handaxe">
                 <item count="2">handaxe</item>
             </or>
         </choose>
-        <choose>
-            <or><pack>dungeoneer's pack</pack></or>
-            <or><pack>explorer's pack</pack></or>
+        <choose name="pack">
+            <or name="dungeoneers"><pack>dungeoneer's pack</pack></or>
+            <or name="explorers"><pack>explorer's pack</pack></or>
         </choose>
     </equipment>
     <choose>
@@ -66,6 +66,8 @@
                 <name>Archery</name>
                 <shortDescription>You gain a +2 bonus to attack rolls you make with ranged weapons.</shortDescription>
             </feature>
+        </or>
+        <or>
             <feature>
                 <name>Defense</name>
                 <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.</shortDescription>

@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model;
 
+import com.oakonell.dndcharacter.model.background.SavedChoices;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
@@ -170,7 +171,7 @@ public class Character {
     }
 
     public String getBackgroundName() {
-        if (race == null) return "(no background)";
+        if (background == null) return "(no background)";
         return background.getName();
     }
 
@@ -188,10 +189,47 @@ public class Character {
         return builder.toString();
     }
 
+    public String getLanguagesString() {
+        List<String> languages = getLanguages();
+        StringBuilder builder = new StringBuilder();
+        for (Iterator<String> iter = languages.iterator(); iter.hasNext(); ) {
+            String language = iter.next();
+            builder.append(language);
+            if (iter.hasNext()) {
+                builder.append(", ");
+            }
+        }
+        return builder.toString();
+    }
+
+    public List<String> getLanguages() {
+        List<String> languages = new ArrayList<>();
+        if (background != null) {
+            languages.addAll(background.getLanguages());
+        }
+        if (race != null) {
+            languages.addAll(race.getLanguages());
+        }
+        if (classes != null) {
+            for (CharacterClass each : classes) {
+                languages.addAll(each.getLanguages());
+            }
+        }
+        return languages;
+    }
+
     public int getArmorClass() {
         // go through active equipment
         // if no equipment affects ac, it is just 10 + dex mod
         return 10 + getStatBlock(StatType.DEXTERITY).getModifier();
+    }
+
+    public SavedChoices getBackgroundChoices() {
+        return background.savedChoices;
+    }
+
+    public void setBackground(CharacterBackground background) {
+        this.background = background;
     }
 
 

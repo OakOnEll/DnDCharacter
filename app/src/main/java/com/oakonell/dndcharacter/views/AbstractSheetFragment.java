@@ -3,18 +3,20 @@ package com.oakonell.dndcharacter.views;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.*;
+import com.oakonell.dndcharacter.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.background.Background;
+import com.oakonell.dndcharacter.utils.XmlUtils;
 
 /**
  * Created by Rob on 10/27/2015.
@@ -84,7 +86,7 @@ public class AbstractSheetFragment extends Fragment {
                 allowNameEdit(false);
                 updateViews();
                 // a name change should update recent characters
-                ((AbstractBaseActivity)getActivity()).populateRecentCharacters();
+                ((AbstractBaseActivity) getActivity()).populateRecentCharacters();
             }
         });
         cancelName.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +97,25 @@ public class AbstractSheetFragment extends Fragment {
                 updateViews();
             }
         });
+
+        background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Background background = new Select().from(Background.class).where("name = ?", character.getBackgroundName()).executeSingle();
+                    ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog(character, background);
+                    dialog.show(getFragmentManager(), "background");
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException("Unable to build ui", e);
+                }
+            }
+        });
+    }
+
+    static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
     private void allowNameEdit(boolean b) {

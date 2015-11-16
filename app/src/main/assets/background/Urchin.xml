@@ -1,0 +1,58 @@
+<background>
+    <name>Urchin</name>
+    <skills>
+        <proficiency>Sleight of Hand</proficiency>
+        <proficiency>Stealth</proficiency>
+    </skills>
+    <tools>
+        <tool>Disguise kit</tool>
+        <tool>Thieves' tools</tool>
+    </tools>
+    <equipment>
+        <item>small knife</item>
+        <item>map of city I grew up in</item>
+        <item>Token to remember parents by</item>
+        <item>set of common clothes</item>
+        <item>belt pouch</item>
+        <money>10gp</money>
+    </equipment>
+    <feature>
+        <name>City Secrets</name>
+        <shortDescription>When not in combat can travel with party between two locations in a city twice as fast as your speed would normally allow.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>I hide scraps of food and trinkets away in my pockets.</trait>
+        <trait>I ask a lot of questions.</trait>
+        <trait>I like to squeeze into small places where no one else can get to me.</trait>
+        <trait>I sleep with my back to a wall or tree, with everything I own wrapped in a bundle.</trait>
+        <trait>I eat like a pig and have bad manners.</trait>
+        <trait>I think anyone who's nice to me is hiding evil intent.</trait>
+        <trait>I don't like to bathe.</trait>
+        <trait>I bluntly say what other people are hinting at or thinking.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Respect. All people, rich or poor, deserve respect. (Good)</ideal>
+        <ideal>Community. We have to take care of each other, because no one else is going to do it. (Lawful)</ideal>
+        <ideal>Change. The low are lifted up, and the high and mighty are brought down. Change is the nature of things. (Chaotic)</ideal>
+        <ideal>Retribution. The rich need to be shown what life and death are like in the gutters. (Evil)</ideal>
+        <ideal>People. I help the people who help me- that's what keeps us alive. (Neutral)</ideal>
+        <ideal>Aspiration. I'm going to prove that I'm worthy of a better life.</ideal>
+    </ideals>
+    <bonds>
+        <bond>My town or city is my home, and I'll fight to defend it.</bond>
+        <bond>I sponsor an orphanage to keep others from enduring what I was forced to endure.</bond>
+        <bond>I owe my survival to another urchin who taught me to live on the streets.</bond>
+        <bond>I owe a debt I can never repay to the person who took pity on me.</bond>
+        <bond>I escaped my life of povert by robbing an important person, and I'm wanted for it.</bond>
+        <bond>No one else should have to endure the hardships I've been through.</bond>
+    </bonds>
+    <flaws>
+        <flaw>If I'm outnumbered, I will run away from a fight.</flaw>
+        <flaw>Gold seems like a lot of money to me, and I'll do just about anything for more of it.</flaw>
+        <flaw>I will never fully trust anyone other than myself.</flaw>
+        <flaw>I'd rather kill someone in their sleep than fight fair.</flaw>
+        <flaw>It's not stealing if I need it more than someone else.</flaw>
+        <flaw>People who can't take of themselves get what they deserve.</flaw>
+    </flaws>
+</background>

@@ -6,7 +6,7 @@
 		</skills>
 		<tools>
 			<proficiency>thieves' tools</proficiency>
-			<choose category="gaming set"></choose>
+			<choose name="gaming set" category="gaming set"></choose>
 		</tools>
 		<equipment>
 			<item>crowbar</item>
@@ -18,6 +18,18 @@
 			<name>Criminal contact</name>
 			<shortDescription>You have a reliable and trustworthy contact who acts as your liaison to a network of other criminals. </shortDescription>
 		</feature>
+		<specialties name="Criminal Specialty">
+		    <choose name="specialty">
+		        <or name="Blackmailer"><specialty>Blackmailer</specialty></or>
+		        <or name="Burglar"><specialty>Burglar</specialty></or>
+		        <or name="Enforcer"><specialty>Enforcer</specialty></or>
+		        <or name="Fence"><specialty>Fence</specialty></or>
+		        <or name="HighwayRobber"><specialty>Highway Robber</specialty></or>
+		        <or name="HiredKiller"><specialty>Hired Killer</specialty></or>
+		        <or name="Pickpocket"><specialty>Pickpocket</specialty></or>
+		        <or name="Smuggler"><specialty>Smuggler</specialty></or>
+		    </choose>
+		</specialties>
 		<personalityTraits>
 			<trait>I always have a plan for what to do when things go wrong.</trait>
 			<trait>I am always calm, no matter what the situation. I never raise my voice or let my emotions control me.</trait>

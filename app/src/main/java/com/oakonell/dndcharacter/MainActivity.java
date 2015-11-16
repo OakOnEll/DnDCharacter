@@ -102,16 +102,6 @@ public class MainActivity extends AbstractBaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
@@ -157,36 +147,7 @@ public class MainActivity extends AbstractBaseActivity {
         if (mainFragment != null) mainFragment.updateViews();
         if (featuresFragment != null) featuresFragment.updateViews();
         if (notesFragment != null) notesFragment.updateViews();
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_characters) {
-            Intent intent = new Intent(this, CharactersListActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_backgrounds) {
-            Toast.makeText(this, "Clicked backgrounds ", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_classes) {
-            Toast.makeText(this, "Clicked classes ", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_races) {
-            Toast.makeText(this, "Clicked races ", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_items) {
-            Toast.makeText(this, "Clicked items ", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_feats) {
-            Toast.makeText(this, "Clicked feats ", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        if (personaFragment != null) personaFragment.updateViews();
     }
 
 
@@ -366,7 +327,8 @@ public class MainActivity extends AbstractBaseActivity {
                     character = serializer.read(Character.class, input);
                     input.close();
                 } catch (Exception e) {
-                    throw new RuntimeException("Error loading xml", e);
+                    character = new Character(true);
+                    //throw new RuntimeException("Error loading xml", e);
                 }
             }
         }
