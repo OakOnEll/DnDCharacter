@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.background;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.background.AbstractBackgroundVisitor;
 import com.oakonell.dndcharacter.model.background.Background;
@@ -70,7 +72,16 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
 
     private void createGroup(String title) {
+        // why isn't the style being applied?
+//        LinearLayout layout = new LinearLayout(parent.getContext(),null, R.style.component_group_style);
+//        layout.setOrientation(LinearLayout.VERTICAL);
+//        parent.addView(layout);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, null);
+        parent.addView(layout);
+        parent = layout;
+
         TextView titleView = new TextView(parent.getContext());
+        titleView.setTextAppearance(parent.getContext(), android.support.v7.appcompat.R.style.TextAppearance_AppCompat_Large);
         parent.addView(titleView);
         titleView.setText(title);
     }
@@ -189,12 +200,16 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
     @Override
     protected void visitFeature(Element element) {
+        ViewGroup oldParent = parent;
         String name = XmlUtils.getElementText(element, "name");
         String description = XmlUtils.getElementText(element, "shortDescription");
 
+        createGroup("Feature: " + name);
         TextView featureText = new TextView(parent.getContext());
         parent.addView(featureText);
-        featureText.setText("Feature: " + name + "-  " + description);
+        featureText.setText(description);
+
+        parent = oldParent;
     }
 
     @Override
@@ -346,7 +361,9 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
                         android.R.layout.simple_spinner_item, languages);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 Spinner spinner = new Spinner(parent.getContext());
+                spinner.setLayoutParams(layoutParams);
                 spinner.setAdapter(dataAdapter);
                 spinner.setId(++uiIdCounter);
 

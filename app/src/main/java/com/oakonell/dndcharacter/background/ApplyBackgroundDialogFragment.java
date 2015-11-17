@@ -60,8 +60,8 @@ public class ApplyBackgroundDialogFragment extends DialogFragment {
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.large_spinner_text, list);
+        dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
         name.setAdapter(dataAdapter);
 
         name.setSelection(current);
