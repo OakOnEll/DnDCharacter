@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.rest;
+package com.oakonell.dndcharacter.views.rest;
 
 import java.util.ArrayList;
 import java.util.List;

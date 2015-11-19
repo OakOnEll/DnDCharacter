@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.rest;
+package com.oakonell.dndcharacter.views.rest;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;

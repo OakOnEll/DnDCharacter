@@ -1,10 +1,9 @@
-package com.oakonell.dndcharacter.model.background;
+package com.oakonell.dndcharacter.model;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

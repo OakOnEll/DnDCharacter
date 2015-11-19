@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.background;
+package com.oakonell.dndcharacter.views.background;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,11 +13,11 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.background.AbstractBackgroundVisitor;
 import com.oakonell.dndcharacter.model.background.Background;
-import com.oakonell.dndcharacter.model.background.SavedChoices;
-import com.oakonell.dndcharacter.model.md.CheckOptionMD;
-import com.oakonell.dndcharacter.model.md.ChooseMD;
-import com.oakonell.dndcharacter.model.md.CustomCheckOptionMD;
-import com.oakonell.dndcharacter.model.md.OptionMD;
+import com.oakonell.dndcharacter.model.SavedChoices;
+import com.oakonell.dndcharacter.views.md.CheckOptionMD;
+import com.oakonell.dndcharacter.views.md.ChooseMD;
+import com.oakonell.dndcharacter.views.md.CustomCheckOptionMD;
+import com.oakonell.dndcharacter.views.md.OptionMD;
 
 import org.w3c.dom.Element;
 

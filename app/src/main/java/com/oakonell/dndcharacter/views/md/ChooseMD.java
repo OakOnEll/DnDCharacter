@@ -1,8 +1,8 @@
-package com.oakonell.dndcharacter.model.md;
+package com.oakonell.dndcharacter.views.md;
 
 import android.view.ViewGroup;
 
-import com.oakonell.dndcharacter.model.background.SavedChoices;
+import com.oakonell.dndcharacter.model.SavedChoices;
 
 import java.util.ArrayList;
 import java.util.List;

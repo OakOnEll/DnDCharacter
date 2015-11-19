@@ -1,16 +1,11 @@
 package com.oakonell.dndcharacter.model;
 
-import android.view.View;
-
-import com.oakonell.dndcharacter.model.background.SavedChoices;
 import com.oakonell.dndcharacter.model.components.Feature;
-import com.oakonell.dndcharacter.model.md.ChooseMD;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Rob on 11/18/2015.

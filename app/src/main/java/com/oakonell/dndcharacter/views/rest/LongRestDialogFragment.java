@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.rest;
+package com.oakonell.dndcharacter.views.rest;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,7 +19,6 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 

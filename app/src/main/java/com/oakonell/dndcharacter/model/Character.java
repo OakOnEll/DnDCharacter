@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.model;
 
-import com.oakonell.dndcharacter.model.background.SavedChoices;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 

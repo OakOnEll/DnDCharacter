@@ -1,8 +1,7 @@
-package com.oakonell.dndcharacter.background;
+package com.oakonell.dndcharacter.views.background;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -10,13 +9,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.support.v7.app.AlertDialog;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,10 +21,8 @@ import android.widget.Toast;
 
 import com.activeandroid.content.ContentProvider;
 import com.oakonell.dndcharacter.AbstractBaseActivity;
-import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.background.Background;
-import com.oakonell.dndcharacter.storage.CharacterRow;
 
 /**
  * Created by Rob on 11/2/2015.

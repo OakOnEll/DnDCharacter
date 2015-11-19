@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.model.md;
+package com.oakonell.dndcharacter.views.md;
 
 import android.view.ViewGroup;
 import android.widget.CheckBox;

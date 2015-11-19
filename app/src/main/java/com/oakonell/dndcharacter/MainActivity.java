@@ -1,16 +1,13 @@
 package com.oakonell.dndcharacter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,9 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.rest.LongRestDialogFragment;
-import com.oakonell.dndcharacter.rest.ShortRestDialogFragment;
-import com.oakonell.dndcharacter.storage.CharacterRow;
+import com.oakonell.dndcharacter.views.rest.LongRestDialogFragment;
+import com.oakonell.dndcharacter.views.rest.ShortRestDialogFragment;
+import com.oakonell.dndcharacter.model.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 
 import org.simpleframework.xml.Serializer;

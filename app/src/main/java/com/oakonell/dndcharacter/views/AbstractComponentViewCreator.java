@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.model;
+package com.oakonell.dndcharacter.views;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,10 +10,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.background.SavedChoices;
-import com.oakonell.dndcharacter.model.md.CheckOptionMD;
-import com.oakonell.dndcharacter.model.md.ChooseMD;
-import com.oakonell.dndcharacter.model.md.DropdownOptionMD;
+import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
+import com.oakonell.dndcharacter.model.SavedChoices;
+import com.oakonell.dndcharacter.views.md.CheckOptionMD;
+import com.oakonell.dndcharacter.views.md.ChooseMD;
+import com.oakonell.dndcharacter.views.md.DropdownOptionMD;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;

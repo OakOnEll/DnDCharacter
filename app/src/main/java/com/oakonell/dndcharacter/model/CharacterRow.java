@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.storage;
+package com.oakonell.dndcharacter.model;
 
 import android.provider.BaseColumns;
 

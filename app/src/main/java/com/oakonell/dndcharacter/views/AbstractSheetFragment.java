@@ -13,10 +13,9 @@ import android.widget.Toast;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.background.ApplyBackgroundDialogFragment;
+import com.oakonell.dndcharacter.views.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.background.Background;
-import com.oakonell.dndcharacter.utils.XmlUtils;
 
 /**
  * Created by Rob on 10/27/2015.

@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.rest;
+package com.oakonell.dndcharacter.views.rest;
 
 import android.content.Context;
 import android.os.Bundle;

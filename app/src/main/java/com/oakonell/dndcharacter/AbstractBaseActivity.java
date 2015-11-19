@@ -13,8 +13,8 @@ import android.view.SubMenu;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
-import com.oakonell.dndcharacter.background.BackgroundsListActivity;
-import com.oakonell.dndcharacter.storage.CharacterRow;
+import com.oakonell.dndcharacter.views.background.BackgroundsListActivity;
+import com.oakonell.dndcharacter.model.CharacterRow;
 
 import java.util.List;
 

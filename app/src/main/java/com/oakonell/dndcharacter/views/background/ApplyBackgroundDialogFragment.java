@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.background;
+package com.oakonell.dndcharacter.views.background;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -13,12 +13,12 @@ import android.widget.Spinner;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.AbstractComponentViewCreator;
+import com.oakonell.dndcharacter.views.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.background.ApplyBackgroundToCharacterVisitor;
 import com.oakonell.dndcharacter.model.background.Background;
-import com.oakonell.dndcharacter.model.background.SavedChoices;
-import com.oakonell.dndcharacter.model.md.ChooseMD;
+import com.oakonell.dndcharacter.model.SavedChoices;
+import com.oakonell.dndcharacter.views.md.ChooseMD;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
