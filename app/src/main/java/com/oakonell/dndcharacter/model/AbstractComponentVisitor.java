@@ -41,10 +41,25 @@ public class AbstractComponentVisitor {
             visitShortDescription(element);
         } else if (name.equals("description")) {
             visitDescription(element);
+        } else if (name.equals("stat")) {
+            visitStat(element);
+        } else if (name.equals("increase")) {
+            visitIncrease(element);
         } else {
             boolean wasVisited = subVisit(element, name);
         }
 
+    }
+
+    protected void visitIncrease(Element element) {
+        visitSimpleItem(element);
+    }
+
+    protected void visitStat(Element element) {
+        VisitState oldState = state;
+        state = VisitState.STATS;
+        visitGroup(element);
+        state = oldState;
     }
 
     protected boolean subVisit(Element element, String name) {
@@ -86,7 +101,7 @@ public class AbstractComponentVisitor {
     protected void visitTools(Element element) {
         VisitState oldState = state;
         state = VisitState.TOOLS;
-        visitChildren(element);
+        visitGroup(element);
         state = oldState;
     }
 
@@ -143,6 +158,6 @@ public class AbstractComponentVisitor {
     }
 
     public enum VisitState {
-        SKILLS, TOOLS, LANGUAGES, FEATURE, SPECIALTIES
+        SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, SPECIALTIES
     }
 }

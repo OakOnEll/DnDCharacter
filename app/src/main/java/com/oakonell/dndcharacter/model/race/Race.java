@@ -17,4 +17,12 @@ public class Race extends Model {
     public String name;
     @Column
     public String xml;
+
+    public String getXml() {
+        return xml;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

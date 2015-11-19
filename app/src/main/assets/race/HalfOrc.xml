@@ -1,0 +1,41 @@
+<race>
+    <name>Half-Orc</name>
+
+    <baseHeight>58</baseHeight>
+    <baseWeight>140</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+
+    <size>medium</size>
+    <speed>30</speed>
+
+    <languages>
+        <language>Common</language>
+        <language>Orc</language>
+    </languages>
+    <stat>
+        <increase name="Strength">2</increase>
+        <increase name="Constitution">1</increase>
+    </stat>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Within 60' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Savage Attacks</name>
+        <shortDescription>On a critical melee attack, additional damage dice.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Relentless Endurance</name>
+        <shortDescription>Once per long rest, when hit points reach 0, go to 1 hp.</shortDescription>
+        <refreshes>long rest</refreshes>
+        <uses>1</uses>
+        <description></description>
+    </feature>
+    <skills>
+        <proficiency>Intimidation</proficiency>
+    </skills>
+
+</race>

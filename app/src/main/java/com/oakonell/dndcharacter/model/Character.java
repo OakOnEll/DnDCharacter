@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model;
 
+import android.graphics.Bitmap;
+
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
@@ -223,6 +225,14 @@ public class Character {
 
     public void setBackground(CharacterBackground background) {
         this.background = background;
+    }
+
+    public SavedChoices getRaceChoices() {
+        return race.getSavedChoices();
+    }
+
+    public void setRace(CharacterRace race) {
+        this.race = race;
     }
 
 

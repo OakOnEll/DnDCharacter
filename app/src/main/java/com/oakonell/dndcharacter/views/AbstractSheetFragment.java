@@ -13,9 +13,11 @@ import android.widget.Toast;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.views.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.background.Background;
+import com.oakonell.dndcharacter.views.race.ApplyRaceDialogFragment;
 
 /**
  * Created by Rob on 10/27/2015.
@@ -108,6 +110,20 @@ public class AbstractSheetFragment extends Fragment {
                     Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     throw new RuntimeException("Unable to build ui", e);
                 }
+            }
+        });
+        race.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Race race= new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
+                    ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog(character, race);
+                    dialog.show(getFragmentManager(), "race");
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException("Unable to build ui", e);
+                }
+
             }
         });
     }

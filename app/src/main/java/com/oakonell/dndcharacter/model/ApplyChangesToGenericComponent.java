@@ -51,6 +51,21 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
+    protected void visitIncrease(Element element) {
+        String statName = element.getAttribute("name");
+        String amountStr = element.getTextContent();
+
+        statName = statName.replaceAll(" ", "_");
+        statName = statName.toUpperCase();
+        StatType type = StatType.valueOf(StatType.class, statName);
+
+        int amount = Integer.parseInt(amountStr);
+
+        component.addModifier(type, amount);
+        super.visitIncrease(element);
+    }
+
+    @Override
     protected void visitLanguage(Element element) {
         String language = element.getTextContent();
         component.getLanguages().add(language);

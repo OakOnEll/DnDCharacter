@@ -6,22 +6,22 @@
     <weightMultiplier>1</weightMultiplier>
     <size>small</size>
     <speed>25</speed>
-    <trait>
+    <feature>
         <name>Lucky</name>
-        <description>When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll</description>
-    </trait>
-    <trait>
+        <shortDescription>When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll</shortDescription>
+    </feature>
+    <feature>
         <name>Brave</name>
-        <description> You have advantage on saving throws against being frightened</description>
-    </trait>
-    <trait>
+        <shortDescription> You have advantage on saving throws against being frightened</shortDescription>
+    </feature>
+    <feature>
         <name>Halfling Nimbleness</name>
-        <description>You can move through the space of any creature that is of a size larger than yours</description>
-    </trait>
-    <trait>
+        <shortDescription>You can move through the space of any creature that is of a size larger than yours</shortDescription>
+    </feature>
+    <feature>
         <name>Stout Resilience</name>
-        <desrciption>You have advantage on saving throws against poison, and you have resistance against poison damage.</desrciption>
-    </trait>
+        <shortDescription>You have advantage on saving throws against poison, and you have resistance against poison damage.</shortDescription>
+    </feature>
     <languages>
         <language>Halfling</language>
         <language>Common</language>

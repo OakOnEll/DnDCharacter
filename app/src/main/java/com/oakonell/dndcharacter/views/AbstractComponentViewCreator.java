@@ -105,6 +105,23 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
 
 
     @Override
+    protected void visitStat(Element element) {
+        ViewGroup oldParent = parent;
+        createGroup("Stats");
+        super.visitStat(element);
+
+        parent = oldParent;
+    }
+
+    @Override
+    protected void visitIncrease(Element element) {
+        TextView text = new TextView(parent.getContext());
+        parent.addView(text);
+        String string = "Increase " + element.getAttribute("name") + " by " + element.getTextContent();
+        text.setText(" *  " + string);
+    }
+
+    @Override
     protected void visitSimpleItem(Element element) {
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
