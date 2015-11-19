@@ -23,6 +23,7 @@ import java.io.OutputStream;
  * Created by Rob on 10/26/2015.
  */
 public class PersonaFragment extends AbstractSheetFragment {
+    private static final Object NON_USER_CHANGE = new Object();
     TextView age;
     TextView height;
     TextView weight;
@@ -59,25 +60,33 @@ public class PersonaFragment extends AbstractSheetFragment {
         traits.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
+                if (traits.getTag() == NON_USER_CHANGE) return;
                 character.setPersonalityTrait(string);
+                character.setTraitSavedChoiceToCustom("traits");
             }
         });
         ideals.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
+                if (ideals.getTag() == NON_USER_CHANGE) return;
                 character.setIdeals(string);
+                character.setTraitSavedChoiceToCustom("ideals");
             }
         });
         bonds.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
+                if (bonds.getTag() == NON_USER_CHANGE) return;
                 character.setBonds(string);
+                character.setTraitSavedChoiceToCustom("bonds");
             }
         });
         flaws.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
+                if (flaws.getTag() == NON_USER_CHANGE) return;
                 character.setFlaws(string);
+                character.setTraitSavedChoiceToCustom("flaws");
             }
         });
         backstory.addTextChangedListener(new AfterChangedWatcher() {
@@ -97,11 +106,19 @@ public class PersonaFragment extends AbstractSheetFragment {
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
         backstory.setText(character.getBackstory());
-        traits.setText(character.getPersonalityTrait());
-        ideals.setText(character.getIdeals());
-        bonds.setText(character.getBonds());
-        flaws.setText(character.getFlaws());
+
+        nonUserUpdate(traits, character.getPersonalityTrait());
+        nonUserUpdate(ideals, character.getIdeals());
+        nonUserUpdate(bonds, character.getBonds());
+        nonUserUpdate(flaws, character.getFlaws());
+
         languages.setText(character.getLanguagesString());
+    }
+
+    private void nonUserUpdate(EditText editText, String value) {
+        editText.setTag(NON_USER_CHANGE);
+        editText.setText(value);
+        editText.setTag(null);
     }
 
     private static abstract class AfterChangedWatcher implements TextWatcher {

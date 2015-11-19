@@ -107,4 +107,7 @@ public abstract class BaseCharacterComponent {
     }
 
 
+    public void setSavedChoices(SavedChoices savedChoices) {
+        this.savedChoices = savedChoices;
+    }
 }

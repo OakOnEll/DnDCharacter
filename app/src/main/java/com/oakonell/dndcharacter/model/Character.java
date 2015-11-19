@@ -55,14 +55,8 @@ public class Character {
 
     @Element(required = false)
     private String backstory;
+
     @Element(required = false)
-    private String personalityTrait;
-    @Element(required = false)
-    private String ideals;
-    @Element(required = false)
-    private String bonds;
-    @Element(required = false)
-    private String flaws;
 
 
     public Character(boolean defaults) {
@@ -657,22 +651,6 @@ public class Character {
         tempHp += amount;
     }
 
-    public void setPersonalityTrait(String personalityTrait) {
-        this.personalityTrait = personalityTrait;
-    }
-
-    public void setIdeals(String ideals) {
-        this.ideals = ideals;
-    }
-
-    public void setBonds(String bonds) {
-        this.bonds = bonds;
-    }
-
-    public void setFlaws(String flaws) {
-        this.flaws = flaws;
-    }
-
     public void setBackstory(String backstory) {
         this.backstory = backstory;
     }
@@ -682,19 +660,38 @@ public class Character {
     }
 
     public String getPersonalityTrait() {
-        return personalityTrait;
+        return background.getPersonalityTrait();
     }
 
     public String getIdeals() {
-        return ideals;
+        return background.getIdeal();
     }
 
     public String getBonds() {
-        return bonds;
+        return background.getBonds();
     }
 
     public String getFlaws() {
-        return flaws;
+        return background.getFlaw();
     }
 
+    public void setPersonalityTrait(String personalityTrait) {
+        background.setPersonalityTrait(personalityTrait);
+    }
+
+    public void setIdeals(String ideals) {
+        background.setIdeal(ideals);
+    }
+
+    public void setBonds(String bonds) {
+        background.setBond(bonds);
+    }
+
+    public void setFlaws(String flaws) {
+        background.setFlaw(flaws);
+    }
+
+    public void setTraitSavedChoiceToCustom(String trait) {
+        background.setTraitSavedChoiceToCustom(trait);
+    }
 }
