@@ -6,6 +6,9 @@
 
     <string name="action_settings">Settings</string>
 
-
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="choose_race">[Race]</string>
+    <string name="damage_type">[Damage Type]</string>
+    <string name="choose_background">[Background]</string>
 </resources>

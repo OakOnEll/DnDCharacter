@@ -180,7 +180,8 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                Spinner spinner = new Spinner(parent.getContext());
+                Spinner spinner = new NoDefaultSpinner(parent.getContext());
+                spinner.setPrompt("[Language]");
                 spinner.setLayoutParams(layoutParams);
                 spinner.setAdapter(dataAdapter);
                 spinner.setId(++uiIdCounter);

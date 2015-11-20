@@ -24,7 +24,8 @@
                 android:layout_centerVertical="@+id/damage_type"
                 android:text="Damage" />
 
-            <Spinner
+            <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                android:prompt="@string/damage_type"
                 android:id="@+id/damage_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

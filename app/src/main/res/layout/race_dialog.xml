@@ -16,13 +16,14 @@
         android:orientation="vertical"
         >
 
-        <Spinner
+        <com.oakonell.dndcharacter.views.NoDefaultSpinner
+            android:prompt="@string/choose_race"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/name"
             android:layout_gravity="center_horizontal" >
 
-        </Spinner>
+        </com.oakonell.dndcharacter.views.NoDefaultSpinner>
 
         <ScrollView
             android:layout_weight="1"
