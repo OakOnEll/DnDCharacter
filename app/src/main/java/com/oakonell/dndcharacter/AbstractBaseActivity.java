@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.views.background.BackgroundsListActivity;
 import com.oakonell.dndcharacter.model.CharacterRow;
+import com.oakonell.dndcharacter.views.classes.ClassesListActivity;
 import com.oakonell.dndcharacter.views.race.RacesListActivity;
 
 import java.util.List;
@@ -113,7 +114,9 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (id == R.id.nav_classes) {
-            Toast.makeText(this, "Clicked classes ", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, ClassesListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         } else if (id == R.id.nav_races) {
             Intent intent = new Intent(this, RacesListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

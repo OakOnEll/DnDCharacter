@@ -17,19 +17,21 @@
     </savingThrows>
     <skills>
         <choose number="2">
-            <proficiency>Acrobatics</proficiency>
-            <proficiency>Animal Handling</proficiency>
-            <proficiency>Athletics</proficiency>
-            <proficiency>History</proficiency>
-            <proficiency>Insight</proficiency>
-            <proficiency>Intimidation</proficiency>
-            <proficiency>Perception</proficiency>
-            <proficiency>Survival</proficiency>
+            <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
+            <or name="animal"><proficiency>Animal Handling</proficiency></or>
+            <or name="athletics"><proficiency>Athletics</proficiency></or>
+            <or name="history"><proficiency>History</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="proficiency"><proficiency>Perception</proficiency></or>
+            <or name="survival"><proficiency>Survival</proficiency></or>
         </choose>
     </skills>
-    <equipment >
+    <equipment>
         <choose name="armor">
-            <or name="chain"><item>chain mail</item></or>
+            <or name="chain">
+                <item>chain mail</item>
+            </or>
             <or name="leather">
                 <item>leather armor</item>
                 <item>long bow</item>
@@ -38,12 +40,12 @@
         </choose>
         <choose name="weapon">
             <or name="shield">
-                <item category="martial weapon"/>
+                <item category="martial weapon" />
                 <item>shield</item>
             </or>
             <or name="weapon">
-                <item category="martial weapon"/>
-                <item category="martial weapon"/>
+                <item category="martial weapon" />
+                <item category="martial weapon" />
             </or>
         </choose>
         <choose name="ranged">
@@ -56,21 +58,28 @@
             </or>
         </choose>
         <choose name="pack">
-            <or name="dungeoneers"><pack>dungeoneer's pack</pack></or>
-            <or name="explorers"><pack>explorer's pack</pack></or>
+            <or name="dungeoneers">
+                <pack>dungeoneer's pack</pack>
+            </or>
+            <or name="explorers">
+                <pack>explorer's pack</pack>
+            </or>
         </choose>
     </equipment>
     <choose>
         <or>
             <feature>
                 <name>Archery</name>
-                <shortDescription>You gain a +2 bonus to attack rolls you make with ranged weapons.</shortDescription>
+                <shortDescription>You gain a +2 bonus to attack rolls you make with ranged
+                    weapons.
+                </shortDescription>
             </feature>
         </or>
         <or>
             <feature>
                 <name>Defense</name>
-                <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.</shortDescription>
+                <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.
+                </shortDescription>
             </feature>
         </or>
     </choose>
@@ -78,17 +87,22 @@
         <name>Second Wind</name>
         <uses refreshOn="rest">1</uses>
         <action>hp += 1d10 + {classLevel}</action>
-        <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.</shortDescription>
+        <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.
+        </shortDescription>
     </feature>
     <level value="2">
         <feature>
             <name>Action Surge</name>
             <uses refreshOn="rest">1</uses>
-            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.</shortDescription>
+            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.
+            </shortDescription>
         </feature>
     </level>
     <level value="3">
-        <name>Improved Critical</name>
-        <shortDescription>Your weapon attacks score a critical hit on a roll of 19 or 20.</shortDescription>
+        <feature>
+            <name>Improved Critical</name>
+            <shortDescription>Your weapon attacks score a critical hit on a roll of 19 or 20.
+            </shortDescription>
+        </feature>
     </level>
 </class>
