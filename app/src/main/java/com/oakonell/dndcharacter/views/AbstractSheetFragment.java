@@ -50,7 +50,7 @@ public class AbstractSheetFragment extends Fragment {
         character_name_read_only.setText(character.getName());
         character_name.setText(character.getName());
 
-        race.setText(character.getRaceName());
+        race.setText(character.getDisplayRaceName());
         background.setText(character.getBackgroundName());
         classes.setText(character.getClassesString());
 

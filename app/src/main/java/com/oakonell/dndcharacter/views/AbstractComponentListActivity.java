@@ -25,7 +25,6 @@ import com.activeandroid.content.ContentProvider;
 import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.background.Background;
-import com.oakonell.dndcharacter.model.race.Race;
 
 /**
  * Created by Rob on 11/20/2015.
@@ -53,7 +52,7 @@ public abstract class AbstractComponentListActivity extends AbstractBaseActivity
 
         listView = (ListView) findViewById(R.id.listView);
 
-        adapter = new ComponentListAdapter(this, R.layout.component_list_item, null);
+        adapter = new ComponentListAdapter(this, getListItemResource(), null);
         listView.setAdapter(adapter);
 
         getSupportLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
@@ -82,16 +81,21 @@ public abstract class AbstractComponentListActivity extends AbstractBaseActivity
 
     }
 
+    private void createNewRecord(View view) {
+        Model race = createNewRecord();
+        long id = race.save();
+        adapter.notifyDataSetInvalidated();
+
+        openRecord(id);
+    }
+
+    protected int getListItemResource() {
+        return R.layout.component_list_item;
+    }
+
     @NonNull
     abstract protected Class<? extends Model> getComponentClass();
 
-     protected void createNewRecord(View view) {
-             Model race = createNewRecord();
-             long id = race.save();
-             adapter.notifyDataSetInvalidated();
-
-             openRecord(id);
-     }
 
     protected abstract Model createNewRecord();
 
@@ -108,17 +112,17 @@ public abstract class AbstractComponentListActivity extends AbstractBaseActivity
     }
 
 
-    static class ViewHolder {
+    public static class RowViewHolder {
         TextView name;
         TextView description;
         ImageView deleteButton;
     }
 
+    int nameIndex = -1;
+    int idIndex = -1;
+
     static class ComponentListAdapter extends ResourceCursorAdapter {
         private final AbstractComponentListActivity context;
-        int nameIndex = -1;
-        int idIndex = -1;
-        int classesIndex = -1;
 
         public ComponentListAdapter(AbstractComponentListActivity context, int layout, Cursor c, boolean autoRequery) {
             super(context, layout, c, autoRequery);
@@ -137,38 +141,16 @@ public abstract class AbstractComponentListActivity extends AbstractBaseActivity
 
         @Override
         public Cursor swapCursor(Cursor newCursor) {
-            nameIndex = -1;
-            classesIndex = -1;
-            idIndex = -1;
             return super.swapCursor(newCursor);
         }
 
         @Override
         public void bindView(View view, final Context context, Cursor cursor) {
-            ViewHolder holder = (ViewHolder) view.getTag();
+            RowViewHolder holder = (RowViewHolder) view.getTag();
             if (holder == null) {
                 assignViewHolder(view);
             }
-            if (nameIndex < 0) {
-                idIndex = cursor.getColumnIndex(BaseColumns._ID);
-                nameIndex = cursor.getColumnIndex("name");
-            }
-            final long id = cursor.getInt(idIndex);
-            final String name = cursor.getString(nameIndex);
-            holder.name.setText(name);
-            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-                                                       @Override
-                                                       public void onClick(View v) {
-                                                           ComponentListAdapter.this.context.promptToDelete(id, name, "");
-                                                       }
-                                                   }
-            );
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ComponentListAdapter.this.context.openRecord(id);
-                }
-            });
+            this.context.updateRowView(view, cursor, holder);
         }
 
 
@@ -180,13 +162,40 @@ public abstract class AbstractComponentListActivity extends AbstractBaseActivity
         }
 
         private void assignViewHolder(View newView) {
-            ViewHolder holder = new ViewHolder();
+            RowViewHolder holder = this.context.newRowViewHolder(newView);
             holder.name = (TextView) newView.findViewById(R.id.name);
             holder.deleteButton = (ImageView) newView.findViewById(R.id.action_delete);
             newView.setTag(holder);
         }
     }
 
+    @NonNull
+    protected  RowViewHolder newRowViewHolder(View newView) {
+        return new RowViewHolder();
+    }
+
+    protected void updateRowView(View view, Cursor cursor, RowViewHolder holder) {
+        if (nameIndex < 0) {
+            idIndex = cursor.getColumnIndex(BaseColumns._ID);
+            nameIndex = cursor.getColumnIndex("name");
+        }
+        final long id = cursor.getInt(idIndex);
+        final String name = cursor.getString(nameIndex);
+        holder.name.setText(name);
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                                                   @Override
+                                                   public void onClick(View v) {
+                                                       AbstractComponentListActivity.this.promptToDelete(id, name, "");
+                                                   }
+                                               }
+        );
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AbstractComponentListActivity.this.openRecord(id);
+            }
+        });
+    }
 
     private void promptToDelete(final long charId, String name, String classes) {
         String recordTypeName = getRecordTypeName();

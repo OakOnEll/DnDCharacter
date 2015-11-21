@@ -1,0 +1,11 @@
+<race>
+    <name>Halfling, Lightfoot</name>
+    <parent>Halfling</parent>
+    <feature>
+        <name>Naturally Stealthy</name>
+        <shortDescription>You can hide...</shortDescription>
+    </feature>
+    <stat>
+        <increase name="Charisma">1</increase>
+    </stat>
+</race>

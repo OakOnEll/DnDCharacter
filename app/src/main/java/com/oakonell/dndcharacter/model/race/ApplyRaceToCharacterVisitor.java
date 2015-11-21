@@ -22,16 +22,28 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
     private final SavedChoices savedChoices;
     String currentChoiceName;
 
-    public static void applyToCharacter(Race race, SavedChoices savedChoices, Map<String, String> customChoices, Character character) {
+    public static void applyToCharacter(Race race, SavedChoices savedChoices, Map<String, String> customChoices,
+                                        Race subrace, SavedChoices subraceSavedChoices, Map<String, String> subraceCustomChoices,
+                                        Character character) {
         CharacterRace charRace = new CharacterRace();
         charRace.setSavedChoices(savedChoices);
         // apply common changes
         Element element = XmlUtils.getDocument(race.getXml()).getDocumentElement();
+        charRace.setName(XmlUtils.getElementText(element, "name"));
         ApplyChangesToGenericComponent.applyToCharacter(element, savedChoices, charRace);
-
 
         ApplyRaceToCharacterVisitor newMe = new ApplyRaceToCharacterVisitor(savedChoices, customChoices, charRace);
         newMe.visit(element);
+
+
+        if (subrace != null) {
+            Element subraceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
+            charRace.setSubraceName(XmlUtils.getElementText(subraceElement, "name"));
+            ApplyChangesToGenericComponent.applyToCharacter(subraceElement, subraceSavedChoices, charRace);
+            charRace.setSubRaceChoices(subraceSavedChoices);
+            newMe.visit(subraceElement);
+        }
+
         character.setRace(charRace);
     }
 
@@ -42,10 +54,5 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
     }
 
 
-    @Override
-    protected void visitRace(Element element) {
-        charRace.setName(XmlUtils.getElementText(element, "name"));
-        super.visitRace(element);
-    }
 
 }

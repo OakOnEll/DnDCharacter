@@ -44,11 +44,16 @@ public class AbstractEditComponentDialogFragment<M extends AbstractComponentMode
 
                 model.setXml(XmlUtils.prettyPrint(doc));
                 model.setName(XmlUtils.getElementText(doc.getDocumentElement(), "name"));
+                updateModel(model, doc);
                 model.save();
                 dismiss();
             }
         });
         return view;
+    }
+
+    protected void updateModel(M model, Document doc) {
+
     }
 
     public void setModel(M model) {

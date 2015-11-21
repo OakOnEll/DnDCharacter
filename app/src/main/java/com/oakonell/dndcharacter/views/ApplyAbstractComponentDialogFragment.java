@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
@@ -41,7 +42,6 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     private Button previousButton;
     private Button nextButton;
     private Spinner nameSpinner;
-    private ViewGroup dynamicView;
 
 
     protected static abstract class Page<M extends AbstractComponentModel> {
@@ -56,15 +56,17 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.race_dialog, container);
 
-        dynamicView = (ViewGroup) view.findViewById(R.id.dynamic_content);
+        final ViewGroup dynamicView = (ViewGroup) view.findViewById(R.id.dynamic_content);
         doneButton = (Button) view.findViewById(R.id.done);
         previousButton = (Button) view.findViewById(R.id.previous);
         nextButton = (Button) view.findViewById(R.id.next);
         nameSpinner = (Spinner) view.findViewById(R.id.name);
 
         List<String> list = new ArrayList<String>();
-        final List<M> selections = new Select()
-                .from(getModelClass()).orderBy("name").execute();
+        From nameSelect = new Select()
+                .from(getModelClass()).orderBy("name");
+        nameSelect = filter(nameSelect);
+        final List<M> selections = nameSelect.execute();
         int index = 0;
         int current = -1;
         for (M each : selections) {
@@ -121,7 +123,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
             @Override
             public void onClick(View v) {
                 pageIndex++;
-                saveChoices();
+                saveChoices(dynamicView);
                 dynamicView.removeAllViews();
                 displayPage(dynamicView);
             }
@@ -130,7 +132,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
             @Override
             public void onClick(View v) {
                 pageIndex--;
-                saveChoices();
+                saveChoices(dynamicView);
                 dynamicView.removeAllViews();
                 displayPage(dynamicView);
             }
@@ -139,7 +141,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveChoices();
+                saveChoices(dynamicView);
 
                 String name = model.getName();
                 SavedChoices savedChoices = savedChoicesByModel.get(name);
@@ -154,8 +156,11 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         return view;
     }
 
+    protected From filter(From nameSelect) {
+        return nameSelect;
+    }
 
-    private void saveChoices() {
+    protected void saveChoices(ViewGroup dynamicView) {
         String name = model.getName();
         SavedChoices savedChoices = savedChoicesByModel.get(name);
         Map<String, String> customChoices = customChoicesByModel.get(name);
@@ -165,7 +170,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         }
     }
 
-    private void displayPage(ViewGroup dynamic) {
+    protected void displayPage(ViewGroup dynamic) {
         String name = model.getName();
         SavedChoices savedChoices = savedChoicesByModel.get(name);
         Map<String, String> customChoices = customChoicesByModel.get(name);
@@ -223,7 +228,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
     abstract protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices);
 
-    abstract protected String getCurrentName() ;
+    abstract protected String getCurrentName();
 
 
     @NonNull

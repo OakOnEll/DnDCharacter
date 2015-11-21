@@ -308,6 +308,11 @@ public class MainActivity extends AbstractBaseActivity {
             id = savedId;
             Toast.makeText(this, "Loading an existing Character id=" + id, Toast.LENGTH_SHORT).show();
             CharacterRow characterRow = CharacterRow.load(CharacterRow.class, id);
+            if (characterRow == null) {
+                Toast.makeText(this, "Making a new Character", Toast.LENGTH_SHORT).show();
+                characterRow = new CharacterRow();
+                id = characterRow.save();
+            }
             characterRow.last_viewed = new Date();
             characterRow.save();
             populateRecentCharacters();

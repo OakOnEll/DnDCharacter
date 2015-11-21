@@ -1,0 +1,12 @@
+<race>
+    <name>Halfling, Stout</name>
+    <parent>Halfling</parent>
+
+    <feature>
+        <name>Stout Resilience</name>
+        <shortDescription>You have advantage on saving throws against poison, and you have resistance against poison damage.</shortDescription>
+    </feature>
+    <stat>
+        <increase name="Constitution">1</increase>
+    </stat>
+</race>

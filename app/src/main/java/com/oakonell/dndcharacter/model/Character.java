@@ -57,8 +57,6 @@ public class Character {
     @Element(required = false)
     private String backstory;
 
-    @Element(required = false)
-
 
     public Character(boolean defaults) {
         name = "Feng";
@@ -175,6 +173,11 @@ public class Character {
         return race.getName();
     }
 
+    public String getSubRaceName() {
+        if (race == null) return "(no race)";
+        return race.getSubraceName();
+    }
+
     public String getClassesString() {
         StringBuilder builder = new StringBuilder();
         // TODO only grab the highest level of each class...
@@ -233,6 +236,25 @@ public class Character {
 
     public void setRace(CharacterRace race) {
         this.race = race;
+    }
+
+    public SavedChoices getSubRaceChoices() {
+        return race.getSubRaceChoices();
+    }
+
+    public String getDisplayRaceName() {
+        String displayName;
+        String mainRaceName = race.getName();
+        displayName = mainRaceName;
+        String subRacename = race.getSubraceName();
+        if (subRacename != null) {
+            if (!subRacename.contains(mainRaceName)) {
+                displayName = subRacename + "(" + mainRaceName + ")";
+            } else {
+                displayName = subRacename;
+            }
+        }
+        return displayName;
     }
 
 

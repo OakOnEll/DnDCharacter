@@ -18,7 +18,7 @@ public class Race extends AbstractComponentModel {
     public String name;
     @Column
     public String xml;
-    @Column(name = "parent_race")
+    @Column(name = "parentRace")
     private String parentRace;
 
     @Override
