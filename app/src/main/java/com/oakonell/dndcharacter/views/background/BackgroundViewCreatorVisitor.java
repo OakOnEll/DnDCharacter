@@ -38,7 +38,6 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
     int uiIdCounter;
     int traitIndex;
     ChooseMD currentChooseMD;
-    Character character;
     private List<String> traitNames;
     private Map<String, String> customChoices;
 
@@ -164,18 +163,17 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         }
     }
 
-    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup parent, Character character, SavedChoices choices, Map<String, String> customChoices, String trait) {
+    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup parent,  SavedChoices choices, Map<String, String> customChoices, String trait) {
         List<String> list = new ArrayList<>();
         list.add(trait);
-        return appendToLayout(background, parent, character, choices, customChoices, list);
+        return appendToLayout(background, parent, choices, customChoices, list);
     }
 
-    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup parent, Character character, SavedChoices choices, Map<String, String> customChoices, List<String> traitNames) {
+    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, List<String> traitNames) {
         this.parent = parent;
         this.view = parent;
         this.choices = choices;
         this.customChoices = customChoices;
-        this.character = character;
         this.traitNames = traitNames;
         visit(background);
         return choicesMD;

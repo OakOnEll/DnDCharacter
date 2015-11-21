@@ -39,5 +39,5 @@ public class Background extends AbstractComponentModel {
     public String getName() {
         return name;
     }
-    
+
 }

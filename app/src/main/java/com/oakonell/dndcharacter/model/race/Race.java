@@ -18,6 +18,8 @@ public class Race extends AbstractComponentModel {
     public String name;
     @Column
     public String xml;
+    @Column(name = "parent_race")
+    private String parentRace;
 
     @Override
     public String getXml() {
@@ -37,5 +39,14 @@ public class Race extends AbstractComponentModel {
     @Override
     public String getName() {
         return name;
+    }
+
+
+    public String getParentRace() {
+        return parentRace;
+    }
+
+    public void setParentRace(String parentRace) {
+        this.parentRace = parentRace;
     }
 }
