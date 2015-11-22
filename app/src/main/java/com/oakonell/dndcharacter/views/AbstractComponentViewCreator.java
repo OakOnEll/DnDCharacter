@@ -169,10 +169,23 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
             for (int i = 0; i < numChoices; i++) {
                 // TODO get the list of languages...
                 List<String> languages = new ArrayList<>();
-                languages.add("Elvish");
-                languages.add("Dwarvish");
                 languages.add("Common");
+                languages.add("Dwarvish");
+                languages.add("Elvish");
+                languages.add("Giant");
+                languages.add("Gnomish");
+                languages.add("Goblin");
+                languages.add("Halfling");
+                languages.add("Orc");
+
+                languages.add("Abyssal");
+                languages.add("Celestial");
                 languages.add("Draconic");
+                languages.add("Deep speech");
+                languages.add("Infernal");
+                languages.add("Primordial");
+                languages.add("Sylvan");
+                languages.add("Undercommon");
 
 
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(parent.getContext(),
