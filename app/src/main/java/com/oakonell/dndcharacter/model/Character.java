@@ -257,6 +257,13 @@ public class Character {
         return displayName;
     }
 
+    public String getSpecialtyTitle() {
+        return background.getSpecialtyTitle();
+    }
+    public String getSpecialty() {
+        return background.getSpecialty();
+    }
+
 
     public static class ModifierAndReason {
         int modifier;

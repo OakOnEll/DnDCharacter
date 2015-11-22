@@ -16,6 +16,10 @@ public class CharacterBackground extends BaseCharacterComponent {
     String bond;
     @Element(required = false)
     String flaw;
+    @Element(required = false)
+    private String specialtyTitle;
+    @Element(required = false)
+    private String specialty;
 
 
     @Override
@@ -63,4 +67,19 @@ public class CharacterBackground extends BaseCharacterComponent {
         return flaw;
     }
 
+    public String getSpecialtyTitle() {
+        return specialtyTitle;
+    }
+
+    public void setSpecialtyTitle(String specialtyTitle) {
+        this.specialtyTitle = specialtyTitle;
+    }
+
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
 }

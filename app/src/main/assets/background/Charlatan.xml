@@ -1,0 +1,72 @@
+<background>
+    <name>Charlatan</name>
+    <skills>
+        <proficiency>Deception</proficiency>
+        <proficiency>Sleight of Hand</proficiency>
+    </skills>
+    <tools>
+        <proficiency>Disguise kit</proficiency>
+        <proficiency>Forgery kit</proficiency>
+    </tools>
+    <equipment>
+        <item>A Set of fine clothes</item>
+        <item>Disguise kit</item>
+        <choose name="toolsOfCon">
+            <or name="bottles"><item number="10">stoppered bottles filled with colored liquid</item></or>
+            <or name="dice"><item>weighted dice</item></or>
+            <or name="cards"><item>deck of marked cards</item></or>
+            <or name="ring"><item>signet ring of imaginary duke</item></or>
+        </choose>
+        <item>belt pouch</item>
+        <money>15gp</money>
+    </equipment>
+    <specialties name="Favorite Scheme">
+        <choose name="specialty">
+            <or name="cheat"><specialty>I cheat at games of chance.</specialty></or>
+            <or name="forger"><specialty>I shave coins or forge documents</specialty></or>
+            <or name="shyster"><specialty>I insinuate myself into people's lives to prey on their weaknesses and secure their fortunes.</specialty></or>
+            <or name="chameleon"><specialty>I put on different identities like clothes.</specialty></or>
+            <or name="sleightOfHand"><specialty>I run sleight of hand cons on street corners.</specialty></or>
+            <or name="dupe"><specialty>I convince people that worthless junk is worth their hard-earned money.</specialty></or>
+        </choose>
+    </specialties>
+    <feature>
+        <name>False Identity</name>
+        <shortDescription>You have a second identity, replete with documents. You can also forge documents if you have seen the original handwriting.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>I fall in and out of love easily, and am always pursuing someone.</trait>
+        <trait>I have a joke for every occasion, especially occasions where humor is inappropriate.</trait>
+        <trait>Flattery is my preferred trick for getting what I want.</trait>
+        <trait>I'm a born gambler who can't resist taking a risk for a potential payoff.</trait>
+        <trait>I lie about almost everything, even when there's no good reason to.</trait>
+        <trait>Sarcasm and insults are my weapons of choice.</trait>
+        <trait>I keep multiple holy symbols on me and invoke whatever deity might come in useful at any given moment.</trait>
+        <trait>I pocket anything I see that might have some value.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Independence. I am a free spirit-- no one tells me what to do. (Chaotic)</ideal>
+        <ideal>Fairness. I never target people who can't afford to lose a few coins. (Lawful)</ideal>
+        <ideal>Charity. I distribute the money I acquire to the people who really need it. (Good)</ideal>
+        <ideal>Creativity.  I never run the same con twice. (Chaotic)</ideal>
+        <ideal>Friendship.  Material goods come and go. Bonds of friendship last forever. (Good)</ideal>
+        <ideal>Aspiration.  I'm determined to make something of myself. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>I fleeced the wrong person and must work to ensure that this individual never crosses paths with me or those I care about.</bond>
+        <bond>I owe everything to my mentor- a horrible person who's probably rotting in jail somewhere.</bond>
+        <bond>Somewhere out there, I have a child who doesn't know me. I'm making the world better for him or her.</bond>
+        <bond>I come from a noble family, and one day I'll reclaim my lands and title from those who stole them from me.</bond>
+        <bond>A powerful person killed someone I love. Some day soon, I'll have my revenge.</bond>
+        <bond>I swindled and ruined a person who didn't deserve it. I seek to atone for my misdeeds but might never be able to forgive myself.</bond>
+    </bonds>
+    <flaws>
+        <flaw>I can't resist a pretty face.</flaw>
+        <flaw>I'm always in debt. I spend my ill-gotten gains on decadent luxuries faster than I bring them in.</flaw>
+        <flaw>I'm convinced that no one could ever fool me the way I fool others.</flaw>
+        <flaw>I'm too greedy for my own good. I can't resist taking a risk if there's money involved.</flaw>
+        <flaw>I can't resist swindling people who are more powerful than me.</flaw>
+        <flaw>I hate to admit it and will hate myself for it, but I'll run and presver my own hide if the going gets tough.</flaw>
+    </flaws>
+</background>

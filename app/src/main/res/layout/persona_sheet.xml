@@ -188,6 +188,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:id="@+id/specialty_group"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/specialty_title"
+                android:text="Specialty"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/specialty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="3" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ac_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView

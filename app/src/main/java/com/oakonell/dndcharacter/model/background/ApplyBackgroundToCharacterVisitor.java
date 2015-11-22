@@ -76,6 +76,31 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
 
 
     @Override
+    protected void visitSpecialties(final Element element) {
+        String choiceName = "specialties";
+        traitIndex = 1;
+        String oldChoiceName = currentChoiceName;
+        currentChoiceName = choiceName;
+
+        String specialtyTitle = element.getAttribute("name");
+        charBackground.setSpecialtyTitle(specialtyTitle);
+
+        super.visitSpecialties(element);
+
+        currentChoiceName = oldChoiceName;
+    }
+
+    @Override
+    protected void visitSpecialty(final Element element) {
+        applyTrait(element, new ApplyTrait() {
+            @Override
+            public void applyTrait(String value) {
+                charBackground.setSpecialty(element.getTextContent());
+            }
+        });
+    }
+
+    @Override
     protected void visitTraits(final Element element) {
         String choiceName = "traits";
         Runnable superVisit = new Runnable() {

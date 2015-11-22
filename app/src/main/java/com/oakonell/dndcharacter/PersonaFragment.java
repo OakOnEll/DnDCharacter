@@ -30,6 +30,10 @@ public class PersonaFragment extends AbstractSheetFragment {
     TextView eyes;
     TextView skin;
     TextView hair;
+
+    TextView specialty;
+    TextView specialtyTitle;
+    ViewGroup specialtyGroup;
     EditText traits;
     EditText ideals;
     EditText bonds;
@@ -49,6 +53,10 @@ public class PersonaFragment extends AbstractSheetFragment {
         skin = (TextView) rootView.findViewById(R.id.skin);
         hair = (TextView) rootView.findViewById(R.id.hair);
         languages = (TextView) rootView.findViewById(R.id.languages);
+
+        specialtyGroup = (ViewGroup) rootView.findViewById(R.id.specialty_group);
+        specialtyTitle = (TextView) rootView.findViewById(R.id.specialty_title);
+        specialty = (TextView) rootView.findViewById(R.id.specialty);
 
         traits = (EditText) rootView.findViewById(R.id.personality_traits);
         ideals = (EditText) rootView.findViewById(R.id.ideals);
@@ -107,6 +115,14 @@ public class PersonaFragment extends AbstractSheetFragment {
         super.updateViews(rootView);
         backstory.setText(character.getBackstory());
 
+        final String specialtyString = character.getSpecialty();
+        if (specialtyString != null && specialtyString.trim().length() > 0) {
+            specialtyGroup.setVisibility(View.VISIBLE);
+            specialtyTitle.setText(character.getSpecialtyTitle());
+            specialty.setText(specialtyString);
+        } else {
+            specialtyGroup.setVisibility(View.GONE);
+        }
         nonUserUpdate(traits, character.getPersonalityTrait());
         nonUserUpdate(ideals, character.getIdeals());
         nonUserUpdate(bonds, character.getBonds());

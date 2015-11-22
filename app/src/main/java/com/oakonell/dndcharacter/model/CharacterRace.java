@@ -8,7 +8,7 @@ import org.simpleframework.xml.Element;
 public class CharacterRace extends BaseCharacterComponent {
     @Element(required = false)
     private String subraceName;
-    
+
     @Element(required = false)
     private SavedChoices subRaceChoices;
 
