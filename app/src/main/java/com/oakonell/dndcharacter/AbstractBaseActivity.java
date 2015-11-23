@@ -13,9 +13,10 @@ import android.view.SubMenu;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
-import com.oakonell.dndcharacter.views.background.BackgroundsListActivity;
 import com.oakonell.dndcharacter.model.CharacterRow;
+import com.oakonell.dndcharacter.views.background.BackgroundsListActivity;
 import com.oakonell.dndcharacter.views.classes.ClassesListActivity;
+import com.oakonell.dndcharacter.views.item.ItemsListActivity;
 import com.oakonell.dndcharacter.views.race.RacesListActivity;
 
 import java.util.List;
@@ -122,7 +123,9 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (id == R.id.nav_items) {
-            Toast.makeText(this, "Clicked items ", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, ItemsListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         } else if (id == R.id.nav_feats) {
             Toast.makeText(this, "Clicked feats ", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_share) {

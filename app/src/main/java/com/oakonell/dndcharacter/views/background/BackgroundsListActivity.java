@@ -32,10 +32,10 @@ import com.oakonell.dndcharacter.views.race.EditRaceDialogFragment;
 /**
  * Created by Rob on 11/2/2015.
  */
-public class BackgroundsListActivity extends AbstractComponentListActivity {
+public class BackgroundsListActivity extends AbstractComponentListActivity<Background> {
     @NonNull
     @Override
-    protected Class<? extends Model> getComponentClass() {
+    protected Class<? extends Background> getComponentClass() {
         return Background.class;
     }
 

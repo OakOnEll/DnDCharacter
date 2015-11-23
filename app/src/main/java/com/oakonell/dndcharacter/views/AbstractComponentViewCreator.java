@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -9,9 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.model.SavedChoices;
+import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.views.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 import com.oakonell.dndcharacter.views.md.DropdownOptionMD;
@@ -28,6 +32,7 @@ import java.util.Map;
  * Created by Rob on 11/18/2015.
  */
 public class AbstractComponentViewCreator extends AbstractComponentVisitor {
+    public static final int SPINNER_TEXT_SP = 14;
     private ViewGroup parent;
     private Map<String, ChooseMD> choicesMD = new HashMap<>();
     SavedChoices choices;
@@ -152,7 +157,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         List<Element> childOrElems = XmlUtils.getChildElements(element, "or");
         if (childOrElems.size() == 0) {
             // category, context sensitive choices ?
-            categoryChoices(numChoices);
+            categoryChoices(element, numChoices);
         } else {
             super.visitChoose(element);
         }
@@ -161,57 +166,105 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         parent = oldParent;
     }
 
-    protected void categoryChoices(int numChoices) {
+    protected void categoryChoices(Element element, int numChoices) {
         if (state == VisitState.LANGUAGES) {
+            visitLanguageCategoryChoices(numChoices);
+        } else if (state == VisitState.TOOLS) {
+            visitToolCategoryChoices(element, numChoices);
+        }
+    }
 
-            List<String> selections = choices.getChoicesFor(currentChooseMD.choiceName);
+    private void visitToolCategoryChoices(Element element, int numChoices) {
+        List<String> selections = choices.getChoicesFor(currentChooseMD.choiceName);
+        for (int i = 0; i < numChoices; i++) {
+            // TODO get the list of tools...
+            String category = element.getAttribute("category");
+            //String category = element.getAttribute("category");
+            From nameSelect = new Select()
+                    .from(ItemRow.class).orderBy("name");
+            nameSelect = nameSelect.where("category= ?", category);
+            List<ItemRow> toolRows = nameSelect.execute();
 
-            for (int i = 0; i < numChoices; i++) {
-                // TODO get the list of languages...
-                List<String> languages = new ArrayList<>();
-                languages.add("Common");
-                languages.add("Dwarvish");
-                languages.add("Elvish");
-                languages.add("Giant");
-                languages.add("Gnomish");
-                languages.add("Goblin");
-                languages.add("Halfling");
-                languages.add("Orc");
-
-                languages.add("Abyssal");
-                languages.add("Celestial");
-                languages.add("Draconic");
-                languages.add("Deep speech");
-                languages.add("Infernal");
-                languages.add("Primordial");
-                languages.add("Sylvan");
-                languages.add("Undercommon");
-
-
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(parent.getContext(),
-                        android.R.layout.simple_spinner_item, languages);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                Spinner spinner = new NoDefaultSpinner(parent.getContext());
-                spinner.setPrompt("[Language]");
-                spinner.setLayoutParams(layoutParams);
-                spinner.setAdapter(dataAdapter);
-                spinner.setId(++uiIdCounter);
-
-                DropdownOptionMD optionMD = new DropdownOptionMD(currentChooseMD, spinner.getId());
-                currentChooseMD.options.add(optionMD);
-
-                // display saved selection
-                int selectedIndex = -1;
-                if (selections.size() > i) {
-                    String selected = selections.get(i);
-                    selectedIndex = languages.indexOf(selected);
-                }
-                spinner.setSelection(selectedIndex);
-
-                parent.addView(spinner);
+            List<String> tools = new ArrayList<>();
+            for (ItemRow each : toolRows) {
+                tools.add(each.getName());
             }
+
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(parent.getContext(),
+                    android.R.layout.simple_spinner_item, tools);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            Spinner spinner = new NoDefaultSpinner(parent.getContext());
+            spinner.setPrompt("[" + category + "]");
+            spinner.setLayoutParams(layoutParams);
+            spinner.setAdapter(dataAdapter);
+            spinner.setId(++uiIdCounter);
+            float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (category.length()+2) * SPINNER_TEXT_SP, spinner.getResources().getDisplayMetrics());
+            spinner.setMinimumWidth((int) minWidth);
+
+            DropdownOptionMD optionMD = new DropdownOptionMD(currentChooseMD, spinner.getId());
+            currentChooseMD.options.add(optionMD);
+
+            // display saved selection
+            int selectedIndex = -1;
+            if (selections.size() > i) {
+                String selected = selections.get(i);
+                selectedIndex = tools.indexOf(selected);
+            }
+            spinner.setSelection(selectedIndex);
+
+            parent.addView(spinner);
+        }
+    }
+
+    private void visitLanguageCategoryChoices(int numChoices) {
+        List<String> selections = choices.getChoicesFor(currentChooseMD.choiceName);
+        for (int i = 0; i < numChoices; i++) {
+            // TODO get the list of languages...
+            List<String> languages = new ArrayList<>();
+            languages.add("Common");
+            languages.add("Dwarvish");
+            languages.add("Elvish");
+            languages.add("Giant");
+            languages.add("Gnomish");
+            languages.add("Goblin");
+            languages.add("Halfling");
+            languages.add("Orc");
+
+            languages.add("Abyssal");
+            languages.add("Celestial");
+            languages.add("Draconic");
+            languages.add("Deep speech");
+            languages.add("Infernal");
+            languages.add("Primordial");
+            languages.add("Sylvan");
+            languages.add("Undercommon");
+
+
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(parent.getContext(),
+                    android.R.layout.simple_spinner_item, languages);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            Spinner spinner = new NoDefaultSpinner(parent.getContext());
+            spinner.setPrompt("[Language]");
+            spinner.setLayoutParams(layoutParams);
+            spinner.setAdapter(dataAdapter);
+            spinner.setId(++uiIdCounter);
+
+            DropdownOptionMD optionMD = new DropdownOptionMD(currentChooseMD, spinner.getId());
+            currentChooseMD.options.add(optionMD);
+
+            // display saved selection
+            int selectedIndex = -1;
+            if (selections.size() > i) {
+                String selected = selections.get(i);
+                selectedIndex = languages.indexOf(selected);
+            }
+            spinner.setSelection(selectedIndex);
+
+            parent.addView(spinner);
         }
     }
 

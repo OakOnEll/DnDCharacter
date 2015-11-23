@@ -14,7 +14,7 @@ import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 /**
  * Created by Rob on 11/2/2015.
  */
-public class RacesListActivity extends AbstractComponentListActivity {
+public class RacesListActivity extends AbstractComponentListActivity<Race> {
     private int parentIndex = -1;
 
     protected static class RaceRowViewHolder extends RowViewHolder {
@@ -38,7 +38,6 @@ public class RacesListActivity extends AbstractComponentListActivity {
         super.updateRowView(view, cursor, holder);
 
         if (parentIndex < 0) {
-            String[] columnNames = cursor.getColumnNames();
             parentIndex = cursor.getColumnIndex("parentRace");
         }
         final String parentName = cursor.getString(parentIndex);
@@ -47,7 +46,7 @@ public class RacesListActivity extends AbstractComponentListActivity {
 
     @NonNull
     @Override
-    protected Class<? extends Model> getComponentClass() {
+    protected Class<? extends Race> getComponentClass() {
         return Race.class;
     }
 

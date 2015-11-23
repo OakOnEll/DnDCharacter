@@ -24,12 +24,13 @@ import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
 import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.background.Background;
 
 /**
  * Created by Rob on 11/20/2015.
  */
-public abstract class AbstractComponentListActivity extends AbstractBaseActivity {
+public abstract class AbstractComponentListActivity<M extends AbstractComponentModel> extends AbstractBaseActivity {
     private ListView listView;
     private CursorAdapter adapter;
     private int loaderId;
@@ -94,10 +95,10 @@ public abstract class AbstractComponentListActivity extends AbstractBaseActivity
     }
 
     @NonNull
-    abstract protected Class<? extends Model> getComponentClass();
+    abstract protected Class<? extends M> getComponentClass();
 
 
-    protected abstract Model createNewRecord();
+    protected abstract M createNewRecord();
 
     abstract protected void openRecord(long id);
 

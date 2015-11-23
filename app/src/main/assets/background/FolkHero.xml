@@ -1,0 +1,73 @@
+<background>
+    <name>Folk Hero</name>
+    <skills>
+        <proficiency>Animal Handling</proficiency>
+        <proficiency>Survival</proficiency>
+    </skills>
+    <tools>
+        <choose name="tool" category="artisan tool"/>
+        <proficiency>Vehicle(land)</proficiency>
+    </tools>
+    <equipment>
+        <choose name="tool" category="artisan tool"/>
+        <item>Set of artisan tools</item>
+        <item>shovel</item>
+        <item>iron pot</item>
+        <item>common clothes</item>
+        <item>belt pouch</item>
+        <money>10gp</money>
+    </equipment>
+    <feature>
+        <name>Rustic Hospitality</name>
+        <shortDescription>You can find a place to hide, rest , or recuperate amongst commoners.</shortDescription>
+        <description></description>
+    </feature>
+    <specialties name="Defining Event">
+        <choose name="specialty">
+            <or name="stoodUp"><specialty>I stood up to a tyrant’s agents.</specialty></or>
+            <or name="saved"><specialty>I saved people during a natural disaster.</specialty></or>
+            <or name="stoodAlone"><specialty>I stood alone against a terrible monster.</specialty></or>
+            <or name="robinHood"><specialty>I stole from a corrupt merchant to help the poor.</specialty></or>
+            <or name="rebel"><specialty>I led a militia to fight off an invading army.</specialty></or>
+            <or name="rightToArms"><specialty>I broke into a tyrant’s castle and stole weapons to arm the people.</specialty></or>
+            <or name="plowShareToSword"><specialty>I trained the peasantry to use farm implements as weapons against a tyrant’s soldiers.</specialty></or>
+            <or name="civilDisobediance"><specialty>A lord rescinded an unpopular decree after I led a symbolic act of protest against it.</specialty></or>
+            <or name="blessed"><specialty>A celestial, fey, or similar creature gave me a blessing or revealed my secret origin.</specialty></or>
+            <or name="recruit"><specialty>Recruited into a lord’s army, I rose to leadership and was commended for my heroism.</specialty></or>
+        </choose>
+    </specialties>
+    <personalityTraits>
+        <trait>I judge people by their actions, not their words.</trait>
+        <trait>If someone is in trouble, I’m always ready to lend help</trait>
+        <trait>When I set my mind to something, I follow through no matter what gets in my way.</trait>
+        <trait>I have a strong sense of fair play and always try to find the most equitable solution to arguments.</trait>
+        <trait>I’m confident in my own abilities and do what I can to instill confidence in others.</trait>
+        <trait>Thinking is for other people. I prefer action.</trait>
+        <trait>I misuse long words in an attempt to sound smarter.</trait>
+        <trait>I get bored easily. When am I going to get on with my destiny?</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Respect. People deserve to be treated with dignity and respect. (Good)</ideal>
+        <ideal>Fairness. No one should get preferential treatment before the law, and no one is above the law. (Lawful)</ideal>
+        <ideal>Freedom. Tyrants must not be allowed to oppress the people. (Chaotic)</ideal>
+        <ideal>Might. If I become strong, I can take what I want— what I deserve. (Evil))</ideal>
+        <ideal>Sincerity. There’s no good in pretending to be something I’m not. (Neutral)</ideal>
+        <ideal>Destiny. Nothing and no one can steer me away from my higher calling. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>I have a family, but I have no idea where they are. One day, I hope to see them again.</bond>
+        <bond>I worked the land, I love the land, and I will protect the land</bond>
+        <bond>A proud noble once gave me a horrible beating, and I will take my revenge on any bully I encounter</bond>
+        <bond>My tools are symbols of my past life, and I carry them so that I will never forget my roots</bond>
+        <bond>I protect those who cannot protect themselves.</bond>
+        <bond>I wish my childhood sweetheart had come with me to pursue my destiny.</bond>
+    </bonds>
+    <flaws>
+        <flaw>The tyrant who rules my land will stop at nothing to see me killed.</flaw>
+        <flaw>I’m convinced of the significance of my destiny, and blind to my shortcomings and the risk of failure.</flaw>
+        <flaw>The people who knew me when I was young know my shameful secret, so I can never go home again.</flaw>
+        <flaw>I have a weakness for the vices of the city, especially hard drink.</flaw>
+        <flaw>Secretly, I believe that things would be better if I were a tyrant lording over the land.</flaw>
+        <flaw>I have trouble trusting in my allies.</flaw>
+    </flaws>
+</background>
