@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model;
 
 import com.oakonell.dndcharacter.model.components.Feature;
+import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -38,14 +39,34 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
     @Override
     protected void visitProficiency(Element element) {
+        String skillName = element.getTextContent();
+        String category = element.getAttribute("category");
         if (state == AbstractComponentVisitor.VisitState.SKILLS) {
             // TODO how to endode expert, or half prof- via attribute?
-            String skillName = element.getTextContent();
             skillName = skillName.replaceAll(" ", "_");
             skillName = skillName.toUpperCase();
             SkillType type = SkillType.valueOf(SkillType.class, skillName);
             // TODO handle error
             component.addSkill(type, Proficient.PROFICIENT);
+        } else if (state == VisitState.TOOLS || state == VisitState.ARMOR || state == VisitState.WEAPONS) {
+            ProficiencyType type;
+            if (state == VisitState.TOOLS) {
+                type = ProficiencyType.TOOL;
+            } else if (state == VisitState.ARMOR) {
+                type = ProficiencyType.ARMOR;
+            } else if (state == VisitState.WEAPONS) {
+                type = ProficiencyType.WEAPON;
+            } else {
+                throw new RuntimeException("Unexpected state " + state);
+            }
+
+            // TODO how to endode expert, or half prof- via attribute?
+            // TODO handle error
+            if (category != null && category.trim().length() > 0) {
+                component.addToolCategoryProficiency(type, category, Proficient.PROFICIENT);
+            } else {
+                component.addToolProficiency(type, skillName, Proficient.PROFICIENT);
+            }
         }
         super.visitProficiency(element);
     }
@@ -95,6 +116,15 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             switch (state) {
                 case LANGUAGES:
                     component.getLanguages().add(selection);
+                    break;
+                case TOOLS:
+                    component.addToolProficiency(ProficiencyType.TOOL, selection, Proficient.PROFICIENT);
+                    break;
+                case ARMOR:
+                    component.addToolProficiency(ProficiencyType.ARMOR, selection, Proficient.PROFICIENT);
+                    break;
+                case WEAPONS:
+                    component.addToolCategoryProficiency(ProficiencyType.WEAPON, selection, Proficient.PROFICIENT);
                     break;
             }
         }

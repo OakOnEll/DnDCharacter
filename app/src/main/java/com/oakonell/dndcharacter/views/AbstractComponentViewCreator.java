@@ -100,6 +100,21 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     }
 
     @Override
+    protected void visitArmor(Element element) {
+        ViewGroup oldParent = parent;
+        createGroup("Armor proficiencies");
+        super.visitArmor(element);
+        parent = oldParent;
+    }
+    @Override
+    protected void visitWeapons(Element element) {
+        ViewGroup oldParent = parent;
+        createGroup("Weapons proficiencies");
+        super.visitWeapons(element);
+        parent = oldParent;
+    }
+
+    @Override
     protected void visitEquipment(Element element) {
         ViewGroup oldParent = parent;
         createGroup("Equipment");
@@ -108,6 +123,18 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         parent = oldParent;
     }
 
+    @Override
+    protected void visitProficiency(Element element) {
+        String category = element.getAttribute("category");
+        if (category!=null && category.trim().length()>0) {
+            TextView text = new TextView(parent.getContext());
+            parent.addView(text);
+            text.setText(" *  [" + category + "]");
+
+        } else {
+            super.visitProficiency(element);
+        }
+    }
 
     @Override
     protected void visitStat(Element element) {

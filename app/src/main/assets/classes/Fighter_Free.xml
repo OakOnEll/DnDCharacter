@@ -2,14 +2,14 @@
     <name>Fighter(free)</name>
     <hitDice>1d10</hitDice>
     <armor>
-        <proficency category="heavy armor"></proficency>
-        <proficency category="light armor"></proficency>
-        <proficency category="medium armor"></proficency>
-        <proficency>shield</proficency>
+        <proficiency category="heavy armor"></proficiency>
+        <proficiency category="light armor"></proficiency>
+        <proficiency category="medium armor"></proficiency>
+        <proficiency>shield</proficiency>
     </armor>
     <weapons>
-        <proficency category="simple weapons"></proficency>
-        <proficency category="martial weapons"></proficency>
+        <proficiency category="simple weapons"></proficiency>
+        <proficiency category="martial weapons"></proficiency>
     </weapons>
     <savingThrows>
         <savingThrow>Strength</savingThrow>

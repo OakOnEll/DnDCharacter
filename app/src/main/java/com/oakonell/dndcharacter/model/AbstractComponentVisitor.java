@@ -19,6 +19,10 @@ public class AbstractComponentVisitor {
             visitSkills(element);
         } else if (name.equals("tools")) {
             visitTools(element);
+        } else if (name.equals("armor")) {
+            visitArmor(element);
+        } else if (name.equals("weapons")) {
+            visitWeapons(element);
         } else if (name.equals("tool")) {
             visitTool(element);
         } else if (name.equals("equipment")) {
@@ -105,9 +109,25 @@ public class AbstractComponentVisitor {
         state = oldState;
     }
 
+
+    protected void visitArmor(Element element) {
+        VisitState oldState = state;
+        state = VisitState.ARMOR;
+        visitGroup(element);
+        state = oldState;
+    }
+
+    protected void visitWeapons(Element element) {
+        VisitState oldState = state;
+        state = VisitState.WEAPONS;
+        visitGroup(element);
+        state = oldState;
+    }
+
     protected void visitItem(Element element) {
         visitSimpleItem(element);
     }
+
 
     protected void visitOr(Element element) {
         visitChildren(element);
@@ -158,6 +178,6 @@ public class AbstractComponentVisitor {
     }
 
     public enum VisitState {
-        SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, SPECIALTIES
+        SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, WEAPONS, ARMOR, SPECIALTIES
     }
 }

@@ -1,8 +1,11 @@
 package com.oakonell.dndcharacter.model;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.components.Feature;
+import com.oakonell.dndcharacter.model.components.Proficiency;
+import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
 import org.simpleframework.xml.Element;
@@ -260,8 +263,42 @@ public class Character {
     public String getSpecialtyTitle() {
         return background.getSpecialtyTitle();
     }
+
     public String getSpecialty() {
         return background.getSpecialty();
+    }
+
+    public String getArmorProficiencyString() {
+        final ProficiencyType type = ProficiencyType.ARMOR;
+        return getToolProficiencyString(type);
+    }
+
+    @NonNull
+    private String getToolProficiencyString(ProficiencyType type) {
+        StringBuilder builder = new StringBuilder();
+        List<ToolProficiencyAndReason> list = deriveToolProficienciesReasons(type);
+        String comma = "";
+        for (ToolProficiencyAndReason each : list) {
+            Proficiency proficiency = each.proficient;
+            builder.append(comma);
+            if (proficiency.getCategory() != null) {
+                builder.append("(" + proficiency.getCategory() + ")");
+            } else {
+                builder.append(proficiency.getName());
+            }
+            comma = ", ";
+        }
+        return builder.toString();
+    }
+
+    public String getWeaponsProficiencyString() {
+        final ProficiencyType type = ProficiencyType.WEAPON;
+        return getToolProficiencyString(type);
+    }
+
+    public String getToolsProficiencyString() {
+        final ProficiencyType type = ProficiencyType.TOOL;
+        return getToolProficiencyString(type);
     }
 
 
@@ -731,5 +768,58 @@ public class Character {
 
     public void setTraitSavedChoiceToCustom(String trait) {
         background.setTraitSavedChoiceToCustom(trait);
+    }
+
+
+    public static class ToolProficiencyAndReason {
+        Proficiency proficient;
+        String reason;
+
+        @Override
+        public String toString() {
+            return proficient + " (" + reason + ")";
+        }
+
+    }
+
+
+    public List<ToolProficiencyAndReason> deriveToolProficienciesReasons(ProficiencyType type) {
+        List<ToolProficiencyAndReason> result = new ArrayList<>();
+        // look to background
+        if (background != null) {
+            List<Proficiency> profs = background.getToolProficiencies(type);
+            for (Proficiency each : profs) {
+                ToolProficiencyAndReason newRow = new ToolProficiencyAndReason();
+                newRow.proficient = each;
+                newRow.reason = background.getName();
+                result.add(newRow);
+            }
+        }
+        // look to race
+        if (race != null) {
+            List<Proficiency> profs = race.getToolProficiencies(type);
+            for (Proficiency each : profs) {
+                ToolProficiencyAndReason newRow = new ToolProficiencyAndReason();
+                newRow.proficient = each;
+                newRow.reason = race.getName();
+                result.add(newRow);
+            }
+        }
+        // look to classes
+        if (classes != null) {
+            for (CharacterClass each : classes) {
+                List<Proficiency> profs = each.getToolProficiencies(type);
+                for (Proficiency eachProf : profs) {
+                    ToolProficiencyAndReason newRow = new ToolProficiencyAndReason();
+                    newRow.proficient = eachProf;
+                    newRow.reason = each.getName();
+                    result.add(newRow);
+                }
+            }
+        }
+        // go through equipment
+        // go through effects..
+
+        return result;
     }
 }

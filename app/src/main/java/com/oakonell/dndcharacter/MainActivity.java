@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,6 +57,7 @@ public class MainActivity extends AbstractBaseActivity {
     private FeaturesFragment featuresFragment;
     private NotesFragment notesFragment;
     private PersonaFragment personaFragment;
+    private EquipmentFragment equipmentFragment;
     private final String MyPREFERENCES = "prefs";
 
 
@@ -145,6 +147,7 @@ public class MainActivity extends AbstractBaseActivity {
         if (featuresFragment != null) featuresFragment.updateViews();
         if (notesFragment != null) notesFragment.updateViews();
         if (personaFragment != null) personaFragment.updateViews();
+        if (equipmentFragment != null) equipmentFragment.updateViews();
     }
 
 
@@ -170,7 +173,11 @@ public class MainActivity extends AbstractBaseActivity {
                 featuresFragment.setCharacter(character);
                 return featuresFragment;
             }
-
+            if (position == 2) {
+                equipmentFragment = new EquipmentFragment();
+                equipmentFragment.setCharacter(character);
+                return equipmentFragment;
+            }
             if (position == 4) {
                 personaFragment = new PersonaFragment();
                 personaFragment.setCharacter(character);
@@ -329,6 +336,8 @@ public class MainActivity extends AbstractBaseActivity {
                     character = serializer.read(Character.class, input);
                     input.close();
                 } catch (Exception e) {
+                    Toast.makeText(this, "Error loading a Character, making a new one for now: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e(MainActivity.class.getName(), "Error loading character", e);
                     character = new Character(true);
                     //throw new RuntimeException("Error loading xml", e);
                 }
