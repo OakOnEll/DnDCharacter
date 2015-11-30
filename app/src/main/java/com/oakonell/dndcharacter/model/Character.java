@@ -203,17 +203,53 @@ public class Character {
         return builder.toString();
     }
 
+
+    public static class LanguageAndReason {
+        String language;
+        String reason;
+
+        @Override
+        public String toString() {
+            return language + " (" + reason + ")";
+        }
+
+    }
+
+
     public List<String> getLanguages() {
-        List<String> languages = new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        for (LanguageAndReason each : deriveLanguages()) {
+            result.add(each.language);
+        }
+        return result;
+    }
+
+    public List<LanguageAndReason> deriveLanguages() {
+        List<LanguageAndReason> languages = new ArrayList<>();
         if (background != null) {
-            languages.addAll(background.getLanguages());
+            for (String each : background.getLanguages()) {
+                LanguageAndReason row = new LanguageAndReason();
+                row.language = each;
+                row.reason = background.getName();
+                languages.add(row);
+            }
         }
         if (race != null) {
-            languages.addAll(race.getLanguages());
+            for (String each : race.getLanguages()) {
+                LanguageAndReason row = new LanguageAndReason();
+                row.language = each;
+                row.reason = race.getName();
+                languages.add(row);
+            }
         }
         if (classes != null) {
-            for (CharacterClass each : classes) {
-                languages.addAll(each.getLanguages());
+            for (CharacterClass eachClass : classes) {
+                for (String each : eachClass.getLanguages()) {
+                    LanguageAndReason row = new LanguageAndReason();
+                    row.language = each;
+                    row.reason = eachClass.getName();
+                    languages.add(row);
+                }
             }
         }
         return languages;

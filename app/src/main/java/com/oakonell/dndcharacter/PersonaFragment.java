@@ -40,6 +40,7 @@ public class PersonaFragment extends AbstractSheetFragment {
     EditText flaws;
     EditText backstory;
     TextView languages;
+    ViewGroup languageGroup;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class PersonaFragment extends AbstractSheetFragment {
         skin = (TextView) rootView.findViewById(R.id.skin);
         hair = (TextView) rootView.findViewById(R.id.hair);
         languages = (TextView) rootView.findViewById(R.id.languages);
+        languageGroup = (ViewGroup) rootView.findViewById(R.id.language_group);
 
         specialtyGroup = (ViewGroup) rootView.findViewById(R.id.specialty_group);
         specialtyTitle = (TextView) rootView.findViewById(R.id.specialty_title);
@@ -129,6 +131,14 @@ public class PersonaFragment extends AbstractSheetFragment {
         nonUserUpdate(flaws, character.getFlaws());
 
         languages.setText(character.getLanguagesString());
+
+        languageGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LanguagesDialogFragment fragment = LanguagesDialogFragment.create((MainActivity) getActivity());
+                fragment.show(getFragmentManager(), "language_dialog");
+            }
+        });
     }
 
     private void nonUserUpdate(EditText editText, String value) {
