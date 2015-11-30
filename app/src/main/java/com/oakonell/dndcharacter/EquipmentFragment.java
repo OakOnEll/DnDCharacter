@@ -24,6 +24,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
     TextView armor_proficiency;
     TextView weapon_proficiency;
     TextView tools_proficiency;
+    private ViewGroup armor_group;
+    private ViewGroup weapon_group;
+    private ViewGroup tools_group;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,6 +37,11 @@ public class EquipmentFragment extends AbstractSheetFragment {
         armor_proficiency = (TextView) rootView.findViewById(R.id.armor_proficiency);
         weapon_proficiency = (TextView) rootView.findViewById(R.id.weapon_proficiency);
         tools_proficiency = (TextView) rootView.findViewById(R.id.tool_proficiency);
+
+        armor_group = (ViewGroup) rootView.findViewById(R.id.armor_group);
+        weapon_group = (ViewGroup) rootView.findViewById(R.id.weapon_group);
+        tools_group = (ViewGroup) rootView.findViewById(R.id.tools_group);
+
 
         updateViews(rootView);
 
@@ -49,10 +57,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
         weapon_proficiency.setText(character.getWeaponsProficiencyString());
         tools_proficiency.setText(character.getToolsProficiencyString());
 
-
-        ViewGroup armor_group = (ViewGroup) rootView.findViewById(R.id.armor_group);
-        ViewGroup weapon_group = (ViewGroup) rootView.findViewById(R.id.weapon_group);
-        ViewGroup tools_group = (ViewGroup) rootView.findViewById(R.id.tools_group);
 
         armor_group.setOnClickListener(new View.OnClickListener() {
             @Override
