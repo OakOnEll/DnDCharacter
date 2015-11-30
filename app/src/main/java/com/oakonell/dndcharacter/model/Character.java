@@ -777,7 +777,10 @@ public class Character {
 
         @Override
         public String toString() {
-            return proficient + " (" + reason + ")";
+            if (proficient.getCategory() != null) {
+                return "[" + proficient.getCategory() + "] (" + reason + ")";
+            }
+            return proficient.getName() + " (" + reason + ")";
         }
 
     }

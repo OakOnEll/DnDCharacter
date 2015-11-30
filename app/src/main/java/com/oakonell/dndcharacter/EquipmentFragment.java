@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 
 import org.simpleframework.xml.Serializer;
@@ -47,6 +48,35 @@ public class EquipmentFragment extends AbstractSheetFragment {
         armor_proficiency.setText(character.getArmorProficiencyString());
         weapon_proficiency.setText(character.getWeaponsProficiencyString());
         tools_proficiency.setText(character.getToolsProficiencyString());
+
+
+        ViewGroup armor_group = (ViewGroup) rootView.findViewById(R.id.armor_group);
+        ViewGroup weapon_group = (ViewGroup) rootView.findViewById(R.id.weapon_group);
+        ViewGroup tools_group = (ViewGroup) rootView.findViewById(R.id.tools_group);
+
+        armor_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToolProficiencyDialogFragment dialog = ToolProficiencyDialogFragment.create((MainActivity) getActivity(), ProficiencyType.ARMOR);
+                dialog.show(getFragmentManager(), "tool_frag");
+            }
+        });
+        weapon_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToolProficiencyDialogFragment dialog = ToolProficiencyDialogFragment.create((MainActivity) getActivity(), ProficiencyType.WEAPON);
+                dialog.show(getFragmentManager(), "tool_frag");
+            }
+        });
+        tools_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToolProficiencyDialogFragment dialog = ToolProficiencyDialogFragment.create((MainActivity) getActivity(), ProficiencyType.TOOL);
+                dialog.show(getFragmentManager(), "tool_frag");
+            }
+        });
+
+
     }
 
 
