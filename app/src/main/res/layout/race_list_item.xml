@@ -36,6 +36,7 @@
 
     <ImageView
         android:id="@+id/action_delete"
+        android:background="@drawable/simple_block_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"

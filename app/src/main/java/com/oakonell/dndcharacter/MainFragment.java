@@ -52,17 +52,18 @@ public class MainFragment extends AbstractSheetFragment {
         speed = (TextView) rootView.findViewById(R.id.speed);
         ac = (TextView) rootView.findViewById(R.id.ac);
         initiative = (TextView) rootView.findViewById(R.id.initiative);
-        rootView.findViewById(R.id.hp_block).setOnClickListener(new View.OnClickListener() {
+        final View.OnClickListener onClickHp = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = MainFragment.this.getChildFragmentManager();
                 HitPointDiaogFragment hpFragment = new HitPointDiaogFragment();
                 hpFragment.setCharacter(character);
                 hpFragment.setFragment(MainFragment.this);
-                hpFragment.show(fm, "fragment_edit_name");
+                hpFragment.show(fm, "fragment_hp");
             }
-        });
-
+        };
+        rootView.findViewById(R.id.hp_layout).setOnClickListener(onClickHp);
+        rootView.findViewById(R.id.temp_hp_layout).setOnClickListener(onClickHp);
 
         statViewsByType.put(StatType.STRENGTH, (StatBlockView) rootView.findViewById(R.id.strength_stat));
         statViewsByType.put(StatType.DEXTERITY, (StatBlockView) rootView.findViewById(R.id.dexterity_stat));

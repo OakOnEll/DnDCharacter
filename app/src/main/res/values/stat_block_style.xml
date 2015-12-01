@@ -2,7 +2,7 @@
 <resources>
 
     <style name="stat_block">
-        <item name="android:background">@drawable/stat_block</item>
+        <item name="android:background">@drawable/stat_block_selector</item>
         <item name="android:layout_margin">5dp</item>
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingLeft">5dp</item>

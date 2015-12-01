@@ -14,6 +14,7 @@
             android:id="@+id/character_name_read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/simple_block_selector"
             android:text="Feng"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -47,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:background="@drawable/simple_block_selector"
             android:text="Half-Orc"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -61,6 +63,7 @@
             android:id="@+id/background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/simple_block_selector"
             android:text="Urchin"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -69,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:background="@drawable/simple_block_selector"
             android:text="Sorcerer 1"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
