@@ -20,13 +20,12 @@ import java.util.List;
 /**
  * Created by Rob on 11/7/2015.
  */
-public class SaveThrowBlockDialogFragment extends DialogFragment {
-    MainFragment mainFragment;
+public class SaveThrowBlockDialogFragment extends RollableDialogFragment {
     private StatBlock statBlock;
 
-    public static SaveThrowBlockDialogFragment create(MainFragment mainFragment, StatBlock block) {
+    public static SaveThrowBlockDialogFragment create(MainActivity activity, StatBlock block) {
         SaveThrowBlockDialogFragment frag = new SaveThrowBlockDialogFragment();
-        frag.setMainFragment(mainFragment);
+        frag.setMainActivity(activity);
         frag.setStatBlock(block);
         return frag;
     }
@@ -35,15 +34,12 @@ public class SaveThrowBlockDialogFragment extends DialogFragment {
         this.statBlock = statBlock;
     }
 
-    private void setMainFragment(MainFragment mainFragment) {
-        this.mainFragment = mainFragment;
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.save_throw_dialog, container);
+        superCreateView(view);
+        setModifier(statBlock.getSaveModifier());
 
         TextView statLabel = (TextView) view.findViewById(R.id.stat_label);
         TextView statModLabel = (TextView) view.findViewById(R.id.stat_mod_lbl);
@@ -52,7 +48,6 @@ public class SaveThrowBlockDialogFragment extends DialogFragment {
         View proficiencyLayout = view.findViewById(R.id.proficiency_layout);
 
 
-        Button done = (Button) view.findViewById(R.id.done);
         TextView total = (TextView) view.findViewById(R.id.modifier);
         ListView listView = (ListView) view.findViewById(R.id.list);
 
@@ -74,12 +69,6 @@ public class SaveThrowBlockDialogFragment extends DialogFragment {
         ListAdapter adapter = new ArrayAdapter<Character.ProficientAndReason>(getActivity(), android.R.layout.simple_list_item_1, proficiencies);
         listView.setAdapter(adapter);
 
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
 
         return view;
     }

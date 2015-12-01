@@ -63,6 +63,8 @@
                 android:id="@+id/modifier" />
         </LinearLayout>
 
+        <include layout="@layout/skill_roll_layout" />
+
         <Button
             android:id="@+id/done"
             android:layout_width="wrap_content"

@@ -20,13 +20,12 @@ import java.util.List;
 /**
  * Created by Rob on 11/7/2015.
  */
-public class SkillBlockDialogFragment extends DialogFragment {
-    MainFragment mainFragment;
+public class SkillBlockDialogFragment extends RollableDialogFragment {
     private SkillBlock skillBlock;
 
-    public static SkillBlockDialogFragment create(MainFragment mainFragment, SkillBlock block) {
+    public static SkillBlockDialogFragment create(MainActivity activity, SkillBlock block) {
         SkillBlockDialogFragment frag = new SkillBlockDialogFragment();
-        frag.setMainFragment(mainFragment);
+        frag.setMainActivity(activity);
         frag.setSkillBlock(block);
         return frag;
     }
@@ -35,15 +34,12 @@ public class SkillBlockDialogFragment extends DialogFragment {
         this.skillBlock = skillBlock;
     }
 
-    private void setMainFragment(MainFragment mainFragment) {
-        this.mainFragment = mainFragment;
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.skill_dialog, container);
+        superCreateView(view);
+        setModifier(skillBlock.getBonus());
 
         TextView statLabel = (TextView) view.findViewById(R.id.stat_label);
         TextView skillLabel = (TextView) view.findViewById(R.id.skill_label);
@@ -53,7 +49,6 @@ public class SkillBlockDialogFragment extends DialogFragment {
         View proficiencyLayout = view.findViewById(R.id.proficiency_layout);
 
 
-        Button done = (Button) view.findViewById(R.id.done);
         TextView total = (TextView) view.findViewById(R.id.total);
         ListView listView = (ListView) view.findViewById(R.id.list);
 
@@ -75,13 +70,6 @@ public class SkillBlockDialogFragment extends DialogFragment {
 
         ListAdapter adapter = new ArrayAdapter<Character.ProficientAndReason>(getActivity(), android.R.layout.simple_list_item_1, proficiencies);
         listView.setAdapter(adapter);
-
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
 
         return view;
     }

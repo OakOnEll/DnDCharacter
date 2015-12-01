@@ -17,13 +17,12 @@ import com.oakonell.dndcharacter.model.Character;
 /**
  * Created by Rob on 11/7/2015.
  */
-public class StatBlockDialogFragment extends DialogFragment {
-    MainFragment mainFragment;
+public class StatBlockDialogFragment extends RollableDialogFragment {
     private StatBlock statBlock;
 
-    public static StatBlockDialogFragment create(MainFragment mainFragment, StatBlock block) {
+    public static StatBlockDialogFragment create(MainActivity activity, StatBlock block) {
         StatBlockDialogFragment frag = new StatBlockDialogFragment();
-        frag.setMainFragment(mainFragment);
+        frag.setMainActivity(activity);
         frag.setStatBlock(block);
         return frag;
     }
@@ -32,20 +31,16 @@ public class StatBlockDialogFragment extends DialogFragment {
         this.statBlock = statBlock;
     }
 
-    private void setMainFragment(MainFragment mainFragment) {
-        this.mainFragment = mainFragment;
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.stat_dialog, container);
+        superCreateView(view);
+        setModifier(statBlock.getModifier());
 
         TextView statLabel = (TextView) view.findViewById(R.id.stat_label);
         statLabel.setText(statBlock.getType().toString());
 
-        Button done = (Button) view.findViewById(R.id.done);
         TextView total = (TextView) view.findViewById(R.id.total);
         TextView modifier = (TextView) view.findViewById(R.id.modifier);
         ListView listView = (ListView) view.findViewById(R.id.list);
@@ -56,14 +51,8 @@ public class StatBlockDialogFragment extends DialogFragment {
         ListAdapter adapter = new ArrayAdapter<Character.ModifierAndReason>(getActivity(), android.R.layout.simple_list_item_1, statBlock.getModifiers());
         listView.setAdapter(adapter);
 
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
         return view;
     }
+
 
 }
