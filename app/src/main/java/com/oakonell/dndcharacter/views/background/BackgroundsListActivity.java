@@ -56,4 +56,9 @@ public class BackgroundsListActivity extends AbstractComponentListActivity<Backg
     protected String getRecordTypeName() {
         return "Background";
     }
+
+    @Override
+    protected String getSubtitle() {
+        return "Backgrounds";
+    }
 }

@@ -12,6 +12,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,9 @@ public class CharactersListActivity extends AbstractBaseActivity {
                 createCharacter(view);
             }
         });
+
+
+        getSupportActionBar().setSubtitle("Characters");
 
 
         listView = (ListView) findViewById(R.id.listView);

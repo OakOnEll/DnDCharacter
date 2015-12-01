@@ -50,6 +50,8 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
             }
         });
 
+        getSupportActionBar().setSubtitle(getSubtitle());
+
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -82,6 +84,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
 
     }
 
+
     private void createNewRecord(View view) {
         Model race = createNewRecord();
         long id = race.save();
@@ -103,6 +106,8 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     abstract protected void openRecord(long id);
 
     abstract protected String getRecordTypeName();
+
+    protected abstract String getSubtitle();
 
     @Override
     protected void onResume() {

@@ -37,6 +37,11 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         return "Item";
     }
 
+    @Override
+    protected String getSubtitle() {
+        return "Items";
+    }
+
 
     private int categoryIndex = -1;
 

@@ -36,4 +36,9 @@ public class ClassesListActivity extends AbstractComponentListActivity {
     protected String getRecordTypeName() {
         return "Class";
     }
+
+    @Override
+    protected String getSubtitle() {
+        return "Classes";
+    }
 }
