@@ -60,6 +60,20 @@ public class Character {
     @Element(required = false)
     private String backstory;
 
+    @ElementList(required = false)
+    private List<CharacterItem> items = new ArrayList<CharacterItem>();
+
+    // Money
+    @Element(required = false)
+    private int gold;
+    @Element(required = false)
+    private int copper;
+    @Element(required = false)
+    private int silver;
+    @Element(required = false)
+    private int electrum;
+    @Element(required = false)
+    private int platinum;
 
     public Character(boolean defaults) {
         name = "Feng";
@@ -201,6 +215,46 @@ public class Character {
             }
         }
         return builder.toString();
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public int getCopper() {
+        return copper;
+    }
+
+    public void setCopper(int copper) {
+        this.copper = copper;
+    }
+
+    public int getSilver() {
+        return silver;
+    }
+
+    public void setSilver(int silver) {
+        this.silver = silver;
+    }
+
+    public int getElectrum() {
+        return electrum;
+    }
+
+    public void setElectrum(int electrum) {
+        this.electrum = electrum;
+    }
+
+    public int getPlatinum() {
+        return platinum;
+    }
+
+    public void setPlatinum(int platinum) {
+        this.platinum = platinum;
     }
 
 
@@ -860,5 +914,14 @@ public class Character {
         // go through effects..
 
         return result;
+    }
+
+
+    public void addItem(CharacterItem item) {
+        items.add(item);
+    }
+
+    public List<CharacterItem> getItems() {
+        return items;
     }
 }

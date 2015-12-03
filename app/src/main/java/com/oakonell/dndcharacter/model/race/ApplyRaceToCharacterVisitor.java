@@ -30,7 +30,7 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
         // apply common changes
         Element element = XmlUtils.getDocument(race.getXml()).getDocumentElement();
         charRace.setName(XmlUtils.getElementText(element, "name"));
-        ApplyChangesToGenericComponent.applyToCharacter(element, savedChoices, charRace);
+        ApplyChangesToGenericComponent.applyToCharacter(element, savedChoices, charRace, character);
 
         ApplyRaceToCharacterVisitor newMe = new ApplyRaceToCharacterVisitor(savedChoices, customChoices, charRace);
         newMe.visit(element);
@@ -39,7 +39,7 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
         if (subrace != null) {
             Element subraceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
             charRace.setSubraceName(XmlUtils.getElementText(subraceElement, "name"));
-            ApplyChangesToGenericComponent.applyToCharacter(subraceElement, subraceSavedChoices, charRace);
+            ApplyChangesToGenericComponent.applyToCharacter(subraceElement, subraceSavedChoices, charRace,character);
             charRace.setSubRaceChoices(subraceSavedChoices);
             newMe.visit(subraceElement);
         }

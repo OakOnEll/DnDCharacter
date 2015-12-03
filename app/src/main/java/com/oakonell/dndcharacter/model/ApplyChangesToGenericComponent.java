@@ -6,6 +6,7 @@ import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -14,16 +15,27 @@ import java.util.List;
 public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> extends AbstractComponentVisitor {
     private final C component;
     private final SavedChoices savedChoices;
+    private final Character character;
     String currentChoiceName;
 
-    public static <C extends BaseCharacterComponent> void applyToCharacter(Element element, SavedChoices savedChoices, C component) {
-        ApplyChangesToGenericComponent<C> newMe = new ApplyChangesToGenericComponent<>(savedChoices, component);
+    public static <C extends BaseCharacterComponent> void applyToCharacter(Element element, SavedChoices savedChoices, C component, Character character) {
+        // first clear any equipment from this type previous value
+        ComponentType componentType = component.getType();
+        for (Iterator<CharacterItem> iterator = character.getItems().iterator(); iterator.hasNext(); ) {
+            CharacterItem item = iterator.next();
+            if (item.getSource() == componentType) {
+                iterator.remove();
+            }
+        }
+
+        ApplyChangesToGenericComponent<C> newMe = new ApplyChangesToGenericComponent<>(savedChoices, component, character);
         newMe.visitChildren(element);
     }
 
-    public ApplyChangesToGenericComponent(SavedChoices savedChoices, C component) {
+    public ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, Character character) {
         this.component = component;
         this.savedChoices = savedChoices;
+        this.character = character;
     }
 
 
@@ -108,6 +120,16 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
 
         currentChoiceName = oldChoiceName;
+    }
+
+    @Override
+    protected void visitItem(Element element) {
+        CharacterItem item = new CharacterItem();
+        final String itemName = element.getTextContent();
+        item.setName(itemName);
+        item.setSource(component.getType());
+        // TODO look up in items table for more information
+        character.addItem(item);
     }
 
     private void categoryChoices() {
