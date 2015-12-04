@@ -1,8 +1,9 @@
 package com.oakonell.dndcharacter.views;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
@@ -10,31 +11,44 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.ResourceCursorAdapter;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.background.Background;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Rob on 11/20/2015.
  */
 public abstract class AbstractComponentListActivity<M extends AbstractComponentModel> extends AbstractBaseActivity {
-    private ListView listView;
-    private CursorAdapter adapter;
+    private RecyclerView listView;
+    private ComponentListAdapter adapter;
     private int loaderId;
-
+    private Map<Long, Long> recordsBeingDeleted = new HashMap<Long, Long>();
+    private static final int UNDO_DELAY = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +67,19 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         getSupportActionBar().setSubtitle(getSubtitle());
 
 
-        listView = (ListView) findViewById(R.id.listView);
+        listView = (RecyclerView) findViewById(R.id.listView);
 
-        adapter = new ComponentListAdapter(this, getListItemResource(), null);
+        listView.setHasFixedSize(true);
+        listView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new ComponentListAdapter(this, getListItemResource());
         listView.setAdapter(adapter);
+
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(listView);
+
 
         getSupportLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override
@@ -72,15 +95,16 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
             @Override
             public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
                 Toast.makeText(AbstractComponentListActivity.this, "Load finished- cursor " + (cursor == null ? "is null!" : cursor.getCount()), Toast.LENGTH_SHORT).show();
-                ((ResourceCursorAdapter) adapter).swapCursor(cursor);
+                ((ComponentListAdapter) adapter).swapCursor(cursor);
             }
 
             @Override
             public void onLoaderReset(Loader<Cursor> arg0) {
                 Toast.makeText(AbstractComponentListActivity.this, "Loader rest ", Toast.LENGTH_SHORT).show();
-                ((ResourceCursorAdapter) adapter).swapCursor(null);
+                ((ComponentListAdapter) adapter).swapCursor(null);
             }
         });
+
 
     }
 
@@ -88,7 +112,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     private void createNewRecord(View view) {
         Model race = createNewRecord();
         long id = race.save();
-        adapter.notifyDataSetInvalidated();
+        adapter.notifyDataSetChanged();
 
         openRecord(id);
     }
@@ -118,105 +142,195 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     }
 
 
-    public static class RowViewHolder {
-        TextView name;
-        TextView description;
-        ImageView deleteButton;
+    public static class BindableRecyclerViewHolder extends RecyclerView.ViewHolder {
+
+        public BindableRecyclerViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, ComponentListAdapter adapter, IndexesByName indexesByName) {
+
+        }
     }
 
-    int nameIndex = -1;
-    int idIndex = -1;
+    public static class DeleteRowViewHolder extends BindableRecyclerViewHolder {
+        TextView name;
+        Button undo;
 
-    static class ComponentListAdapter extends ResourceCursorAdapter {
+        public DeleteRowViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.name);
+            name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            undo = (Button) itemView.findViewById(R.id.undo);
+        }
+
+        @Override
+        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, final ComponentListAdapter adapter, IndexesByName indexesByName) {
+            super.bindTo(cursor, context, adapter, indexesByName);
+            final String nameString = cursor.getString(indexesByName.getIndex(cursor, "name"));
+            final long id = cursor.getInt(indexesByName.getIndex(cursor, BaseColumns._ID));
+
+            name.setText(nameString);
+            undo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.recordsBeingDeleted.remove(id);
+                    adapter.notifyItemChanged(getAdapterPosition());
+                }
+            });
+
+        }
+    }
+
+    public static class RowViewHolder extends BindableRecyclerViewHolder {
+        TextView name;
+        TextView description;
+
+        public RowViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.name);
+        }
+
+        @Override
+        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, ComponentListAdapter adapter, IndexesByName indexesByName) {
+            super.bindTo(cursor, context, adapter, indexesByName);
+
+            final long id = cursor.getInt(indexesByName.getIndex(cursor, BaseColumns._ID));
+            final String nameString = cursor.getString(indexesByName.getIndex(cursor, "name"));
+            final int position = cursor.getPosition();
+            name.setText(nameString);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.openRecord(id);
+                }
+            });
+        }
+    }
+
+    public static class IndexesByName {
+        private Map<String, Integer> cursorIndexesByName = new HashMap<>();
+
+        public int getIndex(Cursor cursor, String name) {
+            Integer result = cursorIndexesByName.get(name);
+            if (result != null) return result;
+            result = cursor.getColumnIndex(name);
+            cursorIndexesByName.put(name, result);
+            return result;
+        }
+    }
+
+    public static class ComponentListAdapter extends RecyclerView.Adapter<BindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
         private final AbstractComponentListActivity context;
+        private final int layout;
+        Cursor cursor;
+        IndexesByName indexesByName = new IndexesByName();
 
-        public ComponentListAdapter(AbstractComponentListActivity context, int layout, Cursor c, boolean autoRequery) {
-            super(context, layout, c, autoRequery);
+        public ComponentListAdapter(AbstractComponentListActivity context, int layout) {
             this.context = context;
+            this.layout = layout;
         }
 
-        public ComponentListAdapter(AbstractComponentListActivity context, int layout, Cursor c, int flags) {
-            super(context, layout, c, flags);
-            this.context = context;
-        }
-
-        public ComponentListAdapter(AbstractComponentListActivity context, int layout, Cursor c) {
-            super(context, layout, c);
-            this.context = context;
-        }
-
-        @Override
         public Cursor swapCursor(Cursor newCursor) {
-            return super.swapCursor(newCursor);
+            cursor = newCursor;
+            notifyDataSetChanged();
+            indexesByName = new IndexesByName();
+            return cursor;
         }
 
-        @Override
-        public void bindView(View view, final Context context, Cursor cursor) {
-            RowViewHolder holder = (RowViewHolder) view.getTag();
-            if (holder == null) {
-                assignViewHolder(view);
+        public int getItemViewType(int position) {
+            cursor.moveToPosition(position);
+            long id = cursor.getLong(indexesByName.getIndex(cursor, BaseColumns._ID));
+            if (context.recordsBeingDeleted.containsKey(id)) {
+                return 1;
             }
-            this.context.updateRowView(view, cursor, holder);
+            return 0;
         }
-
 
         @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            View newView = super.newView(context, cursor, parent);
-            assignViewHolder(newView);
-            return newView;
+        public BindableRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            if (viewType == 1) {
+                View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.component_deleted_item, parent, false);
+                DeleteRowViewHolder holder = new DeleteRowViewHolder(newView);
+                return holder;
+            }
+            View newView = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
+            RowViewHolder holder = this.context.newRowViewHolder(newView);
+            return holder;
         }
 
-        private void assignViewHolder(View newView) {
-            RowViewHolder holder = this.context.newRowViewHolder(newView);
-            holder.name = (TextView) newView.findViewById(R.id.name);
-            holder.deleteButton = (ImageView) newView.findViewById(R.id.action_delete);
-            newView.setTag(holder);
+        @Override
+        public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
+            cursor.moveToPosition(position);
+            holder.bindTo(cursor, context, this, indexesByName);
+        }
+
+        @Override
+        public int getItemCount() {
+            if (cursor == null) return 0;
+            return cursor.getCount();
+        }
+
+        @Override
+        public void onItemMove(int fromPosition, int toPosition) {
+            // not implemented
+        }
+
+        @Override
+        public void onItemDismiss(final int position) {
+            cursor.moveToPosition(position);
+            final long id = cursor.getInt(indexesByName.getIndex(cursor, BaseColumns._ID));
+
+            if (context.recordsBeingDeleted.containsKey(id)) {
+                // actually delete the record, now
+                context.deleteRow(id);
+                context.recordsBeingDeleted.remove(id);
+                notifyItemRemoved(position);
+            }
+
+            context.recordsBeingDeleted.put(id, System.currentTimeMillis());
+            notifyItemChanged(position);
+
+            context.listView.postDelayed(new Runnable() {
+                public void run() {
+                    // may have been deleted, undone, and then redeleted
+                    Long deletedTime = (Long) context.recordsBeingDeleted.get(id);
+                    if (deletedTime == null) return;
+                    if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
+                        // actually delete the record, now
+                        context.deleteRow(id);
+                        context.recordsBeingDeleted.remove(id);
+                        notifyItemRemoved(position);
+                    }
+                }
+            }, UNDO_DELAY);
+
         }
     }
 
     @NonNull
-    protected  RowViewHolder newRowViewHolder(View newView) {
-        return new RowViewHolder();
+    protected RowViewHolder newRowViewHolder(View newView) {
+        return new RowViewHolder(newView);
     }
 
-    protected void updateRowView(View view, Cursor cursor, RowViewHolder holder) {
-        if (nameIndex < 0) {
-            idIndex = cursor.getColumnIndex(BaseColumns._ID);
-            nameIndex = cursor.getColumnIndex("name");
-        }
-        final long id = cursor.getInt(idIndex);
-        final String name = cursor.getString(nameIndex);
-        holder.name.setText(name);
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-                                                   @Override
-                                                   public void onClick(View v) {
-                                                       AbstractComponentListActivity.this.promptToDelete(id, name, "");
-                                                   }
-                                               }
-        );
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AbstractComponentListActivity.this.openRecord(id);
-            }
-        });
-    }
-
-    private void promptToDelete(final long charId, String name, String classes) {
+    private void promptToDelete(final int position, final long rowId, String name, final ComponentListAdapter componentListAdapter) {
         String recordTypeName = getRecordTypeName();
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Delete " + recordTypeName + " " + name)
+        builder.setMessage("Delete " + recordTypeName + " " + name + "(id=" + rowId + ", position=" + position + ")")
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Background.delete(Background.class, charId);
-                        adapter.notifyDataSetChanged();
+                        deleteRow(rowId);
+                        componentListAdapter.notifyItemRemoved(position);
+
+                        //componentListAdapter.notifyDataSetChanged();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
+                        // restore the view?
+                        componentListAdapter.notifyDataSetChanged();
                     }
                 });
         // Create the AlertDialog object and return it
@@ -224,4 +338,53 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         dialog.show();
     }
 
+    protected abstract void deleteRow(long id);
+
+
+    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+        private final ItemTouchHelperAdapter mAdapter;
+
+        public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+            mAdapter = adapter;
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return false;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            //int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(0, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                              RecyclerView.ViewHolder target) {
+            // not supported, do nothing
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        }
+
+    }
+
+
+    public interface ItemTouchHelperAdapter {
+
+        void onItemMove(int fromPosition, int toPosition);
+
+        void onItemDismiss(int position);
+    }
 }

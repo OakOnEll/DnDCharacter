@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.background.Background;
+import com.oakonell.dndcharacter.model.item.Item;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 
@@ -42,18 +44,26 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         return "Items";
     }
 
-
-    private int categoryIndex = -1;
-
     protected static class ItemRowViewHolder extends RowViewHolder {
         public TextView category;
+
+        public ItemRowViewHolder(View itemView) {
+            super(itemView);
+            category = (TextView) itemView.findViewById(R.id.category);
+        }
+
+        @Override
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, ComponentListAdapter adapter, IndexesByName indexesByName) {
+            super.bindTo(cursor, context, adapter, indexesByName);
+            final String categoryString = cursor.getString(indexesByName.getIndex(cursor, "category"));
+            category.setText(categoryString);
+        }
     }
 
     @NonNull
+    @Override
     protected ItemRowViewHolder newRowViewHolder(View newView) {
-        ItemRowViewHolder result = new ItemRowViewHolder();
-        result.category = (TextView) newView.findViewById(R.id.category);
-        return result;
+        return new ItemRowViewHolder(newView);
     }
 
     @Override
@@ -61,14 +71,9 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         return R.layout.item_list_item;
     }
 
-    @Override
-    protected void updateRowView(View view, Cursor cursor, RowViewHolder holder) {
-        super.updateRowView(view, cursor, holder);
 
-        if (categoryIndex < 0) {
-            categoryIndex = cursor.getColumnIndex("category");
-        }
-        final String category = cursor.getString(categoryIndex);
-        ((ItemRowViewHolder) holder).category.setText(category);
+    @Override
+    protected void deleteRow(long id) {
+        ItemRow.delete(ItemRow.class, id);
     }
 }

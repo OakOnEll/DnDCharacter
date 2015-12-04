@@ -41,4 +41,9 @@ public class ClassesListActivity extends AbstractComponentListActivity {
     protected String getSubtitle() {
         return "Classes";
     }
+
+    @Override
+    protected void deleteRow(long id) {
+        AClass.delete(AClass.class, id);
+    }
 }

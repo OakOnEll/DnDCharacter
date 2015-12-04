@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 
@@ -15,17 +16,26 @@ import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
  * Created by Rob on 11/2/2015.
  */
 public class RacesListActivity extends AbstractComponentListActivity<Race> {
-    private int parentIndex = -1;
 
     protected static class RaceRowViewHolder extends RowViewHolder {
         public TextView parentRace;
+
+        public RaceRowViewHolder(View itemView) {
+            super(itemView);
+            parentRace = (TextView) itemView.findViewById(R.id.parent_race);
+        }
+
+        @Override
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, ComponentListAdapter adapter, IndexesByName indexesByName) {
+            super.bindTo(cursor, context, adapter, indexesByName);
+            final String parentName = cursor.getString(indexesByName.getIndex(cursor, "parentRace"));
+            parentRace.setText(parentName);
+        }
     }
 
     @NonNull
     protected RaceRowViewHolder newRowViewHolder(View newView) {
-        RaceRowViewHolder result = new RaceRowViewHolder();
-        result.parentRace = (TextView) newView.findViewById(R.id.parent_race);
-        return result;
+        return new RaceRowViewHolder(newView);
     }
 
     @Override
@@ -33,16 +43,6 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
         return R.layout.race_list_item;
     }
 
-    @Override
-    protected void updateRowView(View view, Cursor cursor, RowViewHolder holder) {
-        super.updateRowView(view, cursor, holder);
-
-        if (parentIndex < 0) {
-            parentIndex = cursor.getColumnIndex("parentRace");
-        }
-        final String parentName = cursor.getString(parentIndex);
-        ((RaceRowViewHolder) holder).parentRace.setText(parentName);
-    }
 
     @NonNull
     @Override
@@ -71,5 +71,10 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
     @Override
     protected String getSubtitle() {
         return "Races";
+    }
+
+    @Override
+    protected void deleteRow(long id) {
+        Race.delete(Race.class, id);
     }
 }

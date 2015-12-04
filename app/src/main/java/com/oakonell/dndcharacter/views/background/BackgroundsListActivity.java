@@ -61,4 +61,9 @@ public class BackgroundsListActivity extends AbstractComponentListActivity<Backg
     protected String getSubtitle() {
         return "Backgrounds";
     }
+
+    @Override
+    protected void deleteRow(long id) {
+        Background.delete(Background.class, id);
+    }
 }
