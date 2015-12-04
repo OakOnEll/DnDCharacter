@@ -3,7 +3,6 @@ package com.oakonell.dndcharacter.views;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
@@ -19,25 +18,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
-import com.oakonell.dndcharacter.model.background.Background;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -88,7 +78,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
                 Toast.makeText(AbstractComponentListActivity.this, "Loader created- cursor " + (cursor == null ? "is null!" : " bundled"), Toast.LENGTH_SHORT).show();
                 return new CursorLoader(AbstractComponentListActivity.this,
                         ContentProvider.createUri(getComponentClass(), null),
-                        null, null, null, "name"
+                        null, null, null, getCursorSortBy()
                 );
             }
 
@@ -106,6 +96,11 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         });
 
 
+    }
+
+    @NonNull
+    protected String getCursorSortBy() {
+        return "name";
     }
 
 
@@ -142,17 +137,6 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     }
 
 
-    public static class BindableRecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        public BindableRecyclerViewHolder(View itemView) {
-            super(itemView);
-        }
-
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, ComponentListAdapter adapter, IndexesByName indexesByName) {
-
-        }
-    }
-
     public static class DeleteRowViewHolder extends BindableRecyclerViewHolder {
         TextView name;
         Button undo;
@@ -165,7 +149,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, final ComponentListAdapter adapter, IndexesByName indexesByName) {
+        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, final RecyclerView.Adapter adapter, IndexesByName indexesByName) {
             super.bindTo(cursor, context, adapter, indexesByName);
             final String nameString = cursor.getString(indexesByName.getIndex(cursor, "name"));
             final long id = cursor.getInt(indexesByName.getIndex(cursor, BaseColumns._ID));
@@ -192,7 +176,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, ComponentListAdapter adapter, IndexesByName indexesByName) {
+        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, RecyclerView.Adapter adapter, IndexesByName indexesByName) {
             super.bindTo(cursor, context, adapter, indexesByName);
 
             final long id = cursor.getInt(indexesByName.getIndex(cursor, BaseColumns._ID));
@@ -255,7 +239,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
                 return holder;
             }
             View newView = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
-            RowViewHolder holder = this.context.newRowViewHolder(newView);
+            BindableRecyclerViewHolder holder = this.context.newRowViewHolder(newView);
             return holder;
         }
 
@@ -309,7 +293,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     }
 
     @NonNull
-    protected RowViewHolder newRowViewHolder(View newView) {
+    protected BindableRecyclerViewHolder newRowViewHolder(View newView) {
         return new RowViewHolder(newView);
     }
 

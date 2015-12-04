@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.item;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -53,7 +54,7 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         }
 
         @Override
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, ComponentListAdapter adapter, IndexesByName indexesByName) {
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, IndexesByName indexesByName) {
             super.bindTo(cursor, context, adapter, indexesByName);
             final String categoryString = cursor.getString(indexesByName.getIndex(cursor, "category"));
             category.setText(categoryString);

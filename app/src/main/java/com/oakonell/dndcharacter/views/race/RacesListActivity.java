@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.views.race;
 import android.database.Cursor;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,7 +27,7 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
         }
 
         @Override
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, ComponentListAdapter adapter, IndexesByName indexesByName) {
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, IndexesByName indexesByName) {
             super.bindTo(cursor, context, adapter, indexesByName);
             final String parentName = cursor.getString(indexesByName.getIndex(cursor, "parentRace"));
             parentRace.setText(parentName);
