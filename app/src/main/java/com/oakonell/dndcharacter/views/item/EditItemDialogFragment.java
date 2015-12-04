@@ -20,7 +20,12 @@ public class EditItemDialogFragment extends AbstractEditComponentDialogFragment<
 
     @Override
     protected void updateModel(ItemRow model, Document doc) {
-        String category = XmlUtils.getElementText(doc.getDocumentElement(), "category");
+        String category;
+        if (doc == null) {
+            category = "XmlParseError";
+        } else {
+            category = XmlUtils.getElementText(doc.getDocumentElement(), "category");
+        }
         model.setCategory(category);
     }
 }
