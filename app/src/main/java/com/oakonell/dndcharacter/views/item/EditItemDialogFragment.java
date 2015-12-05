@@ -21,7 +21,7 @@ public class EditItemDialogFragment extends AbstractEditComponentDialogFragment<
     @Override
     protected void updateModel(ItemRow model, Document doc) {
         String category;
-        if (doc == null) {
+        if (doc == null || doc.getDocumentElement()==null) {
             category = "XmlParseError";
         } else {
             category = XmlUtils.getElementText(doc.getDocumentElement(), "category");

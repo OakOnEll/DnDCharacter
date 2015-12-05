@@ -43,7 +43,7 @@ public class AbstractEditComponentDialogFragment<M extends AbstractComponentMode
                 Document doc = XmlUtils.getDocument(xmltext.getText().toString());
 
                 model.setXml(XmlUtils.prettyPrint(doc));
-                if (doc != null) {
+                if (doc != null && doc.getDocumentElement() != null) {
                     model.setName(XmlUtils.getElementText(doc.getDocumentElement(), "name"));
                 } else {
                     model.setName("xml parse error- no name");
