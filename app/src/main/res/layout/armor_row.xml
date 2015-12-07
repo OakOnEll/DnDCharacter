@@ -3,8 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/equipment_item_style"
-
     android:orientation="horizontal">
+
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/equip" />
 
     <TextView
         android:id="@+id/name"
@@ -12,6 +18,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
         android:text="Name" />
+
+    <TextView
+        android:id="@+id/ac"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="+5" />
 
 </LinearLayout>

@@ -1,36 +1,16 @@
 package com.oakonell.dndcharacter;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
-import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.ResourceCursorAdapter;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.activeandroid.content.ContentProvider;
-import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.CharacterRow;
-import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.BindableRecyclerViewHolder;
-import com.oakonell.dndcharacter.views.background.EditBackgroundDialogFragment;
+import com.oakonell.dndcharacter.views.CursorIndexesByName;
 
 /**
  * Created by Rob on 11/2/2015.
@@ -84,12 +64,12 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
         }
 
         @Override
-        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, RecyclerView.Adapter adapter, IndexesByName indexesByName) {
-            super.bindTo(cursor, context, adapter, indexesByName);
+        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+            super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
-            final long id = cursor.getInt(indexesByName.getIndex(cursor, BaseColumns._ID));
-            final String nameString = cursor.getString(indexesByName.getIndex(cursor, "name"));
-            final String classesString = cursor.getString(indexesByName.getIndex(cursor, "classesString"));
+            final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
+            final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
+            final String classesString = cursor.getString(cursorIndexesByName.getIndex(cursor, "classesString"));
             name.setText(nameString);
             classes.setText(classesString);
 

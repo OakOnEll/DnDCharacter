@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.background.Background;
-import com.oakonell.dndcharacter.model.item.Item;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
+import com.oakonell.dndcharacter.views.CursorIndexesByName;
 
 /**
  * Created by Rob on 11/2/2015.
@@ -54,9 +53,9 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         }
 
         @Override
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, IndexesByName indexesByName) {
-            super.bindTo(cursor, context, adapter, indexesByName);
-            final String categoryString = cursor.getString(indexesByName.getIndex(cursor, "category"));
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+            super.bindTo(cursor, context, adapter, cursorIndexesByName);
+            final String categoryString = cursor.getString(cursorIndexesByName.getIndex(cursor, "category"));
             category.setText(categoryString);
         }
     }

@@ -36,7 +36,9 @@ repositories {
 }
 
 dependencies {
-    compile 'com.commonsware.cwac:merge:1.1.+'
+
+    compile 'com.android.support:cardview-v7:23.1.1+'
+    compile 'com.android.support:recyclerview-v7:23.1.1+'
 }
 
 
@@ -44,5 +46,6 @@ dependencies {
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile 'org.solovyev.android.views:linear-layout-manager:0.5@aar'
 }
 

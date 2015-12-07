@@ -1,17 +1,15 @@
 package com.oakonell.dndcharacter.views.race;
 
 import android.database.Cursor;
-import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
+import com.oakonell.dndcharacter.views.CursorIndexesByName;
 
 /**
  * Created by Rob on 11/2/2015.
@@ -27,9 +25,9 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
         }
 
         @Override
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, IndexesByName indexesByName) {
-            super.bindTo(cursor, context, adapter, indexesByName);
-            final String parentName = cursor.getString(indexesByName.getIndex(cursor, "parentRace"));
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+            super.bindTo(cursor, context, adapter, cursorIndexesByName);
+            final String parentName = cursor.getString(cursorIndexesByName.getIndex(cursor, "parentRace"));
             parentRace.setText(parentName);
         }
     }

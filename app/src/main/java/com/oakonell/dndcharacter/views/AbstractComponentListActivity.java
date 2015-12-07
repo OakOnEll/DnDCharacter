@@ -152,10 +152,10 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, final RecyclerView.Adapter adapter, IndexesByName indexesByName) {
-            super.bindTo(cursor, context, adapter, indexesByName);
-            final String nameString = cursor.getString(indexesByName.getIndex(cursor, "name"));
-            final long id = cursor.getInt(indexesByName.getIndex(cursor, BaseColumns._ID));
+        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, final RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+            super.bindTo(cursor, context, adapter, cursorIndexesByName);
+            final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
+            final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
 
             name.setText(nameString);
             undo.setOnClickListener(new View.OnClickListener() {
@@ -179,11 +179,11 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, RecyclerView.Adapter adapter, IndexesByName indexesByName) {
-            super.bindTo(cursor, context, adapter, indexesByName);
+        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+            super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
-            final long id = cursor.getInt(indexesByName.getIndex(cursor, BaseColumns._ID));
-            final String nameString = cursor.getString(indexesByName.getIndex(cursor, "name"));
+            final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
+            final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
             final int position = cursor.getPosition();
             name.setText(nameString);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -195,23 +195,11 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
     }
 
-    public static class IndexesByName {
-        private Map<String, Integer> cursorIndexesByName = new HashMap<>();
-
-        public int getIndex(Cursor cursor, String name) {
-            Integer result = cursorIndexesByName.get(name);
-            if (result != null) return result;
-            result = cursor.getColumnIndex(name);
-            cursorIndexesByName.put(name, result);
-            return result;
-        }
-    }
-
     public static class ComponentListAdapter extends RecyclerView.Adapter<BindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
         private final AbstractComponentListActivity context;
         private final int layout;
         Cursor cursor;
-        IndexesByName indexesByName = new IndexesByName();
+        CursorIndexesByName cursorIndexesByName = new CursorIndexesByName();
 
         public ComponentListAdapter(AbstractComponentListActivity context, int layout) {
             this.context = context;
@@ -221,13 +209,13 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         public Cursor swapCursor(Cursor newCursor) {
             cursor = newCursor;
             notifyDataSetChanged();
-            indexesByName = new IndexesByName();
+            cursorIndexesByName = new CursorIndexesByName();
             return cursor;
         }
 
         public int getItemViewType(int position) {
             cursor.moveToPosition(position);
-            long id = cursor.getLong(indexesByName.getIndex(cursor, BaseColumns._ID));
+            long id = cursor.getLong(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
             if (context.recordsBeingDeleted.containsKey(id)) {
                 return 1;
             }
@@ -249,7 +237,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         @Override
         public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
             cursor.moveToPosition(position);
-            holder.bindTo(cursor, context, this, indexesByName);
+            holder.bindTo(cursor, context, this, cursorIndexesByName);
         }
 
         @Override
@@ -266,7 +254,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         @Override
         public void onItemDismiss(final int position) {
             cursor.moveToPosition(position);
-            final long id = cursor.getInt(indexesByName.getIndex(cursor, BaseColumns._ID));
+            final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
 
             if (context.recordsBeingDeleted.containsKey(id)) {
                 // actually delete the record, now

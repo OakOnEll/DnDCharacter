@@ -2,80 +2,80 @@ package com.oakonell.dndcharacter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.commonsware.cwac.merge.MergeAdapter;
-import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.CharacterItem;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.DividerItemDecoration;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rob on 10/26/2015.
  */
 public class EquipmentFragment extends AbstractSheetFragment {
-    MergeAdapter mergeAdapter;
     TextView armor_proficiency;
     TextView weapon_proficiency;
     TextView tools_proficiency;
     private ViewGroup armor_group;
     private ViewGroup weapon_group;
     private ViewGroup tools_group;
-    private ListView equipmentListView;
     private TextView goldPieces;
     private TextView copperPieces;
     private TextView silverPieces;
     private TextView electrumPieces;
     private TextView platinumPieces;
+
     private EquipmentAdapter equipmentAdapter;
+    private ArmorAdapter armorAdapter;
+    private WeaponsAdapter weaponsAdapter;
+
+    private Map<CharacterItem, Long> beingDeleted = new HashMap<CharacterItem, Long>();
+    private static final int UNDO_DELAY = 5000;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.equipment_sheet, container, false);
 
-        mergeAdapter = new MergeAdapter();
+        superCreateViews(rootView);
 
-        View commonView = inflater.inflate(R.layout.common_character_section, container, false);
-        superCreateViews(commonView);
-        mergeAdapter.addView(commonView);
+        armor_proficiency = (TextView) rootView.findViewById(R.id.armor_proficiency);
+        weapon_proficiency = (TextView) rootView.findViewById(R.id.weapon_proficiency);
+        tools_proficiency = (TextView) rootView.findViewById(R.id.tool_proficiency);
 
-        View preView = inflater.inflate(R.layout.equipment_proficiency_and_money_layout, container, false);
-        armor_proficiency = (TextView) preView.findViewById(R.id.armor_proficiency);
-        weapon_proficiency = (TextView) preView.findViewById(R.id.weapon_proficiency);
-        tools_proficiency = (TextView) preView.findViewById(R.id.tool_proficiency);
+        armor_group = (ViewGroup) rootView.findViewById(R.id.armor_group);
+        weapon_group = (ViewGroup) rootView.findViewById(R.id.weapon_group);
+        tools_group = (ViewGroup) rootView.findViewById(R.id.tools_group);
 
-        armor_group = (ViewGroup) preView.findViewById(R.id.armor_group);
-        weapon_group = (ViewGroup) preView.findViewById(R.id.weapon_group);
-        tools_group = (ViewGroup) preView.findViewById(R.id.tools_group);
+        copperPieces = (TextView) rootView.findViewById(R.id.copper_pieces);
+        silverPieces = (TextView) rootView.findViewById(R.id.silver_pieces);
+        electrumPieces = (TextView) rootView.findViewById(R.id.electrum_pieces);
+        goldPieces = (TextView) rootView.findViewById(R.id.gold_pieces);
+        platinumPieces = (TextView) rootView.findViewById(R.id.platinum_pieces);
 
-        copperPieces = (TextView) preView.findViewById(R.id.copper_pieces);
-        silverPieces = (TextView) preView.findViewById(R.id.silver_pieces);
-        electrumPieces = (TextView) preView.findViewById(R.id.electrum_pieces);
-        goldPieces = (TextView) preView.findViewById(R.id.gold_pieces);
-        platinumPieces = (TextView) preView.findViewById(R.id.platinum_pieces);
-
-        ViewGroup copperGroup = (ViewGroup) preView.findViewById(R.id.copper_group);
-        ViewGroup silverGroup = (ViewGroup) preView.findViewById(R.id.silver_group);
-        ViewGroup electrumGroup = (ViewGroup) preView.findViewById(R.id.electrum_group);
-        ViewGroup goldGroup = (ViewGroup) preView.findViewById(R.id.gold_group);
-        ViewGroup platinumGroup = (ViewGroup) preView.findViewById(R.id.platinum_group);
+        ViewGroup copperGroup = (ViewGroup) rootView.findViewById(R.id.copper_group);
+        ViewGroup silverGroup = (ViewGroup) rootView.findViewById(R.id.silver_group);
+        ViewGroup electrumGroup = (ViewGroup) rootView.findViewById(R.id.electrum_group);
+        ViewGroup goldGroup = (ViewGroup) rootView.findViewById(R.id.gold_group);
+        ViewGroup platinumGroup = (ViewGroup) rootView.findViewById(R.id.platinum_group);
 
 
         copperGroup.setOnClickListener(new View.OnClickListener() {
@@ -114,41 +114,27 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
-        mergeAdapter.addView(preView);
-
-
-        equipmentListView = (ListView) rootView.findViewById(R.id.merge_list);
-
 
 // armor
-        View armorTitle = inflater.inflate(R.layout.equipment_title, container, false);
-        TextView armorLabel = (TextView) armorTitle.findViewById(R.id.title);
-        armorLabel.setText("Armor");
-        mergeAdapter.addView(armorTitle);
+        RecyclerView armorView = (RecyclerView) rootView.findViewById(R.id.armor_list);
+        armorAdapter = new ArmorAdapter(this, character);
+        armorView.setAdapter(armorAdapter);
+        armorView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        armorView.setHasFixedSize(false);
 
-        final List<CharacterItem> armor = Collections.emptyList();
-        ListAdapter armorAdapter = new ArrayAdapter<CharacterItem>(getActivity(), android.R.layout.simple_list_item_1, armor);
-        mergeAdapter.addAdapter(armorAdapter);
-
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        armorView.addItemDecoration(itemDecoration);
 
 // weapons
-        View weaponsTitle = inflater.inflate(R.layout.equipment_title, container, false);
-        TextView weaponsLabel = (TextView) weaponsTitle.findViewById(R.id.title);
-        weaponsLabel.setText("Weapons");
-        mergeAdapter.addView(weaponsTitle);
-
-        final List<CharacterItem> weapons = Collections.emptyList();
-        ListAdapter weaponsAdapter = new ArrayAdapter<CharacterItem>(getActivity(), android.R.layout.simple_list_item_1, weapons);
-        mergeAdapter.addAdapter(weaponsAdapter);
+        RecyclerView weaponsView = (RecyclerView) rootView.findViewById(R.id.weapons_list);
+        weaponsAdapter = new WeaponsAdapter(this, character);
+        weaponsView.setAdapter(weaponsAdapter);
+        weaponsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        weaponsView.setHasFixedSize(false);
+        weaponsView.addItemDecoration(itemDecoration);
 
 // regular equipment
-        View equpimentTitle = inflater.inflate(R.layout.equipment_title, container, false);
-        TextView equipmentLabel = (TextView) equpimentTitle.findViewById(R.id.title);
-        Button addEquipment = (Button) equpimentTitle.findViewById(R.id.add);
-        equipmentLabel.setText("Equipment");
-        mergeAdapter.addView(equpimentTitle);
-
-
+        Button addEquipment = (Button) rootView.findViewById(R.id.addItem);
         addEquipment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,13 +142,33 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
-        final List<CharacterItem> items = character.getItems();
+        RecyclerView itemsView = (RecyclerView) rootView.findViewById(R.id.items_list);
         equipmentAdapter = new EquipmentAdapter(this, character);
-        mergeAdapter.addAdapter(equipmentAdapter);
+        itemsView.setAdapter(equipmentAdapter);
+        itemsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        itemsView.setHasFixedSize(false);
+        itemsView.addItemDecoration(itemDecoration);
 
-        equipmentListView.setAdapter(mergeAdapter);
 
         updateViews(rootView);
+
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(equipmentAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(itemsView);
+
+
+        ItemTouchHelper.Callback armorCallback =
+                new SimpleItemTouchHelperCallback(armorAdapter);
+        ItemTouchHelper armorTouchHelper = new ItemTouchHelper(armorCallback);
+        armorTouchHelper.attachToRecyclerView(armorView);
+
+
+        ItemTouchHelper.Callback weaponsCallback =
+                new SimpleItemTouchHelperCallback(weaponsAdapter);
+        ItemTouchHelper weaponsTouchHelper = new ItemTouchHelper(weaponsCallback);
+        weaponsTouchHelper.attachToRecyclerView(weaponsView);
+
 
         // need to hook a notes text watcher, to update the model
         return rootView;
@@ -240,61 +246,133 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     }
 
-    public static class EquipmentAdapter extends BaseAdapter {
-        private Context context;
-        private EquipmentFragment fragment;
-        Character character;
+    static class ItemViewHolder extends AbstractItemViewHolder {
+        public ItemViewHolder(View view) {
+            super(view);
+        }
+    }
 
-        static class ViewHolder {
-            TextView name;
-            ImageView delete;
+    public static class BindableRecyclerViewHolder extends RecyclerView.ViewHolder {
+
+        public BindableRecyclerViewHolder(View itemView) {
+            super(itemView);
         }
 
-        public EquipmentAdapter(EquipmentFragment fragment, Character character) {
-            this.context = fragment.getContext();
-            this.fragment = fragment;
-            this.character = character;
+        public void bindTo(CharacterItem item, EquipmentFragment context, SubAdapter adapter) {
+
+        }
+    }
+
+    static class AbstractItemViewHolder extends BindableRecyclerViewHolder {
+        TextView name;
+
+        public AbstractItemViewHolder(View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.name);
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view;
-
-            ViewHolder holder;
-            if (convertView == null) {
-                view = LayoutInflater.from(context).inflate(R.layout.equipment_row, null);
-                holder = new ViewHolder();
-                holder.name = (TextView) view.findViewById(R.id.name);
-                holder.delete = (ImageView) view.findViewById(R.id.action_delete);
-                view.setTag(holder);
-            } else {
-                view = convertView;
-                holder = (ViewHolder) view.getTag();
-            }
-
-            final CharacterItem item = getItem(position);
-
-            holder.name.setText(item.getName());
-            holder.delete.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void bindTo(CharacterItem item, EquipmentFragment context, SubAdapter adapter) {
+            name.setText(item.getName());
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fragment.promptToDeleteItem(item);
+
+                }
+            });
+        }
+    }
+
+    public static class DeleteRowViewHolder extends BindableRecyclerViewHolder {
+        TextView name;
+        Button undo;
+
+        public DeleteRowViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.name);
+            name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            undo = (Button) itemView.findViewById(R.id.undo);
+        }
+
+        @Override
+        public void bindTo(final CharacterItem item, final EquipmentFragment context, final SubAdapter adapter) {
+            super.bindTo(item, context, adapter);
+            name.setText(item.getName());
+            undo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapter.getItemPositionsBeingDeleted().remove(item);
+                    adapter.notifyItemChanged(getAdapterPosition());
                 }
             });
 
+        }
+    }
 
-            return view;
+    public interface ItemTouchHelperAdapter {
+
+        void onItemMove(int fromPosition, int toPosition);
+
+        void onItemDismiss(int position);
+    }
+
+
+    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+        private final ItemTouchHelperAdapter mAdapter;
+
+        public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+            mAdapter = adapter;
         }
 
         @Override
-        public int getCount() {
-            if (character == null) return 0;
-            return character.getItems().size();
+        public boolean isLongPressDragEnabled() {
+            return true;
         }
 
         @Override
-        public CharacterItem getItem(int position) {
-            if (character == null) return null;
-            return character.getItems().get(position);
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                              RecyclerView.ViewHolder target) {
+            mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        }
+
+    }
+
+
+    public abstract static class SubAdapter extends RecyclerView.Adapter<BindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
+        protected Context context;
+        protected EquipmentFragment fragment;
+        protected List<CharacterItem> list;
+
+        public SubAdapter(EquipmentFragment fragment, List<CharacterItem> list) {
+            this.context = fragment.getContext();
+            this.fragment = fragment;
+            this.list = list;
+        }
+
+
+        @Override
+        public int getItemCount() {
+            if (list == null) return 0;
+            return list.size();
         }
 
         @Override
@@ -302,31 +380,137 @@ public class EquipmentFragment extends AbstractSheetFragment {
             return 0;
         }
 
-        public void setCharacter(Character character) {
-            if (this.character != character) {
-                this.character = character;
-                notifyDataSetInvalidated();
+        public CharacterItem getItem(int position) {
+            if (list == null) return null;
+            return list.get(position);
+        }
+
+        public int getItemViewType(int position) {
+            if (getItemPositionsBeingDeleted().containsKey(getItem(position))) {
+                return 1;
             }
+            return 0;
+        }
+
+        @Override
+        public final BindableRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            if (viewType == 1) {
+                View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.deleting_equipment_row, parent, false);
+                DeleteRowViewHolder holder = new DeleteRowViewHolder(newView);
+                return holder;
+            }
+            return onSubCreateViewHolder(parent, viewType);
+        }
+
+        protected abstract BindableRecyclerViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType);
+
+
+        protected Map<CharacterItem, Long> getItemPositionsBeingDeleted() {
+            return fragment.beingDeleted;
+        }
+
+        @Override
+        public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
+            holder.bindTo(getItem(position), fragment, this);
+        }
+
+        @Override
+        public void onItemDismiss(final int position) {
+            final Map<CharacterItem, Long> beingDeleted = getItemPositionsBeingDeleted();
+            final CharacterItem item = getItem(position);
+            if (beingDeleted.containsKey(item)) {
+                // actually delete the record, now
+                deleteRow(item);
+                beingDeleted.remove(item);
+                notifyItemRemoved(position);
+            }
+
+            beingDeleted.put(item, System.currentTimeMillis());
+            notifyItemChanged(position);
+
+            fragment.getView().postDelayed(new Runnable() {
+                public void run() {
+                    // may have been deleted, undone, and then redeleted
+                    Long deletedTime = (Long) beingDeleted.get(item);
+                    if (deletedTime == null) return;
+                    if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
+                        // actually delete the record, now
+                        deleteRow(item);
+                        beingDeleted.remove(item);
+                        notifyItemRemoved(position);
+                    }
+                }
+            }, UNDO_DELAY);
+
+
+        }
+
+        protected void deleteRow(CharacterItem item) {
+            list.remove(item);
+        }
+
+        @Override
+        public void onItemMove(int fromPosition, int toPosition) {
+            if (fromPosition < toPosition) {
+                for (int i = fromPosition; i < toPosition; i++) {
+                    Collections.swap(list, i, i + 1);
+                }
+            } else {
+                for (int i = fromPosition; i > toPosition; i--) {
+                    Collections.swap(list, i, i - 1);
+                }
+            }
+            notifyItemMoved(fromPosition, toPosition);
         }
     }
 
-    private void promptToDeleteItem(final CharacterItem item) {
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Delete item " + item.getName())
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        character.getItems().remove(item);
-                        equipmentAdapter.notifyDataSetChanged();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-        // Create the AlertDialog object and return it
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    public static class ArmorAdapter extends SubAdapter {
+        public ArmorAdapter(EquipmentFragment fragment, Character character) {
+            super(fragment, character.getItems());
+        }
+
+        @Override
+        public ItemViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.armor_row, parent, false);
+            return new ItemViewHolder(view);
+        }
+
+    }
+
+
+    public static class WeaponsAdapter extends SubAdapter {
+        public WeaponsAdapter(EquipmentFragment fragment, Character character) {
+            super(fragment, character.getItems());
+        }
+
+        @Override
+        public BindableRecyclerViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.weapon_row, parent, false);
+            return new ItemViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
+            holder.bindTo(getItem(position), fragment, this);
+        }
+    }
+
+    public static class EquipmentAdapter extends SubAdapter {
+
+        public EquipmentAdapter(EquipmentFragment fragment, Character character) {
+            super(fragment, character.getItems());
+        }
+
+        @Override
+        public ItemViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.equipment_row, parent, false);
+            return new ItemViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
+            holder.bindTo(getItem(position), fragment, this);
+        }
+
     }
 }

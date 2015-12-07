@@ -13,7 +13,7 @@ public class BindableRecyclerViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, AbstractComponentListActivity.IndexesByName indexesByName) {
+    public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
 
     }
 }
