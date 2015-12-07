@@ -62,6 +62,9 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         listView.setHasFixedSize(true);
         listView.setLayoutManager(new LinearLayoutManager(this));
 
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+        listView.addItemDecoration(itemDecoration);
+
         adapter = new ComponentListAdapter(this, getListItemResource());
         listView.setAdapter(adapter);
 

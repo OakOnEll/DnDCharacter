@@ -1,64 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/list_item_style"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical">
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/action_delete"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/list_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true"
-        card_view:contentPadding="4dp">
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/simple_block_selector"
 
-        <LinearLayout
+        android:src="@android:drawable/ic_menu_delete" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+            android:text="Deleting"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <ImageView
-                android:id="@+id/action_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/simple_block_selector"
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="" />
+    </LinearLayout>
 
-                android:src="@android:drawable/ic_menu_delete" />
+    <Button
+        android:id="@+id/undo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Undo" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Deleting"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
-                    android:id="@+id/name"
-                    android:ellipsize="end"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Medium Text"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textStyle=""
-                    android:lines="1"
-                    android:maxLines="1" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/undo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Undo" />
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
 </LinearLayout>
