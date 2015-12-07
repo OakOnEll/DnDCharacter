@@ -8,8 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.Proficient;
+import com.oakonell.dndcharacter.model.SkillBlock;
+import com.oakonell.dndcharacter.model.SkillType;
 
 /**
  * Created by Rob on 10/22/2015.

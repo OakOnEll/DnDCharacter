@@ -1,13 +1,8 @@
 package com.oakonell.dndcharacter.model;
 
-import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.item.ItemType;
 
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Rob on 12/2/2015.

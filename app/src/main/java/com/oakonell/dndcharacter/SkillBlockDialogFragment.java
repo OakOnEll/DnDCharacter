@@ -1,19 +1,16 @@
 package com.oakonell.dndcharacter;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.SkillBlock;
-import com.oakonell.dndcharacter.model.StatBlock;
 
 import java.util.List;
 

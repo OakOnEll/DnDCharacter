@@ -10,10 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.SavedChoices;
 import com.oakonell.dndcharacter.model.background.AbstractBackgroundVisitor;
 import com.oakonell.dndcharacter.model.background.Background;
-import com.oakonell.dndcharacter.model.SavedChoices;
 import com.oakonell.dndcharacter.views.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 import com.oakonell.dndcharacter.views.md.CustomCheckOptionMD;
@@ -163,7 +162,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         }
     }
 
-    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup parent,  SavedChoices choices, Map<String, String> customChoices, String trait) {
+    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, String trait) {
         List<String> list = new ArrayList<>();
         list.add(trait);
         return appendToLayout(background, parent, choices, customChoices, list);

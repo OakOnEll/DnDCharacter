@@ -19,7 +19,7 @@ public class EditRaceDialogFragment extends AbstractEditComponentDialogFragment<
 
     @Override
     protected void updateModel(Race model, Document doc) {
-        if (doc==null || doc.getDocumentElement()==null) {
+        if (doc == null || doc.getDocumentElement() == null) {
             model.setParentRace("XmlParseError");
         } else {
             model.setParentRace(XmlUtils.getElementText(doc.getDocumentElement(), "parent"));

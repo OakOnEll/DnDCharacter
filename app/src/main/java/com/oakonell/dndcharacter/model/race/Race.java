@@ -2,12 +2,9 @@ package com.oakonell.dndcharacter.model.race;
 
 import android.provider.BaseColumns;
 
-import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
-
-import org.w3c.dom.Document;
 
 /**
  * Created by Rob on 11/10/2015.

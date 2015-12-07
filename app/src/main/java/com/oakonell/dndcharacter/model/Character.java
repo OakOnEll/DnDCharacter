@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.model;
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.components.Feature;

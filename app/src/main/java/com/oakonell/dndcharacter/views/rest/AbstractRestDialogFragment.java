@@ -14,8 +14,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.*;
+import com.oakonell.dndcharacter.model.AbstractRestRequest;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.FeatureInfo;
+import com.oakonell.dndcharacter.model.FeatureResetInfo;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
 import java.util.ArrayList;

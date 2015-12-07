@@ -4,9 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.activeandroid.Model;
 import com.oakonell.dndcharacter.model.classes.AClass;
-import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
-import com.oakonell.dndcharacter.views.race.EditRaceDialogFragment;
 
 /**
  * Created by Rob on 11/2/2015.

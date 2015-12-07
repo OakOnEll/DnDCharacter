@@ -18,10 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.views.rest.LongRestDialogFragment;
-import com.oakonell.dndcharacter.views.rest.ShortRestDialogFragment;
 import com.oakonell.dndcharacter.model.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.rest.LongRestDialogFragment;
+import com.oakonell.dndcharacter.views.rest.ShortRestDialogFragment;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;

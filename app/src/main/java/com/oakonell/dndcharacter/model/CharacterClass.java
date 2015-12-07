@@ -35,6 +35,7 @@ public class CharacterClass extends BaseCharacterComponent {
     public void setHitDie(int hitDie) {
         this.hitDie = hitDie;
     }
+
     public int getHitDie() {
         return hitDie;
     }

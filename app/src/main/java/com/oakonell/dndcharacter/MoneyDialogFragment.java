@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
 
 /**

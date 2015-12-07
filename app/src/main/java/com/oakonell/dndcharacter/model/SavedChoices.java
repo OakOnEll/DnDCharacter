@@ -19,7 +19,7 @@ public class SavedChoices {
         SavedChoices copy = new SavedChoices();
         for (Map.Entry<String, SavedSelections> each : choices.entrySet()) {
             String name = each.getKey();
-            if (each.getValue()==null)continue;
+            if (each.getValue() == null) continue;
             List<String> mySelections = each.getValue().selections;
             List<String> selectionsCopy = copy.getChoicesFor(name);
             selectionsCopy.addAll(mySelections);

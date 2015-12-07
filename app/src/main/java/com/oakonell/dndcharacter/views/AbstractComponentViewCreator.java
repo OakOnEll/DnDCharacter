@@ -16,10 +16,10 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.model.SavedChoices;
 import com.oakonell.dndcharacter.model.item.ItemRow;
+import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 import com.oakonell.dndcharacter.views.md.DropdownOptionMD;
-import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
 
@@ -106,6 +106,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         super.visitArmor(element);
         parent = oldParent;
     }
+
     @Override
     protected void visitWeapons(Element element) {
         ViewGroup oldParent = parent;
@@ -126,7 +127,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     @Override
     protected void visitProficiency(Element element) {
         String category = element.getAttribute("category");
-        if (category!=null && category.trim().length()>0) {
+        if (category != null && category.trim().length() > 0) {
             TextView text = new TextView(parent.getContext());
             parent.addView(text);
             text.setText(" *  [" + category + "]");
@@ -227,7 +228,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
             spinner.setLayoutParams(layoutParams);
             spinner.setAdapter(dataAdapter);
             spinner.setId(++uiIdCounter);
-            float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (category.length()+2) * SPINNER_TEXT_SP, spinner.getResources().getDisplayMetrics());
+            float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (category.length() + 2) * SPINNER_TEXT_SP, spinner.getResources().getDisplayMetrics());
             spinner.setMinimumWidth((int) minWidth);
 
             DropdownOptionMD optionMD = new DropdownOptionMD(currentChooseMD, spinner.getId());

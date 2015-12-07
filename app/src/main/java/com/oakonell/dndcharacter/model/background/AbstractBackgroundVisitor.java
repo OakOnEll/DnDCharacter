@@ -35,7 +35,7 @@ public abstract class AbstractBackgroundVisitor extends AbstractComponentVisitor
             visitBond(element);
         } else if (name.equals("flaws")) {
             visitFlaws(element);
-        } else if (name.equals("flaw")){
+        } else if (name.equals("flaw")) {
             visitFlaw(element);
         } else {
             return false;

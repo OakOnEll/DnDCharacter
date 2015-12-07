@@ -6,18 +6,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
-
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 
 /**
  * Created by Rob on 10/26/2015.

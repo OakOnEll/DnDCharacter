@@ -9,10 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.model.components.ProficiencyType;
 
 import java.util.List;
 

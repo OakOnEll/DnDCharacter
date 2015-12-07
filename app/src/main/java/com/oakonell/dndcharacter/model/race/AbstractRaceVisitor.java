@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.model.race;
 
 import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
-import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;

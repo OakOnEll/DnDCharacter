@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views.item;
 
-import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.AbstractEditComponentDialogFragment;
@@ -21,7 +20,7 @@ public class EditItemDialogFragment extends AbstractEditComponentDialogFragment<
     @Override
     protected void updateModel(ItemRow model, Document doc) {
         String category;
-        if (doc == null || doc.getDocumentElement()==null) {
+        if (doc == null || doc.getDocumentElement() == null) {
             category = "XmlParseError";
         } else {
             category = XmlUtils.getElementText(doc.getDocumentElement(), "category");

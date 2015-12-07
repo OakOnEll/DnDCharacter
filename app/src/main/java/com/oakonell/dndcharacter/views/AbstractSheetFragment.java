@@ -13,10 +13,10 @@ import android.widget.Toast;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.race.Race;
-import com.oakonell.dndcharacter.views.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.background.Background;
+import com.oakonell.dndcharacter.model.race.Race;
+import com.oakonell.dndcharacter.views.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.views.race.ApplyRaceDialogFragment;
 
 /**
@@ -116,7 +116,7 @@ public class AbstractSheetFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    Race race= new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
+                    Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
                     ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog(character, race);
                     dialog.show(getFragmentManager(), "race");
                 } catch (Exception e) {

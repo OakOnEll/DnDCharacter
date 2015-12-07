@@ -25,7 +25,7 @@ public class ChooseMD {
         return null;
     }
 
-    public void saveChoice(ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices)  {
+    public void saveChoice(ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
         List<String> list = savedChoices.getChoicesFor(choiceName);
         list.clear();
         for (OptionMD each : options) {

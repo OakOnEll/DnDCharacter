@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.model.components;
 
 import com.oakonell.dndcharacter.model.Proficient;
-import com.oakonell.dndcharacter.model.SkillType;
 
 import org.simpleframework.xml.Element;
 

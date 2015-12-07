@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.LongRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
 import java.util.ArrayList;
@@ -114,7 +114,6 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         });
         return view;
     }
-
 
 
     @Override

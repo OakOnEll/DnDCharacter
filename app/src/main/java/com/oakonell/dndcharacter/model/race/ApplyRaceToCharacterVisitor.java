@@ -2,11 +2,8 @@ package com.oakonell.dndcharacter.model.race;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.model.CharacterBackground;
 import com.oakonell.dndcharacter.model.CharacterRace;
 import com.oakonell.dndcharacter.model.SavedChoices;
-import com.oakonell.dndcharacter.model.background.AbstractBackgroundVisitor;
-import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -39,7 +36,7 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
         if (subrace != null) {
             Element subraceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
             charRace.setSubraceName(XmlUtils.getElementText(subraceElement, "name"));
-            ApplyChangesToGenericComponent.applyToCharacter(subraceElement, subraceSavedChoices, charRace,character);
+            ApplyChangesToGenericComponent.applyToCharacter(subraceElement, subraceSavedChoices, charRace, character);
             charRace.setSubRaceChoices(subraceSavedChoices);
             newMe.visit(subraceElement);
         }
@@ -52,7 +49,6 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
         this.savedChoices = savedChoices;
         this.customChoices = customChoices;
     }
-
 
 
 }

@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.views.classes;
 
 import com.oakonell.dndcharacter.model.classes.AClass;
-import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.views.AbstractEditComponentDialogFragment;
 
 /**
