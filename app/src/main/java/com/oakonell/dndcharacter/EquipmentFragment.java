@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -122,6 +123,11 @@ public class EquipmentFragment extends AbstractSheetFragment {
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         armorView.addItemDecoration(itemDecoration);
 
+        ViewGroup armorItemsView = (ViewGroup) rootView.findViewById(R.id.armor_items_group);
+        armorItemsView.findViewById(R.id.equip).setVisibility(View.INVISIBLE);
+//        ((TextView)armorItemsView.findViewById(R.id.ac)).setText("AC/Mod");
+
+
 // weapons
         RecyclerView weaponsView = (RecyclerView) rootView.findViewById(R.id.weapons_list);
         weaponsAdapter = new WeaponsAdapter(this, character);
@@ -129,6 +135,10 @@ public class EquipmentFragment extends AbstractSheetFragment {
         weaponsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         weaponsView.setHasFixedSize(false);
         weaponsView.addItemDecoration(itemDecoration);
+
+//        ViewGroup weaponsItemsView = (ViewGroup) rootView.findViewById(R.id.weapons_items_group);
+//        ((TextView)weaponsItemsView.findViewById(R.id.hit_bonus)).setText("+To Hit");
+//        ((TextView)weaponsItemsView.findViewById(R.id.damage)).setText("Dmg");
 
 // regular equipment
         Button addEquipment = (Button) rootView.findViewById(R.id.addItem);
@@ -255,6 +265,42 @@ public class EquipmentFragment extends AbstractSheetFragment {
             super(view);
         }
     }
+
+    static class ArmorViewHolder extends AbstractItemViewHolder {
+        TextView ac;
+        CheckBox equipped;
+
+        public ArmorViewHolder(View view) {
+            super(view);
+            equipped = (CheckBox) view.findViewById(R.id.equip);
+            ac = (TextView) view.findViewById(R.id.ac);
+        }
+
+        @Override
+        public void bindTo(CharacterItem item, EquipmentFragment context, SubAdapter adapter) {
+            super.bindTo(item, context, adapter);
+            ac.setText("15");
+        }
+    }
+
+    static class WeaponViewHolder extends AbstractItemViewHolder {
+        TextView bonus;
+        TextView damage;
+
+        public WeaponViewHolder(View view) {
+            super(view);
+            bonus = (TextView) view.findViewById(R.id.hit_bonus);
+            damage = (TextView) view.findViewById(R.id.damage);
+        }
+
+        @Override
+        public void bindTo(CharacterItem item, EquipmentFragment context, SubAdapter adapter) {
+            super.bindTo(item, context, adapter);
+            damage.setText("1d8 + 3 / Piercing");
+            bonus.setText("+5");
+        }
+    }
+
 
     public static class BindableRecyclerViewHolder extends RecyclerView.ViewHolder {
 
@@ -426,9 +472,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public ItemViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
+        public ArmorViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.armor_row, parent, false);
-            return new ItemViewHolder(view);
+            return new ArmorViewHolder(view);
         }
 
     }
@@ -439,14 +485,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public BindableRecyclerViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
+        public WeaponViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.weapon_row, parent, false);
-            return new ItemViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
-            holder.bindTo(getItem(position), fragment, this);
+            return new WeaponViewHolder(view);
         }
     }
 

@@ -23,7 +23,7 @@
         android:layout_gravity="center_vertical"
         android:text="Deleting"
 
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        />
 
     <TextView
         android:id="@+id/name"
@@ -36,7 +36,6 @@
         android:lines="1"
         android:maxLines="1"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="" />
 
     <Button

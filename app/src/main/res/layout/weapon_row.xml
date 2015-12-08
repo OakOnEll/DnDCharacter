@@ -19,15 +19,15 @@
 
     <TextView
         android:id="@+id/hit_bonus"
-        android:layout_width="30dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="+5" />
+        android:text="Attack Bonus" />
     <TextView
         android:id="@+id/damage"
-        android:layout_width="50dp"
+        android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="1d6 + 3" />
+        android:text="Damage" />
 
 </LinearLayout>
