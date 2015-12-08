@@ -28,21 +28,19 @@ import java.util.List;
  */
 public abstract class AbstractRestDialogFragment extends DialogFragment {
     protected com.oakonell.dndcharacter.model.Character character;
+    protected View extraHealingGroup;
     private FeatureResetsAdapter featureResetAdapter;
     private List<FeatureResetInfo> featureResets;
-
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
-
     private TextView extraHealingtextView;
     private TextView finalHp;
     private TextView startHp;
     private View finalHpGroup;
-    protected View extraHealingGroup;
     private View featureResetsGroup;
     private View noHealingGroup;
 
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
 
     protected void configureCommon(View view) {
         featureResetsGroup = view.findViewById(R.id.feature_resets);
@@ -145,15 +143,6 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
         private final List<FeatureResetInfo> resets;
         private Context context;
 
-        class ViewHolder {
-            CheckBox name;
-            TextView description;
-            TextView uses;
-            EditText numToRestore;
-            public TextWatcher watcher;
-        }
-
-
         public FeatureResetsAdapter(Context context, List<FeatureResetInfo> resets) {
             this.context = context;
             this.resets = resets;
@@ -244,6 +233,14 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
 
             return view;
 
+        }
+
+        class ViewHolder {
+            public TextWatcher watcher;
+            CheckBox name;
+            TextView description;
+            TextView uses;
+            EditText numToRestore;
         }
     }
 

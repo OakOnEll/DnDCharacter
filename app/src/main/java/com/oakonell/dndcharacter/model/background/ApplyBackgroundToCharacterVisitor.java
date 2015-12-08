@@ -20,6 +20,12 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     String currentChoiceName;
     int traitIndex;
 
+    public ApplyBackgroundToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterBackground charBackground) {
+        this.charBackground = charBackground;
+        this.savedChoices = savedChoices;
+        this.customChoices = customChoices;
+    }
+
     public static void applyToCharacter(Background background, SavedChoices savedChoices, Map<String, String> customChoices, Character character) {
         CharacterBackground charBackground = new CharacterBackground();
         charBackground.setSavedChoices(savedChoices);
@@ -32,13 +38,6 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
         newMe.visit(element);
         character.setBackground(charBackground);
     }
-
-    public ApplyBackgroundToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterBackground charBackground) {
-        this.charBackground = charBackground;
-        this.savedChoices = savedChoices;
-        this.customChoices = customChoices;
-    }
-
 
     private void applyTraits(String choiceName, Runnable superVisit, ApplyTrait applyTrait) {
         traitIndex = 1;
@@ -69,11 +68,6 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
         charBackground.setName(XmlUtils.getElementText(element, "name"));
         super.visitBackground(element);
     }
-
-    public interface ApplyTrait {
-        void applyTrait(String value);
-    }
-
 
     @Override
     protected void visitSpecialties(final Element element) {
@@ -211,5 +205,9 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
                 charBackground.setIdeal(value);
             }
         });
+    }
+
+    public interface ApplyTrait {
+        void applyTrait(String value);
     }
 }

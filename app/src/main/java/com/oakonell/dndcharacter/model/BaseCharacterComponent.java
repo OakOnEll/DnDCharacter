@@ -18,35 +18,22 @@ import java.util.Map;
  * Created by Rob on 10/24/2015.
  */
 public abstract class BaseCharacterComponent {
+    @Element(required = false)
+    SavedChoices savedChoices = new SavedChoices();
     @ElementMap(entry = "statMod", key = "name", value = "mod", required = false)
     private Map<StatType, Integer> statModifiers = new HashMap<StatType, Integer>();
-
-
     @ElementMap(entry = "skill", key = "name", value = "proficiency", required = false)
     private Map<SkillType, Proficient> skillProficiencies = new HashMap<SkillType, Proficient>();
     @ElementMap(entry = "saveMod", key = "name", value = "proficiency", required = false)
     private Map<StatType, Proficient> saveProficiencies = new HashMap<StatType, Proficient>();
     @ElementList(required = false)
     private List<Feature> features = new ArrayList<Feature>();
-
     @ElementList(required = false)
     private List<String> languages = new ArrayList<>();
-
     @ElementMap(entry = "tool", key = "type", value = "proficiency", required = false)
     private Map<ProficiencyType, ToolProficiencies> toolProficiencies = new HashMap<>();
-
-    // TODO use a wrapper for SimpleXML serialization
-    public static class ToolProficiencies {
-        @ElementList(required = false, type = Proficiency.class, inline = true)
-        List<Proficiency> proficiencies = new ArrayList<>();
-    }
-
     @Element
     private String name;
-
-    @Element(required = false)
-    SavedChoices savedChoices = new SavedChoices();
-
 
     public String getName() {
         return name;
@@ -55,7 +42,6 @@ public abstract class BaseCharacterComponent {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public int getStatModifier(StatType type) {
         Integer value = statModifiers.get(type);
@@ -80,7 +66,6 @@ public abstract class BaseCharacterComponent {
         if (proficient == null) return Proficient.NONE;
         return proficient;
     }
-
 
     public Proficient getSaveProficient(StatType type) {
         Proficient proficient = saveProficiencies.get(type);
@@ -117,11 +102,9 @@ public abstract class BaseCharacterComponent {
         return savedChoices;
     }
 
-
     public void setSavedChoices(SavedChoices savedChoices) {
         this.savedChoices = savedChoices;
     }
-
 
     public void addToolProficiency(ProficiencyType type, String name, Proficient proficient) {
         Proficiency proficiency = new Proficiency(type, name, null, proficient);
@@ -149,5 +132,11 @@ public abstract class BaseCharacterComponent {
             return Collections.emptyList();
         }
         return wrappedList.proficiencies;
+    }
+
+    // TODO use a wrapper for SimpleXML serialization
+    public static class ToolProficiencies {
+        @ElementList(required = false, type = Proficiency.class, inline = true)
+        List<Proficiency> proficiencies = new ArrayList<>();
     }
 }

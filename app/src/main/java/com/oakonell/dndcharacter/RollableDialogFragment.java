@@ -13,26 +13,24 @@ import java.util.Random;
  * Created by Rob on 12/1/2015.
  */
 public class RollableDialogFragment extends DialogFragment {
-    private MainActivity mainActivity;
     RadioButton normalRadio;
     RadioButton advantageRadio;
     RadioButton disadvantageRadio;
+    int modifier;
+    int startColor;
+    private MainActivity mainActivity;
     private TextView roll1Text;
     private TextView roll2Text;
     private TextView modifierText;
     private TextView totalText;
     private TextView critical_label;
 
-    int modifier;
-    int startColor;
-
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
 
     public void setMainActivity(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
-    }
-
-    public MainActivity getMainActivity() {
-        return mainActivity;
     }
 
     protected void superCreateView(View view) {

@@ -8,9 +8,9 @@ import com.activeandroid.Model;
 public abstract class AbstractComponentModel extends Model {
     abstract public String getName();
 
+    abstract public void setName(String name);
+
     abstract public String getXml();
 
     abstract public void setXml(String xml);
-
-    abstract public void setName(String name);
 }

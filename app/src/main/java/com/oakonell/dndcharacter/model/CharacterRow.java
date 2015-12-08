@@ -29,6 +29,11 @@ public class CharacterRow extends AbstractComponentModel {
     }
 
     @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
     public String getXml() {
         return xml;
     }
@@ -36,10 +41,5 @@ public class CharacterRow extends AbstractComponentModel {
     @Override
     public void setXml(String xml) {
         this.xml = xml;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
     }
 }

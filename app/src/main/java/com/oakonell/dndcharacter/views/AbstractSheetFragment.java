@@ -32,6 +32,11 @@ public class AbstractSheetFragment extends Fragment {
     Button changeName;
     Button cancelName;
 
+    static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
+    }
+
     public void updateViews() {
         updateViews((ViewGroup) getView());
     }
@@ -126,11 +131,6 @@ public class AbstractSheetFragment extends Fragment {
 
             }
         });
-    }
-
-    static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
     }
 
     private void allowNameEdit(boolean b) {

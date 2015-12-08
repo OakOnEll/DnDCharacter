@@ -52,6 +52,16 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
         return "last_updated desc";
     }
 
+    @NonNull
+    @Override
+    protected CharacterRowViewHolder newRowViewHolder(View newView) {
+        return new CharacterRowViewHolder(newView);
+    }
+
+    @Override
+    protected int getListItemResource() {
+        return R.layout.character_list_item;
+    }
 
     protected static class CharacterRowViewHolder extends BindableRecyclerViewHolder {
         public TextView name;
@@ -80,17 +90,6 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
                 }
             });
         }
-    }
-
-    @NonNull
-    @Override
-    protected CharacterRowViewHolder newRowViewHolder(View newView) {
-        return new CharacterRowViewHolder(newView);
-    }
-
-    @Override
-    protected int getListItemResource() {
-        return R.layout.character_list_item;
     }
 
 }

@@ -33,12 +33,11 @@ import java.util.Map;
  */
 public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     public static final int SPINNER_TEXT_SP = 14;
-    private ViewGroup parent;
-    private Map<String, ChooseMD> choicesMD = new HashMap<>();
     SavedChoices choices;
     int uiIdCounter;
     ChooseMD currentChooseMD;
-
+    private ViewGroup parent;
+    private Map<String, ChooseMD> choicesMD = new HashMap<>();
 
     protected void createGroup(String title) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, null);

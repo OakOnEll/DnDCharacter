@@ -31,6 +31,7 @@ import java.util.Map;
  * Created by Rob on 10/26/2015.
  */
 public class EquipmentFragment extends AbstractSheetFragment {
+    private static final int UNDO_DELAY = 5000;
     TextView armor_proficiency;
     TextView weapon_proficiency;
     TextView tools_proficiency;
@@ -42,14 +43,10 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private TextView silverPieces;
     private TextView electrumPieces;
     private TextView platinumPieces;
-
     private EquipmentAdapter equipmentAdapter;
     private ArmorAdapter armorAdapter;
     private WeaponsAdapter weaponsAdapter;
-
     private Map<CharacterItem, Long> beingDeleted = new HashMap<CharacterItem, Long>();
-    private static final int UNDO_DELAY = 5000;
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -246,6 +243,13 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     }
 
+    public interface ItemTouchHelperAdapter {
+
+        void onItemMove(int fromPosition, int toPosition);
+
+        void onItemDismiss(int position);
+    }
+
     static class ItemViewHolder extends AbstractItemViewHolder {
         public ItemViewHolder(View view) {
             super(view);
@@ -308,54 +312,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         }
     }
-
-    public interface ItemTouchHelperAdapter {
-
-        void onItemMove(int fromPosition, int toPosition);
-
-        void onItemDismiss(int position);
-    }
-
-
-    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
-
-        private final ItemTouchHelperAdapter mAdapter;
-
-        public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
-            mAdapter = adapter;
-        }
-
-        @Override
-        public boolean isLongPressDragEnabled() {
-            return true;
-        }
-
-        @Override
-        public boolean isItemViewSwipeEnabled() {
-            return true;
-        }
-
-        @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-            return makeMovementFlags(dragFlags, swipeFlags);
-        }
-
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-                              RecyclerView.ViewHolder target) {
-            mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-            return true;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-        }
-
-    }
-
 
     public abstract static class SubAdapter extends RecyclerView.Adapter<BindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
         protected Context context;
@@ -477,7 +433,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     }
 
-
     public static class WeaponsAdapter extends SubAdapter {
         public WeaponsAdapter(EquipmentFragment fragment, Character character) {
             super(fragment, character.getItems());
@@ -510,6 +465,45 @@ public class EquipmentFragment extends AbstractSheetFragment {
         @Override
         public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
             holder.bindTo(getItem(position), fragment, this);
+        }
+
+    }
+
+    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+        private final ItemTouchHelperAdapter mAdapter;
+
+        public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+            mAdapter = adapter;
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                              RecyclerView.ViewHolder target) {
+            mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
         }
 
     }

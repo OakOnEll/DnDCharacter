@@ -12,21 +12,22 @@ import com.oakonell.dndcharacter.model.AbstractComponentModel;
 @Table(name = "item", id = BaseColumns._ID)
 public class ItemRow extends AbstractComponentModel {
     @Column
-    ItemType itemType;
-
-    @Column
     public String name;
-
     @Column
     public String category;
-
     @Column
     public String xml;
-
+    @Column
+    ItemType itemType;
 
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -37,11 +38,6 @@ public class ItemRow extends AbstractComponentModel {
     @Override
     public void setXml(String xml) {
         this.xml = xml;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
     }
 
     public ItemType getItemType() {

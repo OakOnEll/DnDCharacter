@@ -27,12 +27,6 @@ public class SavedChoices {
         return copy;
     }
 
-    // TODO use a wrapper for SimpleXML serialization
-    public static class SavedSelections {
-        @ElementList(required = false, type = String.class, inline = true)
-        List<String> selections = new ArrayList<>();
-    }
-
     public List<String> getChoicesFor(String choiceName) {
         SavedSelections selections = choices.get(choiceName);
         if (selections == null) {
@@ -40,5 +34,11 @@ public class SavedChoices {
             choices.put(choiceName, selections);
         }
         return selections.selections;
+    }
+
+    // TODO use a wrapper for SimpleXML serialization
+    public static class SavedSelections {
+        @ElementList(required = false, type = String.class, inline = true)
+        List<String> selections = new ArrayList<>();
     }
 }

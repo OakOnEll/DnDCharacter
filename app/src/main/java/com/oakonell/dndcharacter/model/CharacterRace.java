@@ -17,19 +17,19 @@ public class CharacterRace extends BaseCharacterComponent {
         return ComponentType.RACE;
     }
 
-    public void setSubraceName(String subraceName) {
-        this.subraceName = subraceName;
-    }
-
     public String getSubraceName() {
         return subraceName;
     }
 
-    public void setSubRaceChoices(SavedChoices subRaceChoices) {
-        this.subRaceChoices = subRaceChoices;
+    public void setSubraceName(String subraceName) {
+        this.subraceName = subraceName;
     }
 
     public SavedChoices getSubRaceChoices() {
         return subRaceChoices;
+    }
+
+    public void setSubRaceChoices(SavedChoices subRaceChoices) {
+        this.subRaceChoices = subRaceChoices;
     }
 }

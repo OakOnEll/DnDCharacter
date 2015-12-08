@@ -9,8 +9,9 @@ import org.simpleframework.xml.Element;
  */
 public class CharacterItem extends BaseCharacterComponent {
     @Element(required = false)
+    ComponentType source;
+    @Element(required = false)
     private ItemType type;
-
     /*    @Element(required = false)
         private boolean isContainer;
 
@@ -19,9 +20,6 @@ public class CharacterItem extends BaseCharacterComponent {
     */
     @Element(required = false)
     private String category;
-
-    @Element(required = false)
-    ComponentType source;
 
     @Override
     public ComponentType getType() {

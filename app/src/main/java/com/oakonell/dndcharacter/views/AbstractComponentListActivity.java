@@ -34,11 +34,11 @@ import java.util.Map;
  * Created by Rob on 11/20/2015.
  */
 public abstract class AbstractComponentListActivity<M extends AbstractComponentModel> extends AbstractBaseActivity {
+    private static final int UNDO_DELAY = 5000;
     private RecyclerView listView;
     private ComponentListAdapter adapter;
     private int loaderId;
     private Map<Long, Long> recordsBeingDeleted = new HashMap<Long, Long>();
-    private static final int UNDO_DELAY = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +139,44 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         super.onResume();
     }
 
+    @NonNull
+    protected BindableRecyclerViewHolder newRowViewHolder(View newView) {
+        return new RowViewHolder(newView);
+    }
+
+    private void promptToDelete(final int position, final long rowId, String name, final ComponentListAdapter componentListAdapter) {
+        String recordTypeName = getRecordTypeName();
+        // Use the Builder class for convenient dialog construction
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete " + recordTypeName + " " + name + "(id=" + rowId + ", position=" + position + ")")
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteRow(rowId);
+                        componentListAdapter.notifyItemRemoved(position);
+
+                        //componentListAdapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        // restore the view?
+                        componentListAdapter.notifyDataSetChanged();
+                    }
+                });
+        // Create the AlertDialog object and return it
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    protected abstract void deleteRow(long id);
+
+    public interface ItemTouchHelperAdapter {
+
+        void onItemMove(int fromPosition, int toPosition);
+
+        void onItemDismiss(int position);
+    }
 
     public static class DeleteRowViewHolder extends BindableRecyclerViewHolder {
         TextView name;
@@ -283,39 +321,6 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
     }
 
-    @NonNull
-    protected BindableRecyclerViewHolder newRowViewHolder(View newView) {
-        return new RowViewHolder(newView);
-    }
-
-    private void promptToDelete(final int position, final long rowId, String name, final ComponentListAdapter componentListAdapter) {
-        String recordTypeName = getRecordTypeName();
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Delete " + recordTypeName + " " + name + "(id=" + rowId + ", position=" + position + ")")
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        deleteRow(rowId);
-                        componentListAdapter.notifyItemRemoved(position);
-
-                        //componentListAdapter.notifyDataSetChanged();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        // restore the view?
-                        componentListAdapter.notifyDataSetChanged();
-                    }
-                });
-        // Create the AlertDialog object and return it
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    protected abstract void deleteRow(long id);
-
-
     public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
         private final ItemTouchHelperAdapter mAdapter;
@@ -353,13 +358,5 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
             mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
         }
 
-    }
-
-
-    public interface ItemTouchHelperAdapter {
-
-        void onItemMove(int fromPosition, int toPosition);
-
-        void onItemDismiss(int position);
     }
 }

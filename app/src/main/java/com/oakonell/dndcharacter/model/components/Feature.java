@@ -19,31 +19,31 @@ public class Feature {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getUsesFormula() {
-        return usesFormula;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public String getUsesFormula() {
+        return usesFormula;
+    }
+
     public void setFormula(String formula) {
         usesFormula = formula;
     }
 
-    public void setRefreshesOn(RefreshType type) {
-        this.refreshType = type;
-    }
-
     public RefreshType getRefreshesOn() {
         return refreshType;
+    }
+
+    public void setRefreshesOn(RefreshType type) {
+        this.refreshType = type;
     }
 }

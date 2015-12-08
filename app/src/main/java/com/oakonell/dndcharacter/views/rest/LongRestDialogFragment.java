@@ -27,27 +27,16 @@ import java.util.List;
  */
 public class LongRestDialogFragment extends AbstractRestDialogFragment {
 
+    private final List<HitDieRestoreRow> diceUses = new ArrayList<>();
     View fullHealingGroup;
     CheckBox fullHealing;
-
-
-    private class HitDieRestoreRow {
-        public int dieSides;
-        public int currentDiceRemaining;
-        public int numDiceToRestore;
-        public int totalDice;
-    }
-
     private HitDiceRestoreAdapter diceAdapter;
-    private final List<HitDieRestoreRow> diceUses = new ArrayList<>();
-
 
     public static LongRestDialogFragment createDialog(com.oakonell.dndcharacter.model.Character character) {
         LongRestDialogFragment newMe = new LongRestDialogFragment();
         newMe.setCharacter(character);
         return newMe;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,7 +104,6 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         return view;
     }
 
-
     @Override
     protected boolean shouldReset(RefreshType refreshesOn) {
         return true;
@@ -134,20 +122,16 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         return getExtraHealing();
     }
 
+    private class HitDieRestoreRow {
+        public int dieSides;
+        public int currentDiceRemaining;
+        public int numDiceToRestore;
+        public int totalDice;
+    }
 
     private class HitDiceRestoreAdapter extends BaseAdapter {
-        class ViewHolder {
-            TextView dieSides;
-            TextView currentDiceRemaining;
-            TextView numDiceToRestore;
-            TextView totalDice;
-            TextView resultDice;
-        }
-
         List<HitDieRestoreRow> diceCounts;
         private Context context;
-
-
         public HitDiceRestoreAdapter(Context context, List<HitDieRestoreRow> diceCounts) {
             this.context = context;
             this.diceCounts = diceCounts;
@@ -192,6 +176,14 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
             viewHolder.totalDice.setText(row.totalDice + "");
             viewHolder.resultDice.setText((row.currentDiceRemaining + row.numDiceToRestore) + "");
             return view;
+        }
+
+        class ViewHolder {
+            TextView dieSides;
+            TextView currentDiceRemaining;
+            TextView numDiceToRestore;
+            TextView totalDice;
+            TextView resultDice;
         }
 
     }

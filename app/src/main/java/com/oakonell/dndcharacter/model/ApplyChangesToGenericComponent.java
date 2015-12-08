@@ -18,6 +18,12 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private final Character character;
     String currentChoiceName;
 
+    public ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, Character character) {
+        this.component = component;
+        this.savedChoices = savedChoices;
+        this.character = character;
+    }
+
     public static <C extends BaseCharacterComponent> void applyToCharacter(Element element, SavedChoices savedChoices, C component, Character character) {
         // first clear any equipment from this type previous value
         ComponentType componentType = component.getType();
@@ -31,13 +37,6 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         ApplyChangesToGenericComponent<C> newMe = new ApplyChangesToGenericComponent<>(savedChoices, component, character);
         newMe.visitChildren(element);
     }
-
-    public ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, Character character) {
-        this.component = component;
-        this.savedChoices = savedChoices;
-        this.character = character;
-    }
-
 
     @Override
     protected void visitFeature(Element element) {

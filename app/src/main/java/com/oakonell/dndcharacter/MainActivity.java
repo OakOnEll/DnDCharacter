@@ -34,11 +34,9 @@ import java.util.Date;
 
 public class MainActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
-
+    private final String MyPREFERENCES = "prefs";
     long id = -1;
     com.oakonell.dndcharacter.model.Character character = null;
-
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -48,7 +46,6 @@ public class MainActivity extends AbstractBaseActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -58,8 +55,6 @@ public class MainActivity extends AbstractBaseActivity {
     private NotesFragment notesFragment;
     private PersonaFragment personaFragment;
     private EquipmentFragment equipmentFragment;
-    private final String MyPREFERENCES = "prefs";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,112 +145,6 @@ public class MainActivity extends AbstractBaseActivity {
         if (equipmentFragment != null) equipmentFragment.updateViews();
     }
 
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0) {
-                mainFragment = new MainFragment();
-                mainFragment.setCharacter(character);
-                return mainFragment;
-            }
-            if (position == 1) {
-                featuresFragment = new FeaturesFragment();
-                featuresFragment.setCharacter(character);
-                return featuresFragment;
-            }
-            if (position == 2) {
-                equipmentFragment = new EquipmentFragment();
-                equipmentFragment.setCharacter(character);
-                return equipmentFragment;
-            }
-            if (position == 4) {
-                personaFragment = new PersonaFragment();
-                personaFragment.setCharacter(character);
-                return personaFragment;
-
-            }
-            if (position == 5) {
-                notesFragment = new NotesFragment();
-                notesFragment.setCharacter(character);
-                return notesFragment;
-
-            }
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            return 6;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Main";
-                case 1:
-                    return "Features";
-                case 2:
-                    return "Equipment";
-                case 3:
-                    return "Spells";
-                case 4:
-                    return "Persona";
-                case 5:
-                    return "Notes";
-            }
-            return null;
-        }
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends AbstractSheetFragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-
     private void saveCharacter() {
         Serializer serializer = new Persister();
         OutputStream out = null;
@@ -342,6 +231,110 @@ public class MainActivity extends AbstractBaseActivity {
                     //throw new RuntimeException("Error loading xml", e);
                 }
             }
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends AbstractSheetFragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            return rootView;
+        }
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                mainFragment = new MainFragment();
+                mainFragment.setCharacter(character);
+                return mainFragment;
+            }
+            if (position == 1) {
+                featuresFragment = new FeaturesFragment();
+                featuresFragment.setCharacter(character);
+                return featuresFragment;
+            }
+            if (position == 2) {
+                equipmentFragment = new EquipmentFragment();
+                equipmentFragment.setCharacter(character);
+                return equipmentFragment;
+            }
+            if (position == 4) {
+                personaFragment = new PersonaFragment();
+                personaFragment.setCharacter(character);
+                return personaFragment;
+
+            }
+            if (position == 5) {
+                notesFragment = new NotesFragment();
+                notesFragment.setCharacter(character);
+                return notesFragment;
+
+            }
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            return 6;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Main";
+                case 1:
+                    return "Features";
+                case 2:
+                    return "Equipment";
+                case 3:
+                    return "Spells";
+                case 4:
+                    return "Persona";
+                case 5:
+                    return "Notes";
+            }
+            return null;
         }
     }
 

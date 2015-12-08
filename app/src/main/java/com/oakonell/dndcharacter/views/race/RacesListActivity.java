@@ -16,22 +16,6 @@ import com.oakonell.dndcharacter.views.CursorIndexesByName;
  */
 public class RacesListActivity extends AbstractComponentListActivity<Race> {
 
-    protected static class RaceRowViewHolder extends RowViewHolder {
-        public TextView parentRace;
-
-        public RaceRowViewHolder(View itemView) {
-            super(itemView);
-            parentRace = (TextView) itemView.findViewById(R.id.parent_race);
-        }
-
-        @Override
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
-            super.bindTo(cursor, context, adapter, cursorIndexesByName);
-            final String parentName = cursor.getString(cursorIndexesByName.getIndex(cursor, "parentRace"));
-            parentRace.setText(parentName);
-        }
-    }
-
     @NonNull
     protected RaceRowViewHolder newRowViewHolder(View newView) {
         return new RaceRowViewHolder(newView);
@@ -41,7 +25,6 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
     protected int getListItemResource() {
         return R.layout.race_list_item;
     }
-
 
     @NonNull
     @Override
@@ -75,5 +58,21 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
     @Override
     protected void deleteRow(long id) {
         Race.delete(Race.class, id);
+    }
+
+    protected static class RaceRowViewHolder extends RowViewHolder {
+        public TextView parentRace;
+
+        public RaceRowViewHolder(View itemView) {
+            super(itemView);
+            parentRace = (TextView) itemView.findViewById(R.id.parent_race);
+        }
+
+        @Override
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+            super.bindTo(cursor, context, adapter, cursorIndexesByName);
+            final String parentName = cursor.getString(cursorIndexesByName.getIndex(cursor, "parentRace"));
+            parentRace.setText(parentName);
+        }
     }
 }

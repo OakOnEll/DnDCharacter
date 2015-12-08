@@ -19,12 +19,12 @@ public class ShortRestRequest extends AbstractRestRequest {
         hitDieUses.put(dieSides, uses);
     }
 
-    public void setHealing(int healing) {
-        this.healing = healing;
-    }
-
     public int getHealing() {
         return healing;
+    }
+
+    public void setHealing(int healing) {
+        this.healing = healing;
     }
 
     public Map<Integer, Integer> getHitDieUses() {

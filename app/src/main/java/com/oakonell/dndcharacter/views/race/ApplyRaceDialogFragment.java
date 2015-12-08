@@ -32,14 +32,12 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragment<Race> {
-    private NoDefaultSpinner subraceSpinner;
-    Race subrace;
-    List<Race> subraces;
-
-    private Map<String, ChooseMD> subRaceChooseMDs;
-
     private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
     private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
+    Race subrace;
+    List<Race> subraces;
+    private NoDefaultSpinner subraceSpinner;
+    private Map<String, ChooseMD> subRaceChooseMDs;
 
     public static ApplyRaceDialogFragment createDialog(Character character, Race race) {
         ApplyRaceDialogFragment newMe = new ApplyRaceDialogFragment();

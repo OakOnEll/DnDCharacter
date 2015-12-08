@@ -24,19 +24,6 @@ import java.util.Map;
  * Created by Rob on 10/21/2015.
  */
 public class Character {
-    // relatively static data
-    @Element(required = false)
-    private String name;
-    @Element(required = false)
-    private CharacterBackground background;
-    @Element(required = false)
-    private CharacterRace race;
-
-    @ElementList(required = false)
-    private List<CharacterClass> classes = new ArrayList<CharacterClass>();
-    @ElementMap(entry = "stat", key = "name", value = "value", required = false)
-    private Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
-
     // more fluid data
     @Element(required = false)
     int hp;
@@ -44,15 +31,23 @@ public class Character {
     @Deprecated
     // TODO delete- will need to dump DB
             int tempHpMax;
-
     @Element(required = false)
     int tempHp;
-    @Element(required = false)
-    private String notes;
-
     @ElementMap(entry = "feature", key = "name", value = "uses", required = false)
     Map<String, Integer> usedFeatures = new HashMap<String, Integer>();
-
+    // relatively static data
+    @Element(required = false)
+    private String name;
+    @Element(required = false)
+    private CharacterBackground background;
+    @Element(required = false)
+    private CharacterRace race;
+    @ElementList(required = false)
+    private List<CharacterClass> classes = new ArrayList<CharacterClass>();
+    @ElementMap(entry = "stat", key = "name", value = "value", required = false)
+    private Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
+    @Element(required = false)
+    private String notes;
     @ElementMap(entry = "hitDie", key = "die", value = "uses", required = false)
     private Map<Integer, Integer> hitDieUses = new HashMap<>();
 
@@ -256,19 +251,6 @@ public class Character {
         this.platinum = platinum;
     }
 
-
-    public static class LanguageAndReason {
-        String language;
-        String reason;
-
-        @Override
-        public String toString() {
-            return language + " (" + reason + ")";
-        }
-
-    }
-
-
     public List<String> getLanguages() {
         List<String> result = new ArrayList<>();
         for (LanguageAndReason each : deriveLanguages()) {
@@ -390,17 +372,6 @@ public class Character {
         return getToolProficiencyString(type);
     }
 
-
-    public static class ModifierAndReason {
-        int modifier;
-        String reason;
-
-        @Override
-        public String toString() {
-            return modifier + " (" + reason + ")";
-        }
-    }
-
     public List<ModifierAndReason> deriveStatReasons(StatType type) {
         List<ModifierAndReason> result = new ArrayList<>();
         if (baseStats != null) {
@@ -473,17 +444,6 @@ public class Character {
         // go through equipment
         // go through effects..
         return value;
-    }
-
-    public static class ProficientAndReason {
-        Proficient proficient;
-        String reason;
-
-        @Override
-        public String toString() {
-            return proficient + " (" + reason + ")";
-        }
-
     }
 
     public List<ProficientAndReason> deriveSkillProciencies(SkillType type) {
@@ -631,7 +591,6 @@ public class Character {
         return Integer.parseInt(formula);
     }
 
-
     public int getUses(Feature feature) {
         Integer uses = usedFeatures.get(feature.getName());
         if (uses == null) return 0;
@@ -698,7 +657,6 @@ public class Character {
 
     }
 
-
     public void shortRest(ShortRestRequest request) {
         hp = Math.min(hp + request.getHealing(), getMaxHP());
 
@@ -736,16 +694,6 @@ public class Character {
         return builder.toString();
     }
 
-    public static class HitDieRow {
-        public int dieSides;
-        public int numDiceRemaining;
-        public int totalDice;
-
-        public String toString() {
-            return "(" + numDiceRemaining + "/" + totalDice + ")" + "d" + dieSides;
-        }
-    }
-
     public List<HitDieRow> getHitDiceCounts() {
         Map<Integer, Integer> dice = new LinkedHashMap<>();
         if (classes == null) return Collections.emptyList();
@@ -772,10 +720,6 @@ public class Character {
         return result;
     }
 
-    public void setHP(int HP) {
-        this.hp = HP;
-    }
-
     public int getTempHp() {
         return tempHp;
     }
@@ -788,10 +732,13 @@ public class Character {
         return hp;
     }
 
+    public void setHP(int HP) {
+        this.hp = HP;
+    }
+
     public int getTotalHP() {
         return hp + tempHp;
     }
-
 
     public void damage(int amount) {
         if (tempHp > 0) {
@@ -815,40 +762,40 @@ public class Character {
         tempHp += amount;
     }
 
-    public void setBackstory(String backstory) {
-        this.backstory = backstory;
-    }
-
     public String getBackstory() {
         return backstory;
+    }
+
+    public void setBackstory(String backstory) {
+        this.backstory = backstory;
     }
 
     public String getPersonalityTrait() {
         return background.getPersonalityTrait();
     }
 
-    public String getIdeals() {
-        return background.getIdeal();
-    }
-
-    public String getBonds() {
-        return background.getBonds();
-    }
-
-    public String getFlaws() {
-        return background.getFlaw();
-    }
-
     public void setPersonalityTrait(String personalityTrait) {
         background.setPersonalityTrait(personalityTrait);
+    }
+
+    public String getIdeals() {
+        return background.getIdeal();
     }
 
     public void setIdeals(String ideals) {
         background.setIdeal(ideals);
     }
 
+    public String getBonds() {
+        return background.getBonds();
+    }
+
     public void setBonds(String bonds) {
         background.setBond(bonds);
+    }
+
+    public String getFlaws() {
+        return background.getFlaw();
     }
 
     public void setFlaws(String flaws) {
@@ -858,22 +805,6 @@ public class Character {
     public void setTraitSavedChoiceToCustom(String trait) {
         background.setTraitSavedChoiceToCustom(trait);
     }
-
-
-    public static class ToolProficiencyAndReason {
-        Proficiency proficient;
-        String reason;
-
-        @Override
-        public String toString() {
-            if (proficient.getCategory() != null) {
-                return "[" + proficient.getCategory() + "] (" + reason + ")";
-            }
-            return proficient.getName() + " (" + reason + ")";
-        }
-
-    }
-
 
     public List<ToolProficiencyAndReason> deriveToolProficienciesReasons(ProficiencyType type) {
         List<ToolProficiencyAndReason> result = new ArrayList<>();
@@ -915,12 +846,67 @@ public class Character {
         return result;
     }
 
-
     public void addItem(CharacterItem item) {
         items.add(item);
     }
 
     public List<CharacterItem> getItems() {
         return items;
+    }
+
+    public static class LanguageAndReason {
+        String language;
+        String reason;
+
+        @Override
+        public String toString() {
+            return language + " (" + reason + ")";
+        }
+
+    }
+
+    public static class ModifierAndReason {
+        int modifier;
+        String reason;
+
+        @Override
+        public String toString() {
+            return modifier + " (" + reason + ")";
+        }
+    }
+
+    public static class ProficientAndReason {
+        Proficient proficient;
+        String reason;
+
+        @Override
+        public String toString() {
+            return proficient + " (" + reason + ")";
+        }
+
+    }
+
+    public static class HitDieRow {
+        public int dieSides;
+        public int numDiceRemaining;
+        public int totalDice;
+
+        public String toString() {
+            return "(" + numDiceRemaining + "/" + totalDice + ")" + "d" + dieSides;
+        }
+    }
+
+    public static class ToolProficiencyAndReason {
+        Proficiency proficient;
+        String reason;
+
+        @Override
+        public String toString() {
+            if (proficient.getCategory() != null) {
+                return "[" + proficient.getCategory() + "] (" + reason + ")";
+            }
+            return proficient.getName() + " (" + reason + ")";
+        }
+
     }
 }

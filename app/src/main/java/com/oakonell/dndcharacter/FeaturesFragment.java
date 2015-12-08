@@ -18,10 +18,9 @@ import com.oakonell.dndcharacter.views.FeatureBlockView;
  */
 public class FeaturesFragment extends AbstractSheetFragment {
 
-    FeatureAdapter adapter;
+    private FeatureAdapter adapter;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.feature_sheet, container, false);
 
         superCreateViews(rootView);
@@ -50,8 +49,8 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
 
     public static class FeatureAdapter extends BaseAdapter {
+        private Character character;
         private Context context;
-        Character character;
 
         public FeatureAdapter(Context context, Character character) {
             this.context = context;

@@ -24,9 +24,8 @@ import java.util.List;
  * Created by Rob on 11/7/2015.
  */
 public class ShortRestDialogFragment extends AbstractRestDialogFragment {
-    private HitDiceAdapter diceAdapter;
     private final List<HitDieUseRow> diceUses = new ArrayList<>();
-
+    private HitDiceAdapter diceAdapter;
 
     public static ShortRestDialogFragment createDialog(Character character) {
         ShortRestDialogFragment newMe = new ShortRestDialogFragment();
@@ -107,19 +106,14 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         return healing;
     }
 
+    void promptForHitDieHeal(final HitDieUseRow row) {
+        UseHitDieDialogFragment frag = UseHitDieDialogFragment.createDialog(this, row);
+        frag.show(getFragmentManager(), "use_hit_die");
+    }
 
     private class HitDiceAdapter extends BaseAdapter {
-        class ViewHolder {
-            TextView numDice;
-            TextView die;
-            TextView useText;
-            Button useButton;
-        }
-
         List<HitDieUseRow> diceCounts;
         private Context context;
-
-
         public HitDiceAdapter(Context context, List<HitDieUseRow> diceCounts) {
             this.context = context;
             this.diceCounts = diceCounts;
@@ -186,11 +180,13 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
         }
 
-    }
+        class ViewHolder {
+            TextView numDice;
+            TextView die;
+            TextView useText;
+            Button useButton;
+        }
 
-    void promptForHitDieHeal(final HitDieUseRow row) {
-        UseHitDieDialogFragment frag = UseHitDieDialogFragment.createDialog(this, row);
-        frag.show(getFragmentManager(), "use_hit_die");
     }
 
 }

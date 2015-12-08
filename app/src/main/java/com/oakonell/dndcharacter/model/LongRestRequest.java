@@ -10,12 +10,12 @@ public class LongRestRequest extends AbstractRestRequest {
     private int healing;
     private Map<Integer, Integer> hitDieRestores = new HashMap<>();
 
-    public void setHealing(int healing) {
-        this.healing = healing;
-    }
-
     public int getHealing() {
         return healing;
+    }
+
+    public void setHealing(int healing) {
+        this.healing = healing;
     }
 
     public void restoreHitDice(int dieSides, int numDiceToRestoreRequest) {

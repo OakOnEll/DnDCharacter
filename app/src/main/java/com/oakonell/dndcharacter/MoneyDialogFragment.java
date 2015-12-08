@@ -20,23 +20,19 @@ public class MoneyDialogFragment extends DialogFragment {
     private MainActivity mainActivity;
     private CoinType focusOn;
 
-    public void setFocusOn(CoinType focusOn) {
-        this.focusOn = focusOn;
+    public static MoneyDialogFragment createFragment(MainActivity activity, CoinType focus) {
+        MoneyDialogFragment newMe = new MoneyDialogFragment();
+        newMe.setMainActivity(activity);
+        newMe.setFocusOn(focus);
+        return newMe;
     }
 
     public CoinType getFocusOn() {
         return focusOn;
     }
 
-    enum CoinType {
-        COPPER, SILVER, ELECTRUM, GOLD, PLATINUM;
-    }
-
-    public static MoneyDialogFragment createFragment(MainActivity activity, CoinType focus) {
-        MoneyDialogFragment newMe = new MoneyDialogFragment();
-        newMe.setMainActivity(activity);
-        newMe.setFocusOn(focus);
-        return newMe;
+    public void setFocusOn(CoinType focusOn) {
+        this.focusOn = focusOn;
     }
 
     private void setMainActivity(MainActivity mainActivity) {
@@ -131,6 +127,9 @@ public class MoneyDialogFragment extends DialogFragment {
         return intValue;
     }
 
+    enum CoinType {
+        COPPER, SILVER, ELECTRUM, GOLD, PLATINUM;
+    }
 
     static class CoinInputWatcher implements TextWatcher {
 

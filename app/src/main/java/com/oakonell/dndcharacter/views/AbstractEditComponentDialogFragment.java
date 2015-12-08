@@ -19,10 +19,9 @@ import org.w3c.dom.Document;
  * Created by Rob on 11/20/2015.
  */
 public class AbstractEditComponentDialogFragment<M extends AbstractComponentModel> extends DialogFragment {
-    private M model;
-
     TextView title;
     EditText xmltext;
+    private M model;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

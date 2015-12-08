@@ -27,21 +27,8 @@ public class CharacterBackground extends BaseCharacterComponent {
         return ComponentType.BACKGROUND;
     }
 
-
-    public void setPersonalityTrait(String personalityTrait) {
-        this.personalityTrait = personalityTrait;
-    }
-
-    public void setIdeal(String ideals) {
-        this.ideal = ideals;
-    }
-
     public void setBond(String bonds) {
         this.bond = bonds;
-    }
-
-    public void setFlaw(String flaws) {
-        this.flaw = flaws;
     }
 
     public void setTraitSavedChoiceToCustom(String trait) {
@@ -50,13 +37,20 @@ public class CharacterBackground extends BaseCharacterComponent {
         selections.add("custom");
     }
 
-
     public String getPersonalityTrait() {
         return personalityTrait;
     }
 
+    public void setPersonalityTrait(String personalityTrait) {
+        this.personalityTrait = personalityTrait;
+    }
+
     public String getIdeal() {
         return ideal;
+    }
+
+    public void setIdeal(String ideals) {
+        this.ideal = ideals;
     }
 
     public String getBonds() {
@@ -65,6 +59,10 @@ public class CharacterBackground extends BaseCharacterComponent {
 
     public String getFlaw() {
         return flaw;
+    }
+
+    public void setFlaw(String flaws) {
+        this.flaw = flaws;
     }
 
     public String getSpecialtyTitle() {

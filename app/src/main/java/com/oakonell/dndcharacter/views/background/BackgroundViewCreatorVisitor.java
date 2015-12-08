@@ -30,13 +30,13 @@ import java.util.Map;
  */
 public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
-    private ViewGroup view;
-    private ViewGroup parent;
-    private Map<String, ChooseMD> choicesMD = new HashMap<>();
     SavedChoices choices;
     int uiIdCounter;
     int traitIndex;
     ChooseMD currentChooseMD;
+    private ViewGroup view;
+    private ViewGroup parent;
+    private Map<String, ChooseMD> choicesMD = new HashMap<>();
     private List<String> traitNames;
     private Map<String, String> customChoices;
 

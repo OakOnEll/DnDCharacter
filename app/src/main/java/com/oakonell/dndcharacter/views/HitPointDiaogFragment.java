@@ -176,12 +176,12 @@ public class HitPointDiaogFragment extends DialogFragment {
         done.setEnabled(canApply);
     }
 
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
-
     public Character getCharacter() {
         return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
     public void setFragment(MainFragment fragment) {

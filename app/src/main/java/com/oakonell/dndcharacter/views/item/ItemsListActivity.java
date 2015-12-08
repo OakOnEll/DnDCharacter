@@ -44,6 +44,22 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         return "Items";
     }
 
+    @NonNull
+    @Override
+    protected ItemRowViewHolder newRowViewHolder(View newView) {
+        return new ItemRowViewHolder(newView);
+    }
+
+    @Override
+    protected int getListItemResource() {
+        return R.layout.item_list_item;
+    }
+
+    @Override
+    protected void deleteRow(long id) {
+        ItemRow.delete(ItemRow.class, id);
+    }
+
     protected static class ItemRowViewHolder extends RowViewHolder {
         public TextView category;
 
@@ -58,22 +74,5 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
             final String categoryString = cursor.getString(cursorIndexesByName.getIndex(cursor, "category"));
             category.setText(categoryString);
         }
-    }
-
-    @NonNull
-    @Override
-    protected ItemRowViewHolder newRowViewHolder(View newView) {
-        return new ItemRowViewHolder(newView);
-    }
-
-    @Override
-    protected int getListItemResource() {
-        return R.layout.item_list_item;
-    }
-
-
-    @Override
-    protected void deleteRow(long id) {
-        ItemRow.delete(ItemRow.class, id);
     }
 }

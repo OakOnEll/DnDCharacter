@@ -31,26 +31,17 @@ import java.util.Map;
 public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractComponentModel> extends DialogFragment {
 
 
+    private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
+    private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
+    int pageIndex = 0;
+    List<Page<M>> pages = new ArrayList<>();
     private M model;
     private Map<String, ChooseMD> chooseMDs;
     private com.oakonell.dndcharacter.model.Character character;
-
-    private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
-    private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
-
     private Button doneButton;
     private Button previousButton;
     private Button nextButton;
     private Spinner nameSpinner;
-
-
-    protected static abstract class Page<M extends AbstractComponentModel> {
-        public abstract Map<String, ChooseMD> appendToLayout(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices);
-    }
-
-    int pageIndex = 0;
-    List<Page<M>> pages = new ArrayList<>();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -199,22 +190,6 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         }
     }
 
-
-    public void setModel(M model) {
-        this.model = model;
-    }
-
-
-    public void setCharacter(Character character) {
-        this.character = character;
-
-        SavedChoices savedChoices = getSavedChoicesFromCharacter(character).copy();
-        Map<String, String> customChoices = getCustomChoicesFromCharacter(character);
-
-        savedChoicesByModel.put(getCurrentName(), savedChoices);
-        customChoicesByModel.put(getCurrentName(), customChoices);
-    }
-
     @NonNull
     protected Map<String, String> getCustomChoicesFromCharacter(Character character) {
         return new HashMap<>();
@@ -230,7 +205,6 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
     abstract protected String getCurrentName();
 
-
     @NonNull
     abstract protected Class<? extends M> getModelClass();
 
@@ -238,7 +212,25 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         return model;
     }
 
+    public void setModel(M model) {
+        this.model = model;
+    }
+
     public Character getCharacter() {
         return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
+
+        SavedChoices savedChoices = getSavedChoicesFromCharacter(character).copy();
+        Map<String, String> customChoices = getCustomChoicesFromCharacter(character);
+
+        savedChoicesByModel.put(getCurrentName(), savedChoices);
+        customChoicesByModel.put(getCurrentName(), customChoices);
+    }
+
+    protected static abstract class Page<M extends AbstractComponentModel> {
+        public abstract Map<String, ChooseMD> appendToLayout(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices);
     }
 }

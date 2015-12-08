@@ -19,6 +19,12 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
     private final SavedChoices savedChoices;
     String currentChoiceName;
 
+    public ApplyRaceToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterRace charRace) {
+        this.charRace = charRace;
+        this.savedChoices = savedChoices;
+        this.customChoices = customChoices;
+    }
+
     public static void applyToCharacter(Race race, SavedChoices savedChoices, Map<String, String> customChoices,
                                         Race subrace, SavedChoices subraceSavedChoices, Map<String, String> subraceCustomChoices,
                                         Character character) {
@@ -42,12 +48,6 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
         }
 
         character.setRace(charRace);
-    }
-
-    public ApplyRaceToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterRace charRace) {
-        this.charRace = charRace;
-        this.savedChoices = savedChoices;
-        this.customChoices = customChoices;
     }
 
 
