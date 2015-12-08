@@ -1,21 +1,22 @@
 package com.oakonell.dndcharacter;
 
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Rob on 12/1/2015.
  */
 public class RollableDialogFragment extends DialogFragment {
-    RadioButton normalRadio;
-    RadioButton advantageRadio;
-    RadioButton disadvantageRadio;
+
     int modifier;
     int startColor;
     private MainActivity mainActivity;
@@ -24,6 +25,9 @@ public class RollableDialogFragment extends DialogFragment {
     private TextView modifierText;
     private TextView totalText;
     private TextView critical_label;
+    private AppCompatSpinner advantageSpinner;
+    private int roll;
+    private int roll2;
 
     public MainActivity getMainActivity() {
         return mainActivity;
@@ -42,9 +46,7 @@ public class RollableDialogFragment extends DialogFragment {
             }
         });
 
-        normalRadio = (RadioButton) view.findViewById(R.id.normal_radio);
-        advantageRadio = (RadioButton) view.findViewById(R.id.advantage_radio);
-        disadvantageRadio = (RadioButton) view.findViewById(R.id.disadvantage_radio);
+        advantageSpinner = (AppCompatSpinner) view.findViewById(R.id.advantage);
 
         Button roll = (Button) view.findViewById(R.id.roll_button);
         roll1Text = (TextView) view.findViewById(R.id.roll1);
@@ -56,36 +58,37 @@ public class RollableDialogFragment extends DialogFragment {
         totalText = (TextView) view.findViewById(R.id.roll_total);
 
         critical_label = (TextView) view.findViewById(R.id.critical_label);
-        normalRadio.setChecked(true);
 
-        normalRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Normal");
+        list.add("Advantage");
+        list.add("Disadvantage");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                (getActivity(), android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        advantageSpinner.setAdapter(dataAdapter);
+        advantageSpinner.setSelection(0);
+
+        advantageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                roll1Text.setText("");
-                roll2Text.setText("");
-                totalText.setText("");
-                if (isChecked) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
                     roll2Text.setVisibility(View.GONE);
+                    roll1Text.setTextColor(startColor);
                 } else {
                     roll2Text.setVisibility(View.VISIBLE);
                 }
+                updateRollView();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
-        CompoundButton.OnCheckedChangeListener twoDiceListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                roll1Text.setText("");
-                roll2Text.setText("");
-                totalText.setText("");
-                if (advantageRadio.isChecked() || disadvantageRadio.isChecked()) {
-                    roll2Text.setVisibility(View.VISIBLE);
-                } else {
-                    roll2Text.setVisibility(View.GONE);
-                }
-            }
-        };
-        advantageRadio.setOnCheckedChangeListener(twoDiceListener);
-        disadvantageRadio.setOnCheckedChangeListener(twoDiceListener);
+
 
         roll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,16 +100,24 @@ public class RollableDialogFragment extends DialogFragment {
 
     private void roll() {
         Random rand = new Random();
-        int roll = rand.nextInt(19) + 1;
+        roll = rand.nextInt(19) + 1;
+        roll2 = rand.nextInt(19) + 1;
+
         // TODO animate the roll, with sound fx
         roll1Text.setText(roll + "");
+        roll2Text.setText(roll2 + "");
+        
+        updateRollView();
+    }
 
+    public void updateRollView() {
         int total = roll;
 
-        if (advantageRadio.isChecked() || disadvantageRadio.isChecked()) {
-            int roll2 = rand.nextInt(20) + 1;
-            roll2Text.setText(roll2 + "");
-            if (advantageRadio.isChecked()) {
+        boolean isAdvantage = advantageSpinner.getSelectedItemPosition() == 1;
+        boolean isDisadvantage = advantageSpinner.getSelectedItemPosition() == 2;
+
+        if (isAdvantage || isDisadvantage) {
+            if (isAdvantage) {
                 if (roll >= roll2) {
                     roll1Text.setTextColor(getResources().getColor(android.R.color.holo_green_light));
                     roll2Text.setTextColor(startColor);
@@ -118,7 +129,7 @@ public class RollableDialogFragment extends DialogFragment {
                 }
             }
 
-            if (disadvantageRadio.isChecked()) {
+            if (isDisadvantage) {
                 if (roll <= roll2) {
                     roll1Text.setTextColor(getResources().getColor(android.R.color.holo_red_light));
                     roll2Text.setTextColor(startColor);

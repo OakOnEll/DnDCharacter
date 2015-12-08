@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
     style="@style/ac_style"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/advantage"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.AppCompatSpinner>
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,21 +12,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/roll_button"
+            android:id="@+id/attack_roll_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Roll" />
 
-        <TextView
-            android:id="@+id/roll1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:id="@+id/roll2"
+            android:id="@+id/attack_roll1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -53,14 +37,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/modifier_lbl"
+            android:id="@+id/attack_modifier_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Modifier"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:id="@+id/roll_modifier"
+            android:id="@+id/attack_roll_modifier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minEms="4"
@@ -83,7 +67,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:id="@+id/roll_total"
+            android:id="@+id/attack_roll_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minEms="4"
@@ -91,10 +75,5 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/critical_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </LinearLayout>

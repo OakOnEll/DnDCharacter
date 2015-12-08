@@ -294,11 +294,20 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(CharacterItem item, EquipmentFragment context, SubAdapter adapter) {
+        public void bindTo(final CharacterItem item, final EquipmentFragment context, SubAdapter adapter) {
             super.bindTo(item, context, adapter);
             damage.setText("1d8 + 3 / Piercing");
             bonus.setText("+5");
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WeaponAttackDialogFragment fragment = WeaponAttackDialogFragment.create((MainActivity) context.getActivity(), item);
+                    fragment.show(context.getFragmentManager(), "weapon_dialog");
+                }
+            });
         }
+
     }
 
 
@@ -324,6 +333,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         @Override
         public void bindTo(CharacterItem item, EquipmentFragment context, SubAdapter adapter) {
             name.setText(item.getName());
+            // TODO force child classes to implement onClick
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -331,6 +341,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 }
             });
         }
+
+
     }
 
     public static class DeleteRowViewHolder extends BindableRecyclerViewHolder {
