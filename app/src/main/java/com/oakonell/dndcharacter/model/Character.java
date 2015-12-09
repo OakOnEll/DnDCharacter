@@ -57,6 +57,13 @@ public class Character {
     @ElementList(required = false)
     private List<CharacterItem> items = new ArrayList<CharacterItem>();
 
+    @ElementList(required = false)
+    private List<CharacterArmor> armor = new ArrayList<CharacterArmor>();
+
+    @ElementList(required = false)
+    private List<CharacterWeapon> weapons = new ArrayList<CharacterWeapon>();
+
+
     // Money
     @Element(required = false)
     private int gold;
@@ -852,6 +859,22 @@ public class Character {
 
     public List<CharacterItem> getItems() {
         return items;
+    }
+
+    public void addWeapon(CharacterWeapon weapon) {
+        weapons.add(weapon);
+    }
+
+    public List<CharacterArmor> getArmor() {
+        return armor;
+    }
+
+    public void addArmor(CharacterArmor armor) {
+        this.armor.add(armor);
+    }
+
+    public List<CharacterWeapon> getWeapons() {
+        return weapons;
     }
 
     public static class LanguageAndReason {

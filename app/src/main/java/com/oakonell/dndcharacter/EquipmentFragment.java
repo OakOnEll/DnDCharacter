@@ -14,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.CharacterArmor;
 import com.oakonell.dndcharacter.model.CharacterItem;
+import com.oakonell.dndcharacter.model.CharacterWeapon;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
@@ -127,6 +130,14 @@ public class EquipmentFragment extends AbstractSheetFragment {
         armorItemsView.findViewById(R.id.equip).setVisibility(View.INVISIBLE);
 //        ((TextView)armorItemsView.findViewById(R.id.ac)).setText("AC/Mod");
 
+        Button addArmor = (Button) rootView.findViewById(R.id.addArmor);
+        addArmor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addArmor();
+            }
+        });
+
 
 // weapons
         RecyclerView weaponsView = (RecyclerView) rootView.findViewById(R.id.weapons_list);
@@ -135,6 +146,14 @@ public class EquipmentFragment extends AbstractSheetFragment {
         weaponsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         weaponsView.setHasFixedSize(false);
         weaponsView.addItemDecoration(itemDecoration);
+
+        Button addWeapon = (Button) rootView.findViewById(R.id.addWeapon);
+        addWeapon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addWeapon();
+            }
+        });
 
 //        ViewGroup weaponsItemsView = (ViewGroup) rootView.findViewById(R.id.weapons_items_group);
 //        ((TextView)weaponsItemsView.findViewById(R.id.hit_bonus)).setText("+To Hit");
@@ -179,6 +198,72 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         // need to hook a notes text watcher, to update the model
         return rootView;
+    }
+
+    private void addWeapon() {
+        // TODO simple add for now
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add Equipment");
+
+// Set up the input
+        final EditText input = new EditText(getActivity());
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = input.getText().toString();
+                CharacterWeapon item = new CharacterWeapon();
+                item.setName(name);
+                character.addWeapon(item);
+                weaponsAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void addArmor() {
+        // TODO simple add for now
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add Equipment");
+
+// Set up the input
+        final EditText input = new EditText(getActivity());
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = input.getText().toString();
+                CharacterArmor item = new CharacterArmor();
+                item.setName(name);
+                character.addArmor(item);
+                armorAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     private void addEquipment() {
@@ -266,7 +351,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
     }
 
-    static class ArmorViewHolder extends AbstractItemViewHolder {
+    static class ArmorViewHolder extends AbstractItemViewHolder<CharacterArmor> {
         TextView ac;
         CheckBox equipped;
 
@@ -277,13 +362,21 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(CharacterItem item, EquipmentFragment context, SubAdapter adapter) {
+        public void bindTo(final CharacterArmor item, EquipmentFragment context, SubAdapter adapter) {
             super.bindTo(item, context, adapter);
             ac.setText("15");
+            equipped.setChecked(item.isEquipped());
+            equipped.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    item.setEquipped(isChecked);
+                    // TODO update views of any AC related fields
+                }
+            });
         }
     }
 
-    static class WeaponViewHolder extends AbstractItemViewHolder {
+    static class WeaponViewHolder extends AbstractItemViewHolder<CharacterWeapon> {
         TextView bonus;
         TextView damage;
 
@@ -294,7 +387,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(final CharacterItem item, final EquipmentFragment context, SubAdapter adapter) {
+        public void bindTo(final CharacterWeapon item, final EquipmentFragment context, SubAdapter adapter) {
             super.bindTo(item, context, adapter);
             damage.setText("1d8 + 3 / Piercing");
             bonus.setText("+5");
@@ -311,18 +404,18 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
 
-    public static class BindableRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public static class BindableRecyclerViewHolder<I extends CharacterItem> extends RecyclerView.ViewHolder {
 
         public BindableRecyclerViewHolder(View itemView) {
             super(itemView);
         }
 
-        public void bindTo(CharacterItem item, EquipmentFragment context, SubAdapter adapter) {
+        public void bindTo(I item, EquipmentFragment context, SubAdapter adapter) {
 
         }
     }
 
-    static class AbstractItemViewHolder extends BindableRecyclerViewHolder {
+    static class AbstractItemViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> {
         TextView name;
 
         public AbstractItemViewHolder(View view) {
@@ -331,7 +424,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(CharacterItem item, EquipmentFragment context, SubAdapter adapter) {
+        public void bindTo(I item, EquipmentFragment context, SubAdapter adapter) {
             name.setText(item.getName());
             // TODO force child classes to implement onClick
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -371,12 +464,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
     }
 
-    public abstract static class SubAdapter extends RecyclerView.Adapter<BindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
+    public abstract static class SubAdapter<I extends CharacterItem> extends RecyclerView.Adapter<BindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
         protected Context context;
         protected EquipmentFragment fragment;
-        protected List<CharacterItem> list;
+        protected List<I> list;
 
-        public SubAdapter(EquipmentFragment fragment, List<CharacterItem> list) {
+        public SubAdapter(EquipmentFragment fragment, List<I> list) {
             this.context = fragment.getContext();
             this.fragment = fragment;
             this.list = list;
@@ -394,7 +487,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             return 0;
         }
 
-        public CharacterItem getItem(int position) {
+        public I getItem(int position) {
             if (list == null) return null;
             return list.get(position);
         }
@@ -478,9 +571,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
     }
 
-    public static class ArmorAdapter extends SubAdapter {
+    public static class ArmorAdapter extends SubAdapter<CharacterArmor> {
         public ArmorAdapter(EquipmentFragment fragment, Character character) {
-            super(fragment, character.getItems());
+            super(fragment, character.getArmor());
         }
 
         @Override
@@ -491,9 +584,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     }
 
-    public static class WeaponsAdapter extends SubAdapter {
+    public static class WeaponsAdapter extends SubAdapter<CharacterWeapon> {
         public WeaponsAdapter(EquipmentFragment fragment, Character character) {
-            super(fragment, character.getItems());
+            super(fragment, character.getWeapons());
         }
 
         @Override
@@ -503,7 +596,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
     }
 
-    public static class EquipmentAdapter extends SubAdapter {
+    public static class EquipmentAdapter extends SubAdapter<CharacterItem> {
 
         public EquipmentAdapter(EquipmentFragment fragment, Character character) {
             super(fragment, character.getItems());

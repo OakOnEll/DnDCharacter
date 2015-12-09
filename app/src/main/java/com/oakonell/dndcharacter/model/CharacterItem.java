@@ -10,8 +10,6 @@ import org.simpleframework.xml.Element;
 public class CharacterItem extends BaseCharacterComponent {
     @Element(required = false)
     ComponentType source;
-    @Element(required = false)
-    private ItemType type;
     /*    @Element(required = false)
         private boolean isContainer;
 
@@ -35,12 +33,9 @@ public class CharacterItem extends BaseCharacterComponent {
     }
 
     public ItemType getItemType() {
-        return type;
+        return ItemType.EQUIPMENT;
     }
 
-    public void setItemType(ItemType type) {
-        this.type = type;
-    }
 
     /*
         public boolean isContainer() {
@@ -64,6 +59,6 @@ public class CharacterItem extends BaseCharacterComponent {
     }
 
     public String toString() {
-        return getName();
+        return getItemType() + ":" + getName();
     }
 }
