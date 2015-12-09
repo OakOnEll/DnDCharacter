@@ -203,7 +203,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private void addWeapon() {
         // TODO simple add for now
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Equipment");
+        builder.setTitle("Add Weapon");
 
 // Set up the input
         final EditText input = new EditText(getActivity());
@@ -236,7 +236,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private void addArmor() {
         // TODO simple add for now
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Equipment");
+        builder.setTitle("Add Armor");
 
 // Set up the input
         final EditText input = new EditText(getActivity());
