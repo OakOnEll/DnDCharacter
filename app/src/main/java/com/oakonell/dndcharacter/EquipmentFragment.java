@@ -336,6 +336,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
         });
 
 
+        equipmentAdapter.notifyDataSetChanged();
+        armorAdapter.notifyDataSetChanged();
+        weaponsAdapter.notifyDataSetChanged();
     }
 
     public interface ItemTouchHelperAdapter {
