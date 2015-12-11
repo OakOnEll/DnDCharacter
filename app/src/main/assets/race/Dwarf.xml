@@ -1,0 +1,38 @@
+<race>
+    <name>Dwarf</name>
+    <size>medium</size>
+    <speed>25</speed>
+    <weapons>
+        <proficiency>Battleaxe</proficiency>
+        <proficiency>Handaxe</proficiency>
+        <proficiency>Throwing Hammer</proficiency>
+        <proficiency>Warhammer</proficiency>
+    </weapons>
+    <tools>
+        <choose name="tool" >
+            <or name="smith"><proficiency>Smith's tools</proficiency></or>
+            <or name="brewer"><proficiency>Brewer's supplies</proficiency></or>
+            <or name="mason"><proficiency>Masons's tools</proficiency></or>
+        </choose>
+    </tools>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Within 60' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Dwarven Resilience</name>
+        <shortDescription>You have advantage on saving throws against poison, and resistance against poison damage</shortDescription>
+    </feature>
+    <feature>
+        <name>Stonecunning</name>
+        <shortDescription>When you make intelligence check for the origin of stonework, add double proficiency bouns.</shortDescription>
+    </feature>
+    <languages>
+        <language>Dwarvish</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Constitution">2</increase>
+    </stat>
+</race>

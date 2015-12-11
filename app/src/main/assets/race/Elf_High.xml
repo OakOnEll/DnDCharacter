@@ -1,0 +1,22 @@
+<race>
+    <name>High Elf</name>
+    <parent>Elf</parent>
+    <baseHeight>54</baseHeight>
+    <baseWeight>90</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>1d4</weightMultiplier>
+    <weapons>
+        <proficiency>Longsword</proficiency>
+        <proficiency>Shortsword</proficiency>
+        <proficiency>Longbow</proficiency>
+        <proficiency>Shortbow</proficiency>
+    </weapons>
+    <!-- TODO know a wizard cantrip, using intelligence-->
+    <languages>
+        <choose name="language" number="1"/>
+    </languages>
+
+    <stat>
+        <increase name="Intelligence">1</increase>
+    </stat>
+</race>

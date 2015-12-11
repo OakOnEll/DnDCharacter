@@ -1,0 +1,29 @@
+<race>
+    <name>Drow</name>
+    <parent>Elf</parent>
+
+    <baseHeight>53</baseHeight>
+    <baseWeight>75</baseWeight>
+    <heightModifier>2d6</heightModifier>
+    <weightMultiplier>1d6</weightMultiplier>
+    <weapons>
+        <proficiency>Rapier</proficiency>
+        <proficiency>Shortsword</proficiency>
+        <proficiency>Hand crossbow</proficiency>
+    </weapons>
+    <feature>
+        <name>Superior Darkvision</name>
+        <shortDescription>Within 120' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Sunlight Sensitivity</name>
+        <shortDescription>Disadvantage on attach rolls and perception checks when you or target are in direct sunlight.</shortDescription>
+    </feature>
+    <!-- TODO know dancing light cantrip-->
+    <!-- TODO at 3rd level, can cast faerie fire 1x long rest, charisma-->
+    <!-- TODO at 5th level can cast darkness 1x long rest, charisma -->
+    <stat>
+        <increase name="Charisma">1</increase>
+    </stat>
+</race>

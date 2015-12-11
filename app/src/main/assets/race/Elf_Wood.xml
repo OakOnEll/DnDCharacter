@@ -1,0 +1,23 @@
+<race>
+    <name>Wood Elf</name>
+    <parent>Elf</parent>
+    <speed>35</speed>
+
+    <baseHeight>48</baseHeight>
+    <baseWeight>100</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>1d4</weightMultiplier>
+    <weapons>
+        <proficiency>Longsword</proficiency>
+        <proficiency>Shortsword</proficiency>
+        <proficiency>Longbow</proficiency>
+        <proficiency>Shortbow</proficiency>
+    </weapons>
+    <feature>
+        <name>Mask of the Wild</name>
+        <shortDescription>Can attempt to hide in foliage, rain, snow, mist, and other natural phenomena.</shortDescription>
+    </feature>
+    <stat>
+        <increase name="Wisdom">1</increase>
+    </stat>
+</race>

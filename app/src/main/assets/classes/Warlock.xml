@@ -1,0 +1,58 @@
+<class>
+    <name>Warlock</name>
+    <hitDice>1d8</hitDice>
+
+    <savingThrows>
+        <savingThrow>Wisdom</savingThrow>
+        <savingThrow>Charisma</savingThrow>
+    </savingThrows>
+    <skills>
+        <choose number="2">
+            <or name="arcana"><proficiency>Arcana</proficiency></or>
+            <or name="deception"><proficiency>Deception</proficiency></or>
+            <or name="history"><proficiency>History</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="investigation"><proficiency>Investigation</proficiency></or>
+            <or name="nature"><proficiency>Nature</proficiency></or>
+            <or name="religion"><proficiency>Religion</proficiency></or>
+        </choose>
+    </skills>
+    <equipment>
+        <item>leather armor</item>
+        <item category="simple weapon" />
+        <item count="2">Dagger</item>
+        <choose name="weapon">
+            <or name="crossbow">
+                <item>light crossbow</item>
+                <item count="20">crossbow bolt</item>
+            </or>
+            <or name="simple">
+                <item category="simple weapon" />
+            </or>
+        </choose>
+        <choose name="magic">
+            <or name="pouch">
+                <item>Component Pouch</item>
+            </or>
+            <or name="focus">
+                <item>Arcane Focus</item>
+            </or>
+        </choose>
+        <choose name="pack">
+            <or name="dungeoneers">
+                <pack>dungeoneer's pack</pack>
+            </or>
+            <or name="scholars">
+                <pack>scholar's pack</pack>
+            </or>
+        </choose>
+    </equipment>
+<level value="1">
+    <armor>
+        <proficiency category="light armor"></proficiency>
+    </armor>
+    <weapons>
+        <proficiency category="simple weapons"></proficiency>
+    </weapons>
+</level>
+</class>

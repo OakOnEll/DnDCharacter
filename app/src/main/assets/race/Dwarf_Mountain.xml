@@ -1,0 +1,15 @@
+<race>
+    <name>Mountain Dwarf</name>
+    <parent>Dwarf</parent>
+    <baseHeight>48</baseHeight>
+    <baseWeight>130</baseWeight>
+    <heightModifier>2d4</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+    <armor>
+        <proficiency category="light armor" />
+        <proficiency category="medium armor" />
+    </armor>
+    <stat>
+        <increase name="Strength">2</increase>
+    </stat>
+</race>

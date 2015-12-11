@@ -1,0 +1,29 @@
+<race>
+    <name>Elf</name>
+    <size>medium</size>
+    <speed>30</speed>
+    <skills>
+        <proficiency>Perception</proficiency>
+    </skills>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Within 60' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Fey Ancestry</name>
+        <shortDescription>You have advantage on saving throws against being charmed. Can't be put to sleep via magic.</shortDescription>
+    </feature>
+    <feature>
+        <name>Trance</name>
+        <shortDescription>Long rest with 4 hours meditation.</shortDescription>
+        <description></description>
+    </feature>
+    <languages>
+        <language>Elvish</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Dexterity">2</increase>
+    </stat>
+</race>

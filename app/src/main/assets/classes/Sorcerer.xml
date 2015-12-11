@@ -1,0 +1,57 @@
+<class>
+    <name>Sorcerer</name>
+    <hitDice>1d6</hitDice>
+    <armor>
+        <proficiency category="light armor"></proficiency>
+    </armor>
+    <weapons>
+        <proficiency>Dagger</proficiency>
+        <proficiency>Dart</proficiency>
+        <proficiency>Sling</proficiency>
+        <proficiency>Quarterstaff</proficiency>
+        <proficiency>Light Crossbow</proficiency>
+    </weapons>
+    <savingThrows>
+        <savingThrow>Constitution</savingThrow>
+        <savingThrow>Charisma</savingThrow>
+    </savingThrows>
+    <skills>
+        <choose number="2">
+            <or name="arcana"><proficiency>Arcana</proficiency></or>
+            <or name="deception"><proficiency>Deception</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="persuasion"><proficiency>Persuasion</proficiency></or>
+            <or name="religion"><proficiency>Religion</proficiency></or>
+        </choose>
+    </skills>
+    <equipment>
+        <item count="2">Dagger</item>
+        <choose name="weapon">
+            <or name="crossbow">
+                <item>light crossbow</item>
+                <item count="20">crossbow bolt</item>
+            </or>
+            <or name="simple">
+                <item category="simple weapon" />
+            </or>
+        </choose>
+        <choose name="magic">
+            <or name="pouch">
+                <item>Component Pouch</item>
+            </or>
+            <or name="focus">
+                <item>Arcane Focus</item>
+            </or>
+        </choose>
+        <choose name="pack">
+            <or name="dungeoneers">
+                <pack>dungeoneer's pack</pack>
+            </or>
+            <or name="explorers">
+                <pack>explorer's pack</pack>
+            </or>
+        </choose>
+    </equipment>
+
+</class>

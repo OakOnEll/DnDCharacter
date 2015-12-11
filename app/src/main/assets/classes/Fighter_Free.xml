@@ -3,14 +3,7 @@
     <hitDice>1d10</hitDice>
     <armor>
         <proficiency category="heavy armor"></proficiency>
-        <proficiency category="light armor"></proficiency>
-        <proficiency category="medium armor"></proficiency>
-        <proficiency>shield</proficiency>
     </armor>
-    <weapons>
-        <proficiency category="simple weapons"></proficiency>
-        <proficiency category="martial weapons"></proficiency>
-    </weapons>
     <savingThrows>
         <savingThrow>Strength</savingThrow>
         <savingThrow>Constitution</savingThrow>
@@ -66,30 +59,41 @@
             </or>
         </choose>
     </equipment>
-    <choose>
-        <or>
-            <feature>
-                <name>Archery</name>
-                <shortDescription>You gain a +2 bonus to attack rolls you make with ranged
-                    weapons.
-                </shortDescription>
-            </feature>
-        </or>
-        <or>
-            <feature>
-                <name>Defense</name>
-                <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.
-                </shortDescription>
-            </feature>
-        </or>
-    </choose>
-    <feature>
-        <name>Second Wind</name>
-        <uses refreshOn="rest">1</uses>
-        <action>hp += 1d10 + {classLevel}</action>
-        <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.
-        </shortDescription>
-    </feature>
+    <level value="1">
+        <feature>
+            <name>Second Wind</name>
+            <uses refreshOn="rest">1</uses>
+            <action>hp += 1d10 + {classLevel}</action>
+            <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.
+            </shortDescription>
+        </feature>
+        <armor>
+            <proficiency category="light armor"></proficiency>
+            <proficiency category="medium armor"></proficiency>
+            <proficiency>shield</proficiency>
+        </armor>
+        <weapons>
+            <proficiency category="simple weapons"></proficiency>
+            <proficiency category="martial weapons"></proficiency>
+        </weapons>
+        <choose>
+            <or>
+                <feature>
+                    <name>Archery</name>
+                    <shortDescription>You gain a +2 bonus to attack rolls you make with ranged
+                        weapons.
+                    </shortDescription>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Defense</name>
+                    <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.
+                    </shortDescription>
+                </feature>
+            </or>
+        </choose>
+    </level>
     <level value="2">
         <feature>
             <name>Action Surge</name>

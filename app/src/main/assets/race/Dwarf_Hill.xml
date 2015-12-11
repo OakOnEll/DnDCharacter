@@ -1,0 +1,15 @@
+<race>
+    <name>Hill Dwarf</name>
+    <parent>Dwarf</parent>
+    <baseHeight>46</baseHeight>
+    <baseWeight>115</baseWeight>
+    <heightModifier>2d4</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+    <feature>
+        <name>Dwarven Toughness</name>
+        <shortDescription>Maximum HP increases by 1 for each class level.</shortDescription>
+    </feature>
+    <stat>
+        <increase name="Wisdom">1</increase>
+    </stat>
+</race>
