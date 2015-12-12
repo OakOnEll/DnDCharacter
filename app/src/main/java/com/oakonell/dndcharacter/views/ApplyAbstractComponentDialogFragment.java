@@ -42,6 +42,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     private Button previousButton;
     private Button nextButton;
     private Spinner nameSpinner;
+    private String modelSpinnerPrompt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         previousButton = (Button) view.findViewById(R.id.previous);
         nextButton = (Button) view.findViewById(R.id.next);
         nameSpinner = (Spinner) view.findViewById(R.id.name);
+        nameSpinner.setPrompt(getModelSpinnerPrompt());
 
         List<String> list = new ArrayList<String>();
         From nameSelect = new Select()
@@ -94,6 +96,8 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
                     customChoices = new HashMap<String, String>();
                     customChoicesByModel.put(name, customChoices);
                 }
+
+                modelChanged();
 
                 pages = createPages();
 
@@ -147,6 +151,10 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         return view;
     }
 
+    protected void modelChanged() {
+
+    }
+
     protected From filter(From nameSelect) {
         return nameSelect;
     }
@@ -162,13 +170,14 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     }
 
     protected void displayPage(ViewGroup dynamic) {
-        String name = model.getName();
-        SavedChoices savedChoices = savedChoicesByModel.get(name);
-        Map<String, String> customChoices = customChoicesByModel.get(name);
+        if (model != null) {
+            String name = model.getName();
+            SavedChoices savedChoices = savedChoicesByModel.get(name);
+            Map<String, String> customChoices = customChoicesByModel.get(name);
 
-        Page page = pages.get(pageIndex);
-        chooseMDs = page.appendToLayout(model, dynamic, savedChoices, customChoices);
-
+            Page page = pages.get(pageIndex);
+            chooseMDs = page.appendToLayout(model, dynamic, savedChoices, customChoices);
+        }
         nameSpinner.setEnabled(pageIndex == 0);
 
         boolean isLast = pageIndex == pages.size() - 1;
@@ -229,6 +238,8 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         savedChoicesByModel.put(getCurrentName(), savedChoices);
         customChoicesByModel.put(getCurrentName(), customChoices);
     }
+
+    public abstract String getModelSpinnerPrompt();
 
     protected static abstract class Page<M extends AbstractComponentModel> {
         public abstract Map<String, ChooseMD> appendToLayout(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices);

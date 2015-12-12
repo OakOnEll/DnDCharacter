@@ -9,7 +9,7 @@
         <savingThrow>Constitution</savingThrow>
     </savingThrows>
     <skills>
-        <choose number="2">
+        <choose name="skills" number="2">
             <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
             <or name="animal"><proficiency>Animal Handling</proficiency></or>
             <or name="athletics"><proficiency>Athletics</proficiency></or>

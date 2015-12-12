@@ -17,6 +17,7 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.views.background.ApplyBackgroundDialogFragment;
+import com.oakonell.dndcharacter.views.classes.CharacterLevelsDialogFragment;
 import com.oakonell.dndcharacter.views.race.ApplyRaceDialogFragment;
 
 /**
@@ -129,6 +130,18 @@ public class AbstractSheetFragment extends Fragment {
                     throw new RuntimeException("Unable to build ui", e);
                 }
 
+            }
+        });
+        classes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    CharacterLevelsDialogFragment dialog = CharacterLevelsDialogFragment.createDialog(character);
+                    dialog.show(getFragmentManager(), "classes");
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException("Unable to build ui", e);
+                }
             }
         });
     }

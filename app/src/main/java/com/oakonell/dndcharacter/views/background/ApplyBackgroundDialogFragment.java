@@ -71,16 +71,18 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
                 return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "flaws");
             }
         };
-        Element documentElement = XmlUtils.getDocument(getModel().getXml()).getDocumentElement();
         Page extra = null;
-        if (!XmlUtils.getChildElements(documentElement, "specialties").isEmpty()) {
-            extra = new Page<Background>() {
-                @Override
-                public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
-                    BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
-                    return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "specialties");
-                }
-            };
+        if (getModel() != null) {
+            Element documentElement = XmlUtils.getDocument(getModel().getXml()).getDocumentElement();
+            if (!XmlUtils.getChildElements(documentElement, "specialties").isEmpty()) {
+                extra = new Page<Background>() {
+                    @Override
+                    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                        BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
+                        return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "specialties");
+                    }
+                };
+            }
         }
         pages.add(main);
         if (extra != null) {
@@ -102,6 +104,11 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
     @Override
     protected Class<? extends Background> getModelClass() {
         return Background.class;
+    }
+
+    @Override
+    public String getModelSpinnerPrompt() {
+        return "[Background]";
     }
 
 

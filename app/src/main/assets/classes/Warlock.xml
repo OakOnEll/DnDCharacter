@@ -7,7 +7,7 @@
         <savingThrow>Charisma</savingThrow>
     </savingThrows>
     <skills>
-        <choose number="2">
+        <choose name="skills" number="2">
             <or name="arcana"><proficiency>Arcana</proficiency></or>
             <or name="deception"><proficiency>Deception</proficiency></or>
             <or name="history"><proficiency>History</proficiency></or>

@@ -5,6 +5,11 @@ import android.provider.BaseColumns;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.utils.XmlUtils;
+
+import org.w3c.dom.Element;
+
+import java.util.List;
 
 /**
  * Created by Rob on 11/10/2015.
@@ -36,5 +41,23 @@ public class AClass extends AbstractComponentModel {
         this.name = name;
     }
 
+    public static Element findLevelElement(Element rootClassElement, int level) {
+        // TODO change this to instance-based...
+        List<Element> elements = XmlUtils.getChildElements(rootClassElement, "level");
+        String levelString = level + "";
+        for (Element each : elements) {
+            String eachLevelString = each.getAttribute("value");
 
+            if (levelString.equals(eachLevelString)) return each;
+        }
+        return null;
+    }
+
+    public static int getHitDieSides(Element rootClassElement) {
+        // TODO move this..
+        String hitDieString = XmlUtils.getElementText(rootClassElement, "hitDice");
+        // TODO correct the charClass hitdie
+        int hitDie = Integer.parseInt(hitDieString.substring(2));
+        return hitDie;
+    }
 }

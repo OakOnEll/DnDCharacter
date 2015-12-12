@@ -181,6 +181,11 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         }
     }
 
+    @Override
+    public String getModelSpinnerPrompt() {
+        return "[Race]";
+    }
+
 
     protected void saveChoices(ViewGroup dynamicView) {
         super.saveChoices(dynamicView);

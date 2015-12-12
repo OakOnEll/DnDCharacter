@@ -6,7 +6,8 @@ import org.simpleframework.xml.Element;
  * Created by Rob on 10/24/2015.
  */
 public class CharacterClass extends BaseCharacterComponent {
-    // derivable from order in character...
+    // TODO derivable from order in character...? This is redundant currently
+    @Element(required = false)
     private int level;
 
     @Element(required = false)

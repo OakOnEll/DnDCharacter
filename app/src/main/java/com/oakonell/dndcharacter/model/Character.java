@@ -85,7 +85,7 @@ public class Character {
         baseStats.put(StatType.INTELLIGENCE, 8);
         baseStats.put(StatType.WISDOM, 10);
         baseStats.put(StatType.CHARISMA, 15);
-
+/*
         race = new CharacterRace();
         race.setName("Half-Orc");
         race.addModifier(StatType.STRENGTH, 2);
@@ -136,7 +136,7 @@ public class Character {
         sorcerer.setHitDie(6);
         sorcerer.setHpRoll(6);
 
-        classes.add(sorcerer);
+        classes.add(sorcerer);*/
     }
 
     public Character() {
@@ -196,13 +196,36 @@ public class Character {
         return race.getSubraceName();
     }
 
+    public int getCharacterLevel() {
+        return classes.size();
+    }
+
     public String getClassesString() {
+        Map<String, Integer> classLevels = getClassLevels();
         StringBuilder builder = new StringBuilder();
-        // TODO only grab the highest level of each class...
-        for (CharacterClass each : classes) {
-            builder.append(each.getName() + " " + each.getLevel());
+        boolean first = true;
+        for (Map.Entry<String, Integer> entry : classLevels.entrySet()) {
+            if (first) {
+                first = false;
+            } else {
+                builder.append(", ");
+            }
+            Integer level = entry.getValue();
+            String name = entry.getKey();
+            builder.append(name + " " + level);
         }
         return builder.toString();
+    }
+
+    @NonNull
+    public Map<String, Integer> getClassLevels() {
+        Map<String, Integer> classLevels = new LinkedHashMap<>();
+        for (CharacterClass each : classes) {
+            Integer level = classLevels.get(each.getName());
+            if (level == null) level = 0;
+            classLevels.put(each.getName(), level + 1);
+        }
+        return classLevels;
     }
 
     public String getLanguagesString() {
@@ -216,6 +239,11 @@ public class Character {
             }
         }
         return builder.toString();
+    }
+
+
+    public List<CharacterClass> getClasses() {
+        return classes;
     }
 
     public int getGold() {
@@ -304,6 +332,7 @@ public class Character {
     }
 
     public SavedChoices getBackgroundChoices() {
+        if (background == null) return new SavedChoices();
         return background.savedChoices;
     }
 
@@ -312,6 +341,7 @@ public class Character {
     }
 
     public SavedChoices getRaceChoices() {
+        if (race == null) return new SavedChoices();
         return race.getSavedChoices();
     }
 
@@ -320,10 +350,13 @@ public class Character {
     }
 
     public SavedChoices getSubRaceChoices() {
+        if (race == null) return new SavedChoices();
         return race.getSubRaceChoices();
     }
 
     public String getDisplayRaceName() {
+        if (race == null) return "[None]";
+
         String displayName;
         String mainRaceName = race.getName();
         displayName = mainRaceName;
@@ -554,7 +587,7 @@ public class Character {
         if (classes == null) {
             return 2;
         }
-        int charLevel = classes.size();
+        int charLevel = getCharacterLevel();
         if (charLevel < 5) return 2;
         if (charLevel < 9) return 3;
         if (charLevel < 13) return 4;
@@ -583,8 +616,8 @@ public class Character {
 
     public List<FeatureInfo> getFeatureInfos() {
         List<FeatureInfo> result = new ArrayList<FeatureInfo>();
-        result.addAll(background.getFeatures());
-        result.addAll(race.getFeatures());
+        if (background != null) result.addAll(background.getFeatures());
+        if (race != null) result.addAll(race.getFeatures());
         for (CharacterClass each : classes) {
             result.addAll(each.getFeatures());
         }
@@ -778,6 +811,7 @@ public class Character {
     }
 
     public String getPersonalityTrait() {
+        if (background == null) return "";
         return background.getPersonalityTrait();
     }
 
@@ -786,6 +820,7 @@ public class Character {
     }
 
     public String getIdeals() {
+        if (background == null) return "";
         return background.getIdeal();
     }
 
@@ -794,6 +829,7 @@ public class Character {
     }
 
     public String getBonds() {
+        if (background == null) return "";
         return background.getBonds();
     }
 
@@ -802,6 +838,7 @@ public class Character {
     }
 
     public String getFlaws() {
+        if (background == null) return "";
         return background.getFlaw();
     }
 

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.classes.AddClassLevelDialogFragment;
 import com.oakonell.dndcharacter.views.rest.LongRestDialogFragment;
 import com.oakonell.dndcharacter.views.rest.ShortRestDialogFragment;
 
@@ -130,7 +131,8 @@ public class MainActivity extends AbstractBaseActivity {
             return true;
         }
         if (id == R.id.action_level_up) {
-            Toast.makeText(this, "Clicked level-up character ", Toast.LENGTH_SHORT).show();
+            AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(character, null);
+            dialog.show(getSupportFragmentManager(), "level_up");
             return true;
         }
 
