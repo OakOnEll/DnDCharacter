@@ -379,6 +379,7 @@ public class Character {
     }
 
     public String getSpecialty() {
+        if (background == null) return null;
         return background.getSpecialty();
     }
 
