@@ -63,6 +63,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (traits.getTag() == NON_USER_CHANGE) return;
+                if (character.getPersonalityTrait().trim().equals(string.trim())) return;
                 character.setPersonalityTrait(string);
                 character.setTraitSavedChoiceToCustom("traits");
             }
@@ -71,6 +72,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (ideals.getTag() == NON_USER_CHANGE) return;
+                if (character.getIdeals().trim().equals(string.trim())) return;
                 character.setIdeals(string);
                 character.setTraitSavedChoiceToCustom("ideals");
             }
@@ -79,6 +81,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (bonds.getTag() == NON_USER_CHANGE) return;
+                if (character.getBonds().trim().equals(string.trim())) return;
                 character.setBonds(string);
                 character.setTraitSavedChoiceToCustom("bonds");
             }
@@ -87,6 +90,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (flaws.getTag() == NON_USER_CHANGE) return;
+                if (character.getFlaws().trim().equals(string.trim())) return;
                 character.setFlaws(string);
                 character.setTraitSavedChoiceToCustom("flaws");
             }
