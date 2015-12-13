@@ -52,6 +52,9 @@ public class EditClassLevelDialogFragment extends ApplyAbstractComponentDialogFr
         return newMe;
     }
 
+    protected boolean allowMainComponentChange() {
+        return false;
+    }
 
     protected List<Page<AClass>> createPages() {
         List<Page<AClass>> pages = new ArrayList<>();

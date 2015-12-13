@@ -178,7 +178,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
             Page page = pages.get(pageIndex);
             chooseMDs = page.appendToLayout(model, dynamic, savedChoices, customChoices);
         }
-        nameSpinner.setEnabled(pageIndex == 0);
+        nameSpinner.setEnabled(pageIndex == 0 && allowMainComponentChange());
 
         boolean isLast = pageIndex == pages.size() - 1;
         boolean isFirst = pageIndex == 0;
@@ -197,6 +197,10 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
             doneButton.setVisibility(View.GONE);
             nextButton.setVisibility(View.VISIBLE);
         }
+    }
+
+    protected boolean allowMainComponentChange() {
+        return true;
     }
 
     @NonNull

@@ -202,6 +202,9 @@ public class Character {
 
     public String getClassesString() {
         Map<String, Integer> classLevels = getClassLevels();
+        if (classLevels.isEmpty()) {
+            return "[no class]";
+        }
         StringBuilder builder = new StringBuilder();
         boolean first = true;
         for (Map.Entry<String, Integer> entry : classLevels.entrySet()) {
