@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="handle_style">
+        <item name="android:layout_gravity">center_vertical|right</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:src">@drawable/ic_reorder_black_18dp</item>
+    </style>
+
+</resources>

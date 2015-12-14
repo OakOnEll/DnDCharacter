@@ -2,7 +2,9 @@ package com.oakonell.dndcharacter.views;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
@@ -69,7 +71,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         listView.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback(adapter);
+                new SimpleItemTouchHelperCallback(adapter, false, true);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(listView);
 
@@ -171,12 +173,6 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
 
     protected abstract void deleteRow(long id);
 
-    public interface ItemTouchHelperAdapter {
-
-        void onItemMove(int fromPosition, int toPosition);
-
-        void onItemDismiss(int position);
-    }
 
     public static class DeleteRowViewHolder extends BindableRecyclerViewHolder {
         TextView name;
@@ -207,9 +203,10 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
     }
 
-    public static class RowViewHolder extends BindableRecyclerViewHolder {
+    public static class RowViewHolder extends BindableRecyclerViewHolder implements ItemTouchHelperViewHolder {
         TextView name;
         TextView description;
+        private Drawable originalBackground;
 
         public RowViewHolder(View itemView) {
             super(itemView);
@@ -230,6 +227,17 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
                     context.openRecord(id);
                 }
             });
+        }
+
+        @Override
+        public void onItemSelected() {
+            originalBackground = itemView.getBackground();
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundDrawable(originalBackground);
         }
     }
 
@@ -285,8 +293,9 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public void onItemMove(int fromPosition, int toPosition) {
+        public boolean onItemMove(int fromPosition, int toPosition) {
             // not implemented
+            return false;
         }
 
         @Override
@@ -321,42 +330,5 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
     }
 
-    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-        private final ItemTouchHelperAdapter mAdapter;
-
-        public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
-            mAdapter = adapter;
-        }
-
-        @Override
-        public boolean isLongPressDragEnabled() {
-            return false;
-        }
-
-        @Override
-        public boolean isItemViewSwipeEnabled() {
-            return true;
-        }
-
-        @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            //int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-            return makeMovementFlags(0, swipeFlags);
-        }
-
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-                              RecyclerView.ViewHolder target) {
-            // not supported, do nothing
-            return false;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-        }
-
-    }
 }

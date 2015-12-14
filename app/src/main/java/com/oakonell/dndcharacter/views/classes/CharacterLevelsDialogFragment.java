@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.classes;
 
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +19,9 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterClass;
 import com.oakonell.dndcharacter.model.StatType;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
+import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
+import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
+import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,59 +80,28 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
         list.addItemDecoration(itemDecoration);
 
         ItemTouchHelper.Callback armorCallback =
-                new SimpleItemTouchHelperCallback(classesAdapter);
+                new CharacterItemTouchHelperCallback(classesAdapter);
         ItemTouchHelper armorTouchHelper = new ItemTouchHelper(armorCallback);
         armorTouchHelper.attachToRecyclerView(list);
 
         return view;
     }
 
-    public interface ItemTouchHelperAdapter {
 
-        void onItemMove(int fromPosition, int toPosition);
+    public class CharacterItemTouchHelperCallback extends SimpleItemTouchHelperCallback {
 
-        void onItemDismiss(int position);
-    }
-
-    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
-
-        private final ItemTouchHelperAdapter mAdapter;
-
-        public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
-            mAdapter = adapter;
-        }
-
-        @Override
-        public boolean isLongPressDragEnabled() {
-            return false;
-        }
-
-        @Override
-        public boolean isItemViewSwipeEnabled() {
-            return true;
+        public CharacterItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+            super(adapter, false, true);
         }
 
         @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            //int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
             if (viewHolder.getAdapterPosition() != recyclerView.getAdapter().getItemCount() - 1) {
                 return makeMovementFlags(0, 0);
             }
-            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-            return makeMovementFlags(0, swipeFlags);
+            return super.getMovementFlags(recyclerView, viewHolder);
         }
 
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-                              RecyclerView.ViewHolder target) {
-            // not supported, do nothing
-            return false;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-        }
 
     }
 
@@ -200,7 +174,8 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
         }
 
         @Override
-        public void onItemMove(int fromPosition, int toPosition) {
+        public boolean onItemMove(int fromPosition, int toPosition) {
+            return false;
             // do nothing
         }
 
@@ -249,12 +224,13 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
         abstract void bindTo(final CharacterClass item, final CharacterLevelsDialogFragment context, final ClassAdapter adapter);
     }
 
-    public static class BindableRecyclerViewHolder extends BindableViewHolder {
+    public static class BindableRecyclerViewHolder extends BindableViewHolder implements ItemTouchHelperViewHolder {
         TextView character_level;
         TextView class_name;
         TextView class_level;
         TextView hp;
         TextView hit_dice;
+        private Drawable originalBackground;
 
 
         public BindableRecyclerViewHolder(View itemView) {
@@ -297,5 +273,16 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
 
 
         }
+        @Override
+        public void onItemSelected() {
+            originalBackground = itemView.getBackground();
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundDrawable(originalBackground);
+        }
+
     }
 }

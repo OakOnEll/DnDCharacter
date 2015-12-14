@@ -2,20 +2,25 @@ package com.oakonell.dndcharacter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.Character;
@@ -25,6 +30,9 @@ import com.oakonell.dndcharacter.model.CharacterWeapon;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
+import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
+import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
+import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -179,22 +187,54 @@ public class EquipmentFragment extends AbstractSheetFragment {
         updateViews(rootView);
 
         ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback(equipmentAdapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+                new SimpleItemTouchHelperCallback(equipmentAdapter, true, false);
+        final ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(itemsView);
+        equipmentAdapter.setOnStartDrag(new OnStartDragListener() {
+            @Override
+            public void onStartDrag(AbstractItemViewHolder viewHolder) {
+                touchHelper.startDrag(viewHolder);
+            }
+
+            @Override
+            public void onStartSwipe(AbstractItemViewHolder holder) {
+                touchHelper.startSwipe(holder);
+            }
+        });
 
 
         ItemTouchHelper.Callback armorCallback =
-                new SimpleItemTouchHelperCallback(armorAdapter);
-        ItemTouchHelper armorTouchHelper = new ItemTouchHelper(armorCallback);
+                new SimpleItemTouchHelperCallback(armorAdapter, true, false);
+        final ItemTouchHelper armorTouchHelper = new ItemTouchHelper(armorCallback);
         armorTouchHelper.attachToRecyclerView(armorView);
+        armorAdapter.setOnStartDrag(new OnStartDragListener() {
+            @Override
+            public void onStartDrag(AbstractItemViewHolder viewHolder) {
+                armorTouchHelper.startDrag(viewHolder);
+            }
+
+            @Override
+            public void onStartSwipe(AbstractItemViewHolder holder) {
+                touchHelper.startSwipe(holder);
+            }
+        });
 
 
         ItemTouchHelper.Callback weaponsCallback =
-                new SimpleItemTouchHelperCallback(weaponsAdapter);
-        ItemTouchHelper weaponsTouchHelper = new ItemTouchHelper(weaponsCallback);
+                new SimpleItemTouchHelperCallback(weaponsAdapter, true, false);
+        final ItemTouchHelper weaponsTouchHelper = new ItemTouchHelper(weaponsCallback);
         weaponsTouchHelper.attachToRecyclerView(weaponsView);
+        weaponsAdapter.setOnStartDrag(new OnStartDragListener() {
+            @Override
+            public void onStartDrag(AbstractItemViewHolder viewHolder) {
+                weaponsTouchHelper.startDrag(viewHolder);
+            }
 
+            @Override
+            public void onStartSwipe(AbstractItemViewHolder holder) {
+                touchHelper.startSwipe(holder);
+            }
+        });
 
         // need to hook a notes text watcher, to update the model
         return rootView;
@@ -341,16 +381,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
         weaponsAdapter.notifyDataSetChanged();
     }
 
-    public interface ItemTouchHelperAdapter {
-
-        void onItemMove(int fromPosition, int toPosition);
-
-        void onItemDismiss(int position);
-    }
-
     static class ItemViewHolder extends AbstractItemViewHolder {
-        public ItemViewHolder(View view) {
-            super(view);
+        public ItemViewHolder(View view, OnStartDragListener mDragStartListener) {
+            super(view, mDragStartListener);
         }
     }
 
@@ -358,8 +391,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
         TextView ac;
         CheckBox equipped;
 
-        public ArmorViewHolder(View view) {
-            super(view);
+        public ArmorViewHolder(View view, OnStartDragListener mDragStartListener) {
+            super(view, mDragStartListener);
             equipped = (CheckBox) view.findViewById(R.id.equip);
             ac = (TextView) view.findViewById(R.id.ac);
         }
@@ -383,8 +416,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
         TextView bonus;
         TextView damage;
 
-        public WeaponViewHolder(View view) {
-            super(view);
+        public WeaponViewHolder(View view, OnStartDragListener mDragStartListener) {
+            super(view, mDragStartListener);
             bonus = (TextView) view.findViewById(R.id.hit_bonus);
             damage = (TextView) view.findViewById(R.id.damage);
         }
@@ -418,11 +451,77 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
     }
 
-    static class AbstractItemViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> {
-        TextView name;
+    public interface OnStartDragListener {
 
-        public AbstractItemViewHolder(View view) {
+        /**
+         * Called when a view is requesting a start of a drag.
+         *
+         * @param viewHolder The holder of the view to drag.
+         */
+        void onStartDrag(AbstractItemViewHolder viewHolder);
+
+        void onStartSwipe(AbstractItemViewHolder holder);
+    }
+
+    static class SwipeOrDragListener implements View.OnTouchListener {
+        static final int MIN_DISTANCE = 10;
+        private final OnStartDragListener mDragStartListener;
+        AbstractItemViewHolder holder;
+        boolean lookForDrag;
+        private float downX;
+        private float downY;
+
+        SwipeOrDragListener(OnStartDragListener mDragStartListener, AbstractItemViewHolder holder) {
+            this.holder = holder;
+            this.mDragStartListener = mDragStartListener;
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            int action = event.getAction();
+            if (action == MotionEvent.ACTION_DOWN && !lookForDrag) {
+                Log.i("Equpiment", "touch down");
+                downX = event.getX();
+                downY = event.getY();
+                lookForDrag = true;
+                //mSwipeDetected = Action.None;
+                return true; // allow other events like Click to be processed
+            } else if (action == MotionEvent.ACTION_MOVE && lookForDrag) {
+                Log.i("Equpiment", "action move ");
+                float upX = event.getX();
+                float upY = event.getY();
+
+                float deltaX = downX - upX;
+                float deltaY = downY - upY;
+
+                // horizontal swipe detection
+                if (Math.abs(deltaX) > MIN_DISTANCE) {
+                    // left or right
+                    mDragStartListener.onStartSwipe(holder);
+                    lookForDrag = false;
+                    return false;
+                } else if (Math.abs(deltaY) > MIN_DISTANCE) {
+                    // vertical swipe
+                    mDragStartListener.onStartDrag(holder);
+                    lookForDrag = false;
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        }
+    }
+
+    static class AbstractItemViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> implements ItemTouchHelperViewHolder {
+        private final ImageView handleView;
+        private final OnStartDragListener mDragStartListener;
+        TextView name;
+        private Drawable originalBackground;
+
+        public AbstractItemViewHolder(View view, OnStartDragListener mDragStartListener) {
             super(view);
+            this.mDragStartListener = mDragStartListener;
+            handleView = (ImageView) itemView.findViewById(R.id.handle);
             name = (TextView) view.findViewById(R.id.name);
         }
 
@@ -436,8 +535,21 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
                 }
             });
+
+            handleView.setOnTouchListener(new SwipeOrDragListener(mDragStartListener, this));
         }
 
+
+        @Override
+        public void onItemSelected() {
+            originalBackground = itemView.getBackground();
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundDrawable(originalBackground);
+        }
 
     }
 
@@ -471,6 +583,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         protected Context context;
         protected EquipmentFragment fragment;
         protected List<I> list;
+        OnStartDragListener mDragStartListener;
 
         public SubAdapter(EquipmentFragment fragment, List<I> list) {
             this.context = fragment.getContext();
@@ -522,6 +635,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
         @Override
         public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
             holder.bindTo(getItem(position), fragment, this);
+
+
         }
 
         @Override
@@ -560,7 +675,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void onItemMove(int fromPosition, int toPosition) {
+        public boolean onItemMove(int fromPosition, int toPosition) {
             if (fromPosition < toPosition) {
                 for (int i = fromPosition; i < toPosition; i++) {
                     Collections.swap(list, i, i + 1);
@@ -571,6 +686,11 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 }
             }
             notifyItemMoved(fromPosition, toPosition);
+            return true;
+        }
+
+        public void setOnStartDrag(OnStartDragListener onStartDrag) {
+            this.mDragStartListener = onStartDrag;
         }
     }
 
@@ -582,7 +702,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         @Override
         public ArmorViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.armor_row, parent, false);
-            return new ArmorViewHolder(view);
+            return new ArmorViewHolder(view, mDragStartListener);
         }
 
     }
@@ -595,7 +715,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         @Override
         public WeaponViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.weapon_row, parent, false);
-            return new WeaponViewHolder(view);
+            return new WeaponViewHolder(view, mDragStartListener);
         }
     }
 
@@ -608,7 +728,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         @Override
         public ItemViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.equipment_row, parent, false);
-            return new ItemViewHolder(view);
+            return new ItemViewHolder(view, mDragStartListener);
         }
 
         @Override
@@ -618,42 +738,5 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     }
 
-    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-        private final ItemTouchHelperAdapter mAdapter;
-
-        public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
-            mAdapter = adapter;
-        }
-
-        @Override
-        public boolean isLongPressDragEnabled() {
-            return true;
-        }
-
-        @Override
-        public boolean isItemViewSwipeEnabled() {
-            return true;
-        }
-
-        @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-            return makeMovementFlags(dragFlags, swipeFlags);
-        }
-
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-                              RecyclerView.ViewHolder target) {
-            mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-            return true;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-        }
-
-    }
 }
