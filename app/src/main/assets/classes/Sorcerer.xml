@@ -46,10 +46,10 @@
         </choose>
         <choose name="pack">
             <or name="dungeoneers">
-                <pack>dungeoneer's pack</pack>
+                <item>dungeoneer's pack</item>
             </or>
             <or name="explorers">
-                <pack>explorer's pack</pack>
+                <item>explorer's pack</item>
             </or>
         </choose>
     </equipment>

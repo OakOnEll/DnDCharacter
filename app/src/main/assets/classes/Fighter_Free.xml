@@ -52,16 +52,18 @@
         </choose>
         <choose name="pack">
             <or name="dungeoneers">
-                <pack>dungeoneer's pack</pack>
+                <item>dungeoneer's pack</item>
             </or>
             <or name="explorers">
-                <pack>explorer's pack</pack>
+                <item>explorer's pack</item>
             </or>
         </choose>
     </equipment>
     <level value="1">
         <feature>
             <name>Second Wind</name>
+            <refreshes>rest</refreshes>
+            <!-- TODO decide on syntax for refreshes -->
             <uses refreshOn="rest">1</uses>
             <action>hp += 1d10 + {classLevel}</action>
             <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.
@@ -76,8 +78,8 @@
             <proficiency category="simple weapons"></proficiency>
             <proficiency category="martial weapons"></proficiency>
         </weapons>
-        <choose>
-            <or>
+        <choose name="fighting_style">
+            <or name="archery">
                 <feature>
                     <name>Archery</name>
                     <shortDescription>You gain a +2 bonus to attack rolls you make with ranged
@@ -85,7 +87,7 @@
                     </shortDescription>
                 </feature>
             </or>
-            <or>
+            <or name="defense">
                 <feature>
                     <name>Defense</name>
                     <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.
