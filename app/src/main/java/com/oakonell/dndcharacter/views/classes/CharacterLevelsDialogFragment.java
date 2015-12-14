@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterClass;
@@ -252,6 +253,7 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
                         @Override
                         public void run() {
                             adapter.notifyDataSetChanged();
+                            ((MainActivity) adapter.context.getActivity()).updateViews();
                         }
                     };
                     EditClassLevelDialogFragment dialog = EditClassLevelDialogFragment.createDialog(context.character, item, getAdapterPosition(), onChange);
@@ -273,6 +275,7 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
 
 
         }
+
         @Override
         public void onItemSelected() {
             originalBackground = itemView.getBackground();

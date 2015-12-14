@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 import com.oakonell.dndcharacter.views.md.DropdownOptionMD;
+import com.oakonell.dndcharacter.views.md.OptionMD;
 
 import org.w3c.dom.Element;
 
@@ -38,6 +40,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     ChooseMD currentChooseMD;
     private ViewGroup parent;
     private Map<String, ChooseMD> choicesMD = new HashMap<>();
+    private ViewGroup top;
 
     protected void createGroup(String title) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, null);
@@ -52,6 +55,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
 
 
     public Map<String, ChooseMD> appendToLayout(Element element, ViewGroup parent, SavedChoices choices) {
+        this.top = parent;
         this.parent = parent;
         this.choices = choices;
         visitChildren(element);
@@ -157,7 +161,12 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     protected void visitSimpleItem(Element element) {
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
-        text.setText(" *  " + element.getTextContent());
+        String name = element.getTextContent();
+        final String countString = element.getAttribute("count");
+        if (countString != null && countString.trim().length() > 0) {
+            name += " (" + countString + ")";
+        }
+        text.setText(" *  " + name);
     }
 
     @Override
@@ -176,10 +185,12 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         currentChooseMD.maxChoices = numChoices;
         choicesMD.put(choiceName, currentChooseMD);
 
-        LinearLayout layout = new LinearLayout(parent.getContext());
-        layout.setOrientation(LinearLayout.VERTICAL);
+        ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.choose_layout, null);
         parent.addView(layout);
-        parent = layout;
+        parent = (ViewGroup) layout.findViewById(R.id.choices_view);
+
+        TextView numChoicesTextView = (TextView) layout.findViewById(R.id.num_choices);
+        numChoicesTextView.setText(numChoices + "");
 
         List<Element> childOrElems = XmlUtils.getChildElements(element, "or");
         if (childOrElems.size() == 0) {
@@ -188,6 +199,8 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         } else {
             super.visitChoose(element);
         }
+
+        setCheckedEnabledStates(currentChooseMD);
 
         currentChooseMD = oldChooseMD;
         parent = oldParent;
@@ -299,14 +312,20 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     protected void visitOr(Element element) {
         ViewGroup oldParent = parent;
 
-        LinearLayout layout = new LinearLayout(parent.getContext());
-        layout.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.or_layout, null);
         parent.addView(layout);
-        parent = layout;
+
 
         String name = element.getAttribute("name");
-        CheckBox checkbox = new CheckBox(parent.getContext());
-        parent.addView(checkbox);
+        CheckBox checkbox = (CheckBox) layout.findViewById(R.id.checkBox);
+
+        final ChooseMD chooseMD = currentChooseMD;
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setCheckedEnabledStates(chooseMD);
+            }
+        });
 
         // display saved selection state
         List<String> selections = choices.getChoicesFor(currentChooseMD.choiceName);
@@ -316,15 +335,30 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         CheckOptionMD optionMD = new CheckOptionMD(currentChooseMD, checkbox.getId(), name);
         currentChooseMD.options.add(optionMD);
 
-
-        LinearLayout vertLayout = new LinearLayout(parent.getContext());
-        vertLayout.setOrientation(LinearLayout.VERTICAL);
-        parent.addView(vertLayout);
-        parent = vertLayout;
+        parent = (ViewGroup) layout.findViewById(R.id.or_view);
 
         super.visitOr(element);
 
         parent = oldParent;
+    }
+
+    private void setCheckedEnabledStates(ChooseMD chooseMD) {
+        int maxChecked = chooseMD.maxChoices;
+        int numChecked = 0;
+        List<CheckBox> checkBoxes = new ArrayList<CheckBox>();
+        for (OptionMD each : chooseMD.options) {
+            CheckBox aCheck = (CheckBox) top.findViewById(each.uiId);
+            checkBoxes.add(aCheck);
+            if (aCheck.isChecked()) {
+                numChecked++;
+            }
+        }
+        boolean enabled = numChecked < maxChecked;
+        for (CheckBox each : checkBoxes) {
+            if (!each.isChecked()) {
+                each.setEnabled(enabled);
+            }
+        }
     }
 
 

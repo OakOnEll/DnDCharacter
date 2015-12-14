@@ -24,13 +24,15 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         this.character = character;
     }
 
-    public static <C extends BaseCharacterComponent> void applyToCharacter(Element element, SavedChoices savedChoices, C component, Character character) {
-        // first clear any equipment from this type previous value
-        ComponentType componentType = component.getType();
-        for (Iterator<CharacterItem> iterator = character.getItems().iterator(); iterator.hasNext(); ) {
-            CharacterItem item = iterator.next();
-            if (item.getSource() == componentType) {
-                iterator.remove();
+    public static <C extends BaseCharacterComponent> void applyToCharacter(Element element, SavedChoices savedChoices, C component, Character character, boolean deleteEquipment) {
+        if (deleteEquipment) {
+            // first clear any equipment from this type previous value
+            ComponentType componentType = component.getType();
+            for (Iterator<CharacterItem> iterator = character.getItems().iterator(); iterator.hasNext(); ) {
+                CharacterItem item = iterator.next();
+                if (item.getSource() == componentType) {
+                    iterator.remove();
+                }
             }
         }
 

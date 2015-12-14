@@ -32,7 +32,7 @@ public abstract class BaseCharacterComponent {
     private List<String> languages = new ArrayList<>();
     @ElementMap(entry = "tool", key = "type", value = "proficiency", required = false)
     private Map<ProficiencyType, ToolProficiencies> toolProficiencies = new HashMap<>();
-    @Element
+    @Element(required = false)
     private String name;
 
     public String getName() {

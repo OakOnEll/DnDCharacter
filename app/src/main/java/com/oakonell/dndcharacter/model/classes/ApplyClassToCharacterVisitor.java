@@ -57,7 +57,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
         if (classLevel == 1) {
             // this will not visit any level elements, but will apply top level stuff as the first class for a character
-            ApplyChangesToGenericComponent.applyToCharacter(rootClassElement, savedChoices, charClass, character);
+            ApplyChangesToGenericComponent.applyToCharacter(rootClassElement, savedChoices, charClass, character,true);
 
             // grab the first character level skills and such
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
@@ -74,7 +74,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
         Element levelElement = AClass.findLevelElement(rootClassElement, classLevel);
         if (levelElement != null) {
-            ApplyChangesToGenericComponent.applyToCharacter(levelElement, savedChoices, charClass, character);
+            ApplyChangesToGenericComponent.applyToCharacter(levelElement, savedChoices, charClass, character,false);
 
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
             newMe.visit(levelElement);

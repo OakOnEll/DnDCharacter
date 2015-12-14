@@ -136,6 +136,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         ViewGroup armorItemsView = (ViewGroup) rootView.findViewById(R.id.armor_items_group);
         armorItemsView.findViewById(R.id.equip).setVisibility(View.INVISIBLE);
+        armorItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
 //        ((TextView)armorItemsView.findViewById(R.id.ac)).setText("AC/Mod");
 
         Button addArmor = (Button) rootView.findViewById(R.id.addArmor);
@@ -154,6 +155,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
         weaponsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         weaponsView.setHasFixedSize(false);
         weaponsView.addItemDecoration(itemDecoration);
+
+        ViewGroup weaponItemsView = (ViewGroup) rootView.findViewById(R.id.weapons_items_group);
+        weaponItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
 
         Button addWeapon = (Button) rootView.findViewById(R.id.addWeapon);
         addWeapon.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +219,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
             @Override
             public void onStartSwipe(AbstractItemViewHolder holder) {
-                touchHelper.startSwipe(holder);
+                armorTouchHelper.startSwipe(holder);
             }
         });
 
@@ -232,7 +236,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
             @Override
             public void onStartSwipe(AbstractItemViewHolder holder) {
-                touchHelper.startSwipe(holder);
+                weaponsTouchHelper.startSwipe(holder);
             }
         });
 

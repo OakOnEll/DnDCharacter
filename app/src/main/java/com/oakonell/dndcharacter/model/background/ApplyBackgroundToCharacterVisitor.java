@@ -31,8 +31,8 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
         charBackground.setSavedChoices(savedChoices);
         // apply common changes
         Element element = XmlUtils.getDocument(background.getXml()).getDocumentElement();
-        ApplyChangesToGenericComponent.applyToCharacter(element, savedChoices, charBackground, character);
 
+        ApplyChangesToGenericComponent.applyToCharacter(element, savedChoices, charBackground, character, true);
 
         ApplyBackgroundToCharacterVisitor newMe = new ApplyBackgroundToCharacterVisitor(savedChoices, customChoices, charBackground);
         newMe.visit(element);
