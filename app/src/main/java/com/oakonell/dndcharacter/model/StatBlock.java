@@ -29,11 +29,11 @@ public class StatBlock {
         return ((int) (proficiency * proficient.getMultiplier())) + statMod;
     }
 
-    public List<Character.ModifierAndReason> getModifiers() {
-        return character.deriveStatReasons(type);
+    public List<Character.ModifierWithSource> getModifiers() {
+        return character.deriveStat(type);
     }
 
-    public List<Character.ProficientAndReason> getSaveProficiencies() {
+    public List<Character.ProficientWithSource> getSaveProficiencies() {
         return character.deriveSaveProficiencies(type);
     }
 
@@ -48,15 +48,6 @@ public class StatBlock {
 
     public String toString() {
         StringBuilder builder = new StringBuilder("Stat: " + type.name() + " = " + getValue() + "(initial)");
-/*
-        for (StatAdjustment each : adjustments) {
-            builder.append(" + ");
-            builder.append(each.getAdjustment());
-            builder.append("(");
-            builder.append(each.getReason());
-            builder.append(")");
-        }
-*/
         builder.append(" => ");
         builder.append(getValue());
         builder.append("[");

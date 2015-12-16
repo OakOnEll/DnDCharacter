@@ -30,7 +30,7 @@ public class SkillBlock {
         return character.deriveSkillProciency(type);
     }
 
-    public List<Character.ProficientAndReason> getProficiencies() {
+    public List<Character.ProficientWithSource> getProficiencies() {
         return character.deriveSkillProciencies(type);
     }
 

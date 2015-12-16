@@ -294,30 +294,30 @@ public class Character {
 
     public List<String> getLanguages() {
         List<String> result = new ArrayList<>();
-        for (LanguageAndReason each : deriveLanguages()) {
+        for (LanguageWithSource each : deriveLanguages()) {
             result.add(each.language);
         }
         return result;
     }
 
-    public List<LanguageAndReason> deriveLanguages() {
-        List<LanguageAndReason> languages = new ArrayList<>();
+    public List<LanguageWithSource> deriveLanguages() {
+        List<LanguageWithSource> languages = new ArrayList<>();
         if (background != null) {
             for (String each : background.getLanguages()) {
-                LanguageAndReason row = new LanguageAndReason(each, background);
+                LanguageWithSource row = new LanguageWithSource(each, background);
                 languages.add(row);
             }
         }
         if (race != null) {
             for (String each : race.getLanguages()) {
-                LanguageAndReason row = new LanguageAndReason(each, race);
+                LanguageWithSource row = new LanguageWithSource(each, race);
                 languages.add(row);
             }
         }
         if (classes != null) {
             for (CharacterClass eachClass : classes) {
                 for (String each : eachClass.getLanguages()) {
-                    LanguageAndReason row = new LanguageAndReason(each, eachClass);
+                    LanguageWithSource row = new LanguageWithSource(each, eachClass);
                     languages.add(row);
                 }
             }
@@ -388,9 +388,9 @@ public class Character {
     @NonNull
     private String getToolProficiencyString(ProficiencyType type) {
         StringBuilder builder = new StringBuilder();
-        List<ToolProficiencyAndReason> list = deriveToolProficienciesReasons(type);
+        List<ToolProficiencyWithSource> list = deriveToolProficiencies(type);
         String comma = "";
-        for (ToolProficiencyAndReason each : list) {
+        for (ToolProficiencyWithSource each : list) {
             Proficiency proficiency = each.proficient;
             builder.append(comma);
             if (proficiency.getCategory() != null) {
@@ -413,12 +413,12 @@ public class Character {
         return getToolProficiencyString(type);
     }
 
-    public List<ModifierAndReason> deriveStatReasons(StatType type) {
-        List<ModifierAndReason> result = new ArrayList<>();
+    public List<ModifierWithSource> deriveStat(StatType type) {
+        List<ModifierWithSource> result = new ArrayList<>();
         if (baseStats != null) {
             int value = baseStats.get(type);
             if (value > 0) {
-                ModifierAndReason base = new ModifierAndReason(value, null);
+                ModifierWithSource base = new ModifierWithSource(value, null);
                 result.add(base);
             }
         }
@@ -426,7 +426,7 @@ public class Character {
         if (background != null) {
             int value = background.getStatModifier(type);
             if (value > 0) {
-                ModifierAndReason base = new ModifierAndReason(value, background);
+                ModifierWithSource base = new ModifierWithSource(value, background);
                 result.add(base);
             }
         }
@@ -434,7 +434,7 @@ public class Character {
         if (race != null) {
             int value = race.getStatModifier(type);
             if (value > 0) {
-                ModifierAndReason base = new ModifierAndReason(value, race);
+                ModifierWithSource base = new ModifierWithSource(value, race);
                 result.add(base);
             }
         }
@@ -443,7 +443,7 @@ public class Character {
             for (CharacterClass each : classes) {
                 int value = each.getStatModifier(type);
                 if (value > 0) {
-                    ModifierAndReason base = new ModifierAndReason(value, each);
+                    ModifierWithSource base = new ModifierWithSource(value, each);
                     result.add(base);
                 }
             }
@@ -479,19 +479,19 @@ public class Character {
         return value;
     }
 
-    public List<ProficientAndReason> deriveSkillProciencies(SkillType type) {
-        List<ProficientAndReason> result = new ArrayList<>();
+    public List<ProficientWithSource> deriveSkillProciencies(SkillType type) {
+        List<ProficientWithSource> result = new ArrayList<>();
         if (background != null) {
             Proficient proficient = background.getSkillProficient(type);
             if (proficient != Proficient.NONE) {
-                ProficientAndReason reason = new ProficientAndReason(proficient, background);
+                ProficientWithSource reason = new ProficientWithSource(proficient, background);
                 result.add(reason);
             }
         }
         if (race != null) {
             Proficient raceProficient = race.getSkillProficient(type);
             if (raceProficient != Proficient.NONE) {
-                ProficientAndReason reason = new ProficientAndReason(raceProficient, race);
+                ProficientWithSource reason = new ProficientWithSource(raceProficient, race);
                 result.add(reason);
             }
         }
@@ -500,7 +500,7 @@ public class Character {
                 Proficient classProficient = each.getSkillProficient(type);
                 if (classProficient != null) {
                     if (classProficient != Proficient.NONE) {
-                        ProficientAndReason reason = new ProficientAndReason(classProficient, each);
+                        ProficientWithSource reason = new ProficientWithSource(classProficient, each);
                         result.add(reason);
                     }
                 }
@@ -509,19 +509,19 @@ public class Character {
         return result;
     }
 
-    public List<ProficientAndReason> deriveSaveProficiencies(StatType type) {
-        List<ProficientAndReason> result = new ArrayList<>();
+    public List<ProficientWithSource> deriveSaveProficiencies(StatType type) {
+        List<ProficientWithSource> result = new ArrayList<>();
         if (background != null) {
             Proficient proficient = background.getSaveProficient(type);
             if (proficient != Proficient.NONE) {
-                ProficientAndReason reason = new ProficientAndReason(proficient, background);
+                ProficientWithSource reason = new ProficientWithSource(proficient, background);
                 result.add(reason);
             }
         }
         if (race != null) {
             Proficient raceProficient = race.getSaveProficient(type);
             if (raceProficient != Proficient.NONE) {
-                ProficientAndReason reason = new ProficientAndReason(raceProficient, race);
+                ProficientWithSource reason = new ProficientWithSource(raceProficient, race);
                 result.add(reason);
             }
         }
@@ -530,7 +530,7 @@ public class Character {
                 Proficient classProficient = each.getSaveProficient(type);
                 if (classProficient != null) {
                     if (classProficient != Proficient.NONE) {
-                        ProficientAndReason reason = new ProficientAndReason(classProficient, each);
+                        ProficientWithSource reason = new ProficientWithSource(classProficient, each);
                         result.add(reason);
                     }
                 }
@@ -831,13 +831,13 @@ public class Character {
         background.setTraitSavedChoiceToCustom(trait);
     }
 
-    public List<ToolProficiencyAndReason> deriveToolProficienciesReasons(ProficiencyType type) {
-        List<ToolProficiencyAndReason> result = new ArrayList<>();
+    public List<ToolProficiencyWithSource> deriveToolProficiencies(ProficiencyType type) {
+        List<ToolProficiencyWithSource> result = new ArrayList<>();
         // look to background
         if (background != null) {
             List<Proficiency> profs = background.getToolProficiencies(type);
             for (Proficiency each : profs) {
-                ToolProficiencyAndReason newRow = new ToolProficiencyAndReason(each, background);
+                ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(each, background);
                 result.add(newRow);
             }
         }
@@ -845,7 +845,7 @@ public class Character {
         if (race != null) {
             List<Proficiency> profs = race.getToolProficiencies(type);
             for (Proficiency each : profs) {
-                ToolProficiencyAndReason newRow = new ToolProficiencyAndReason(each, race);
+                ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(each, race);
                 result.add(newRow);
             }
         }
@@ -854,7 +854,7 @@ public class Character {
             for (CharacterClass each : classes) {
                 List<Proficiency> profs = each.getToolProficiencies(type);
                 for (Proficiency eachProf : profs) {
-                    ToolProficiencyAndReason newRow = new ToolProficiencyAndReason(eachProf, each);
+                    ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(eachProf, each);
                     result.add(newRow);
                 }
             }
@@ -905,77 +905,59 @@ public class Character {
         this.baseStats = baseStats;
     }
 
-    public static class LanguageAndReason {
-        final String language;
-        final BaseCharacterComponent source;
+    public static class LanguageWithSource extends WithSource {
+        private final String language;
 
-        LanguageAndReason(String language, BaseCharacterComponent source) {
+        LanguageWithSource(String language, BaseCharacterComponent source) {
+            super(source);
             this.language = language;
-            this.source = source;
         }
 
         public String getLanguage() {
             return language;
         }
 
-        public BaseCharacterComponent getSource() {
-            return source;
-        }
-
         @Override
         public String toString() {
-            return language + " (" + source.getSourceString() + ")";
+            return language + " (" + getSourceString() + ")";
         }
+
 
     }
 
-    public static class ModifierAndReason {
-        final int modifier;
-        final BaseCharacterComponent source;
+    public static class ModifierWithSource extends WithSource {
+        private final int modifier;
 
-
-        ModifierAndReason(int modifier, BaseCharacterComponent source) {
+        ModifierWithSource(int modifier, BaseCharacterComponent source) {
+            super(source);
             this.modifier = modifier;
-            this.source = source;
         }
 
         public int getModifier() {
             return modifier;
         }
 
-        public BaseCharacterComponent getSource() {
-            return source;
-        }
-
         @Override
         public String toString() {
-            if (source == null) {
-                return modifier + " (Base Stat)";
-            }
-            return modifier + " (" + source.getSourceString() + ")";
+            return modifier + " (" + getSourceString() + ")";
         }
     }
 
-    public static class ProficientAndReason {
-        final BaseCharacterComponent source;
-        Proficient proficient;
+    public static class ProficientWithSource extends WithSource {
+        private final Proficient proficient;
 
-        ProficientAndReason(Proficient proficient, BaseCharacterComponent source) {
+        ProficientWithSource(Proficient proficient, BaseCharacterComponent source) {
+            super(source);
             this.proficient = proficient;
-            this.source = source;
         }
 
         public Proficient getProficient() {
             return proficient;
         }
 
-        public BaseCharacterComponent getSource() {
-            return source;
-        }
-
         @Override
         public String toString() {
-            return proficient + " (" + source.getSourceString() + ")";
+            return proficient + " (" + getSourceString() + ")";
         }
 
     }
@@ -990,29 +972,42 @@ public class Character {
         }
     }
 
-    public static class ToolProficiencyAndReason {
-        final Proficiency proficient;
-        final BaseCharacterComponent source;
+    public static class ToolProficiencyWithSource extends WithSource {
+        private final Proficiency proficient;
 
-        ToolProficiencyAndReason(Proficiency proficient, BaseCharacterComponent source) {
+        ToolProficiencyWithSource(Proficiency proficient, BaseCharacterComponent source) {
+            super(source);
             this.proficient = proficient;
-            this.source = source;
         }
 
         public Proficiency getProficiency() {
             return proficient;
         }
 
+        @Override
+        public String toString() {
+            if (proficient.getCategory() != null) {
+                return "[" + proficient.getCategory() + "] (" + getSourceString() + ")";
+            }
+            return proficient.getName() + " (" + getSourceString() + ")";
+        }
+
+    }
+
+    public abstract static class WithSource {
+        private final BaseCharacterComponent source;
+
+        WithSource(BaseCharacterComponent source) {
+            this.source = source;
+        }
+
         public BaseCharacterComponent getSource() {
             return source;
         }
 
-        @Override
-        public String toString() {
-            if (proficient.getCategory() != null) {
-                return "[" + proficient.getCategory() + "] (" + source.getSourceString() + ")";
-            }
-            return proficient.getName() + " (" + source.getSourceString() + ")";
+        public String getSourceString() {
+            if (source == null) return "No Source";
+            return source.getSourceString();
         }
 
     }

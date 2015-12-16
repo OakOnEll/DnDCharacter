@@ -5,7 +5,6 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,7 +13,7 @@ import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.Proficient;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
-import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
+import com.oakonell.dndcharacter.views.RowWithSourceAdapter;
 
 import java.util.List;
 
@@ -52,10 +51,10 @@ public class ToolProficiencyDialogFragment extends DialogFragment {
         Button done = (Button) view.findViewById(R.id.done);
         ListView listView = (ListView) view.findViewById(R.id.list);
 
-        final List<Character.ToolProficiencyAndReason> proficienciesAndReasons = mainActivity.character.deriveToolProficienciesReasons(proficiencyType);
+        final List<Character.ToolProficiencyWithSource> proficiencies = mainActivity.character.deriveToolProficiencies(proficiencyType);
 
 
-        ToolProficiencyReasonAdapter adapter = new ToolProficiencyReasonAdapter(this, proficienciesAndReasons);
+        ToolProficiencySourceAdapter adapter = new ToolProficiencySourceAdapter(this, proficiencies);
         listView.setAdapter(adapter);
 
         done.setOnClickListener(new View.OnClickListener() {
@@ -68,50 +67,13 @@ public class ToolProficiencyDialogFragment extends DialogFragment {
         return view;
     }
 
-    private static class ViewHolder {
-        TextView value;
-        TextView source;
-    }
-
-    public static class ToolProficiencyReasonAdapter extends BaseAdapter {
-        private List<Character.ToolProficiencyAndReason> list;
-        ToolProficiencyDialogFragment fragment;
-
-        ToolProficiencyReasonAdapter(ToolProficiencyDialogFragment fragment, List<Character.ToolProficiencyAndReason> list) {
-            this.list = list;
-            this.fragment = fragment;
+    public static class ToolProficiencySourceAdapter extends RowWithSourceAdapter<Character.ToolProficiencyWithSource> {
+        ToolProficiencySourceAdapter(ToolProficiencyDialogFragment fragment, List<Character.ToolProficiencyWithSource> list) {
+            super(fragment.mainActivity, list);
         }
 
         @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Character.ToolProficiencyAndReason getItem(int position) {
-            return list.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = convertView;
-            ViewHolder holder;
-            if (view != null) {
-                holder = (ViewHolder) view.getTag();
-            } else {
-                view = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.skill_prof_row, parent, false);
-                holder = new ViewHolder();
-                holder.value = (TextView) view.findViewById(R.id.value);
-                holder.source = (TextView) view.findViewById(R.id.source);
-                view.setTag(holder);
-            }
-
-            Character.ToolProficiencyAndReason item = getItem(position);
+        protected void bindView(View view, WithSourceViewHolder<Character.ToolProficiencyWithSource> holder, Character.ToolProficiencyWithSource item) {
             String category = item.getProficiency().getCategory();
             String text;
             if (category != null) {
@@ -129,20 +91,6 @@ public class ToolProficiencyDialogFragment extends DialogFragment {
             } else {
                 holder.source.setText(source.getSourceString());
             }
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final Character character = fragment.mainActivity.character;
-                    if (source == null) {
-                        // ?? probably not possible
-                    } else {
-                        ComponentLaunchHelper.editComponent((MainActivity) fragment.getActivity(), character, source);
-                    }
-                }
-            });
-
-            return view;
         }
     }
 

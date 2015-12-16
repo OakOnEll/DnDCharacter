@@ -37,7 +37,7 @@ public class MainActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
     private final String MyPREFERENCES = "prefs";
     long id = -1;
-    com.oakonell.dndcharacter.model.Character character = null;
+    public com.oakonell.dndcharacter.model.Character character = null;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a

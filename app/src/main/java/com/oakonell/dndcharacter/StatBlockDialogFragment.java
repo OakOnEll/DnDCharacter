@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,7 +11,7 @@ import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.StatBlock;
 import com.oakonell.dndcharacter.views.BaseStatsDialogFragment;
-import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
+import com.oakonell.dndcharacter.views.RowWithSourceAdapter;
 
 import java.util.List;
 
@@ -50,57 +49,31 @@ public class StatBlockDialogFragment extends RollableDialogFragment {
         total.setText(statBlock.getValue() + "");
         modifier.setText(statBlock.getModifier() + "");
 
-        StatReasonAdapter adapter = new StatReasonAdapter(this, statBlock.getModifiers());
+        StatSourceAdapter adapter = new StatSourceAdapter(this, statBlock.getModifiers());
         listView.setAdapter(adapter);
 
         return view;
     }
 
+    public static class StatSourceAdapter extends RowWithSourceAdapter<Character.ModifierWithSource> {
 
-    private static class ViewHolder {
-        TextView value;
-        TextView source;
-    }
-
-    public static class StatReasonAdapter extends BaseAdapter {
-        private List<Character.ModifierAndReason> list;
-        StatBlockDialogFragment fragment;
-
-        StatReasonAdapter(StatBlockDialogFragment fragment, List<Character.ModifierAndReason> list) {
-            this.list = list;
-            this.fragment = fragment;
+        StatSourceAdapter(StatBlockDialogFragment fragment, List<Character.ModifierWithSource> list) {
+            super(fragment.getMainActivity(), list);
         }
 
         @Override
-        public int getCount() {
-            return list.size();
+        protected int getLayoutResource() {
+            return R.layout.stat_mod_row;
         }
 
         @Override
-        public Character.ModifierAndReason getItem(int position) {
-            return list.get(position);
+        protected void launchNoSource(MainActivity activity, Character character) {
+            BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog(character);
+            dialog.show(activity.getSupportFragmentManager(), "base_stats");
         }
 
         @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = convertView;
-            ViewHolder holder;
-            if (view != null) {
-                holder = (ViewHolder) view.getTag();
-            } else {
-                view = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.stat_mod_row, parent, false);
-                holder = new ViewHolder();
-                holder.value = (TextView) view.findViewById(R.id.value);
-                holder.source = (TextView) view.findViewById(R.id.source);
-                view.setTag(holder);
-            }
-
-            Character.ModifierAndReason item = getItem(position);
+        protected void bindView(View view, WithSourceViewHolder<Character.ModifierWithSource> holder, Character.ModifierWithSource item) {
             int value = item.getModifier();
             final BaseCharacterComponent source = item.getSource();
             if (source == null) {
@@ -111,22 +84,6 @@ public class StatBlockDialogFragment extends RollableDialogFragment {
                 holder.source.setText(source.getSourceString());
                 holder.value.setText("+" + value);
             }
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final Character character = fragment.statBlock.getCharacter();
-                    if (source == null) {
-                        // a base stat
-                        BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog(character);
-                        dialog.show(fragment.getFragmentManager(), "base_stats");
-                    } else {
-                        ComponentLaunchHelper.editComponent((MainActivity) fragment.getActivity(), character, source);
-                    }
-                }
-            });
-
-            return view;
         }
     }
 
