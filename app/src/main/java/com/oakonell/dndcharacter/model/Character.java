@@ -304,26 +304,20 @@ public class Character {
         List<LanguageAndReason> languages = new ArrayList<>();
         if (background != null) {
             for (String each : background.getLanguages()) {
-                LanguageAndReason row = new LanguageAndReason();
-                row.language = each;
-                row.reason = background.getName();
+                LanguageAndReason row = new LanguageAndReason(each, background);
                 languages.add(row);
             }
         }
         if (race != null) {
             for (String each : race.getLanguages()) {
-                LanguageAndReason row = new LanguageAndReason();
-                row.language = each;
-                row.reason = race.getName();
+                LanguageAndReason row = new LanguageAndReason(each, race);
                 languages.add(row);
             }
         }
         if (classes != null) {
             for (CharacterClass eachClass : classes) {
                 for (String each : eachClass.getLanguages()) {
-                    LanguageAndReason row = new LanguageAndReason();
-                    row.language = each;
-                    row.reason = eachClass.getName();
+                    LanguageAndReason row = new LanguageAndReason(each, eachClass);
                     languages.add(row);
                 }
             }
@@ -843,9 +837,7 @@ public class Character {
         if (background != null) {
             List<Proficiency> profs = background.getToolProficiencies(type);
             for (Proficiency each : profs) {
-                ToolProficiencyAndReason newRow = new ToolProficiencyAndReason();
-                newRow.proficient = each;
-                newRow.reason = background.getName();
+                ToolProficiencyAndReason newRow = new ToolProficiencyAndReason(each, background);
                 result.add(newRow);
             }
         }
@@ -853,9 +845,7 @@ public class Character {
         if (race != null) {
             List<Proficiency> profs = race.getToolProficiencies(type);
             for (Proficiency each : profs) {
-                ToolProficiencyAndReason newRow = new ToolProficiencyAndReason();
-                newRow.proficient = each;
-                newRow.reason = race.getName();
+                ToolProficiencyAndReason newRow = new ToolProficiencyAndReason(each, race);
                 result.add(newRow);
             }
         }
@@ -864,9 +854,7 @@ public class Character {
             for (CharacterClass each : classes) {
                 List<Proficiency> profs = each.getToolProficiencies(type);
                 for (Proficiency eachProf : profs) {
-                    ToolProficiencyAndReason newRow = new ToolProficiencyAndReason();
-                    newRow.proficient = eachProf;
-                    newRow.reason = each.getName();
+                    ToolProficiencyAndReason newRow = new ToolProficiencyAndReason(eachProf, each);
                     result.add(newRow);
                 }
             }
@@ -901,13 +889,42 @@ public class Character {
         return weapons;
     }
 
+    public BaseStatsType getStatsType() {
+        return statsType;
+    }
+
+    public void setStatsType(BaseStatsType statsType) {
+        this.statsType = statsType;
+    }
+
+    public Map<StatType, Integer> getBaseStats() {
+        return baseStats;
+    }
+
+    public void setBaseStats(Map<StatType, Integer> baseStats) {
+        this.baseStats = baseStats;
+    }
+
     public static class LanguageAndReason {
-        String language;
-        String reason;
+        final String language;
+        final BaseCharacterComponent source;
+
+        LanguageAndReason(String language, BaseCharacterComponent source) {
+            this.language = language;
+            this.source = source;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public BaseCharacterComponent getSource() {
+            return source;
+        }
 
         @Override
         public String toString() {
-            return language + " (" + reason + ")";
+            return language + " (" + source.getSourceString() + ")";
         }
 
     }
@@ -940,8 +957,8 @@ public class Character {
     }
 
     public static class ProficientAndReason {
-        Proficient proficient;
         final BaseCharacterComponent source;
+        Proficient proficient;
 
         ProficientAndReason(Proficient proficient, BaseCharacterComponent source) {
             this.proficient = proficient;
@@ -974,33 +991,29 @@ public class Character {
     }
 
     public static class ToolProficiencyAndReason {
-        Proficiency proficient;
-        String reason;
+        final Proficiency proficient;
+        final BaseCharacterComponent source;
+
+        ToolProficiencyAndReason(Proficiency proficient, BaseCharacterComponent source) {
+            this.proficient = proficient;
+            this.source = source;
+        }
+
+        public Proficiency getProficiency() {
+            return proficient;
+        }
+
+        public BaseCharacterComponent getSource() {
+            return source;
+        }
 
         @Override
         public String toString() {
             if (proficient.getCategory() != null) {
-                return "[" + proficient.getCategory() + "] (" + reason + ")";
+                return "[" + proficient.getCategory() + "] (" + source.getSourceString() + ")";
             }
-            return proficient.getName() + " (" + reason + ")";
+            return proficient.getName() + " (" + source.getSourceString() + ")";
         }
 
-    }
-
-
-    public BaseStatsType getStatsType() {
-        return statsType;
-    }
-
-    public void setStatsType(BaseStatsType statsType) {
-        this.statsType = statsType;
-    }
-
-    public Map<StatType, Integer> getBaseStats() {
-        return baseStats;
-    }
-
-    public void setBaseStats(Map<StatType, Integer> baseStats) {
-        this.baseStats = baseStats;
     }
 }

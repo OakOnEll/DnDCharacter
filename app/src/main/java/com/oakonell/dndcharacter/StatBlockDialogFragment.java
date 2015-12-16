@@ -10,12 +10,9 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.model.CharacterClass;
 import com.oakonell.dndcharacter.model.StatBlock;
 import com.oakonell.dndcharacter.views.BaseStatsDialogFragment;
-import com.oakonell.dndcharacter.views.background.ApplyBackgroundDialogFragment;
-import com.oakonell.dndcharacter.views.classes.EditClassLevelDialogFragment;
-import com.oakonell.dndcharacter.views.race.ApplyRaceDialogFragment;
+import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 
 import java.util.List;
 
@@ -124,24 +121,7 @@ public class StatBlockDialogFragment extends RollableDialogFragment {
                         BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog(character);
                         dialog.show(fragment.getFragmentManager(), "base_stats");
                     } else {
-                        switch (source.getType()) {
-                            case BACKGROUND:
-                                ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog(character);
-                                dialog.show(fragment.getFragmentManager(), "background");
-                                break;
-                            case CLASS:
-                                CharacterClass charClass = (CharacterClass) source;
-                                int position = character.getClasses().indexOf(charClass);
-                                EditClassLevelDialogFragment classDialog = EditClassLevelDialogFragment.createDialog(character, charClass, position, null);
-                                classDialog.show(fragment.getFragmentManager(), "class");
-                                break;
-                            case RACE:
-                                ApplyRaceDialogFragment raceDialog = ApplyRaceDialogFragment.createDialog(character);
-                                raceDialog.show(fragment.getFragmentManager(), "race");
-                                break;
-                            case ITEM:
-                                break;
-                        }
+                        ComponentLaunchHelper.editComponent((MainActivity) fragment.getActivity(), character, source);
                     }
                 }
             });
