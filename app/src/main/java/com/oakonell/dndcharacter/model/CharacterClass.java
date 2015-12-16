@@ -21,6 +21,7 @@ public class CharacterClass extends BaseCharacterComponent {
         return ComponentType.CLASS;
     }
 
+    @Override
     public String getSourceString() {
         return getType().toString() + ": " + getName() + " " + level;
     }

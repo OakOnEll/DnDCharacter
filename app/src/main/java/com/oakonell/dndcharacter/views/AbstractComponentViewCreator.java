@@ -185,22 +185,22 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         currentChooseMD.maxChoices = numChoices;
         choicesMD.put(choiceName, currentChooseMD);
 
-        ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.choose_layout, null);
-        parent.addView(layout);
-        parent = (ViewGroup) layout.findViewById(R.id.choices_view);
-
-        TextView numChoicesTextView = (TextView) layout.findViewById(R.id.num_choices);
-        numChoicesTextView.setText(numChoices + "");
-
         List<Element> childOrElems = XmlUtils.getChildElements(element, "or");
         if (childOrElems.size() == 0) {
             // category, context sensitive choices ?
             categoryChoices(element, numChoices);
         } else {
+            ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.choose_layout, null);
+            parent.addView(layout);
+            parent = (ViewGroup) layout.findViewById(R.id.choices_view);
+
+            TextView numChoicesTextView = (TextView) layout.findViewById(R.id.num_choices);
+            numChoicesTextView.setText(numChoices + "");
+
             super.visitChoose(element);
+            setCheckedEnabledStates(currentChooseMD);
         }
 
-        setCheckedEnabledStates(currentChooseMD);
 
         currentChooseMD = oldChooseMD;
         parent = oldParent;
@@ -360,6 +360,5 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
             }
         }
     }
-
 
 }

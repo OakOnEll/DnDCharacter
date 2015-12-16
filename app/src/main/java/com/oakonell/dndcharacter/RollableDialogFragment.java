@@ -8,9 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.RandomUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Rob on 12/1/2015.
@@ -99,14 +100,13 @@ public class RollableDialogFragment extends DialogFragment {
     }
 
     private void roll() {
-        Random rand = new Random();
-        roll = rand.nextInt(19) + 1;
-        roll2 = rand.nextInt(19) + 1;
+        roll = RandomUtils.random(1, 20);
+        roll2 = RandomUtils.random(1, 20);
 
         // TODO animate the roll, with sound fx
         roll1Text.setText(roll + "");
         roll2Text.setText(roll2 + "");
-        
+
         updateRollView();
     }
 

@@ -39,7 +39,9 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
     private NoDefaultSpinner subraceSpinner;
     private Map<String, ChooseMD> subRaceChooseMDs;
 
-    public static ApplyRaceDialogFragment createDialog(Character character, Race race) {
+    public static ApplyRaceDialogFragment createDialog(Character character) {
+        Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
+
         ApplyRaceDialogFragment newMe = new ApplyRaceDialogFragment();
         newMe.setModel(race);
         newMe.setCharacter(character);

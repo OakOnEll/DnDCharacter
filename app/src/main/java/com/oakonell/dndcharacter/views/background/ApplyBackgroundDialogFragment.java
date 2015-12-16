@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.views.background;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
+import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.SavedChoices;
 import com.oakonell.dndcharacter.model.background.ApplyBackgroundToCharacterVisitor;
@@ -24,7 +25,9 @@ import java.util.Map;
  */
 public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogFragment<Background> {
 
-    public static ApplyBackgroundDialogFragment createDialog(Character character, Background background) {
+    public static ApplyBackgroundDialogFragment createDialog(Character character) {
+        Background background = new Select().from(Background.class).where("name = ?", character.getBackgroundName()).executeSingle();
+
         ApplyBackgroundDialogFragment newMe = new ApplyBackgroundDialogFragment();
         newMe.setModel(background);
         newMe.setCharacter(character);

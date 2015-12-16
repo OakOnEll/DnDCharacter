@@ -46,6 +46,9 @@ public class Character {
     private List<CharacterClass> classes = new ArrayList<CharacterClass>();
     @ElementMap(entry = "stat", key = "name", value = "value", required = false)
     private Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
+
+    @Element(required = false)
+    private BaseStatsType statsType;
     @Element(required = false)
     private String notes;
     @ElementMap(entry = "hitDie", key = "die", value = "uses", required = false)
@@ -421,9 +424,7 @@ public class Character {
         if (baseStats != null) {
             int value = baseStats.get(type);
             if (value > 0) {
-                ModifierAndReason base = new ModifierAndReason();
-                base.modifier = value;
-                base.reason = "Base Stat";
+                ModifierAndReason base = new ModifierAndReason(value, null);
                 result.add(base);
             }
         }
@@ -431,9 +432,7 @@ public class Character {
         if (background != null) {
             int value = background.getStatModifier(type);
             if (value > 0) {
-                ModifierAndReason base = new ModifierAndReason();
-                base.modifier = value;
-                base.reason = "Background " + background.getName();
+                ModifierAndReason base = new ModifierAndReason(value, background);
                 result.add(base);
             }
         }
@@ -441,9 +440,7 @@ public class Character {
         if (race != null) {
             int value = race.getStatModifier(type);
             if (value > 0) {
-                ModifierAndReason base = new ModifierAndReason();
-                base.modifier = value;
-                base.reason = "Race " + race.getName();
+                ModifierAndReason base = new ModifierAndReason(value, race);
                 result.add(base);
             }
         }
@@ -452,9 +449,7 @@ public class Character {
             for (CharacterClass each : classes) {
                 int value = each.getStatModifier(type);
                 if (value > 0) {
-                    ModifierAndReason base = new ModifierAndReason();
-                    base.modifier = value;
-                    base.reason = "Class " + each.getName() + " " + each.getLevel();
+                    ModifierAndReason base = new ModifierAndReason(value, each);
                     result.add(base);
                 }
             }
@@ -495,18 +490,14 @@ public class Character {
         if (background != null) {
             Proficient proficient = background.getSkillProficient(type);
             if (proficient != Proficient.NONE) {
-                ProficientAndReason reason = new ProficientAndReason();
-                reason.proficient = proficient;
-                reason.reason = background.getName();
+                ProficientAndReason reason = new ProficientAndReason(proficient, background);
                 result.add(reason);
             }
         }
         if (race != null) {
             Proficient raceProficient = race.getSkillProficient(type);
             if (raceProficient != Proficient.NONE) {
-                ProficientAndReason reason = new ProficientAndReason();
-                reason.proficient = raceProficient;
-                reason.reason = race.getName();
+                ProficientAndReason reason = new ProficientAndReason(raceProficient, race);
                 result.add(reason);
             }
         }
@@ -515,9 +506,7 @@ public class Character {
                 Proficient classProficient = each.getSkillProficient(type);
                 if (classProficient != null) {
                     if (classProficient != Proficient.NONE) {
-                        ProficientAndReason reason = new ProficientAndReason();
-                        reason.proficient = classProficient;
-                        reason.reason = each.getName();
+                        ProficientAndReason reason = new ProficientAndReason(classProficient, each);
                         result.add(reason);
                     }
                 }
@@ -531,18 +520,14 @@ public class Character {
         if (background != null) {
             Proficient proficient = background.getSaveProficient(type);
             if (proficient != Proficient.NONE) {
-                ProficientAndReason reason = new ProficientAndReason();
-                reason.proficient = proficient;
-                reason.reason = background.getName();
+                ProficientAndReason reason = new ProficientAndReason(proficient, background);
                 result.add(reason);
             }
         }
         if (race != null) {
             Proficient raceProficient = race.getSaveProficient(type);
             if (raceProficient != Proficient.NONE) {
-                ProficientAndReason reason = new ProficientAndReason();
-                reason.proficient = raceProficient;
-                reason.reason = race.getName();
+                ProficientAndReason reason = new ProficientAndReason(raceProficient, race);
                 result.add(reason);
             }
         }
@@ -551,9 +536,7 @@ public class Character {
                 Proficient classProficient = each.getSaveProficient(type);
                 if (classProficient != null) {
                     if (classProficient != Proficient.NONE) {
-                        ProficientAndReason reason = new ProficientAndReason();
-                        reason.proficient = classProficient;
-                        reason.reason = each.getName();
+                        ProficientAndReason reason = new ProficientAndReason(classProficient, each);
                         result.add(reason);
                     }
                 }
@@ -930,22 +913,52 @@ public class Character {
     }
 
     public static class ModifierAndReason {
-        int modifier;
-        String reason;
+        final int modifier;
+        final BaseCharacterComponent source;
+
+
+        ModifierAndReason(int modifier, BaseCharacterComponent source) {
+            this.modifier = modifier;
+            this.source = source;
+        }
+
+        public int getModifier() {
+            return modifier;
+        }
+
+        public BaseCharacterComponent getSource() {
+            return source;
+        }
 
         @Override
         public String toString() {
-            return modifier + " (" + reason + ")";
+            if (source == null) {
+                return modifier + " (Base Stat)";
+            }
+            return modifier + " (" + source.getSourceString() + ")";
         }
     }
 
     public static class ProficientAndReason {
         Proficient proficient;
-        String reason;
+        final BaseCharacterComponent source;
+
+        ProficientAndReason(Proficient proficient, BaseCharacterComponent source) {
+            this.proficient = proficient;
+            this.source = source;
+        }
+
+        public Proficient getProficient() {
+            return proficient;
+        }
+
+        public BaseCharacterComponent getSource() {
+            return source;
+        }
 
         @Override
         public String toString() {
-            return proficient + " (" + reason + ")";
+            return proficient + " (" + source.getSourceString() + ")";
         }
 
     }
@@ -972,5 +985,22 @@ public class Character {
             return proficient.getName() + " (" + reason + ")";
         }
 
+    }
+
+
+    public BaseStatsType getStatsType() {
+        return statsType;
+    }
+
+    public void setStatsType(BaseStatsType statsType) {
+        this.statsType = statsType;
+    }
+
+    public Map<StatType, Integer> getBaseStats() {
+        return baseStats;
+    }
+
+    public void setBaseStats(Map<StatType, Integer> baseStats) {
+        this.baseStats = baseStats;
     }
 }

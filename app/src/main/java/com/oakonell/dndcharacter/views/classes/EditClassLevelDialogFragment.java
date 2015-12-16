@@ -14,6 +14,7 @@ import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterClass;
+import com.oakonell.dndcharacter.model.RandomUtils;
 import com.oakonell.dndcharacter.model.SavedChoices;
 import com.oakonell.dndcharacter.model.StatType;
 import com.oakonell.dndcharacter.model.background.Background;
@@ -30,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Created by Rob on 11/9/2015.
@@ -117,7 +117,6 @@ public class EditClassLevelDialogFragment extends ApplyAbstractComponentDialogFr
                     String hitDieString = XmlUtils.getElementText(rootClassElement, "hitDice");
                     hitDiceView.setText(hitDieString);
                     final int maxHp = AClass.getHitDieSides(rootClassElement);
-                    final Random rand = new Random();
 
                     // set the current values
                     roll1.setText((hp) + "");
@@ -126,7 +125,7 @@ public class EditClassLevelDialogFragment extends ApplyAbstractComponentDialogFr
                     rollButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int rollValue = rand.nextInt(maxHp - 1) + 1;
+                            int rollValue = RandomUtils.random(1, maxHp);
                             roll1.setText(rollValue + "");
                         }
                     });
@@ -202,7 +201,7 @@ public class EditClassLevelDialogFragment extends ApplyAbstractComponentDialogFr
         this.classIndex = classIndex;
     }
 
-    public int getClassIndex() {
-        return classIndex;
-    }
+//    public int getClassIndex() {
+//        return classIndex;
+//    }
 }

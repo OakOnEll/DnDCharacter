@@ -18,77 +18,77 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
+            android:id="@+id/stat_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_gravity="center_horizontal"
             android:text="Dexterity"
-            android:id="@+id/stat_label"
-            android:layout_gravity="center_horizontal" />
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <ListView
             android:id="@+id/list"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
 
             android:layout_gravity="center_horizontal"
             android:layout_weight="1" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/stat_mod_lbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dexterity Modifier"
-                android:id="@+id/stat_mod_lbl" />
+                android:text="Dexterity Modifier" />
 
             <TextView
+                android:id="@+id/stat_mod"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2"
-                android:id="@+id/stat_mod" />
+                android:text="2" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/proficiency_layout"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/proficiency_lbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Proficiency"
-                android:id="@+id/proficiency_lbl" />
+                android:text="Proficiency" />
 
             <TextView
+                android:id="@+id/proficiency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2"
-                android:id="@+id/proficiency" />
+                android:text="2" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/total_lbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total"
-                android:id="@+id/total_lbl" />
+                android:text="Total" />
 
             <TextView
+                android:id="@+id/total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4"
-                android:id="@+id/total" />
+                android:text="4" />
         </LinearLayout>
 
         <include layout="@layout/skill_roll_layout" />

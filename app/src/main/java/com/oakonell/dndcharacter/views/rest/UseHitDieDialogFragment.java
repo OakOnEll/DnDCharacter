@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.oakonell.dndcharacter.R;
-
-import java.util.Random;
+import com.oakonell.dndcharacter.model.RandomUtils;
 
 /**
  * Created by Rob on 11/8/2015.
@@ -41,7 +40,7 @@ public class UseHitDieDialogFragment extends DialogFragment {
         roll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int value = new Random().nextInt(hitDieRow.dieSides) + 1;
+                int value = RandomUtils.random(1, hitDieRow.dieSides);
                 valueText.setText(value + "");
                 //roll.setEnabled(false);
             }

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal">
+
+        <TableRow
+            style="@style/simple_stat_row_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/value1"
+                style="@style/simple_stat_value_style"
+                android:text="15" />
+
+            <ImageView
+                android:id="@+id/up1"
+                style="@style/simple_stat_value_up_style" />
+
+            <TextView
+                android:id="@+id/stat_name1"
+                style="@style/simple_stat_value_name_style"
+                android:text="Strength" />
+
+            <ImageView
+                android:id="@+id/down1"
+                style="@style/simple_stat_value_down_style" />
+        </TableRow>
+
+        <TableRow
+            style="@style/simple_stat_row_style"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/value2"
+                style="@style/simple_stat_value_style"
+                android:text="15" />
+
+            <ImageView
+                android:id="@+id/up2"
+                style="@style/simple_stat_value_up_style" />
+
+            <TextView
+                android:id="@+id/stat_name2"
+                style="@style/simple_stat_value_name_style"
+                android:text="Dexterity" />
+
+            <ImageView
+                android:id="@+id/down2"
+                style="@style/simple_stat_value_down_style" />
+        </TableRow>
+
+        <TableRow
+            style="@style/simple_stat_row_style"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/value3"
+                style="@style/simple_stat_value_style"
+                android:text="15" />
+
+            <ImageView
+                android:id="@+id/up3"
+                style="@style/simple_stat_value_up_style" />
+
+            <TextView
+                android:id="@+id/stat_name3"
+                style="@style/simple_stat_value_name_style"
+                android:text="Constitution" />
+
+            <ImageView
+                android:id="@+id/down3"
+                style="@style/simple_stat_value_down_style" />
+        </TableRow>
+
+        <TableRow
+            style="@style/simple_stat_row_style"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/value4"
+                style="@style/simple_stat_value_style"
+                android:text="15" />
+
+            <ImageView
+                android:id="@+id/up4"
+                style="@style/simple_stat_value_up_style" />
+
+            <TextView
+                android:id="@+id/stat_name4"
+                style="@style/simple_stat_value_name_style"
+                android:text="Intelligence" />
+
+            <ImageView
+                android:id="@+id/down4"
+                style="@style/simple_stat_value_down_style" />
+        </TableRow>
+
+        <TableRow
+            style="@style/simple_stat_row_style"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/value5"
+                style="@style/simple_stat_value_style"
+                android:text="15" />
+
+            <ImageView
+                android:id="@+id/up5"
+                style="@style/simple_stat_value_up_style" />
+
+            <TextView
+                android:id="@+id/stat_name5"
+                style="@style/simple_stat_value_name_style"
+                android:text="Wisdom" />
+
+            <ImageView
+                android:id="@+id/down5"
+                style="@style/simple_stat_value_down_style" />
+        </TableRow>
+
+        <TableRow
+            style="@style/simple_stat_row_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/value6"
+                style="@style/simple_stat_value_style"
+                android:text="15" />
+
+            <ImageView
+                android:id="@+id/up6"
+                style="@style/simple_stat_value_up_style" />
+
+            <TextView
+                android:id="@+id/stat_name6"
+                style="@style/simple_stat_value_name_style"
+                android:text="Charisma" />
+
+            <ImageView
+                android:id="@+id/down6"
+                style="@style/simple_stat_value_down_style" />
+        </TableRow>
+
+    </TableLayout>
+</LinearLayout>

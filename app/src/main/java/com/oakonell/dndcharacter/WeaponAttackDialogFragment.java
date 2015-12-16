@@ -8,8 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.CharacterItem;
-
-import java.util.Random;
+import com.oakonell.dndcharacter.model.RandomUtils;
 
 /**
  * Created by Rob on 12/8/2015.
@@ -71,13 +70,12 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     private void rollAttack() {
-        Random rand = new Random();
-        attackRoll = rand.nextInt(6) + 1;
+        attackRoll = RandomUtils.random(1, 6);
 
         // TODO animate the roll, with sound fx
         attack_roll1.setText(attackRoll + "");
         attack_roll1.setVisibility(View.VISIBLE);
-        
+
         updateAttackRollView();
     }
 

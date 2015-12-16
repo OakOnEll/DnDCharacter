@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/stat_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Racial bonuses"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/race_bonuses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Intelligence+1, Dexterity+2"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <include layout="@layout/base_stats_custom" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <include layout="@layout/base_stats_simple" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/point_buy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <include layout="@layout/base_stats_point_buy" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/roll_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <Spinner
+                android:id="@+id/roll_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/roll"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Roll" />
+
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Done" />
+    </LinearLayout>
+</RelativeLayout>

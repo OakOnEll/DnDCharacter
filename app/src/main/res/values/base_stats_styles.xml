@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="custom_stat_edit_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">2</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:text">8</item>
+    </style>
+
+    <style name="custom_stat_label_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="simple_stat_row_style">
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="simple_stat_value_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="simple_stat_value_up_style">
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">top|center_horizontal</item>
+        <item name="android:src">@android:drawable/arrow_up_float</item>
+    </style>
+
+
+    <style name="simple_stat_value_name_style" parent="custom_stat_label_style">
+
+    </style>
+
+    <style name="simple_stat_value_down_style">
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|center_horizontal</item>
+        <item name="android:src">@android:drawable/arrow_down_float</item>
+    </style>
+
+    <style name="point_buy_stat_label" parent="custom_stat_label_style">
+
+    </style>
+
+    <style name="point_buy_stat_value">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:ems">2</item>
+        <item name="android:text">8</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="point_buy_stat_add" parent="@android:style/Widget.Button.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">+</item>
+    </style>
+
+    <style name="point_buy_stat_sub" parent="@android:style/Widget.Button.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">-</item>
+    </style>
+</resources>

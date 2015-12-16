@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Points Remaining"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/remaining_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="27"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/point_buy_stat_label"
+                android:text="Strength" />
+
+            <Button
+                android:id="@+id/strength_add"
+                style="@style/point_buy_stat_add" />
+
+            <TextView
+                android:id="@+id/strength_buy"
+                style="@style/point_buy_stat_value"
+                 />
+
+            <Button
+                android:id="@+id/strength_subtract"
+                style="@style/point_buy_stat_sub" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/point_buy_stat_label"
+                android:text="Dexterity" />
+
+            <Button
+                android:id="@+id/dexterity_add"
+                style="@style/point_buy_stat_add" />
+
+            <TextView
+                android:id="@+id/dexterity_buy"
+                style="@style/point_buy_stat_value" />
+
+            <Button
+                android:id="@+id/dexterity_subtract"
+                style="@style/point_buy_stat_sub" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/point_buy_stat_label"
+                android:text="Constitution" />
+
+            <Button
+                android:id="@+id/constitution_add"
+                style="@style/point_buy_stat_add" />
+
+            <TextView
+                android:id="@+id/constitution_buy"
+                style="@style/point_buy_stat_value" />
+
+            <Button
+                android:id="@+id/constitution_subtract"
+                style="@style/point_buy_stat_sub" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/point_buy_stat_label"
+                android:text="Intelligence" />
+
+            <Button
+                android:id="@+id/intelligence_add"
+                style="@style/point_buy_stat_add" />
+
+            <TextView
+                android:id="@+id/intelligence_buy"
+                style="@style/point_buy_stat_value" />
+
+            <Button
+                android:id="@+id/intelligence_subtract"
+                style="@style/point_buy_stat_sub" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/point_buy_stat_label"
+                android:text="Wisdom" />
+
+            <Button
+                android:id="@+id/wisdom_add"
+                style="@style/point_buy_stat_add" />
+
+            <TextView
+                android:id="@+id/wisdom_buy"
+                style="@style/point_buy_stat_value" />
+
+            <Button
+                android:id="@+id/wisdom_subtract"
+                style="@style/point_buy_stat_sub" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/point_buy_stat_label"
+                android:text="Charisma" />
+
+            <Button
+                android:id="@+id/charisma_add"
+                style="@style/point_buy_stat_add" />
+
+            <TextView
+                android:id="@+id/charisma_buy"
+                style="@style/point_buy_stat_value" />
+
+            <Button
+                android:id="@+id/charisma_subtract"
+                style="@style/point_buy_stat_sub" />
+
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

@@ -109,8 +109,7 @@ public class AbstractSheetFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    Background background = new Select().from(Background.class).where("name = ?", character.getBackgroundName()).executeSingle();
-                    ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog(character, background);
+                    ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog(character);
                     dialog.show(getFragmentManager(), "background");
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
@@ -122,8 +121,7 @@ public class AbstractSheetFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
-                    ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog(character, race);
+                    ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog(character);
                     dialog.show(getFragmentManager(), "race");
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
