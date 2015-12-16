@@ -5,8 +5,8 @@
         <proficiency category="heavy armor"></proficiency>
     </armor>
     <savingThrows>
-        <savingThrow>Strength</savingThrow>
-        <savingThrow>Constitution</savingThrow>
+        <proficiency>Strength</proficiency>
+        <proficiency>Constitution</proficiency>
     </savingThrows>
     <skills>
         <choose name="skills" number="2">

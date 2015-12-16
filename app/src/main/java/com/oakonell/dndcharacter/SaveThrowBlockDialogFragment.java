@@ -4,13 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.CharacterClass;
+import com.oakonell.dndcharacter.model.Proficient;
 import com.oakonell.dndcharacter.model.StatBlock;
+import com.oakonell.dndcharacter.views.background.ApplyBackgroundDialogFragment;
+import com.oakonell.dndcharacter.views.classes.EditClassLevelDialogFragment;
+import com.oakonell.dndcharacter.views.race.ApplyRaceDialogFragment;
 
 import java.util.List;
 
@@ -63,11 +68,98 @@ public class SaveThrowBlockDialogFragment extends RollableDialogFragment {
         total.setText(statBlock.getSaveModifier() + "");
 
 
-        ListAdapter adapter = new ArrayAdapter<Character.ProficientAndReason>(getActivity(), android.R.layout.simple_list_item_1, proficiencies);
+        SaveThrowReasonAdapter adapter = new SaveThrowReasonAdapter(this, proficiencies);
         listView.setAdapter(adapter);
-
 
         return view;
     }
+
+    private static class ViewHolder {
+        TextView value;
+        TextView source;
+    }
+
+    public static class SaveThrowReasonAdapter extends BaseAdapter {
+        private List<Character.ProficientAndReason> list;
+        SaveThrowBlockDialogFragment fragment;
+
+        SaveThrowReasonAdapter(SaveThrowBlockDialogFragment fragment, List<Character.ProficientAndReason> list) {
+            this.list = list;
+            this.fragment = fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Character.ProficientAndReason getItem(int position) {
+            return list.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            ViewHolder holder;
+            if (view != null) {
+                holder = (ViewHolder) view.getTag();
+            } else {
+                view = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.skill_prof_row, parent, false);
+                holder = new ViewHolder();
+                holder.value = (TextView) view.findViewById(R.id.value);
+                holder.source = (TextView) view.findViewById(R.id.source);
+                view.setTag(holder);
+            }
+
+            Character.ProficientAndReason item = getItem(position);
+            Proficient value = item.getProficient();
+            holder.value.setText(value.toString());
+            final BaseCharacterComponent source = item.getSource();
+            if (source == null) {
+                // a base stat
+                holder.source.setText("Base Stat");
+            } else {
+                holder.source.setText(source.getSourceString());
+            }
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Character character = fragment.statBlock.getCharacter();
+                    if (source == null) {
+                        // ?? probably not possible
+                    } else {
+                        switch (source.getType()) {
+                            case BACKGROUND:
+                                ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog(character);
+                                dialog.show(fragment.getFragmentManager(), "background");
+                                break;
+                            case CLASS:
+                                CharacterClass charClass = (CharacterClass) source;
+                                int position = character.getClasses().indexOf(charClass);
+                                EditClassLevelDialogFragment classDialog = EditClassLevelDialogFragment.createDialog(character, charClass, position, null);
+                                classDialog.show(fragment.getFragmentManager(), "class");
+                                break;
+                            case RACE:
+                                ApplyRaceDialogFragment raceDialog = ApplyRaceDialogFragment.createDialog(character);
+                                raceDialog.show(fragment.getFragmentManager(), "race");
+                                break;
+                            case ITEM:
+                                break;
+                        }
+                    }
+                }
+            });
+
+            return view;
+        }
+    }
+
 
 }

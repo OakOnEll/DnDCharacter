@@ -17,6 +17,8 @@ public class AbstractComponentVisitor {
             visitOr(element);
         } else if (name.equals("skills")) {
             visitSkills(element);
+        } else if (name.equals("savingThrows")) {
+            visitSavingThrows(element);
         } else if (name.equals("tools")) {
             visitTools(element);
         } else if (name.equals("armor")) {
@@ -158,6 +160,13 @@ public class AbstractComponentVisitor {
         state = oldState;
     }
 
+    protected void visitSavingThrows(Element element) {
+        VisitState oldState = state;
+        state = VisitState.SAVING_THROWS;
+        visitGroup(element);
+        state = oldState;
+    }
+
     protected void visitGroup(Element element) {
         visitChildren(element);
     }
@@ -178,6 +187,6 @@ public class AbstractComponentVisitor {
     }
 
     public enum VisitState {
-        SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, WEAPONS, ARMOR, SPECIALTIES
+        SAVING_THROWS, SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, WEAPONS, ARMOR, SPECIALTIES
     }
 }

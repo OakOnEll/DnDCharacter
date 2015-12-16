@@ -12,8 +12,8 @@
         <proficiency>Light Crossbow</proficiency>
     </weapons>
     <savingThrows>
-        <savingThrow>Constitution</savingThrow>
-        <savingThrow>Charisma</savingThrow>
+        <proficiency>Constitution</proficiency>
+        <proficiency>Charisma</proficiency>
     </savingThrows>
     <skills>
         <choose name="skills" number="2">

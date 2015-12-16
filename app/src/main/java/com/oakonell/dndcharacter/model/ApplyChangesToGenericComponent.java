@@ -55,7 +55,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String skillName = element.getTextContent();
         String category = element.getAttribute("category");
         if (state == AbstractComponentVisitor.VisitState.SKILLS) {
-            // TODO how to endode expert, or half prof- via attribute?
+            // TODO how to encode expert, or half prof- via attribute?
             skillName = skillName.replaceAll(" ", "_");
             skillName = skillName.toUpperCase();
             SkillType type = SkillType.valueOf(SkillType.class, skillName);
@@ -80,6 +80,14 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             } else {
                 component.addToolProficiency(type, skillName, Proficient.PROFICIENT);
             }
+        } else if (state == VisitState.SAVING_THROWS) {
+            // TODO how to encode expert, or half prof- via attribute?
+            skillName = skillName.replaceAll(" ", "_");
+            skillName = skillName.toUpperCase();
+            StatType type = StatType.valueOf(StatType.class, skillName);
+            // TODO handle error
+            component.addSaveThrow(type, Proficient.PROFICIENT);
+
         }
         super.visitProficiency(element);
     }

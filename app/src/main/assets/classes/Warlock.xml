@@ -3,8 +3,8 @@
     <hitDice>1d8</hitDice>
 
     <savingThrows>
-        <savingThrow>Wisdom</savingThrow>
-        <savingThrow>Charisma</savingThrow>
+        <proficiency>Wisdom</proficiency>
+        <proficiency>Charisma</proficiency>
     </savingThrows>
     <skills>
         <choose name="skills" number="2">

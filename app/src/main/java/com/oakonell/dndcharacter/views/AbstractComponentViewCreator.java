@@ -86,6 +86,14 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     }
 
     @Override
+    protected void visitSavingThrows(Element element) {
+        ViewGroup oldParent = parent;
+        createGroup("Saving Throw proficiencies");
+        super.visitSavingThrows(element);
+        parent = oldParent;
+    }
+
+    @Override
     protected void visitLanguages(Element element) {
         ViewGroup oldParent = parent;
         createGroup("Languages");
