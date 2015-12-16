@@ -14,10 +14,12 @@ import org.simpleframework.xml.ElementMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -387,18 +389,25 @@ public class Character {
 
     @NonNull
     private String getToolProficiencyString(ProficiencyType type) {
-        StringBuilder builder = new StringBuilder();
         List<ToolProficiencyWithSource> list = deriveToolProficiencies(type);
-        String comma = "";
+        // TODO collapse duplicates AND subsume individual items with categories
+        // TODO apply an order? category first, alphabetical
+        Set<String> set = new HashSet<>();
         for (ToolProficiencyWithSource each : list) {
             Proficiency proficiency = each.proficient;
-            builder.append(comma);
+
             if (proficiency.getCategory() != null) {
-                builder.append("(" + proficiency.getCategory() + ")");
+                set.add("(" + proficiency.getCategory() + ")");
             } else {
-                builder.append(proficiency.getName());
+                set.add(proficiency.getName());
             }
+        }
+        StringBuilder builder = new StringBuilder();
+        String comma = "";
+        for (String each : set) {
+            builder.append(comma);
             comma = ", ";
+            builder.append(each);
         }
         return builder.toString();
     }

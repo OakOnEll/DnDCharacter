@@ -82,8 +82,10 @@ public class ToolProficiencyDialogFragment extends DialogFragment {
                 text = item.getProficiency().getName();
             }
             Proficient proficient = item.getProficiency().getProficient();
-
-            holder.value.setText(text + "[" + proficient + "]");
+            if (proficient.getMultiplier() != 1) {
+                text += "[" + proficient + "]";
+            }
+            holder.value.setText(text);
             final BaseCharacterComponent source = item.getSource();
             if (source == null) {
                 // a base stat
