@@ -65,16 +65,22 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         skillLabel.setText(skillBlock.getType().toString());
         total.setText(skillBlock.getBonus() + "");
 
+        RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
+            @Override
+            public List<Character.ProficientWithSource> getList(Character character) {
+                return skillBlock.getProficiencies();
+            }
+        };
 
-        SkillSourceAdapter adapter = new SkillSourceAdapter(this, skillBlock.getProficiencies());
+        SkillSourceAdapter adapter = new SkillSourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
         return view;
     }
 
     public static class SkillSourceAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {
-        SkillSourceAdapter(SkillBlockDialogFragment fragment, List<Character.ProficientWithSource> list) {
-            super(fragment.getMainActivity(), list);
+        SkillSourceAdapter(SkillBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
+            super(fragment.getMainActivity(), listRetriever);
         }
 
         @Override

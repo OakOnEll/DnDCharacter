@@ -29,7 +29,7 @@ import java.util.Map;
  * Created by Rob on 11/20/2015.
  */
 public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractComponentModel> extends DialogFragment {
-
+    ComponentLaunchHelper.OnDialogDone onDone;
 
     private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
     private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
@@ -145,6 +145,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
                 applyToCharacter(savedChoices, customChoices);
                 dismiss();
                 ((MainActivity) getActivity()).updateViews();
+                onDone.done(true);
             }
         });
 
@@ -244,6 +245,10 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     }
 
     public abstract String getModelSpinnerPrompt();
+
+    public void setOnDone(ComponentLaunchHelper.OnDialogDone onDone) {
+        this.onDone = onDone;
+    }
 
     protected static abstract class Page<M extends AbstractComponentModel> {
         public abstract Map<String, ChooseMD> appendToLayout(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices);

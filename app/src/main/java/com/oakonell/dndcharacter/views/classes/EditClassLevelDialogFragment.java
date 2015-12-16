@@ -23,6 +23,7 @@ import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.ApplyAbstractComponentDialogFragment;
+import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 
 import org.w3c.dom.Element;
@@ -41,14 +42,14 @@ public class EditClassLevelDialogFragment extends ApplyAbstractComponentDialogFr
     private int classIndex;
     Runnable onChange;
 
-    public static EditClassLevelDialogFragment createDialog(Character character, CharacterClass characterClass, int classIndex, Runnable onChange) {
+    public static EditClassLevelDialogFragment createDialog(Character character, CharacterClass characterClass, int classIndex, ComponentLaunchHelper.OnDialogDone onDone) {
         EditClassLevelDialogFragment newMe = new EditClassLevelDialogFragment();
         AClass aClass = new Select().from(Background.class).where("name = ?", characterClass.getName()).executeSingle();
         newMe.setModel(aClass);
         newMe.setClassIndex(classIndex);
         newMe.setCharacterClass(characterClass);
         newMe.setCharacter(character);
-        newMe.onChange = onChange;
+        newMe.setOnDone(onDone);
         return newMe;
     }
 
@@ -165,7 +166,6 @@ public class EditClassLevelDialogFragment extends ApplyAbstractComponentDialogFr
     @Override
     protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices) {
         ApplyClassToCharacterVisitor.updateClassLevel(getModel(), savedChoices, customChoices, getCharacter(), classIndex, characterClass.getLevel(), hp);
-        if (onChange != null) onChange.run();
     }
 
     @NonNull

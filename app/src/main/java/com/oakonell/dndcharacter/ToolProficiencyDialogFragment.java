@@ -51,10 +51,14 @@ public class ToolProficiencyDialogFragment extends DialogFragment {
         Button done = (Button) view.findViewById(R.id.done);
         ListView listView = (ListView) view.findViewById(R.id.list);
 
-        final List<Character.ToolProficiencyWithSource> proficiencies = mainActivity.character.deriveToolProficiencies(proficiencyType);
+        RowWithSourceAdapter.ListRetriever<Character.ToolProficiencyWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ToolProficiencyWithSource>() {
+            @Override
+            public List<Character.ToolProficiencyWithSource> getList(Character character) {
+                return character.deriveToolProficiencies(proficiencyType);
+            }
+        };
 
-
-        ToolProficiencySourceAdapter adapter = new ToolProficiencySourceAdapter(this, proficiencies);
+        ToolProficiencySourceAdapter adapter = new ToolProficiencySourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
         done.setOnClickListener(new View.OnClickListener() {
@@ -68,8 +72,8 @@ public class ToolProficiencyDialogFragment extends DialogFragment {
     }
 
     public static class ToolProficiencySourceAdapter extends RowWithSourceAdapter<Character.ToolProficiencyWithSource> {
-        ToolProficiencySourceAdapter(ToolProficiencyDialogFragment fragment, List<Character.ToolProficiencyWithSource> list) {
-            super(fragment.mainActivity, list);
+        ToolProficiencySourceAdapter(ToolProficiencyDialogFragment fragment, ListRetriever<Character.ToolProficiencyWithSource> listRetriever) {
+            super(fragment.mainActivity, listRetriever);
         }
 
         @Override

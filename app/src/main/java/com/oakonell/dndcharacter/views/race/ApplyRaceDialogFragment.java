@@ -18,6 +18,7 @@ import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.ApplyAbstractComponentDialogFragment;
+import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 
@@ -39,12 +40,13 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
     private NoDefaultSpinner subraceSpinner;
     private Map<String, ChooseMD> subRaceChooseMDs;
 
-    public static ApplyRaceDialogFragment createDialog(Character character) {
+    public static ApplyRaceDialogFragment createDialog(Character character, ComponentLaunchHelper.OnDialogDone onDone) {
         Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
 
         ApplyRaceDialogFragment newMe = new ApplyRaceDialogFragment();
         newMe.setModel(race);
         newMe.setCharacter(character);
+        newMe.setOnDone(onDone);
         return newMe;
     }
 

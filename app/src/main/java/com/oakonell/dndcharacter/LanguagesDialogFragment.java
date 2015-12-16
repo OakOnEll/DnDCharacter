@@ -39,10 +39,14 @@ public class LanguagesDialogFragment extends DialogFragment {
         Button done = (Button) view.findViewById(R.id.done);
         ListView listView = (ListView) view.findViewById(R.id.list);
 
-        final List<Character.LanguageWithSource> languageWithSources = mainActivity.character.deriveLanguages();
+        RowWithSourceAdapter.ListRetriever<Character.LanguageWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.LanguageWithSource>() {
+            @Override
+            public List<Character.LanguageWithSource> getList(Character character) {
+                return character.deriveLanguages();
+            }
+        };
 
-
-        ListAdapter adapter = new LanguagesSourcesAdapter(this, languageWithSources);
+        ListAdapter adapter = new LanguagesSourcesAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
         done.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +60,8 @@ public class LanguagesDialogFragment extends DialogFragment {
     }
 
     public static class LanguagesSourcesAdapter extends RowWithSourceAdapter<Character.LanguageWithSource> {
-        LanguagesSourcesAdapter(LanguagesDialogFragment fragment, List<Character.LanguageWithSource> list) {
-            super(fragment.mainActivity, list);
+        LanguagesSourcesAdapter(LanguagesDialogFragment fragment, ListRetriever<Character.LanguageWithSource> listRetriever) {
+            super(fragment.mainActivity, listRetriever);
         }
 
         @Override

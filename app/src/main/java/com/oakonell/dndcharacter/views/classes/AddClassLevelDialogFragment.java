@@ -21,6 +21,7 @@ import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.ApplyAbstractComponentDialogFragment;
+import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 
 import org.w3c.dom.Element;
@@ -37,10 +38,11 @@ public class AddClassLevelDialogFragment extends ApplyAbstractComponentDialogFra
     int classLevel;
     int hp;
 
-    public static AddClassLevelDialogFragment createDialog(Character character, AClass aClass) {
+    public static AddClassLevelDialogFragment createDialog(Character character, AClass aClass, ComponentLaunchHelper.OnDialogDone onDone) {
         AddClassLevelDialogFragment newMe = new AddClassLevelDialogFragment();
         newMe.setModel(aClass);
         newMe.setCharacter(character);
+        newMe.setOnDone(onDone);
         return newMe;
     }
 

@@ -19,10 +19,16 @@ import java.util.List;
  */
 public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Character.WithSource> extends BaseAdapter {
     private final MainActivity activity;
+    private final ListRetriever<C> listRetriever;
     private List<C> list;
 
-    public RowWithSourceAdapter(MainActivity activity, List<C> list) {
-        this.list = list;
+    public interface ListRetriever<C> {
+        List<C> getList(Character character);
+    }
+
+    public RowWithSourceAdapter(MainActivity activity, ListRetriever<C> listRetriever) {
+        this.listRetriever = listRetriever;
+        this.list = listRetriever.getList(activity.character);
         this.activity = activity;
     }
 
@@ -63,11 +69,17 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
             @Override
             public void onClick(View v) {
                 final Character character = activity.character;
+                ComponentLaunchHelper.OnDialogDone onDone = new ComponentLaunchHelper.OnDialogDone() {
+                    @Override
+                    public void done(boolean changed) {
+                        list = listRetriever.getList(activity.character);
+                        notifyDataSetInvalidated();
+                    }
+                };
                 if (source == null) {
-                    // ?? probably not possible
-                    launchNoSource(activity, character);
+                    launchNoSource(activity, character, onDone);
                 } else {
-                    ComponentLaunchHelper.editComponent(activity, character, source);
+                    ComponentLaunchHelper.editComponent(activity, character, source, onDone);
                 }
             }
         });
@@ -82,7 +94,7 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
 
     }
 
-    protected void launchNoSource(MainActivity activity, Character character) {
+    protected void launchNoSource(MainActivity activity, Character character, ComponentLaunchHelper.OnDialogDone onDone) {
     }
 
     @NonNull

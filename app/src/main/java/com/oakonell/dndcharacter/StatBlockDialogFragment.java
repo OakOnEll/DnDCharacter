@@ -11,6 +11,7 @@ import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.StatBlock;
 import com.oakonell.dndcharacter.views.BaseStatsDialogFragment;
+import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.RowWithSourceAdapter;
 
 import java.util.List;
@@ -49,16 +50,22 @@ public class StatBlockDialogFragment extends RollableDialogFragment {
         total.setText(statBlock.getValue() + "");
         modifier.setText(statBlock.getModifier() + "");
 
-        StatSourceAdapter adapter = new StatSourceAdapter(this, statBlock.getModifiers());
+        RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource>() {
+            @Override
+            public List<Character.ModifierWithSource> getList(Character character) {
+                return statBlock.getModifiers();
+            }
+        };
+
+        StatSourceAdapter adapter = new StatSourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
         return view;
     }
 
     public static class StatSourceAdapter extends RowWithSourceAdapter<Character.ModifierWithSource> {
-
-        StatSourceAdapter(StatBlockDialogFragment fragment, List<Character.ModifierWithSource> list) {
-            super(fragment.getMainActivity(), list);
+        StatSourceAdapter(StatBlockDialogFragment fragment, ListRetriever<Character.ModifierWithSource> listRetriever) {
+            super(fragment.getMainActivity(), listRetriever);
         }
 
         @Override
@@ -67,7 +74,7 @@ public class StatBlockDialogFragment extends RollableDialogFragment {
         }
 
         @Override
-        protected void launchNoSource(MainActivity activity, Character character) {
+        protected void launchNoSource(MainActivity activity, Character character, ComponentLaunchHelper.OnDialogDone onDone) {
             BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog(character);
             dialog.show(activity.getSupportFragmentManager(), "base_stats");
         }

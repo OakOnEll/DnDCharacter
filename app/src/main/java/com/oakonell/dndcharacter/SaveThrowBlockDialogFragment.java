@@ -63,16 +63,22 @@ public class SaveThrowBlockDialogFragment extends RollableDialogFragment {
         statLabel.setText(statBlock.getType().toString());
         total.setText(statBlock.getSaveModifier() + "");
 
+        RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
+            @Override
+            public List<Character.ProficientWithSource> getList(Character character) {
+                return statBlock.getSaveProficiencies();
+            }
+        };
 
-        SaveThrowSourcesAdapter adapter = new SaveThrowSourcesAdapter(this, proficiencies);
+        SaveThrowSourcesAdapter adapter = new SaveThrowSourcesAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
         return view;
     }
 
     public static class SaveThrowSourcesAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {
-        SaveThrowSourcesAdapter(SaveThrowBlockDialogFragment fragment, List<Character.ProficientWithSource> list) {
-            super(fragment.getMainActivity(), list);
+        SaveThrowSourcesAdapter(SaveThrowBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
+            super(fragment.getMainActivity(), listRetriever);
         }
 
         @Override

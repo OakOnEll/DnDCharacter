@@ -11,6 +11,7 @@ import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.ApplyAbstractComponentDialogFragment;
+import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 
 import org.w3c.dom.Element;
@@ -25,12 +26,13 @@ import java.util.Map;
  */
 public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogFragment<Background> {
 
-    public static ApplyBackgroundDialogFragment createDialog(Character character) {
+    public static ApplyBackgroundDialogFragment createDialog(Character character, ComponentLaunchHelper.OnDialogDone onDone) {
         Background background = new Select().from(Background.class).where("name = ?", character.getBackgroundName()).executeSingle();
 
         ApplyBackgroundDialogFragment newMe = new ApplyBackgroundDialogFragment();
         newMe.setModel(background);
         newMe.setCharacter(character);
+        newMe.setOnDone(onDone);
         return newMe;
     }
 

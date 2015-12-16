@@ -19,6 +19,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterClass;
 import com.oakonell.dndcharacter.model.StatType;
+import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
@@ -249,9 +250,9 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
                 @Override
                 public void onClick(View v) {
                     // TODO
-                    Runnable onChange = new Runnable() {
+                    ComponentLaunchHelper.OnDialogDone onChange = new ComponentLaunchHelper.OnDialogDone() {
                         @Override
-                        public void run() {
+                        public void done(boolean changed) {
                             adapter.notifyDataSetChanged();
                             ((MainActivity) adapter.context.getActivity()).updateViews();
                         }

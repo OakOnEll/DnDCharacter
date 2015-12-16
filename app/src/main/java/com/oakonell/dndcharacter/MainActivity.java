@@ -131,7 +131,7 @@ public class MainActivity extends AbstractBaseActivity {
             return true;
         }
         if (id == R.id.action_level_up) {
-            AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(character, null);
+            AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(character, null, null);
             dialog.show(getSupportFragmentManager(), "level_up");
             return true;
         }
