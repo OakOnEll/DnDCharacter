@@ -720,6 +720,7 @@ public class Character {
         while (iter.hasNext()) {
             HitDieRow entry = iter.next();
             builder.append("(" + entry.numDiceRemaining + "/" + entry.totalDice + ")" + "d" + entry.dieSides);
+            if (iter.hasNext()) builder.append(", ");
         }
         return builder.toString();
     }

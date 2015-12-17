@@ -68,7 +68,7 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
 
     @Override
     protected boolean isFirstCharacterLevel() {
-        return getCharacter().getClasses().get(0) == characterClass;
+        return classIndex == 0;
     }
 
     @Override

@@ -43,7 +43,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
 
     public static void updateClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int classIndex, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, classIndex,classLevel, hpRoll);
+        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, classIndex+1,classLevel, hpRoll);
         character.getClasses().set(classIndex, charClass);
     }
 
