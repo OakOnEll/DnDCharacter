@@ -1,0 +1,78 @@
+<class>
+    <name>Barbarian</name>
+    <hitDice>1d12</hitDice>
+    <armor>
+        <proficiency category="light armor"></proficiency>
+        <proficiency category="medium armor"></proficiency>
+    </armor>
+    <savingThrows>
+        <proficiency>Strength</proficiency>
+        <proficiency>Constitution</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="animal"><proficiency>Animal Handling</proficiency></or>
+            <or name="athletics"><proficiency>Athletics</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="nature"><proficiency>Nature</proficiency></or>
+            <or name="proficiency"><proficiency>Perception</proficiency></or>
+            <or name="survival"><proficiency>Survival</proficiency></or>
+        </choose>
+    </skills>
+
+
+
+
+    <equipment>
+        <choose name="weapon">
+            <or name="axe">
+                <item>Greataxe</item>
+            </or>
+            <or name="weapon">
+                <item category="martial weapon" />
+            </or>
+        </choose>
+
+        <choose name="otherWeapon">
+            <or name="axes">
+                <item count="2">handaxe</item>
+            </or>
+            <or name="simple">
+                <item category="simple weapon" />
+            </or>
+        </choose>
+        <item>explorer's pack</item>
+        <item count="4">Javelins</item>
+    </equipment>
+    <level value="1">
+        <feature>
+            <name>Rage</name>
+            <refreshes>rest</refreshes>
+            <!-- TODO decide on syntax for refreshes -->
+            <uses refreshOn="longRest">2</uses>
+            <shortDescription>On your turn, you can use a bonus action to rage. While raging you have advantage on strength checks, gain a bonus on melee attack damage, resistance to bludgeoning, piercing, and slashing damage.</shortDescription>
+        </feature>
+        <feature>
+            <name>Unarmored Defence</name>
+            <shortDescription>While not wearing armor, your AC equals 10 + dex + con modifiers. Can still use a shield.</shortDescription>
+        </feature>
+        <armor>
+            <proficiency>shield</proficiency>
+        </armor>
+        <weapons>
+            <proficiency category="simple weapons"></proficiency>
+            <proficiency category="martial weapons"></proficiency>
+        </weapons>
+    </level>
+    <level value="2">
+        <feature>
+            <name>Reckless Attack</name>
+            <shortDescription>Can decide to attack recklessly, which gives advantage on Strength melee attack rolls, but rolls against you have advantage until next turn.</shortDescription>
+        </feature>
+        <feature>
+            <name>Danger sense</name>
+            <shortDescription>Advantage on Dexterity saving throws against effects you can see, such as traps and spells. Can't be blinded, deafended, or incapacitated.
+            </shortDescription>
+        </feature>
+    </level>
+</class>
