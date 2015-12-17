@@ -4,7 +4,7 @@
     <style name="custom_stat_edit_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:ems">2</item>
+        <item name="android:ems">3</item>
         <item name="android:gravity">center</item>
         <item name="android:inputType">number</item>
         <item name="android:text">8</item>

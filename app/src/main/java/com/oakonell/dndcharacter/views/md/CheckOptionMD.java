@@ -9,20 +9,29 @@ import java.util.Map;
 /**
  * Created by Rob on 11/18/2015.
  */
-public class CheckOptionMD extends OptionMD {
-    public final String name;
+public class CheckOptionMD extends OptionMD<MultipleChoicesMD> {
+    private final String name;
+    private final CheckBox checkbox;
 
-    public CheckOptionMD(ChooseMD chooseMD, int uiId, String optionName) {
-        super(chooseMD, uiId);
+    public CheckOptionMD(MultipleChoicesMD chooseMD, CheckBox checkbox, String optionName) {
+        super(chooseMD);
+        this.checkbox = checkbox;
         this.name = optionName;
     }
 
     @Override
     public void saveChoice(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices) {
-        CheckBox checkbox = (CheckBox) dynamicView.findViewById(uiId);
         if (checkbox.isChecked()) {
             addToSavedList(dynamicView, list, customChoices);
         }
+    }
+
+    public CheckBox getCheckbox() {
+        return checkbox;
+    }
+
+    public String getOptionName() {
+        return name;
     }
 
     protected void addToSavedList(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices) {

@@ -1,12 +1,14 @@
 package com.oakonell.dndcharacter.views.race;
 
 import android.support.annotation.NonNull;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
@@ -39,6 +41,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
     List<Race> subraces;
     private NoDefaultSpinner subraceSpinner;
     private Map<String, ChooseMD> subRaceChooseMDs;
+    private TextView subRaceErrorView;
 
     public static ApplyRaceDialogFragment createDialog(Character character, ComponentLaunchHelper.OnDialogDone onDone) {
         Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
@@ -48,6 +51,20 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         newMe.setCharacter(character);
         newMe.setOnDone(onDone);
         return newMe;
+    }
+
+    @Override
+    protected boolean validate(ViewGroup dynamicView, int pageIndex) {
+        boolean subraceValid = true;
+        if (pageIndex == 0 && subraceSpinner != null) {
+            if (subraceSpinner.getSelectedItemPosition() < 0) {
+                subRaceErrorView.setError("Choose subrace");
+                Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
+                subraceSpinner.startAnimation(shake);
+                subraceValid = false;
+            }
+        }
+        return super.validate(dynamicView, pageIndex) && subraceValid;
     }
 
     @Override
@@ -65,13 +82,12 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
                 subraces = nameSelect.execute();
 
                 if (subraces.size() > 0) {
-                    subraceSpinner = new NoDefaultSpinner(getContext());
-                    subraceSpinner.setPrompt("[SubRace]");
 
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                    subraceSpinner.setLayoutParams(layoutParams);
-                    dynamicView.addView(subraceSpinner);
+                    ViewGroup layout = (ViewGroup) LayoutInflater.from(dynamicView.getContext()).inflate(R.layout.drop_down_layout, dynamicView);
+                    subraceSpinner = (NoDefaultSpinner) layout.findViewById(R.id.spinner);
+                    subRaceErrorView = (TextView) layout.findViewById(R.id.tvInvisibleError);
+
+                    subraceSpinner.setPrompt("[SubRace]");
 
                     int index = 0;
                     int current = -1;
@@ -179,9 +195,8 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         String subraceName = character.getSubRaceName();
         if (subraceName != null) {
             subrace = new Select().from(Race.class).where("name = ?", subraceName).executeSingle();
-            savedChoicesByModel.put(getCurrentName(), character.getSubRaceChoices());
-            customChoicesByModel.put(getCurrentName(), new HashMap<String, String>());
-            ;
+            savedChoicesByModel.put(subraceName, character.getSubRaceChoices());
+            customChoicesByModel.put(subraceName, new HashMap<String, String>());
         }
     }
 

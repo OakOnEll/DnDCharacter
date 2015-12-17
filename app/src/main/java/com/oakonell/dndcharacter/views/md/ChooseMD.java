@@ -11,25 +11,39 @@ import java.util.Map;
 /**
  * Created by Rob on 11/18/2015.
  */
-public class ChooseMD {
-    public String choiceName;
-    public int maxChoices;
-    public List<OptionMD> options = new ArrayList<>();
+public abstract class ChooseMD<O extends OptionMD> {
+    private final String choiceName;
+    private final int maxChoices;
+    private final List<O> options = new ArrayList<>();
 
-    public CheckOptionMD findOrOptionNamed(String optionName) {
-        for (OptionMD each : options) {
-            if (!(each instanceof CheckOptionMD)) continue;
-            CheckOptionMD checkMD = (CheckOptionMD) each;
-            if (checkMD.name.equals(optionName)) return checkMD;
-        }
-        return null;
+    protected ChooseMD(String choiceName, int maxChoices) {
+        this.choiceName = choiceName;
+        this.maxChoices = maxChoices;
     }
 
     public void saveChoice(ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
         List<String> list = savedChoices.getChoicesFor(choiceName);
         list.clear();
-        for (OptionMD each : options) {
+        for (O each : options) {
             each.saveChoice(dynamicView, list, customChoices);
         }
     }
+
+    public void addOption(O option) {
+        options.add(option);
+    }
+
+    public List<O> getOptions() {
+        return options;
+    }
+
+    public int getMaxChoices() {
+        return maxChoices;
+    }
+
+    public String getChoiceName() {
+        return choiceName;
+    }
+
+    public abstract boolean validate(ViewGroup dynamicView);
 }

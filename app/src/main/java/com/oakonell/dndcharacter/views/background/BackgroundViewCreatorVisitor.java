@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views.background;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -16,7 +15,7 @@ import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.views.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 import com.oakonell.dndcharacter.views.md.CustomCheckOptionMD;
-import com.oakonell.dndcharacter.views.md.OptionMD;
+import com.oakonell.dndcharacter.views.md.MultipleChoicesMD;
 
 import org.w3c.dom.Element;
 
@@ -41,7 +40,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
     private Map<String, String> customChoices;
 
 
-    private void createGroup(String title) {
+    private TextView createGroup(String title) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layout.setLayoutParams(params);
@@ -52,6 +51,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         titleView.setTextAppearance(parent.getContext(), android.support.v7.appcompat.R.style.TextAppearance_AppCompat_Large);
         parent.addView(titleView);
         titleView.setText(title);
+        return titleView;
     }
 
 
@@ -60,17 +60,16 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         ViewGroup oldParent = parent;
         ChooseMD oldChooseMD = currentChooseMD;
 
-        createGroup(groupTitle);
+        TextView titleText = createGroup(groupTitle);
 
         traitIndex = 1;
-        currentChooseMD = new ChooseMD();
-        currentChooseMD.choiceName = choiceName;
-        currentChooseMD.maxChoices = 1;
-        choicesMD.put(currentChooseMD.choiceName, currentChooseMD);
+        final MultipleChoicesMD categoryChoicesMD = new MultipleChoicesMD(titleText, choiceName, 1, 0);
+        currentChooseMD = categoryChoicesMD;
+        choicesMD.put(currentChooseMD.getChoiceName(), currentChooseMD);
 
         superVisit.run();
 
-        List<String> selections = choices.getChoicesFor(currentChooseMD.choiceName);
+        List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
         if (allowCustom) {
             LinearLayout customLayout = new LinearLayout(parent.getContext());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -88,7 +87,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
             customText.setLayoutParams(params);
             customText.setHint("Custom " + groupTitle);
 
-            String customString = customChoices.get(currentChooseMD.choiceName);
+            String customString = customChoices.get(categoryChoicesMD.getChoiceName());
             if (customString != null) {
                 customText.setText(customString);
             }
@@ -96,26 +95,25 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
             parent.addView(customText);
             customText.setId(++uiIdCounter);
 
-            CustomCheckOptionMD optionMD = new CustomCheckOptionMD(currentChooseMD, customCheck.getId(), "custom", customText.getId());
-            currentChooseMD.options.add(optionMD);
+            CustomCheckOptionMD optionMD = new CustomCheckOptionMD(categoryChoicesMD, customCheck, "custom", customText);
+            categoryChoicesMD.addOption(optionMD);
 
-            if (selections.contains(optionMD.name)) {
+            if (selections.contains(optionMD.getOptionName())) {
                 customText.setEnabled(true);
                 customCheck.setChecked(true);
             } else {
                 customText.setEnabled(false);
             }
-            final ChooseMD myTraitChoices = currentChooseMD;
             customCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     customText.setEnabled(isChecked);
-                    configureTraitChecks(myTraitChoices, isChecked);
+                    configureTraitChecks(categoryChoicesMD, isChecked);
                 }
             });
         }
 
-        configureTraitChecks(currentChooseMD, !selections.isEmpty());
+        configureTraitChecks(categoryChoicesMD, !selections.isEmpty());
 
         currentChooseMD = oldChooseMD;
         parent = oldParent;
@@ -127,15 +125,16 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         parent.addView(checkbox);
         checkbox.setId(++uiIdCounter);
 
+        final MultipleChoicesMD myTraitChoices = (MultipleChoicesMD) currentChooseMD;
+
         // create the MD
-        CheckOptionMD optionMD = new CheckOptionMD(currentChooseMD, checkbox.getId(), "" + traitIndex);
-        currentChooseMD.options.add(optionMD);
+        CheckOptionMD optionMD = new CheckOptionMD(myTraitChoices, checkbox, "" + traitIndex);
+        currentChooseMD.addOption(optionMD);
 
         // select the current state
-        List<String> selections = choices.getChoicesFor(currentChooseMD.choiceName);
-        checkbox.setChecked(selections.contains(optionMD.name));
+        List<String> selections = choices.getChoicesFor(currentChooseMD.getChoiceName());
+        checkbox.setChecked(selections.contains(optionMD.getOptionName()));
 
-        final ChooseMD myTraitChoices = currentChooseMD;
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -146,14 +145,11 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         traitIndex++;
     }
 
-    private void configureTraitChecks(ChooseMD myTraitChoices, boolean isChecked) {
-        for (OptionMD each : myTraitChoices.options) {
+    private void configureTraitChecks(MultipleChoicesMD myTraitChoices, boolean isChecked) {
+        for (CheckOptionMD each : myTraitChoices.getOptions()) {
             // we know a trait only contains checkMDs
             //CheckOptionMD checkMD = (CheckOptionMD) each;
-            CheckBox checkbox = (CheckBox) view.findViewById(each.uiId);
-            if (checkbox == null) {
-                Log.e(BackgroundViewCreatorVisitor.class.getName(), "Could not find check box with id " + each.uiId + " for choices " + myTraitChoices.choiceName);
-            }
+            CheckBox checkbox = each.getCheckbox();
             if (isChecked) {
                 checkbox.setEnabled(checkbox.isChecked());
             } else {

@@ -3,7 +3,9 @@ package com.oakonell.dndcharacter.views;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -18,10 +20,11 @@ import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.model.SavedChoices;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.utils.XmlUtils;
+import com.oakonell.dndcharacter.views.md.CategoryChoicesMD;
 import com.oakonell.dndcharacter.views.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 import com.oakonell.dndcharacter.views.md.DropdownOptionMD;
-import com.oakonell.dndcharacter.views.md.OptionMD;
+import com.oakonell.dndcharacter.views.md.MultipleChoicesMD;
 
 import org.w3c.dom.Element;
 
@@ -188,13 +191,12 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         if (numChoicesString != null && numChoicesString.trim().length() > 0) {
             numChoices = Integer.parseInt(numChoicesString);
         }
-        currentChooseMD = new ChooseMD();
-        currentChooseMD.choiceName = choiceName;
-        currentChooseMD.maxChoices = numChoices;
-        choicesMD.put(choiceName, currentChooseMD);
 
         List<Element> childOrElems = XmlUtils.getChildElements(element, "or");
         if (childOrElems.size() == 0) {
+            currentChooseMD = new CategoryChoicesMD(choiceName, numChoices);
+            choicesMD.put(choiceName, currentChooseMD);
+
             // category, context sensitive choices ?
             categoryChoices(element, numChoices);
         } else {
@@ -203,10 +205,16 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
             parent = (ViewGroup) layout.findViewById(R.id.choices_view);
 
             TextView numChoicesTextView = (TextView) layout.findViewById(R.id.num_choices);
+
+            MultipleChoicesMD multipleChoicesMD = new MultipleChoicesMD(numChoicesTextView, choiceName, numChoices, numChoices);
+            currentChooseMD = multipleChoicesMD;
+            choicesMD.put(choiceName, currentChooseMD);
+
+
             numChoicesTextView.setText(numChoices + "");
 
             super.visitChoose(element);
-            setCheckedEnabledStates(currentChooseMD);
+            setCheckedEnabledStates(multipleChoicesMD);
         }
 
 
@@ -223,96 +231,89 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     }
 
     private void visitToolCategoryChoices(Element element, int numChoices) {
-        List<String> selections = choices.getChoicesFor(currentChooseMD.choiceName);
-        for (int i = 0; i < numChoices; i++) {
-            // TODO get the list of tools...
-            String category = element.getAttribute("category");
-            //String category = element.getAttribute("category");
-            From nameSelect = new Select()
-                    .from(ItemRow.class).orderBy("name");
-            nameSelect = nameSelect.where("category= ?", category);
-            List<ItemRow> toolRows = nameSelect.execute();
+        CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
+        List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
-            List<String> tools = new ArrayList<>();
-            for (ItemRow each : toolRows) {
-                tools.add(each.getName());
-            }
+        // TODO get the list of tools...
+        String category = element.getAttribute("category");
+        //String category = element.getAttribute("category");
+        From nameSelect = new Select()
+                .from(ItemRow.class).orderBy("name");
+        nameSelect = nameSelect.where("category= ?", category);
+        List<ItemRow> toolRows = nameSelect.execute();
 
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(parent.getContext(),
-                    android.R.layout.simple_spinner_item, tools);
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            Spinner spinner = new NoDefaultSpinner(parent.getContext());
-            spinner.setPrompt("[" + category + "]");
-            spinner.setLayoutParams(layoutParams);
-            spinner.setAdapter(dataAdapter);
-            spinner.setId(++uiIdCounter);
-            float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (category.length() + 2) * SPINNER_TEXT_SP, spinner.getResources().getDisplayMetrics());
-            spinner.setMinimumWidth((int) minWidth);
-
-            DropdownOptionMD optionMD = new DropdownOptionMD(currentChooseMD, spinner.getId());
-            currentChooseMD.options.add(optionMD);
-
-            // display saved selection
-            int selectedIndex = -1;
-            if (selections.size() > i) {
-                String selected = selections.get(i);
-                selectedIndex = tools.indexOf(selected);
-            }
-            spinner.setSelection(selectedIndex);
-
-            parent.addView(spinner);
+        List<String> tools = new ArrayList<>();
+        for (ItemRow each : toolRows) {
+            tools.add(each.getName());
         }
+
+        appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, tools, category);
     }
 
     private void visitLanguageCategoryChoices(int numChoices) {
-        List<String> selections = choices.getChoicesFor(currentChooseMD.choiceName);
+        // TODO get the list of languages...
+        List<String> languages = new ArrayList<>();
+        languages.add("Common");
+        languages.add("Dwarvish");
+        languages.add("Elvish");
+        languages.add("Giant");
+        languages.add("Gnomish");
+        languages.add("Goblin");
+        languages.add("Halfling");
+        languages.add("Orc");
+
+        languages.add("Abyssal");
+        languages.add("Celestial");
+        languages.add("Draconic");
+        languages.add("Deep speech");
+        languages.add("Infernal");
+        languages.add("Primordial");
+        languages.add("Sylvan");
+        languages.add("Undercommon");
+        CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
+        List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
+
+
+        appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, languages, "Language");
+    }
+
+    private void appendCategoryDropDowns(int numChoices, CategoryChoicesMD categoryChoicesMD, List<String> savedSelections, List<String> choices, String prompt) {
         for (int i = 0; i < numChoices; i++) {
-            // TODO get the list of languages...
-            List<String> languages = new ArrayList<>();
-            languages.add("Common");
-            languages.add("Dwarvish");
-            languages.add("Elvish");
-            languages.add("Giant");
-            languages.add("Gnomish");
-            languages.add("Goblin");
-            languages.add("Halfling");
-            languages.add("Orc");
-
-            languages.add("Abyssal");
-            languages.add("Celestial");
-            languages.add("Draconic");
-            languages.add("Deep speech");
-            languages.add("Infernal");
-            languages.add("Primordial");
-            languages.add("Sylvan");
-            languages.add("Undercommon");
-
-
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(parent.getContext(),
-                    android.R.layout.simple_spinner_item, languages);
+                    android.R.layout.simple_spinner_item, choices);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            Spinner spinner = new NoDefaultSpinner(parent.getContext());
-            spinner.setPrompt("[Language]");
-            spinner.setLayoutParams(layoutParams);
+            ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.drop_down_layout, parent);
+            Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
+            TextView textView = (TextView) layout.findViewById(R.id.tvInvisibleError);
+
+            spinner.setPrompt("[" + prompt + "]");
             spinner.setAdapter(dataAdapter);
             spinner.setId(++uiIdCounter);
+            float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (prompt.length() + 2) * SPINNER_TEXT_SP, spinner.getResources().getDisplayMetrics());
+            spinner.setMinimumWidth((int) minWidth);
 
-            DropdownOptionMD optionMD = new DropdownOptionMD(currentChooseMD, spinner.getId());
-            currentChooseMD.options.add(optionMD);
+            final DropdownOptionMD optionMD = new DropdownOptionMD(categoryChoicesMD, spinner, textView);
+            categoryChoicesMD.addOption(optionMD);
 
             // display saved selection
             int selectedIndex = -1;
-            if (selections.size() > i) {
-                String selected = selections.get(i);
-                selectedIndex = languages.indexOf(selected);
+            if (savedSelections.size() > i) {
+                String selected = savedSelections.get(i);
+                selectedIndex = choices.indexOf(selected);
             }
             spinner.setSelection(selectedIndex);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    optionMD.clearError();
+                }
 
-            parent.addView(spinner);
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
         }
     }
 
@@ -327,7 +328,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         String name = element.getAttribute("name");
         CheckBox checkbox = (CheckBox) layout.findViewById(R.id.checkBox);
 
-        final ChooseMD chooseMD = currentChooseMD;
+        final MultipleChoicesMD chooseMD = (MultipleChoicesMD) currentChooseMD;
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -336,12 +337,12 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         });
 
         // display saved selection state
-        List<String> selections = choices.getChoicesFor(currentChooseMD.choiceName);
+        List<String> selections = choices.getChoicesFor(chooseMD.getChoiceName());
         checkbox.setChecked(selections.contains(name));
         checkbox.setId(++uiIdCounter);
 
-        CheckOptionMD optionMD = new CheckOptionMD(currentChooseMD, checkbox.getId(), name);
-        currentChooseMD.options.add(optionMD);
+        CheckOptionMD optionMD = new CheckOptionMD(chooseMD, checkbox, name);
+        chooseMD.addOption(optionMD);
 
         parent = (ViewGroup) layout.findViewById(R.id.or_view);
 
@@ -350,12 +351,13 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         parent = oldParent;
     }
 
-    private void setCheckedEnabledStates(ChooseMD chooseMD) {
-        int maxChecked = chooseMD.maxChoices;
+    private void setCheckedEnabledStates(MultipleChoicesMD chooseMD) {
+        chooseMD.getUiLabel().setError(null);
+        int maxChecked = chooseMD.getMaxChoices();
         int numChecked = 0;
         List<CheckBox> checkBoxes = new ArrayList<CheckBox>();
-        for (OptionMD each : chooseMD.options) {
-            CheckBox aCheck = (CheckBox) top.findViewById(each.uiId);
+        for (CheckOptionMD each : chooseMD.getOptions()) {
+            CheckBox aCheck = each.getCheckbox();
             checkBoxes.add(aCheck);
             if (aCheck.isChecked()) {
                 numChecked++;

@@ -6,7 +6,7 @@
     </skills>
     <tools>
         <proficiency>Disguise kit</proficiency>
-        <choose name="instrument" category="instrument"></choose>
+        <choose name="instrumentProf" category="instrument"></choose>
     </tools>
     <equipment>
         <choose name="instrument" category="instrument"/>

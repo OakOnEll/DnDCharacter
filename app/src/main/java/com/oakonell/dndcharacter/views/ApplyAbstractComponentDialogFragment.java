@@ -117,6 +117,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validate(dynamicView, pageIndex)) return;
                 pageIndex++;
                 saveChoices(dynamicView);
                 dynamicView.removeAllViews();
@@ -136,6 +137,8 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validate(dynamicView,pageIndex)) return;
+
                 saveChoices(dynamicView);
 
                 String name = model.getName();
@@ -145,11 +148,22 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
                 applyToCharacter(savedChoices, customChoices);
                 dismiss();
                 ((MainActivity) getActivity()).updateViews();
-                onDone.done(true);
+                if (onDone != null) onDone.done(true);
             }
         });
 
         return view;
+    }
+
+    protected boolean validate(ViewGroup dynamicView, int pageIndex) {
+        int invalid = 0;
+
+        for (ChooseMD each : chooseMDs.values()) {
+            if (!each.validate(dynamicView)) {
+                invalid++;
+            }
+        }
+        return invalid == 0;
     }
 
     protected void modelChanged() {
