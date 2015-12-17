@@ -33,6 +33,33 @@
 
         </android.support.v7.widget.RecyclerView>
 
+
+        <LinearLayout
+            android:id="@+id/level_up_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/list_selector"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <ImageView
+                android:id="@+id/level_up_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/arrow_up_float" />
+
+            <TextView
+                android:id="@+id/level_up_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level Up"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

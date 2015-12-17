@@ -158,7 +158,7 @@ public class AddClassLevelDialogFragment extends ApplyAbstractComponentDialogFra
 
     @Override
     protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices) {
-        ApplyClassToCharacterVisitor.addClassLevel(getModel(), savedChoices, customChoices, getCharacter(), classLevel, hp);
+        ApplyClassToCharacterVisitor.addClassLevel(getModel(), savedChoices, customChoices, getCharacter(), getCharacter().getClasses().size()+1,classLevel, hp);
     }
 
     @NonNull

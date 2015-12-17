@@ -43,19 +43,19 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
 
     public static void updateClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int classIndex, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, classLevel, hpRoll);
+        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, classIndex,classLevel, hpRoll);
         character.getClasses().set(classIndex, charClass);
     }
 
     @NonNull
-    private static CharacterClass createCharacterClass(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int classLevel, int hpRoll) {
+    private static CharacterClass createCharacterClass(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int characterLevel, int classLevel, int hpRoll) {
         CharacterClass charClass = new CharacterClass();
         charClass.setSavedChoices(savedChoices);
         // apply common changes
         Element rootClassElement = XmlUtils.getDocument(aClass.getXml()).getDocumentElement();
 
 
-        if (classLevel == 1) {
+        if (characterLevel == 1) {
             // this will not visit any level elements, but will apply top level stuff as the first class for a character
             ApplyChangesToGenericComponent.applyToCharacter(rootClassElement, savedChoices, charClass, character,true);
 
@@ -82,8 +82,8 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         return charClass;
     }
 
-    public static void addClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, classLevel, hpRoll);
+    public static void addClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int characterlevel, int classLevel, int hpRoll) {
+        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, characterlevel,classLevel, hpRoll);
         character.getClasses().add(charClass);
     }
 

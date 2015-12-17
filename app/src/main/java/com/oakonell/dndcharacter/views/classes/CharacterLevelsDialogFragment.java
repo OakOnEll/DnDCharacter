@@ -60,6 +60,7 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.character_levels_dialog, container);
 
         classesTextView = (TextView) view.findViewById(R.id.classes);
+        ViewGroup level_up_group = (ViewGroup) view.findViewById(R.id.level_up_group);
 
         updateView();
 
@@ -73,7 +74,7 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
 
         list = (RecyclerView) view.findViewById(R.id.list);
 
-        ClassAdapter classesAdapter = new ClassAdapter(this, character.getClasses());
+        final ClassAdapter classesAdapter = new ClassAdapter(this, character.getClasses());
         list.setAdapter(classesAdapter);
         list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         list.setHasFixedSize(false);
@@ -81,10 +82,28 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         list.addItemDecoration(itemDecoration);
 
+
         ItemTouchHelper.Callback armorCallback =
                 new CharacterItemTouchHelperCallback(classesAdapter);
-        ItemTouchHelper armorTouchHelper = new ItemTouchHelper(armorCallback);
-        armorTouchHelper.attachToRecyclerView(list);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(armorCallback);
+        touchHelper.attachToRecyclerView(list);
+
+
+        final ComponentLaunchHelper.OnDialogDone onDone = new ComponentLaunchHelper.OnDialogDone() {
+            @Override
+            public void done(boolean changed) {
+                classesAdapter.notifyDataSetChanged();
+            }
+        };
+
+        level_up_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(character, null, onDone);
+                dialog.show(getFragmentManager(), "level_up");
+            }
+        });
+
 
         return view;
     }
@@ -190,11 +209,13 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
                 context.recordsBeingDeleted.remove(item);
                 notifyItemRemoved(position);
                 context.updateView();
+                ((MainActivity) context.getActivity()).updateViews();
             }
 
             context.recordsBeingDeleted.put(item, System.currentTimeMillis());
             notifyItemChanged(position);
 
+            final MainActivity activity = ((MainActivity) context.getActivity());
             context.list.postDelayed(new Runnable() {
                 public void run() {
                     // may have been deleted, undone, and then redeleted
@@ -206,6 +227,7 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
                         context.recordsBeingDeleted.remove(item);
                         notifyItemRemoved(position);
                         context.updateView();
+                        activity.updateViews();
 
                     }
                 }
