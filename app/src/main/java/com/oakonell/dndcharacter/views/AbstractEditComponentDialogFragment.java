@@ -39,14 +39,7 @@ public class AbstractEditComponentDialogFragment<M extends AbstractComponentMode
             @Override
             public void onClick(View v) {
                 Document doc = XmlUtils.getDocument(xmltext.getText().toString());
-
-                model.setXml(XmlUtils.prettyPrint(doc));
-                if (doc != null && doc.getDocumentElement() != null) {
-                    model.setName(XmlUtils.getElementText(doc.getDocumentElement(), "name"));
-                } else {
-                    model.setName("xml parse error- no name");
-                }
-                updateModel(model, doc);
+                model.setDocument(doc.getDocumentElement());
                 model.save();
                 dismiss();
             }
@@ -54,7 +47,8 @@ public class AbstractEditComponentDialogFragment<M extends AbstractComponentMode
         return view;
     }
 
-    protected void updateModel(M model, Document doc) {
+
+    protected final void updateModel(M model, Document doc) {
 
     }
 

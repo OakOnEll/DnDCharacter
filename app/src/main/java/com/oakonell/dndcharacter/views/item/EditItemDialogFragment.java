@@ -1,10 +1,7 @@
 package com.oakonell.dndcharacter.views.item;
 
 import com.oakonell.dndcharacter.model.item.ItemRow;
-import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.AbstractEditComponentDialogFragment;
-
-import org.w3c.dom.Document;
 
 /**
  * Created by Rob on 11/10/2015.
@@ -17,14 +14,4 @@ public class EditItemDialogFragment extends AbstractEditComponentDialogFragment<
         return frag;
     }
 
-    @Override
-    protected void updateModel(ItemRow model, Document doc) {
-        String category;
-        if (doc == null || doc.getDocumentElement() == null) {
-            category = "XmlParseError";
-        } else {
-            category = XmlUtils.getElementText(doc.getDocumentElement(), "category");
-        }
-        model.setCategory(category);
-    }
 }

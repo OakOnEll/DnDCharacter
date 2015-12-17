@@ -5,6 +5,9 @@ import android.provider.BaseColumns;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.utils.XmlUtils;
+
+import org.w3c.dom.Element;
 
 /**
  * Created by Rob on 11/22/2015.
@@ -54,5 +57,17 @@ public class ItemRow extends AbstractComponentModel {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    @Override
+    public void setDocument(Element doc) {
+        super.setDocument(doc);
+        String category;
+        if (doc == null) {
+            category = "XmlParseError";
+        } else {
+            category = XmlUtils.getElementText(doc, "category");
+        }
+        setCategory(category);
     }
 }

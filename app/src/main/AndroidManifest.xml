@@ -2,41 +2,34 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.oakonell.dndcharacter">
 
-    <application
+    <application xmlns:tools="http://schemas.android.com/tools"
         android:name=".DndCharacterApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
         <activity
             android:name=".CharactersListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.background.BackgroundsListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.race.RacesListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.classes.ClassesListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.item.ItemsListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
-
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -47,6 +40,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".views.imports.ImportActivity"
+            android:label="@string/app_name" />
 
         <meta-data
             android:name="AA_DB_NAME"
@@ -59,6 +55,7 @@
             android:name="com.activeandroid.content.ContentProvider"
             android:authorities="com.oakonell.dndcharacter"
             android:exported="false" />
+
     </application>
 
 </manifest>

@@ -38,6 +38,15 @@
         <menu></menu>
     </item>
 
+    <item android:title="Import">
+        <menu>
+            <item
+                android:id="@+id/nav_import"
+                android:icon="@android:drawable/ic_menu_add"
+                android:title="Import" />
+        </menu>
+    </item>
+
     <item android:title="Export">
         <menu>
             <item

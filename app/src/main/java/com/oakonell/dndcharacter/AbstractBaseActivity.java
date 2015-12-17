@@ -13,9 +13,11 @@ import android.view.SubMenu;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.oakonell.dndcharacter.model.CharacterRow;
 import com.oakonell.dndcharacter.views.background.BackgroundsListActivity;
 import com.oakonell.dndcharacter.views.classes.ClassesListActivity;
+import com.oakonell.dndcharacter.views.imports.ImportActivity;
 import com.oakonell.dndcharacter.views.item.ItemsListActivity;
 import com.oakonell.dndcharacter.views.race.RacesListActivity;
 
@@ -28,6 +30,7 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final int NUM_RECENT_CHARACTERS = 3;
+    public static final int FILE_IMPORT_REQUEST = 1;
 
     protected void configureCommon() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -128,6 +131,16 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_feats) {
             Toast.makeText(this, "Clicked feats ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_import) {
+            Toast.makeText(this, "Clicked import ", Toast.LENGTH_SHORT).show();
+
+//            Intent filePickerIntent = new Intent(this, FilePickerActivity.class);
+//            filePickerIntent.putExtra(FilePickerActivity.REQUEST_CODE, FILE_IMPORT_REQUEST);
+//            filePickerIntent.putExtra(FilePickerActivity.MIME_TYPE, FileType.XML);
+//            startActivityForResult(filePickerIntent, FILE_IMPORT_REQUEST);
+
+            Intent intent = new Intent(this, FilePickerActivity.class);
+            startActivityForResult(intent, FILE_IMPORT_REQUEST);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -139,5 +152,21 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == FILE_IMPORT_REQUEST && resultCode == RESULT_OK) {
+//            String filePath = data.getStringExtra(FilePickerActivity.FILE_EXTRA_DATA_PATH);
+            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            Toast.makeText(this, "Clicked import " + filePath, Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, ImportActivity.class);
+            intent.putExtra(ImportActivity.EXTRA_FILE_PATH, filePath);
+            startActivity(intent);
+
+            // Do anything with file
+        }
+    }
 
 }

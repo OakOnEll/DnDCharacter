@@ -47,6 +47,19 @@ public class XmlUtils {
 
     }
 
+    public static List<Element> getChildElements(Element parent) {
+        Node child = parent.getFirstChild();
+        List<Element> elements = new ArrayList<>();
+        while (child != null) {
+            if (child.getNodeType() == Node.ELEMENT_NODE) {
+                Element childElem = (Element) child;
+                elements.add(childElem);
+            }
+            child = child.getNextSibling();
+        }
+        return elements;
+    }
+
     public static List<Element> getChildElements(Element parent, String childElemName) {
         Node child = parent.getFirstChild();
         List<Element> elements = new ArrayList<>();
@@ -91,7 +104,7 @@ public class XmlUtils {
         return document;
     }
 
-    public static String prettyPrint(Document xml) {
+    public static String prettyPrint(Node xml) {
         try {
             Source xmlInput = new DOMSource(xml);
             StringWriter stringWriter = new StringWriter();
@@ -115,4 +128,6 @@ public class XmlUtils {
             throw new RuntimeException("Error", e);
         }
     }
+
+
 }

@@ -5,6 +5,9 @@ import android.provider.BaseColumns;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.utils.XmlUtils;
+
+import org.w3c.dom.Element;
 
 /**
  * Created by Rob on 11/10/2015.
@@ -44,5 +47,15 @@ public class Race extends AbstractComponentModel {
 
     public void setParentRace(String parentRace) {
         this.parentRace = parentRace;
+    }
+
+    @Override
+    public void setDocument(Element doc) {
+        super.setDocument(doc);
+        if (doc == null) {
+            setParentRace("XmlParseError");
+        } else {
+            setParentRace(XmlUtils.getElementText(doc, "parent"));
+        }
     }
 }
