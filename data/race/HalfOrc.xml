@@ -30,7 +30,7 @@
     <feature>
         <name>Relentless Endurance</name>
         <shortDescription>Once per long rest, when hit points reach 0, go to 1 hp.</shortDescription>
-        <refreshes>long rest</refreshes>
+        <refreshes>longRest</refreshes>
         <uses>1</uses>
         <description></description>
     </feature>

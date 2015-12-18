@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.model;
 
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -43,9 +44,33 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     @Override
     protected void visitFeature(Element element) {
         Feature feature = new Feature();
-        feature.setName(XmlUtils.getElementText(element, "name"));
+        String name = XmlUtils.getElementText(element, "name");
+        feature.setName(name);
         feature.setDescription(XmlUtils.getElementText(element, "shortDescription"));
         // TODO handle refreshes, and other data in XML
+        final String uses = XmlUtils.getElementText(element, "uses");
+        if (uses != null) {
+            feature.setFormula(uses);
+            String refreshString = XmlUtils.getElementText(element, "refreshes");
+            if (refreshString == null) {
+                throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
+            }
+            refreshString = refreshString.toLowerCase();
+            refreshString = refreshString.replaceAll(" ", "");
+            RefreshType refreshType;
+            switch (refreshString) {
+                case "rest": // fall through
+                case "shortrest":
+                    refreshType = RefreshType.SHORT_REST;
+                    break;
+                case "longrest":
+                    refreshType = RefreshType.LONG_REST;
+                    break;
+                default:
+                    throw new RuntimeException("Unknown refresh string '" + refreshString + "' on feature " + component.getName() + "." + name);
+            }
+            feature.setRefreshesOn(refreshType);
+        }
         component.addFeature(feature);
         super.visitFeature(element);
     }

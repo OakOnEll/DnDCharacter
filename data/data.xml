@@ -1,0 +1,1015 @@
+<root> 
+<background>
+    <name>Acolyte</name>
+    <skills>
+        <proficiency>Insight</proficiency>
+        <proficiency>Religion</proficiency>
+    </skills>
+    <languages>
+        <choose name="language" number="2"/>
+    </languages>
+    <equipment>
+        <item>holy symbol (a gift when you entered the priesthood)</item>
+        <choose name="equipment">
+            <or name="book"><item>prayer book</item></or>
+            <or name="wheel"><item>prayerwheel</item></or>
+        </choose>
+        <item>belt pouch</item>
+        <money>15gp</money>
+    </equipment>
+    <feature>
+        <name>Shelter of the Faithful</name>
+        <shortDescription>Those who share your religion will support (only) you in a modest lifestyle.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>I idolize a particular hero of my faith, and constantly refer to that person’s deeds and example.</trait>
+        <trait>I can find common ground between the fiercest enemies, empathizing with them and always working toward peace.</trait>
+        <trait>I see omens in every event and action. The gods try to speak to us, we just need to listen</trait>
+        <trait>Nothing can shake my optimistic attitude.</trait>
+        <trait>I quote (or misquote) sacred texts and proverbs in almost every situation.</trait>
+        <trait>I am tolerant (or intolerant) of other faiths and respect (or condemn) the worship of other gods.</trait>
+        <trait>I’ve enjoyed fine food, drink, and high society among my temple’s elite. Rough living grates on me.</trait>
+        <trait>I’ve spent so long in the temple that I have little practical experience dealing with people in the outside world.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Tradition. The ancient traditions of worship and sacrifice must be preserved and upheld. (Lawful)</ideal>
+        <ideal>Charity. I always try to help those in need, no matter what the personal cost. (Good)</ideal>
+        <ideal>Change. We must help bring about the changes the gods are constantly working in the world. (Chaotic)</ideal>
+        <ideal>Power. I hope to one day rise to the top of my faith’s religious hierarchy. (Lawful)</ideal>
+        <ideal>Faith. I trust that my deity will guide my actions. I have faith that if I work hard, things will go well. (Lawful)</ideal>
+        <ideal>Aspiration. I seek to prove myself worthy of my god’s favor by matching my actions against his or her teachings. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>I would die to recover an ancient relic of my faith that was lost long ago.</bond>
+        <bond>I will someday get revenge on the corrupt temple hierarchy who branded me a heretic.</bond>
+        <bond>I owe my life to the priest who took me in when my parents died.</bond>
+        <bond>Everything I do is for the common people.</bond>
+        <bond>I will do anything to protect the temple where I served.</bond>
+        <bond>I seek to preserve a sacred text that my enemies consider heretical and seek to destroy.</bond>
+    </bonds>
+    <flaws>
+        <flaw>I judge others harshly, and myself even more severely.</flaw>
+        <flaw>I put too much trust in those who wield power within my temple’s hierarchy.</flaw>
+        <flaw>My piety sometimes leads me to blindly trust those that profess faith in my god.</flaw>
+        <flaw>I am inflexible in my thinking.</flaw>
+        <flaw>I am suspicious of strangers and expect the worst of them.</flaw>
+        <flaw>Once I pick a goal, I become obsessed with it to the detriment of everything else in my life.</flaw>
+    </flaws>
+</background> 
+<background>
+    <name>Charlatan</name>
+    <skills>
+        <proficiency>Deception</proficiency>
+        <proficiency>Sleight of Hand</proficiency>
+    </skills>
+    <tools>
+        <proficiency>Disguise kit</proficiency>
+        <proficiency>Forgery kit</proficiency>
+    </tools>
+    <equipment>
+        <item>A Set of fine clothes</item>
+        <item>Disguise kit</item>
+        <choose name="toolsOfCon">
+            <or name="bottles"><item number="10">stoppered bottles filled with colored liquid</item></or>
+            <or name="dice"><item>weighted dice</item></or>
+            <or name="cards"><item>deck of marked cards</item></or>
+            <or name="ring"><item>signet ring of imaginary duke</item></or>
+        </choose>
+        <item>belt pouch</item>
+        <money>15gp</money>
+    </equipment>
+    <specialties name="Favorite Scheme">
+        <choose name="specialty">
+            <or name="cheat"><specialty>I cheat at games of chance.</specialty></or>
+            <or name="forger"><specialty>I shave coins or forge documents</specialty></or>
+            <or name="shyster"><specialty>I insinuate myself into people's lives to prey on their weaknesses and secure their fortunes.</specialty></or>
+            <or name="chameleon"><specialty>I put on different identities like clothes.</specialty></or>
+            <or name="sleightOfHand"><specialty>I run sleight of hand cons on street corners.</specialty></or>
+            <or name="dupe"><specialty>I convince people that worthless junk is worth their hard-earned money.</specialty></or>
+        </choose>
+    </specialties>
+    <feature>
+        <name>False Identity</name>
+        <shortDescription>You have a second identity, replete with documents. You can also forge documents if you have seen the original handwriting.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>I fall in and out of love easily, and am always pursuing someone.</trait>
+        <trait>I have a joke for every occasion, especially occasions where humor is inappropriate.</trait>
+        <trait>Flattery is my preferred trick for getting what I want.</trait>
+        <trait>I'm a born gambler who can't resist taking a risk for a potential payoff.</trait>
+        <trait>I lie about almost everything, even when there's no good reason to.</trait>
+        <trait>Sarcasm and insults are my weapons of choice.</trait>
+        <trait>I keep multiple holy symbols on me and invoke whatever deity might come in useful at any given moment.</trait>
+        <trait>I pocket anything I see that might have some value.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Independence. I am a free spirit-- no one tells me what to do. (Chaotic)</ideal>
+        <ideal>Fairness. I never target people who can't afford to lose a few coins. (Lawful)</ideal>
+        <ideal>Charity. I distribute the money I acquire to the people who really need it. (Good)</ideal>
+        <ideal>Creativity.  I never run the same con twice. (Chaotic)</ideal>
+        <ideal>Friendship.  Material goods come and go. Bonds of friendship last forever. (Good)</ideal>
+        <ideal>Aspiration.  I'm determined to make something of myself. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>I fleeced the wrong person and must work to ensure that this individual never crosses paths with me or those I care about.</bond>
+        <bond>I owe everything to my mentor- a horrible person who's probably rotting in jail somewhere.</bond>
+        <bond>Somewhere out there, I have a child who doesn't know me. I'm making the world better for him or her.</bond>
+        <bond>I come from a noble family, and one day I'll reclaim my lands and title from those who stole them from me.</bond>
+        <bond>A powerful person killed someone I love. Some day soon, I'll have my revenge.</bond>
+        <bond>I swindled and ruined a person who didn't deserve it. I seek to atone for my misdeeds but might never be able to forgive myself.</bond>
+    </bonds>
+    <flaws>
+        <flaw>I can't resist a pretty face.</flaw>
+        <flaw>I'm always in debt. I spend my ill-gotten gains on decadent luxuries faster than I bring them in.</flaw>
+        <flaw>I'm convinced that no one could ever fool me the way I fool others.</flaw>
+        <flaw>I'm too greedy for my own good. I can't resist taking a risk if there's money involved.</flaw>
+        <flaw>I can't resist swindling people who are more powerful than me.</flaw>
+        <flaw>I hate to admit it and will hate myself for it, but I'll run and presver my own hide if the going gets tough.</flaw>
+    </flaws>
+</background> 
+	<background>
+		<name>Criminal</name>
+		<skills>
+			<proficiency>Deception</proficiency>
+			<proficiency>Stealth</proficiency>
+		</skills>
+		<tools>
+			<proficiency>thieves' tools</proficiency>
+			<choose name="gaming set" category="gaming set"></choose>
+		</tools>
+		<equipment>
+			<item>crowbar</item>
+			<item>common clothes (dark)</item>
+			<item>belt pouch</item>
+			<money>5gp</money>
+		</equipment>
+		<feature>
+			<name>Criminal contact</name>
+			<shortDescription>You have a reliable and trustworthy contact who acts as your liaison to a network of other criminals. </shortDescription>
+		</feature>
+		<specialties name="Criminal Specialty">
+		    <choose name="specialty">
+		        <or name="Blackmailer"><specialty>Blackmailer</specialty></or>
+		        <or name="Burglar"><specialty>Burglar</specialty></or>
+		        <or name="Enforcer"><specialty>Enforcer</specialty></or>
+		        <or name="Fence"><specialty>Fence</specialty></or>
+		        <or name="HighwayRobber"><specialty>Highway Robber</specialty></or>
+		        <or name="HiredKiller"><specialty>Hired Killer</specialty></or>
+		        <or name="Pickpocket"><specialty>Pickpocket</specialty></or>
+		        <or name="Smuggler"><specialty>Smuggler</specialty></or>
+		    </choose>
+		</specialties>
+		<personalityTraits>
+			<trait>I always have a plan for what to do when things go wrong.</trait>
+			<trait>I am always calm, no matter what the situation. I never raise my voice or let my emotions control me.</trait>
+			<trait>The first thing I do in a new place is note the locations of everything valuable—or where such things could be hidden.</trait>
+			<trait>I would rather make a new friend than a new enemy.</trait>
+			<trait>I am incredibly slow to trust. Those who seem the fairest often have the most to hide.</trait>
+			<trait>I don’t pay attention to the risks in a situation. Never tell me the odds.</trait>
+			<trait>The best way to get me to do something is to tell me I can’t do it.</trait>
+			<trait>I blow up at the slightest insult.</trait>
+		</personalityTraits>
+		<ideals>
+			<ideal>Honor. I don’t steal from others in the trade. (Lawful)</ideal>
+			<ideal>Freedom. Chains are meant to be broken, as are those who would forge them. (Chaotic)</ideal>
+			<ideal>Charity. I steal from the wealthy so that I can help people in need. (Good)</ideal>
+			<ideal>Greed. I will do whatever it takes to become wealthy. (Evil)</ideal>
+			<ideal>People. I’m loyal to my friends, not to any ideals, and everyone else can take a trip down the Styx for all I care. (Neutral)</ideal>
+			<ideal>Redemption. There’s a spark of good in everyone. (Good)</ideal>
+		</ideals>
+		<bonds>
+			<bond>I’m trying to pay off an old debt I owe to a generous benefactor</bond>
+			<bond>My ill-gotten gains go to support my family.</bond>
+			<bond>Something important was taken from me, and I aim to steal it back.</bond>
+			<bond>I will become the greatest thief that ever lived.</bond>
+			<bond>I’m guilty of a terrible crime. I hope I can redeem myself for it.</bond>
+			<bond>Someone I loved died because of I mistake I made. That will never happen again.</bond>
+		</bonds>
+		<flaws>
+			<flaw>When I see something valuable, I can’t think about anything but how to steal it.</flaw>
+			<flaw>When faced with a choice between money and my friends, I usually choose the money.</flaw>
+			<flaw>If there’s a plan, I’ll forget it. If I don’t forget it, I’ll ignore it.</flaw>
+			<flaw>I have a “tell” that reveals when I’m lying.</flaw>
+			<flaw>I turn tail and run when things look bad.</flaw>
+			<flaw>An innocent person is in prison for a crime that I committed. I’m okay with that.</flaw>
+		</flaws>
+	</background> 
+<background>
+    <name>Entertainer</name>
+    <skills>
+        <proficiency>Acrobatics</proficiency>
+        <proficiency>Performance</proficiency>
+    </skills>
+    <tools>
+        <proficiency>Disguise kit</proficiency>
+        <choose name="instrumentProf" category="instrument"></choose>
+    </tools>
+    <equipment>
+        <choose name="instrument" category="instrument"/>
+        <choose name="favor">
+            <or name="loveLetter"><item>love letter</item></or>
+            <or name="hair"><item>lock of hair</item></or>
+            <or name="trinket"><item>trinket</item></or>
+        </choose>
+        <item>costume</item>
+        <item>belt pouch</item>
+        <money>15gp</money>
+    </equipment>
+    <specialties name="Entertainer Routine">
+        <choose name="specialty">
+            <or name="actor"><specialty>Actor</specialty></or>
+            <or name="dancer"><specialty>Dancer</specialty></or>
+            <or name="fire-eater"><specialty>Fire-eater</specialty></or>
+            <or name="jester"><specialty>Jester</specialty></or>
+            <or name="juggler"><specialty>Juggler</specialty></or>
+            <or name="instrumentalist"><specialty>Instrumentalist</specialty></or>
+            <or name="poet"><specialty>Poet</specialty></or>
+            <or name="singer"><specialty>Singer</specialty></or>
+            <or name="storyteller"><specialty>Storyteller</specialty></or>
+            <or name="tumbler"><specialty>Tumbler</specialty></or>
+        </choose>
+    </specialties>
+    <feature>
+        <name>By Popular Demand</name>
+        <shortDescription>Can perform in exchange for modest or comfortable lodging.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>I know a story relevant to almost every situation.</trait>
+        <trait>Whenever I come to a new place, I collect local rumors and spread gossip.</trait>
+        <trait>I'm a hopeless romantic, always searching for that "special someone."</trait>
+        <trait>Nobody stays angry at me or around me for long, since I can defuse any amount of tension.</trait>
+        <trait>I love a good insult, even one directed at me.</trait>
+        <trait>I get bitter if I'm not the center of attention.</trait>
+        <trait>I'll settle for nothing less than perfection.</trait>
+        <trait>I change my mood or my mind as quickly as I change key in a song.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Beauty. When I perform, I make the world better than it was. (Good)</ideal>
+        <ideal>Tradition.  The stories, legends, and songs of the past must never be forgotten, for they teach us who we are. (Lawful)</ideal>
+        <ideal>Creativity.  The world is in need of new ideas and bold action. (Chaotic)</ideal>
+        <ideal>Greed.  I'm only in it for the money and fame. (Evil)</ideal>
+        <ideal>People.  I like seeing the smiles on people's faces when I perform. That's all that matters. (Neutral)</ideal>
+        <ideal>Honesty.  Art should reflect the soul; it should come from within and reveal who we really are. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>My instrument is my most treasured possession, and it reminds me of someone I love.</bond>
+        <bond>Someone stole my precious instrument, and someday I'll get it back.</bond>
+        <bond>I want to be famous, whatever it takes.</bond>
+        <bond>I idolize a hero of the old tales and measure my deeds against that person's.</bond>
+        <bond>I will do anything to prove myself superior to my hated rival.</bond>
+        <bond>I would do anything for the other members of my old troupe.</bond>
+    </bonds>
+    <flaws>
+        <flaw>I'll do anything to win fame and renown.</flaw>
+        <flaw>I'm a sucker for a pretty face.</flaw>
+        <flaw>A scandal prevents me from ever going home again.</flaw>
+        <flaw>I once satirized a noble who still wants my head. It was a mistake that I will likely repeat.</flaw>
+        <flaw>I have trouble keeping my true feelings hidden. My sharp tongue lands me in trouble.</flaw>
+        <flaw>Despite my best efforts, I am unreliable to my friends.</flaw>
+    </flaws>
+</background> 
+<background>
+    <name>Folk Hero</name>
+    <skills>
+        <proficiency>Animal Handling</proficiency>
+        <proficiency>Survival</proficiency>
+    </skills>
+    <tools>
+        <choose name="tool" category="artisan tool"/>
+        <proficiency>Vehicle(land)</proficiency>
+    </tools>
+    <equipment>
+        <choose name="tool" category="artisan tool"/>
+        <item>Set of artisan tools</item>
+        <item>shovel</item>
+        <item>iron pot</item>
+        <item>common clothes</item>
+        <item>belt pouch</item>
+        <money>10gp</money>
+    </equipment>
+    <feature>
+        <name>Rustic Hospitality</name>
+        <shortDescription>You can find a place to hide, rest , or recuperate amongst commoners.</shortDescription>
+        <description></description>
+    </feature>
+    <specialties name="Defining Event">
+        <choose name="specialty">
+            <or name="stoodUp"><specialty>I stood up to a tyrant’s agents.</specialty></or>
+            <or name="saved"><specialty>I saved people during a natural disaster.</specialty></or>
+            <or name="stoodAlone"><specialty>I stood alone against a terrible monster.</specialty></or>
+            <or name="robinHood"><specialty>I stole from a corrupt merchant to help the poor.</specialty></or>
+            <or name="rebel"><specialty>I led a militia to fight off an invading army.</specialty></or>
+            <or name="rightToArms"><specialty>I broke into a tyrant’s castle and stole weapons to arm the people.</specialty></or>
+            <or name="plowShareToSword"><specialty>I trained the peasantry to use farm implements as weapons against a tyrant’s soldiers.</specialty></or>
+            <or name="civilDisobediance"><specialty>A lord rescinded an unpopular decree after I led a symbolic act of protest against it.</specialty></or>
+            <or name="blessed"><specialty>A celestial, fey, or similar creature gave me a blessing or revealed my secret origin.</specialty></or>
+            <or name="recruit"><specialty>Recruited into a lord’s army, I rose to leadership and was commended for my heroism.</specialty></or>
+        </choose>
+    </specialties>
+    <personalityTraits>
+        <trait>I judge people by their actions, not their words.</trait>
+        <trait>If someone is in trouble, I’m always ready to lend help</trait>
+        <trait>When I set my mind to something, I follow through no matter what gets in my way.</trait>
+        <trait>I have a strong sense of fair play and always try to find the most equitable solution to arguments.</trait>
+        <trait>I’m confident in my own abilities and do what I can to instill confidence in others.</trait>
+        <trait>Thinking is for other people. I prefer action.</trait>
+        <trait>I misuse long words in an attempt to sound smarter.</trait>
+        <trait>I get bored easily. When am I going to get on with my destiny?</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Respect. People deserve to be treated with dignity and respect. (Good)</ideal>
+        <ideal>Fairness. No one should get preferential treatment before the law, and no one is above the law. (Lawful)</ideal>
+        <ideal>Freedom. Tyrants must not be allowed to oppress the people. (Chaotic)</ideal>
+        <ideal>Might. If I become strong, I can take what I want— what I deserve. (Evil))</ideal>
+        <ideal>Sincerity. There’s no good in pretending to be something I’m not. (Neutral)</ideal>
+        <ideal>Destiny. Nothing and no one can steer me away from my higher calling. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>I have a family, but I have no idea where they are. One day, I hope to see them again.</bond>
+        <bond>I worked the land, I love the land, and I will protect the land</bond>
+        <bond>A proud noble once gave me a horrible beating, and I will take my revenge on any bully I encounter</bond>
+        <bond>My tools are symbols of my past life, and I carry them so that I will never forget my roots</bond>
+        <bond>I protect those who cannot protect themselves.</bond>
+        <bond>I wish my childhood sweetheart had come with me to pursue my destiny.</bond>
+    </bonds>
+    <flaws>
+        <flaw>The tyrant who rules my land will stop at nothing to see me killed.</flaw>
+        <flaw>I’m convinced of the significance of my destiny, and blind to my shortcomings and the risk of failure.</flaw>
+        <flaw>The people who knew me when I was young know my shameful secret, so I can never go home again.</flaw>
+        <flaw>I have a weakness for the vices of the city, especially hard drink.</flaw>
+        <flaw>Secretly, I believe that things would be better if I were a tyrant lording over the land.</flaw>
+        <flaw>I have trouble trusting in my allies.</flaw>
+    </flaws>
+</background> 
+<background>
+    <name>Urchin</name>
+    <skills>
+        <proficiency>Sleight of Hand</proficiency>
+        <proficiency>Stealth</proficiency>
+    </skills>
+    <tools>
+        <tool>Disguise kit</tool>
+        <tool>Thieves' tools</tool>
+    </tools>
+    <equipment>
+        <item>small knife</item>
+        <item>map of city I grew up in</item>
+        <item>Token to remember parents by</item>
+        <item>set of common clothes</item>
+        <item>belt pouch</item>
+        <money>10gp</money>
+    </equipment>
+    <feature>
+        <name>City Secrets</name>
+        <shortDescription>When not in combat can travel with party between two locations in a city twice as fast as your speed would normally allow.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>I hide scraps of food and trinkets away in my pockets.</trait>
+        <trait>I ask a lot of questions.</trait>
+        <trait>I like to squeeze into small places where no one else can get to me.</trait>
+        <trait>I sleep with my back to a wall or tree, with everything I own wrapped in a bundle.</trait>
+        <trait>I eat like a pig and have bad manners.</trait>
+        <trait>I think anyone who's nice to me is hiding evil intent.</trait>
+        <trait>I don't like to bathe.</trait>
+        <trait>I bluntly say what other people are hinting at or thinking.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Respect. All people, rich or poor, deserve respect. (Good)</ideal>
+        <ideal>Community. We have to take care of each other, because no one else is going to do it. (Lawful)</ideal>
+        <ideal>Change. The low are lifted up, and the high and mighty are brought down. Change is the nature of things. (Chaotic)</ideal>
+        <ideal>Retribution. The rich need to be shown what life and death are like in the gutters. (Evil)</ideal>
+        <ideal>People. I help the people who help me- that's what keeps us alive. (Neutral)</ideal>
+        <ideal>Aspiration. I'm going to prove that I'm worthy of a better life.</ideal>
+    </ideals>
+    <bonds>
+        <bond>My town or city is my home, and I'll fight to defend it.</bond>
+        <bond>I sponsor an orphanage to keep others from enduring what I was forced to endure.</bond>
+        <bond>I owe my survival to another urchin who taught me to live on the streets.</bond>
+        <bond>I owe a debt I can never repay to the person who took pity on me.</bond>
+        <bond>I escaped my life of povert by robbing an important person, and I'm wanted for it.</bond>
+        <bond>No one else should have to endure the hardships I've been through.</bond>
+    </bonds>
+    <flaws>
+        <flaw>If I'm outnumbered, I will run away from a fight.</flaw>
+        <flaw>Gold seems like a lot of money to me, and I'll do just about anything for more of it.</flaw>
+        <flaw>I will never fully trust anyone other than myself.</flaw>
+        <flaw>I'd rather kill someone in their sleep than fight fair.</flaw>
+        <flaw>It's not stealing if I need it more than someone else.</flaw>
+        <flaw>People who can't take of themselves get what they deserve.</flaw>
+    </flaws>
+</background> 
+<class>
+    <name>Barbarian</name>
+    <hitDice>1d12</hitDice>
+    <armor>
+        <proficiency category="light armor"></proficiency>
+        <proficiency category="medium armor"></proficiency>
+    </armor>
+    <savingThrows>
+        <proficiency>Strength</proficiency>
+        <proficiency>Constitution</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="animal"><proficiency>Animal Handling</proficiency></or>
+            <or name="athletics"><proficiency>Athletics</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="nature"><proficiency>Nature</proficiency></or>
+            <or name="proficiency"><proficiency>Perception</proficiency></or>
+            <or name="survival"><proficiency>Survival</proficiency></or>
+        </choose>
+    </skills>
+
+
+
+
+    <equipment>
+        <choose name="weapon">
+            <or name="axe">
+                <item>Greataxe</item>
+            </or>
+            <or name="weapon">
+                <item category="martial weapon" />
+            </or>
+        </choose>
+
+        <choose name="otherWeapon">
+            <or name="axes">
+                <item count="2">handaxe</item>
+            </or>
+            <or name="simple">
+                <item category="simple weapon" />
+            </or>
+        </choose>
+        <item>explorer's pack</item>
+        <item count="4">Javelins</item>
+    </equipment>
+    <level value="1">
+        <feature>
+            <name>Rage</name>
+            <refreshes>longRest</refreshes>
+            <uses>2</uses>
+            <shortDescription>On your turn, you can use a bonus action to rage. While raging you have advantage on strength checks, gain a bonus on melee attack damage, resistance to bludgeoning, piercing, and slashing damage.</shortDescription>
+        </feature>
+        <feature>
+            <name>Unarmored Defence</name>
+            <shortDescription>While not wearing armor, your AC equals 10 + dex + con modifiers. Can still use a shield.</shortDescription>
+        </feature>
+        <armor>
+            <proficiency>shield</proficiency>
+        </armor>
+        <weapons>
+            <proficiency category="simple weapons"></proficiency>
+            <proficiency category="martial weapons"></proficiency>
+        </weapons>
+    </level>
+    <level value="2">
+        <feature>
+            <name>Reckless Attack</name>
+            <shortDescription>Can decide to attack recklessly, which gives advantage on Strength melee attack rolls, but rolls against you have advantage until next turn.</shortDescription>
+        </feature>
+        <feature>
+            <name>Danger sense</name>
+            <shortDescription>Advantage on Dexterity saving throws against effects you can see, such as traps and spells. Can't be blinded, deafended, or incapacitated.
+            </shortDescription>
+        </feature>
+    </level>
+</class> 
+<class>
+    <name>Fighter(free)</name>
+    <hitDice>1d10</hitDice>
+    <armor>
+        <proficiency category="heavy armor"></proficiency>
+    </armor>
+    <savingThrows>
+        <proficiency>Strength</proficiency>
+        <proficiency>Constitution</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
+            <or name="animal"><proficiency>Animal Handling</proficiency></or>
+            <or name="athletics"><proficiency>Athletics</proficiency></or>
+            <or name="history"><proficiency>History</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="proficiency"><proficiency>Perception</proficiency></or>
+            <or name="survival"><proficiency>Survival</proficiency></or>
+        </choose>
+    </skills>
+    <equipment>
+        <choose name="armor">
+            <or name="chain">
+                <item>chain mail</item>
+            </or>
+            <or name="leather">
+                <item>leather armor</item>
+                <item>long bow</item>
+                <item count="20">arrow</item>
+            </or>
+        </choose>
+        <choose name="weapon">
+            <or name="shield">
+                <item category="martial weapon" />
+                <item>shield</item>
+            </or>
+            <or name="weapon">
+                <item category="martial weapon" />
+                <item category="martial weapon" />
+            </or>
+        </choose>
+        <choose name="ranged">
+            <or name="crossbow">
+                <item>light crossbow</item>
+                <item count="20">crossbow bolt</item>
+            </or>
+            <or name="handaxe">
+                <item count="2">handaxe</item>
+            </or>
+        </choose>
+        <choose name="pack">
+            <or name="dungeoneers">
+                <item>dungeoneer's pack</item>
+            </or>
+            <or name="explorers">
+                <item>explorer's pack</item>
+            </or>
+        </choose>
+    </equipment>
+    <level value="1">
+        <feature>
+            <name>Second Wind</name>
+            <refreshes>rest</refreshes>
+            <uses>1</uses>
+            <action>hp += 1d10 + {classLevel}</action>
+            <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.
+            </shortDescription>
+        </feature>
+        <armor>
+            <proficiency category="light armor"></proficiency>
+            <proficiency category="medium armor"></proficiency>
+            <proficiency>shield</proficiency>
+        </armor>
+        <weapons>
+            <proficiency category="simple weapons"></proficiency>
+            <proficiency category="martial weapons"></proficiency>
+        </weapons>
+        <choose name="fighting_style">
+            <or name="archery">
+                <feature>
+                    <name>Archery</name>
+                    <shortDescription>You gain a +2 bonus to attack rolls you make with ranged
+                        weapons.
+                    </shortDescription>
+                </feature>
+            </or>
+            <or name="defense">
+                <feature>
+                    <name>Defense</name>
+                    <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.
+                    </shortDescription>
+                </feature>
+            </or>
+        </choose>
+    </level>
+    <level value="2">
+        <feature>
+            <name>Action Surge</name>
+            <refreshes>rest</refreshes>
+            <uses>1</uses>
+            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.
+            </shortDescription>
+        </feature>
+    </level>
+    <level value="3">
+        <feature>
+            <name>Improved Critical</name>
+            <shortDescription>Your weapon attacks score a critical hit on a roll of 19 or 20.
+            </shortDescription>
+        </feature>
+    </level>
+</class> 
+<class>
+    <name>Sorcerer</name>
+    <hitDice>1d6</hitDice>
+    <armor>
+        <proficiency category="light armor"></proficiency>
+    </armor>
+    <weapons>
+        <proficiency>Dagger</proficiency>
+        <proficiency>Dart</proficiency>
+        <proficiency>Sling</proficiency>
+        <proficiency>Quarterstaff</proficiency>
+        <proficiency>Light Crossbow</proficiency>
+    </weapons>
+    <savingThrows>
+        <proficiency>Constitution</proficiency>
+        <proficiency>Charisma</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="arcana"><proficiency>Arcana</proficiency></or>
+            <or name="deception"><proficiency>Deception</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="persuasion"><proficiency>Persuasion</proficiency></or>
+            <or name="religion"><proficiency>Religion</proficiency></or>
+        </choose>
+    </skills>
+    <equipment>
+        <item count="2">Dagger</item>
+        <choose name="weapon">
+            <or name="crossbow">
+                <item>light crossbow</item>
+                <item count="20">crossbow bolt</item>
+            </or>
+            <or name="simple">
+                <item category="simple weapon" />
+            </or>
+        </choose>
+        <choose name="magic">
+            <or name="pouch">
+                <item>Component Pouch</item>
+            </or>
+            <or name="focus">
+                <item>Arcane Focus</item>
+            </or>
+        </choose>
+        <choose name="pack">
+            <or name="dungeoneers">
+                <item>dungeoneer's pack</item>
+            </or>
+            <or name="explorers">
+                <item>explorer's pack</item>
+            </or>
+        </choose>
+    </equipment>
+
+</class> 
+<class>
+    <name>Warlock</name>
+    <hitDice>1d8</hitDice>
+
+    <savingThrows>
+        <proficiency>Wisdom</proficiency>
+        <proficiency>Charisma</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="arcana"><proficiency>Arcana</proficiency></or>
+            <or name="deception"><proficiency>Deception</proficiency></or>
+            <or name="history"><proficiency>History</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="investigation"><proficiency>Investigation</proficiency></or>
+            <or name="nature"><proficiency>Nature</proficiency></or>
+            <or name="religion"><proficiency>Religion</proficiency></or>
+        </choose>
+    </skills>
+    <equipment>
+        <item>leather armor</item>
+        <item category="simple weapon" />
+        <item count="2">Dagger</item>
+        <choose name="weapon">
+            <or name="crossbow">
+                <item>light crossbow</item>
+                <item count="20">crossbow bolt</item>
+            </or>
+            <or name="simple">
+                <item category="simple weapon" />
+            </or>
+        </choose>
+        <choose name="magic">
+            <or name="pouch">
+                <item>Component Pouch</item>
+            </or>
+            <or name="focus">
+                <item>Arcane Focus</item>
+            </or>
+        </choose>
+        <choose name="pack">
+            <or name="dungeoneers">
+                <item>dungeoneer's pack</item>
+            </or>
+            <or name="scholars">
+                <item>scholar's pack</item>
+            </or>
+        </choose>
+    </equipment>
+    <level value="1">
+        <armor>
+            <proficiency category="light armor"></proficiency>
+        </armor>
+        <weapons>
+            <proficiency category="simple weapons"></proficiency>
+        </weapons>
+        <spells>
+            <level name="0">
+                <known value="2"/>
+            </level>
+            <level name="1" slots="1">
+                <known value="2"/>
+            </level>
+        </spells>
+    </level>
+</class> 
+<item>
+    <name>Long Sword</name>
+</item> 
+<race>
+    <name>Dwarf</name>
+    <size>medium</size>
+    <speed>25</speed>
+    <weapons>
+        <proficiency>Battleaxe</proficiency>
+        <proficiency>Handaxe</proficiency>
+        <proficiency>Throwing Hammer</proficiency>
+        <proficiency>Warhammer</proficiency>
+    </weapons>
+    <tools>
+        <choose name="tool" >
+            <or name="smith"><proficiency>Smith's tools</proficiency></or>
+            <or name="brewer"><proficiency>Brewer's supplies</proficiency></or>
+            <or name="mason"><proficiency>Masons's tools</proficiency></or>
+        </choose>
+    </tools>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Within 60' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Dwarven Resilience</name>
+        <shortDescription>You have advantage on saving throws against poison, and resistance against poison damage</shortDescription>
+    </feature>
+    <feature>
+        <name>Stonecunning</name>
+        <shortDescription>When you make intelligence check for the origin of stonework, add double proficiency bouns.</shortDescription>
+    </feature>
+    <languages>
+        <language>Dwarvish</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Constitution">2</increase>
+    </stat>
+</race> 
+<race>
+    <name>Hill Dwarf</name>
+    <parent>Dwarf</parent>
+    <baseHeight>46</baseHeight>
+    <baseWeight>115</baseWeight>
+    <heightModifier>2d4</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+    <feature>
+        <name>Dwarven Toughness</name>
+        <shortDescription>Maximum HP increases by 1 for each class level.</shortDescription>
+    </feature>
+    <stat>
+        <increase name="Wisdom">1</increase>
+    </stat>
+</race> 
+<race>
+    <name>Mountain Dwarf</name>
+    <parent>Dwarf</parent>
+    <baseHeight>48</baseHeight>
+    <baseWeight>130</baseWeight>
+    <heightModifier>2d4</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+    <armor>
+        <proficiency category="light armor" />
+        <proficiency category="medium armor" />
+    </armor>
+    <stat>
+        <increase name="Strength">2</increase>
+    </stat>
+</race> 
+<race>
+    <name>Elf</name>
+    <size>medium</size>
+    <speed>30</speed>
+    <skills>
+        <proficiency>Perception</proficiency>
+    </skills>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Within 60' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Fey Ancestry</name>
+        <shortDescription>You have advantage on saving throws against being charmed. Can't be put to sleep via magic.</shortDescription>
+    </feature>
+    <feature>
+        <name>Trance</name>
+        <shortDescription>Long rest with 4 hours meditation.</shortDescription>
+        <description></description>
+    </feature>
+    <languages>
+        <language>Elvish</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Dexterity">2</increase>
+    </stat>
+</race> 
+<race>
+    <name>Drow</name>
+    <parent>Elf</parent>
+
+    <baseHeight>53</baseHeight>
+    <baseWeight>75</baseWeight>
+    <heightModifier>2d6</heightModifier>
+    <weightMultiplier>1d6</weightMultiplier>
+    <weapons>
+        <proficiency>Rapier</proficiency>
+        <proficiency>Shortsword</proficiency>
+        <proficiency>Hand crossbow</proficiency>
+    </weapons>
+    <feature>
+        <name>Superior Darkvision</name>
+        <shortDescription>Within 120' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Sunlight Sensitivity</name>
+        <shortDescription>Disadvantage on attach rolls and perception checks when you or target are in direct sunlight.</shortDescription>
+    </feature>
+    <!-- TODO know dancing light cantrip-->
+    <!-- TODO at 3rd level, can cast faerie fire 1x long rest, charisma-->
+    <!-- TODO at 5th level can cast darkness 1x long rest, charisma -->
+    <stat>
+        <increase name="Charisma">1</increase>
+    </stat>
+</race> 
+<race>
+    <name>High Elf</name>
+    <parent>Elf</parent>
+    <baseHeight>54</baseHeight>
+    <baseWeight>90</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>1d4</weightMultiplier>
+    <weapons>
+        <proficiency>Longsword</proficiency>
+        <proficiency>Shortsword</proficiency>
+        <proficiency>Longbow</proficiency>
+        <proficiency>Shortbow</proficiency>
+    </weapons>
+    <!-- TODO know a wizard cantrip, using intelligence-->
+    <languages>
+        <choose name="language" number="1"/>
+    </languages>
+
+    <stat>
+        <increase name="Intelligence">1</increase>
+    </stat>
+</race> 
+<race>
+    <name>Wood Elf</name>
+    <parent>Elf</parent>
+    <speed>35</speed>
+
+    <baseHeight>48</baseHeight>
+    <baseWeight>100</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>1d4</weightMultiplier>
+    <weapons>
+        <proficiency>Longsword</proficiency>
+        <proficiency>Shortsword</proficiency>
+        <proficiency>Longbow</proficiency>
+        <proficiency>Shortbow</proficiency>
+    </weapons>
+    <feature>
+        <name>Mask of the Wild</name>
+        <shortDescription>Can attempt to hide in foliage, rain, snow, mist, and other natural phenomena.</shortDescription>
+    </feature>
+    <stat>
+        <increase name="Wisdom">1</increase>
+    </stat>
+</race> 
+<race>
+    <name>Halfling</name>
+    <baseHeight>31</baseHeight>
+    <baseWeight>35</baseWeight>
+    <heightModifier>2d6</heightModifier>
+    <weightMultiplier>1</weightMultiplier>
+    <size>small</size>
+    <speed>25</speed>
+    <feature>
+        <name>Lucky</name>
+        <shortDescription>When you roll a 1 on the d20 for an attack roll, ability check, or saving
+            throw, you can reroll the die and must use the new roll
+        </shortDescription>
+    </feature>
+    <feature>
+        <name>Brave</name>
+        <shortDescription>You have advantage on saving throws against being frightened
+        </shortDescription>
+    </feature>
+    <feature>
+        <name>Halfling Nimbleness</name>
+        <shortDescription>You can move through the space of any creature that is of a size larger
+            than yours
+        </shortDescription>
+    </feature>
+    <languages>
+        <language>Halfling</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Dexterity">2</increase>
+    </stat>
+</race> 
+<race>
+    <name>Halfling, Lightfoot</name>
+    <parent>Halfling</parent>
+    <feature>
+        <name>Naturally Stealthy</name>
+        <shortDescription>You can hide...</shortDescription>
+    </feature>
+    <stat>
+        <increase name="Charisma">1</increase>
+    </stat>
+</race>
+ 
+<race>
+    <name>Halfling, Stout</name>
+    <parent>Halfling</parent>
+
+    <feature>
+        <name>Stout Resilience</name>
+        <shortDescription>You have advantage on saving throws against poison, and you have resistance against poison damage.</shortDescription>
+    </feature>
+    <stat>
+        <increase name="Constitution">1</increase>
+    </stat>
+</race>
+ 
+<race>
+    <name>Half-Orc</name>
+
+    <baseHeight>58</baseHeight>
+    <baseWeight>140</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+
+    <size>medium</size>
+    <speed>30</speed>
+
+    <languages>
+        <language>Common</language>
+        <language>Orc</language>
+    </languages>
+    <stat>
+        <increase name="Strength">2</increase>
+        <increase name="Constitution">1</increase>
+    </stat>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Within 60' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Savage Attacks</name>
+        <shortDescription>On a critical melee attack, additional damage dice.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Relentless Endurance</name>
+        <shortDescription>Once per long rest, when hit points reach 0, go to 1 hp.</shortDescription>
+        <refreshes>longRest</refreshes>
+        <uses>1</uses>
+        <description></description>
+    </feature>
+    <skills>
+        <proficiency>Intimidation</proficiency>
+    </skills>
+
+</race> 
+<race>
+    <name>Human</name>
+    <baseHeight>56</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+    <size>medium</size>
+    <speed>30</speed>
+
+    <languages>
+        <language>Common</language>
+        <choose number="1"></choose>
+    </languages>
+    <stat>
+        <increase name="Strength">1</increase>
+        <increase name="Dexterity">1</increase>
+        <increase name="Constitution">1</increase>
+        <increase name="Wisdom">1</increase>
+        <increase name="Intelligence">1</increase>
+        <increase name="Charisma">1</increase>
+    </stat>
+</race> 
+</root> 
+ 

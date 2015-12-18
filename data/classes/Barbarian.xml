@@ -47,9 +47,8 @@
     <level value="1">
         <feature>
             <name>Rage</name>
-            <refreshes>rest</refreshes>
-            <!-- TODO decide on syntax for refreshes -->
-            <uses refreshOn="longRest">2</uses>
+            <refreshes>longRest</refreshes>
+            <uses>2</uses>
             <shortDescription>On your turn, you can use a bonus action to rage. While raging you have advantage on strength checks, gain a bonus on melee attack damage, resistance to bludgeoning, piercing, and slashing damage.</shortDescription>
         </feature>
         <feature>
