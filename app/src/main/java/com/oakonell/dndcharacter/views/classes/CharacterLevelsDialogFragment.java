@@ -279,7 +279,7 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
                             ((MainActivity) adapter.context.getActivity()).updateViews();
                         }
                     };
-                    EditClassLevelDialogFragment dialog = EditClassLevelDialogFragment.createDialog(context.character, item, getAdapterPosition(), onChange);
+                    EditClassLevelDialogFragment dialog = EditClassLevelDialogFragment.createDialog(context.character, item, getAdapterPosition(), onChange, true);
                     dialog.show(context.getFragmentManager(), "class_edit");
                 }
             });

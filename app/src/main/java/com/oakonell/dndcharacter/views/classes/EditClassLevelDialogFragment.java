@@ -17,8 +17,9 @@ import java.util.Map;
 public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFragment {
     CharacterClass characterClass;
     private int classIndex;
+    private boolean includeHP;
 
-    public static EditClassLevelDialogFragment createDialog(Character character, CharacterClass characterClass, int classIndex, ComponentLaunchHelper.OnDialogDone onDone) {
+    public static EditClassLevelDialogFragment createDialog(Character character, CharacterClass characterClass, int classIndex, ComponentLaunchHelper.OnDialogDone onDone, boolean includeHP) {
         EditClassLevelDialogFragment newMe = new EditClassLevelDialogFragment();
         AClass aClass = new Select().from(Background.class).where("name = ?", characterClass.getName()).executeSingle();
         newMe.setModel(aClass);
@@ -26,7 +27,13 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
         newMe.setCharacterClass(characterClass);
         newMe.setCharacter(character);
         newMe.setOnDone(onDone);
+        newMe.includeHP = includeHP;
         return newMe;
+    }
+
+    @Override
+    protected boolean includeHp() {
+        return includeHP;
     }
 
     protected boolean allowMainComponentChange() {

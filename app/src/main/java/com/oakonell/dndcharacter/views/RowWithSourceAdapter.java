@@ -79,7 +79,7 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
                 if (source == null) {
                     launchNoSource(activity, character, onDone);
                 } else {
-                    ComponentLaunchHelper.editComponent(activity, character, source, onDone);
+                    ComponentLaunchHelper.editComponent(activity, character, source, onDone, false);
                 }
             }
         });

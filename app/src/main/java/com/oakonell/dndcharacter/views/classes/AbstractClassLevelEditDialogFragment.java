@@ -45,6 +45,10 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         return "[Class]";
     }
 
+    protected boolean includeHp() {
+        return true;
+    }
+
 
     protected List<Page<AClass>> createPages() {
         List<Page<AClass>> pages = new ArrayList<>();
@@ -93,7 +97,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         }
 
         // final page, show Hit points- unless classLevel = 1
-        if (!isFirstLevel) {
+        if (!isFirstLevel && includeHp()) {
             Page hitPoints = new Page<AClass>() {
                 @Override
                 public Map<String, ChooseMD> appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {

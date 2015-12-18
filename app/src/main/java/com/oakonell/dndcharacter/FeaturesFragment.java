@@ -1,7 +1,8 @@
 package com.oakonell.dndcharacter;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.FeatureInfo;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 
 /**
  * Created by Rob on 10/26/2015.
@@ -69,9 +71,9 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
     public static class FeatureAdapter extends RecyclerView.Adapter<ViewHolder> {
         private Character character;
-        private Context context;
+        private FragmentActivity context;
 
-        public FeatureAdapter(Context context, Character character) {
+        public FeatureAdapter(FragmentActivity context, Character character) {
             this.context = context;
             this.character = character;
         }
@@ -107,6 +109,18 @@ public class FeaturesFragment extends AbstractSheetFragment {
             final FeatureInfo info = getItem(position);
             viewHolder.name.setText(info.getName());
             viewHolder.source.setText(info.getSourceString());
+            viewHolder.source.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ComponentLaunchHelper.OnDialogDone onDone = new ComponentLaunchHelper.OnDialogDone() {
+                        @Override
+                        public void done(boolean changed) {
+                            notifyDataSetChanged();
+                        }
+                    };
+                    ComponentLaunchHelper.editComponent(context, character, info.getSource(), onDone,false);
+                }
+            });
             String formula = info.getUsesFormula();
             boolean hasFormula = !(formula == null || formula.length() == 0);
             if (!hasFormula) {

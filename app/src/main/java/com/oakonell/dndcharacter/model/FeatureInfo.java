@@ -25,6 +25,9 @@ public class FeatureInfo {
         return feature.getUsesFormula();
     }
 
+    public BaseCharacterComponent getSource() {
+        return source;
+    }
 
     public Feature getFeature() {
         return feature;
