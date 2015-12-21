@@ -42,7 +42,6 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     private Button previousButton;
     private Button nextButton;
     private Spinner nameSpinner;
-    private String modelSpinnerPrompt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
