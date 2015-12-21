@@ -137,7 +137,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!validate(dynamicView,pageIndex)) return;
+                if (!validate(dynamicView, pageIndex)) return;
 
                 saveChoices(dynamicView);
 
@@ -148,6 +148,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
                 applyToCharacter(savedChoices, customChoices);
                 dismiss();
                 ((MainActivity) getActivity()).updateViews();
+                ((MainActivity) getActivity()).saveCharacter();
                 if (onDone != null) onDone.done(true);
             }
         });
