@@ -15,6 +15,9 @@ public class Feature {
     @Element(required = false)
     private RefreshType refreshType;
 
+    @Element(required = false)
+    private UseType useType;
+
     public String getName() {
         return name;
     }
@@ -29,6 +32,14 @@ public class Feature {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UseType getUseType() {
+        return useType;
+    }
+
+    public void setUseType(UseType useType) {
+        this.useType = useType;
     }
 
     public String getUsesFormula() {

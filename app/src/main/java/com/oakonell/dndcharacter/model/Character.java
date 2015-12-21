@@ -616,9 +616,13 @@ public class Character {
 
     public int evaluateMaxUses(Feature feature) {
         String formula = feature.getUsesFormula();
-        // formula might reference stats and such
+        // TODO formula might reference stats and such
         if (formula == null || formula.length() == 0) return 0;
-        return Integer.parseInt(formula);
+        try {
+            return Integer.parseInt(formula);
+        } catch (NumberFormatException e) {
+            return 10;
+        }
     }
 
     public int getUses(Feature feature) {
@@ -631,10 +635,10 @@ public class Character {
         return evaluateMaxUses(feature) - getUses(feature);
     }
 
-    public void useFeature(Feature feature) {
+    public void useFeature(Feature feature, int amount) {
         // TODO apply known effects from feature
         int uses = getUses(feature);
-        uses = uses + 1;
+        uses = uses + amount;
         usedFeatures.put(feature.getName(), uses);
     }
 

@@ -13,4 +13,5 @@ public class FeatureResetInfo {
     public String uses;
     public int numToRestore;
     public boolean needsResfesh;
+    public int maxToRestore;
 }

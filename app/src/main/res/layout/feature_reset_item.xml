@@ -44,19 +44,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:ems="2"
+                android:ems="3"
                 android:id="@+id/num_to_restore"
                 android:text="2" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Desciption"
+                android:id="@+id/description" />
+
+
         </LinearLayout>
+
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Desciption"
-        android:id="@+id/description" />
 
 </LinearLayout>

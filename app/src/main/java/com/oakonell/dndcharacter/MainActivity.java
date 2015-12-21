@@ -147,7 +147,7 @@ public class MainActivity extends AbstractBaseActivity {
         if (equipmentFragment != null) equipmentFragment.updateViews();
     }
 
-    private void saveCharacter() {
+    public void saveCharacter() {
         Serializer serializer = new Persister();
         OutputStream out = null;
         try {

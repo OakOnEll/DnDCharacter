@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.model;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
+import com.oakonell.dndcharacter.model.components.UseType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -48,16 +49,12 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         feature.setName(name);
         feature.setDescription(XmlUtils.getElementText(element, "shortDescription"));
         // TODO handle refreshes, and other data in XML
-        final String uses = XmlUtils.getElementText(element, "uses");
-        if (uses != null) {
-            feature.setFormula(uses);
-            String refreshString = XmlUtils.getElementText(element, "refreshes");
-            if (refreshString == null) {
-                throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
-            }
+
+        String refreshString = XmlUtils.getElementText(element, "refreshes");
+        RefreshType refreshType = null;
+        if (refreshString != null) {
             refreshString = refreshString.toLowerCase();
             refreshString = refreshString.replaceAll(" ", "");
-            RefreshType refreshType;
             switch (refreshString) {
                 case "rest": // fall through
                 case "shortrest":
@@ -69,8 +66,29 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 default:
                     throw new RuntimeException("Unknown refresh string '" + refreshString + "' on feature " + component.getName() + "." + name);
             }
-            feature.setRefreshesOn(refreshType);
         }
+        final String uses = XmlUtils.getElementText(element, "uses");
+        final String pool = XmlUtils.getElementText(element, "pool");
+        // TODO fail if both
+        UseType useType;
+        if (uses != null) {
+            useType = UseType.PER_USE;
+            feature.setFormula(uses);
+            if (refreshType == null) {
+                throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
+            }
+            feature.setRefreshesOn(refreshType);
+            feature.setUseType(useType);
+        } else if (pool != null) {
+            useType = UseType.POOL;
+            feature.setFormula(pool);
+            if (refreshType == null) {
+                throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
+            }
+            feature.setRefreshesOn(refreshType);
+            feature.setUseType(useType);
+        }
+
         component.addFeature(feature);
         super.visitFeature(element);
     }

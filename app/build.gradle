@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+//        minSdkVersion 15
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -50,3 +50,24 @@ dependencies {
     compile 'org.solovyev.android.views:linear-layout-manager:0.5@aar'
 }
 
+dependencies {
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+}
+
+repositories {
+    maven {
+        url  "http://dl.bintray.com/lukaville/maven"
+    }
+}
+
+dependencies {
+    compile 'com.nbsp:library:1.02'
+}
+
+// Would like totry this one, but it breaks with NavigationViewPresenter class not found when the minSdk->16
+//repositories {
+//    maven { url "https://jitpack.io" }
+//}
+//dependencies {
+//    compile 'com.github.DeveloperPaul123:FilePickerLibrary:2.1'
+//}

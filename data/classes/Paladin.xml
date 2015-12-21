@@ -1,36 +1,27 @@
 <class>
-    <name>Fighter(free)</name>
+    <name>Paladin</name>
     <hitDice>1d10</hitDice>
     <armor>
         <proficiency category="heavy armor"></proficiency>
     </armor>
     <savingThrows>
-        <proficiency>Strength</proficiency>
-        <proficiency>Constitution</proficiency>
+        <proficiency>Wisdom</proficiency>
+        <proficiency>Charisma</proficiency>
     </savingThrows>
     <skills>
         <choose name="skills" number="2">
-            <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
-            <or name="animal"><proficiency>Animal Handling</proficiency></or>
             <or name="athletics"><proficiency>Athletics</proficiency></or>
-            <or name="history"><proficiency>History</proficiency></or>
             <or name="insight"><proficiency>Insight</proficiency></or>
             <or name="intimidation"><proficiency>Intimidation</proficiency></or>
             <or name="perception"><proficiency>Perception</proficiency></or>
-            <or name="survival"><proficiency>Survival</proficiency></or>
+            <or name="medicine"><proficiency>Medicine</proficiency></or>
+            <or name="persuasion"><proficiency>Persuasion</proficiency></or>
+            <or name="religion"><proficiency>Religion</proficiency></or>
         </choose>
     </skills>
     <equipment>
-        <choose name="armor">
-            <or name="chain">
-                <item>chain mail</item>
-            </or>
-            <or name="leather">
-                <item>leather armor</item>
-                <item>long bow</item>
-                <item count="20">arrow</item>
-            </or>
-        </choose>
+        <item>Chain mail</item>
+        <item>Holy Symbol</item>
         <choose name="weapon">
             <or name="shield">
                 <item category="martial weapon" />
@@ -41,18 +32,17 @@
                 <item category="martial weapon" />
             </or>
         </choose>
-        <choose name="ranged">
-            <or name="crossbow">
-                <item>light crossbow</item>
-                <item count="20">crossbow bolt</item>
+        <choose name="extra">
+            <or name="simple">
+                <item category="simple weapon" />
             </or>
-            <or name="handaxe">
-                <item count="2">handaxe</item>
+            <or name="javelin">
+                <item count="5">javelin</item>
             </or>
         </choose>
         <choose name="pack">
-            <or name="dungeoneers">
-                <item>dungeoneer's pack</item>
+            <or name="priests">
+                <item>priest's pack</item>
             </or>
             <or name="explorers">
                 <item>explorer's pack</item>
@@ -61,12 +51,16 @@
     </equipment>
     <level value="1">
         <feature>
-            <name>Second Wind</name>
-            <refreshes>rest</refreshes>
-            <uses>1</uses>
-            <action>hp += 1d10 + {classLevel}</action>
-            <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.
-            </shortDescription>
+            <name>Divine Sense</name>
+            <refreshes>long rest</refreshes>
+            <uses>1 + {charismaMod}</uses>
+            <shortDescription>On your turn, you know the location of any celestial, fiend, or undead within 60 feet.</shortDescription>
+        </feature>
+        <feature>
+            <name>Lay on Hands</name>
+            <refreshes>long rest</refreshes>
+            <pool>5*{level}</pool>
+            <shortDescription>Pool of hit points to heal, or expend 5 HP to cure one disease or neutralize one poison.</shortDescription>
         </feature>
         <armor>
             <proficiency category="light armor"></proficiency>
@@ -77,15 +71,9 @@
             <proficiency category="simple weapons"></proficiency>
             <proficiency category="martial weapons"></proficiency>
         </weapons>
+    </level>
+    <level value="2">
         <choose name="fighting_style">
-            <or name="archery">
-                <feature>
-                    <name>Archery</name>
-                    <shortDescription>You gain a +2 bonus to attack rolls you make with ranged
-                        weapons.
-                    </shortDescription>
-                </feature>
-            </or>
             <or name="defense">
                 <feature>
                     <name>Defense</name>
@@ -93,9 +81,25 @@
                     </shortDescription>
                 </feature>
             </or>
+            <or name="dueling">
+                <feature>
+                    <name>Dueling</name>
+                    <shortDescription>With one hand melee weapon, you gain +2 to damage rolls with that weapon.</shortDescription>
+                </feature>
+            </or>
+            <or name="great_weapon">
+                <feature>
+                    <name>Great Weapon Fighting</name>
+                    <shortDescription>When you roll a 1 or 2 for a two handed melee weapon attack, you can reroll.</shortDescription>
+                </feature>
+            </or>
+            <or name="protection">
+                <feature>
+                    <name>Protection</name>
+                    <shortDescription>While wielding a shield, you can impose disadvantage on attacks against others within 5 feet.</shortDescription>
+                </feature>
+            </or>
         </choose>
-    </level>
-    <level value="2">
         <feature>
             <name>Action Surge</name>
             <refreshes>rest</refreshes>
@@ -106,9 +110,8 @@
     </level>
     <level value="3">
         <feature>
-            <name>Improved Critical</name>
-            <shortDescription>Your weapon attacks score a critical hit on a roll of 19 or 20.
-            </shortDescription>
+            <name>Divine Health</name>
+            <shortDescription>You are immune to disease.</shortDescription>
         </feature>
     </level>
 </class>

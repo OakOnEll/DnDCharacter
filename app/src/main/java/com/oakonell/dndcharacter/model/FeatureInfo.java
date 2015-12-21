@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model;
 
 import com.oakonell.dndcharacter.model.components.Feature;
+import com.oakonell.dndcharacter.model.components.UseType;
 
 /**
  * Created by Rob on 10/26/2015.
@@ -31,5 +32,9 @@ public class FeatureInfo {
 
     public Feature getFeature() {
         return feature;
+    }
+
+    public UseType getUseType() {
+        return feature.getUseType();
     }
 }

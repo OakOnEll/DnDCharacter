@@ -101,6 +101,7 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
             if (resetInfo.reset) {
                 resetInfo.numToRestore = maxUses - usesRemaining;
             }
+            resetInfo.maxToRestore = maxUses - usesRemaining;
             resetInfo.uses = usesRemaining + " / " + each.getUsesFormula();
             resetInfo.needsResfesh = usesRemaining != maxUses;
             featureResets.add(resetInfo);
@@ -210,13 +211,27 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                    viewHolder.numToRestore.setError(null);
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    // TODO error handling
-                    row.numToRestore = Integer.parseInt(s.toString());
+                    // TODO error handling, if val is too large
+                    if (s == null) return;
+                    String stringVal = s.toString().trim();
+                    if (stringVal.length() == 0) return;
+                    int value;
+                    try {
+                        value = Integer.parseInt(stringVal);
+                    } catch (Exception e) {
+                        viewHolder.numToRestore.setError("Enter a value <= " + row.maxToRestore);
+                        return;
+                    }
+                    if (value > row.maxToRestore) {
+                        viewHolder.numToRestore.setError("Enter a value <= " + row.maxToRestore);
+                    }
+
+                    row.numToRestore = value;
                 }
             };
             viewHolder.numToRestore.addTextChangedListener(watcher);
