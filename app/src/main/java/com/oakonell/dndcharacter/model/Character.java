@@ -13,6 +13,7 @@ import org.simpleframework.xml.ElementMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,6 +21,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import expr.Expr;
+import expr.Parser;
+import expr.SyntaxException;
+import expr.Variable;
 
 
 /**
@@ -327,10 +333,163 @@ public class Character {
         return languages;
     }
 
+    public static class ArmorClassWithSource extends WithSource {
+        private final String formula;
+        boolean isEquipped;
+        private final int value;
+        public boolean isDisabled;
+
+        ArmorClassWithSource(String formula, int value, BaseCharacterComponent source) {
+            super(source);
+            this.value = value;
+            this.formula = formula;
+            if (source instanceof CharacterArmor) {
+                isEquipped = ((CharacterArmor) source).isEquipped();
+            }
+        }
+
+        public void setIsEquipped(boolean value) {
+            isEquipped = value;
+        }
+
+        public boolean isEquipped() {
+            return isEquipped;
+        }
+
+        public String getFormula() {
+            return formula;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public boolean isArmor() {
+            return getSource() instanceof CharacterArmor;
+        }
+    }
+
+    public List<ArmorClassWithSource> deriveRootAcs() {
+        List<ArmorClassWithSource> result = new ArrayList<>();
+        String baseFormula = "10 + dexterityMod";
+        int baseValue = evaluateFormula(baseFormula, null);
+        ArmorClassWithSource unarmored = new ArmorClassWithSource(baseFormula, baseValue, null);
+        result.add(unarmored);
+
+        // multiple here will really just take the highest ?? at runtime
+        for (CharacterClass eachClass : classes) {
+            for (FeatureInfo each : eachClass.getFeatures()) {
+                if (!each.getFeature().isBaseArmor()) continue;
+
+                String acFormula = each.getFeature().getBaseAcFormula();
+                if (acFormula != null) {
+                    Map<String, Integer> extraVariables = new HashMap<>();
+                    each.getSource().addExtraFormulaVariables(extraVariables);
+                    int value = evaluateFormula(acFormula, extraVariables);
+                    ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each.getFeature());
+                    result.add(featureAc);
+                }
+            }
+        }
+        Collections.sort(result, new Comparator<ArmorClassWithSource>() {
+            @Override
+            public int compare(ArmorClassWithSource lhs, ArmorClassWithSource rhs) {
+                int lv = lhs.getValue();
+                int rv = rhs.getValue();
+                return lv < rv ? -1 : (lv == rv ? 0 : 1);
+            }
+        });
+        int max = result.size() - 1;
+        for (int i = 0; i + 1 < result.size(); i++) {
+            ArmorClassWithSource each = result.get(i);
+            each.isDisabled = true;
+        }
+        ArmorClassWithSource noArmorRow = result.get(max);
+
+        // go through items
+        boolean hasAny = false;
+        for (CharacterArmor each : getArmor()) {
+            if (!each.isBaseArmor()) continue;
+
+            String formula = each.getBaseAcFormula();
+            if (formula != null) {
+                int value = evaluateFormula(formula, null);
+
+                ArmorClassWithSource featureAc = new ArmorClassWithSource(formula, value, each);
+                if (featureAc.isEquipped()) {
+                    hasAny = true;
+                }
+                result.add(featureAc);
+            }
+        }
+        if (!hasAny) {
+            noArmorRow.setIsEquipped(true);
+        }
+
+
+        return result;
+    }
+
+    public List<ArmorClassWithSource> deriveModifyingAcs() {
+        List<ArmorClassWithSource> result = new ArrayList<>();
+
+        // multiple here will really just take the highest ?? at runtime
+        for (CharacterClass eachClass : classes) {
+            for (FeatureInfo each : eachClass.getFeatures()) {
+                if (each.getFeature().isBaseArmor()) continue;
+
+                String acFormula = each.getFeature().getModifyingAcFormula();
+                if (acFormula != null) {
+                    Map<String, Integer> extraVariables = new HashMap<>();
+                    each.getSource().addExtraFormulaVariables(extraVariables);
+                    int value = evaluateFormula(acFormula, extraVariables);
+                    ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each.getFeature());
+                    result.add(featureAc);
+                }
+            }
+        }
+        // go through items
+        for (CharacterArmor each : getArmor()) {
+            if (each.isBaseArmor()) continue;
+
+            String formula = each.getModifyingAcFormula();
+            if (formula != null) {
+                int value = evaluateFormula(formula, null);
+                ArmorClassWithSource acMod = new ArmorClassWithSource(formula, value, each);
+                result.add(acMod);
+            }
+        }
+
+        return result;
+    }
+
     public int getArmorClass() {
+        List<ArmorClassWithSource> roots = deriveRootAcs();
+        ArmorClassWithSource activeRoot = null;
+        for (ArmorClassWithSource each : roots) {
+            if (each.isEquipped()) {
+                activeRoot = each;
+                break;
+            }
+        }
+        if (activeRoot == null) {
+            throw new RuntimeException("No active AC root!?");
+        }
+        boolean isArmor = activeRoot.isArmor();
         // go through active equipment
         // if no equipment affects ac, it is just 10 + dex mod
-        return 10 + getStatBlock(StatType.DEXTERITY).getModifier();
+
+        int ac = activeRoot.getValue();
+        int addition = 0;
+
+        List<ArmorClassWithSource> modifiers = deriveModifyingAcs();
+        for (ArmorClassWithSource each : modifiers) {
+            if (each.isEquipped()) {
+                addition += each.getValue();
+            }
+        }
+
+        return ac + addition;
     }
 
     public SavedChoices getBackgroundChoices() {
@@ -614,13 +773,39 @@ public class Character {
         return result;
     }
 
-    public int evaluateMaxUses(Feature feature) {
-        String formula = feature.getUsesFormula();
+
+    public int evaluateFormula(String formula, Map<String, Integer> extraContextVariables) {
         // TODO formula might reference stats and such
         if (formula == null || formula.length() == 0) return 0;
+        Parser parser = new Parser();
+        // enumerate all the stat modifiers and values
+        for (StatType each : StatType.values()) {
+            StatBlock block = getStatBlock(each);
+            int mod = block.getModifier();
+            Variable modVar = Variable.make(each.toString().toLowerCase() + "Mod");
+            modVar.setValue(mod);
+            parser.allow(modVar);
+
+            Variable var = Variable.make(each.toString().toLowerCase() + "Value");
+            var.setValue(block.getValue());
+            parser.allow(var);
+        }
+        Variable var = Variable.make("level");
+        var.setValue(getClasses().size());
+        parser.allow(var);
+
+        if (extraContextVariables != null) {
+            for (Map.Entry<String, Integer> each : extraContextVariables.entrySet()) {
+                Variable extraVar = Variable.make(each.getKey());
+                extraVar.setValue(each.getValue());
+                parser.allow(extraVar);
+            }
+        }
         try {
-            return Integer.parseInt(formula);
-        } catch (NumberFormatException e) {
+            Expr expr = parser.parseString(formula);
+            return (int) expr.value();
+        } catch (SyntaxException e) {
+            // should be done at formula save time...
             return 10;
         }
     }
@@ -631,8 +816,8 @@ public class Character {
         return uses;
     }
 
-    public int getUsesRemaining(Feature feature) {
-        return evaluateMaxUses(feature) - getUses(feature);
+    public int getUsesRemaining(FeatureInfo feature) {
+        return feature.evaluateMaxUses(this) - getUses(feature.getFeature());
     }
 
     public void useFeature(Feature feature, int amount) {

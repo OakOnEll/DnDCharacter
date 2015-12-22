@@ -53,13 +53,13 @@
         <feature>
             <name>Divine Sense</name>
             <refreshes>long rest</refreshes>
-            <uses>1 + {charismaMod}</uses>
+            <uses>1 + charismaMod</uses>
             <shortDescription>On your turn, you know the location of any celestial, fiend, or undead within 60 feet.</shortDescription>
         </feature>
         <feature>
             <name>Lay on Hands</name>
             <refreshes>long rest</refreshes>
-            <pool>5*{level}</pool>
+            <pool>5*classLevel</pool>
             <shortDescription>Pool of hit points to heal, or expend 5 HP to cure one disease or neutralize one poison.</shortDescription>
         </feature>
         <armor>

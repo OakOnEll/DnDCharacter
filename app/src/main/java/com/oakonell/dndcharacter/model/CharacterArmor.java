@@ -8,8 +8,6 @@ import org.simpleframework.xml.Element;
  * Created by Rob on 12/8/2015.
  */
 public class CharacterArmor extends CharacterItem {
-    @Element(required = false)
-    String acFormula;
 
     @Element(required = false)
     private boolean equipped;
@@ -18,12 +16,8 @@ public class CharacterArmor extends CharacterItem {
         return ItemType.ARMOR;
     }
 
-    public void setAcFormula(String acFormula) {
-        this.acFormula = acFormula;
-    }
-
-    public String getAcFormula() {
-        return acFormula;
+    public boolean applyAC() {
+        return equipped;
     }
 
     public boolean isEquipped() {
@@ -33,4 +27,6 @@ public class CharacterArmor extends CharacterItem {
     public void setEquipped(boolean equipped) {
         this.equipped = equipped;
     }
+
+
 }

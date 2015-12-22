@@ -88,6 +88,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             feature.setRefreshesOn(refreshType);
             feature.setUseType(useType);
         }
+        final String ac = XmlUtils.getElementText(element, "ac");
+        feature.setAcFormula(ac);
 
         component.addFeature(feature);
         super.visitFeature(element);

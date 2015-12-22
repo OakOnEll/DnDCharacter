@@ -64,7 +64,7 @@
             <name>Second Wind</name>
             <refreshes>rest</refreshes>
             <uses>1</uses>
-            <action>hp += 1d10 + {classLevel}</action>
+            <action>hp += 1d10 + classLevel</action>
             <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.
             </shortDescription>
         </feature>
@@ -89,6 +89,8 @@
             <or name="defense">
                 <feature>
                     <name>Defense</name>
+                    <condition>armor()</condition>
+                    <ac>+1</ac>
                     <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.
                     </shortDescription>
                 </feature>

@@ -96,13 +96,13 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
             resetInfo.description = each.getShortDescription();
             resetInfo.reset = shouldReset(refreshOn);
             resetInfo.refreshOn = refreshOn;
-            int maxUses = character.evaluateMaxUses(each.getFeature());
-            int usesRemaining = character.getUsesRemaining(each.getFeature());
+            int maxUses = each.evaluateMaxUses(character);
+            int usesRemaining = character.getUsesRemaining(each);
             if (resetInfo.reset) {
                 resetInfo.numToRestore = maxUses - usesRemaining;
             }
             resetInfo.maxToRestore = maxUses - usesRemaining;
-            resetInfo.uses = usesRemaining + " / " + each.getUsesFormula();
+            resetInfo.uses = usesRemaining + " / " + maxUses;
             resetInfo.needsResfesh = usesRemaining != maxUses;
             featureResets.add(resetInfo);
         }

@@ -402,15 +402,32 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(final CharacterArmor item, EquipmentFragment context, SubAdapter adapter) {
+        public void bindTo(final CharacterArmor item, final EquipmentFragment context, SubAdapter adapter) {
             super.bindTo(item, context, adapter);
-            ac.setText("15");
+
+            String acString = "?";
+            if (item.isBaseArmor()) {
+                int acVal = context.character.evaluateFormula(item.getBaseAcFormula(), null);
+                acString = acVal + "";
+
+            } else {
+                String formula = item.getModifyingAcFormula();
+                if (formula != null) {
+                    int acVal = context.character.evaluateFormula(formula, null);
+                    acString = "+" + acVal;
+                }
+            }
+            ac.setText(acString);
+
             equipped.setChecked(item.isEquipped());
             equipped.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // TODO unequip any contraindicated armor? Or just notify the user?
                     item.setEquipped(isChecked);
-                    // TODO update views of any AC related fields
+                    // TODO update only views of any AC related fields
+                    ((MainActivity) context.getActivity()).updateViews();
+                    ((MainActivity) context.getActivity()).saveCharacter();
                 }
             });
         }

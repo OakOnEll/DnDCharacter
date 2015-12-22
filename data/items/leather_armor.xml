@@ -1,0 +1,4 @@
+<item>
+    <name>Leather Armor</name>
+    <ac>=11 + dexterityMod</ac>
+</item>

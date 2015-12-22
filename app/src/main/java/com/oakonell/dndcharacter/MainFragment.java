@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.model.SkillType;
 import com.oakonell.dndcharacter.model.StatType;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.ArmorClassDialogFragment;
 import com.oakonell.dndcharacter.views.HitPointDiaogFragment;
 import com.oakonell.dndcharacter.views.SavingThrowBlockView;
 import com.oakonell.dndcharacter.views.SkillBlockView;
@@ -51,6 +52,15 @@ public class MainFragment extends AbstractSheetFragment {
 
         speed = (TextView) rootView.findViewById(R.id.speed);
         ac = (TextView) rootView.findViewById(R.id.ac);
+
+        rootView.findViewById(R.id.ac_group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArmorClassDialogFragment dialog = ArmorClassDialogFragment.createDialog((MainActivity) getActivity());
+                dialog.show(getFragmentManager(), "ac");
+            }
+        });
+
         initiative = (TextView) rootView.findViewById(R.id.initiative);
         final View.OnClickListener onClickHp = new View.OnClickListener() {
             @Override
@@ -130,6 +140,7 @@ public class MainFragment extends AbstractSheetFragment {
             return;
         }
         ac.setText(character.getArmorClass() + "");
+
         initiative.setText(character.getStatBlock(StatType.DEXTERITY).getModifier() + "");
 
         hp.setText(character.getHP() + " / " + character.getMaxHP());

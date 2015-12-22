@@ -2,7 +2,6 @@ package com.oakonell.dndcharacter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
@@ -149,16 +148,15 @@ public class FeaturesFragment extends AbstractSheetFragment {
                     ComponentLaunchHelper.editComponent(context, character, info.getSource(), onDone, false);
                 }
             });
-            String formula = info.getUsesFormula();
-            boolean hasFormula = !(formula == null || formula.length() == 0);
+            boolean hasLimitedUses= info.hasLimitedUses();
             viewHolder.pool_apply_group.setVisibility(View.GONE);
-            if (!hasFormula) {
+            if (!hasLimitedUses) {
                 viewHolder.limited_uses_group.setVisibility(View.GONE);
                 viewHolder.use_group.setVisibility(View.GONE);
             } else {
                 viewHolder.limited_uses_group.setVisibility(View.VISIBLE);
-                int maxUses = character.evaluateMaxUses(info.getFeature());
-                final int usesRemaining = character.getUsesRemaining(info.getFeature());
+                int maxUses = info.evaluateMaxUses(character);
+                final int usesRemaining = character.getUsesRemaining(info);
 
                 viewHolder.uses_remaining.setText(usesRemaining + "/" + maxUses);
 

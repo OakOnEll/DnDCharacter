@@ -53,6 +53,7 @@
         </feature>
         <feature>
             <name>Unarmored Defence</name>
+            <ac>=10 + dexterityMod + constitutionMod</ac>
             <shortDescription>While not wearing armor, your AC equals 10 + dex + con modifiers. Can still use a shield.</shortDescription>
         </feature>
         <armor>

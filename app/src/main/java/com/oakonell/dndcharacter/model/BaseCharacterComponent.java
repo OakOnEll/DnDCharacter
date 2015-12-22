@@ -49,6 +49,9 @@ public abstract class BaseCharacterComponent {
         return value;
     }
 
+    @Element(required = false)
+    String acFormula;
+
     public void addModifier(StatType type, int modifier) {
         statModifiers.put(type, modifier);
     }
@@ -134,9 +137,49 @@ public abstract class BaseCharacterComponent {
         return wrappedList.proficiencies;
     }
 
+    public void addExtraFormulaVariables(Map<String, Integer> extraVariables) {
+        // do nothing, let subclasses override
+    }
+
     // TODO use a wrapper for SimpleXML serialization
     public static class ToolProficiencies {
         @ElementList(required = false, type = Proficiency.class, inline = true)
         List<Proficiency> proficiencies = new ArrayList<>();
     }
+
+    public void setAcFormula(String acFormula) {
+        this.acFormula = acFormula;
+    }
+
+    public String getAcFormula() {
+        return acFormula;
+    }
+
+    public boolean applyAC() {
+        return true;
+    }
+
+    public boolean isBaseArmor() {
+        String formula = getAcFormula();
+        if (formula == null) return false;
+        return formula.startsWith("=");
+    }
+
+    public String getBaseAcFormula() {
+        if (!isBaseArmor()) return null;
+        String formula = getAcFormula();
+        if (formula==null) return null;
+        return formula.substring(1);
+    }
+
+    public String getModifyingAcFormula() {
+        if (isBaseArmor() ) return null;
+        String formula = getAcFormula();
+        if (formula==null) return null;
+        if (formula.startsWith("+")) {
+            return getAcFormula().substring(1);
+        }
+        return formula;
+    }
+
 }

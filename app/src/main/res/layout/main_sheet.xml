@@ -25,6 +25,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/ac_group"
                 style="@style/ac_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

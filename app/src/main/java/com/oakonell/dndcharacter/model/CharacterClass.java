@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.model;
 
 import org.simpleframework.xml.Element;
 
+import java.util.Map;
+
 /**
  * Created by Rob on 10/24/2015.
  */
@@ -50,5 +52,9 @@ public class CharacterClass extends BaseCharacterComponent {
         this.hpRoll = hpRoll;
     }
 
-
+    @Override
+    public void addExtraFormulaVariables(Map<String, Integer> extraVariables) {
+        super.addExtraFormulaVariables(extraVariables);
+        extraVariables.put("classLevel", getLevel());
+    }
 }
