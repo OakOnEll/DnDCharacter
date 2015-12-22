@@ -22,6 +22,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.classes.AClass;
+import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -141,6 +142,9 @@ public class ImportActivity extends AppCompatActivity {
                     break;
                 case "race":
                     modelClass = Race.class;
+                    break;
+                case "item":
+                    modelClass = ItemRow.class;
                     break;
                 default:
                     each.message = "Not imported. Type not handled";
