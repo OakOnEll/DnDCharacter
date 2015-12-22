@@ -63,7 +63,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (traits.getTag() == NON_USER_CHANGE) return;
-                if (character.getPersonalityTrait().trim().equals(string.trim())) return;
+                if (notDifferent(character.getPersonalityTrait(), string)) return;
                 character.setPersonalityTrait(string);
                 character.setTraitSavedChoiceToCustom("traits");
             }
@@ -72,7 +72,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (ideals.getTag() == NON_USER_CHANGE) return;
-                if (character.getIdeals().trim().equals(string.trim())) return;
+                if (notDifferent(character.getIdeals(), string)) return;
                 character.setIdeals(string);
                 character.setTraitSavedChoiceToCustom("ideals");
             }
@@ -81,7 +81,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (bonds.getTag() == NON_USER_CHANGE) return;
-                if (character.getBonds().trim().equals(string.trim())) return;
+                if (notDifferent(character.getBonds(), string)) return;
                 character.setBonds(string);
                 character.setTraitSavedChoiceToCustom("bonds");
             }
@@ -90,7 +90,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (flaws.getTag() == NON_USER_CHANGE) return;
-                if (character.getFlaws().trim().equals(string.trim())) return;
+                if (notDifferent(character.getFlaws(), string)) return;
                 character.setFlaws(string);
                 character.setTraitSavedChoiceToCustom("flaws");
             }
@@ -106,6 +106,14 @@ public class PersonaFragment extends AbstractSheetFragment {
 
         // need to hook a notes text watcher, to update the model
         return rootView;
+    }
+
+    private boolean notDifferent(String string, String newString) {
+        String value = string;
+        if (value == null) value = "";
+        String newValue = newString;
+        if (newValue == null) newValue = "";
+        return value.trim().equals(newString.trim());
     }
 
     @Override
@@ -157,6 +165,10 @@ public class PersonaFragment extends AbstractSheetFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            if (s == null) {
+                textChanged("");
+                return;
+            }
             textChanged(s.toString());
         }
 
