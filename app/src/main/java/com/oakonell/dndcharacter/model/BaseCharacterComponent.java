@@ -155,10 +155,6 @@ public abstract class BaseCharacterComponent {
         return acFormula;
     }
 
-    public boolean applyAC() {
-        return true;
-    }
-
     public boolean isBaseArmor() {
         String formula = getAcFormula();
         if (formula == null) return false;
@@ -168,17 +164,15 @@ public abstract class BaseCharacterComponent {
     public String getBaseAcFormula() {
         if (!isBaseArmor()) return null;
         String formula = getAcFormula();
-        if (formula==null) return null;
+        if (formula == null) return null;
         return formula.substring(1);
     }
 
     public String getModifyingAcFormula() {
-        if (isBaseArmor() ) return null;
+        if (isBaseArmor()) return null;
         String formula = getAcFormula();
-        if (formula==null) return null;
-        if (formula.startsWith("+")) {
-            return getAcFormula().substring(1);
-        }
+        if (formula == null) return null;
+
         return formula;
     }
 

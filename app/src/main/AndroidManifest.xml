@@ -45,6 +45,9 @@
             android:label="@string/app_name" />
 
         <meta-data
+            android:name="AA_MODELS"
+            android:value="com.oakonell.dndcharacter.model.background.Background, com.oakonell.dndcharacter.model.classes.AClass, com.oakonell.dndcharacter.model.item.ItemRow, com.oakonell.dndcharacter.model.race.Race, com.oakonell.dndcharacter.model.CharacterRow" />
+        <meta-data
             android:name="AA_DB_NAME"
             android:value="character.db" />
         <meta-data

@@ -6,6 +6,11 @@ import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
+import com.oakonell.expression.Expression;
+import com.oakonell.expression.ExpressionContext;
+import com.oakonell.expression.ExpressionType;
+import com.oakonell.expression.context.SimpleFunctionContext;
+import com.oakonell.expression.context.SimpleVariableContext;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -21,11 +26,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import expr.Expr;
-import expr.Parser;
-import expr.SyntaxException;
-import expr.Variable;
 
 
 /**
@@ -406,6 +406,7 @@ public class Character {
         }
         ArmorClassWithSource noArmorRow = result.get(max);
 
+
         // go through items
         boolean hasAny = false;
         for (CharacterArmor each : getArmor()) {
@@ -777,34 +778,28 @@ public class Character {
     public int evaluateFormula(String formula, Map<String, Integer> extraContextVariables) {
         // TODO formula might reference stats and such
         if (formula == null || formula.length() == 0) return 0;
-        Parser parser = new Parser();
+
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        if (extraContextVariables != null) {
+            for (Map.Entry<String, Integer> each : extraContextVariables.entrySet()) {
+                variableContext.setNumber(each.getKey(), each.getValue());
+            }
+        }
+
         // enumerate all the stat modifiers and values
         for (StatType each : StatType.values()) {
             StatBlock block = getStatBlock(each);
             int mod = block.getModifier();
-            Variable modVar = Variable.make(each.toString().toLowerCase() + "Mod");
-            modVar.setValue(mod);
-            parser.allow(modVar);
-
-            Variable var = Variable.make(each.toString().toLowerCase() + "Value");
-            var.setValue(block.getValue());
-            parser.allow(var);
+            variableContext.setNumber(each.toString().toLowerCase() + "Mod", mod);
+            variableContext.setNumber(each.toString().toLowerCase() + "Value", block.getValue());
         }
-        Variable var = Variable.make("level");
-        var.setValue(getClasses().size());
-        parser.allow(var);
+        variableContext.setNumber("level", getClasses().size());
 
-        if (extraContextVariables != null) {
-            for (Map.Entry<String, Integer> each : extraContextVariables.entrySet()) {
-                Variable extraVar = Variable.make(each.getKey());
-                extraVar.setValue(each.getValue());
-                parser.allow(extraVar);
-            }
-        }
+
         try {
-            Expr expr = parser.parseString(formula);
-            return (int) expr.value();
-        } catch (SyntaxException e) {
+            Expression<Integer> expression = Expression.parse(formula, ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+            return expression.evaluate();
+        } catch (Exception e) {
             // should be done at formula save time...
             return 10;
         }

@@ -16,10 +16,6 @@ public class CharacterArmor extends CharacterItem {
         return ItemType.ARMOR;
     }
 
-    public boolean applyAC() {
-        return equipped;
-    }
-
     public boolean isEquipped() {
         return equipped;
     }
