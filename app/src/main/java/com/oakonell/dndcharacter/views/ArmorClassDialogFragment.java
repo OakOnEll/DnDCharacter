@@ -23,34 +23,56 @@ import java.util.List;
 /**
  * Created by Rob on 12/21/2015.
  */
-public class ArmorClassDialogFragment extends DialogFragment {
+public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
-    private MainActivity activity;
     private TextView acText;
     private RootAcAdapter rootAcAdapter;
     private ModifyingAcAdapter modifyingAcAdapter;
+    private RecyclerView rootList;
+    private RecyclerView modList;
 
-    public static ArmorClassDialogFragment createDialog(MainActivity activity) {
+    public static ArmorClassDialogFragment createDialog() {
         ArmorClassDialogFragment newMe = new ArmorClassDialogFragment();
-        newMe.activity = activity;
         return newMe;
     }
 
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+    public View onCreateTheView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.armor_class_dialog, container);
 
         acText = (TextView) view.findViewById(R.id.ac);
 
-        RecyclerView rootList = (RecyclerView) view.findViewById(R.id.root_ac_list);
-        rootAcAdapter = new RootAcAdapter(this, activity.character);
+        rootList = (RecyclerView) view.findViewById(R.id.root_ac_list);
+        modList = (RecyclerView) view.findViewById(R.id.mod_ac_list);
+
+
+        return view;
+    }
+
+    @Override
+    protected void onDone() {
+        super.onDone();
+        for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
+            if (!each.isArmor()) continue;
+            ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
+        }
+        for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
+            if (!each.isArmor()) continue;
+            ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
+        }
+    }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
+
+        rootAcAdapter = new RootAcAdapter(this, character);
         rootList.setAdapter(rootAcAdapter);
         rootList.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rootList.setHasFixedSize(false);
 
 
-        RecyclerView modList = (RecyclerView) view.findViewById(R.id.mod_ac_list);
-        modifyingAcAdapter = new ModifyingAcAdapter(this, activity.character);
+        modifyingAcAdapter = new ModifyingAcAdapter(this, character);
         modList.setAdapter(modifyingAcAdapter);
         modList.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         modList.setHasFixedSize(false);
@@ -70,25 +92,6 @@ public class ArmorClassDialogFragment extends DialogFragment {
         });
 
         updateAC();
-
-        Button done = (Button) view.findViewById(R.id.done);
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
-                    if (!each.isArmor()) continue;
-                    ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
-                }
-                for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
-                    if (!each.isArmor()) continue;
-                    ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
-                }
-                ArmorClassDialogFragment.this.activity.updateViews();
-                dismiss();
-            }
-        });
-
-        return view;
     }
 
     private void updateAC() {

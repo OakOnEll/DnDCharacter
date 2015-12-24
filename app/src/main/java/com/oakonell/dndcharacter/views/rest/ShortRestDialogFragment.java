@@ -7,12 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.RandomUtils;
 import com.oakonell.dndcharacter.model.ShortRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
@@ -26,25 +27,45 @@ import java.util.List;
 public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     private final List<HitDieUseRow> diceUses = new ArrayList<>();
     private HitDiceAdapter diceAdapter;
+    private ListView hitDiceListView;
 
-    public static ShortRestDialogFragment createDialog(Character character) {
+    public static ShortRestDialogFragment createDialog() {
         ShortRestDialogFragment newMe = new ShortRestDialogFragment();
-        newMe.setCharacter(character);
         return newMe;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.short_rest_dialog, container);
         configureCommon(view);
 
         getDialog().setTitle("Short Rest");
-        Button done = (Button) view.findViewById(R.id.done);
 
-        ListView hitDiceListView = (ListView) view.findViewById(R.id.hit_dice_list);
+        hitDiceListView = (ListView) view.findViewById(R.id.hit_dice_list);
+
+        return view;
+    }
 
 
+    @Override
+    protected void onDone() {
+        super.onDone();
+        Character character = getCharacter();
+        ShortRestRequest request = new ShortRestRequest();
+        for (HitDieUseRow each : diceUses) {
+            request.addHitDiceUsed(each.dieSides, each.numUses);
+        }
+        request.setHealing(getHealing());
+        character.heal(getHealing());
+
+        updateCommonRequest(request);
+        character.shortRest(request);
+    }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
         if (character.getHP() == character.getMaxHP()) {
             hitDiceListView.setVisibility(View.GONE);
         } else {
@@ -62,26 +83,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         hitDiceListView.setAdapter(diceAdapter);
 
 
-        updateView();
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShortRestRequest request = new ShortRestRequest();
-                for (HitDieUseRow each : diceUses) {
-                    request.addHitDiceUsed(each.dieSides, each.numUses);
-                }
-                request.setHealing(getHealing());
-                character.heal(getHealing());
-
-                updateCommonRequest(request);
-                character.shortRest(request);
-                ((MainActivity) getActivity()).updateViews();
-                dismiss();
-            }
-        });
-        return view;
     }
-
 
     @Override
     protected boolean shouldReset(RefreshType refreshesOn) {
@@ -90,7 +92,9 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
     public void updateView() {
         super.updateView();
-        diceAdapter.notifyDataSetChanged();
+        if (diceAdapter != null) {
+            diceAdapter.notifyDataSetChanged();
+        }
     }
 
     protected int getHealing() {
@@ -106,14 +110,11 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         return healing;
     }
 
-    void promptForHitDieHeal(final HitDieUseRow row) {
-        UseHitDieDialogFragment frag = UseHitDieDialogFragment.createDialog(this, row);
-        frag.show(getFragmentManager(), "use_hit_die");
-    }
 
     private class HitDiceAdapter extends BaseAdapter {
         List<HitDieUseRow> diceCounts;
         private Context context;
+
         public HitDiceAdapter(Context context, List<HitDieUseRow> diceCounts) {
             this.context = context;
             this.diceCounts = diceCounts;
@@ -145,6 +146,14 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                 viewHolder.die = (TextView) view.findViewById(R.id.die);
                 viewHolder.useText = (TextView) view.findViewById(R.id.hit_die_vals_text);
                 viewHolder.useButton = (Button) view.findViewById(R.id.use_die_button);
+
+                viewHolder.use_hit_die_group = (ViewGroup) view.findViewById(R.id.use_hit_die_group);
+                viewHolder.hit_die_val = (EditText) view.findViewById(R.id.hit_die_val);
+                viewHolder.roll = (Button) view.findViewById(R.id.roll);
+                viewHolder.apply = (Button) view.findViewById(R.id.apply);
+                viewHolder.cancel = (Button) view.findViewById(R.id.cancel);
+
+
                 view.setTag(viewHolder);
 
             } else {
@@ -163,18 +172,56 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                 }
             }
             viewHolder.useText.setText(builder.toString());
+            final ViewHolder finalHolder = viewHolder;
             if (row.numDiceRemaining > 0) {
                 viewHolder.useButton.setEnabled(true);
                 viewHolder.useButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        promptForHitDieHeal(row);
+                        finalHolder.use_hit_die_group.setVisibility(View.VISIBLE);
+                        finalHolder.useButton.setEnabled(false);
                     }
                 });
             } else {
                 viewHolder.useButton.setEnabled(false);
                 viewHolder.useButton.setOnClickListener(null);
             }
+
+            viewHolder.cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finalHolder.hit_die_val.setText("");
+                    finalHolder.use_hit_die_group.setVisibility(View.GONE);
+                    finalHolder.useButton.setEnabled(true);
+                }
+            });
+
+            viewHolder.roll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int value = RandomUtils.random(1, row.dieSides);
+                    finalHolder.hit_die_val.setText(value + "");
+                    finalHolder.apply.setEnabled(true);
+                }
+            });
+
+            viewHolder.hit_die_val = (EditText) view.findViewById(R.id.hit_die_val);
+            viewHolder.apply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String valueString = finalHolder.hit_die_val.getText().toString();
+                    if (valueString.trim().length() > 0) {
+                        int value = Integer.parseInt(valueString);
+                        row.rolls.add(value);
+                        row.numDiceRemaining--;
+                        row.numUses++;
+                        notifyDataSetChanged();
+                        updateView();
+                    }
+                    finalHolder.cancel.performClick();
+                }
+            });
+
 
             return view;
 
@@ -185,6 +232,12 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             TextView die;
             TextView useText;
             Button useButton;
+
+            ViewGroup use_hit_die_group;
+            EditText hit_die_val;
+            Button roll;
+            Button apply;
+            Button cancel;
         }
 
     }

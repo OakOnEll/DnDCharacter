@@ -40,7 +40,7 @@ public class MainFragment extends AbstractSheetFragment {
     private TextView initiative;
 
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_sheet, container, false);
 
         superCreateViews(rootView);
@@ -57,7 +57,7 @@ public class MainFragment extends AbstractSheetFragment {
         rootView.findViewById(R.id.ac_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArmorClassDialogFragment dialog = ArmorClassDialogFragment.createDialog((MainActivity) getActivity());
+                ArmorClassDialogFragment dialog = ArmorClassDialogFragment.createDialog();
                 dialog.show(getFragmentManager(), "ac");
             }
         });
@@ -186,7 +186,7 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SkillBlockDialogFragment dialog = SkillBlockDialogFragment.create( getCharacter().getSkillBlock(entry.getKey()));
+                    SkillBlockDialogFragment dialog = SkillBlockDialogFragment.create(getCharacter().getSkillBlock(entry.getKey()));
                     dialog.show(getFragmentManager(), "skill_frag");
                 }
             });

@@ -6,13 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.LongRestRequest;
@@ -31,24 +29,60 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     View fullHealingGroup;
     CheckBox fullHealing;
     private HitDiceRestoreAdapter diceAdapter;
+    private ListView hitDiceListView;
 
-    public static LongRestDialogFragment createDialog(com.oakonell.dndcharacter.model.Character character) {
-        LongRestDialogFragment newMe = new LongRestDialogFragment();
-        newMe.setCharacter(character);
-        return newMe;
+    public static LongRestDialogFragment createDialog() {
+        return new LongRestDialogFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected boolean allowExtraHealing() {
+        return !fullHealing.isChecked();
+    }
+
+    @Override
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.long_rest_dialog, container);
         configureCommon(view);
         getDialog().setTitle("Long Rest");
-        Button done = (Button) view.findViewById(R.id.done);
+
         fullHealingGroup = view.findViewById(R.id.full_heal_group);
         fullHealing = (CheckBox) view.findViewById(R.id.full_healing);
 
-        ListView hitDiceListView = (ListView) view.findViewById(R.id.hit_dice_restore_list);
+        hitDiceListView = (ListView) view.findViewById(R.id.hit_dice_restore_list);
+
+        fullHealing.setChecked(true);
+
+        fullHealing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                conditionallyShowExtraHealing();
+                updateView();
+            }
+        });
+
+        return view;
+    }
+
+
+    @Override
+    protected void onDone() {
+        super.onDone();
+        LongRestRequest request = new LongRestRequest();
+        request.setHealing(getHealing());
+        for (HitDieRestoreRow each : diceUses) {
+            if (each.numDiceToRestore > 0) {
+                request.restoreHitDice(each.dieSides, each.numDiceToRestore);
+            }
+        }
+        updateCommonRequest(request);
+        getCharacter().longRest(request);
+    }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
         List<com.oakonell.dndcharacter.model.Character.HitDieRow> diceCounts = character.getHitDiceCounts();
 
         for (Character.HitDieRow each : diceCounts) {
@@ -69,39 +103,6 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         } else {
             fullHealingGroup.setVisibility(View.VISIBLE);
         }
-
-        extraHealingGroup.setVisibility(View.GONE);
-
-        fullHealing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    extraHealingGroup.setVisibility(View.GONE);
-                } else {
-                    extraHealingGroup.setVisibility(View.VISIBLE);
-                }
-                updateView();
-            }
-        });
-
-        updateView();
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LongRestRequest request = new LongRestRequest();
-                request.setHealing(getHealing());
-                for (HitDieRestoreRow each : diceUses) {
-                    if (each.numDiceToRestore > 0) {
-                        request.restoreHitDice(each.dieSides, each.numDiceToRestore);
-                    }
-                }
-                updateCommonRequest(request);
-                character.longRest(request);
-                ((MainActivity) getActivity()).updateViews();
-                dismiss();
-            }
-        });
-        return view;
     }
 
     @Override
@@ -117,7 +118,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     @Override
     protected int getHealing() {
         if (fullHealing.isChecked()) {
-            return character.getMaxHP() - character.getHP();
+            return getCharacter().getMaxHP() - getCharacter().getHP();
         }
         return getExtraHealing();
     }
@@ -132,6 +133,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     private class HitDiceRestoreAdapter extends BaseAdapter {
         List<HitDieRestoreRow> diceCounts;
         private Context context;
+
         public HitDiceRestoreAdapter(Context context, List<HitDieRestoreRow> diceCounts) {
             this.context = context;
             this.diceCounts = diceCounts;

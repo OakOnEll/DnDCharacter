@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
-import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.expression.Expression;
 import com.oakonell.expression.ExpressionContext;
 import com.oakonell.expression.ExpressionType;
@@ -467,7 +466,7 @@ public class Character {
                     boolean isActive = evaluateBooleanFormula(activeFormula, variableContext);
                     featureAc.setIsEquipped(isActive);
                 }
-                featureAc.isDisabled=true;
+                featureAc.isDisabled = true;
             }
         }
         // go through items
@@ -895,14 +894,14 @@ public class Character {
             Integer resetRequest = request.getFeatureResets().get(each.getName());
             if (resetRequest == null || resetRequest == 0) continue;
 
-            if (each.getFeature().getRefreshesOn() == RefreshType.LONG_REST) {
-                int used = usedFeatures.get(each.getName());
-                used = used - resetRequest;
-                if (used <= 0) {
-                    usedFeatures.remove(each.getName());
-                } else {
-                    usedFeatures.put(each.getFeature().getName(), used);
-                }
+            Integer used = usedFeatures.get(each.getName());
+            if (used == null) continue;
+
+            used = used - resetRequest;
+            if (used <= 0) {
+                usedFeatures.remove(each.getName());
+            } else {
+                usedFeatures.put(each.getFeature().getName(), used);
             }
         }
 
@@ -921,14 +920,6 @@ public class Character {
             hitDieUses.put(die, uses);
         }
 
-        // need to take an input context ?
-        //     which features to refresh, how many hit die to apply, etc
-        List<FeatureInfo> featureInfos = getFeatureInfos();
-        for (FeatureInfo each : featureInfos) {
-            if (each.getFeature().getRefreshesOn() == RefreshType.SHORT_REST) {
-                usedFeatures.put(each.getFeature().getName(), 0);
-            }
-        }
         resetFeatures(request);
     }
 

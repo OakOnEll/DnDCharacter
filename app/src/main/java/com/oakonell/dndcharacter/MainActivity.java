@@ -120,12 +120,12 @@ public class MainActivity extends AbstractBaseActivity {
             return true;
         }
         if (id == R.id.action_long_rest) {
-            LongRestDialogFragment dialog = LongRestDialogFragment.createDialog(character);
+            LongRestDialogFragment dialog = LongRestDialogFragment.createDialog();
             dialog.show(getSupportFragmentManager(), "short_rest_frag");
             return true;
         }
         if (id == R.id.action_short_rest) {
-            ShortRestDialogFragment dialog = ShortRestDialogFragment.createDialog(character);
+            ShortRestDialogFragment dialog = ShortRestDialogFragment.createDialog();
             dialog.show(getSupportFragmentManager(), "short_rest_frag");
 
             return true;

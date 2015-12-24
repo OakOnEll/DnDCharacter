@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.Proficient;
+import com.oakonell.dndcharacter.model.SkillType;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.dndcharacter.views.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.RowWithSourceAdapter;
 
 import java.util.List;
@@ -20,37 +22,41 @@ import java.util.List;
 /**
  * Created by Rob on 11/30/2015.
  */
-public class ToolProficiencyDialogFragment extends DialogFragment {
-    private MainActivity mainActivity;
-    private ProficiencyType proficiencyType;
+public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragment {
 
+    private TextView proficiency_label;
+    private ListView listView;
 
-    public static ToolProficiencyDialogFragment create(MainActivity activity, ProficiencyType type) {
+    public static ToolProficiencyDialogFragment create( ProficiencyType type) {
         ToolProficiencyDialogFragment frag = new ToolProficiencyDialogFragment();
-        frag.setMainActivity(activity);
-        frag.setProficiencyType(type);
+        int typeIndex = type.ordinal();
+        Bundle args = new Bundle();
+        args.putInt("type", typeIndex);
+        frag.setArguments(args);
+
         return frag;
     }
 
-    private void setMainActivity(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-    }
-
-    private void setProficiencyType(ProficiencyType proficiencyType) {
-        this.proficiencyType = proficiencyType;
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tool_proficiency_dialog, container);
 
-        TextView proficiency_label = (TextView) view.findViewById(R.id.proficiency_label);
+        proficiency_label = (TextView) view.findViewById(R.id.proficiency_label);
+
+        listView = (ListView) view.findViewById(R.id.list);
+
+        return view;
+    }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
+        int typeIndex = getArguments().getInt("type");
+        final ProficiencyType proficiencyType = ProficiencyType.values()[typeIndex];
+
         proficiency_label.setText(proficiencyType.toString());
-
-        Button done = (Button) view.findViewById(R.id.done);
-        ListView listView = (ListView) view.findViewById(R.id.list);
-
         RowWithSourceAdapter.ListRetriever<Character.ToolProficiencyWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ToolProficiencyWithSource>() {
             @Override
             public List<Character.ToolProficiencyWithSource> getList(Character character) {
@@ -61,19 +67,11 @@ public class ToolProficiencyDialogFragment extends DialogFragment {
         ToolProficiencySourceAdapter adapter = new ToolProficiencySourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
-        return view;
     }
 
     public static class ToolProficiencySourceAdapter extends RowWithSourceAdapter<Character.ToolProficiencyWithSource> {
         ToolProficiencySourceAdapter(ToolProficiencyDialogFragment fragment, ListRetriever<Character.ToolProficiencyWithSource> listRetriever) {
-            super(fragment.mainActivity, listRetriever);
+            super(fragment.getMainActivity(), listRetriever);
         }
 
         @Override

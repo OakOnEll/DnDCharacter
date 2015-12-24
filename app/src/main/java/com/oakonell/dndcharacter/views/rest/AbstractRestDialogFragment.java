@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.views.rest;
 
 import android.content.Context;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,6 +18,7 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.FeatureInfo;
 import com.oakonell.dndcharacter.model.FeatureResetInfo;
 import com.oakonell.dndcharacter.model.components.RefreshType;
+import com.oakonell.dndcharacter.views.AbstractCharacterDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,10 @@ import java.util.List;
 /**
  * Created by Rob on 11/8/2015.
  */
-public abstract class AbstractRestDialogFragment extends DialogFragment {
-    protected com.oakonell.dndcharacter.model.Character character;
-    protected View extraHealingGroup;
-    private FeatureResetsAdapter featureResetAdapter;
-    private List<FeatureResetInfo> featureResets;
+public abstract class AbstractRestDialogFragment extends AbstractCharacterDialogFragment {
+
+    private View extraHealingGroup;
+
     private TextView extraHealingtextView;
     private TextView finalHp;
     private TextView startHp;
@@ -38,52 +37,35 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
     private View featureResetsGroup;
     private View noHealingGroup;
 
-    public void setCharacter(Character character) {
-        this.character = character;
+    private FeatureResetsAdapter featureResetAdapter;
+    private List<FeatureResetInfo> featureResets;
+    private ListView featureListView;
+
+    protected boolean allowExtraHealing() {
+        return getCharacter().getHP() != getCharacter().getMaxHP();
     }
 
-    protected void configureCommon(View view) {
-        featureResetsGroup = view.findViewById(R.id.feature_resets);
-        startHp = (TextView) view.findViewById(R.id.start_hp);
-        finalHp = (TextView) view.findViewById(R.id.final_hp);
-        finalHpGroup = (View) view.findViewById(R.id.final_hp_group);
-        extraHealingGroup = (View) view.findViewById(R.id.extra_heal_group);
-        extraHealingtextView = (TextView) view.findViewById(R.id.extra_healing);
-        noHealingGroup = (View) view.findViewById(R.id.no_healing_group);
+    protected void conditionallyShowExtraHealing() {
+        extraHealingGroup.setVisibility(allowExtraHealing() ? View.VISIBLE : View.GONE);
+    }
 
-        ListView featureListView = (ListView) view.findViewById(R.id.feature_list);
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
 
+        conditionallyShowExtraHealing();
 
         if (character.getHP() == character.getMaxHP()) {
             noHealingGroup.setVisibility(View.VISIBLE);
 
             finalHpGroup.setVisibility(View.GONE);
-            extraHealingGroup.setVisibility(View.GONE);
         } else {
             noHealingGroup.setVisibility(View.GONE);
 
             finalHpGroup.setVisibility(View.VISIBLE);
-            extraHealingGroup.setVisibility(View.VISIBLE);
         }
 
-        extraHealingtextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                updateView();
-            }
-        });
         startHp.setText(character.getHP() + " / " + character.getMaxHP());
-
 
         List<FeatureInfo> features = character.getFeatureInfos();
         featureResets = new ArrayList<>();
@@ -108,8 +90,39 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
         }
         featureResetAdapter = new FeatureResetsAdapter(getActivity(), featureResets);
         featureListView.setAdapter(featureResetAdapter);
+        updateView();
+    }
 
-        //featureResetsGroup.setVisibility(View.GONE);
+    protected void configureCommon(View view) {
+        featureResetsGroup = view.findViewById(R.id.feature_resets);
+        startHp = (TextView) view.findViewById(R.id.start_hp);
+        finalHp = (TextView) view.findViewById(R.id.final_hp);
+        finalHpGroup = (View) view.findViewById(R.id.final_hp_group);
+        extraHealingGroup = (View) view.findViewById(R.id.extra_heal_group);
+        extraHealingtextView = (TextView) view.findViewById(R.id.extra_healing);
+        noHealingGroup = (View) view.findViewById(R.id.no_healing_group);
+
+        featureListView = (ListView) view.findViewById(R.id.feature_list);
+
+
+        extraHealingtextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateView();
+            }
+        });
+
+
     }
 
     protected abstract boolean shouldReset(RefreshType refreshesOn);
@@ -123,6 +136,7 @@ public abstract class AbstractRestDialogFragment extends DialogFragment {
     }
 
     public void updateView() {
+        Character character = getCharacter();
         int hp = character.getHP();
         int healing = getHealing();
         hp = Math.min(hp + healing, character.getMaxHP());

@@ -67,7 +67,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private RecyclerView itemsView;
 
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.equipment_sheet, container, false);
 
         superCreateViews(rootView);
@@ -363,21 +363,21 @@ public class EquipmentFragment extends AbstractSheetFragment {
         armor_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToolProficiencyDialogFragment dialog = ToolProficiencyDialogFragment.create((MainActivity) getActivity(), ProficiencyType.ARMOR);
+                ToolProficiencyDialogFragment dialog = ToolProficiencyDialogFragment.create(ProficiencyType.ARMOR);
                 dialog.show(getFragmentManager(), "tool_frag");
             }
         });
         weapon_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToolProficiencyDialogFragment dialog = ToolProficiencyDialogFragment.create((MainActivity) getActivity(), ProficiencyType.WEAPON);
+                ToolProficiencyDialogFragment dialog = ToolProficiencyDialogFragment.create(ProficiencyType.WEAPON);
                 dialog.show(getFragmentManager(), "tool_frag");
             }
         });
         tools_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToolProficiencyDialogFragment dialog = ToolProficiencyDialogFragment.create((MainActivity) getActivity(), ProficiencyType.TOOL);
+                ToolProficiencyDialogFragment dialog = ToolProficiencyDialogFragment.create(ProficiencyType.TOOL);
                 dialog.show(getFragmentManager(), "tool_frag");
             }
         });
@@ -455,7 +455,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WeaponAttackDialogFragment fragment = WeaponAttackDialogFragment.create( item);
+                    WeaponAttackDialogFragment fragment = WeaponAttackDialogFragment.create(item);
                     fragment.show(context.getFragmentManager(), "weapon_dialog");
                 }
             });
