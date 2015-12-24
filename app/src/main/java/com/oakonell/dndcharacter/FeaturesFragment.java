@@ -29,12 +29,12 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
     private FeatureAdapter adapter;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.feature_sheet, container, false);
 
         superCreateViews(rootView);
 
-        adapter = new FeatureAdapter((MainActivity) this.getActivity(), character);
+        adapter = new FeatureAdapter((MainActivity) this.getActivity(), getCharacter());
         RecyclerView gridView = (RecyclerView) rootView.findViewById(R.id.features);
         gridView.setAdapter(adapter);
         // decide on 1 or 2 columns based on screen size
@@ -53,11 +53,11 @@ public class FeaturesFragment extends AbstractSheetFragment {
         adapter.notifyDataSetChanged();
     }
 
-    public void setCharacter(Character character) {
-        super.setCharacter(character);
-        if (adapter != null) {
-            adapter.setCharacter(character);
-        }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
+
     }
 
 

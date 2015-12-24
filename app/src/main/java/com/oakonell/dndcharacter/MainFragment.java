@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.SkillType;
 import com.oakonell.dndcharacter.model.StatType;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
@@ -38,7 +39,7 @@ public class MainFragment extends AbstractSheetFragment {
     TextView proficiency;
     private TextView initiative;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_sheet, container, false);
 
@@ -66,9 +67,7 @@ public class MainFragment extends AbstractSheetFragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = MainFragment.this.getChildFragmentManager();
-                HitPointDiaogFragment hpFragment = new HitPointDiaogFragment();
-                hpFragment.setCharacter(character);
-                hpFragment.setFragment(MainFragment.this);
+                HitPointDiaogFragment hpFragment = HitPointDiaogFragment.createDialog();
                 hpFragment.show(fm, "fragment_hp");
             }
         };
@@ -117,7 +116,9 @@ public class MainFragment extends AbstractSheetFragment {
 
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
+        Character character = getCharacter();
         if (character == null) {
+            // TODO shouldn't be possible now...
             ac.setText("");
             initiative.setText("");
             hp.setText("0 / 0");
@@ -161,7 +162,7 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    StatBlockDialogFragment dialog = StatBlockDialogFragment.create((MainActivity) getActivity(), character.getStatBlock(entry.getKey()));
+                    StatBlockDialogFragment dialog = StatBlockDialogFragment.create((MainActivity) getActivity(), getCharacter().getStatBlock(entry.getKey()));
                     dialog.show(getFragmentManager(), "stat_frag");
                 }
             });
@@ -173,7 +174,7 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SaveThrowBlockDialogFragment dialog = SaveThrowBlockDialogFragment.create((MainActivity) getActivity(), character.getStatBlock(entry.getKey()));
+                    SaveThrowBlockDialogFragment dialog = SaveThrowBlockDialogFragment.create((MainActivity) getActivity(), getCharacter().getStatBlock(entry.getKey()));
                     dialog.show(getFragmentManager(), "save_throw_frag");
                 }
             });
@@ -185,7 +186,7 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SkillBlockDialogFragment dialog = SkillBlockDialogFragment.create((MainActivity) getActivity(), character.getSkillBlock(entry.getKey()));
+                    SkillBlockDialogFragment dialog = SkillBlockDialogFragment.create((MainActivity) getActivity(), getCharacter().getSkillBlock(entry.getKey()));
                     dialog.show(getFragmentManager(), "skill_frag");
                 }
             });
@@ -194,4 +195,9 @@ public class MainFragment extends AbstractSheetFragment {
 
     }
 
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
+
+    }
 }

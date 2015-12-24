@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.OnCharacterLoaded;
 import com.oakonell.dndcharacter.views.classes.AddClassLevelDialogFragment;
 import com.oakonell.dndcharacter.views.rest.LongRestDialogFragment;
 import com.oakonell.dndcharacter.views.rest.ShortRestDialogFragment;
@@ -31,7 +32,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class MainActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
@@ -140,11 +144,13 @@ public class MainActivity extends AbstractBaseActivity {
     }
 
     public void updateViews() {
-        if (mainFragment != null) mainFragment.updateViews();
-        if (featuresFragment != null) featuresFragment.updateViews();
-        if (notesFragment != null) notesFragment.updateViews();
-        if (personaFragment != null) personaFragment.updateViews();
-        if (equipmentFragment != null) equipmentFragment.updateViews();
+        if (mainFragment != null && mainFragment.isVisible()) mainFragment.updateViews();
+        if (featuresFragment != null && featuresFragment.isVisible())
+            featuresFragment.updateViews();
+        if (notesFragment != null && notesFragment.isVisible()) notesFragment.updateViews();
+        if (personaFragment != null && personaFragment.isVisible()) personaFragment.updateViews();
+        if (equipmentFragment != null && equipmentFragment.isVisible())
+            equipmentFragment.updateViews();
     }
 
     public void saveCharacter() {
@@ -234,6 +240,11 @@ public class MainActivity extends AbstractBaseActivity {
                 }
             }
         }
+        for (Iterator<OnCharacterLoaded> iter = onCharacterLoadListeners.iterator(); iter.hasNext(); ) {
+            OnCharacterLoaded listener = iter.next();
+            listener.onCharacterLoaded(character);
+            iter.remove();
+        }
     }
 
     /**
@@ -262,12 +273,20 @@ public class MainActivity extends AbstractBaseActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+                                    Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            superCreateViews(rootView);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
+        }
+
+        @Override
+        public void onCharacterLoaded(Character character) {
+            // nothing
+            super.onCharacterLoaded(character);
+
         }
     }
 
@@ -285,28 +304,23 @@ public class MainActivity extends AbstractBaseActivity {
         public Fragment getItem(int position) {
             if (position == 0) {
                 mainFragment = new MainFragment();
-                mainFragment.setCharacter(character);
                 return mainFragment;
             }
             if (position == 1) {
                 featuresFragment = new FeaturesFragment();
-                featuresFragment.setCharacter(character);
                 return featuresFragment;
             }
             if (position == 2) {
                 equipmentFragment = new EquipmentFragment();
-                equipmentFragment.setCharacter(character);
                 return equipmentFragment;
             }
             if (position == 4) {
                 personaFragment = new PersonaFragment();
-                personaFragment.setCharacter(character);
                 return personaFragment;
 
             }
             if (position == 5) {
                 notesFragment = new NotesFragment();
-                notesFragment.setCharacter(character);
                 return notesFragment;
 
             }
@@ -340,4 +354,10 @@ public class MainActivity extends AbstractBaseActivity {
         }
     }
 
+    private List<OnCharacterLoaded> onCharacterLoadListeners = new ArrayList<>();
+
+    public void addCharacterLoadLister(OnCharacterLoaded onCharacterLoad) {
+        if (character != null) onCharacterLoad.onCharacterLoaded(character);
+        onCharacterLoadListeners.add(onCharacterLoad);
+    }
 }

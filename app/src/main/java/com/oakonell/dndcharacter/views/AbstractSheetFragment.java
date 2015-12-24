@@ -1,8 +1,10 @@
 package com.oakonell.dndcharacter.views;
 
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oakonell.dndcharacter.AbstractBaseActivity;
+import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.views.background.ApplyBackgroundDialogFragment;
@@ -20,8 +23,7 @@ import com.oakonell.dndcharacter.views.race.ApplyRaceDialogFragment;
 /**
  * Created by Rob on 10/27/2015.
  */
-public class AbstractSheetFragment extends Fragment {
-    protected Character character;
+public abstract class AbstractSheetFragment extends Fragment implements OnCharacterLoaded {
     EditText character_name;
     TextView classes;
     TextView race;
@@ -30,17 +32,23 @@ public class AbstractSheetFragment extends Fragment {
     Button changeName;
     Button cancelName;
 
-    static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
+    public void updateViews() {
+        updateViews(getView());
     }
 
-    public void updateViews() {
-        updateViews((ViewGroup) getView());
+    protected MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
+    }
+
+    protected Character getCharacter() {
+        return getMainActivity().character;
     }
 
     protected void updateViews(View rootView) {
+        Character character = getCharacter();
         if (character == null) {
+            Toast.makeText(getActivity(), "Update views with a null character!?", Toast.LENGTH_SHORT).show();
+
             character_name.setText("");
             character_name_read_only.setText("");
 
@@ -59,12 +67,14 @@ public class AbstractSheetFragment extends Fragment {
 
     }
 
-    public void setCharacter(com.oakonell.dndcharacter.model.Character character) {
-        this.character = character;
-        if (getView() != null) {
-            updateViews(getView());
-        }
+    public final View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                   Bundle savedInstanceState) {
+        View view = onCreateTheView(inflater, container, savedInstanceState);
+        ((MainActivity) getActivity()).addCharacterLoadLister(this);
+        return view;
     }
+
+    protected abstract View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     protected void superCreateViews(View rootView) {
         character_name_read_only = (TextView) rootView.findViewById(R.id.character_name_read);
@@ -75,70 +85,6 @@ public class AbstractSheetFragment extends Fragment {
         changeName = (Button) rootView.findViewById(R.id.change_name);
         cancelName = (Button) rootView.findViewById(R.id.cancel);
 
-        character_name_read_only.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                allowNameEdit(true);
-                character_name.requestFocus();
-            }
-        });
-
-        changeName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                character.setName(character_name.getText().toString());
-                allowNameEdit(false);
-                updateViews();
-                // a name change should update recent characters
-                ((AbstractBaseActivity) getActivity()).populateRecentCharacters();
-            }
-        });
-        cancelName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                character_name.setText(character.getName());
-                allowNameEdit(false);
-                updateViews();
-            }
-        });
-
-        background.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog(character, null);
-                    dialog.show(getFragmentManager(), "background");
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    throw new RuntimeException("Unable to build ui", e);
-                }
-            }
-        });
-        race.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog(character, null);
-                    dialog.show(getFragmentManager(), "race");
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    throw new RuntimeException("Unable to build ui", e);
-                }
-
-            }
-        });
-        classes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    CharacterLevelsDialogFragment dialog = CharacterLevelsDialogFragment.createDialog(character);
-                    dialog.show(getFragmentManager(), "classes");
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    throw new RuntimeException("Unable to build ui", e);
-                }
-            }
-        });
     }
 
     private void allowNameEdit(boolean b) {
@@ -152,6 +98,81 @@ public class AbstractSheetFragment extends Fragment {
         character_name.selectAll();
 
         character_name_read_only.setVisibility(readOnlyVis);
+    }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+
+        character_name_read_only.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allowNameEdit(true);
+                character_name.requestFocus();
+            }
+        });
+
+        changeName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCharacter().setName(character_name.getText().toString());
+                allowNameEdit(false);
+                updateViews();
+                // a name change should update recent characters
+                ((AbstractBaseActivity) getActivity()).populateRecentCharacters();
+            }
+        });
+        cancelName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                character_name.setText(getCharacter().getName());
+                allowNameEdit(false);
+                updateViews();
+            }
+        });
+
+        background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog(getCharacter(), null);
+                    dialog.show(getFragmentManager(), "background");
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException("Unable to build ui", e);
+                }
+            }
+        });
+        race.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog(getCharacter(), null);
+                    dialog.show(getFragmentManager(), "race");
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException("Unable to build ui", e);
+                }
+
+            }
+        });
+        classes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    CharacterLevelsDialogFragment dialog = CharacterLevelsDialogFragment.createDialog(getCharacter());
+                    dialog.show(getFragmentManager(), "classes");
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException("Unable to build ui", e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateViews();
     }
 
 }

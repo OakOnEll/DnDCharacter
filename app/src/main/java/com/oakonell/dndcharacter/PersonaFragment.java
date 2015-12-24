@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.*;
+import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 
 /**
@@ -34,7 +36,7 @@ public class PersonaFragment extends AbstractSheetFragment {
     TextView languages;
     ViewGroup languageGroup;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.persona_sheet, container, false);
 
@@ -58,6 +60,7 @@ public class PersonaFragment extends AbstractSheetFragment {
         flaws = (EditText) rootView.findViewById(R.id.flaws);
         backstory = (EditText) rootView.findViewById(R.id.backstory);
 
+        final Character character = getCharacter();
 
         traits.addTextChangedListener(new AfterChangedWatcher() {
             @Override
@@ -119,6 +122,7 @@ public class PersonaFragment extends AbstractSheetFragment {
     @Override
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
+        Character character = getCharacter();
         backstory.setText(character.getBackstory());
 
         final String specialtyString = character.getSpecialty();
@@ -139,7 +143,7 @@ public class PersonaFragment extends AbstractSheetFragment {
         languageGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LanguagesDialogFragment fragment = LanguagesDialogFragment.create((MainActivity) getActivity());
+                LanguagesDialogFragment fragment = LanguagesDialogFragment.create();
                 fragment.show(getFragmentManager(), "language_dialog");
             }
         });
@@ -149,6 +153,12 @@ public class PersonaFragment extends AbstractSheetFragment {
         editText.setTag(NON_USER_CHANGE);
         editText.setText(value);
         editText.setTag(null);
+    }
+
+    @Override
+    public void onCharacterLoaded(com.oakonell.dndcharacter.model.Character character) {
+        super.onCharacterLoaded(character);
+
     }
 
     private static abstract class AfterChangedWatcher implements TextWatcher {

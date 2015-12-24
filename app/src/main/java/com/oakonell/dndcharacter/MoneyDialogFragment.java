@@ -1,90 +1,105 @@
 package com.oakonell.dndcharacter;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.views.AbstractCharacterDialogFragment;
 
 /**
  * Created by Rob on 12/2/2015.
  */
-public class MoneyDialogFragment extends DialogFragment {
-    private MainActivity mainActivity;
-    private CoinType focusOn;
+public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
 
-    public static MoneyDialogFragment createFragment(MainActivity activity, CoinType focus) {
+    private TextView copperResult;
+    private TextView silverResult;
+    private TextView electrumResult;
+    private TextView goldResult;
+    private TextView platinumResult;
+
+    private TextView copperCurrent;
+    private TextView silverCurrent;
+    private TextView electrumCurrent;
+    private TextView goldCurrent;
+    private TextView platinumCurrent;
+
+    private EditText copperPieces;
+    private EditText silverPieces;
+    private EditText electrumPieces;
+    private EditText goldPieces;
+    private EditText platinumPieces;
+
+    public static MoneyDialogFragment createFragment(CoinType focus) {
         MoneyDialogFragment newMe = new MoneyDialogFragment();
-        newMe.setMainActivity(activity);
-        newMe.setFocusOn(focus);
+        Bundle args = new Bundle();
+        args.putInt("focus", focus.ordinal());
+        newMe.setArguments(args);
+
         return newMe;
     }
 
-    public CoinType getFocusOn() {
-        return focusOn;
-    }
 
-    public void setFocusOn(CoinType focusOn) {
-        this.focusOn = focusOn;
-    }
+    @Override
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+                                Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.money_dialog, container);
 
-    private void setMainActivity(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+        copperPieces = (EditText) rootView.findViewById(R.id.copper_pieces);
+        silverPieces = (EditText) rootView.findViewById(R.id.silver_pieces);
+        electrumPieces = (EditText) rootView.findViewById(R.id.electrum_pieces);
+        goldPieces = (EditText) rootView.findViewById(R.id.gold_pieces);
+        platinumPieces = (EditText) rootView.findViewById(R.id.platinum_pieces);
+
+        copperCurrent = (TextView) rootView.findViewById(R.id.copper_current);
+        silverCurrent = (TextView) rootView.findViewById(R.id.silver_current);
+        electrumCurrent = (TextView) rootView.findViewById(R.id.electrum_current);
+        goldCurrent = (TextView) rootView.findViewById(R.id.gold_current);
+        platinumCurrent = (TextView) rootView.findViewById(R.id.platinum_current);
+
+
+        copperResult = (TextView) rootView.findViewById(R.id.copper_result);
+        silverResult = (TextView) rootView.findViewById(R.id.silver_result);
+        electrumResult = (TextView) rootView.findViewById(R.id.electrum_result);
+        goldResult = (TextView) rootView.findViewById(R.id.gold_result);
+        platinumResult = (TextView) rootView.findViewById(R.id.platinum_result);
+
+        EditText focusedInput = null;
+        int ordinal = getArguments().getInt("focus", -1);
+        if (ordinal >= 0) {
+            // consume the focus
+            getArguments().putInt("focus", -1);
+            CoinType focus = CoinType.values()[ordinal];
+            switch (focus) {
+                case COPPER:
+                    focusedInput = copperPieces;
+                    break;
+                case SILVER:
+                    focusedInput = silverPieces;
+                    break;
+                case ELECTRUM:
+                    focusedInput = electrumPieces;
+                    break;
+                case GOLD:
+                    focusedInput = goldPieces;
+                    break;
+                case PLATINUM:
+                    focusedInput = platinumPieces;
+                    break;
+            }
+            focusedInput.requestFocus();
+        }
+
+        return rootView;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.money_dialog, container);
-
-        final EditText copperPieces = (EditText) rootView.findViewById(R.id.copper_pieces);
-        final EditText silverPieces = (EditText) rootView.findViewById(R.id.silver_pieces);
-        final EditText electrumPieces = (EditText) rootView.findViewById(R.id.electrum_pieces);
-        final EditText goldPieces = (EditText) rootView.findViewById(R.id.gold_pieces);
-        final EditText platinumPieces = (EditText) rootView.findViewById(R.id.platinum_pieces);
-
-        TextView copperCurrent = (TextView) rootView.findViewById(R.id.copper_current);
-        TextView silverCurrent = (TextView) rootView.findViewById(R.id.silver_current);
-        TextView electrumCurrent = (TextView) rootView.findViewById(R.id.electrum_current);
-        TextView goldCurrent = (TextView) rootView.findViewById(R.id.gold_current);
-        TextView platinumCurrent = (TextView) rootView.findViewById(R.id.platinum_current);
-
-
-        final TextView copperResult = (TextView) rootView.findViewById(R.id.copper_result);
-        final TextView silverResult = (TextView) rootView.findViewById(R.id.silver_result);
-        final TextView electrumResult = (TextView) rootView.findViewById(R.id.electrum_result);
-        final TextView goldResult = (TextView) rootView.findViewById(R.id.gold_result);
-        final TextView platinumResult = (TextView) rootView.findViewById(R.id.platinum_result);
-
-
-        EditText focusedInput = null;
-        switch (getFocusOn()) {
-            case COPPER:
-                focusedInput = copperPieces;
-                break;
-            case SILVER:
-                focusedInput = silverPieces;
-                break;
-            case ELECTRUM:
-                focusedInput = electrumPieces;
-                break;
-            case GOLD:
-                focusedInput = goldPieces;
-                break;
-            case PLATINUM:
-                focusedInput = platinumPieces;
-                break;
-        }
-        focusedInput.requestFocus();
-
-        final Character character = mainActivity.character;
+    public void onCharacterLoaded(Character character) {
         copperCurrent.setText(character.getCopper() + "");
         silverCurrent.setText(character.getSilver() + "");
         electrumCurrent.setText(character.getElectrum() + "");
@@ -102,22 +117,18 @@ public class MoneyDialogFragment extends DialogFragment {
         electrumPieces.addTextChangedListener(new CoinInputWatcher(character.getElectrum(), electrumPieces, electrumResult));
         goldPieces.addTextChangedListener(new CoinInputWatcher(character.getGold(), goldPieces, goldResult));
         platinumPieces.addTextChangedListener(new CoinInputWatcher(character.getPlatinum(), platinumPieces, platinumResult));
+    }
 
-        Button done = (Button) rootView.findViewById(R.id.done);
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                character.setCopper(getResultCoins(copperResult));
-                character.setSilver(getResultCoins(silverResult));
-                character.setElectrum(getResultCoins(electrumResult));
-                character.setGold(getResultCoins(goldResult));
-                character.setPlatinum(getResultCoins(platinumResult));
-                dismiss();
-                mainActivity.updateViews();
-            }
-        });
+    @Override
+    protected void onDone() {
+        Character character = getCharacter();
+        character.setCopper(getResultCoins(copperResult));
+        character.setSilver(getResultCoins(silverResult));
+        character.setElectrum(getResultCoins(electrumResult));
+        character.setGold(getResultCoins(goldResult));
+        character.setPlatinum(getResultCoins(platinumResult));
 
-        return rootView;
+        super.onDone();
     }
 
     private int getResultCoins(TextView result) {

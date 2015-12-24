@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.views;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
-import com.oakonell.dndcharacter.MainFragment;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.DamageType;
@@ -24,7 +22,7 @@ import java.util.List;
 /**
  * Created by Rob on 10/28/2015.
  */
-public class HitPointDiaogFragment extends DialogFragment {
+public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     EditText hpText;
     RadioButton damage;
     RadioButton heal;
@@ -32,15 +30,17 @@ public class HitPointDiaogFragment extends DialogFragment {
     Spinner type;
     Button add;
     Button subtract;
-    Button done;
-    Button cancel;
-    MainFragment fragment;
 
-    private Character character;
+    Button cancel;
+
+    public static HitPointDiaogFragment createDialog() {
+        return new HitPointDiaogFragment();
+    }
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hit_point_dialog, container);
         hpText = (EditText) view.findViewById(R.id.hp);
         getDialog().setTitle("Hit Points");
@@ -52,9 +52,6 @@ public class HitPointDiaogFragment extends DialogFragment {
 
         add = (Button) view.findViewById(R.id.add);
         subtract = (Button) view.findViewById(R.id.subtract);
-
-        done = (Button) view.findViewById(R.id.ok);
-        done.setEnabled(false);
 
         cancel = (Button) view.findViewById(R.id.cancel);
 
@@ -87,7 +84,7 @@ public class HitPointDiaogFragment extends DialogFragment {
                     heal.setChecked((false));
                     type.setEnabled(false);
                 }
-                enableDone();
+                conditionallyEnableDone();
             }
 
         };
@@ -110,20 +107,6 @@ public class HitPointDiaogFragment extends DialogFragment {
             }
         });
 
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (damage.isChecked()) {
-                    character.damage(getHp());
-                } else if (heal.isChecked()) {
-                    character.heal(getHp());
-                } else if (tempHP.isChecked()) {
-                    character.addTempHp(getHp());
-                }
-                fragment.updateViews();
-                getDialog().dismiss();
-            }
-        });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,11 +128,24 @@ public class HitPointDiaogFragment extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                enableDone();
+                conditionallyEnableDone();
             }
         });
 
         return view;
+    }
+
+    @Override
+    protected void onDone() {
+        super.onDone();
+        Character character = getCharacter();
+        if (damage.isChecked()) {
+            character.damage(getHp());
+        } else if (heal.isChecked()) {
+            character.heal(getHp());
+        } else if (tempHP.isChecked()) {
+            character.addTempHp(getHp());
+        }
     }
 
     private void addHp(int amount) {
@@ -159,7 +155,7 @@ public class HitPointDiaogFragment extends DialogFragment {
         hpString = hp + "";
         hpText.setText(hpString);
         hpText.setSelection(hpString.length());
-        enableDone();
+        conditionallyEnableDone();
     }
 
     private int getHp() {
@@ -171,20 +167,10 @@ public class HitPointDiaogFragment extends DialogFragment {
         return hp;
     }
 
-    private void enableDone() {
+    protected void conditionallyEnableDone() {
         boolean canApply = (damage.isChecked() || heal.isChecked() || tempHP.isChecked()) && getHp() > 0;
-        done.setEnabled(canApply);
+        enableDone(canApply);
     }
 
-    public Character getCharacter() {
-        return character;
-    }
 
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
-
-    public void setFragment(MainFragment fragment) {
-        this.fragment = fragment;
-    }
 }

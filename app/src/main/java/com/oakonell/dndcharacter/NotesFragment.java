@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 
 import org.simpleframework.xml.Serializer;
@@ -22,7 +23,7 @@ public class NotesFragment extends AbstractSheetFragment {
     Button toXml;
     EditText notes;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.notes_sheet, container, false);
 
@@ -36,7 +37,7 @@ public class NotesFragment extends AbstractSheetFragment {
                 Serializer serializer = new Persister();
                 OutputStream out = new ByteArrayOutputStream();
                 try {
-                    serializer.write(character, out);
+                    serializer.write(getCharacter(), out);
                     out.close();
                 } catch (Exception e) {
                     notes.setText("Error converting to xml\n" + e.toString());
@@ -56,12 +57,17 @@ public class NotesFragment extends AbstractSheetFragment {
     @Override
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
-        if (character == null) {
+        if (getCharacter() == null) {
             notes.setText("");
         } else {
-            notes.setText(character.getNotes());
+            notes.setText(getCharacter().getNotes());
         }
     }
 
 
+    @Override
+    public void onCharacterLoaded(com.oakonell.dndcharacter.model.Character character) {
+        super.onCharacterLoaded(character);
+
+    }
 }

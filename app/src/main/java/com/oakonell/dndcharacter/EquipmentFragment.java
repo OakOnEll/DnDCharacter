@@ -59,10 +59,16 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private ArmorAdapter armorAdapter;
     private WeaponsAdapter weaponsAdapter;
     private Map<CharacterItem, Long> beingDeleted = new HashMap<CharacterItem, Long>();
+    private View rootView;
+    private RecyclerView armorView;
+    private ViewGroup armorItemsView;
+    private RecyclerView weaponsView;
+    private ViewGroup weaponItemsView;
+    private RecyclerView itemsView;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.equipment_sheet, container, false);
+        rootView = inflater.inflate(R.layout.equipment_sheet, container, false);
 
         superCreateViews(rootView);
 
@@ -90,54 +96,46 @@ public class EquipmentFragment extends AbstractSheetFragment {
         copperGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment((MainActivity) getActivity(), MoneyDialogFragment.CoinType.COPPER);
+                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment(MoneyDialogFragment.CoinType.COPPER);
                 dialog.show(getFragmentManager(), "money_dialog");
             }
         });
         silverGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment((MainActivity) getActivity(), MoneyDialogFragment.CoinType.SILVER);
+                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment(MoneyDialogFragment.CoinType.SILVER);
                 dialog.show(getFragmentManager(), "money_dialog");
             }
         });
         electrumGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment((MainActivity) getActivity(), MoneyDialogFragment.CoinType.ELECTRUM);
+                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment(MoneyDialogFragment.CoinType.ELECTRUM);
                 dialog.show(getFragmentManager(), "money_dialog");
             }
         });
         goldGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment((MainActivity) getActivity(), MoneyDialogFragment.CoinType.GOLD);
+                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment(MoneyDialogFragment.CoinType.GOLD);
                 dialog.show(getFragmentManager(), "money_dialog");
             }
         });
         platinumGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment((MainActivity) getActivity(), MoneyDialogFragment.CoinType.PLATINUM);
+                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment(MoneyDialogFragment.CoinType.PLATINUM);
                 dialog.show(getFragmentManager(), "money_dialog");
             }
         });
 
 
-// armor
-        RecyclerView armorView = (RecyclerView) rootView.findViewById(R.id.armor_list);
-        armorAdapter = new ArmorAdapter(this, character);
-        armorView.setAdapter(armorAdapter);
-        armorView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        armorView.setHasFixedSize(false);
+        armorView = (RecyclerView) rootView.findViewById(R.id.armor_list);
+        armorItemsView = (ViewGroup) rootView.findViewById(R.id.armor_items_group);
+        weaponsView = (RecyclerView) rootView.findViewById(R.id.weapons_list);
+        weaponItemsView = (ViewGroup) rootView.findViewById(R.id.weapons_items_group);
+        itemsView = (RecyclerView) rootView.findViewById(R.id.items_list);
 
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-        armorView.addItemDecoration(itemDecoration);
-
-        ViewGroup armorItemsView = (ViewGroup) rootView.findViewById(R.id.armor_items_group);
-        armorItemsView.findViewById(R.id.equip).setVisibility(View.INVISIBLE);
-        armorItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
-//        ((TextView)armorItemsView.findViewById(R.id.ac)).setText("AC/Mod");
 
         Button addArmor = (Button) rootView.findViewById(R.id.addArmor);
         addArmor.setOnClickListener(new View.OnClickListener() {
@@ -148,17 +146,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
         });
 
 
-// weapons
-        RecyclerView weaponsView = (RecyclerView) rootView.findViewById(R.id.weapons_list);
-        weaponsAdapter = new WeaponsAdapter(this, character);
-        weaponsView.setAdapter(weaponsAdapter);
-        weaponsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        weaponsView.setHasFixedSize(false);
-        weaponsView.addItemDecoration(itemDecoration);
-
-        ViewGroup weaponItemsView = (ViewGroup) rootView.findViewById(R.id.weapons_items_group);
-        weaponItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
-
         Button addWeapon = (Button) rootView.findViewById(R.id.addWeapon);
         addWeapon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,11 +154,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
-//        ViewGroup weaponsItemsView = (ViewGroup) rootView.findViewById(R.id.weapons_items_group);
-//        ((TextView)weaponsItemsView.findViewById(R.id.hit_bonus)).setText("+To Hit");
-//        ((TextView)weaponsItemsView.findViewById(R.id.damage)).setText("Dmg");
-
-// regular equipment
         Button addEquipment = (Button) rootView.findViewById(R.id.addItem);
         addEquipment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +162,33 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
-        RecyclerView itemsView = (RecyclerView) rootView.findViewById(R.id.items_list);
+        return rootView;
+    }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
+        // armor
+        armorAdapter = new ArmorAdapter(this, character);
+        armorView.setAdapter(armorAdapter);
+        armorView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        armorView.setHasFixedSize(false);
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        armorView.addItemDecoration(itemDecoration);
+
+        armorItemsView.findViewById(R.id.equip).setVisibility(View.INVISIBLE);
+        armorItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
+//        ((TextView)armorItemsView.findViewById(R.id.ac)).setText("AC/Mod");
+// weapons
+        weaponsAdapter = new WeaponsAdapter(this, character);
+        weaponsView.setAdapter(weaponsAdapter);
+        weaponsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        weaponsView.setHasFixedSize(false);
+        weaponsView.addItemDecoration(itemDecoration);
+
+        weaponItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
+// regular equipment
         equipmentAdapter = new EquipmentAdapter(this, character);
         itemsView.setAdapter(equipmentAdapter);
         itemsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -206,7 +214,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
-
         ItemTouchHelper.Callback armorCallback =
                 new SimpleItemTouchHelperCallback(armorAdapter, true, false);
         final ItemTouchHelper armorTouchHelper = new ItemTouchHelper(armorCallback);
@@ -223,7 +230,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
-
         ItemTouchHelper.Callback weaponsCallback =
                 new SimpleItemTouchHelperCallback(weaponsAdapter, true, false);
         final ItemTouchHelper weaponsTouchHelper = new ItemTouchHelper(weaponsCallback);
@@ -239,9 +245,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 weaponsTouchHelper.startSwipe(holder);
             }
         });
-
-        // need to hook a notes text watcher, to update the model
-        return rootView;
     }
 
     private void addWeapon() {
@@ -262,7 +265,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 String name = input.getText().toString();
                 CharacterWeapon item = new CharacterWeapon();
                 item.setName(name);
-                character.addWeapon(item);
+                getCharacter().addWeapon(item);
                 weaponsAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -295,7 +298,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 String name = input.getText().toString();
                 CharacterArmor item = new CharacterArmor();
                 item.setName(name);
-                character.addArmor(item);
+                getCharacter().addArmor(item);
                 armorAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -328,7 +331,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 String name = input.getText().toString();
                 CharacterItem item = new CharacterItem();
                 item.setName(name);
-                character.addItem(item);
+                getCharacter().addItem(item);
                 equipmentAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -346,7 +349,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     @Override
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
-
+        Character character = getCharacter();
         armor_proficiency.setText(character.getArmorProficiencyString());
         weapon_proficiency.setText(character.getWeaponsProficiencyString());
         tools_proficiency.setText(character.getToolsProficiencyString());
@@ -407,13 +410,13 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
             String acString = "?";
             if (item.isBaseArmor()) {
-                int acVal = context.character.evaluateFormula(item.getBaseAcFormula(), null);
+                int acVal = context.getCharacter().evaluateFormula(item.getBaseAcFormula(), null);
                 acString = acVal + "";
 
             } else {
                 String formula = item.getModifyingAcFormula();
                 if (formula != null) {
-                    int acVal = context.character.evaluateFormula(formula, null);
+                    int acVal = context.getCharacter().evaluateFormula(formula, null);
                     acString = "+" + acVal;
                 }
             }
