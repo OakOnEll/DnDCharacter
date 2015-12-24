@@ -1,8 +1,8 @@
 package com.oakonell.dndcharacter.model;
 
-import org.simpleframework.xml.Element;
+import com.oakonell.expression.context.SimpleVariableContext;
 
-import java.util.Map;
+import org.simpleframework.xml.Element;
 
 /**
  * Created by Rob on 10/24/2015.
@@ -53,8 +53,8 @@ public class CharacterClass extends BaseCharacterComponent {
     }
 
     @Override
-    public void addExtraFormulaVariables(Map<String, Integer> extraVariables) {
-        super.addExtraFormulaVariables(extraVariables);
-        extraVariables.put("classLevel", getLevel());
+    public void addExtraFormulaVariables(SimpleVariableContext variableContext) {
+        super.addExtraFormulaVariables(variableContext);
+        variableContext.setNumber("classLevel", getLevel());
     }
 }

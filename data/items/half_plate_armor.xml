@@ -1,0 +1,5 @@
+<item>
+    <name>Half Plate Armor</name>
+    <itemType>ARMOR</itemType>
+    <ac>=15 + min(dexterityMod,2)</ac>
+</item>

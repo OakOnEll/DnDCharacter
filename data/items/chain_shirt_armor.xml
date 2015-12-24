@@ -1,0 +1,5 @@
+<item>
+    <name>Chain Shirt Armor</name>
+    <itemType>ARMOR</itemType>
+    <ac>=13 + min(dexterityMod,2)</ac>
+</item>

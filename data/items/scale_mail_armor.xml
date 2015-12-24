@@ -1,0 +1,5 @@
+<item>
+    <name>Scale Mail Armor</name>
+    <itemType>ARMOR</itemType>
+    <ac>=14 + min(dexterityMod,2)</ac>
+</item>

@@ -91,6 +91,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         final String ac = XmlUtils.getElementText(element, "ac");
         feature.setAcFormula(ac);
 
+        final String condition = XmlUtils.getElementText(element, "condition");
+        feature.setActiveFormula(condition);
+
         component.addFeature(feature);
         super.visitFeature(element);
     }

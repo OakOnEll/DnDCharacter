@@ -3,6 +3,8 @@ package com.oakonell.dndcharacter.model;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.expression.ExpressionVariableContext;
+import com.oakonell.expression.context.SimpleVariableContext;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -51,6 +53,9 @@ public abstract class BaseCharacterComponent {
 
     @Element(required = false)
     String acFormula;
+
+    @Element(required = false)
+    String activeFormula;
 
     public void addModifier(StatType type, int modifier) {
         statModifiers.put(type, modifier);
@@ -137,7 +142,7 @@ public abstract class BaseCharacterComponent {
         return wrappedList.proficiencies;
     }
 
-    public void addExtraFormulaVariables(Map<String, Integer> extraVariables) {
+    public void addExtraFormulaVariables(SimpleVariableContext extraVariables) {
         // do nothing, let subclasses override
     }
 
@@ -145,6 +150,14 @@ public abstract class BaseCharacterComponent {
     public static class ToolProficiencies {
         @ElementList(required = false, type = Proficiency.class, inline = true)
         List<Proficiency> proficiencies = new ArrayList<>();
+    }
+
+    public void setActiveFormula(String activeFormula) {
+        this.activeFormula = activeFormula;
+    }
+
+    public String getActiveFormula() {
+        return activeFormula;
     }
 
     public void setAcFormula(String acFormula) {

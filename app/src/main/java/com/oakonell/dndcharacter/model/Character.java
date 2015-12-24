@@ -383,9 +383,9 @@ public class Character {
 
                 String acFormula = each.getFeature().getBaseAcFormula();
                 if (acFormula != null) {
-                    Map<String, Integer> extraVariables = new HashMap<>();
-                    each.getSource().addExtraFormulaVariables(extraVariables);
-                    int value = evaluateFormula(acFormula, extraVariables);
+                    SimpleVariableContext variableContext = new SimpleVariableContext();
+                    each.getSource().addExtraFormulaVariables(variableContext);
+                    int value = evaluateFormula(acFormula, variableContext);
                     ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each.getFeature());
                     result.add(featureAc);
                 }
@@ -434,19 +434,40 @@ public class Character {
     public List<ArmorClassWithSource> deriveModifyingAcs() {
         List<ArmorClassWithSource> result = new ArrayList<>();
 
+        boolean wearingArmor = false;
+        for (CharacterArmor each : getArmor()) {
+            if (each.isBaseArmor()) {
+                if (each.isEquipped()) {
+                    wearingArmor = true;
+                    break;
+                }
+            }
+        }
+
         // multiple here will really just take the highest ?? at runtime
         for (CharacterClass eachClass : classes) {
             for (FeatureInfo each : eachClass.getFeatures()) {
                 if (each.getFeature().isBaseArmor()) continue;
 
+
                 String acFormula = each.getFeature().getModifyingAcFormula();
-                if (acFormula != null) {
-                    Map<String, Integer> extraVariables = new HashMap<>();
-                    each.getSource().addExtraFormulaVariables(extraVariables);
-                    int value = evaluateFormula(acFormula, extraVariables);
-                    ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each.getFeature());
-                    result.add(featureAc);
+                if (acFormula == null) continue;
+
+
+                SimpleVariableContext variableContext = new SimpleVariableContext();
+                variableContext.setBoolean("armor", wearingArmor);
+                each.getSource().addExtraFormulaVariables(variableContext);
+
+                int value = evaluateFormula(acFormula, variableContext);
+                ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each.getFeature());
+                result.add(featureAc);
+
+                String activeFormula = each.getFeature().getActiveFormula();
+                if (activeFormula != null) {
+                    boolean isActive = evaluateBooleanFormula(activeFormula, variableContext);
+                    featureAc.setIsEquipped(isActive);
                 }
+                featureAc.isDisabled=true;
             }
         }
         // go through items
@@ -774,17 +795,33 @@ public class Character {
         return result;
     }
 
+    public boolean evaluateBooleanFormula(String formula, SimpleVariableContext variableContext) {
+        // TODO formula might reference stats and such
+        if (formula == null || formula.length() == 0) return false;
+        if (variableContext == null) variableContext = new SimpleVariableContext();
 
-    public int evaluateFormula(String formula, Map<String, Integer> extraContextVariables) {
+        // enumerate all the stat modifiers and values
+        for (StatType each : StatType.values()) {
+            StatBlock block = getStatBlock(each);
+            int mod = block.getModifier();
+            variableContext.setNumber(each.toString().toLowerCase() + "Mod", mod);
+            variableContext.setNumber(each.toString().toLowerCase() + "Value", block.getValue());
+        }
+        variableContext.setNumber("level", getClasses().size());
+
+        try {
+            Expression<Boolean> expression = Expression.parse(formula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+            return expression.evaluate();
+        } catch (Exception e) {
+            // should be done at formula save time...
+            return false;
+        }
+    }
+
+    public int evaluateFormula(String formula, SimpleVariableContext variableContext) {
         // TODO formula might reference stats and such
         if (formula == null || formula.length() == 0) return 0;
-
-        SimpleVariableContext variableContext = new SimpleVariableContext();
-        if (extraContextVariables != null) {
-            for (Map.Entry<String, Integer> each : extraContextVariables.entrySet()) {
-                variableContext.setNumber(each.getKey(), each.getValue());
-            }
-        }
+        if (variableContext == null) variableContext = new SimpleVariableContext();
 
         // enumerate all the stat modifiers and values
         for (StatType each : StatType.values()) {

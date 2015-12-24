@@ -1,0 +1,5 @@
+<item>
+    <name>Hide Armor</name>
+    <itemType>ARMOR</itemType>
+    <ac>=12 + min(dexterityMod,2)</ac>
+</item>

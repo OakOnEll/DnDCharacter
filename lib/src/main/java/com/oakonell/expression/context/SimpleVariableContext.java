@@ -54,23 +54,23 @@ public class SimpleVariableContext implements ExpressionVariableContext {
         variables.put(name, new NumberValue(value));
     }
 
-    public void setBoolean(String name, int value) {
+    public void setBoolean(String name, boolean value) {
         ExpressionValue<?> existing = variables.get(name);
         if (existing != null) {
             if (!existing.isBoolean()) {
                 throw new RuntimeException("Can't change type of variable '" + name + "' from " + existing + " to boolean");
             }
         }
-        variables.put(name, new NumberValue(value));
+        variables.put(name, new BooleanValue(value));
     }
 
-    public void setString(String name, int value) {
+    public void setString(String name, String value) {
         ExpressionValue<?> existing = variables.get(name);
         if (existing != null) {
             if (!existing.isString()) {
                 throw new RuntimeException("Can't change type of variable '" + name + "' from " + existing + " to string");
             }
         }
-        variables.put(name, new NumberValue(value));
+        variables.put(name, new StringValue(value));
     }
 }

@@ -2,9 +2,7 @@ package com.oakonell.dndcharacter.model;
 
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.UseType;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.oakonell.expression.context.SimpleVariableContext;
 
 /**
  * Created by Rob on 10/26/2015.
@@ -40,9 +38,9 @@ public class FeatureInfo {
     }
 
     public int evaluateMaxUses(com.oakonell.dndcharacter.model.Character character) {
-        Map<String, Integer> extraVariables = new HashMap<>();
-        source.addExtraFormulaVariables(extraVariables);
-        return character.evaluateFormula(feature.getUsesFormula(), extraVariables);
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        source.addExtraFormulaVariables(variableContext);
+        return character.evaluateFormula(feature.getUsesFormula(), variableContext);
     }
 
 

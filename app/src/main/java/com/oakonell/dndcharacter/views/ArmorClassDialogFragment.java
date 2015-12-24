@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.CharacterArmor;
+import com.oakonell.expression.context.SimpleVariableContext;
 
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class ArmorClassDialogFragment extends DialogFragment {
         return newMe;
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.armor_class_dialog, container);
 
@@ -67,6 +70,23 @@ public class ArmorClassDialogFragment extends DialogFragment {
         });
 
         updateAC();
+
+        Button done = (Button) view.findViewById(R.id.done);
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
+                    if (!each.isArmor()) continue;
+                    ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
+                }
+                for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
+                    if (!each.isArmor()) continue;
+                    ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
+                }
+                ArmorClassDialogFragment.this.activity.updateViews();
+                dismiss();
+            }
+        });
 
         return view;
     }
@@ -135,25 +155,38 @@ public class ArmorClassDialogFragment extends DialogFragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     row.setIsEquipped(isChecked);
+                    Character.ArmorClassWithSource selected = null;
                     if (isChecked) {
-                        int index = 0;
+                        if (!row.isArmor()) {
+                            buttonView.setEnabled(false);
+                        } else {
+                            buttonView.setEnabled(true);
+                        }
+                        selected = row;
+                        int index = -1;
                         for (Character.ArmorClassWithSource other : list) {
-                            if (other == row) continue;
-                            other.setIsEquipped(false);
-                            notifyItemChanged(index);
                             index++;
+                            if (other == row) continue;
+                            if (!other.isEquipped()) continue;
+                            other.setIsEquipped(false);
+                            other.isDisabled = false;
+                            notifyItemChanged(index);
                         }
                     } else {
                         int index = -1;
                         for (Character.ArmorClassWithSource other : list) {
                             index++;
+                            if (other == row) continue;
                             if (other.isDisabled) continue;
+                            selected = other;
                             other.setIsEquipped(true);
+                            other.isDisabled = true;
                             notifyItemChanged(index);
                             break;
                         }
 
                     }
+                    fragment.updateModifyingRows(selected.isArmor());
                     fragment.updateAC();
                     // update other list items
                 }
@@ -172,6 +205,24 @@ public class ArmorClassDialogFragment extends DialogFragment {
         @Override
         public int getItemCount() {
             return list.size();
+        }
+    }
+
+    private void updateModifyingRows(boolean armor) {
+        int position = -1;
+        for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
+            position++;
+            if (each.isArmor()) continue;
+
+            String activeFormula = each.getSource().getActiveFormula();
+            if (activeFormula == null) continue;
+            SimpleVariableContext variableContext = new SimpleVariableContext();
+            variableContext.setBoolean("armor", armor);
+            boolean shouldEquip = modifyingAcAdapter.character.evaluateBooleanFormula(activeFormula, variableContext);
+            if (each.isEquipped() != shouldEquip) {
+                each.setIsEquipped(shouldEquip);
+                modifyingAcAdapter.notifyItemChanged(position);
+            }
         }
     }
 

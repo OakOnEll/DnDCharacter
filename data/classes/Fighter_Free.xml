@@ -89,8 +89,8 @@
             <or name="defense">
                 <feature>
                     <name>Defense</name>
-                    <condition>armor()</condition>
                     <ac>+1</ac>
+                    <condition>armor</condition>
                     <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.
                     </shortDescription>
                 </feature>
