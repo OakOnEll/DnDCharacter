@@ -159,7 +159,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
             @Override
             public void onClick(View v) {
                 try {
-                    CharacterLevelsDialogFragment dialog = CharacterLevelsDialogFragment.createDialog(getCharacter());
+                    CharacterLevelsDialogFragment dialog = CharacterLevelsDialogFragment.createDialog();
                     dialog.show(getFragmentManager(), "classes");
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();

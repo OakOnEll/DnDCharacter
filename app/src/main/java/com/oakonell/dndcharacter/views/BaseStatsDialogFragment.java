@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.views;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.BaseStatsType;
 import com.oakonell.dndcharacter.model.Character;
@@ -35,13 +33,10 @@ import java.util.Map;
 /**
  * Created by Rob on 12/15/2015.
  */
-public class BaseStatsDialogFragment extends DialogFragment {
-
-    private Character character;
+public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
     private Spinner stat_type;
     private TextView race_bonuses;
-    private Button done;
     private ViewGroup customGroup;
     private ViewGroup simpleGroup;
     private ViewGroup point_buyGroup;
@@ -111,34 +106,17 @@ public class BaseStatsDialogFragment extends DialogFragment {
         }
     }
 
-    public static BaseStatsDialogFragment createDialog(com.oakonell.dndcharacter.model.Character character) {
-        BaseStatsDialogFragment newMe = new BaseStatsDialogFragment();
-        newMe.setCharacter(character);
-        return newMe;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
-
-    public Character getCharacter() {
-        return character;
+    public static BaseStatsDialogFragment createDialog() {
+        return new BaseStatsDialogFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.base_stats, container);
-
-
-        statsType = character.getStatsType();
-        Map<StatType, Integer> stats = character.getBaseStats();
-
-        if (statsType == null) statsType = BaseStatsType.CUSTOM;
 
         stat_type = (Spinner) view.findViewById(R.id.stat_type);
         race_bonuses = (TextView) view.findViewById(R.id.race_bonuses);
-        done = (Button) view.findViewById(R.id.done);
 
         customGroup = (ViewGroup) view.findViewById(R.id.custom);
         simpleGroup = (ViewGroup) view.findViewById(R.id.simple);
@@ -146,7 +124,7 @@ public class BaseStatsDialogFragment extends DialogFragment {
         roll_layout = (ViewGroup) view.findViewById(R.id.roll_layout);
 
 
-        final List<BaseStatsType> list = new ArrayList<BaseStatsType>(Arrays.asList(BaseStatsType.values()));
+        final List<BaseStatsType> list = new ArrayList<>(Arrays.asList(BaseStatsType.values()));
         ArrayAdapter<BaseStatsType> dataAdapter = new ArrayAdapter<BaseStatsType>(getContext(),
                 R.layout.large_spinner_text, list);
         dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
@@ -214,7 +192,7 @@ public class BaseStatsDialogFragment extends DialogFragment {
                 @Override
                 public void afterTextChanged(Editable s) {
                     String string = s.toString();
-                    if (string == null || string.trim().length() == 0) {
+                    if (string.trim().length() == 0) {
                         // allow empty text boxes, until done hit
                         return;
                     }
@@ -296,10 +274,10 @@ public class BaseStatsDialogFragment extends DialogFragment {
         roll_type = (Spinner) view.findViewById(R.id.roll_type);
         roll = (Button) view.findViewById(R.id.roll);
 
-        final List<String> rollTypes = new ArrayList<String>();
+        final List<String> rollTypes = new ArrayList<>();
         rollTypes.add("3d6");
         rollTypes.add("4d6 - Best 3");
-        ArrayAdapter<String> rollTypeAdapter = new ArrayAdapter<String>(getContext(),
+        ArrayAdapter<String> rollTypeAdapter = new ArrayAdapter<>(getContext(),
                 R.layout.large_spinner_text, rollTypes);
         rollTypeAdapter.setDropDownViewResource(R.layout.large_spinner_text);
         roll_type.setAdapter(rollTypeAdapter);
@@ -314,7 +292,83 @@ public class BaseStatsDialogFragment extends DialogFragment {
         //                         baseStatRows.get(0).value.setText("15");
 
 
+        return view;
+    }
+
+    @Override
+    protected void onDone() {
+        super.onDone();
+        // update dialog that opened this one...
+        Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
+        // TODO validate overall...? any general?
+
+        // push chosen values to character model
+        switch (statsType) {
+            case CUSTOM:
+                // validate custom inputs
+                boolean hadError = false;
+                for (Map.Entry<StatType, EditText> entry : customInputs.entrySet()) {
+                    EditText editText = entry.getValue();
+                    String string = editText.getText().toString();
+                    if (string.trim().length() == 0) {
+                        editText.setError("Enter a number between 3 and 18");
+                    }
+                    int num = Integer.parseInt(string);
+                    if (num < 3 || num > 18) {
+                        editText.setError("Enter a number between 3 and 18");
+                    }
+                    if (editText.getError() != null) {
+                        if (!hadError) {
+                            Animation shake = AnimationUtils.loadAnimation(BaseStatsDialogFragment.this.getContext(), R.anim.shake);
+                            editText.startAnimation(shake);
+                            //editText.requestFocus();
+                        }
+                        hadError = true;
+                    }
+
+                }
+                if (hadError) return;
+
+                for (Map.Entry<StatType, EditText> entry : customInputs.entrySet()) {
+                    StatType type = entry.getKey();
+                    EditText editText = entry.getValue();
+                    baseStats.put(type, Integer.parseInt(editText.getText().toString()));
+                }
+                break;
+            case ROLL:
+                // fall through
+            case SIMPLE:
+                for (BaseStatRow each : baseStatRows) {
+                    baseStats.put(each.type, each.getValue());
+                }
+                break;
+            case POINT_BUY:
+                // validate point buy
+                if (Integer.parseInt(remaining_points.getText().toString()) != 0) {
+                    Animation shake = AnimationUtils.loadAnimation(BaseStatsDialogFragment.this.getContext(), R.anim.shake);
+                    remaining_points.startAnimation(shake);
+                    remaining_points.setError("There are still remaining points!");
+                    return;
+                }
+                for (BaseStatPointBuy each : pointBuyRows) {
+                    baseStats.put(each.type, each.getValue());
+                }
+                break;
+        }
+        Character character = getCharacter();
+        character.setBaseStats(baseStats);
+        character.setStatsType(statsType);
+
+    }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
         // pull current values from the character, and display
+        statsType = character.getStatsType();
+        Map<StatType, Integer> stats = character.getBaseStats();
+
+        if (statsType == null) statsType = BaseStatsType.CUSTOM;
         switch (statsType) {
             case CUSTOM: {
                 int i = 0;
@@ -363,80 +417,8 @@ public class BaseStatsDialogFragment extends DialogFragment {
             }
             break;
         }
-
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
-                // TODO validate overall...? any general?
-
-                // push chosen values to character model
-                switch (statsType) {
-                    case CUSTOM:
-                        // validate custom inputs
-                        boolean hadError = false;
-                        for (Map.Entry<StatType, EditText> entry : customInputs.entrySet()) {
-                            StatType type = entry.getKey();
-                            EditText editText = entry.getValue();
-                            String string = editText.getText().toString();
-                            if (string.trim().length() == 0) {
-                                editText.setError("Enter a number between 3 and 18");
-                            }
-                            int num = Integer.parseInt(string);
-                            if (num < 3 || num > 18) {
-                                editText.setError("Enter a number between 3 and 18");
-                            }
-                            if (editText.getError() != null) {
-                                if (!hadError) {
-                                    Animation shake = AnimationUtils.loadAnimation(BaseStatsDialogFragment.this.getContext(), R.anim.shake);
-                                    editText.startAnimation(shake);
-                                    //editText.requestFocus();
-                                }
-                                hadError = true;
-                            }
-
-                        }
-                        if (hadError) return;
-
-                        for (Map.Entry<StatType, EditText> entry : customInputs.entrySet()) {
-                            StatType type = entry.getKey();
-                            EditText editText = entry.getValue();
-                            baseStats.put(type, Integer.parseInt(editText.getText().toString()));
-                        }
-                        break;
-                    case ROLL:
-                        // fall through
-                    case SIMPLE:
-                        for (BaseStatRow each : baseStatRows) {
-                            baseStats.put(each.type, each.getValue());
-                        }
-                        break;
-                    case POINT_BUY:
-                        // validate point buy
-                        if (Integer.parseInt(remaining_points.getText().toString()) != 0) {
-                            Animation shake = AnimationUtils.loadAnimation(BaseStatsDialogFragment.this.getContext(), R.anim.shake);
-                            remaining_points.startAnimation(shake);
-                            remaining_points.setError("There are still remaining points!");
-                            return;
-                        }
-                        for (BaseStatPointBuy each : pointBuyRows) {
-                            baseStats.put(each.type, each.getValue());
-                        }
-                        break;
-                }
-                character.setBaseStats(baseStats);
-                character.setStatsType(statsType);
-
-                // TODO update the possible dialog that opened this one
-                ((MainActivity) getActivity()).updateViews();
-                dismiss();
-            }
-        });
-
         updateView();
 
-
-        return view;
     }
 
     private void pointBuy(BaseStatPointBuy each, int increase) {

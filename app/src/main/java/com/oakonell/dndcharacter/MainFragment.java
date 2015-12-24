@@ -162,7 +162,7 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    StatBlockDialogFragment dialog = StatBlockDialogFragment.create((MainActivity) getActivity(), getCharacter().getStatBlock(entry.getKey()));
+                    StatBlockDialogFragment dialog = StatBlockDialogFragment.create(getCharacter().getStatBlock(entry.getKey()));
                     dialog.show(getFragmentManager(), "stat_frag");
                 }
             });
@@ -174,7 +174,7 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SaveThrowBlockDialogFragment dialog = SaveThrowBlockDialogFragment.create((MainActivity) getActivity(), getCharacter().getStatBlock(entry.getKey()));
+                    SaveThrowBlockDialogFragment dialog = SaveThrowBlockDialogFragment.create(getCharacter().getStatBlock(entry.getKey()));
                     dialog.show(getFragmentManager(), "save_throw_frag");
                 }
             });
@@ -186,7 +186,7 @@ public class MainFragment extends AbstractSheetFragment {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SkillBlockDialogFragment dialog = SkillBlockDialogFragment.create((MainActivity) getActivity(), getCharacter().getSkillBlock(entry.getKey()));
+                    SkillBlockDialogFragment dialog = SkillBlockDialogFragment.create( getCharacter().getSkillBlock(entry.getKey()));
                     dialog.show(getFragmentManager(), "skill_frag");
                 }
             });

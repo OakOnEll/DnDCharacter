@@ -18,36 +18,47 @@ import java.util.List;
 /**
  * Created by Rob on 11/7/2015.
  */
-public class SaveThrowBlockDialogFragment extends RollableDialogFragment {
-    private StatBlock statBlock;
+public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
+    private ListView listView;
+    private TextView statLabel;
+    private TextView statModLabel;
+    private TextView statMod;
+    private TextView proficiency;
+    private View proficiencyLayout;
+    private TextView total;
 
-    public static SaveThrowBlockDialogFragment create(MainActivity activity, StatBlock block) {
+    public static SaveThrowBlockDialogFragment create(StatBlock block) {
         SaveThrowBlockDialogFragment frag = new SaveThrowBlockDialogFragment();
-        frag.setMainActivity(activity);
-        frag.setStatBlock(block);
+        frag.setStatTypeArg(block);
         return frag;
     }
 
-    private void setStatBlock(StatBlock statBlock) {
-        this.statBlock = statBlock;
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.save_throw_dialog, container);
         superCreateView(view);
+
+        statLabel = (TextView) view.findViewById(R.id.stat_label);
+        statModLabel = (TextView) view.findViewById(R.id.stat_mod_lbl);
+        statMod = (TextView) view.findViewById(R.id.stat_mod);
+        proficiency = (TextView) view.findViewById(R.id.proficiency);
+        proficiencyLayout = view.findViewById(R.id.proficiency_layout);
+
+
+        total = (TextView) view.findViewById(R.id.modifier);
+        listView = (ListView) view.findViewById(R.id.list);
+
+        return view;
+    }
+
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
+        StatBlock statBlock = setStatBlock(character);
+
         setModifier(statBlock.getSaveModifier());
-
-        TextView statLabel = (TextView) view.findViewById(R.id.stat_label);
-        TextView statModLabel = (TextView) view.findViewById(R.id.stat_mod_lbl);
-        TextView statMod = (TextView) view.findViewById(R.id.stat_mod);
-        TextView proficiency = (TextView) view.findViewById(R.id.proficiency);
-        View proficiencyLayout = view.findViewById(R.id.proficiency_layout);
-
-
-        TextView total = (TextView) view.findViewById(R.id.modifier);
-        ListView listView = (ListView) view.findViewById(R.id.list);
 
         List<Character.ProficientWithSource> proficiencies = statBlock.getSaveProficiencies();
 
@@ -66,14 +77,13 @@ public class SaveThrowBlockDialogFragment extends RollableDialogFragment {
         RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
             @Override
             public List<Character.ProficientWithSource> getList(Character character) {
-                return statBlock.getSaveProficiencies();
+                return getStatBlock().getSaveProficiencies();
             }
         };
 
         SaveThrowSourcesAdapter adapter = new SaveThrowSourcesAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
-        return view;
     }
 
     public static class SaveThrowSourcesAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {

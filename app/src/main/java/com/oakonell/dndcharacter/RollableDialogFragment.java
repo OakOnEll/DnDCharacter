@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.RandomUtils;
+import com.oakonell.dndcharacter.views.AbstractCharacterDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,11 @@ import java.util.List;
 /**
  * Created by Rob on 12/1/2015.
  */
-public class RollableDialogFragment extends DialogFragment {
+public abstract class RollableDialogFragment extends AbstractCharacterDialogFragment {
 
     int modifier;
     int startColor;
-    private MainActivity mainActivity;
+
     private TextView roll1Text;
     private TextView roll2Text;
     private TextView modifierText;
@@ -30,23 +31,7 @@ public class RollableDialogFragment extends DialogFragment {
     private int roll;
     private int roll2;
 
-    public MainActivity getMainActivity() {
-        return mainActivity;
-    }
-
-    public void setMainActivity(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-    }
-
     protected void superCreateView(View view) {
-        Button done = (Button) view.findViewById(R.id.done);
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
         advantageSpinner = (AppCompatSpinner) view.findViewById(R.id.advantage);
 
         Button roll = (Button) view.findViewById(R.id.roll_button);

@@ -19,6 +19,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterClass;
 import com.oakonell.dndcharacter.model.StatType;
+import com.oakonell.dndcharacter.views.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
@@ -32,48 +33,37 @@ import java.util.Map;
 /**
  * Created by Rob on 12/11/2015.
  */
-public class CharacterLevelsDialogFragment extends DialogFragment {
+public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragment {
     private static final int UNDO_DELAY = 5000;
-    private Character character;
     RecyclerView list;
     private Map<CharacterClass, Long> recordsBeingDeleted = new HashMap<>();
     private TextView classesTextView;
+    private ViewGroup level_up_group;
 
-    public static CharacterLevelsDialogFragment createDialog(Character character) {
+    public static CharacterLevelsDialogFragment createDialog() {
         CharacterLevelsDialogFragment newMe = new CharacterLevelsDialogFragment();
-        newMe.setCharacter(character);
         return newMe;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
-
-    public Character getCharacter() {
-        return character;
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.character_levels_dialog, container);
 
         classesTextView = (TextView) view.findViewById(R.id.classes);
-        ViewGroup level_up_group = (ViewGroup) view.findViewById(R.id.level_up_group);
-
-        updateView();
-
-        Button done = (Button) view.findViewById(R.id.done);
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        level_up_group = (ViewGroup) view.findViewById(R.id.level_up_group);
 
         list = (RecyclerView) view.findViewById(R.id.list);
 
+
+        return view;
+    }
+
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
         final ClassAdapter classesAdapter = new ClassAdapter(this, character.getClasses());
         list.setAdapter(classesAdapter);
         list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -99,15 +89,14 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
         level_up_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(character, null, onDone);
+                AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(getCharacter(), null, onDone);
                 dialog.show(getFragmentManager(), "level_up");
             }
         });
 
+        updateView();
 
-        return view;
     }
-
 
     public class CharacterItemTouchHelperCallback extends SimpleItemTouchHelperCallback {
 
@@ -237,7 +226,7 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
     }
 
     private void updateView() {
-        classesTextView.setText(character.getClassesString());
+        classesTextView.setText(getCharacter().getClassesString());
     }
 
     public static abstract class BindableViewHolder extends RecyclerView.ViewHolder {
@@ -279,14 +268,14 @@ public class CharacterLevelsDialogFragment extends DialogFragment {
                             ((MainActivity) adapter.context.getActivity()).updateViews();
                         }
                     };
-                    EditClassLevelDialogFragment dialog = EditClassLevelDialogFragment.createDialog(context.character, item, getAdapterPosition(), onChange, true);
+                    EditClassLevelDialogFragment dialog = EditClassLevelDialogFragment.createDialog(context.getCharacter(), item, getAdapterPosition(), onChange, true);
                     dialog.show(context.getFragmentManager(), "class_edit");
                 }
             });
             character_level.setText((getAdapterPosition() + 1) + "");
             class_name.setText(item.getName());
             class_level.setText(item.getLevel() + "");
-            final int conModifier = context.character.getStatBlock(StatType.CONSTITUTION).getModifier();
+            final int conModifier = context.getCharacter().getStatBlock(StatType.CONSTITUTION).getModifier();
             hp.setText((item.getHpRoll() + conModifier) + "");
             String conModStr = "";
             if (conModifier > 0) {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.StatBlock;
+import com.oakonell.dndcharacter.model.StatType;
 import com.oakonell.dndcharacter.views.BaseStatsDialogFragment;
 import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.RowWithSourceAdapter;
@@ -19,49 +20,59 @@ import java.util.List;
 /**
  * Created by Rob on 11/7/2015.
  */
-public class StatBlockDialogFragment extends RollableDialogFragment {
-    private StatBlock statBlock;
+public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
+    private TextView total;
+    private TextView modifier;
+    private ListView listView;
+    private TextView statLabel;
 
-    public static StatBlockDialogFragment create(MainActivity activity, StatBlock block) {
+    public static StatBlockDialogFragment create(StatBlock block) {
         StatBlockDialogFragment frag = new StatBlockDialogFragment();
-        frag.setMainActivity(activity);
-        frag.setStatBlock(block);
+        frag.setStatTypeArg(block);
+
         return frag;
     }
 
-    private void setStatBlock(StatBlock statBlock) {
-        this.statBlock = statBlock;
+
+    @Override
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+                                Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.stat_dialog, container);
+        superCreateView(view);
+
+        statLabel = (TextView) view.findViewById(R.id.stat_label);
+
+        total = (TextView) view.findViewById(R.id.total);
+        modifier = (TextView) view.findViewById(R.id.modifier);
+        listView = (ListView) view.findViewById(R.id.list);
+
+        return view;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.stat_dialog, container);
-        superCreateView(view);
-        setModifier(statBlock.getModifier());
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
 
-        TextView statLabel = (TextView) view.findViewById(R.id.stat_label);
+        StatBlock statBlock = setStatBlock(character);
+
         statLabel.setText(statBlock.getType().toString());
 
-        TextView total = (TextView) view.findViewById(R.id.total);
-        TextView modifier = (TextView) view.findViewById(R.id.modifier);
-        ListView listView = (ListView) view.findViewById(R.id.list);
-
+        setModifier(statBlock.getModifier());
         total.setText(statBlock.getValue() + "");
         modifier.setText(statBlock.getModifier() + "");
 
         RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource>() {
             @Override
             public List<Character.ModifierWithSource> getList(Character character) {
-                return statBlock.getModifiers();
+                return getStatBlock().getModifiers();
             }
         };
 
         StatSourceAdapter adapter = new StatSourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
-        return view;
     }
+
 
     public static class StatSourceAdapter extends RowWithSourceAdapter<Character.ModifierWithSource> {
         StatSourceAdapter(StatBlockDialogFragment fragment, ListRetriever<Character.ModifierWithSource> listRetriever) {
@@ -75,7 +86,7 @@ public class StatBlockDialogFragment extends RollableDialogFragment {
 
         @Override
         protected void launchNoSource(MainActivity activity, Character character, ComponentLaunchHelper.OnDialogDone onDone) {
-            BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog(character);
+            BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog();
             dialog.show(activity.getSupportFragmentManager(), "base_stats");
         }
 

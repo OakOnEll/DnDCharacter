@@ -11,6 +11,7 @@ import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.Proficient;
 import com.oakonell.dndcharacter.model.SkillBlock;
+import com.oakonell.dndcharacter.model.SkillType;
 import com.oakonell.dndcharacter.views.RowWithSourceAdapter;
 
 import java.util.List;
@@ -20,35 +21,54 @@ import java.util.List;
  */
 public class SkillBlockDialogFragment extends RollableDialogFragment {
     private SkillBlock skillBlock;
+    private TextView statLabel;
+    private TextView skillLabel;
+    private TextView statModLabel;
+    private TextView statMod;
+    private TextView proficiency;
+    private View proficiencyLayout;
+    private TextView total;
+    private ListView listView;
 
-    public static SkillBlockDialogFragment create(MainActivity activity, SkillBlock block) {
+    public static SkillBlockDialogFragment create(SkillBlock block) {
         SkillBlockDialogFragment frag = new SkillBlockDialogFragment();
-        frag.setMainActivity(activity);
-        frag.setSkillBlock(block);
+        int typeIndex = block.getType().ordinal();
+        Bundle args = new Bundle();
+        args.putInt("type", typeIndex);
+        frag.setArguments(args);
+
         return frag;
     }
 
-    private void setSkillBlock(SkillBlock skillBlock) {
-        this.skillBlock = skillBlock;
+
+    @Override
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+                                Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.skill_dialog, container);
+        superCreateView(view);
+
+        statLabel = (TextView) view.findViewById(R.id.stat_label);
+        skillLabel = (TextView) view.findViewById(R.id.skill_label);
+        statModLabel = (TextView) view.findViewById(R.id.stat_mod_lbl);
+        statMod = (TextView) view.findViewById(R.id.stat_mod);
+        proficiency = (TextView) view.findViewById(R.id.proficiency);
+        proficiencyLayout = view.findViewById(R.id.proficiency_layout);
+
+        total = (TextView) view.findViewById(R.id.total);
+        listView = (ListView) view.findViewById(R.id.list);
+
+        return view;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.skill_dialog, container);
-        superCreateView(view);
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
+
+        int typeIndex = getArguments().getInt("type");
+        SkillType type = SkillType.values()[typeIndex];
+        skillBlock = character.getSkillBlock(type);
+
         setModifier(skillBlock.getBonus());
-
-        TextView statLabel = (TextView) view.findViewById(R.id.stat_label);
-        TextView skillLabel = (TextView) view.findViewById(R.id.skill_label);
-        TextView statModLabel = (TextView) view.findViewById(R.id.stat_mod_lbl);
-        TextView statMod = (TextView) view.findViewById(R.id.stat_mod);
-        TextView proficiency = (TextView) view.findViewById(R.id.proficiency);
-        View proficiencyLayout = view.findViewById(R.id.proficiency_layout);
-
-
-        TextView total = (TextView) view.findViewById(R.id.total);
-        ListView listView = (ListView) view.findViewById(R.id.list);
 
         List<Character.ProficientWithSource> proficiencies = skillBlock.getProficiencies();
 
@@ -75,7 +95,6 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         SkillSourceAdapter adapter = new SkillSourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
-        return view;
     }
 
     public static class SkillSourceAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {

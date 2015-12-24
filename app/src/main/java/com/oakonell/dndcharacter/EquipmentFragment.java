@@ -455,7 +455,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WeaponAttackDialogFragment fragment = WeaponAttackDialogFragment.create((MainActivity) context.getActivity(), item);
+                    WeaponAttackDialogFragment fragment = WeaponAttackDialogFragment.create( item);
                     fragment.show(context.getFragmentManager(), "weapon_dialog");
                 }
             });
