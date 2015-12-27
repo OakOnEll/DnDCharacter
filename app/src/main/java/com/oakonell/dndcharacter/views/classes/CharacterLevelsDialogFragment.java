@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -20,13 +19,13 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterClass;
 import com.oakonell.dndcharacter.model.StatType;
 import com.oakonell.dndcharacter.views.AbstractCharacterDialogFragment;
-import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
 import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -39,23 +38,21 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     private Map<CharacterClass, Long> recordsBeingDeleted = new HashMap<>();
     private TextView classesTextView;
     private ViewGroup level_up_group;
+    private ClassAdapter classesAdapter;
 
     public static CharacterLevelsDialogFragment createDialog() {
-        CharacterLevelsDialogFragment newMe = new CharacterLevelsDialogFragment();
-        return newMe;
+        return new CharacterLevelsDialogFragment();
     }
-
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.character_levels_dialog, container);
 
         classesTextView = (TextView) view.findViewById(R.id.classes);
         level_up_group = (ViewGroup) view.findViewById(R.id.level_up_group);
 
         list = (RecyclerView) view.findViewById(R.id.list);
-
 
         return view;
     }
@@ -64,7 +61,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
-        final ClassAdapter classesAdapter = new ClassAdapter(this, character.getClasses());
+        classesAdapter = new ClassAdapter(this, character.getClasses());
         list.setAdapter(classesAdapter);
         list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         list.setHasFixedSize(false);
@@ -79,27 +76,38 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         touchHelper.attachToRecyclerView(list);
 
 
-        final ComponentLaunchHelper.OnDialogDone onDone = new ComponentLaunchHelper.OnDialogDone() {
-            @Override
-            public void done(boolean changed) {
-                classesAdapter.notifyDataSetChanged();
-            }
-        };
-
         level_up_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(getCharacter(), null, onDone);
+                AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(null);
                 dialog.show(getFragmentManager(), "level_up");
             }
         });
 
         updateView();
+    }
 
+    @Override
+    public void onCharacterChanged(Character character) {
+        classesAdapter.reloadList(character);
+        updateView();
+    }
+
+    @Override
+    protected boolean onDone() {
+        // any pending deletes should be done now, to avoid the delayed post failing because dialog/activity is lost
+        //   and can't undo once clicking done, anyway
+
+        for (Iterator<Map.Entry<CharacterClass, Long>> iter = recordsBeingDeleted.entrySet().iterator(); iter.hasNext(); ) {
+            CharacterClass theClass = iter.next().getKey();
+            classesAdapter.classes.remove(theClass);
+            iter.remove();
+        }
+
+        return super.onDone();
     }
 
     public class CharacterItemTouchHelperCallback extends SimpleItemTouchHelperCallback {
-
         public CharacterItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
             super(adapter, false, true);
         }
@@ -111,8 +119,6 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
             }
             return super.getMovementFlags(recyclerView, viewHolder);
         }
-
-
     }
 
     public static class DeleteRowViewHolder extends BindableViewHolder {
@@ -143,11 +149,16 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     public static class ClassAdapter extends RecyclerView.Adapter<BindableViewHolder>
             implements ItemTouchHelperAdapter {
         private final CharacterLevelsDialogFragment context;
-        private final List<CharacterClass> classes;
+        private List<CharacterClass> classes;
 
         ClassAdapter(CharacterLevelsDialogFragment context, List<CharacterClass> classes) {
             this.context = context;
             this.classes = classes;
+        }
+
+        public void reloadList(Character character) {
+            classes = character.getClasses();
+            notifyDataSetChanged();
         }
 
         @Override
@@ -197,8 +208,10 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
                 classes.remove(item);
                 context.recordsBeingDeleted.remove(item);
                 notifyItemRemoved(position);
-                context.updateView();
-                ((MainActivity) context.getActivity()).updateViews();
+                if (context.getMainActivity() != null) {
+                    context.updateView();
+                    ((MainActivity) context.getActivity()).updateViews();
+                }
             }
 
             context.recordsBeingDeleted.put(item, System.currentTimeMillis());
@@ -215,8 +228,10 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
                         classes.remove(item);
                         context.recordsBeingDeleted.remove(item);
                         notifyItemRemoved(position);
-                        context.updateView();
-                        activity.updateViews();
+                        if (context.getMainActivity() != null) {
+                            context.updateView();
+                            activity.updateViews();
+                        }
 
                     }
                 }
@@ -260,15 +275,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO
-                    ComponentLaunchHelper.OnDialogDone onChange = new ComponentLaunchHelper.OnDialogDone() {
-                        @Override
-                        public void done(boolean changed) {
-                            adapter.notifyDataSetChanged();
-                            ((MainActivity) adapter.context.getActivity()).updateViews();
-                        }
-                    };
-                    EditClassLevelDialogFragment dialog = EditClassLevelDialogFragment.createDialog(context.getCharacter(), item, getAdapterPosition(), onChange, true);
+                    EditClassLevelDialogFragment dialog = EditClassLevelDialogFragment.createDialog(getAdapterPosition(), true);
                     dialog.show(context.getFragmentManager(), "class_edit");
                 }
             });

@@ -1,18 +1,15 @@
 package com.oakonell.dndcharacter.views;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterArmor;
@@ -24,12 +21,12 @@ import java.util.List;
  * Created by Rob on 12/21/2015.
  */
 public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
-
     private TextView acText;
-    private RootAcAdapter rootAcAdapter;
-    private ModifyingAcAdapter modifyingAcAdapter;
     private RecyclerView rootList;
     private RecyclerView modList;
+
+    private RootAcAdapter rootAcAdapter;
+    private ModifyingAcAdapter modifyingAcAdapter;
 
     public static ArmorClassDialogFragment createDialog() {
         ArmorClassDialogFragment newMe = new ArmorClassDialogFragment();
@@ -37,7 +34,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     public View onCreateTheView(LayoutInflater inflater, final ViewGroup container,
-                             Bundle savedInstanceState) {
+                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.armor_class_dialog, container);
 
         acText = (TextView) view.findViewById(R.id.ac);
@@ -45,13 +42,11 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         rootList = (RecyclerView) view.findViewById(R.id.root_ac_list);
         modList = (RecyclerView) view.findViewById(R.id.mod_ac_list);
 
-
         return view;
     }
 
     @Override
-    protected void onDone() {
-        super.onDone();
+    protected boolean onDone() {
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
             if (!each.isArmor()) continue;
             ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
@@ -60,6 +55,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             if (!each.isArmor()) continue;
             ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
         }
+        return super.onDone();
     }
 
     @Override
@@ -91,6 +87,13 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             }
         });
 
+        updateAC();
+    }
+
+    @Override
+    public void onCharacterChanged(Character character) {
+        rootAcAdapter.reloadList(character);
+        modifyingAcAdapter.reloadList(character);
         updateAC();
     }
 
@@ -136,6 +139,10 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             this.character = character;
             list = character.deriveRootAcs();
             this.fragment = armorClassDialogFragment;
+        }
+
+        public void reloadList(Character character) {
+            list = character.deriveRootAcs();
         }
 
         @Override
@@ -239,6 +246,10 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             this.character = character;
             list = character.deriveModifyingAcs();
             this.fragment = armorClassDialogFragment;
+        }
+
+        public void reloadList(Character character) {
+            list = character.deriveRootAcs();
         }
 
         @Override

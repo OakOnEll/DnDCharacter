@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter;
 
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,8 +17,6 @@ import java.util.List;
  * Created by Rob on 12/1/2015.
  */
 public abstract class RollableDialogFragment extends AbstractCharacterDialogFragment {
-
-    int modifier;
     int startColor;
 
     private TextView roll1Text;
@@ -28,6 +25,8 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
     private TextView totalText;
     private TextView critical_label;
     private AppCompatSpinner advantageSpinner;
+
+    int modifier;
     private int roll;
     private int roll2;
 

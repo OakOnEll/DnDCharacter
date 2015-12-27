@@ -65,9 +65,4 @@ public class NotesFragment extends AbstractSheetFragment {
     }
 
 
-    @Override
-    public void onCharacterLoaded(com.oakonell.dndcharacter.model.Character character) {
-        super.onCharacterLoaded(character);
-
-    }
 }

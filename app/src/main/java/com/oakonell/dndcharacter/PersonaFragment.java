@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 
@@ -18,6 +17,7 @@ import com.oakonell.dndcharacter.views.AbstractSheetFragment;
  */
 public class PersonaFragment extends AbstractSheetFragment {
     private static final Object NON_USER_CHANGE = new Object();
+
     TextView age;
     TextView height;
     TextView weight;
@@ -37,7 +37,7 @@ public class PersonaFragment extends AbstractSheetFragment {
     ViewGroup languageGroup;
 
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.persona_sheet, container, false);
 
         superCreateViews(rootView);
@@ -60,52 +60,49 @@ public class PersonaFragment extends AbstractSheetFragment {
         flaws = (EditText) rootView.findViewById(R.id.flaws);
         backstory = (EditText) rootView.findViewById(R.id.backstory);
 
-        final Character character = getCharacter();
 
         traits.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
                 if (traits.getTag() == NON_USER_CHANGE) return;
-                if (notDifferent(character.getPersonalityTrait(), string)) return;
-                character.setPersonalityTrait(string);
-                character.setTraitSavedChoiceToCustom("traits");
+                if (notDifferent(getCharacter().getPersonalityTrait(), string)) return;
+                getCharacter().setPersonalityTrait(string);
+                getCharacter().setTraitSavedChoiceToCustom("traits");
             }
         });
         ideals.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
                 if (ideals.getTag() == NON_USER_CHANGE) return;
-                if (notDifferent(character.getIdeals(), string)) return;
-                character.setIdeals(string);
-                character.setTraitSavedChoiceToCustom("ideals");
+                if (notDifferent(getCharacter().getIdeals(), string)) return;
+                getCharacter().setIdeals(string);
+                getCharacter().setTraitSavedChoiceToCustom("ideals");
             }
         });
         bonds.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
                 if (bonds.getTag() == NON_USER_CHANGE) return;
-                if (notDifferent(character.getBonds(), string)) return;
-                character.setBonds(string);
-                character.setTraitSavedChoiceToCustom("bonds");
+                if (notDifferent(getCharacter().getBonds(), string)) return;
+                getCharacter().setBonds(string);
+                getCharacter().setTraitSavedChoiceToCustom("bonds");
             }
         });
         flaws.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
                 if (flaws.getTag() == NON_USER_CHANGE) return;
-                if (notDifferent(character.getFlaws(), string)) return;
-                character.setFlaws(string);
-                character.setTraitSavedChoiceToCustom("flaws");
+                if (notDifferent(getCharacter().getFlaws(), string)) return;
+                getCharacter().setFlaws(string);
+                getCharacter().setTraitSavedChoiceToCustom("flaws");
             }
         });
         backstory.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
-                character.setBackstory(string);
+                getCharacter().setBackstory(string);
             }
         });
-
-        updateViews(rootView);
 
         // need to hook a notes text watcher, to update the model
         return rootView;
@@ -153,12 +150,6 @@ public class PersonaFragment extends AbstractSheetFragment {
         editText.setTag(NON_USER_CHANGE);
         editText.setText(value);
         editText.setTag(null);
-    }
-
-    @Override
-    public void onCharacterLoaded(com.oakonell.dndcharacter.model.Character character) {
-        super.onCharacterLoaded(character);
-
     }
 
     private static abstract class AfterChangedWatcher implements TextWatcher {

@@ -5,7 +5,6 @@ import com.oakonell.dndcharacter.model.CharacterClass;
 import com.oakonell.dndcharacter.model.SavedChoices;
 import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
-import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -16,11 +15,9 @@ import java.util.Map;
 public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFragment {
     int classLevel;
 
-    public static AddClassLevelDialogFragment createDialog(Character character, AClass aClass, ComponentLaunchHelper.OnDialogDone onDone) {
+    public static AddClassLevelDialogFragment createDialog(AClass aClass) {
         AddClassLevelDialogFragment newMe = new AddClassLevelDialogFragment();
         newMe.setModel(aClass);
-        newMe.setCharacter(character);
-        newMe.setOnDone(onDone);
         return newMe;
     }
 

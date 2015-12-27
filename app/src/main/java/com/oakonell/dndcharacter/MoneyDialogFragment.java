@@ -100,6 +100,10 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     public void onCharacterLoaded(Character character) {
+        updateView(character);
+    }
+
+    private void updateView(Character character) {
         copperCurrent.setText(character.getCopper() + "");
         silverCurrent.setText(character.getSilver() + "");
         electrumCurrent.setText(character.getElectrum() + "");
@@ -120,7 +124,13 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    protected void onDone() {
+    public void onCharacterChanged(Character character) {
+        updateView(character);
+    }
+
+
+    @Override
+    protected boolean onDone() {
         Character character = getCharacter();
         character.setCopper(getResultCoins(copperResult));
         character.setSilver(getResultCoins(silverResult));
@@ -128,7 +138,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
         character.setGold(getResultCoins(goldResult));
         character.setPlatinum(getResultCoins(platinumResult));
 
-        super.onDone();
+        return super.onDone();
     }
 
     private int getResultCoins(TextView result) {
@@ -143,7 +153,6 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     static class CoinInputWatcher implements TextWatcher {
-
         private final TextView result;
         private final EditText input;
         private final int current;

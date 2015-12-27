@@ -37,6 +37,10 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         return new HitPointDiaogFragment();
     }
 
+    @Override
+    public void onCharacterChanged(Character character) {
+        // nothing to do?
+    }
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
@@ -136,8 +140,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    protected void onDone() {
-        super.onDone();
+    protected boolean onDone() {
         Character character = getCharacter();
         if (damage.isChecked()) {
             character.damage(getHp());
@@ -146,6 +149,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         } else if (tempHP.isChecked()) {
             character.addTempHp(getHp());
         }
+        return super.onDone();
     }
 
     private void addHp(int amount) {

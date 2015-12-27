@@ -28,21 +28,14 @@ import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 public class FeaturesFragment extends AbstractSheetFragment {
 
     private FeatureAdapter adapter;
+    private RecyclerView gridView;
 
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.feature_sheet, container, false);
 
         superCreateViews(rootView);
 
-        adapter = new FeatureAdapter((MainActivity) this.getActivity(), getCharacter());
-        RecyclerView gridView = (RecyclerView) rootView.findViewById(R.id.features);
-        gridView.setAdapter(adapter);
-        // decide on 1 or 2 columns based on screen size
-        int numColumns = getResources().getInteger(R.integer.feature_columns);
-        gridView.setLayoutManager(new StaggeredGridLayoutManager(numColumns, StaggeredGridLayoutManager.VERTICAL));
-
-
-        updateViews(rootView);
+        gridView = (RecyclerView) rootView.findViewById(R.id.features);
 
         return rootView;
     }
@@ -58,6 +51,13 @@ public class FeaturesFragment extends AbstractSheetFragment {
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
 
+        adapter = new FeatureAdapter((MainActivity) this.getActivity(), getCharacter());
+        gridView.setAdapter(adapter);
+        // decide on 1 or 2 columns based on screen size
+        int numColumns = getResources().getInteger(R.integer.feature_columns);
+        gridView.setLayoutManager(new StaggeredGridLayoutManager(numColumns, StaggeredGridLayoutManager.VERTICAL));
+
+        updateViews();
     }
 
 
@@ -139,16 +139,10 @@ public class FeaturesFragment extends AbstractSheetFragment {
             viewHolder.source.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ComponentLaunchHelper.OnDialogDone onDone = new ComponentLaunchHelper.OnDialogDone() {
-                        @Override
-                        public void done(boolean changed) {
-                            notifyDataSetChanged();
-                        }
-                    };
-                    ComponentLaunchHelper.editComponent(context, character, info.getSource(), onDone, false);
+                    ComponentLaunchHelper.editComponent(context, character, info.getSource(), false);
                 }
             });
-            boolean hasLimitedUses= info.hasLimitedUses();
+            boolean hasLimitedUses = info.hasLimitedUses();
             viewHolder.pool_apply_group.setVisibility(View.GONE);
             if (!hasLimitedUses) {
                 viewHolder.limited_uses_group.setVisibility(View.GONE);

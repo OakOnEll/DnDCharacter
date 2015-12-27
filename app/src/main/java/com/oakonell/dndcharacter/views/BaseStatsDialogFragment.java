@@ -34,15 +34,15 @@ import java.util.Map;
  * Created by Rob on 12/15/2015.
  */
 public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
-
     private Spinner stat_type;
     private TextView race_bonuses;
     private ViewGroup customGroup;
     private ViewGroup simpleGroup;
     private ViewGroup point_buyGroup;
     private ViewGroup roll_layout;
-    private BaseStatsType statsType;
 
+
+    private BaseStatsType statsType;
     Map<StatType, EditText> customInputs = new HashMap<>();
     List<BaseStatRow> baseStatRows = new ArrayList<>();
 
@@ -54,6 +54,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     Integer[] statRolls = new Integer[6];
     private Spinner roll_type;
     private Button roll;
+    private List<BaseStatsType> list;
 
     private static class BaseStatPointBuy {
         public BaseStatPointBuy(StatType type, Button add, TextView value, Button subtract) {
@@ -124,13 +125,12 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         roll_layout = (ViewGroup) view.findViewById(R.id.roll_layout);
 
 
-        final List<BaseStatsType> list = new ArrayList<>(Arrays.asList(BaseStatsType.values()));
+        list = new ArrayList<>(Arrays.asList(BaseStatsType.values()));
         ArrayAdapter<BaseStatsType> dataAdapter = new ArrayAdapter<BaseStatsType>(getContext(),
                 R.layout.large_spinner_text, list);
         dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
         stat_type.setAdapter(dataAdapter);
 
-        stat_type.setSelection(list.indexOf(statsType));
         stat_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -296,8 +296,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    protected void onDone() {
-        super.onDone();
+    protected boolean onDone() {
         // update dialog that opened this one...
         Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
         // TODO validate overall...? any general?
@@ -327,7 +326,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     }
 
                 }
-                if (hadError) return;
+                if (hadError) return false;
 
                 for (Map.Entry<StatType, EditText> entry : customInputs.entrySet()) {
                     StatType type = entry.getKey();
@@ -348,7 +347,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     Animation shake = AnimationUtils.loadAnimation(BaseStatsDialogFragment.this.getContext(), R.anim.shake);
                     remaining_points.startAnimation(shake);
                     remaining_points.setError("There are still remaining points!");
-                    return;
+                    return false;
                 }
                 for (BaseStatPointBuy each : pointBuyRows) {
                     baseStats.put(each.type, each.getValue());
@@ -359,13 +358,15 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         character.setBaseStats(baseStats);
         character.setStatsType(statsType);
 
+        return super.onDone();
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
-        super.onCharacterLoaded(character);
+    public void onCharacterChanged(Character character) {
         // pull current values from the character, and display
         statsType = character.getStatsType();
+        stat_type.setSelection(list.indexOf(statsType));
+
         Map<StatType, Integer> stats = character.getBaseStats();
 
         if (statsType == null) statsType = BaseStatsType.CUSTOM;
@@ -418,6 +419,13 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
             break;
         }
         updateView();
+    }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
+
+        onCharacterChanged(character);
 
     }
 

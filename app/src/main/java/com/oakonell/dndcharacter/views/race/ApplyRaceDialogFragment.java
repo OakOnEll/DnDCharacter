@@ -20,7 +20,6 @@ import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.ApplyAbstractComponentDialogFragment;
-import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
 
@@ -43,15 +42,10 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
     private Map<String, ChooseMD> subRaceChooseMDs;
     private TextView subRaceErrorView;
 
-    public static ApplyRaceDialogFragment createDialog(Character character, ComponentLaunchHelper.OnDialogDone onDone) {
-        Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
-
-        ApplyRaceDialogFragment newMe = new ApplyRaceDialogFragment();
-        newMe.setModel(race);
-        newMe.setCharacter(character);
-        newMe.setOnDone(onDone);
-        return newMe;
+    public static ApplyRaceDialogFragment createDialog() {
+        return new ApplyRaceDialogFragment();
     }
+
 
     @Override
     protected boolean validate(ViewGroup dynamicView, int pageIndex) {
@@ -126,7 +120,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
                                 customChoicesByModel.put(name, customChoices);
                             }
 
-                            displayPage(dynamicView);
+                            displayPage();
                         }
 
                         @Override
@@ -189,9 +183,14 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         return nameSelect.where("parentRace is null OR trim(parentRace) = ''");
     }
 
+
     @Override
-    public void setCharacter(Character character) {
-        super.setCharacter(character);
+    public void onCharacterLoaded(Character character) {
+        Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
+        setModel(race);
+
+        super.onCharacterLoaded(character);
+
         String subraceName = character.getSubRaceName();
         if (subraceName != null) {
             subrace = new Select().from(Race.class).where("name = ?", subraceName).executeSingle();

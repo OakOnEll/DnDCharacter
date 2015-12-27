@@ -195,9 +195,4 @@ public class MainFragment extends AbstractSheetFragment {
 
     }
 
-    @Override
-    public void onCharacterLoaded(Character character) {
-        super.onCharacterLoaded(character);
-
-    }
 }

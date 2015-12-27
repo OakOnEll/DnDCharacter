@@ -58,13 +58,15 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private EquipmentAdapter equipmentAdapter;
     private ArmorAdapter armorAdapter;
     private WeaponsAdapter weaponsAdapter;
-    private Map<CharacterItem, Long> beingDeleted = new HashMap<CharacterItem, Long>();
     private View rootView;
     private RecyclerView armorView;
     private ViewGroup armorItemsView;
     private RecyclerView weaponsView;
     private ViewGroup weaponItemsView;
     private RecyclerView itemsView;
+
+    private Map<CharacterItem, Long> beingDeleted = new HashMap<CharacterItem, Long>();
+
 
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {

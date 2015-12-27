@@ -1,5 +1,10 @@
 package com.oakonell.dndcharacter.views.classes;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterClass;
@@ -7,7 +12,6 @@ import com.oakonell.dndcharacter.model.SavedChoices;
 import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
-import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 
 import java.util.Map;
 
@@ -19,16 +23,35 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     private int classIndex;
     private boolean includeHP;
 
-    public static EditClassLevelDialogFragment createDialog(Character character, CharacterClass characterClass, int classIndex, ComponentLaunchHelper.OnDialogDone onDone, boolean includeHP) {
+    public static EditClassLevelDialogFragment createDialog(int classIndex, boolean includeHP) {
         EditClassLevelDialogFragment newMe = new EditClassLevelDialogFragment();
-        AClass aClass = new Select().from(Background.class).where("name = ?", characterClass.getName()).executeSingle();
-        newMe.setModel(aClass);
-        newMe.setClassIndex(classIndex);
-        newMe.setCharacterClass(characterClass);
-        newMe.setCharacter(character);
-        newMe.setOnDone(onDone);
+        Bundle bundle = new Bundle();
+        bundle.putInt("classIndex", classIndex);
+        bundle.putBoolean("includeHP", includeHP);
+
+        newMe.setArguments(bundle);
+
         newMe.includeHP = includeHP;
         return newMe;
+    }
+
+    @Override
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        classIndex = getArguments().getInt("classIndex");
+        includeHP = getArguments().getBoolean("includeHP");
+        return super.onCreateTheView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        characterClass = character.getClasses().get(classIndex);
+        AClass aClass = new Select().from(Background.class).where("name = ?", characterClass.getName()).executeSingle();
+        setModel(aClass);
+
+
+        super.onCharacterLoaded(character);
+
+
     }
 
     @Override
@@ -55,16 +78,8 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     }
 
 
-    public void setCharacterClass(CharacterClass characterClass) {
-        this.characterClass = characterClass;
-    }
-
     public CharacterClass getCharacterClass() {
         return characterClass;
-    }
-
-    public void setClassIndex(int classIndex) {
-        this.classIndex = classIndex;
     }
 
 

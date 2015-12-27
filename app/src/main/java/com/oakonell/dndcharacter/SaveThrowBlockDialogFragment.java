@@ -25,7 +25,9 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     private TextView statMod;
     private TextView proficiency;
     private View proficiencyLayout;
+
     private TextView total;
+    private SaveThrowSourcesAdapter adapter;
 
     public static SaveThrowBlockDialogFragment create(StatBlock block) {
         SaveThrowBlockDialogFragment frag = new SaveThrowBlockDialogFragment();
@@ -35,7 +37,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.save_throw_dialog, container);
         superCreateView(view);
 
@@ -58,6 +60,21 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         super.onCharacterLoaded(character);
         StatBlock statBlock = setStatBlock(character);
 
+        updateView(statBlock);
+
+        RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
+            @Override
+            public List<Character.ProficientWithSource> getList(Character character) {
+                return getStatBlock().getSaveProficiencies();
+            }
+        };
+
+        adapter = new SaveThrowSourcesAdapter(this, listRetriever);
+        listView.setAdapter(adapter);
+
+    }
+
+    private void updateView(StatBlock statBlock) {
         setModifier(statBlock.getSaveModifier());
 
         List<Character.ProficientWithSource> proficiencies = statBlock.getSaveProficiencies();
@@ -73,17 +90,14 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         statMod.setText(statBlock.getModifier() + "");
         statLabel.setText(statBlock.getType().toString());
         total.setText(statBlock.getSaveModifier() + "");
+    }
 
-        RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
-            @Override
-            public List<Character.ProficientWithSource> getList(Character character) {
-                return getStatBlock().getSaveProficiencies();
-            }
-        };
+    @Override
+    public void onCharacterChanged(Character character) {
+        StatBlock statBlock = setStatBlock(character);
 
-        SaveThrowSourcesAdapter adapter = new SaveThrowSourcesAdapter(this, listRetriever);
-        listView.setAdapter(adapter);
-
+        updateView(statBlock);
+        adapter.reloadList(character);
     }
 
     public static class SaveThrowSourcesAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {

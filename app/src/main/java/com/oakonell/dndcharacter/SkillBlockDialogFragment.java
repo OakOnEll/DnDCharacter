@@ -30,6 +30,10 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     private TextView total;
     private ListView listView;
 
+
+    private SkillSourceAdapter adapter;
+    private SkillType type;
+
     public static SkillBlockDialogFragment create(SkillBlock block) {
         SkillBlockDialogFragment frag = new SkillBlockDialogFragment();
         int typeIndex = block.getType().ordinal();
@@ -63,11 +67,26 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
-
         int typeIndex = getArguments().getInt("type");
-        SkillType type = SkillType.values()[typeIndex];
+        type = SkillType.values()[typeIndex];
         skillBlock = character.getSkillBlock(type);
 
+        updateView(character);
+
+        RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
+            @Override
+            public List<Character.ProficientWithSource> getList(Character character) {
+                return character.getSkillBlock(type).getProficiencies();
+            }
+        };
+
+        adapter = new SkillSourceAdapter(this, listRetriever);
+        listView.setAdapter(adapter);
+
+    }
+
+
+    private void updateView(Character character) {
         setModifier(skillBlock.getBonus());
 
         List<Character.ProficientWithSource> proficiencies = skillBlock.getProficiencies();
@@ -84,18 +103,19 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         statLabel.setText(skillBlock.getType().getStatType().toString());
         skillLabel.setText(skillBlock.getType().toString());
         total.setText(skillBlock.getBonus() + "");
-
-        RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
-            @Override
-            public List<Character.ProficientWithSource> getList(Character character) {
-                return skillBlock.getProficiencies();
-            }
-        };
-
-        SkillSourceAdapter adapter = new SkillSourceAdapter(this, listRetriever);
-        listView.setAdapter(adapter);
-
     }
+
+    @Override
+    public void onCharacterChanged(Character character) {
+        int typeIndex = getArguments().getInt("type");
+        SkillType type = SkillType.values()[typeIndex];
+        skillBlock = character.getSkillBlock(type);
+
+        updateView(character);
+
+        adapter.reloadList(character);
+    }
+
 
     public static class SkillSourceAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {
         SkillSourceAdapter(SkillBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {

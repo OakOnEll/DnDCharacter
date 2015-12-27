@@ -10,9 +10,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.StatBlock;
-import com.oakonell.dndcharacter.model.StatType;
 import com.oakonell.dndcharacter.views.BaseStatsDialogFragment;
-import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.RowWithSourceAdapter;
 
 import java.util.List;
@@ -25,6 +23,8 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     private TextView modifier;
     private ListView listView;
     private TextView statLabel;
+
+    private StatSourceAdapter adapter;
 
     public static StatBlockDialogFragment create(StatBlock block) {
         StatBlockDialogFragment frag = new StatBlockDialogFragment();
@@ -55,11 +55,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
         StatBlock statBlock = setStatBlock(character);
 
-        statLabel.setText(statBlock.getType().toString());
-
-        setModifier(statBlock.getModifier());
-        total.setText(statBlock.getValue() + "");
-        modifier.setText(statBlock.getModifier() + "");
+        updateView(statBlock);
 
         RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource>() {
             @Override
@@ -68,9 +64,25 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
             }
         };
 
-        StatSourceAdapter adapter = new StatSourceAdapter(this, listRetriever);
+        adapter = new StatSourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
+    }
+
+    private void updateView(StatBlock statBlock) {
+        statLabel.setText(statBlock.getType().toString());
+
+        setModifier(statBlock.getModifier());
+        total.setText(statBlock.getValue() + "");
+        modifier.setText(statBlock.getModifier() + "");
+    }
+
+    @Override
+    public void onCharacterChanged(Character character) {
+        StatBlock statBlock = setStatBlock(character);
+        updateView(statBlock);
+
+        adapter.reloadList(character);
     }
 
 
@@ -85,7 +97,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         }
 
         @Override
-        protected void launchNoSource(MainActivity activity, Character character, ComponentLaunchHelper.OnDialogDone onDone) {
+        protected void launchNoSource(MainActivity activity, Character character) {
             BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog();
             dialog.show(activity.getSupportFragmentManager(), "base_stats");
         }

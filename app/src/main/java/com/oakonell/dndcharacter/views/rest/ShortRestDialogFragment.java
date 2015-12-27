@@ -25,7 +25,6 @@ import java.util.List;
  * Created by Rob on 11/7/2015.
  */
 public class ShortRestDialogFragment extends AbstractRestDialogFragment {
-    private final List<HitDieUseRow> diceUses = new ArrayList<>();
     private HitDiceAdapter diceAdapter;
     private ListView hitDiceListView;
 
@@ -49,11 +48,10 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
 
     @Override
-    protected void onDone() {
-        super.onDone();
+    protected boolean onDone() {
         Character character = getCharacter();
         ShortRestRequest request = new ShortRestRequest();
-        for (HitDieUseRow each : diceUses) {
+        for (HitDieUseRow each : diceAdapter.diceCounts) {
             request.addHitDiceUsed(each.dieSides, each.numUses);
         }
         request.setHealing(getHealing());
@@ -61,28 +59,22 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
         updateCommonRequest(request);
         character.shortRest(request);
+        return super.onDone();
     }
 
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
-        if (character.getHP() == character.getMaxHP()) {
-            hitDiceListView.setVisibility(View.GONE);
-        } else {
-            hitDiceListView.setVisibility(View.VISIBLE);
-        }
-        List<Character.HitDieRow> diceCounts = character.getHitDiceCounts();
-        for (Character.HitDieRow each : diceCounts) {
-            HitDieUseRow newRow = new HitDieUseRow();
-            newRow.dieSides = each.dieSides;
-            newRow.numDiceRemaining = each.numDiceRemaining;
-            newRow.totalDice = each.totalDice;
-            diceUses.add(newRow);
-        }
-        diceAdapter = new HitDiceAdapter(getActivity(), diceUses);
+
+        diceAdapter = new HitDiceAdapter(getActivity(), character);
         hitDiceListView.setAdapter(diceAdapter);
+        updateView();
+    }
 
-
+    @Override
+    public void onCharacterChanged(Character character) {
+        diceAdapter.reloadList(character);
+        updateView();
     }
 
     @Override
@@ -95,11 +87,16 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         if (diceAdapter != null) {
             diceAdapter.notifyDataSetChanged();
         }
+        if (getCharacter().getHP() == getCharacter().getMaxHP()) {
+            hitDiceListView.setVisibility(View.GONE);
+        } else {
+            hitDiceListView.setVisibility(View.VISIBLE);
+        }
     }
 
     protected int getHealing() {
         int healing = 0;
-        for (HitDieUseRow each : diceUses) {
+        for (HitDieUseRow each : diceAdapter.diceCounts) {
             for (Integer eachRoll : each.rolls) {
                 // TODO include the con mod
                 healing += eachRoll;
@@ -115,9 +112,25 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         List<HitDieUseRow> diceCounts;
         private Context context;
 
-        public HitDiceAdapter(Context context, List<HitDieUseRow> diceCounts) {
+        public HitDiceAdapter(Context context, Character character) {
             this.context = context;
-            this.diceCounts = diceCounts;
+            populateDiceCounts(character);
+        }
+
+        private void populateDiceCounts(Character character) {
+            diceCounts = new ArrayList<>();
+            for (Character.HitDieRow each : character.getHitDiceCounts()) {
+                HitDieUseRow newRow = new HitDieUseRow();
+                newRow.dieSides = each.dieSides;
+                newRow.numDiceRemaining = each.numDiceRemaining;
+                newRow.totalDice = each.totalDice;
+                diceCounts.add(newRow);
+            }
+        }
+
+        public void reloadList(Character character) {
+            populateDiceCounts(character);
+            notifyDataSetChanged();
         }
 
         @Override

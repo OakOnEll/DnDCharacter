@@ -23,7 +23,7 @@ import com.oakonell.dndcharacter.views.race.ApplyRaceDialogFragment;
 /**
  * Created by Rob on 10/27/2015.
  */
-public abstract class AbstractSheetFragment extends Fragment implements OnCharacterLoaded {
+public abstract class AbstractSheetFragment extends Fragment implements OnCharacterLoaded, CharacterChangedListener {
     EditText character_name;
     TextView classes;
     TextView race;
@@ -31,6 +31,11 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     TextView character_name_read_only;
     Button changeName;
     Button cancelName;
+
+    @Override
+    public final void onCharacterChanged(Character character) {
+        updateViews();
+    }
 
     public void updateViews() {
         updateViews(getView());
@@ -41,7 +46,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     }
 
     protected Character getCharacter() {
-        return getMainActivity().character;
+        return getMainActivity().getCharacter();
     }
 
     protected void updateViews(View rootView) {
@@ -102,7 +107,6 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
 
     @Override
     public void onCharacterLoaded(Character character) {
-
         character_name_read_only.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +138,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
             @Override
             public void onClick(View v) {
                 try {
-                    ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog(getCharacter(), null);
+                    ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog();
                     dialog.show(getFragmentManager(), "background");
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
@@ -146,7 +150,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
             @Override
             public void onClick(View v) {
                 try {
-                    ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog(getCharacter(), null);
+                    ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog();
                     dialog.show(getFragmentManager(), "race");
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();

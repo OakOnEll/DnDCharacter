@@ -7,6 +7,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.CharacterChangedListener;
 import com.oakonell.dndcharacter.views.OnCharacterLoaded;
 import com.oakonell.dndcharacter.views.classes.AddClassLevelDialogFragment;
 import com.oakonell.dndcharacter.views.rest.LongRestDialogFragment;
@@ -41,25 +44,21 @@ public class MainActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
     private final String MyPREFERENCES = "prefs";
     long id = -1;
-    public com.oakonell.dndcharacter.model.Character character = null;
+    private Character character = null;
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * The {@link PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * {@link FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private MainFragment mainFragment;
-    private FeaturesFragment featuresFragment;
-    private NotesFragment notesFragment;
-    private PersonaFragment personaFragment;
-    private EquipmentFragment equipmentFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +81,8 @@ public class MainActivity extends AbstractBaseActivity {
 
         // Load recent used character
         loadCharacter(savedInstanceState);
-    }
 
+    }
 
     @Override
     protected void onStop() {
@@ -135,7 +134,7 @@ public class MainActivity extends AbstractBaseActivity {
             return true;
         }
         if (id == R.id.action_level_up) {
-            AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(character, null, null);
+            AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(null);
             dialog.show(getSupportFragmentManager(), "level_up");
             return true;
         }
@@ -144,13 +143,12 @@ public class MainActivity extends AbstractBaseActivity {
     }
 
     public void updateViews() {
-        if (mainFragment != null && mainFragment.isVisible()) mainFragment.updateViews();
-        if (featuresFragment != null && featuresFragment.isVisible())
-            featuresFragment.updateViews();
-        if (notesFragment != null && notesFragment.isVisible()) notesFragment.updateViews();
-        if (personaFragment != null && personaFragment.isVisible()) personaFragment.updateViews();
-        if (equipmentFragment != null && equipmentFragment.isVisible())
-            equipmentFragment.updateViews();
+        // loop over fragments and check for character change listeners
+        for (Fragment each : getSupportFragmentManager().getFragments()) {
+            if (each instanceof CharacterChangedListener) {
+                ((CharacterChangedListener) each).onCharacterChanged(character);
+            }
+        }
     }
 
     public void saveCharacter() {
@@ -247,6 +245,10 @@ public class MainActivity extends AbstractBaseActivity {
         }
     }
 
+    public Character getCharacter() {
+        return character;
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -282,12 +284,6 @@ public class MainActivity extends AbstractBaseActivity {
             return rootView;
         }
 
-        @Override
-        public void onCharacterLoaded(Character character) {
-            // nothing
-            super.onCharacterLoaded(character);
-
-        }
     }
 
     /**
@@ -303,26 +299,20 @@ public class MainActivity extends AbstractBaseActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                mainFragment = new MainFragment();
-                return mainFragment;
+                return new MainFragment();
             }
             if (position == 1) {
-                featuresFragment = new FeaturesFragment();
-                return featuresFragment;
+                return new FeaturesFragment();
             }
             if (position == 2) {
-                equipmentFragment = new EquipmentFragment();
-                return equipmentFragment;
+                return new EquipmentFragment();
             }
             if (position == 4) {
-                personaFragment = new PersonaFragment();
-                return personaFragment;
+                return new PersonaFragment();
 
             }
             if (position == 5) {
-                notesFragment = new NotesFragment();
-                return notesFragment;
-
+                return new NotesFragment();
             }
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).

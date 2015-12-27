@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.model.*;
+import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.CharacterItem;
+import com.oakonell.dndcharacter.model.RandomUtils;
 
 /**
  * Created by Rob on 12/8/2015.
@@ -24,6 +26,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     TextView name;
     TextView attack_bonus;
     TextView damage_descr;
+
     private int attackRoll;
     private int damageModifier = 2;
 
@@ -40,7 +43,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.weapon_attack_dialog, container);
         superCreateView(view);
 
@@ -72,6 +75,12 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         super.onCharacterLoaded(character);
         // TODO get character attack bonus for this item
         setModifier(5);
+    }
+
+    @Override
+    public void onCharacterChanged(Character character) {
+        // TODO
+        onCharacterLoaded(character);
     }
 
     private void rollAttack() {

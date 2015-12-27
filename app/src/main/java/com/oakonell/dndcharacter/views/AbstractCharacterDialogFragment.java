@@ -13,7 +13,7 @@ import com.oakonell.dndcharacter.R;
 /**
  * Created by Rob on 12/24/2015.
  */
-public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFragment implements OnCharacterLoaded {
+public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFragment implements OnCharacterLoaded, CharacterChangedListener {
 
 
     private Button done;
@@ -26,9 +26,11 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onDone();
-                dismiss();
+                boolean valid = onDone();
+                if (!valid) return;
                 getMainActivity().updateViews();
+                getMainActivity().saveCharacter();
+                dismiss();
             }
         });
 
@@ -50,15 +52,15 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
     }
 
     protected final com.oakonell.dndcharacter.model.Character getCharacter() {
-        return getMainActivity().character;
+        return getMainActivity().getCharacter();
     }
 
     public void onCharacterLoaded(com.oakonell.dndcharacter.model.Character character) {
 
     }
 
-    protected void onDone() {
-
+    protected boolean onDone() {
+        return true;
     }
 
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.oakonell.dndcharacter.model.BaseCharacterComponent;
@@ -19,6 +18,7 @@ import java.util.List;
  */
 public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     private ListView listView;
+    private LanguagesSourcesAdapter adapter;
 
     public static LanguagesDialogFragment create() {
         LanguagesDialogFragment frag = new LanguagesDialogFragment();
@@ -46,8 +46,13 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
             }
         };
 
-        ListAdapter adapter = new LanguagesSourcesAdapter(this, listRetriever);
+        adapter = new LanguagesSourcesAdapter(this, listRetriever);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onCharacterChanged(Character character) {
+        adapter.reloadList(character);
     }
 
     public static class LanguagesSourcesAdapter extends RowWithSourceAdapter<Character.LanguageWithSource> {

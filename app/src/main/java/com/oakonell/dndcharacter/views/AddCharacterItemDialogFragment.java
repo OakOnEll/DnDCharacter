@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.*;
 
 /**
  * Created by Rob on 12/24/2015.
@@ -21,6 +22,8 @@ public class AddCharacterItemDialogFragment extends AbstractCharacterDialogFragm
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-
-
+    @Override
+    public void onCharacterChanged(com.oakonell.dndcharacter.model.Character character) {
+        //
+    }
 }

@@ -90,7 +90,6 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         }
         featureResetAdapter = new FeatureResetsAdapter(getActivity(), featureResets);
         featureListView.setAdapter(featureResetAdapter);
-        updateView();
     }
 
     protected void configureCommon(View view) {

@@ -28,8 +28,13 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
 
     public RowWithSourceAdapter(MainActivity activity, ListRetriever<C> listRetriever) {
         this.listRetriever = listRetriever;
-        this.list = listRetriever.getList(activity.character);
+        this.list = listRetriever.getList(activity.getCharacter());
         this.activity = activity;
+    }
+
+    public void reloadList(Character character) {
+        list = listRetriever.getList(character);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -68,18 +73,11 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Character character = activity.character;
-                ComponentLaunchHelper.OnDialogDone onDone = new ComponentLaunchHelper.OnDialogDone() {
-                    @Override
-                    public void done(boolean changed) {
-                        list = listRetriever.getList(activity.character);
-                        notifyDataSetInvalidated();
-                    }
-                };
+                final Character character = activity.getCharacter();
                 if (source == null) {
-                    launchNoSource(activity, character, onDone);
+                    launchNoSource(activity, character);
                 } else {
-                    ComponentLaunchHelper.editComponent(activity, character, source, onDone, false);
+                    ComponentLaunchHelper.editComponent(activity, character, source, false);
                 }
             }
         });
@@ -94,7 +92,7 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
 
     }
 
-    protected void launchNoSource(MainActivity activity, Character character, ComponentLaunchHelper.OnDialogDone onDone) {
+    protected void launchNoSource(MainActivity activity, Character character) {
     }
 
     @NonNull

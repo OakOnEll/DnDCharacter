@@ -24,8 +24,6 @@ import java.util.List;
  * Created by Rob on 11/8/2015.
  */
 public class LongRestDialogFragment extends AbstractRestDialogFragment {
-
-    private final List<HitDieRestoreRow> diceUses = new ArrayList<>();
     View fullHealingGroup;
     CheckBox fullHealing;
     private HitDiceRestoreAdapter diceAdapter;
@@ -67,38 +65,38 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
 
 
     @Override
-    protected void onDone() {
-        super.onDone();
+    protected boolean onDone() {
         LongRestRequest request = new LongRestRequest();
         request.setHealing(getHealing());
-        for (HitDieRestoreRow each : diceUses) {
+        for (HitDieRestoreRow each : diceAdapter.diceCounts) {
             if (each.numDiceToRestore > 0) {
                 request.restoreHitDice(each.dieSides, each.numDiceToRestore);
             }
         }
         updateCommonRequest(request);
         getCharacter().longRest(request);
+        return super.onDone();
     }
 
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
-        List<com.oakonell.dndcharacter.model.Character.HitDieRow> diceCounts = character.getHitDiceCounts();
 
-        for (Character.HitDieRow each : diceCounts) {
-            HitDieRestoreRow newRow = new HitDieRestoreRow();
-            newRow.dieSides = each.dieSides;
-            newRow.currentDiceRemaining = each.numDiceRemaining;
-            newRow.totalDice = each.totalDice;
-            newRow.numDiceToRestore = Math.min(Math.max(each.totalDice / 2, 1), each.totalDice - each.numDiceRemaining);
-
-            diceUses.add(newRow);
-        }
-        diceAdapter = new HitDiceRestoreAdapter(getActivity(), diceUses);
+        diceAdapter = new HitDiceRestoreAdapter(getActivity(), character);
         hitDiceListView.setAdapter(diceAdapter);
+        updateView();
+    }
 
+    @Override
+    public void onCharacterChanged(Character character) {
+        updateView();
+        diceAdapter.reloadList(character);
+    }
 
-        if (character.getHP() == character.getMaxHP()) {
+    @Override
+    public void updateView() {
+        super.updateView();
+        if (getCharacter().getHP() == getCharacter().getMaxHP()) {
             fullHealingGroup.setVisibility(View.GONE);
         } else {
             fullHealingGroup.setVisibility(View.VISIBLE);
@@ -110,10 +108,6 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         return true;
     }
 
-    public void updateView() {
-        super.updateView();
-        diceAdapter.notifyDataSetChanged();
-    }
 
     @Override
     protected int getHealing() {
@@ -134,14 +128,32 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         List<HitDieRestoreRow> diceCounts;
         private Context context;
 
-        public HitDiceRestoreAdapter(Context context, List<HitDieRestoreRow> diceCounts) {
+        public HitDiceRestoreAdapter(Context context, Character character) {
             this.context = context;
-            this.diceCounts = diceCounts;
+            populateDiceCounts(character);
+        }
+
+        private void populateDiceCounts(Character character) {
+            diceCounts = new ArrayList<>();
+            for (Character.HitDieRow each : character.getHitDiceCounts()) {
+                HitDieRestoreRow newRow = new HitDieRestoreRow();
+                newRow.dieSides = each.dieSides;
+                newRow.currentDiceRemaining = each.numDiceRemaining;
+                newRow.totalDice = each.totalDice;
+                newRow.numDiceToRestore = Math.min(Math.max(each.totalDice / 2, 1), each.totalDice - each.numDiceRemaining);
+
+                diceCounts.add(newRow);
+            }
         }
 
         @Override
         public int getCount() {
             return diceCounts.size();
+        }
+
+        public void reloadList(Character character) {
+            populateDiceCounts(character);
+            notifyDataSetChanged();
         }
 
         @Override
