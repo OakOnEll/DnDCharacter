@@ -7,109 +7,107 @@
     android:gravity="center_horizontal">
 
     <LinearLayout
-        android:id="@+id/type_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/type_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-            <RadioButton
-                android:id="@+id/damage_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="@+id/damage_type"
-                android:text="Damage" />
-
-            <com.oakonell.dndcharacter.views.NoDefaultSpinner
-                android:prompt="@string/damage_type"
-                android:id="@+id/damage_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@+id/damage_radio"
-                android:spinnerMode="dropdown" />
-        </LinearLayout>
-
-        <RadioButton
-            android:id="@+id/heal_radio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/damage_radio"
-            android:text="Heal" />
-
-        <RadioButton
-            android:id="@+id/temp_hp_radio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/heal_radio"
-            android:text="Temp HP" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/hp_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/type_layout"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/hp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:ems="5"
-            android:enabled="true"
-            android:gravity="right"
-            android:hint="HP"
-            android:inputType="number" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/hp"
-            android:layout_marginRight="16dp"
-            android:layout_toRightOf="@id/hp"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/add"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="+" />
+                android:gravity="center_vertical">
 
-            <Button
-                android:id="@+id/subtract"
-                style="?android:attr/buttonStyleSmall"
+                <RadioButton
+                    android:id="@+id/damage_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Damage" />
+
+                <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                    android:id="@+id/damage_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:prompt="@string/damage_type"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/heal_radio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="-" />
+                android:text="Heal" />
+
+            <RadioButton
+                android:id="@+id/temp_hp_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temp HP" />
+
         </LinearLayout>
-    </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/hp_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/summary"
-        android:layout_below="@id/hp_layout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:ems="5"
+                android:enabled="true"
+                android:gravity="right"
+                android:hint="HP"
+                android:inputType="number" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/add"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="+" />
+
+                <Button
+                    android:id="@+id/subtract"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="-" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/add_another"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Add\n another" />
+        </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView12"
@@ -125,12 +123,20 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/hp_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </android.support.v7.widget.RecyclerView>
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView9"
@@ -145,33 +151,31 @@
                 android:text="8"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/summary"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/done"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
-            android:text="Done" />
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Cancel" />
+            <Button
+                android:id="@+id/done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Done" />
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Cancel" />
+        </LinearLayout>
+
     </LinearLayout>
-
-
 </RelativeLayout>
 
 
