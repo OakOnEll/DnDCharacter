@@ -15,6 +15,7 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterArmor;
 import com.oakonell.expression.context.SimpleVariableContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,10 +28,11 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
     private RootAcAdapter rootAcAdapter;
     private ModifyingAcAdapter modifyingAcAdapter;
+    private String baseArmorSaved;
+    private ArrayList<String> modifyingArmorSaved;
 
     public static ArmorClassDialogFragment createDialog() {
-        ArmorClassDialogFragment newMe = new ArmorClassDialogFragment();
-        return newMe;
+        return new ArmorClassDialogFragment();
     }
 
     public View onCreateTheView(LayoutInflater inflater, final ViewGroup container,
@@ -42,7 +44,30 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         rootList = (RecyclerView) view.findViewById(R.id.root_ac_list);
         modList = (RecyclerView) view.findViewById(R.id.mod_ac_list);
 
+        if (savedInstanceState != null) {
+            baseArmorSaved = savedInstanceState.getString("baseArmor");
+            modifyingArmorSaved = savedInstanceState.getStringArrayList("modifyingArmor");
+        }
+
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
+            if (each.isEquipped()) {
+                outState.putString("baseArmor", each.getSourceString());
+                break;
+            }
+        }
+        ArrayList<String> equippedBonuses = new ArrayList<>();
+        for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
+            if (each.isEquipped()) {
+                equippedBonuses.add(each.getSourceString());
+            }
+        }
+        outState.putStringArrayList("modifyingArmor", equippedBonuses);
     }
 
     @Override
@@ -63,12 +88,33 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         super.onCharacterLoaded(character);
 
         rootAcAdapter = new RootAcAdapter(this, character);
+        if (baseArmorSaved != null) {
+            for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
+                if (each.getSourceString().equals(baseArmorSaved)) {
+                    each.setIsEquipped(true);
+                } else {
+                    each.setIsEquipped(false);
+                }
+            }
+            baseArmorSaved = null;
+        }
+
         rootList.setAdapter(rootAcAdapter);
         rootList.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rootList.setHasFixedSize(false);
 
 
         modifyingAcAdapter = new ModifyingAcAdapter(this, character);
+        if (modifyingArmorSaved != null) {
+            for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
+                if (modifyingArmorSaved.contains(each.getSourceString())) {
+                    each.setIsEquipped(true);
+                } else {
+                    each.setIsEquipped(false);
+                }
+            }
+            modifyingArmorSaved = null;
+        }
         modList.setAdapter(modifyingAcAdapter);
         modList.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         modList.setHasFixedSize(false);
@@ -80,12 +126,12 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             }
         });
         modifyingAcAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-
             @Override
             public void onChanged() {
                 updateAC();
             }
         });
+
 
         updateAC();
     }
@@ -115,13 +161,13 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
     }
 
-    public static class RootAcViewHolder extends RecyclerView.ViewHolder {
+    public static class AcViewHolder extends RecyclerView.ViewHolder {
         private final CheckBox checkBox;
         private final TextView name;
         private final TextView formula;
         private final TextView value;
 
-        public RootAcViewHolder(View itemView) {
+        public AcViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             formula = (TextView) itemView.findViewById(R.id.formula);
@@ -130,13 +176,11 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         }
     }
 
-    public static class RootAcAdapter extends RecyclerView.Adapter<RootAcViewHolder> {
-        private final Character character;
+    public static class RootAcAdapter extends RecyclerView.Adapter<AcViewHolder> {
         List<Character.ArmorClassWithSource> list;
         ArmorClassDialogFragment fragment;
 
         RootAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, Character character) {
-            this.character = character;
             list = character.deriveRootAcs();
             this.fragment = armorClassDialogFragment;
         }
@@ -146,14 +190,13 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public RootAcViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AcViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.armor_class_root_item, parent, false);
-            RootAcViewHolder holder = new RootAcViewHolder(newView);
-            return holder;
+            return new AcViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(RootAcViewHolder holder, final int position) {
+        public void onBindViewHolder(AcViewHolder holder, final int position) {
             final Character.ArmorClassWithSource row = list.get(position);
             holder.name.setText(row.getSourceString());
             holder.formula.setText(row.getFormula());
@@ -228,7 +271,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             if (activeFormula == null) continue;
             SimpleVariableContext variableContext = new SimpleVariableContext();
             variableContext.setBoolean("armor", armor);
-            boolean shouldEquip = modifyingAcAdapter.character.evaluateBooleanFormula(activeFormula, variableContext);
+            boolean shouldEquip = getCharacter().evaluateBooleanFormula(activeFormula, variableContext);
             if (each.isEquipped() != shouldEquip) {
                 each.setIsEquipped(shouldEquip);
                 modifyingAcAdapter.notifyItemChanged(position);
@@ -237,13 +280,11 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
 
-    public static class ModifyingAcAdapter extends RecyclerView.Adapter<RootAcViewHolder> {
-        private final Character character;
+    public static class ModifyingAcAdapter extends RecyclerView.Adapter<AcViewHolder> {
         List<Character.ArmorClassWithSource> list;
         ArmorClassDialogFragment fragment;
 
         ModifyingAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, Character character) {
-            this.character = character;
             list = character.deriveModifyingAcs();
             this.fragment = armorClassDialogFragment;
         }
@@ -253,14 +294,13 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public RootAcViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AcViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.armor_class_root_item, parent, false);
-            RootAcViewHolder holder = new RootAcViewHolder(newView);
-            return holder;
+            return new AcViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(RootAcViewHolder holder, final int position) {
+        public void onBindViewHolder(AcViewHolder holder, final int position) {
             final Character.ArmorClassWithSource row = list.get(position);
             holder.name.setText(row.getSourceString());
             holder.formula.setText(row.getFormula());
