@@ -18,7 +18,7 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
 
     private Button done;
 
-    public final View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                    Bundle savedInstanceState) {
         View view = onCreateTheView(inflater, container, savedInstanceState);
 

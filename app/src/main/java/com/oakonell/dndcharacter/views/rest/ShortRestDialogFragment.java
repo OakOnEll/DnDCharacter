@@ -49,17 +49,19 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
     @Override
     protected boolean onDone() {
-        Character character = getCharacter();
+        boolean isValid = true;
         ShortRestRequest request = new ShortRestRequest();
         for (HitDieUseRow each : diceAdapter.diceCounts) {
             request.addHitDiceUsed(each.dieSides, each.numUses);
         }
         request.setHealing(getHealing());
-        character.heal(getHealing());
 
-        updateCommonRequest(request);
-        character.shortRest(request);
-        return super.onDone();
+        isValid = isValid && updateCommonRequest(request);
+        isValid = isValid && super.onDone();
+        if (isValid) {
+            getCharacter().shortRest(request);
+        }
+        return isValid;
     }
 
     @Override

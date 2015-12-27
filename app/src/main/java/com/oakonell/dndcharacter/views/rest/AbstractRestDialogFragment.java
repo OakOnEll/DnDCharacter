@@ -1,8 +1,10 @@
 package com.oakonell.dndcharacter.views.rest;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -34,12 +36,12 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     private TextView finalHp;
     private TextView startHp;
     private View finalHpGroup;
-    private View featureResetsGroup;
     private View noHealingGroup;
 
     private FeatureResetsAdapter featureResetAdapter;
-    private List<FeatureResetInfo> featureResets;
+    //private List<FeatureResetInfo> featureResets;
     private ListView featureListView;
+    private Bundle savedFeatureResets;
 
     protected boolean allowExtraHealing() {
         return getCharacter().getHP() != getCharacter().getMaxHP();
@@ -47,6 +49,27 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     protected void conditionallyShowExtraHealing() {
         extraHealingGroup.setVisibility(allowExtraHealing() ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            savedFeatureResets = savedInstanceState.getBundle("featureResets");
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Bundle resets = new Bundle();
+        for (FeatureResetInfo each : featureResetAdapter.resets) {
+            Bundle reset = new Bundle();
+            reset.putByte("reset", (byte) (each.reset ? 1 : 0));
+            reset.putInt("numToRestore", each.numToRestore);
+            resets.putBundle(each.name, reset);
+        }
+        outState.putBundle("featureResets", resets);
     }
 
     @Override
@@ -68,7 +91,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         startHp.setText(character.getHP() + " / " + character.getMaxHP());
 
         List<FeatureInfo> features = character.getFeatureInfos();
-        featureResets = new ArrayList<>();
+        List<FeatureResetInfo> featureResets = new ArrayList<>();
         for (FeatureInfo each : features) {
             RefreshType refreshOn = each.getFeature().getRefreshesOn();
             if (refreshOn == null) continue;
@@ -76,30 +99,40 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             FeatureResetInfo resetInfo = new FeatureResetInfo();
             resetInfo.name = each.getName();
             resetInfo.description = each.getShortDescription();
-            resetInfo.reset = shouldReset(refreshOn);
-            resetInfo.refreshOn = refreshOn;
             int maxUses = each.evaluateMaxUses(character);
             int usesRemaining = character.getUsesRemaining(each);
-            if (resetInfo.reset) {
-                resetInfo.numToRestore = maxUses - usesRemaining;
+            Bundle resetBundle = null;
+            if (savedFeatureResets != null) {
+                resetBundle = savedFeatureResets.getBundle(each.getName());
             }
+            if (resetBundle != null) {
+                resetInfo.reset = resetBundle.getByte("reset") != 0;
+                resetInfo.numToRestore = resetBundle.getInt("numToRestore");
+            } else {
+                resetInfo.reset = shouldReset(refreshOn);
+                if (resetInfo.reset) {
+                    resetInfo.numToRestore = maxUses - usesRemaining;
+                }
+            }
+            resetInfo.refreshOn = refreshOn;
             resetInfo.maxToRestore = maxUses - usesRemaining;
             resetInfo.uses = usesRemaining + " / " + maxUses;
             resetInfo.needsResfesh = usesRemaining != maxUses;
             featureResets.add(resetInfo);
         }
+        savedFeatureResets = null;
         featureResetAdapter = new FeatureResetsAdapter(getActivity(), featureResets);
         featureListView.setAdapter(featureResetAdapter);
     }
 
     protected void configureCommon(View view) {
-        featureResetsGroup = view.findViewById(R.id.feature_resets);
+        //featureResetsGroup = view.findViewById(R.id.feature_resets);
         startHp = (TextView) view.findViewById(R.id.start_hp);
         finalHp = (TextView) view.findViewById(R.id.final_hp);
-        finalHpGroup = (View) view.findViewById(R.id.final_hp_group);
-        extraHealingGroup = (View) view.findViewById(R.id.extra_heal_group);
+        finalHpGroup = view.findViewById(R.id.final_hp_group);
+        extraHealingGroup = view.findViewById(R.id.extra_heal_group);
         extraHealingtextView = (TextView) view.findViewById(R.id.extra_healing);
-        noHealingGroup = (View) view.findViewById(R.id.no_healing_group);
+        noHealingGroup = view.findViewById(R.id.no_healing_group);
 
         featureListView = (ListView) view.findViewById(R.id.feature_list);
 
@@ -128,7 +161,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     protected int getExtraHealing() {
         String extraHealString = extraHealingtextView.getText().toString();
-        if (extraHealString != null && extraHealString.trim().length() > 0) {
+        if (extraHealString.trim().length() > 0) {
             return Integer.parseInt(extraHealString);
         }
         return 0;
@@ -144,12 +177,15 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     protected abstract int getHealing();
 
-    protected void updateCommonRequest(AbstractRestRequest request) {
-        for (FeatureResetInfo each : featureResets) {
+    protected boolean updateCommonRequest(AbstractRestRequest request) {
+        boolean isValid = true;
+        for (FeatureResetInfo each : featureResetAdapter.resets) {
             if (each.reset) {
+                isValid = isValid && each.numToRestore <= each.maxToRestore;
                 request.addFeatureReset(each.name, each.numToRestore);
             }
         }
+        return isValid;
     }
 
 
@@ -231,6 +267,8 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                 public void afterTextChanged(Editable s) {
                     // TODO error handling, if val is too large
                     if (s == null) return;
+                    if (!row.reset) return;
+
                     String stringVal = s.toString().trim();
                     if (stringVal.length() == 0) return;
                     int value;
@@ -256,6 +294,12 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     row.reset = isChecked;
                     viewHolder.numToRestore.setEnabled(row.reset);
+                    if (row.reset) {
+                        // force a validation
+                        viewHolder.numToRestore.setText(viewHolder.numToRestore.getText());
+                    } else {
+                        viewHolder.numToRestore.setError(null);
+                    }
                 }
             });
 
