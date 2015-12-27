@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.views;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
@@ -32,6 +34,8 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     Button subtract;
 
     Button cancel;
+    private TextView start_hp;
+    private TextView final_hp;
 
     public static HitPointDiaogFragment createDialog() {
         return new HitPointDiaogFragment();
@@ -40,6 +44,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     @Override
     public void onCharacterChanged(Character character) {
         // nothing to do?
+        updateView();
     }
 
     @Override
@@ -51,11 +56,19 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
         damage = (RadioButton) view.findViewById(R.id.damage_radio);
         type = (Spinner) view.findViewById(R.id.damage_type);
+
+        float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (type.getPrompt().length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, type.getResources().getDisplayMetrics());
+        type.setMinimumWidth((int) minWidth);
+
+
         heal = (RadioButton) view.findViewById(R.id.heal_radio);
         tempHP = (RadioButton) view.findViewById(R.id.temp_hp_radio);
 
         add = (Button) view.findViewById(R.id.add);
         subtract = (Button) view.findViewById(R.id.subtract);
+
+        start_hp = (TextView) view.findViewById(R.id.start_hp);
+        final_hp = (TextView) view.findViewById(R.id.final_hp);
 
         cancel = (Button) view.findViewById(R.id.cancel);
 
@@ -88,7 +101,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
                     heal.setChecked((false));
                     type.setEnabled(false);
                 }
-                conditionallyEnableDone();
+                updateView();
             }
 
         };
@@ -114,7 +127,6 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getDialog().dismiss();
             }
         });
@@ -132,12 +144,51 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                conditionallyEnableDone();
+                updateView();
             }
         });
 
         return view;
     }
+
+    @Override
+    public void onCharacterLoaded(Character character) {
+        super.onCharacterLoaded(character);
+        updateView();
+    }
+
+
+    private void updateView() {
+        Character character = getCharacter();
+        int currentHp = character.getHP();
+        int tempHp = character.getTempHp();
+        String startHptext = currentHp + "/" + character.getMaxHP();
+        if (character.getTempHp() > 0) {
+            startHptext += " + " + tempHp;
+        }
+        start_hp.setText(startHptext);
+        int hpToApply = getHp();
+
+        int finalHp = character.getTotalHP();
+
+        if (damage.isChecked()) {
+            // TODO extract this to avoid redundancy
+            tempHp -= hpToApply;
+            finalHp = Math.max(character.getHP() + tempHp, 0);
+        } else if (heal.isChecked()) {
+            finalHp = Math.min(hpToApply + finalHp, character.getMaxHP() + character.getTempHp());
+        } else if (tempHP.isChecked()) {
+            // TODO extract this to avoid redundancy
+            tempHp = tempHp + hpToApply;
+        }
+        String finalHpText = finalHp + "/" + character.getMaxHP();
+        if (tempHp > 0) {
+            finalHpText += " + " + tempHp;
+        }
+        final_hp.setText(finalHpText);
+        conditionallyEnableDone();
+    }
+
 
     @Override
     protected boolean onDone() {

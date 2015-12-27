@@ -96,10 +96,61 @@
         </LinearLayout>
     </LinearLayout>
 
+
+    <LinearLayout
+        android:id="@+id/summary"
+        android:layout_below="@id/hp_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Starting HP" />
+
+            <TextView
+                android:id="@+id/start_hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Final HP" />
+
+            <TextView
+                android:id="@+id/final_hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </LinearLayout>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/hp_layout"
+        android:layout_below="@id/summary"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:orientation="horizontal">
@@ -119,6 +170,7 @@
             android:layout_marginTop="16dp"
             android:text="Cancel" />
     </LinearLayout>
+
 
 </RelativeLayout>
 

@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
  * From http://stackoverflow.com/questions/867518/how-to-make-an-android-spinner-with-initial-text-select-one
  */
 public class NoDefaultSpinner extends Spinner {
+    public static final int SPINNER_TEXT_SP = 14;
 
     public NoDefaultSpinner(Context context) {
         super(context);

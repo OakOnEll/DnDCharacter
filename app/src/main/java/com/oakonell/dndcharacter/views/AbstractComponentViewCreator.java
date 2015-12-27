@@ -37,7 +37,6 @@ import java.util.Map;
  * Created by Rob on 11/18/2015.
  */
 public class AbstractComponentViewCreator extends AbstractComponentVisitor {
-    public static final int SPINNER_TEXT_SP = 14;
     SavedChoices choices;
     int uiIdCounter;
     ChooseMD currentChooseMD;
@@ -290,7 +289,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
             spinner.setPrompt("[" + prompt + "]");
             spinner.setAdapter(dataAdapter);
             spinner.setId(++uiIdCounter);
-            float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (prompt.length() + 2) * SPINNER_TEXT_SP, spinner.getResources().getDisplayMetrics());
+            float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (prompt.length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, spinner.getResources().getDisplayMetrics());
             spinner.setMinimumWidth((int) minWidth);
 
             final DropdownOptionMD optionMD = new DropdownOptionMD(categoryChoicesMD, spinner, textView);
