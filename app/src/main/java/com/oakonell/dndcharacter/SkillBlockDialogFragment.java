@@ -20,7 +20,6 @@ import java.util.List;
  * Created by Rob on 11/7/2015.
  */
 public class SkillBlockDialogFragment extends RollableDialogFragment {
-    private SkillBlock skillBlock;
     private TextView statLabel;
     private TextView skillLabel;
     private TextView statModLabel;
@@ -31,6 +30,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     private ListView listView;
 
 
+    private SkillBlock skillBlock;
     private SkillSourceAdapter adapter;
     private SkillType type;
 
@@ -49,7 +49,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.skill_dialog, container);
-        superCreateView(view);
+        superCreateView(view,savedInstanceState);
 
         statLabel = (TextView) view.findViewById(R.id.stat_label);
         skillLabel = (TextView) view.findViewById(R.id.skill_label);

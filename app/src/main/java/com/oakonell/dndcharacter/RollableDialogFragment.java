@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter;
 
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,8 +18,6 @@ import java.util.List;
  * Created by Rob on 12/1/2015.
  */
 public abstract class RollableDialogFragment extends AbstractCharacterDialogFragment {
-    int startColor;
-
     private TextView roll1Text;
     private TextView roll2Text;
     private TextView modifierText;
@@ -27,34 +26,50 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
     private AppCompatSpinner advantageSpinner;
 
     int modifier;
-    private int roll;
-    private int roll2;
+    int startColor;
 
-    protected void superCreateView(View view) {
+//    private int roll;
+//    private int roll2;
+
+
+    protected void superCreateView(View view, Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            modifier = savedInstanceState.getInt("modifier");
+        }
+
         advantageSpinner = (AppCompatSpinner) view.findViewById(R.id.advantage);
 
         Button roll = (Button) view.findViewById(R.id.roll_button);
         roll1Text = (TextView) view.findViewById(R.id.roll1);
         roll2Text = (TextView) view.findViewById(R.id.roll2);
 
-        startColor = roll1Text.getCurrentTextColor();
+        if (savedInstanceState != null) {
+            startColor = savedInstanceState.getInt("startColor", roll1Text.getCurrentTextColor());
+
+            roll1Text.setText(savedInstanceState.getString("roll", ""));
+            roll2Text.setText(savedInstanceState.getString("roll2", ""));
+        } else {
+            startColor = roll1Text.getCurrentTextColor();
+        }
 
         modifierText = (TextView) view.findViewById(R.id.roll_modifier);
         totalText = (TextView) view.findViewById(R.id.roll_total);
 
         critical_label = (TextView) view.findViewById(R.id.critical_label);
 
-
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Normal");
         list.add("Advantage");
         list.add("Disadvantage");
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
                 (getActivity(), android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         advantageSpinner.setAdapter(dataAdapter);
-        advantageSpinner.setSelection(0);
+        int advantageIndex = 0;
+        if (savedInstanceState != null) {
+            advantageIndex = savedInstanceState.getInt("advantageIndex", 0);
+        }
 
         advantageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -74,6 +89,8 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
             }
         });
 
+        advantageSpinner.setSelection(advantageIndex);
+
 
         roll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,9 +100,21 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
         });
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // TODO not sure why the roll Texts aren't being saved per android FW?
+        outState.putString("roll", roll1Text.getText().toString());
+        outState.putString("roll2", roll2Text.getText().toString());
+        outState.putInt("modifier", modifier);
+        outState.putInt("startColor", startColor);
+        outState.putInt("advantageIndex", advantageSpinner.getSelectedItemPosition());
+
+    }
+
     private void roll() {
-        roll = RandomUtils.random(1, 20);
-        roll2 = RandomUtils.random(1, 20);
+        int roll = RandomUtils.random(1, 20);
+        int roll2 = RandomUtils.random(1, 20);
 
         // TODO animate the roll, with sound fx
         roll1Text.setText(roll + "");
@@ -95,6 +124,8 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
     }
 
     public void updateRollView() {
+        int roll = getTextViewInteger(roll1Text);
+        int roll2 = getTextViewInteger(roll2Text);
         int total = roll;
 
         boolean isAdvantage = advantageSpinner.getSelectedItemPosition() == 1;
@@ -141,6 +172,12 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
 
         total += modifier;
         totalText.setText(total + "");
+    }
+
+    private int getTextViewInteger(TextView textView) {
+        final String string = textView.getText().toString();
+        if (string.trim().length() == 0) return 0;
+        return Integer.parseInt(string);
     }
 
     protected void setModifier(int modifier) {

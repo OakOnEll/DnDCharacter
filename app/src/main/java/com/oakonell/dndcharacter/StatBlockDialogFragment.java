@@ -38,7 +38,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.stat_dialog, container);
-        superCreateView(view);
+        superCreateView(view,savedInstanceState);
 
         statLabel = (TextView) view.findViewById(R.id.stat_label);
 

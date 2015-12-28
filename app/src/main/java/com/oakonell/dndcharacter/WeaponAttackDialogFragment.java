@@ -45,7 +45,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.weapon_attack_dialog, container);
-        superCreateView(view);
+        superCreateView(view,savedInstanceState);
 
         description = (TextView) view.findViewById(R.id.description);
         name = (TextView) view.findViewById(R.id.weapon_label);

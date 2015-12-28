@@ -38,8 +38,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
 
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
+    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tool_proficiency_dialog, container);
 
         proficiency_label = (TextView) view.findViewById(R.id.proficiency_label);

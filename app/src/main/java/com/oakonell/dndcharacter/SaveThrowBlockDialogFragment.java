@@ -39,7 +39,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.save_throw_dialog, container);
-        superCreateView(view);
+        superCreateView(view,savedInstanceState);
 
         statLabel = (TextView) view.findViewById(R.id.stat_label);
         statModLabel = (TextView) view.findViewById(R.id.stat_mod_lbl);

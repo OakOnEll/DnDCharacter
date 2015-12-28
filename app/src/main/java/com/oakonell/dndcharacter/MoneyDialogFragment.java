@@ -16,7 +16,6 @@ import com.oakonell.dndcharacter.views.AbstractCharacterDialogFragment;
  * Created by Rob on 12/2/2015.
  */
 public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
-
     private TextView copperResult;
     private TextView silverResult;
     private TextView electrumResult;
