@@ -11,67 +11,55 @@
     -->
     <TextView
         android:id="@+id/total"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:ems="3"
-        android:text="Total"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        android:text="Total" />
 
 
     <TextView
         android:id="@+id/die"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:ems="3"
-        android:text="Die"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="Die" />
 
     <TextView
         android:id="@+id/current_dice_remaining"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:ems="3"
-        android:text="Current"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="Current" />
 
     <TextView
         android:id="@+id/plus_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="+" />
 
     <EditText
         android:id="@+id/dice_to_restore"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:ems="3"
-        android:text="Restore"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:inputType="number" />
+        android:inputType="number"
+        android:text="3" />
 
     <TextView
         android:id="@+id/restore_lbl"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:ems="3"
         android:text="Restore"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/equals_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="="
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="=" />
 
     <TextView
         android:id="@+id/resultant_dice"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:ems="3"
-        android:text="Result"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="Result" />
 
 </LinearLayout>

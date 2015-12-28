@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views.rest;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -20,7 +20,7 @@ import com.oakonell.dndcharacter.views.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -87,7 +87,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
 
-        diceAdapter = new HitDiceAdapter(getActivity(), character);
+        diceAdapter = new HitDiceAdapter(this, character);
 
         if (savedDiceCounts != null) {
             diceAdapter.populateDiceCounts(character, savedDiceCounts);
@@ -143,11 +143,11 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
 
-    private class HitDiceAdapter extends RecyclerView.Adapter<HitDieUseViewHolder> {
+    private static class HitDiceAdapter extends RecyclerView.Adapter<HitDiceViewHolder> {
         ArrayList<HitDieUseRow> diceCounts;
-        private Context context;
+        private ShortRestDialogFragment context;
 
-        public HitDiceAdapter(Context context, Character character) {
+        public HitDiceAdapter(ShortRestDialogFragment context, Character character) {
             this.context = context;
             populateDiceCounts(character, null);
         }
@@ -201,14 +201,14 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         }
 
         @Override
-        public HitDieUseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            HitDieUseViewHolder viewHolder;
-            View view = View.inflate(context, R.layout.hit_dice_item, null);
-            viewHolder = new HitDieUseViewHolder(view);
+        public HitDiceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = View.inflate(context.getMainActivity(), R.layout.hit_dice_item, null);
+            HitDiceViewHolder viewHolder = new HitDiceViewHolder(view);
 
+            viewHolder.hit_die_group = (ViewGroup) view.findViewById(R.id.hit_die_group);
             viewHolder.numDice = (TextView) view.findViewById(R.id.num_dice);
             viewHolder.die = (TextView) view.findViewById(R.id.die);
-            viewHolder.useText = (TextView) view.findViewById(R.id.hit_die_vals_text);
+            viewHolder.uses = (RecyclerView) view.findViewById(R.id.hit_die_vals_list);
             viewHolder.useButton = (Button) view.findViewById(R.id.use_die_button);
 
             viewHolder.use_hit_die_group = (ViewGroup) view.findViewById(R.id.use_hit_die_group);
@@ -217,29 +217,30 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             viewHolder.apply = (Button) view.findViewById(R.id.apply);
             viewHolder.cancel = (Button) view.findViewById(R.id.cancel);
 
+            viewHolder.usesAdapter = new HitDieUseAdapter(this);
+            viewHolder.uses.setAdapter(viewHolder.usesAdapter);
+
+            viewHolder.uses.setHasFixedSize(false);
+            viewHolder.uses.setLayoutManager(new LinearLayoutManager(context.getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(final HitDieUseViewHolder viewHolder, int position) {
+        public void onBindViewHolder(final HitDiceViewHolder viewHolder, int position) {
             final HitDieUseRow row = getItem(position);
+            viewHolder.hit_die_group.setVisibility(View.VISIBLE);
+            viewHolder.use_hit_die_group.setVisibility(View.GONE);
+
             viewHolder.numDice.setText(row.numDiceRemaining + "");
             viewHolder.die.setText(row.dieSides + "");
-            StringBuilder builder = new StringBuilder();
-            for (Iterator<Integer> iter = row.rolls.iterator(); iter.hasNext(); ) {
-                Integer value = iter.next();
-                builder.append(value);
-                if (iter.hasNext()) {
-                    builder.append(", ");
-                }
-            }
-            viewHolder.useText.setText(builder.toString());
             if (row.numDiceRemaining > 0) {
                 viewHolder.useButton.setEnabled(true);
                 viewHolder.useButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         viewHolder.use_hit_die_group.setVisibility(View.VISIBLE);
+                        viewHolder.hit_die_group.setVisibility(View.GONE);
                         viewHolder.useButton.setEnabled(false);
                     }
                 });
@@ -253,6 +254,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                 public void onClick(View v) {
                     viewHolder.hit_die_val.setText("");
                     viewHolder.use_hit_die_group.setVisibility(View.GONE);
+                    viewHolder.hit_die_group.setVisibility(View.VISIBLE);
                     viewHolder.useButton.setEnabled(true);
                 }
             });
@@ -276,31 +278,92 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                         row.rolls.add(value);
                         row.numDiceRemaining--;
                         notifyDataSetChanged();
-                        updateView();
+                        context.updateView();
                     }
                     viewHolder.cancel.performClick();
                 }
             });
+
+            viewHolder.usesAdapter.setData(position, row.rolls);
+
 
         }
 
 
     }
 
-    static class HitDieUseViewHolder extends RecyclerView.ViewHolder {
+    static class HitDiceViewHolder extends RecyclerView.ViewHolder {
         TextView numDice;
         TextView die;
-        TextView useText;
+        ViewGroup hit_die_group;
         Button useButton;
+        RecyclerView uses;
 
         ViewGroup use_hit_die_group;
         EditText hit_die_val;
         Button roll;
         Button apply;
         Button cancel;
+        public HitDieUseAdapter usesAdapter;
+
+        public HitDiceViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    static class HitDieUseViewHolder extends RecyclerView.ViewHolder {
+        TextView value;
+        ImageButton deleteButton;
 
         public HitDieUseViewHolder(View itemView) {
             super(itemView);
         }
     }
+
+    static class HitDieUseAdapter extends RecyclerView.Adapter<HitDieUseViewHolder> {
+        List<Integer> rolls;
+        int hitDieRow;
+        HitDiceAdapter adapter;
+
+        HitDieUseAdapter(HitDiceAdapter adapter) {
+            this.adapter = adapter;
+        }
+
+        @Override
+        public HitDieUseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = View.inflate(parent.getContext(), R.layout.hit_die_use_row, null);
+            HitDieUseViewHolder viewHolder = new HitDieUseViewHolder(view);
+
+            viewHolder.value = (TextView) view.findViewById(R.id.value);
+            viewHolder.deleteButton = (ImageButton) view.findViewById(R.id.delete_button);
+
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(HitDieUseViewHolder holder, final int position) {
+            final Integer value = rolls.get(position);
+            holder.value.setText(value + "");
+            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rolls.remove(position);
+                    adapter.diceCounts.get(hitDieRow).numDiceRemaining++;
+                    adapter.notifyItemChanged(hitDieRow);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return rolls == null ? 0 : rolls.size();
+        }
+
+        public void setData(int position, List<Integer> rolls) {
+            this.hitDieRow = position;
+            this.rolls = rolls;
+            notifyDataSetChanged();
+        }
+    }
+
 }
