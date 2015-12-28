@@ -162,7 +162,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                     HitDieUseRow existing = existingRows.get(newRow.dieSides);
                     if (existing != null) {
                         newRow.rolls.addAll(existing.rolls);
-                        if (newRow.rolls.size() > newRow.numDiceRemaining) {
+                        if (newRow.rolls.size() > newRow.numDiceRemaining && newRow.numDiceRemaining > 1) {
                             newRow.rolls.subList(0, newRow.numDiceRemaining - 1);
                         }
                         newRow.numDiceRemaining -= newRow.rolls.size();
@@ -270,6 +270,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                     String valueString = viewHolder.hit_die_val.getText().toString();
                     if (valueString.trim().length() > 0) {
                         int value = Integer.parseInt(valueString);
+                        // TODO validate value < max
                         row.rolls.add(value);
                         row.numDiceRemaining--;
                         notifyDataSetChanged();

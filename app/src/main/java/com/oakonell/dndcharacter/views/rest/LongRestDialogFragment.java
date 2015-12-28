@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -29,6 +32,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     CheckBox fullHealing;
     private HitDiceRestoreAdapter diceAdapter;
     private RecyclerView hitDiceListView;
+    private Bundle savedDiceRestoreBundle;
 
     public static LongRestDialogFragment createDialog() {
         return new LongRestDialogFragment();
@@ -61,9 +65,28 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
             }
         });
 
+        // touch up hit die restore list header
+        view.findViewById(R.id.restore_lbl).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.dice_to_restore).setVisibility(View.GONE);
+
+        if (savedInstanceState != null) {
+            savedDiceRestoreBundle = savedInstanceState.getBundle("diceRestores");
+        }
+
         return view;
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Bundle diceRestoreBundle = new Bundle();
+        for (HitDieRestoreRow each : diceAdapter.diceCounts) {
+            int sides = each.dieSides;
+            diceRestoreBundle.putInt(sides + "", each.numDiceToRestore);
+        }
+        outState.putBundle("diceRestores", diceRestoreBundle);
+    }
 
     @Override
     protected boolean onDone() {
@@ -89,6 +112,17 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         super.onCharacterLoaded(character);
 
         diceAdapter = new HitDiceRestoreAdapter(getActivity(), character);
+
+        if (savedDiceRestoreBundle != null) {
+            for (HitDieRestoreRow each : diceAdapter.diceCounts) {
+                int savedNum = savedDiceRestoreBundle.getInt(each.dieSides + "", -1);
+                if (savedNum >= 0) {
+                    each.numDiceToRestore = savedNum;
+                }
+            }
+            savedDiceRestoreBundle = null;
+        }
+
         hitDiceListView.setAdapter(diceAdapter);
 
         hitDiceListView.setHasFixedSize(false);
@@ -176,20 +210,63 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
             HitDiceRestoreViewHolder viewHolder = new HitDiceRestoreViewHolder(view);
             viewHolder.dieSides = (TextView) view.findViewById(R.id.die);
             viewHolder.currentDiceRemaining = (TextView) view.findViewById(R.id.current_dice_remaining);
-            viewHolder.numDiceToRestore = (TextView) view.findViewById(R.id.dice_to_restore);
+            viewHolder.numDiceToRestore = (EditText) view.findViewById(R.id.dice_to_restore);
             viewHolder.totalDice = (TextView) view.findViewById(R.id.total);
             viewHolder.resultDice = (TextView) view.findViewById(R.id.resultant_dice);
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(HitDiceRestoreViewHolder viewHolder, int position) {
+        public void onBindViewHolder(final HitDiceRestoreViewHolder viewHolder, final int position) {
             final HitDieRestoreRow row = getItem(position);
-            viewHolder.dieSides.setText(row.dieSides + "");
+            if (viewHolder.numDiceToRestoreWatcher != null) {
+                viewHolder.numDiceToRestore.removeTextChangedListener(viewHolder.numDiceToRestoreWatcher);
+            }
+
+            viewHolder.dieSides.setText("d" + row.dieSides);
             viewHolder.currentDiceRemaining.setText(row.currentDiceRemaining + "");
             viewHolder.numDiceToRestore.setText(row.numDiceToRestore + "");
             viewHolder.totalDice.setText(row.totalDice + "");
             viewHolder.resultDice.setText((row.currentDiceRemaining + row.numDiceToRestore) + "");
+
+            viewHolder.numDiceToRestore.setEnabled(row.currentDiceRemaining != row.totalDice);
+
+            viewHolder.numDiceToRestoreWatcher = new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    viewHolder.numDiceToRestore.setError(null);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String string = s.toString();
+                    if (string.length() == 0) {
+                        row.numDiceToRestore = 0;
+                        viewHolder.resultDice.setText((row.currentDiceRemaining + row.numDiceToRestore) + "");
+                        return;
+                    }
+                    try {
+                        int value = Integer.parseInt(string);
+                        if (value > row.totalDice - row.currentDiceRemaining) {
+                            row.numDiceToRestore = 0;
+                            viewHolder.numDiceToRestore.setError("Enter a number less than or equal to " + (row.totalDice - row.currentDiceRemaining));
+                            return;
+                        }
+                        row.numDiceToRestore = value;
+                        viewHolder.resultDice.setText((row.currentDiceRemaining + row.numDiceToRestore) + "");
+                    } catch (NumberFormatException e) {
+                        row.numDiceToRestore = 0;
+                        viewHolder.numDiceToRestore.setError("Enter a number less than or equal to " + (row.totalDice - row.currentDiceRemaining));
+                    }
+                }
+            };
+            viewHolder.numDiceToRestore.addTextChangedListener(viewHolder.numDiceToRestoreWatcher);
         }
 
         @Override
@@ -208,9 +285,10 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     static class HitDiceRestoreViewHolder extends RecyclerView.ViewHolder {
         TextView dieSides;
         TextView currentDiceRemaining;
-        TextView numDiceToRestore;
+        EditText numDiceToRestore;
         TextView totalDice;
         TextView resultDice;
+        TextWatcher numDiceToRestoreWatcher;
 
         public HitDiceRestoreViewHolder(View itemView) {
             super(itemView);
