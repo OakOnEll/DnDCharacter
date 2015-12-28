@@ -35,10 +35,12 @@ import java.util.Map;
 public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragment {
     private static final int UNDO_DELAY = 5000;
     RecyclerView list;
-    private Map<CharacterClass, Long> recordsBeingDeleted = new HashMap<>();
     private TextView classesTextView;
     private ViewGroup level_up_group;
     private ClassAdapter classesAdapter;
+
+    private Map<CharacterClass, Long> recordsBeingDeleted = new HashMap<>();
+    private boolean savedDeleteInProgress;
 
     public static CharacterLevelsDialogFragment createDialog() {
         return new CharacterLevelsDialogFragment();
@@ -54,14 +56,33 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
 
         list = (RecyclerView) view.findViewById(R.id.list);
 
+        if (savedInstanceState != null) {
+            savedDeleteInProgress = savedInstanceState.getByte("deleteInProgress", (byte) 0) != 0;
+        }
+
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (recordsBeingDeleted != null && recordsBeingDeleted.size() > 0) {
+            outState.putByte("deleteInProgress", (byte) 1);
+            recordsBeingDeleted.clear();
+        }
+    }
 
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
         classesAdapter = new ClassAdapter(this, character.getClasses());
+
+        if (savedDeleteInProgress) {
+            CharacterClass toDelete = classesAdapter.classes.get(classesAdapter.classes.size() - 1);
+            recordsBeingDeleted.put(toDelete, System.currentTimeMillis());
+            savedDeleteInProgress = false;
+        }
+
         list.setAdapter(classesAdapter);
         list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         list.setHasFixedSize(false);
@@ -225,10 +246,10 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
                     if (deletedTime == null) return;
                     if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
                         // actually delete the record, now
-                        classes.remove(item);
                         context.recordsBeingDeleted.remove(item);
-                        notifyItemRemoved(position);
                         if (context.getMainActivity() != null) {
+                            classes.remove(item);
+                            notifyItemRemoved(position);
                             context.updateView();
                             activity.updateViews();
                         }
