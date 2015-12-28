@@ -2,13 +2,13 @@ package com.oakonell.dndcharacter.views.rest;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -16,17 +16,20 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.RandomUtils;
 import com.oakonell.dndcharacter.model.ShortRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
+import com.oakonell.dndcharacter.views.DividerItemDecoration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rob on 11/7/2015.
  */
 public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     private HitDiceAdapter diceAdapter;
-    private ListView hitDiceListView;
+    private RecyclerView hitDiceListView;
+    private Map<Integer, HitDieUseRow> savedDiceCounts;
 
     public static ShortRestDialogFragment createDialog() {
         ShortRestDialogFragment newMe = new ShortRestDialogFragment();
@@ -41,18 +44,32 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
         getDialog().setTitle("Short Rest");
 
-        hitDiceListView = (ListView) view.findViewById(R.id.hit_dice_list);
+        hitDiceListView = (RecyclerView) view.findViewById(R.id.hit_dice_list);
+
+        if (savedInstanceState != null) {
+            ArrayList<HitDieUseRow> savedList = savedInstanceState.getParcelableArrayList("diceCounts");
+            savedDiceCounts = new HashMap<>();
+            for (HitDieUseRow each : savedList) {
+                savedDiceCounts.put(each.dieSides, each);
+            }
+        }
 
         return view;
     }
 
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("diceCounts", diceAdapter.diceCounts);
+    }
+
+    @Override
     protected boolean onDone() {
         boolean isValid = true;
         ShortRestRequest request = new ShortRestRequest();
         for (HitDieUseRow each : diceAdapter.diceCounts) {
-            request.addHitDiceUsed(each.dieSides, each.numUses);
+            request.addHitDiceUsed(each.dieSides, each.rolls.size());
         }
         request.setHealing(getHealing());
 
@@ -69,7 +86,21 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         super.onCharacterLoaded(character);
 
         diceAdapter = new HitDiceAdapter(getActivity(), character);
+
+        if (savedDiceCounts != null) {
+            diceAdapter.populateDiceCounts(character, savedDiceCounts);
+            savedDiceCounts = null;
+        }
+
         hitDiceListView.setAdapter(diceAdapter);
+
+        hitDiceListView.setHasFixedSize(false);
+        hitDiceListView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        hitDiceListView.addItemDecoration(itemDecoration);
+
+
         updateView();
     }
 
@@ -110,71 +141,85 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
 
-    private class HitDiceAdapter extends BaseAdapter {
-        List<HitDieUseRow> diceCounts;
+    private class HitDiceAdapter extends RecyclerView.Adapter<HitDieUseViewHolder> {
+        ArrayList<HitDieUseRow> diceCounts;
         private Context context;
 
         public HitDiceAdapter(Context context, Character character) {
             this.context = context;
-            populateDiceCounts(character);
+            populateDiceCounts(character, null);
         }
 
-        private void populateDiceCounts(Character character) {
+        private void populateDiceCounts(Character character, Map<Integer, HitDieUseRow> existingRows) {
             diceCounts = new ArrayList<>();
             for (Character.HitDieRow each : character.getHitDiceCounts()) {
                 HitDieUseRow newRow = new HitDieUseRow();
                 newRow.dieSides = each.dieSides;
                 newRow.numDiceRemaining = each.numDiceRemaining;
                 newRow.totalDice = each.totalDice;
+
+                if (existingRows != null) {
+                    HitDieUseRow existing = existingRows.get(newRow.dieSides);
+                    if (existing != null) {
+                        newRow.rolls.addAll(existing.rolls);
+                        if (newRow.rolls.size() > newRow.numDiceRemaining) {
+                            newRow.rolls.subList(0, newRow.numDiceRemaining - 1);
+                        }
+                        newRow.numDiceRemaining -= newRow.rolls.size();
+                    }
+                }
+
                 diceCounts.add(newRow);
             }
         }
 
         public void reloadList(Character character) {
-            populateDiceCounts(character);
+            // TODO don't throw away user entered data?
+            Map<Integer, HitDieUseRow> existing = new HashMap<>();
+            for (HitDieUseRow each : diceCounts) {
+                existing.put(each.dieSides, each);
+            }
+            populateDiceCounts(character, existing);
             notifyDataSetChanged();
         }
 
-        @Override
-        public int getCount() {
-            return diceCounts.size();
-        }
-
-        @Override
         public HitDieUseRow getItem(int position) {
             return diceCounts.get(position);
         }
+
 
         @Override
         public long getItemId(int position) {
             return 0;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view;
-            ViewHolder viewHolder;
-            if (convertView == null) {
-                view = View.inflate(context, R.layout.hit_dice_item, null);
-                viewHolder = new ViewHolder();
+        @Override
+        public int getItemCount() {
+            return diceCounts.size();
+        }
 
-                viewHolder.numDice = (TextView) view.findViewById(R.id.num_dice);
-                viewHolder.die = (TextView) view.findViewById(R.id.die);
-                viewHolder.useText = (TextView) view.findViewById(R.id.hit_die_vals_text);
-                viewHolder.useButton = (Button) view.findViewById(R.id.use_die_button);
+        @Override
+        public HitDieUseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            HitDieUseViewHolder viewHolder;
+            View view = View.inflate(context, R.layout.hit_dice_item, null);
+            viewHolder = new HitDieUseViewHolder(view);
 
-                viewHolder.use_hit_die_group = (ViewGroup) view.findViewById(R.id.use_hit_die_group);
-                viewHolder.hit_die_val = (EditText) view.findViewById(R.id.hit_die_val);
-                viewHolder.roll = (Button) view.findViewById(R.id.roll);
-                viewHolder.apply = (Button) view.findViewById(R.id.apply);
-                viewHolder.cancel = (Button) view.findViewById(R.id.cancel);
+            viewHolder.numDice = (TextView) view.findViewById(R.id.num_dice);
+            viewHolder.die = (TextView) view.findViewById(R.id.die);
+            viewHolder.useText = (TextView) view.findViewById(R.id.hit_die_vals_text);
+            viewHolder.useButton = (Button) view.findViewById(R.id.use_die_button);
 
+            viewHolder.use_hit_die_group = (ViewGroup) view.findViewById(R.id.use_hit_die_group);
+            viewHolder.hit_die_val = (EditText) view.findViewById(R.id.hit_die_val);
+            viewHolder.roll = (Button) view.findViewById(R.id.roll);
+            viewHolder.apply = (Button) view.findViewById(R.id.apply);
+            viewHolder.cancel = (Button) view.findViewById(R.id.cancel);
 
-                view.setTag(viewHolder);
+            return viewHolder;
+        }
 
-            } else {
-                view = convertView;
-                viewHolder = (ViewHolder) view.getTag();
-            }
+        @Override
+        public void onBindViewHolder(final HitDieUseViewHolder viewHolder, int position) {
             final HitDieUseRow row = getItem(position);
             viewHolder.numDice.setText(row.numDiceRemaining + "");
             viewHolder.die.setText(row.dieSides + "");
@@ -187,14 +232,13 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                 }
             }
             viewHolder.useText.setText(builder.toString());
-            final ViewHolder finalHolder = viewHolder;
             if (row.numDiceRemaining > 0) {
                 viewHolder.useButton.setEnabled(true);
                 viewHolder.useButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        finalHolder.use_hit_die_group.setVisibility(View.VISIBLE);
-                        finalHolder.useButton.setEnabled(false);
+                        viewHolder.use_hit_die_group.setVisibility(View.VISIBLE);
+                        viewHolder.useButton.setEnabled(false);
                     }
                 });
             } else {
@@ -205,9 +249,9 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             viewHolder.cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finalHolder.hit_die_val.setText("");
-                    finalHolder.use_hit_die_group.setVisibility(View.GONE);
-                    finalHolder.useButton.setEnabled(true);
+                    viewHolder.hit_die_val.setText("");
+                    viewHolder.use_hit_die_group.setVisibility(View.GONE);
+                    viewHolder.useButton.setEnabled(true);
                 }
             });
 
@@ -215,46 +259,45 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                 @Override
                 public void onClick(View v) {
                     int value = RandomUtils.random(1, row.dieSides);
-                    finalHolder.hit_die_val.setText(value + "");
-                    finalHolder.apply.setEnabled(true);
+                    viewHolder.hit_die_val.setText(value + "");
+                    viewHolder.apply.setEnabled(true);
                 }
             });
 
-            viewHolder.hit_die_val = (EditText) view.findViewById(R.id.hit_die_val);
             viewHolder.apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String valueString = finalHolder.hit_die_val.getText().toString();
+                    String valueString = viewHolder.hit_die_val.getText().toString();
                     if (valueString.trim().length() > 0) {
                         int value = Integer.parseInt(valueString);
                         row.rolls.add(value);
                         row.numDiceRemaining--;
-                        row.numUses++;
                         notifyDataSetChanged();
                         updateView();
                     }
-                    finalHolder.cancel.performClick();
+                    viewHolder.cancel.performClick();
                 }
             });
 
-
-            return view;
-
         }
 
-        class ViewHolder {
-            TextView numDice;
-            TextView die;
-            TextView useText;
-            Button useButton;
-
-            ViewGroup use_hit_die_group;
-            EditText hit_die_val;
-            Button roll;
-            Button apply;
-            Button cancel;
-        }
 
     }
 
+    static class HitDieUseViewHolder extends RecyclerView.ViewHolder {
+        TextView numDice;
+        TextView die;
+        TextView useText;
+        Button useButton;
+
+        ViewGroup use_hit_die_group;
+        EditText hit_die_val;
+        Button roll;
+        Button apply;
+        Button cancel;
+
+        public HitDieUseViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
 }

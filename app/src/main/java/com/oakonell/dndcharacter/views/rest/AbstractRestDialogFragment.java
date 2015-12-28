@@ -2,16 +2,16 @@ package com.oakonell.dndcharacter.views.rest;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -21,6 +21,7 @@ import com.oakonell.dndcharacter.model.FeatureInfo;
 import com.oakonell.dndcharacter.model.FeatureResetInfo;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.views.AbstractCharacterDialogFragment;
+import com.oakonell.dndcharacter.views.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,7 @@ import java.util.List;
  * Created by Rob on 11/8/2015.
  */
 public abstract class AbstractRestDialogFragment extends AbstractCharacterDialogFragment {
-
     private View extraHealingGroup;
-
     private TextView extraHealingtextView;
     private TextView finalHp;
     private TextView startHp;
@@ -39,8 +38,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     private View noHealingGroup;
 
     private FeatureResetsAdapter featureResetAdapter;
-    //private List<FeatureResetInfo> featureResets;
-    private ListView featureListView;
+    private android.support.v7.widget.RecyclerView featureListView;
     private Bundle savedFeatureResets;
 
     protected boolean allowExtraHealing() {
@@ -123,6 +121,13 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         savedFeatureResets = null;
         featureResetAdapter = new FeatureResetsAdapter(getActivity(), featureResets);
         featureListView.setAdapter(featureResetAdapter);
+
+        featureListView.setHasFixedSize(false);
+        featureListView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        featureListView.addItemDecoration(itemDecoration);
+
     }
 
     protected void configureCommon(View view) {
@@ -134,7 +139,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         extraHealingtextView = (TextView) view.findViewById(R.id.extra_healing);
         noHealingGroup = view.findViewById(R.id.no_healing_group);
 
-        featureListView = (ListView) view.findViewById(R.id.feature_list);
+        featureListView = (RecyclerView) view.findViewById(R.id.feature_list);
 
 
         extraHealingtextView.addTextChangedListener(new TextWatcher() {
@@ -189,7 +194,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     }
 
 
-    static class FeatureResetsAdapter extends BaseAdapter {
+    static class FeatureResetsAdapter extends RecyclerView.Adapter<FeatureResetViewHolder> {
         private final List<FeatureResetInfo> resets;
         private Context context;
 
@@ -198,41 +203,32 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             this.resets = resets;
         }
 
-        @Override
-        public int getCount() {
-            return resets.size();
-        }
 
-        @Override
         public FeatureResetInfo getItem(int position) {
             return resets.get(position);
         }
 
         @Override
-        public long getItemId(int position) {
-            return 0;
+        public FeatureResetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = View.inflate(context, R.layout.feature_reset_item, null);
+            FeatureResetViewHolder viewHolder = new FeatureResetViewHolder(view);
+
+            viewHolder.name = (CheckBox) view.findViewById(R.id.feature_name);
+            viewHolder.description = (TextView) view.findViewById(R.id.description);
+            viewHolder.uses = (TextView) view.findViewById(R.id.uses);
+            viewHolder.numToRestore = (EditText) view.findViewById(R.id.num_to_restore);
+            return viewHolder;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view;
-            final ViewHolder viewHolder;
-            if (convertView == null) {
-                view = View.inflate(context, R.layout.feature_reset_item, null);
-                viewHolder = new ViewHolder();
-
-                viewHolder.name = (CheckBox) view.findViewById(R.id.feature_name);
-                viewHolder.description = (TextView) view.findViewById(R.id.description);
-                viewHolder.uses = (TextView) view.findViewById(R.id.uses);
-                viewHolder.numToRestore = (EditText) view.findViewById(R.id.num_to_restore);
-                view.setTag(viewHolder);
-
-            } else {
-                view = convertView;
-                viewHolder = (ViewHolder) view.getTag();
-                viewHolder.numToRestore.removeTextChangedListener(viewHolder.watcher);
-                viewHolder.name.setOnCheckedChangeListener(null);
-            }
+        @Override
+        public void onBindViewHolder(final FeatureResetViewHolder viewHolder, int position) {
             final FeatureResetInfo row = getItem(position);
+
+            if (viewHolder.watcher != null) {
+                viewHolder.numToRestore.removeTextChangedListener(viewHolder.watcher);
+            }
+            viewHolder.name.setOnCheckedChangeListener(null);
+
 
             viewHolder.name.setText(row.name);
             viewHolder.name.setChecked(row.reset);
@@ -288,7 +284,6 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             viewHolder.numToRestore.addTextChangedListener(watcher);
             viewHolder.watcher = watcher;
 
-
             viewHolder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -302,18 +297,30 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                     }
                 }
             });
-
-            return view;
-
         }
 
-        class ViewHolder {
-            public TextWatcher watcher;
-            CheckBox name;
-            TextView description;
-            TextView uses;
-            EditText numToRestore;
+        @Override
+        public long getItemId(int position) {
+            return 0;
         }
+
+        @Override
+        public int getItemCount() {
+            return resets.size();
+        }
+
+
     }
 
+    static class FeatureResetViewHolder extends RecyclerView.ViewHolder {
+        public TextWatcher watcher;
+        CheckBox name;
+        TextView description;
+        TextView uses;
+        EditText numToRestore;
+
+        public FeatureResetViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
 }
