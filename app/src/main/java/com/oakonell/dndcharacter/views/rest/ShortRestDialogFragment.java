@@ -48,9 +48,11 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
         if (savedInstanceState != null) {
             ArrayList<HitDieUseRow> savedList = savedInstanceState.getParcelableArrayList("diceCounts");
-            savedDiceCounts = new HashMap<>();
-            for (HitDieUseRow each : savedList) {
-                savedDiceCounts.put(each.dieSides, each);
+            if (savedList != null) {
+                savedDiceCounts = new HashMap<>();
+                for (HitDieUseRow each : savedList) {
+                    savedDiceCounts.put(each.dieSides, each);
+                }
             }
         }
 
