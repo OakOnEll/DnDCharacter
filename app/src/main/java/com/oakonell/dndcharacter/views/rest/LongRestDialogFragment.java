@@ -66,16 +66,21 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
 
     @Override
     protected boolean onDone() {
+        boolean isValid = true;
         LongRestRequest request = new LongRestRequest();
-        request.setHealing(getHealing());
         for (HitDieRestoreRow each : diceAdapter.diceCounts) {
             if (each.numDiceToRestore > 0) {
                 request.restoreHitDice(each.dieSides, each.numDiceToRestore);
             }
         }
-        updateCommonRequest(request);
-        getCharacter().longRest(request);
-        return super.onDone();
+        request.setHealing(getHealing());
+
+        isValid = isValid && updateCommonRequest(request);
+        isValid = isValid && super.onDone();
+        if (isValid) {
+            getCharacter().longRest(request);
+        }
+        return isValid;
     }
 
     @Override
