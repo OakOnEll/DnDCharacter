@@ -1,8 +1,11 @@
 <item>
     <name>Dagger</name>
     <itemType>WEAPON</itemType>
-    <damage>d4</damage>
-    <damageType>piercing</damageType>
+    <category>Simple Weapon</category>
+    <damage>
+        <amount>d4</amount>
+        <damageType>piercing</damageType>
+    </damage>
     <properties>finesse,light,thrown</properties>
     <range>20/60</range>
     <weight>1</weight>

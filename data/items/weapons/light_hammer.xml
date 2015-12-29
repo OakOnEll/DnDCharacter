@@ -1,8 +1,11 @@
 <item>
     <name>Light Hammer</name>
     <itemType>WEAPON</itemType>
-    <damage>d4</damage>
-    <damageType>bludgeoning</damageType>
+    <category>Simple Weapon</category>
+    <damage>
+        <amount>d4</amount>
+        <damageType>bludgeoning</damageType>
+    </damage>
     <properties>light,thrown</properties>
     <range>20/60</range>
     <weight>2</weight>

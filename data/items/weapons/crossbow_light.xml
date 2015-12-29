@@ -1,8 +1,11 @@
 <item>
     <name>Crossbow, Light</name>
     <itemType>WEAPON</itemType>
-    <damage>d8</damage>
-    <damageType>piercing</damageType>
+    <category>Simple Weapon</category>
+    <damage>
+        <amount>d8</amount>
+        <damageType>piercing</damageType>
+    </damage>
     <properties>ammunition, loading, two-handed</properties>
     <range>80/320</range>
     <weight>5</weight>

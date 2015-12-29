@@ -1,8 +1,11 @@
 <item>
     <name>Long Sword</name>
     <itemType>WEAPON</itemType>
-    <damage>d8</damage>
-    <damageType>slashing</damageType>
+    <category>Martial Weapon</category>
+    <damage>
+        <amount>d8</amount>
+        <damageType>slashing</damageType>
+    </damage>
     <properties>versatile</properties>
     <weight>3</weight>
     <cost>15gp</cost>
