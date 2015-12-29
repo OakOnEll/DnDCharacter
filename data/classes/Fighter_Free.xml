@@ -10,14 +10,30 @@
     </savingThrows>
     <skills>
         <choose name="skills" number="2">
-            <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
-            <or name="animal"><proficiency>Animal Handling</proficiency></or>
-            <or name="athletics"><proficiency>Athletics</proficiency></or>
-            <or name="history"><proficiency>History</proficiency></or>
-            <or name="insight"><proficiency>Insight</proficiency></or>
-            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
-            <or name="perception"><proficiency>Perception</proficiency></or>
-            <or name="survival"><proficiency>Survival</proficiency></or>
+            <or name="acrobatics">
+                <proficiency>Acrobatics</proficiency>
+            </or>
+            <or name="animal">
+                <proficiency>Animal Handling</proficiency>
+            </or>
+            <or name="athletics">
+                <proficiency>Athletics</proficiency>
+            </or>
+            <or name="history">
+                <proficiency>History</proficiency>
+            </or>
+            <or name="insight">
+                <proficiency>Insight</proficiency>
+            </or>
+            <or name="intimidation">
+                <proficiency>Intimidation</proficiency>
+            </or>
+            <or name="perception">
+                <proficiency>Perception</proficiency>
+            </or>
+            <or name="survival">
+                <proficiency>Survival</proficiency>
+            </or>
         </choose>
     </skills>
     <equipment>
@@ -33,12 +49,12 @@
         </choose>
         <choose name="weapon">
             <or name="shield">
-                <item category="martial weapon" />
+                <choose name="shield_weapon" category="martial weapon"></choose>
                 <item>shield</item>
             </or>
             <or name="weapon">
-                <item category="martial weapon" />
-                <item category="martial weapon" />
+                <choose name="weapon1" category="martial weapon"></choose>
+                <choose name="weapon2" category="martial weapon"></choose>
             </or>
         </choose>
         <choose name="ranged">
@@ -65,7 +81,8 @@
             <refreshes>rest</refreshes>
             <uses>1</uses>
             <action>hp += 1d10 + classLevel</action>
-            <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.
+            <shortDescription>On your turn, you can use a bonus action to regain hit points equal to
+                1d10 + your fighter level.
             </shortDescription>
         </feature>
         <armor>
@@ -102,7 +119,8 @@
             <name>Action Surge</name>
             <refreshes>rest</refreshes>
             <uses>1</uses>
-            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.
+            <shortDescription>On your turn, you can take one additional action on top of your
+                regular action and a possible bonus action.
             </shortDescription>
         </feature>
     </level>

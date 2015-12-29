@@ -39,7 +39,7 @@ import java.util.Map;
 public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     SavedChoices choices;
     int uiIdCounter;
-    ChooseMD currentChooseMD;
+    ChooseMD<?> currentChooseMD;
     private ViewGroup parent;
     private Map<String, ChooseMD> choicesMD = new HashMap<>();
     private ViewGroup top;
@@ -224,7 +224,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     protected void categoryChoices(Element element, int numChoices) {
         if (state == VisitState.LANGUAGES) {
             visitLanguageCategoryChoices(numChoices);
-        } else if (state == VisitState.TOOLS) {
+        } else if (state == VisitState.TOOLS || state == VisitState.EQUIPMENT) {
             visitToolCategoryChoices(element, numChoices);
         }
     }
@@ -238,7 +238,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         //String category = element.getAttribute("category");
         From nameSelect = new Select()
                 .from(ItemRow.class).orderBy("name");
-        nameSelect = nameSelect.where("category= ?", category);
+        nameSelect = nameSelect.where("UPPER(category)= ?", category.toUpperCase());
         List<ItemRow> toolRows = nameSelect.execute();
 
         List<String> tools = new ArrayList<>();

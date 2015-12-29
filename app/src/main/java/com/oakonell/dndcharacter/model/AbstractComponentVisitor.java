@@ -77,7 +77,10 @@ public class AbstractComponentVisitor {
     }
 
     protected void visitEquipment(Element element) {
+        VisitState oldState = state;
+        state = VisitState.EQUIPMENT;
         visitGroup(element);
+        state = oldState;
     }
 
     protected void visitShortDescription(Element element) {
@@ -187,6 +190,6 @@ public class AbstractComponentVisitor {
     }
 
     public enum VisitState {
-        SAVING_THROWS, SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, WEAPONS, ARMOR, SPECIALTIES
+        SAVING_THROWS, SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, WEAPONS, ARMOR, EQUIPMENT, SPECIALTIES
     }
 }

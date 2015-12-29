@@ -194,8 +194,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     @Override
     protected void visitItem(Element element) {
         final String itemName = element.getTextContent();
+        addItem(itemName);
+    }
 
-
+    private void addItem(String itemName) {
         // look up in items table for more information
         List<ItemRow> items = new Select()
                 .from(ItemRow.class).where("UPPER(name) = ?", itemName.toUpperCase()).execute();
@@ -232,7 +234,6 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             item.setSource(component.getType());
             character.addItem(item);
         }
-
     }
 
     private void categoryChoices() {
@@ -250,6 +251,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     break;
                 case WEAPONS:
                     component.addToolCategoryProficiency(ProficiencyType.WEAPON, selection, Proficient.PROFICIENT);
+                    break;
+                case EQUIPMENT:
+                    addItem(selection);
                     break;
             }
         }
