@@ -1,0 +1,9 @@
+<item>
+    <name>Padded Armor</name>
+    <itemType>ARMOR</itemType>
+    <category>Light Armor</category>
+    <ac>=11 + dexterityMod</ac>
+    <weight>8</weight>
+    <cost>5gp</cost>
+    <disadvantage>stealth</disadvantage>
+</item>

@@ -1,5 +1,8 @@
 <item>
     <name>Studded Leather Armor</name>
     <itemType>ARMOR</itemType>
+    <category>Light Armor</category>
     <ac>=12 + dexterityMod</ac>
+    <weight>14</weight>
+    <cost>45gp</cost>
 </item>

@@ -1,0 +1,9 @@
+<item>
+    <name>Ring Mail Armor</name>
+    <itemType>ARMOR</itemType>
+    <category>Heavy Armor</category>
+    <ac>=14</ac>
+    <weight>40</weight>
+    <cost>30gp</cost>
+    <disadvantage>stealth</disadvantage>
+</item>

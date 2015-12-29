@@ -1,5 +1,8 @@
 <item>
     <name>Hide Armor</name>
     <itemType>ARMOR</itemType>
+    <category>Medium Armor</category>
     <ac>=12 + min(dexterityMod,2)</ac>
+    <weight>12</weight>
+    <cost>10gp</cost>
 </item>

@@ -1,5 +1,9 @@
 <item>
     <name>Scale Mail Armor</name>
     <itemType>ARMOR</itemType>
+    <category>Medium Armor</category>
     <ac>=14 + min(dexterityMod,2)</ac>
+    <weight>45</weight>
+    <cost>50gp</cost>
+    <disadvantage>stealth</disadvantage>
 </item>

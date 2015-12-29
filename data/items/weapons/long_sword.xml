@@ -1,4 +1,9 @@
 <item>
     <name>Long Sword</name>
     <itemType>WEAPON</itemType>
+    <damage>d8</damage>
+    <damageType>slashing</damageType>
+    <properties>versatile</properties>
+    <weight>3</weight>
+    <cost>15gp</cost>
 </item>

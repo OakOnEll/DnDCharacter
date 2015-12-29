@@ -1,0 +1,10 @@
+<item>
+    <name>Splint Armor</name>
+    <itemType>ARMOR</itemType>
+    <category>Heavy Armor</category>
+    <ac>=17</ac>
+    <weight>60</weight>
+    <cost>200gp</cost>
+    <disadvantage>stealth</disadvantage>
+    <strengthMin>15</strengthMin>
+</item>

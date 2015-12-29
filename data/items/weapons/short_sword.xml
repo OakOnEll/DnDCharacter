@@ -1,0 +1,9 @@
+<item>
+    <name>Short Sword</name>
+    <itemType>WEAPON</itemType>
+    <damage>d6</damage>
+    <damageType>piercing</damageType>
+    <properties>finesse,light</properties>
+    <weight>2</weight>
+    <cost>10gp</cost>
+</item>

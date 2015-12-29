@@ -1,5 +1,9 @@
 <item>
     <name>Half Plate Armor</name>
     <itemType>ARMOR</itemType>
+    <category>Medium Armor</category>
     <ac>=15 + min(dexterityMod,2)</ac>
+    <weight>40</weight>
+    <cost>750gp</cost>
+    <disadvantage>stealth</disadvantage>
 </item>

@@ -1,0 +1,10 @@
+<item>
+    <name>Plate Armor</name>
+    <itemType>ARMOR</itemType>
+    <category>Heavy Armor</category>
+    <ac>=18</ac>
+    <weight>65</weight>
+    <cost>1500gp</cost>
+    <disadvantage>stealth</disadvantage>
+    <strengthMin>15</strengthMin>
+</item>

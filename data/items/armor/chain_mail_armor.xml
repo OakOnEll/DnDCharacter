@@ -1,0 +1,10 @@
+<item>
+    <name>Chain Mail Armor</name>
+    <itemType>ARMOR</itemType>
+    <category>Heavy Armor</category>
+    <ac>=16</ac>
+    <weight>55</weight>
+    <cost>75gp</cost>
+    <disadvantage>stealth</disadvantage>
+    <strengthMin>13</strengthMin>
+</item>

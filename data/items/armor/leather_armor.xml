@@ -2,4 +2,7 @@
     <name>Leather Armor</name>
     <itemType>ARMOR</itemType>
     <ac>=11 + dexterityMod</ac>
+    <category>Light Armor</category>
+    <weight>40</weight>
+    <cost>10gp</cost>
 </item>

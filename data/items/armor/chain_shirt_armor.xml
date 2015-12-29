@@ -1,5 +1,8 @@
 <item>
     <name>Chain Shirt Armor</name>
     <itemType>ARMOR</itemType>
+    <category>Medium Armor</category>
     <ac>=13 + min(dexterityMod,2)</ac>
+    <weight>20</weight>
+    <cost>50gp</cost>
 </item>
