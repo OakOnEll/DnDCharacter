@@ -23,7 +23,7 @@
     <equipment>
         <choose name="armor">
             <or name="chain">
-                <item>chain mail</item>
+                <item>chain mail armor</item>
             </or>
             <or name="leather">
                 <item>leather armor</item>

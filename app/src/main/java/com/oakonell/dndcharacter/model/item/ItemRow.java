@@ -63,11 +63,15 @@ public class ItemRow extends AbstractComponentModel {
     public void setDocument(Element doc) {
         super.setDocument(doc);
         String category;
+        ItemType type;
         if (doc == null) {
             category = "XmlParseError";
+            type = null;
         } else {
             category = XmlUtils.getElementText(doc, "category");
+            type = ItemType.valueOf(XmlUtils.getElementText(doc, "itemType").toUpperCase());
         }
         setCategory(category);
+        setItemType(type);
     }
 }

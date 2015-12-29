@@ -1,9 +1,14 @@
 package com.oakonell.dndcharacter.model;
 
+import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.model.components.UseType;
+import com.oakonell.dndcharacter.model.item.CreateCharacterArmorVisitor;
+import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
+import com.oakonell.dndcharacter.model.item.ItemRow;
+import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -26,16 +31,23 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         this.character = character;
     }
 
+
+    private static void deleteItems(List<? extends CharacterItem> items, ComponentType componentType) {
+        for (Iterator<? extends CharacterItem> iterator = items.iterator(); iterator.hasNext(); ) {
+            CharacterItem item = iterator.next();
+            if (item.getSource() == componentType) {
+                iterator.remove();
+            }
+        }
+    }
+
     public static <C extends BaseCharacterComponent> void applyToCharacter(Element element, SavedChoices savedChoices, C component, Character character, boolean deleteEquipment) {
         if (deleteEquipment) {
             // first clear any equipment from this type previous value
             ComponentType componentType = component.getType();
-            for (Iterator<CharacterItem> iterator = character.getItems().iterator(); iterator.hasNext(); ) {
-                CharacterItem item = iterator.next();
-                if (item.getSource() == componentType) {
-                    iterator.remove();
-                }
-            }
+            deleteItems(character.getItems(), componentType);
+            deleteItems(character.getArmor(), componentType);
+            deleteItems(character.getWeapons(), componentType);
         }
 
         ApplyChangesToGenericComponent<C> newMe = new ApplyChangesToGenericComponent<>(savedChoices, component, character);
@@ -181,12 +193,46 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
     @Override
     protected void visitItem(Element element) {
-        CharacterItem item = new CharacterItem();
         final String itemName = element.getTextContent();
-        item.setName(itemName);
-        item.setSource(component.getType());
-        // TODO look up in items table for more information
-        character.addItem(item);
+
+
+        // look up in items table for more information
+        List<ItemRow> items = new Select()
+                .from(ItemRow.class).where("UPPER(name) = ?", itemName.toUpperCase()).execute();
+        if (!items.isEmpty()) {
+            if (items.size() > 1) {
+                throw new RuntimeException("Too many items named " + itemName);
+            }
+            final ItemRow itemRow = items.get(0);
+            final ItemType itemType = itemRow.getItemType();
+            switch (itemType) {
+                case ARMOR:
+                    CharacterArmor armor = CreateCharacterArmorVisitor.createArmor(itemRow, character);
+                    armor.setName(itemName);
+                    armor.setSource(component.getType());
+                    break;
+                case WEAPON:
+                    CharacterWeapon weapon = CreateCharacterWeaponVisitor.createWeapon(itemRow, character);
+                    weapon.setName(itemName);
+                    weapon.setSource(component.getType());
+                    break;
+                case EQUIPMENT:
+                    CharacterItem item = new CharacterItem();
+                    item.setName(itemName);
+                    item.setSource(component.getType());
+
+                    ApplyChangesToGenericComponent.applyToCharacter(XmlUtils.getDocument(itemRow.getXml()).getDocumentElement(), null, item, character, false);
+
+                    character.addItem(item);
+                    break;
+            }
+        } else {
+            CharacterItem item = new CharacterItem();
+            item.setName(itemName);
+            item.setSource(component.getType());
+            character.addItem(item);
+        }
+
     }
 
     private void categoryChoices() {

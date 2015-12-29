@@ -20,7 +20,7 @@
         </choose>
     </skills>
     <equipment>
-        <item>Chain mail</item>
+        <item>Chain mail armor</item>
         <item>Holy Symbol</item>
         <choose name="weapon">
             <or name="shield">
