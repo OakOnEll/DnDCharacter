@@ -1,8 +1,8 @@
 package com.oakonell.expression;
 
+import com.oakonell.expression.functions.ExpressionFunction;
 import com.oakonell.expression.grammar.ExpressionBaseVisitor;
 import com.oakonell.expression.grammar.ExpressionParser;
-import com.oakonell.expression.functions.ExpressionFunction;
 import com.oakonell.expression.types.BooleanValue;
 import com.oakonell.expression.types.NumberValue;
 import com.oakonell.expression.types.StringValue;
@@ -15,9 +15,40 @@ import java.util.List;
  */
 class ExpressionEvaluator extends ExpressionBaseVisitor<ExpressionValue<?>> {
     private final ExpressionContext context;
+    private String formula;
 
     public ExpressionEvaluator(ExpressionContext context) {
         this.context = context;
+    }
+
+    @Override
+    public ExpressionValue<?> visitRoot(ExpressionParser.RootContext ctx) {
+        formula = ctx.start.getInputStream().toString();
+        return visit(ctx.genericExpression());
+    }
+
+
+    // Die functions -------------------------------------------------
+
+    @Override
+    public ExpressionValue<?> visitExprSingleDie(ExpressionParser.ExprSingleDieContext ctx) {
+        NumberValue lhs = (NumberValue) visit(ctx.genericExpression());
+        int dieSides = lhs.getValue();
+        int result = context.evaluateDie(dieSides);
+        return new NumberValue(result);
+    }
+
+    @Override
+    public NumberValue visitExprDie(ExpressionParser.ExprDieContext ctx) {
+        NumberValue lhs = (NumberValue) visit(ctx.genericExpression(0));
+        NumberValue rhs = (NumberValue) visit(ctx.genericExpression(1));
+        int numRolls = lhs.getValue();
+        int dieSides = rhs.getValue();
+        int result = 0;
+        for (int i = 0; i < numRolls; i++) {
+            result += context.evaluateDie(dieSides);
+        }
+        return new NumberValue(result);
     }
 
     // Math functions --------------------------------------------------

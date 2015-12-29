@@ -4,8 +4,13 @@ import com.oakonell.expression.grammar.ExpressionLexer;
 import com.oakonell.expression.grammar.ExpressionParser;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -16,9 +21,7 @@ import java.io.StringReader;
 public class Expression<T> {
     private final ExpressionEvaluator evaluator;
     private final ExpressionType<T> resultType;
-    private ExpressionParser parser;
-    ExpressionContext context;
-
+    private final ExpressionParser parser;
 
     public static <T> Expression<T> parse(String formula, ExpressionType<T> expectedResultType, ExpressionContext context) {
         ANTLRInputStream stream;
@@ -31,8 +34,39 @@ public class Expression<T> {
         TokenStream tokens = new CommonTokenStream(lexer);
         ExpressionParser parser = new ExpressionParser(tokens);
 
+
+        parser.removeErrorListeners();
+        parser.setErrorHandler(new BailErrorStrategy());
+
+        ExpressionParser.RootContext root;
+        try {
+            root = parser.root();
+        } catch (ParseCancellationException e) {
+            if (e.getCause() instanceof RecognitionException) {
+                RecognitionException recogException = (RecognitionException) e.getCause();
+
+                final RuleContext ruleContext = recogException.getCtx().getRuleContext();
+                if (ruleContext instanceof ParserRuleContext) {
+                    ParserRuleContext pruleContext = (ParserRuleContext) ruleContext;
+                    int index = pruleContext.getStart().getStartIndex();
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < index; i++) {
+                        builder.append(" ");
+                    }
+                    System.out.println("Error parsing '" + pruleContext.getText() + "' in formula");
+                    System.out.println(formula);
+                    System.out.println(builder.toString() + "^");
+                }
+                throw recogException;
+            }
+            System.out.println("Error parsing '" + formula + "'");
+            throw e;
+        }
+
         ExpressionValidator validator = new ExpressionValidator(context);
-        ExpressionType<?> resultType = validator.visitRoot(parser.root());
+        ExpressionType<?> resultType;
+        resultType = validator.visitRoot(root);
+
         if (!resultType.equals(expectedResultType)) {
             throw new RuntimeException("Expression '" + formula + "' results in " + resultType + ", but is expecting a " + expectedResultType);
         }

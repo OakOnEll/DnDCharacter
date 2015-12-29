@@ -1,10 +1,8 @@
 package com.oakonell.expression;
 
-import com.oakonell.expression.Expression;
-import com.oakonell.expression.ExpressionContext;
-import com.oakonell.expression.ExpressionType;
 import com.oakonell.expression.context.SimpleFunctionContext;
 import com.oakonell.expression.context.SimpleVariableContext;
+import com.oakonell.expression.functions.RandomDieEvaluator;
 
 import org.junit.Test;
 
@@ -18,6 +16,46 @@ import static org.junit.Assert.fail;
  * Created by Rob on 12/22/2015.
  */
 public class ExpressionTest {
+    @Test
+    public void testDie() {
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        variableContext.registerNumber("x");
+
+        DieEvaluator dieEvaluator = new RandomDieEvaluator(1);
+        // d4 results = 3,1
+
+        Expression<Integer> expr = Expression.parse("x + 1d4", ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext, dieEvaluator));
+        assertEquals(3, expr.evaluate().intValue());
+        variableContext.setNumber("x", 5);
+        assertEquals(6, expr.evaluate().intValue());
+
+        // d8 results 4,4
+        expr = Expression.parse("x + 1d8", ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext, dieEvaluator));
+        assertEquals(9, expr.evaluate().intValue());
+        variableContext.setNumber("x", 6);
+        assertEquals(10, expr.evaluate().intValue());
+
+    }
+
+    @Test
+    public void testDieParseFail() {
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        variableContext.registerNumber("x");
+
+        DieEvaluator dieEvaluator = new RandomDieEvaluator(1);
+        // d4 results = 3,1,2,2
+
+        try {
+            Expression<Integer> expr = Expression.parse("x + 'z'd4", ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext, dieEvaluator));
+            fail("should fail");
+        } catch (Exception e) {
+            // expected
+            assertTrue("Exception is wrong: " + e.getMessage(), e.getMessage().contains("Number of die"));
+            assertTrue("Exception is wrong: " + e.getMessage(), e.getMessage().contains("should be a number"));
+        }
+
+    }
+
     @Test
     public void testVariables() throws IOException {
         SimpleVariableContext variableContext = new SimpleVariableContext();

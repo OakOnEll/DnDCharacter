@@ -28,7 +28,11 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitExprVariable(ExpressionParser.ExprVariableContext ctx);
 
+	T visitExprSingleDie(ExpressionParser.ExprSingleDieContext ctx);
+
 	T visitMathPower(ExpressionParser.MathPowerContext ctx);
+
+	T visitExprDie(ExpressionParser.ExprDieContext ctx);
 
 	T visitLogicalOr(ExpressionParser.LogicalOrContext ctx);
 

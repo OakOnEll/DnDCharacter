@@ -43,8 +43,14 @@ public class ExpressionBaseListener implements ExpressionListener {
 	@Override public void enterExprVariable(ExpressionParser.ExprVariableContext ctx) { }
 	@Override public void exitExprVariable(ExpressionParser.ExprVariableContext ctx) { }
 
+	@Override public void enterExprSingleDie(ExpressionParser.ExprSingleDieContext ctx) { }
+	@Override public void exitExprSingleDie(ExpressionParser.ExprSingleDieContext ctx) { }
+
 	@Override public void enterMathPower(ExpressionParser.MathPowerContext ctx) { }
 	@Override public void exitMathPower(ExpressionParser.MathPowerContext ctx) { }
+
+	@Override public void enterExprDie(ExpressionParser.ExprDieContext ctx) { }
+	@Override public void exitExprDie(ExpressionParser.ExprDieContext ctx) { }
 
 	@Override public void enterLogicalOr(ExpressionParser.LogicalOrContext ctx) { }
 	@Override public void exitLogicalOr(ExpressionParser.LogicalOrContext ctx) { }

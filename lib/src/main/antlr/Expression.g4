@@ -1,10 +1,14 @@
 grammar Expression;
-root : genericExpression ;
+root : genericExpression EOF;
 
 genericExpression:
          K_L_PAREN  genericExpression K_R_PAREN                                                      #exprParen
         | function                                                                                   #exprFunction
         | variable                                                                                   #exprVariable
+
+// dice expressions
+       | K_D genericExpression                                                                       #exprSingleDie
+       | genericExpression K_D genericExpression                                                     #exprDie
 
 // String expressions
         | genericExpression K_DOUBLE_PIPE genericExpression                                          #stringConcat
@@ -35,6 +39,7 @@ variable : ID ;
 STRING_LITERAL : '\'' (~'\'' | '\'\'')* '\'';
 boolean_literal : K_TRUE | K_FALSE;
 
+K_D : 'd';
 K_DOUBLE_PIPE : '||';
 K_COLON : ':' ;
 K_QUESTION_MARK : '?';
@@ -60,4 +65,4 @@ K_PLUS :   '+' ;
 K_MINUS :   '-' ;
 ID  :   [a-zA-Z]+ ;      // match identifiers
 NUM :   [0-9]+ ;         // match integers
-WS  :   [ \t]+ -> skip ; // toss out whitespace
+WS  :   ([ \t]+|EOF) -> skip ; // toss out whitespace

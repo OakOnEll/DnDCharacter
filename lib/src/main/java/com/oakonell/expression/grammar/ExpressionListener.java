@@ -40,8 +40,14 @@ public interface ExpressionListener extends ParseTreeListener {
 	void enterExprVariable(ExpressionParser.ExprVariableContext ctx);
 	void exitExprVariable(ExpressionParser.ExprVariableContext ctx);
 
+	void enterExprSingleDie(ExpressionParser.ExprSingleDieContext ctx);
+	void exitExprSingleDie(ExpressionParser.ExprSingleDieContext ctx);
+
 	void enterMathPower(ExpressionParser.MathPowerContext ctx);
 	void exitMathPower(ExpressionParser.MathPowerContext ctx);
+
+	void enterExprDie(ExpressionParser.ExprDieContext ctx);
+	void exitExprDie(ExpressionParser.ExprDieContext ctx);
 
 	void enterLogicalOr(ExpressionParser.LogicalOrContext ctx);
 	void exitLogicalOr(ExpressionParser.LogicalOrContext ctx);

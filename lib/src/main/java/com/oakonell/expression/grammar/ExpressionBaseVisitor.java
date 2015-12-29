@@ -29,7 +29,11 @@ public class ExpressionBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 
 	@Override public T visitExprVariable(ExpressionParser.ExprVariableContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitExprSingleDie(ExpressionParser.ExprSingleDieContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitMathPower(ExpressionParser.MathPowerContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitExprDie(ExpressionParser.ExprDieContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitLogicalOr(ExpressionParser.LogicalOrContext ctx) { return visitChildren(ctx); }
 

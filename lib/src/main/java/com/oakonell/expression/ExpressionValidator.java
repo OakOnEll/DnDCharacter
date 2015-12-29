@@ -1,8 +1,8 @@
 package com.oakonell.expression;
 
+import com.oakonell.expression.functions.ExpressionFunction;
 import com.oakonell.expression.grammar.ExpressionBaseVisitor;
 import com.oakonell.expression.grammar.ExpressionParser;
-import com.oakonell.expression.functions.ExpressionFunction;
 import com.oakonell.expression.types.BooleanType;
 import com.oakonell.expression.types.NumberType;
 
@@ -25,7 +25,36 @@ class ExpressionValidator extends ExpressionBaseVisitor<ExpressionType<?>> {
     @Override
     public ExpressionType<?> visitRoot(ExpressionParser.RootContext ctx) {
         formula = ctx.start.getInputStream().toString();
-        return super.visitRoot(ctx);
+        return visit(ctx.genericExpression());
+    }
+
+    // Die functions
+
+
+    @Override
+    public ExpressionType<?> visitExprSingleDie(ExpressionParser.ExprSingleDieContext ctx) {
+        final ExpressionParser.GenericExpressionContext lExpr = ctx.genericExpression();
+        ExpressionType<?> lhs = visit(lExpr);
+        if (!lhs.isNumber()) {
+            reportError(lExpr, lhs, "Die size (right of 'd') in a Die expression should be a number");
+        }
+        return lhs;
+    }
+
+    @Override
+    public ExpressionType<?> visitExprDie(ExpressionParser.ExprDieContext ctx) {
+        final ExpressionParser.GenericExpressionContext lExpr = ctx.genericExpression(0);
+        final ExpressionParser.GenericExpressionContext rExpr = ctx.genericExpression(1);
+        ExpressionType<?> lhs = visit(lExpr);
+        ExpressionType<?> rhs = visit(rExpr);
+        if (!lhs.isNumber()) {
+            reportError(lExpr, lhs, "Number of die (left side of 'd') in a Die expression should be a number");
+        }
+        if (!rhs.isNumber()) {
+            reportError(rExpr, rhs, "Die size (right of 'd') in a Die expression should be a number");
+        }
+
+        return lhs;
     }
 
     // Math functions --------------------------------------------------
