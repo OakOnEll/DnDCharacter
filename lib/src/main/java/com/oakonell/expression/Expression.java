@@ -22,6 +22,7 @@ public class Expression<T> {
     private final ExpressionEvaluator evaluator;
     private final ExpressionType<T> resultType;
     private final ExpressionParser parser;
+    private final ExpressionContext context;
 
     public static <T> Expression<T> parse(String formula, ExpressionType<T> expectedResultType, ExpressionContext context) {
         ANTLRInputStream stream;
@@ -78,10 +79,19 @@ public class Expression<T> {
         evaluator = new ExpressionEvaluator(context);
         this.parser = parser;
         this.resultType = resultType;
+        this.context = context;
     }
 
     public T evaluate() {
         parser.reset();
         return ((ExpressionValue<T>) evaluator.visitRoot(parser.root())).getValue();
+    }
+
+    public ExpressionContext getContext() {
+        return context;
+    }
+
+    protected ExpressionParser getParser() {
+        return parser;
     }
 }

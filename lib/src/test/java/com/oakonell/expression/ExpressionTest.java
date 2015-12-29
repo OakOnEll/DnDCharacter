@@ -7,6 +7,7 @@ import com.oakonell.expression.functions.RandomDieEvaluator;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,6 +17,29 @@ import static org.junit.Assert.fail;
  * Created by Rob on 12/22/2015.
  */
 public class ExpressionTest {
+    @Test
+    public void testDieExtraction() {
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        variableContext.registerNumber("x");
+
+        DieEvaluator dieEvaluator = new RandomDieEvaluator(1);
+        // d4 results = 3,1
+
+        Expression<Integer> expr = Expression.parse("x + 1d4", ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext, dieEvaluator));
+
+        Map<Integer, Integer> dice = DiceExtractor.extractDieRolls(expr);
+        assertEquals(1, dice.size());
+        assertEquals(1, (int) dice.get(4));
+
+
+        expr = Expression.parse("x + d4 + 2d6 + 2d4", ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext, dieEvaluator));
+
+        dice = DiceExtractor.extractDieRolls(expr);
+        assertEquals(2, dice.size());
+        assertEquals(3, (int) dice.get(4));
+        assertEquals(2, (int) dice.get(6));
+    }
+
     @Test
     public void testDie() {
         SimpleVariableContext variableContext = new SimpleVariableContext();

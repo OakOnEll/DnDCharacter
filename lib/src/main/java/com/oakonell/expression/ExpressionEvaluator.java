@@ -34,8 +34,7 @@ class ExpressionEvaluator extends ExpressionBaseVisitor<ExpressionValue<?>> {
     public ExpressionValue<?> visitExprSingleDie(ExpressionParser.ExprSingleDieContext ctx) {
         NumberValue lhs = (NumberValue) visit(ctx.genericExpression());
         int dieSides = lhs.getValue();
-        int result = context.evaluateDie(dieSides);
-        return new NumberValue(result);
+        return dieExpression(1, dieSides);
     }
 
     @Override
@@ -44,6 +43,10 @@ class ExpressionEvaluator extends ExpressionBaseVisitor<ExpressionValue<?>> {
         NumberValue rhs = (NumberValue) visit(ctx.genericExpression(1));
         int numRolls = lhs.getValue();
         int dieSides = rhs.getValue();
+        return dieExpression(numRolls, dieSides);
+    }
+
+    protected NumberValue dieExpression(int numRolls, int dieSides) {
         int result = 0;
         for (int i = 0; i < numRolls; i++) {
             result += context.evaluateDie(dieSides);
