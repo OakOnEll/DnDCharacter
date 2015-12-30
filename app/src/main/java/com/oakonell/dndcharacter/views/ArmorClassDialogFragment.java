@@ -203,23 +203,22 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
             holder.checkBox.setOnCheckedChangeListener(null);
             holder.checkBox.setChecked(row.isEquipped());
-            holder.checkBox.setEnabled(!row.isDisabled);
+            holder.checkBox.setEnabled(!row.isDisabled && list.size() > 1);
             holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     row.setIsEquipped(isChecked);
                     Character.ArmorClassWithSource selected = null;
+                    int selectedIndex = -1;
                     if (isChecked) {
-                        if (!row.isArmor()) {
-                            buttonView.setEnabled(false);
-                        } else {
-                            buttonView.setEnabled(true);
-                        }
                         selected = row;
                         int index = -1;
                         for (Character.ArmorClassWithSource other : list) {
                             index++;
-                            if (other == row) continue;
+                            if (other == row) {
+                                selectedIndex = index;
+                                continue;
+                            }
                             if (!other.isEquipped()) continue;
                             other.setIsEquipped(false);
                             other.isDisabled = false;
@@ -232,12 +231,21 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
                             if (other == row) continue;
                             if (other.isDisabled) continue;
                             selected = other;
+                            selectedIndex = index;
                             other.setIsEquipped(true);
-                            other.isDisabled = true;
+                            //other.isDisabled = true;
                             notifyItemChanged(index);
                             break;
                         }
 
+                    }
+                    if (selected != null) {
+                        if (!selected.isArmor()) {
+                            selected.isDisabled = true;
+                        } else {
+                            selected.isDisabled = false;
+                        }
+                        notifyItemChanged(selectedIndex);
                     }
                     fragment.updateModifyingRows(selected.isArmor());
                     fragment.updateAC();

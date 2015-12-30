@@ -456,6 +456,7 @@ public class Character {
         }
         if (!hasAny) {
             noArmorRow.setIsEquipped(true);
+            noArmorRow.isDisabled = true;
         }
 
 
