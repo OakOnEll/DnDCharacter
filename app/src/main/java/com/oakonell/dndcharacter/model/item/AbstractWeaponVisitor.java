@@ -19,6 +19,8 @@ public class AbstractWeaponVisitor extends AbstractComponentVisitor {
             visitDamage(element);
         } else if (name.equals("properties")) {
             visitProperties(element);
+        } else if (name.equals("category")) {
+            visitCategory(element);
         } else if (name.equals("range")) {
             visitRange(element);
         } else {
@@ -36,6 +38,10 @@ public class AbstractWeaponVisitor extends AbstractComponentVisitor {
     }
 
     protected void visitRange(Element element) {
+        visitSimpleItem(element);
+    }
+
+    protected void visitCategory(Element element) {
         visitSimpleItem(element);
     }
 

@@ -332,6 +332,38 @@ public class Character {
         return languages;
     }
 
+    public boolean isProficientWith(CharacterWeapon weapon) {
+        List<ToolProficiencyWithSource> list = deriveToolProficiencies(ProficiencyType.WEAPON);
+        String name = weapon.getName().toUpperCase();
+        String category = weapon.getCategory();
+        if (category == null) {
+            category = "";
+        } else {
+            category = category.toUpperCase();
+        }
+        for (ToolProficiencyWithSource each : list) {
+            final Proficiency proficiency = each.getProficiency();
+            if (proficiency.getProficient().getMultiplier() < 1) continue;
+            String eachName = proficiency.getName();
+            if (eachName == null) {
+                eachName = "";
+            } else {
+                eachName = eachName.toUpperCase();
+            }
+            String eachCategory = proficiency.getCategory();
+            if (eachCategory == null) {
+                eachCategory = "";
+            } else {
+                eachCategory = eachCategory.toUpperCase();
+            }
+
+            if (name.equals(eachName) || category.equals(eachCategory)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static class ArmorClassWithSource extends WithSource {
         private final String formula;
         boolean isEquipped;

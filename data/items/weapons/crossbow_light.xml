@@ -1,7 +1,7 @@
 <item>
     <name>Light Crossbow</name>
     <itemType>WEAPON</itemType>
-    <category>Simple Weapon</category>
+    <category>Simple Weapons</category>
     <damage>
         <amount>d8</amount>
         <damageType>piercing</damageType>

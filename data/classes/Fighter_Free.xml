@@ -49,12 +49,12 @@
         </choose>
         <choose name="weapon">
             <or name="shield">
-                <choose name="shield_weapon" category="martial weapon"></choose>
+                <choose name="shield_weapon" category="martial weapons"></choose>
                 <item>shield</item>
             </or>
             <or name="weapon">
-                <choose name="weapon1" category="martial weapon"></choose>
-                <choose name="weapon2" category="martial weapon"></choose>
+                <choose name="weapon1" category="martial weapons"></choose>
+                <choose name="weapon2" category="martial weapons"></choose>
             </or>
         </choose>
         <choose name="ranged">

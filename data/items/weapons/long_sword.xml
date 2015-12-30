@@ -1,7 +1,7 @@
 <item>
     <name>Long Sword</name>
     <itemType>WEAPON</itemType>
-    <category>Martial Weapon</category>
+    <category>Martial Weapons</category>
     <damage>
         <amount>d8</amount>
         <damageType>slashing</damageType>

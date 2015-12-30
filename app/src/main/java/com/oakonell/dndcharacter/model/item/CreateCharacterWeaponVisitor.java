@@ -50,4 +50,10 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
         final String[] properties = propertiesString.split(",");
         weapon.setProperties(properties);
     }
+
+    @Override
+    protected void visitCategory(Element element) {
+        String category = element.getTextContent();
+        weapon.setCategory(category);
+    }
 }

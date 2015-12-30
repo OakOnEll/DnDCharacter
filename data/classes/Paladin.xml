@@ -24,17 +24,17 @@
         <item>Holy Symbol</item>
         <choose name="weapon">
             <or name="shield">
-                <choose name="shield_weapon" category="martial weapon" />
+                <choose name="shield_weapon" category="martial weapons" />
                 <item>shield</item>
             </or>
             <or name="weapon">
-                <choose name="weapon_weapon" category="martial weapon" />
-                <choose name="weapon_weapon2" category="martial weapon" />
+                <choose name="weapon_weapon" category="martial weapons" />
+                <choose name="weapon_weapon2" category="martial weapons" />
             </or>
         </choose>
         <choose name="extra">
             <or name="simple">
-                <choose name="extra_weapon" category="simple weapon" />
+                <choose name="extra_weapon" category="simple weapons" />
             </or>
             <or name="javelin">
                 <item count="5">javelin</item>

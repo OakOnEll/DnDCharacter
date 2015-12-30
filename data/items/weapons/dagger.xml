@@ -1,7 +1,7 @@
 <item>
     <name>Dagger</name>
     <itemType>WEAPON</itemType>
-    <category>Simple Weapon</category>
+    <category>Simple Weapons</category>
     <damage>
         <amount>d4</amount>
         <damageType>piercing</damageType>

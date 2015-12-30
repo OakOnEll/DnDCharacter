@@ -451,8 +451,21 @@ public class EquipmentFragment extends AbstractSheetFragment {
         @Override
         public void bindTo(final CharacterWeapon item, final EquipmentFragment context, SubAdapter adapter) {
             super.bindTo(item, context, adapter);
-            damage.setText("1d8 + 3 / Piercing");
-            bonus.setText("+5");
+
+
+            final CharacterWeapon.AttackModifiers attackModifiers = item.getAttackModifiers(context.getCharacter());
+            final int damageModifier = attackModifiers.getDamageModifier();
+            String damageModString = "";
+            if (damageModifier != 0) {
+                if (damageModifier < 0) {
+                    damageModString = " - ";
+                } else {
+                    damageModString = " + ";
+                }
+                damageModString += Math.abs(damageModifier);
+            }
+            damage.setText(item.getDamageString() + damageModString);
+            bonus.setText(attackModifiers.getAttackBonus() + "");
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
