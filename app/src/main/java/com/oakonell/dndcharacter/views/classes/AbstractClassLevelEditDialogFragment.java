@@ -18,12 +18,12 @@ import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.ApplyAbstractComponentDialogFragment;
-import com.oakonell.dndcharacter.views.md.ChooseMD;
+import com.oakonell.dndcharacter.views.md.ChooseMDTreeNode;
+import com.oakonell.dndcharacter.views.md.RootChoiceMDNode;
 
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
             // first page, show base skills, saving throws, hit dice..
             Page main = new Page<AClass>() {
                 @Override
-                public Map<String, ChooseMD> appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
 
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
@@ -86,7 +86,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         if (levelElement != null) {
             Page level = new Page<AClass>() {
                 @Override
-                public Map<String, ChooseMD> appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
 
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
@@ -100,7 +100,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         if (!isFirstLevel && includeHp()) {
             Page hitPoints = new Page<AClass>() {
                 @Override
-                public Map<String, ChooseMD> appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
 
                     ViewGroup hpView = (ViewGroup) LayoutInflater.from(dynamic.getContext()).inflate(R.layout.level_hitpoints_layout, dynamic);
@@ -154,7 +154,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         }
                     });
 
-                    return Collections.emptyMap();
+                    return new RootChoiceMDNode();
                 }
             };
             pages.add(hitPoints);

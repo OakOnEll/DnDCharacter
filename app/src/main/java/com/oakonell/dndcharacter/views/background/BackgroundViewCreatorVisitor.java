@@ -14,13 +14,14 @@ import com.oakonell.dndcharacter.model.background.AbstractBackgroundVisitor;
 import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.views.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
+import com.oakonell.dndcharacter.views.md.ChooseMDTreeNode;
 import com.oakonell.dndcharacter.views.md.CustomCheckOptionMD;
 import com.oakonell.dndcharacter.views.md.MultipleChoicesMD;
+import com.oakonell.dndcharacter.views.md.RootChoiceMDNode;
 
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,14 +29,14 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
-
     SavedChoices choices;
     int uiIdCounter;
     int traitIndex;
-    ChooseMD currentChooseMD;
+    ChooseMD<?> currentChooseMD;
+
     private ViewGroup view;
     private ViewGroup parent;
-    private Map<String, ChooseMD> choicesMD = new HashMap<>();
+    private ChooseMDTreeNode choicesMD = new RootChoiceMDNode();
     private List<String> traitNames;
     private Map<String, String> customChoices;
 
@@ -65,7 +66,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         traitIndex = 1;
         final MultipleChoicesMD categoryChoicesMD = new MultipleChoicesMD(titleText, choiceName, 1, 0);
         currentChooseMD = categoryChoicesMD;
-        choicesMD.put(currentChooseMD.getChoiceName(), currentChooseMD);
+        choicesMD.addChildChoice(currentChooseMD);
 
         superVisit.run();
 
@@ -129,7 +130,11 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
         // create the MD
         CheckOptionMD optionMD = new CheckOptionMD(myTraitChoices, checkbox, "" + traitIndex);
-        currentChooseMD.addOption(optionMD);
+        myTraitChoices.addOption(optionMD);
+
+        ChooseMDTreeNode oldCheck = choicesMD;
+        choicesMD = optionMD;
+
 
         // select the current state
         List<String> selections = choices.getChoicesFor(currentChooseMD.getChoiceName());
@@ -142,6 +147,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
             }
         });
 
+        choicesMD = oldCheck;
         traitIndex++;
     }
 
@@ -158,13 +164,13 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         }
     }
 
-    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, String trait) {
+    public ChooseMDTreeNode appendToLayout(Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, String trait) {
         List<String> list = new ArrayList<>();
         list.add(trait);
         return appendToLayout(background, parent, choices, customChoices, list);
     }
 
-    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, List<String> traitNames) {
+    public ChooseMDTreeNode appendToLayout(Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, List<String> traitNames) {
         this.parent = parent;
         this.view = parent;
         this.choices = choices;

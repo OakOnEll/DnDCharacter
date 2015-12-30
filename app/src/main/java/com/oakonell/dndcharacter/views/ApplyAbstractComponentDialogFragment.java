@@ -17,6 +17,7 @@ import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.SavedChoices;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
+import com.oakonell.dndcharacter.views.md.ChooseMDTreeNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     int pageIndex = 0;
     List<Page<M>> pages = new ArrayList<>();
     private M model;
-    private Map<String, ChooseMD> chooseMDs;
+    private ChooseMDTreeNode chooseMDs;
 
     private Button doneButton;
     private Button previousButton;
@@ -143,7 +144,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     protected boolean validate(ViewGroup dynamicView, int pageIndex) {
         int invalid = 0;
 
-        for (ChooseMD each : chooseMDs.values()) {
+        for (ChooseMD each : chooseMDs.getChildChoiceMDs()) {
             if (!each.validate(dynamicView)) {
                 invalid++;
             }
@@ -171,7 +172,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         SavedChoices savedChoices = savedChoicesByModel.get(name);
         Map<String, String> customChoices = customChoicesByModel.get(name);
 
-        for (ChooseMD each : chooseMDs.values()) {
+        for (ChooseMD each : chooseMDs.getChildChoiceMDs()) {
             each.saveChoice(dynamicView, savedChoices, customChoices);
         }
     }
@@ -266,6 +267,6 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     public abstract String getModelSpinnerPrompt();
 
     protected static abstract class Page<M extends AbstractComponentModel> {
-        public abstract Map<String, ChooseMD> appendToLayout(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices);
+        public abstract ChooseMDTreeNode appendToLayout(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices);
     }
 }

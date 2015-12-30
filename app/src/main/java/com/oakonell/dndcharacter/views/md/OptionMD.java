@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.md;
 
 import android.view.ViewGroup;
 
+import com.oakonell.dndcharacter.model.SavedChoices;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,9 @@ public abstract class OptionMD<O extends ChooseMD> {
         return chooseMD.getChoiceName();
     }
 
-    public abstract void saveChoice(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices);
+    public abstract void saveChoice(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices, SavedChoices savedChoices);
 
+    public abstract boolean validate(ViewGroup dynamicView);
+
+    abstract void setEnabled(boolean enabled);
 }

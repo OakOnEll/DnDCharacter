@@ -37,9 +37,13 @@ public class MultipleChoicesMD extends ChooseMD<CheckOptionMD> {
     @Override
     public boolean validate(ViewGroup dynamicView) {
         int checked = 0;
+        boolean isValid = true;
         for (CheckOptionMD each : getOptions()) {
             CheckBox checkBox = each.getCheckbox();
-            if (checkBox.isChecked()) checked++;
+            if (checkBox.isChecked()) {
+                checked++;
+                isValid = each.validate(dynamicView) && isValid;
+            }
         }
         if (checked < minSelections) {
             uiLabel.setError("Choose " + minSelections);
@@ -47,7 +51,38 @@ public class MultipleChoicesMD extends ChooseMD<CheckOptionMD> {
             uiLabel.startAnimation(shake);
             return false;
         }
-        return true;
+        return isValid;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        if (!enabled) {
+            for (CheckOptionMD each : getOptions()) {
+                CheckBox aCheck = each.getCheckbox();
+                aCheck.setEnabled(false);
+                each.setEnabled(enabled);
+            }
+            return;
+        }
+        int maxChecked = getMaxChoices();
+        int numChecked = 0;
+        for (CheckOptionMD each : getOptions()) {
+            CheckBox aCheck = each.getCheckbox();
+            if (aCheck.isChecked()) {
+                numChecked++;
+            }
+        }
+        boolean allEnabled = numChecked < maxChecked;
+        for (CheckOptionMD each : getOptions()) {
+            CheckBox aCheck = each.getCheckbox();
+            if (!aCheck.isChecked()) {
+                aCheck.setEnabled(allEnabled);
+                each.setEnabled(allEnabled);
+            } else {
+                aCheck.setEnabled(true);
+            }
+        }
+
     }
 
 }

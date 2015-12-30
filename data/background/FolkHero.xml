@@ -5,12 +5,11 @@
         <proficiency>Survival</proficiency>
     </skills>
     <tools>
-        <choose name="tool" category="artisan tool"/>
+        <choose name="toolProf" category="artisan tool"/>
         <proficiency>Vehicle(land)</proficiency>
     </tools>
     <equipment>
         <choose name="tool" category="artisan tool"/>
-        <item>Set of artisan tools</item>
         <item>shovel</item>
         <item>iron pot</item>
         <item>common clothes</item>

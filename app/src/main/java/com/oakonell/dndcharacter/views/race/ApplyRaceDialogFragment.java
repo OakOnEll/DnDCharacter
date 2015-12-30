@@ -22,6 +22,7 @@ import com.oakonell.dndcharacter.views.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.ApplyAbstractComponentDialogFragment;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
+import com.oakonell.dndcharacter.views.md.ChooseMDTreeNode;
 
 import org.w3c.dom.Element;
 
@@ -39,7 +40,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
     Race subrace;
     List<Race> subraces;
     private NoDefaultSpinner subraceSpinner;
-    private Map<String, ChooseMD> subRaceChooseMDs;
+    private ChooseMDTreeNode subRaceChooseMDs;
     private TextView subRaceErrorView;
 
     public static ApplyRaceDialogFragment createDialog() {
@@ -66,7 +67,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         List<Page<Race>> result = new ArrayList<Page<Race>>();
         Page main = new Page<Race>() {
             @Override
-            public Map<String, ChooseMD> appendToLayout(Race model, final ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
+            public ChooseMDTreeNode appendToLayout(Race model, final ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
                 Race race = getModel();
 
                 List<String> list = new ArrayList<String>();
@@ -138,7 +139,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
                 AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
                 Element element = XmlUtils.getDocument(model.getXml()).getDocumentElement();
-                Map<String, ChooseMD> chooseMDs = visitor.appendToLayout(element, dynamicView, savedChoices);
+                ChooseMDTreeNode chooseMDs = visitor.appendToLayout(element, dynamicView, savedChoices);
 
                 if (subrace != null) {
                     Element subRaceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
@@ -212,7 +213,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         SavedChoices savedChoices = savedChoicesByModel.get(name);
         Map<String, String> customChoices = customChoicesByModel.get(name);
 
-        for (ChooseMD each : subRaceChooseMDs.values()) {
+        for (ChooseMD each : subRaceChooseMDs.getChildChoiceMDs()) {
             each.saveChoice(dynamicView, savedChoices, customChoices);
         }
     }

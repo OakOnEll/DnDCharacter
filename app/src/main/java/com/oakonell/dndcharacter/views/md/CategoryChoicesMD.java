@@ -21,4 +21,11 @@ public class CategoryChoicesMD extends ChooseMD<DropdownOptionMD> {
         }
         return numInvalid == 0;
     }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        for (DropdownOptionMD each : getOptions()) {
+            each.setEnabled(enabled);
+        }
+    }
 }

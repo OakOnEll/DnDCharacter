@@ -11,7 +11,7 @@ import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.ApplyAbstractComponentDialogFragment;
-import com.oakonell.dndcharacter.views.md.ChooseMD;
+import com.oakonell.dndcharacter.views.md.ChooseMDTreeNode;
 
 import org.w3c.dom.Element;
 
@@ -42,7 +42,7 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
         List<Page<Background>> pages = new ArrayList<>();
         Page main = new Page<Background>() {
             @Override
-            public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+            public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
                 Element element = XmlUtils.getDocument(background.getXml()).getDocumentElement();
                 return visitor.appendToLayout(element, dynamic, backgroundChoices);
@@ -51,28 +51,28 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
 
         Page trait = new Page<Background>() {
             @Override
-            public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+            public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
                 return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "traits");
             }
         };
         Page ideal = new Page<Background>() {
             @Override
-            public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+            public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
                 return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "ideals");
             }
         };
         Page bond = new Page<Background>() {
             @Override
-            public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+            public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
                 return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "bonds");
             }
         };
         Page flaw = new Page<Background>() {
             @Override
-            public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+            public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
                 return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "flaws");
             }
@@ -83,7 +83,7 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
             if (!XmlUtils.getChildElements(documentElement, "specialties").isEmpty()) {
                 extra = new Page<Background>() {
                     @Override
-                    public Map<String, ChooseMD> appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                    public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                         BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
                         return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "specialties");
                     }

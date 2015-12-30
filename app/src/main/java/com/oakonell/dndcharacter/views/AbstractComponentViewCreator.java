@@ -23,15 +23,15 @@ import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.md.CategoryChoicesMD;
 import com.oakonell.dndcharacter.views.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.md.ChooseMD;
+import com.oakonell.dndcharacter.views.md.ChooseMDTreeNode;
 import com.oakonell.dndcharacter.views.md.DropdownOptionMD;
 import com.oakonell.dndcharacter.views.md.MultipleChoicesMD;
+import com.oakonell.dndcharacter.views.md.RootChoiceMDNode;
 
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Rob on 11/18/2015.
@@ -40,8 +40,10 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     SavedChoices choices;
     int uiIdCounter;
     ChooseMD<?> currentChooseMD;
+
     private ViewGroup parent;
-    private Map<String, ChooseMD> choicesMD = new HashMap<>();
+    private ChooseMDTreeNode choicesMD = new RootChoiceMDNode();
+    //private Map<String, ChooseMD> choicesMD = new HashMap<>();
     private ViewGroup top;
 
     protected void createGroup(String title) {
@@ -56,7 +58,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
     }
 
 
-    public Map<String, ChooseMD> appendToLayout(Element element, ViewGroup parent, SavedChoices choices) {
+    public ChooseMDTreeNode appendToLayout(Element element, ViewGroup parent, SavedChoices choices) {
         this.top = parent;
         this.parent = parent;
         this.choices = choices;
@@ -194,7 +196,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         List<Element> childOrElems = XmlUtils.getChildElements(element, "or");
         if (childOrElems.size() == 0) {
             currentChooseMD = new CategoryChoicesMD(choiceName, numChoices);
-            choicesMD.put(choiceName, currentChooseMD);
+            choicesMD.addChildChoice(currentChooseMD);
 
             // category, context sensitive choices ?
             categoryChoices(element, numChoices);
@@ -207,8 +209,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
 
             MultipleChoicesMD multipleChoicesMD = new MultipleChoicesMD(numChoicesTextView, choiceName, numChoices, numChoices);
             currentChooseMD = multipleChoicesMD;
-            choicesMD.put(choiceName, currentChooseMD);
-
+            choicesMD.addChildChoice(currentChooseMD);
 
             numChoicesTextView.setText(numChoices + "");
 
@@ -343,31 +344,20 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         CheckOptionMD optionMD = new CheckOptionMD(chooseMD, checkbox, name);
         chooseMD.addOption(optionMD);
 
+        ChooseMDTreeNode oldCheck = choicesMD;
+        choicesMD = optionMD;
+
         parent = (ViewGroup) layout.findViewById(R.id.or_view);
 
         super.visitOr(element);
 
+        choicesMD = oldCheck;
         parent = oldParent;
     }
 
     private void setCheckedEnabledStates(MultipleChoicesMD chooseMD) {
         chooseMD.getUiLabel().setError(null);
-        int maxChecked = chooseMD.getMaxChoices();
-        int numChecked = 0;
-        List<CheckBox> checkBoxes = new ArrayList<CheckBox>();
-        for (CheckOptionMD each : chooseMD.getOptions()) {
-            CheckBox aCheck = each.getCheckbox();
-            checkBoxes.add(aCheck);
-            if (aCheck.isChecked()) {
-                numChecked++;
-            }
-        }
-        boolean enabled = numChecked < maxChecked;
-        for (CheckBox each : checkBoxes) {
-            if (!each.isChecked()) {
-                each.setEnabled(enabled);
-            }
-        }
+        chooseMD.setEnabled(true);
     }
 
 }

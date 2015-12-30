@@ -25,7 +25,7 @@ public abstract class ChooseMD<O extends OptionMD> {
         List<String> list = savedChoices.getChoicesFor(choiceName);
         list.clear();
         for (O each : options) {
-            each.saveChoice(dynamicView, list, customChoices);
+            each.saveChoice(dynamicView, list, customChoices, savedChoices);
         }
     }
 
@@ -46,4 +46,6 @@ public abstract class ChooseMD<O extends OptionMD> {
     }
 
     public abstract boolean validate(ViewGroup dynamicView);
+
+    public abstract void setEnabled(boolean enabled);
 }

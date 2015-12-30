@@ -7,6 +7,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.SavedChoices;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class DropdownOptionMD extends OptionMD<CategoryChoicesMD> {
     }
 
     @Override
-    public void saveChoice(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices) {
+    public void saveChoice(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices, SavedChoices savedChoices) {
         String selection = (String) spinner.getSelectedItem();
         list.add(selection);
     }
@@ -34,6 +35,7 @@ public class DropdownOptionMD extends OptionMD<CategoryChoicesMD> {
         errorTextView.setError(null);
     }
 
+    @Override
     public boolean validate(ViewGroup dynamicView) {
         if (spinner.getSelectedItemPosition() < 0) {
             errorTextView.setError("Choose one");
@@ -42,5 +44,9 @@ public class DropdownOptionMD extends OptionMD<CategoryChoicesMD> {
             return false;
         }
         return true;
+    }
+
+    public void setEnabled(boolean enabled) {
+        spinner.setEnabled(enabled);
     }
 }
