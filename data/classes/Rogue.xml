@@ -1,0 +1,135 @@
+<class>
+    <name>Rogue</name>
+    <hitDice>1d8</hitDice>
+    <savingThrows>
+        <proficiency>Dexterity</proficiency>
+        <proficiency>Intelligence</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="4">
+            <or name="acrobatics">
+                <proficiency>Acrobatics</proficiency>
+            </or>
+            <or name="athletics">
+                <proficiency>Athletics</proficiency>
+            </or>
+            <or name="deception">
+                <proficiency>Deception</proficiency>
+            </or>
+            <or name="insight">
+                <proficiency>Insight</proficiency>
+            </or>
+            <or name="intimidation">
+                <proficiency>Intimidation</proficiency>
+            </or>
+            <or name="investigation">
+                <proficiency>Investigation</proficiency>
+            </or>
+            <or name="perception">
+                <proficiency>Perception</proficiency>
+            </or>
+            <or name="performance">
+                <proficiency>Performance</proficiency>
+            </or>
+            <or name="persuasion">
+                <proficiency>Persuasion</proficiency>
+            </or>
+            <or name="sleight_of_hand">
+                <proficiency>Sleight of Hand</proficiency>
+            </or>
+            <or name="stealth">
+                <proficiency>Stealth</proficiency>
+            </or>
+        </choose>
+    </skills>
+
+    <weapons>
+        <proficiency category="simple weapons"></proficiency>
+        <proficiency>Hand Crossbow</proficiency>
+        <proficiency>Long Sword</proficiency>
+        <proficiency>Rapier</proficiency>
+        <proficiency>Short Sword</proficiency>
+    </weapons>
+
+
+    <equipment>
+        <item>leather armor</item>
+        <item count="2">dagger</item>
+        <item>thieves' tools</item>
+        <choose name="weapon">
+            <or name="shortsword">
+                <item>Short sword</item>
+            </or>
+            <or name="rapier">
+                <item>Rapier</item>
+            </or>
+        </choose>
+
+        <choose name="otherWeapon">
+            <or name="bow">
+                <item >Shortbow</item>
+                <item count="20">arrow</item>
+            </or>
+            <or name="sword">
+                <item>Short sword</item>
+            </or>
+        </choose>
+
+        <choose name="pack">
+            <or name="burglars">
+                <item>burglar's pack</item>
+            </or>
+            <or name="dungeoneers">
+                <item>dungeoneer's pack</item>
+            </or>
+            <or name="explorers">
+                <item>explorer's pack</item>
+            </or>
+        </choose>
+    </equipment>
+
+    <level value="1">
+        <feature>
+            <name>Sneak Attack</name>
+            <shortDescription>Once per turn, can deal extra damage with a finesse or ranged weapon
+                if you have advantage or target has an enemy within 5 feet.
+            </shortDescription>
+        </feature>
+        <feature>
+            <name>Thieve's Cant</name>
+            <shortDescription>You can communicate in a secret language.</shortDescription>
+        </feature>
+        <armor>
+            <proficiency category="light armor"></proficiency>
+        </armor>
+        <!-- one skill... TODO support conditional/multiclass properties -->
+        <tools>
+            <proficiency>thieves' tools</proficiency>
+        </tools>
+
+        <choose name="expertise">
+            <or name="skills">
+                <skills>
+                    <choose name="skills" number="2">
+                        <!-- TODO handle referencing existing skills (eg, including background) -->
+                        <!-- TODO support this to increase skill to expert -->
+                    </choose>
+                </skills>
+            </or>
+            <or name="tools">
+                <skills>
+                    <choose name="tools" number="1">
+                        <!-- TODO handle referencing existing skills (eg, including background) -->
+                        <!-- TODO support this to increase skill to expert -->
+                    </choose>
+                </skills>
+                <tools>
+                    <proficiency level="expert">thieves' tools</proficiency>
+                </tools>
+            </or>
+        </choose>
+
+
+    </level>
+
+</class>

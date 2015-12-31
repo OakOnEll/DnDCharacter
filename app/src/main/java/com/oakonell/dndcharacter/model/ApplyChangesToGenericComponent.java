@@ -114,13 +114,21 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     protected void visitProficiency(Element element) {
         String skillName = element.getTextContent();
         String category = element.getAttribute("category");
+
+        // TODO how to endode expert, or half prof- via attribute?
+        String level = element.getAttribute("level");
+        Proficient proficient = Proficient.PROFICIENT;
+        if (level != null && level.trim().length() > 0) {
+            proficient = Proficient.valueOf(level.toUpperCase());
+        }
+
+
         if (state == AbstractComponentVisitor.VisitState.SKILLS) {
-            // TODO how to encode expert, or half prof- via attribute?
             skillName = skillName.replaceAll(" ", "_");
             skillName = skillName.toUpperCase();
             SkillType type = SkillType.valueOf(SkillType.class, skillName);
             // TODO handle error
-            component.addSkill(type, Proficient.PROFICIENT);
+            component.addSkill(type, proficient);
         } else if (state == VisitState.TOOLS || state == VisitState.ARMOR || state == VisitState.WEAPONS) {
             ProficiencyType type;
             if (state == VisitState.TOOLS) {
@@ -133,20 +141,18 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 throw new RuntimeException("Unexpected state " + state);
             }
 
-            // TODO how to endode expert, or half prof- via attribute?
             // TODO handle error
             if (category != null && category.trim().length() > 0) {
-                component.addToolCategoryProficiency(type, category, Proficient.PROFICIENT);
+                component.addToolCategoryProficiency(type, category, proficient);
             } else {
-                component.addToolProficiency(type, skillName, Proficient.PROFICIENT);
+                component.addToolProficiency(type, skillName, proficient);
             }
         } else if (state == VisitState.SAVING_THROWS) {
-            // TODO how to encode expert, or half prof- via attribute?
             skillName = skillName.replaceAll(" ", "_");
             skillName = skillName.toUpperCase();
             StatType type = StatType.valueOf(StatType.class, skillName);
             // TODO handle error
-            component.addSaveThrow(type, Proficient.PROFICIENT);
+            component.addSaveThrow(type, proficient);
 
         }
         super.visitProficiency(element);

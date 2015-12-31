@@ -2,9 +2,11 @@ package com.oakonell.dndcharacter.model;
 
 import android.support.annotation.NonNull;
 
+import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.expression.Expression;
 import com.oakonell.expression.ExpressionContext;
 import com.oakonell.expression.ExpressionType;
@@ -25,6 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 
 /**
@@ -603,26 +606,63 @@ public class Character {
     @NonNull
     private String getToolProficiencyString(ProficiencyType type) {
         List<ToolProficiencyWithSource> list = deriveToolProficiencies(type);
-        // TODO collapse duplicates AND subsume individual items with categories
-        // TODO apply an order? category first, alphabetical
-        Set<String> set = new HashSet<>();
+
+        // first categories, so can pull out specifics if category already covered
+        Map<String, Proficient> categories = new TreeMap<>();
         for (ToolProficiencyWithSource each : list) {
             Proficiency proficiency = each.proficient;
-
-            if (proficiency.getCategory() != null) {
-                set.add("(" + proficiency.getCategory() + ")");
-            } else {
-                set.add(proficiency.getName());
+            if (proficiency.getCategory() == null) continue;
+            String text = "(" + proficiency.getCategory() + ")";
+            final Proficient proficient = each.getProficiency().getProficient();
+            final Proficient current = categories.get(text);
+            if (current == null || current.getMultiplier() < proficient.getMultiplier()) {
+                categories.put(text, proficient);
             }
         }
+
+        Set<String> upperCaseCategories = new HashSet<>();
+        for (String each : categories.keySet()) {
+            upperCaseCategories.add(each.toUpperCase());
+        }
+
+        // next specific items
+        // TODO ugh.. specific could be a higher proficiency..
+        Map<String, Proficient> specifics = new TreeMap<>();
+        for (ToolProficiencyWithSource each : list) {
+            Proficiency proficiency = each.proficient;
+            if (proficiency.getCategory() != null) continue;
+            String text = proficiency.getName();
+
+            ItemRow item = new Select()
+                    .from(ItemRow.class).where("UPPER(name) = ?", text.toUpperCase()).executeSingle();
+            if (item != null) {
+                if (upperCaseCategories.contains(item.getCategory().toUpperCase())) continue;
+            }
+
+            final Proficient proficient = each.getProficiency().getProficient();
+            Proficient current = specifics.get(text);
+            if (current == null || current.getMultiplier() < proficient.getMultiplier()) {
+                specifics.put(text, proficient);
+            }
+        }
+
         StringBuilder builder = new StringBuilder();
-        String comma = "";
-        for (String each : set) {
+        String comma = appendToolProficiencies(builder, "", categories.entrySet());
+        appendToolProficiencies(builder, comma, specifics.entrySet());
+        return builder.toString();
+    }
+
+    private String appendToolProficiencies(StringBuilder builder, String comma, Set<Map.Entry<String, Proficient>> entries) {
+        for (Map.Entry<String, Proficient> each : entries) {
             builder.append(comma);
             comma = ", ";
-            builder.append(each);
+            builder.append(each.getKey());
+            final Proficient proficient = each.getValue();
+            if (proficient.getMultiplier() != 1) {
+                builder.append("(" + proficient + ")");
+            }
         }
-        return builder.toString();
+        return comma;
     }
 
     public String getWeaponsProficiencyString() {
