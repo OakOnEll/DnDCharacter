@@ -39,6 +39,14 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     }
 
     @Override
+    protected void visitVersatileDamage(Element element) {
+        String amount = XmlUtils.getElementText(element, "amount");
+        String typeString = XmlUtils.getElementText(element, "damageType");
+        DamageType type = DamageType.valueOf(typeString.substring(0, 1).toUpperCase() + typeString.substring(1).toLowerCase());
+        weapon.addVersatileDamage(amount, type);
+    }
+
+    @Override
     protected void visitRange(Element element) {
         String range = element.getTextContent();
         weapon.setRange(range);
@@ -55,5 +63,12 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     protected void visitCategory(Element element) {
         String category = element.getTextContent();
         weapon.setCategory(category);
+    }
+
+    @Override
+    protected void visitRanged(Element element) {
+        if ("true".equals(element.getTextContent())) {
+            weapon.setIsRanged(true);
+        }
     }
 }

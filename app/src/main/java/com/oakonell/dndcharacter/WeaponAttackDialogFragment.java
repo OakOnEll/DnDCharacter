@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.Character;
@@ -30,6 +32,8 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     TextView name;
     TextView attack_bonus;
     TextView damage_descr;
+    private CheckBox two_handed;
+    private CheckBox use_dexterity;
 
     CharacterWeapon weapon;
     private int damageModifier = 2;
@@ -56,6 +60,8 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         name = (TextView) view.findViewById(R.id.weapon_label);
         attack_bonus = (TextView) view.findViewById(R.id.attack_bonus);
         damage_descr = (TextView) view.findViewById(R.id.damage_descr);
+        two_handed = (CheckBox) view.findViewById(R.id.two_handed);
+        use_dexterity = (CheckBox) view.findViewById(R.id.use_dexterity);
 
         attack_roll_button = (Button) view.findViewById(R.id.attack_roll_button);
         attack_roll1 = (TextView) view.findViewById(R.id.attack_roll1);
@@ -80,16 +86,58 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
         loadWeapon(character);
 
-        final CharacterWeapon.AttackModifiers attackModifiers = weapon.getAttackModifiers(character);
+        updateViews();
+    }
+
+    private void updateViews() {
+        Character character = getCharacter();
+        final CharacterWeapon.AttackModifiers attackModifiers = weapon.getAttackModifiers(character, use_dexterity.isChecked());
         damageModifier = attackModifiers.getDamageModifier();
         setModifier(attackModifiers.getAttackBonus());
-        attack_bonus.setText(attackModifiers.getAttackBonus() + "");
+
 
         // updateViews
+
+        if (weapon.isVersatile()) {
+            two_handed.setVisibility(View.VISIBLE);
+            two_handed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // TODO more to do here?
+                    updateViews();
+                }
+            });
+        } else {
+            two_handed.setOnCheckedChangeListener(null);
+            two_handed.setVisibility(View.GONE);
+        }
+
+        if (weapon.isFinesse()) {
+            use_dexterity.setVisibility(View.VISIBLE);
+            use_dexterity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    updateViews();
+                }
+            });
+        } else {
+            use_dexterity.setOnCheckedChangeListener(null);
+            use_dexterity.setVisibility(View.GONE);
+        }
+
+
+        description.setText(weapon.getDescriptionString());
+        attack_bonus.setText(attackModifiers.getAttackBonus() + "");
+
         name.setText(weapon.getName());
         //description.setText(weapon.get);
 
-        damage_descr.setText(weapon.getDamageString());
+        // TODO handle versatile/two handed adjustment here
+        if (two_handed.isChecked()) {
+            damage_descr.setText(weapon.getVersatileDamageString());
+        } else {
+            damage_descr.setText(weapon.getDamageString());
+        }
         attack_roll_modifier.setText(damageModifier + "");
     }
 
@@ -121,7 +169,11 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     private void rollAttack() {
         Map<DamageType, Integer> damages = new HashMap<>();
 
-        for (CharacterWeapon.DamageFormula each : weapon.getDamages()) {
+        List<CharacterWeapon.DamageFormula> weaponDamages = weapon.getDamages();
+        if (two_handed.isChecked()) {
+            weaponDamages = weapon.getVersatileDamages();
+        }
+        for (CharacterWeapon.DamageFormula each : weaponDamages) {
             int value = getCharacter().evaluateFormula(each.getDamageFormula(), null);
             Integer damage = damages.get(each.getType());
             if (damage == null) damage = 0;

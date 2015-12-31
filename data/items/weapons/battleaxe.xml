@@ -1,5 +1,5 @@
 <item>
-    <name>Long Sword</name>
+    <name>Battleaxe</name>
     <itemType>WEAPON</itemType>
     <category>Martial Weapons</category>
     <damage>
@@ -11,6 +11,6 @@
         <damageType>slashing</damageType>
     </versatileDamage>
     <properties>versatile</properties>
-    <weight>3</weight>
-    <cost>15gp</cost>
+    <weight>4</weight>
+    <cost>10gp</cost>
 </item>

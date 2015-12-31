@@ -6,6 +6,7 @@
         <amount>d8</amount>
         <damageType>piercing</damageType>
     </damage>
+    <ranged>true</ranged>
     <properties>ammunition, loading, two-handed</properties>
     <range>80/320</range>
     <weight>5</weight>

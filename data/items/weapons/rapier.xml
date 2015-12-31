@@ -1,0 +1,12 @@
+<item>
+    <name>Rapier</name>
+    <itemType>WEAPON</itemType>
+    <category>Martial Weapons</category>
+    <damage>
+        <amount>d8</amount>
+        <damageType>piercing</damageType>
+    </damage>
+    <properties>finesse</properties>
+    <weight>2</weight>
+    <cost>25gp</cost>
+</item>

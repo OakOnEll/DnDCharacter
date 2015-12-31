@@ -448,12 +448,47 @@ public class EquipmentFragment extends AbstractSheetFragment {
             damage = (TextView) view.findViewById(R.id.damage);
         }
 
+        protected String getNameString(CharacterWeapon item) {
+            String base = super.getNameString(item);
+            StringBuilder builder = new StringBuilder(" [");
+            boolean hasExtra = false;
+            if (item.isRanged()) {
+                if (hasExtra) {
+                    builder.append(", ");
+                }
+                builder.append("(" + item.getRange() + ")");
+                hasExtra = true;
+            }
+            // TODO short for small screens?
+            if (item.isVersatile()) {
+                if (hasExtra) {
+                    builder.append(", ");
+                }
+                builder.append("Versatile");
+                hasExtra = true;
+            }
+            if (item.isFinesse()) {
+                if (hasExtra) {
+                    builder.append(", ");
+                }
+                builder.append("Finesse");
+                hasExtra = true;
+            }
+
+            if (hasExtra) {
+                builder.append("]");
+                return base + builder.toString();
+            }
+
+            return base;
+        }
+
         @Override
         public void bindTo(final CharacterWeapon item, final EquipmentFragment context, SubAdapter adapter) {
             super.bindTo(item, context, adapter);
 
 
-            final CharacterWeapon.AttackModifiers attackModifiers = item.getAttackModifiers(context.getCharacter());
+            final CharacterWeapon.AttackModifiers attackModifiers = item.getAttackModifiers(context.getCharacter(), false);
             final int damageModifier = attackModifiers.getDamageModifier();
             String damageModString = "";
             if (damageModifier != 0) {
@@ -566,7 +601,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         @Override
         public void bindTo(I item, EquipmentFragment context, SubAdapter adapter) {
-            name.setText(item.getName());
+            name.setText(getNameString(item));
             // TODO force child classes to implement onClick
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -576,6 +611,10 @@ public class EquipmentFragment extends AbstractSheetFragment {
             });
 
             handleView.setOnTouchListener(new SwipeOrDragListener(mDragStartListener, this));
+        }
+
+        protected String getNameString(I item) {
+            return item.getName();
         }
 
 

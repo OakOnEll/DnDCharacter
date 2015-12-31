@@ -70,6 +70,20 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Two Handed"
+            android:id="@+id/two_handed"
+            android:layout_gravity="center_horizontal" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use Dexterity"
+            android:id="@+id/use_dexterity"
+            android:layout_gravity="center_horizontal" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

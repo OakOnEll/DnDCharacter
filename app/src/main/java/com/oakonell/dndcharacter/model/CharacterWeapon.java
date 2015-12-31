@@ -1,31 +1,49 @@
 package com.oakonell.dndcharacter.model;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.item.ItemType;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rob on 12/8/2015.
  */
 public class CharacterWeapon extends CharacterItem {
+    @Element(required = false)
+    boolean isRanged;
 
+    @Element(required = false)
     private String range;
-    private String[] properties;
+    @ElementList(required = false)
+    private Set<String> properties;
+
+    @ElementList(required = false)
+    private List<DamageFormula> damageFormulas = new ArrayList<>();
+
+    @ElementList(required = false)
+    private List<DamageFormula> versatileDamageFormulas = new ArrayList<>();
+
 
     public ItemType getItemType() {
         return ItemType.WEAPON;
     }
 
-    @ElementList(required = false)
-    private List<DamageFormula> damageFormulas = new ArrayList<>();
 
     public void addDamage(String formula, DamageType type) {
         DamageFormula damage = new DamageFormula(formula, type);
         damageFormulas.add(damage);
+    }
+
+    public void addVersatileDamage(String formula, DamageType type) {
+        DamageFormula damage = new DamageFormula(formula, type);
+        versatileDamageFormulas.add(damage);
     }
 
     public void setRange(String range) {
@@ -37,14 +55,24 @@ public class CharacterWeapon extends CharacterItem {
     }
 
     public void setProperties(String[] properties) {
-        this.properties = properties;
-    }
-
-    public String[] getProperties() {
-        return properties;
+        this.properties = new HashSet<String>();
+        for (String each : properties) {
+            this.properties.add(each.toUpperCase().trim());
+        }
     }
 
     public String getDamageString() {
+        final List<DamageFormula> damageFormulas = this.damageFormulas;
+        return getDamagesString(damageFormulas);
+    }
+
+    public String getVersatileDamageString() {
+        final List<DamageFormula> damageFormulas = this.versatileDamageFormulas;
+        return getDamagesString(damageFormulas);
+    }
+
+    @NonNull
+    private String getDamagesString(List<DamageFormula> damageFormulas) {
         StringBuilder builder = new StringBuilder();
         boolean isFirst = true;
         for (DamageFormula each : damageFormulas) {
@@ -62,6 +90,62 @@ public class CharacterWeapon extends CharacterItem {
     public List<DamageFormula> getDamages() {
         return damageFormulas;
     }
+
+    public List<DamageFormula> getVersatileDamages() {
+        return versatileDamageFormulas;
+    }
+
+
+    public void setIsRanged(boolean ranged) {
+        this.isRanged = ranged;
+    }
+
+    public boolean isRanged() {
+        return isRanged;
+    }
+
+    public boolean isVersatile() {
+        return properties != null && properties.contains("VERSATILE");
+    }
+
+    public boolean isTwoHanded() {
+        return properties != null && properties.contains("TWO-HANDED");
+    }
+
+    public boolean isFinesse() {
+        return properties != null && properties.contains("FINESSE");
+    }
+
+    public String getDescriptionString() {
+        StringBuilder builder = new StringBuilder();
+        boolean isFirst = true;
+        if (properties != null) {
+            for (String each : properties) {
+                if (!isFirst) {
+                    builder.append(", ");
+                }
+                String string = each.substring(0, 1) + each.substring(1).toLowerCase();
+                builder.append(string);
+                if (string.equals("Thrown")) {
+                    builder.append("(");
+                    builder.append(range);
+                    builder.append(")");
+                }
+                isFirst = false;
+            }
+        }
+        if (isRanged) {
+            if (!isFirst) {
+                builder.append(", ");
+            }
+            builder.append("Ranged(");
+            builder.append(range);
+            builder.append(")");
+            isFirst = false;
+        }
+        return builder.toString();
+    }
+
 
     public static class DamageFormula {
         @Element(required = false)
@@ -87,10 +171,13 @@ public class CharacterWeapon extends CharacterItem {
         }
     }
 
-    public AttackModifiers getAttackModifiers(Character character) {
-        // TODO finesse may use dexterity ??
-        // TODO Ranged DOES use dexterity.
-        final StatBlock statBlock = character.getStatBlock(StatType.STRENGTH);
+    public AttackModifiers getAttackModifiers(Character character, boolean useFinesse) {
+        StatBlock statBlock;
+        if (useFinesse || isRanged()) {
+            statBlock = character.getStatBlock(StatType.DEXTERITY);
+        } else {
+            statBlock = character.getStatBlock(StatType.STRENGTH);
+        }
 
         int damageModifier = statBlock.getModifier();
 
