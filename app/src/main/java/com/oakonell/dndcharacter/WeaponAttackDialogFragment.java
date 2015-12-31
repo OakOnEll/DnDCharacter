@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterItem;
 import com.oakonell.dndcharacter.model.CharacterWeapon;
 import com.oakonell.dndcharacter.model.DamageType;
+import com.oakonell.dndcharacter.views.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,8 +38,17 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     private CheckBox two_handed;
     private CheckBox use_dexterity;
 
+    private Button add_another;
+    private RecyclerView damagesRecyclerView;
+    private ViewGroup total_group;
+    private TextView attack_roll_final_total;
+
+
     CharacterWeapon weapon;
     private int damageModifier = 2;
+    private DamagesListAdapter damageListAdapter;
+    AttackDamageInfo attackDamageInfo;
+
 
     public static WeaponAttackDialogFragment create(CharacterItem item) {
         WeaponAttackDialogFragment newMe = new WeaponAttackDialogFragment();
@@ -68,6 +80,40 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         attack_roll_modifier = (TextView) view.findViewById(R.id.attack_roll_modifier);
         attack_roll_total = (TextView) view.findViewById(R.id.attack_roll_total);
 
+        add_another = (Button) view.findViewById(R.id.add_another);
+        damagesRecyclerView = (RecyclerView) view.findViewById(R.id.damages);
+        total_group = (ViewGroup) view.findViewById(R.id.total_group);
+        attack_roll_final_total = (TextView) view.findViewById(R.id.attack_roll_final_total);
+
+
+        add_another.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                total_group.setVisibility(View.VISIBLE);
+                if (attackDamageInfo != null) {
+                    damageListAdapter.damages.add(attackDamageInfo);
+                    damageListAdapter.notifyDataSetChanged();
+                    attack_roll1.setText("");
+                    attack_roll_total.setText("");
+
+
+                    attackDamageInfo = null;
+
+                    updateRollTotal();
+                }
+            }
+        });
+
+        List<AttackDamageInfo> damagesList = new ArrayList<>();
+        damageListAdapter = new DamagesListAdapter(this, damagesList);
+        damagesRecyclerView.setAdapter(damageListAdapter);
+
+        damagesRecyclerView.setHasFixedSize(false);
+        damagesRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        damagesRecyclerView.addItemDecoration(itemDecoration);
+
 
         attack_roll_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +124,30 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
         return view;
+    }
+
+    private void updateRollTotal() {
+        Map<DamageType, Integer> sum = new HashMap<>();
+        for (AttackDamageInfo each : damageListAdapter.damages) {
+            addAttackDamage(sum, each);
+        }
+        if (attackDamageInfo != null) {
+            addAttackDamage(sum, attackDamageInfo);
+        }
+        AttackDamageInfo info = new AttackDamageInfo();
+        info.damages.putAll(sum);
+        attack_roll_final_total.setText(info.getDescription());
+    }
+
+    private void addAttackDamage(Map<DamageType, Integer> sum, AttackDamageInfo each) {
+        for (Map.Entry<DamageType, Integer> damage : each.damages.entrySet()) {
+            final DamageType type = damage.getKey();
+            final Integer value = damage.getValue();
+            Integer currentTypeSum = sum.get(type);
+            if (currentTypeSum == null) currentTypeSum = 0;
+            currentTypeSum += value;
+            sum.put(type, currentTypeSum);
+        }
     }
 
     @Override
@@ -166,48 +236,104 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         onCharacterLoaded(character);
     }
 
+
     private void rollAttack() {
-        Map<DamageType, Integer> damages = new HashMap<>();
 
         List<CharacterWeapon.DamageFormula> weaponDamages = weapon.getDamages();
         if (two_handed.isChecked()) {
             weaponDamages = weapon.getVersatileDamages();
         }
+        attackDamageInfo = new AttackDamageInfo();
+        final Map<DamageType, Integer> damages = attackDamageInfo.damages;
+        DamageType first = null;
         for (CharacterWeapon.DamageFormula each : weaponDamages) {
             int value = getCharacter().evaluateFormula(each.getDamageFormula(), null);
             Integer damage = damages.get(each.getType());
+            if (first == null) {
+                first = each.getType();
+            }
             if (damage == null) damage = 0;
             damage += value;
             damages.put(each.getType(), damage);
         }
 
-        StringBuilder builder = new StringBuilder();
-        boolean isFirst = true;
-        int total = 0;
-        for (Map.Entry<DamageType, Integer> each : damages.entrySet()) {
-            final DamageType type = each.getKey();
-            final Integer value = each.getValue();
-            if (!isFirst) {
-                builder.append(", ");
-            }
-            builder.append(value);
-            builder.append(" ");
-            builder.append(type.toString());
-            isFirst = false;
-            total += value;
-        }
-
 
         // TODO animate the roll, with sound fx
-        attack_roll1.setText(builder.toString());
+        attack_roll1.setText(attackDamageInfo.getDescription());
         attack_roll1.setVisibility(View.VISIBLE);
 
-        updateAttackRollView(total);
+        damages.put(first, damages.get(first) + damageModifier);
+
+        attack_roll_total.setText(attackDamageInfo.getDescription());
+
+        updateRollTotal();
     }
 
-    private void updateAttackRollView(int attackRoll) {
-        int total = attackRoll;
-        total += damageModifier;
-        attack_roll_total.setText(total + "");
+
+    static class DamageViewHolder extends RecyclerView.ViewHolder {
+        final TextView damage;
+
+        public DamageViewHolder(View itemView) {
+            super(itemView);
+            damage = (TextView) itemView.findViewById(R.id.damage);
+        }
+    }
+
+    static class AttackDamageInfo {
+        Map<DamageType, Integer> damages = new HashMap<>();
+        private int total;
+
+        public String getDescription() {
+            StringBuilder builder = new StringBuilder();
+            boolean isFirst = true;
+            for (Map.Entry<DamageType, Integer> each : damages.entrySet()) {
+                if (!isFirst) {
+                    builder.append(", ");
+                }
+                final DamageType type = each.getKey();
+                final Integer value = each.getValue();
+                builder.append(value);
+                builder.append(" ");
+                builder.append(type);
+                isFirst = false;
+            }
+            return builder.toString();
+        }
+
+        public int getTotal() {
+            int total = 0;
+            for (Map.Entry<DamageType, Integer> each : damages.entrySet()) {
+                total += each.getValue();
+            }
+            return total;
+        }
+    }
+
+    static class DamagesListAdapter extends RecyclerView.Adapter<DamageViewHolder> {
+        private final WeaponAttackDialogFragment context;
+        private final List<AttackDamageInfo> damages;
+
+        DamagesListAdapter(WeaponAttackDialogFragment context, List<AttackDamageInfo> damages) {
+            this.damages = damages;
+            this.context = context;
+        }
+
+        @Override
+        public DamageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.damage_row, parent, false);
+            return new DamageViewHolder(newView);
+        }
+
+        @Override
+        public void onBindViewHolder(DamageViewHolder holder, int position) {
+            AttackDamageInfo row = damages.get(position);
+
+            holder.damage.setText(row.getDescription());
+        }
+
+        @Override
+        public int getItemCount() {
+            return damages.size();
+        }
     }
 }
