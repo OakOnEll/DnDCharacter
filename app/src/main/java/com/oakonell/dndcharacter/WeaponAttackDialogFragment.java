@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,8 +46,11 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     private TextView attack_roll_final_total;
 
 
+    // these are persistence safe do to being initialized onCharacterLoad()
     CharacterWeapon weapon;
     private int damageModifier = 2;
+
+    // these need to be persistence enabled
     private DamagesListAdapter damageListAdapter;
     AttackDamageInfo attackDamageInfo;
 
@@ -104,8 +109,26 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             }
         });
 
-        List<AttackDamageInfo> damagesList = new ArrayList<>();
+        ArrayList<AttackDamageInfo> damagesList = new ArrayList<>();
         damageListAdapter = new DamagesListAdapter(this, damagesList);
+
+        if (savedInstanceState != null) {
+            attackDamageInfo = savedInstanceState.getParcelable("attackDamageInfo");
+            ArrayList<AttackDamageInfo> damageList = savedInstanceState.getParcelableArrayList("damageList");
+            if (damageList != null) {
+                damageListAdapter.damages.addAll(damageList);
+            }
+            updateRollTotal();
+
+            // TODO this erroneously includes the damage bonus
+            attack_roll1.setText(attackDamageInfo.getDescription());
+
+            //damages.put(first, damages.get(first) + damageModifier);
+
+            attack_roll_total.setText(attackDamageInfo.getDescription());
+
+        }
+
         damagesRecyclerView.setAdapter(damageListAdapter);
 
         damagesRecyclerView.setHasFixedSize(false);
@@ -124,6 +147,22 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        /*
+        private DamagesListAdapter damageListAdapter;
+    AttackDamageInfo attackDamageInfo;
+         */
+        if (attackDamageInfo != null) {
+            outState.putParcelable("attackDamageInfo", attackDamageInfo);
+        }
+        if (!damageListAdapter.damages.isEmpty()) {
+            outState.putParcelableArrayList("damageList", damageListAdapter.damages);
+        }
+
     }
 
     private void updateRollTotal() {
@@ -279,9 +318,35 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         }
     }
 
-    static class AttackDamageInfo {
+    static class AttackDamageInfo implements Parcelable {
         Map<DamageType, Integer> damages = new HashMap<>();
-        private int total;
+
+        AttackDamageInfo() {
+
+        }
+
+        protected AttackDamageInfo(Parcel in) {
+            int size = in.readInt();
+
+            for (int i = 0; i < size; i++) {
+                String typeString = in.readString();
+                int value = in.readInt();
+                final DamageType damageType = DamageType.valueOf(typeString);
+                damages.put(damageType, value);
+            }
+        }
+
+        public static final Creator<AttackDamageInfo> CREATOR = new Creator<AttackDamageInfo>() {
+            @Override
+            public AttackDamageInfo createFromParcel(Parcel in) {
+                return new AttackDamageInfo(in);
+            }
+
+            @Override
+            public AttackDamageInfo[] newArray(int size) {
+                return new AttackDamageInfo[size];
+            }
+        };
 
         public String getDescription() {
             StringBuilder builder = new StringBuilder();
@@ -307,13 +372,27 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             }
             return total;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(damages.size());
+            for (Map.Entry<DamageType, Integer> entry : damages.entrySet()) {
+                dest.writeString(entry.getKey().toString());
+                dest.writeInt(entry.getValue());
+            }
+        }
     }
 
     static class DamagesListAdapter extends RecyclerView.Adapter<DamageViewHolder> {
         private final WeaponAttackDialogFragment context;
-        private final List<AttackDamageInfo> damages;
+        private final ArrayList<AttackDamageInfo> damages;
 
-        DamagesListAdapter(WeaponAttackDialogFragment context, List<AttackDamageInfo> damages) {
+        DamagesListAdapter(WeaponAttackDialogFragment context, ArrayList<AttackDamageInfo> damages) {
             this.damages = damages;
             this.context = context;
         }
