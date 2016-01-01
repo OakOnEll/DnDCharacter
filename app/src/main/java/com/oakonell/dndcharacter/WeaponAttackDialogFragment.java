@@ -4,12 +4,18 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.Character;
@@ -18,6 +24,7 @@ import com.oakonell.dndcharacter.model.CharacterWeapon;
 import com.oakonell.dndcharacter.model.DamageType;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.FeatureContext;
+import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -36,6 +43,9 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     TextView attack_roll1;
     TextView attack_roll_modifier;
     TextView attack_roll_total;
+    private ViewGroup damage_input;
+    private EditText attack_roll_input;
+    private NoDefaultSpinner attack_roll_input_type;
 
     TextView description;
     TextView name;
@@ -88,12 +98,56 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         attack_roll1 = (TextView) view.findViewById(R.id.attack_roll1);
         attack_roll_modifier = (TextView) view.findViewById(R.id.attack_roll_modifier);
         attack_roll_total = (TextView) view.findViewById(R.id.attack_roll_total);
+        attack_roll_input = (EditText) view.findViewById(R.id.attack_roll_input);
+        damage_input = (ViewGroup) view.findViewById(R.id.damage_input);
+
+        attack_roll_input_type = (NoDefaultSpinner) view.findViewById(R.id.attack_roll_input_type);
+        float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (attack_roll_input_type.getPrompt().length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, attack_roll_input_type.getResources().getDisplayMetrics());
+        attack_roll_input_type.setMinimumWidth((int) minWidth);
+
+        List<String> list = new ArrayList<>();
+        for (DamageType each : DamageType.values()) {
+            list.add(each.toString());
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        attack_roll_input_type.setAdapter(dataAdapter);
 
         add_another = (Button) view.findViewById(R.id.add_another);
         damagesRecyclerView = (RecyclerView) view.findViewById(R.id.damages);
         total_group = (ViewGroup) view.findViewById(R.id.total_group);
         attack_roll_final_total = (TextView) view.findViewById(R.id.attack_roll_final_total);
 
+        // TODO this is overriding the state
+        attack_roll_input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                damageInputChanged(attack_roll_input_type.getSelectedItemPosition(), s.toString().trim());
+            }
+        });
+
+        attack_roll_input_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                damageInputChanged(position, attack_roll_input.getText().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         add_another.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,16 +156,19 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
                 if (attackDamageInfo != null) {
                     damageListAdapter.damages.add(attackDamageInfo);
                     damageListAdapter.notifyDataSetChanged();
+                    attack_roll_input.setText("");
                     attack_roll1.setText("");
                     attack_roll_total.setText("");
-
-
                     attackDamageInfo = null;
+
+                    attack_roll_total.setVisibility(View.GONE);
+                    damage_input.setVisibility(View.VISIBLE);
 
                     updateRollTotal();
                 }
             }
         });
+        add_another.setEnabled(true);
 
         ArrayList<AttackDamageInfo> damagesList = new ArrayList<>();
         damageListAdapter = new DamagesListAdapter(this, damagesList);
@@ -124,13 +181,22 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             }
             updateRollTotal();
 
-            // TODO this erroneously includes the damage bonus
-            attack_roll1.setText(attackDamageInfo.getDescription());
+            if (attackDamageInfo != null) {
+                attack_roll1.setText(attackDamageInfo.getDescription());
 
-            //damages.put(first, damages.get(first) + damageModifier);
+                //damages.put(first, damages.get(first) + damageModifier);
 
-            attack_roll_total.setText(attackDamageInfo.getDescription());
+                attack_roll_total.setText(attackDamageInfo.getDescription());
+            }
+            if (attack_roll_total.getText().toString().trim().length() > 0) {
+                // restore state?
+                // possibly not restoring properly due to text watcher?
+                attack_roll_total.setVisibility(View.VISIBLE);
+                damage_input.setVisibility(View.GONE);
+                add_another.setEnabled(true);
 
+
+            }
         }
 
         damagesRecyclerView.setAdapter(damageListAdapter);
@@ -151,6 +217,28 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
         return view;
+    }
+
+    private void damageInputChanged(int typeIndex, String string) {
+        if (damage_input.getVisibility() != View.VISIBLE) return;
+        attackDamageInfo = null;
+        try {
+            if (typeIndex < 0) {
+                add_another.setEnabled(false);
+                return;
+            }
+            if (string.length() == 0) {
+                add_another.setEnabled(false);
+                return;
+            }
+            int value = Integer.parseInt(string);
+            final DamageType damageType = DamageType.values()[typeIndex];
+            attackDamageInfo = new AttackDamageInfo();
+            attackDamageInfo.damages.put(damageType, value);
+            add_another.setEnabled(true);
+        } finally {
+            updateRollTotal();
+        }
     }
 
     @Override
@@ -291,6 +379,11 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
     private void rollAttack() {
+        attack_roll_total.setVisibility(View.VISIBLE);
+        damage_input.setVisibility(View.GONE);
+        // this need to come before the creation/assignment below
+        attack_roll_input.setText("");
+
 
         List<CharacterWeapon.DamageFormula> weaponDamages = weapon.getDamages();
         if (two_handed.isChecked()) {
@@ -310,14 +403,25 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             damages.put(each.getType(), damage);
         }
 
-
         // TODO animate the roll, with sound fx
         attack_roll1.setText(attackDamageInfo.getDescription());
+
+        attack_roll_total.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attack_roll_total.setVisibility(View.GONE);
+                damage_input.setVisibility(View.VISIBLE);
+                attackDamageInfo = null;
+                updateRollTotal();
+            }
+        });
+
         attack_roll1.setVisibility(View.VISIBLE);
 
         damages.put(first, damages.get(first) + damageModifier);
 
         attack_roll_total.setText(attackDamageInfo.getDescription());
+        add_another.setEnabled(true);
 
         updateRollTotal();
     }
