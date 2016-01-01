@@ -159,6 +159,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     @Override
     public void onCharacterChanged(Character character) {
         // TODO
+        super.onCharacterChanged(character);
         onCharacterLoaded(character);
     }
 

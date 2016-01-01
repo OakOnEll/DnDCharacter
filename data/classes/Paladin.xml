@@ -77,20 +77,22 @@
             <or name="defense">
                 <feature>
                     <name>Defense</name>
-                    <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.
-                    </shortDescription>
+                    <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.</shortDescription>
+                    <context>ARMOR_CLASS</context>
                 </feature>
             </or>
             <or name="dueling">
                 <feature>
                     <name>Dueling</name>
                     <shortDescription>With one hand melee weapon, you gain +2 to damage rolls with that weapon.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
                 </feature>
             </or>
             <or name="great_weapon">
                 <feature>
                     <name>Great Weapon Fighting</name>
                     <shortDescription>When you roll a 1 or 2 for a two handed melee weapon attack, you can reroll.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
                 </feature>
             </or>
             <or name="protection">
@@ -104,14 +106,15 @@
             <name>Action Surge</name>
             <refreshes>rest</refreshes>
             <uses>1</uses>
-            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.
-            </shortDescription>
+            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.            </shortDescription>
+            <context>WEAPON_ATTACK</context>
         </feature>
     </level>
     <level value="3">
         <feature>
             <name>Divine Health</name>
             <shortDescription>You are immune to disease.</shortDescription>
+            <context>SAVING_THROW</context>
         </feature>
     </level>
 </class>

@@ -4,6 +4,7 @@
     <feature>
         <name>Naturally Stealthy</name>
         <shortDescription>You can hide...</shortDescription>
+        <context>SKILL_ROLL</context>
     </feature>
     <stat>
         <increase name="Charisma">1</increase>

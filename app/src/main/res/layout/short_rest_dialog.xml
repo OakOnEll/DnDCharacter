@@ -124,6 +124,9 @@
                 </LinearLayout>
 
                 <include layout="@layout/feature_reset_layout" />
+
+                <include layout="@layout/feature_context" />
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,14 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.Proficient;
 import com.oakonell.dndcharacter.model.SkillBlock;
 import com.oakonell.dndcharacter.model.SkillType;
+import com.oakonell.dndcharacter.views.FeatureContext;
 import com.oakonell.dndcharacter.views.RowWithSourceAdapter;
 
+import org.solovyev.android.views.llm.LinearLayoutManager;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rob on 11/7/2015.
@@ -29,10 +35,10 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     private TextView total;
     private ListView listView;
 
-
     private SkillBlock skillBlock;
-    private SkillSourceAdapter adapter;
     private SkillType type;
+
+    private SkillSourceAdapter adapter;
 
     public static SkillBlockDialogFragment create(SkillBlock block) {
         SkillBlockDialogFragment frag = new SkillBlockDialogFragment();
@@ -49,7 +55,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.skill_dialog, container);
-        superCreateView(view,savedInstanceState);
+        superCreateView(view, savedInstanceState);
 
         statLabel = (TextView) view.findViewById(R.id.stat_label);
         skillLabel = (TextView) view.findViewById(R.id.skill_label);
@@ -85,6 +91,13 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     }
 
+    @Override
+    protected Set<FeatureContext> getContextFilter() {
+        Set<FeatureContext> filter = new HashSet<>();
+        filter.add(FeatureContext.DICE_ROLL);
+        filter.add(FeatureContext.SKILL_ROLL);
+        return filter;
+    }
 
     private void updateView(Character character) {
         setModifier(skillBlock.getBonus());
@@ -107,6 +120,8 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     @Override
     public void onCharacterChanged(Character character) {
+        super.onCharacterChanged(character);
+
         int typeIndex = getArguments().getInt("type");
         SkillType type = SkillType.values()[typeIndex];
         skillBlock = character.getSkillBlock(type);

@@ -26,12 +26,14 @@
         <name>Savage Attacks</name>
         <shortDescription>On a critical melee attack, additional damage dice.</shortDescription>
         <description></description>
+        <context>WEAPON_ATTACK</context>
     </feature>
     <feature>
         <name>Relentless Endurance</name>
         <shortDescription>Once per long rest, when hit points reach 0, go to 1 hp.</shortDescription>
         <refreshes>longRest</refreshes>
         <uses>1</uses>
+        <context>HIT_POINTS</context>
         <description></description>
     </feature>
     <skills>

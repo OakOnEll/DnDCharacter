@@ -363,6 +363,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     public void onCharacterChanged(Character character) {
+        super.onCharacterChanged(character);
         // pull current values from the character, and display
         statsType = character.getStatsType();
         stat_type.setSelection(list.indexOf(statsType));

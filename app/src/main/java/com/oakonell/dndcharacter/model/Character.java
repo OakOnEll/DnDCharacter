@@ -636,7 +636,9 @@ public class Character {
             ItemRow item = new Select()
                     .from(ItemRow.class).where("UPPER(name) = ?", text.toUpperCase()).executeSingle();
             if (item != null) {
-                if (upperCaseCategories.contains(item.getCategory().toUpperCase())) continue;
+                if (item.getCategory() != null) {
+                    if (upperCaseCategories.contains(item.getCategory().toUpperCase())) continue;
+                }
             }
 
             final Proficient proficient = each.getProficiency().getProficient();

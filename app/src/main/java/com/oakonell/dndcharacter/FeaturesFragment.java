@@ -21,6 +21,11 @@ import com.oakonell.dndcharacter.model.FeatureInfo;
 import com.oakonell.dndcharacter.model.components.UseType;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
+import com.oakonell.dndcharacter.views.FeatureContext;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rob on 10/26/2015.
@@ -51,7 +56,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
 
-        adapter = new FeatureAdapter((MainActivity) this.getActivity(), getCharacter());
+        adapter = new FeatureAdapter((MainActivity) this.getActivity());
         gridView.setAdapter(adapter);
         // decide on 1 or 2 columns based on screen size
         int numColumns = getResources().getInteger(R.integer.feature_columns);
@@ -87,24 +92,51 @@ public class FeaturesFragment extends AbstractSheetFragment {
     }
 
     public static class FeatureAdapter extends RecyclerView.Adapter<ViewHolder> {
-        private Character character;
         private MainActivity context;
+        private Set<FeatureContext> filter;
+        private List<FeatureInfo> list;
 
-        public FeatureAdapter(MainActivity context, Character character) {
+        public FeatureAdapter(MainActivity context) {
             this.context = context;
-            this.character = character;
+            list = context.getCharacter().getFeatureInfos();
+        }
+
+        public FeatureAdapter(MainActivity context, Set<FeatureContext> filter) {
+            this.context = context;
+            this.filter = filter;
+            list = filterList(context.getCharacter());
+        }
+
+        public void reloadList(Character character) {
+            if (filter == null) {
+                list = context.getCharacter().getFeatureInfos();
+            } else {
+                list = filterList(character);
+            }
+            notifyDataSetChanged();
+        }
+
+        private List<FeatureInfo> filterList(Character character) {
+            if (filter == null) return character.getFeatureInfos();
+            List<FeatureInfo> result = new ArrayList<>();
+            for (FeatureInfo each : character.getFeatureInfos()) {
+                if (each.getFeature().isInContext(filter)) {
+                    result.add(each);
+                }
+            }
+            return result;
         }
 
         @Override
         public int getItemCount() {
-            if (character == null) return 0;
-            return character.getFeatureInfos().size();
+            if (context.getCharacter() == null) return 0;
+            return list.size();
         }
 
 
         public FeatureInfo getItem(int position) {
-            if (character == null) return null;
-            return character.getFeatureInfos().get(position);
+            if (context.getCharacter() == null) return null;
+            return list.get(position);
         }
 
         @Override
@@ -139,7 +171,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
             viewHolder.source.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ComponentLaunchHelper.editComponent(context, character, info.getSource(), false);
+                    ComponentLaunchHelper.editComponent(context, info.getSource(), false);
                 }
             });
             boolean hasLimitedUses = info.hasLimitedUses();
@@ -149,8 +181,8 @@ public class FeaturesFragment extends AbstractSheetFragment {
                 viewHolder.use_group.setVisibility(View.GONE);
             } else {
                 viewHolder.limited_uses_group.setVisibility(View.VISIBLE);
-                int maxUses = info.evaluateMaxUses(character);
-                final int usesRemaining = character.getUsesRemaining(info);
+                int maxUses = info.evaluateMaxUses(context.getCharacter());
+                final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
                 viewHolder.uses_remaining.setText(usesRemaining + "/" + maxUses);
 
@@ -161,7 +193,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
                     viewHolder.useButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            character.useFeature(info.getFeature(), 1);
+                            context.getCharacter().useFeature(info.getFeature(), 1);
                             notifyItemChanged(position);
                         }
                     });
@@ -214,7 +246,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
                                 viewHolder.pool_value.setError("Enter a number <= " + usesRemaining);
                                 return;
                             }
-                            character.useFeature(info.getFeature(), value);
+                            context.getCharacter().useFeature(info.getFeature(), value);
                             context.saveCharacter();
                             viewHolder.pool_apply_group.setVisibility(View.GONE);
                             viewHolder.pool_value.setText("");
@@ -270,12 +302,5 @@ public class FeaturesFragment extends AbstractSheetFragment {
             viewHolder.shortDescription.setText(info.getShortDescription());
         }
 
-
-        public void setCharacter(Character character) {
-            if (this.character != character) {
-                this.character = character;
-                notifyDataSetChanged();
-            }
-        }
     }
 }

@@ -23,10 +23,12 @@
     <feature>
         <name>Dwarven Resilience</name>
         <shortDescription>You have advantage on saving throws against poison, and resistance against poison damage</shortDescription>
+        <context>SAVING_THROW, HIT_POINTS</context>
     </feature>
     <feature>
         <name>Stonecunning</name>
-        <shortDescription>When you make intelligence check for the origin of stonework, add double proficiency bouns.</shortDescription>
+        <shortDescription>When you make intelligence check for the origin of stonework, add double proficiency bonus.</shortDescription>
+        <context>SKILL_ROLL</context>
     </feature>
     <languages>
         <language>Dwarvish</language>

@@ -17,11 +17,14 @@ import com.oakonell.dndcharacter.model.RandomUtils;
 import com.oakonell.dndcharacter.model.ShortRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
+import com.oakonell.dndcharacter.views.FeatureContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Rob on 11/7/2015.
@@ -59,6 +62,13 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         return view;
     }
 
+    @Override
+    protected Set<FeatureContext> getContextFilter() {
+        Set<FeatureContext> filter = new HashSet<>();
+        filter.add(FeatureContext.SHORT_REST);
+        filter.add(FeatureContext.DICE_ROLL);
+        return filter;
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

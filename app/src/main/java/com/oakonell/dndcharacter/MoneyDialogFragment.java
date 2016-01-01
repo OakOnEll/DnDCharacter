@@ -124,6 +124,8 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     public void onCharacterChanged(Character character) {
+
+        super.onCharacterChanged(character);
         updateView(character);
     }
 

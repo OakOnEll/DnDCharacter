@@ -22,8 +22,4 @@ public class AddCharacterItemDialogFragment extends AbstractCharacterDialogFragm
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override
-    public void onCharacterChanged(com.oakonell.dndcharacter.model.Character character) {
-        //
-    }
 }

@@ -50,11 +50,13 @@
             <refreshes>longRest</refreshes>
             <uses>2</uses>
             <shortDescription>On your turn, you can use a bonus action to rage. While raging you have advantage on strength checks, gain a bonus on melee attack damage, resistance to bludgeoning, piercing, and slashing damage.</shortDescription>
+            <context>WEAPON_ATTACK,SKILL_ROLL,HIT_POINTS</context>
         </feature>
         <feature>
             <name>Unarmored Defence</name>
             <ac>=10 + dexterityMod + constitutionMod</ac>
             <shortDescription>While not wearing armor, your AC equals 10 + dex + con modifiers. Can still use a shield.</shortDescription>
+            <context>ARMOR_CLASS</context>
         </feature>
         <armor>
             <proficiency>shield</proficiency>
@@ -68,11 +70,12 @@
         <feature>
             <name>Reckless Attack</name>
             <shortDescription>Can decide to attack recklessly, which gives advantage on Strength melee attack rolls, but rolls against you have advantage until next turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
         </feature>
         <feature>
             <name>Danger sense</name>
-            <shortDescription>Advantage on Dexterity saving throws against effects you can see, such as traps and spells. Can't be blinded, deafended, or incapacitated.
-            </shortDescription>
+            <shortDescription>Advantage on Dexterity saving throws against effects you can see, such as traps and spells. Can't be blinded, deafened, or incapacitated.</shortDescription>
+            <context>SAVING_THROW</context>
         </feature>
     </level>
 </class>

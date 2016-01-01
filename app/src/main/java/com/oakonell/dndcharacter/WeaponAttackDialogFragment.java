@@ -3,7 +3,6 @@ package com.oakonell.dndcharacter;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +17,16 @@ import com.oakonell.dndcharacter.model.CharacterItem;
 import com.oakonell.dndcharacter.model.CharacterWeapon;
 import com.oakonell.dndcharacter.model.DamageType;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
+import com.oakonell.dndcharacter.views.FeatureContext;
+
+import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Rob on 12/8/2015.
@@ -132,7 +136,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         damagesRecyclerView.setAdapter(damageListAdapter);
 
         damagesRecyclerView.setHasFixedSize(false);
-        damagesRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        damagesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         damagesRecyclerView.addItemDecoration(itemDecoration);
@@ -196,6 +200,14 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         loadWeapon(character);
 
         updateViews();
+    }
+
+    @Override
+    protected Set<FeatureContext> getContextFilter() {
+        Set<FeatureContext> filter = new HashSet<>();
+        filter.add(FeatureContext.DICE_ROLL);
+        filter.add(FeatureContext.WEAPON_ATTACK);
+        return filter;
     }
 
     private void updateViews() {
@@ -272,6 +284,8 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     @Override
     public void onCharacterChanged(Character character) {
         // TODO
+        super.onCharacterChanged(character);
+
         onCharacterLoaded(character);
     }
 

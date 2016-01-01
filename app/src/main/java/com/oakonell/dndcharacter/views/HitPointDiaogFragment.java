@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -22,12 +21,17 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.FeaturesFragment;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.DamageType;
 
+import org.solovyev.android.views.llm.LinearLayoutManager;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rob on 10/28/2015.
@@ -47,7 +51,9 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     private TextView final_hp;
     private Button add_another;
     private RecyclerView hpListView;
+
     private HitPointsAdapter hpListAdapter;
+    private FeaturesFragment.FeatureAdapter featureContextAdapter;
 
     public enum HpType {
         DAMAGE, HEAL, TEMP_HP
@@ -136,7 +142,8 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     public void onCharacterChanged(Character character) {
-        // nothing to do?
+        super.onCharacterChanged(character);
+        featureContextAdapter.reloadList(character);
         updateView();
     }
 
@@ -167,6 +174,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         cancel = (Button) view.findViewById(R.id.cancel);
 
         hpListView = (RecyclerView) view.findViewById(R.id.hp_list);
+
 
         List<String> list = new ArrayList<>();
         for (DamageType each : DamageType.values()) {
@@ -331,9 +339,17 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
+
         updateView();
     }
 
+    @Override
+    protected Set<FeatureContext> getContextFilter() {
+        Set<FeatureContext> filter = new HashSet<>();
+        filter.add(FeatureContext.DICE_ROLL);
+        filter.add(FeatureContext.HIT_POINTS);
+        return filter;
+    }
 
     private void updateView() {
         Character character = getCharacter();

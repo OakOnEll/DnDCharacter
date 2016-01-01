@@ -52,6 +52,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     public void onCharacterChanged(Character character) {
+        super.onCharacterChanged(character);
         adapter.reloadList(character);
     }
 

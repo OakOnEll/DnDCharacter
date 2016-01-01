@@ -81,9 +81,7 @@
             <refreshes>rest</refreshes>
             <uses>1</uses>
             <action>hp += 1d10 + classLevel</action>
-            <shortDescription>On your turn, you can use a bonus action to regain hit points equal to
-                1d10 + your fighter level.
-            </shortDescription>
+            <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.</shortDescription>
         </feature>
         <armor>
             <proficiency category="light armor"></proficiency>
@@ -98,9 +96,8 @@
             <or name="archery">
                 <feature>
                     <name>Archery</name>
-                    <shortDescription>You gain a +2 bonus to attack rolls you make with ranged
-                        weapons.
-                    </shortDescription>
+                    <shortDescription>You gain a +2 bonus to attack rolls you make with ranged weapons.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
                 </feature>
             </or>
             <or name="defense">
@@ -108,8 +105,8 @@
                     <name>Defense</name>
                     <ac>+1</ac>
                     <condition>armor</condition>
-                    <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.
-                    </shortDescription>
+                    <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.</shortDescription>
+                    <context>ARMOR_CLASS</context>
                 </feature>
             </or>
         </choose>
@@ -119,16 +116,15 @@
             <name>Action Surge</name>
             <refreshes>rest</refreshes>
             <uses>1</uses>
-            <shortDescription>On your turn, you can take one additional action on top of your
-                regular action and a possible bonus action.
-            </shortDescription>
+            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.</shortDescription>
+            <context>WEAPON_ATTACK</context>
         </feature>
     </level>
     <level value="3">
         <feature>
             <name>Improved Critical</name>
-            <shortDescription>Your weapon attacks score a critical hit on a roll of 19 or 20.
-            </shortDescription>
+            <shortDescription>Your weapon attacks score a critical hit on a roll of 19 or 20.</shortDescription>
+            <context>WEAPON_ATTACK</context>
         </feature>
     </level>
 </class>

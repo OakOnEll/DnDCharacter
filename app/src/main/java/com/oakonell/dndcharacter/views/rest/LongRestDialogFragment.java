@@ -19,9 +19,12 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.LongRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
+import com.oakonell.dndcharacter.views.FeatureContext;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -76,6 +79,12 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         return view;
     }
 
+    @Override
+    protected Set<FeatureContext> getContextFilter() {
+        Set<FeatureContext> filter = new HashSet<>();
+        filter.add(FeatureContext.LONG_REST);
+        return filter;
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

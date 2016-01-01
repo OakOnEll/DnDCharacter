@@ -91,12 +91,11 @@
     <level value="1">
         <feature>
             <name>Sneak Attack</name>
-            <shortDescription>Once per turn, can deal extra damage with a finesse or ranged weapon
-                if you have advantage or target has an enemy within 5 feet.
-            </shortDescription>
+            <shortDescription>Once per turn, can deal extra damage with a finesse or ranged weapon if you have advantage or target has an enemy within 5 feet.</shortDescription>
+            <context>WEAPON_ATTACK</context>
         </feature>
         <feature>
-            <name>Thieve's Cant</name>
+            <name>Thieves' Cant</name>
             <shortDescription>You can communicate in a secret language.</shortDescription>
         </feature>
         <armor>

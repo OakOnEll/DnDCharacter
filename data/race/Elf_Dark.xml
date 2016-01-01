@@ -18,7 +18,8 @@
     </feature>
     <feature>
         <name>Sunlight Sensitivity</name>
-        <shortDescription>Disadvantage on attach rolls and perception checks when you or target are in direct sunlight.</shortDescription>
+        <shortDescription>Disadvantage on attack rolls and perception checks when you or target are in direct sunlight.</shortDescription>
+        <context>WEAPON_ATTACK,SKILL_ROLL</context>
     </feature>
     <!-- TODO know dancing light cantrip-->
     <!-- TODO at 3rd level, can cast faerie fire 1x long rest, charisma-->

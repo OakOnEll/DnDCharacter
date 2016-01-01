@@ -16,6 +16,7 @@
     <feature>
         <name>Mask of the Wild</name>
         <shortDescription>Can attempt to hide in foliage, rain, snow, mist, and other natural phenomena.</shortDescription>
+        <context>SKILL_ROLL</context>
     </feature>
     <stat>
         <increase name="Wisdom">1</increase>

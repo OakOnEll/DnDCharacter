@@ -10,6 +10,7 @@ import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
+import com.oakonell.dndcharacter.views.FeatureContext;
 
 import org.w3c.dom.Element;
 
@@ -61,6 +62,16 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         feature.setName(name);
         feature.setDescription(XmlUtils.getElementText(element, "shortDescription"));
         // TODO handle refreshes, and other data in XML
+
+        final String contextsString = XmlUtils.getElementText(element, "context");
+        if (contextsString != null) {
+            String[] contexts = contextsString.split(",");
+            for (String each : contexts) {
+                String contextString = each.trim();
+                FeatureContext context = FeatureContext.valueOf(contextString.toUpperCase());
+                feature.addContext(context);
+            }
+        }
 
         String refreshString = XmlUtils.getElementText(element, "refreshes");
         RefreshType refreshType = null;

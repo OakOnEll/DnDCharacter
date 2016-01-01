@@ -1,8 +1,14 @@
 package com.oakonell.dndcharacter.model.components;
 
-import com.oakonell.dndcharacter.model.*;
+import com.oakonell.dndcharacter.model.BaseCharacterComponent;
+import com.oakonell.dndcharacter.model.ComponentType;
+import com.oakonell.dndcharacter.views.FeatureContext;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Rob on 10/24/2015.
@@ -17,6 +23,8 @@ public class Feature extends BaseCharacterComponent {
 
     @Element(required = false)
     private UseType useType;
+    @ElementList(required = false)
+    private Set<FeatureContext> contexts = new HashSet<>();
 
 
     @Override
@@ -55,5 +63,19 @@ public class Feature extends BaseCharacterComponent {
 
     public void setRefreshesOn(RefreshType type) {
         this.refreshType = type;
+    }
+
+    public void addContext(FeatureContext context) {
+        contexts.add(context);
+    }
+
+    public boolean isInContext(FeatureContext context) {
+        return contexts.contains(context);
+    }
+
+    public boolean isInContext(Set<FeatureContext> filter) {
+        Set<FeatureContext> intersection = new HashSet<FeatureContext>(filter);
+        intersection.retainAll(contexts);
+        return !intersection.isEmpty();
     }
 }

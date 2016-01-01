@@ -110,6 +110,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
 
     @Override
     public void onCharacterChanged(Character character) {
+        super.onCharacterChanged(character);
         classesAdapter.reloadList(character);
         updateView();
     }

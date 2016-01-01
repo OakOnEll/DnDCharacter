@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.views;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,12 @@ import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterArmor;
 import com.oakonell.expression.context.SimpleVariableContext;
 
+import org.solovyev.android.views.llm.LinearLayoutManager;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rob on 12/21/2015.
@@ -25,6 +28,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     private TextView acText;
     private RecyclerView rootList;
     private RecyclerView modList;
+    private ViewGroup modifiers_group;
 
     private RootAcAdapter rootAcAdapter;
     private ModifyingAcAdapter modifyingAcAdapter;
@@ -43,6 +47,9 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
         rootList = (RecyclerView) view.findViewById(R.id.root_ac_list);
         modList = (RecyclerView) view.findViewById(R.id.mod_ac_list);
+
+        modifiers_group = (ViewGroup) view.findViewById(R.id.modifiers_group);
+
 
         if (savedInstanceState != null) {
             baseArmorSaved = savedInstanceState.getString("baseArmor");
@@ -137,13 +144,26 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
+    protected Set<FeatureContext> getContextFilter() {
+        Set<FeatureContext> filter = new HashSet<>();
+        filter.add(FeatureContext.ARMOR_CLASS);
+        return filter;
+    }
+
+    @Override
     public void onCharacterChanged(Character character) {
+        super.onCharacterChanged(character);
         rootAcAdapter.reloadList(character);
         modifyingAcAdapter.reloadList(character);
         updateAC();
     }
 
     private void updateAC() {
+        if (modifyingAcAdapter.list.isEmpty()) {
+            modifiers_group.setVisibility(View.GONE);
+        } else {
+            modifiers_group.setVisibility(View.VISIBLE);
+        }
         int ac = 0;
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
             if (each.isEquipped()) {

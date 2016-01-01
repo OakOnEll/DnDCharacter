@@ -110,6 +110,8 @@
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <include layout="@layout/attack_roll_layout" />
+
+                <include layout="@layout/feature_context" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

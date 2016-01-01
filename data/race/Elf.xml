@@ -13,11 +13,13 @@
     <feature>
         <name>Fey Ancestry</name>
         <shortDescription>You have advantage on saving throws against being charmed. Can't be put to sleep via magic.</shortDescription>
+        <context>SAVING_THROW</context>
     </feature>
     <feature>
         <name>Trance</name>
         <shortDescription>Long rest with 4 hours meditation.</shortDescription>
         <description></description>
+        <context>LONG_REST</context>
     </feature>
     <languages>
         <language>Elvish</language>
