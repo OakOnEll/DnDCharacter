@@ -15,20 +15,27 @@ public class AbstractWeaponVisitor extends AbstractComponentVisitor {
     }
 
     protected boolean subVisit(Element element, String name) {
-        if (name.equals("damage")) {
-            visitDamage(element);
-        } else if (name.equals("versatileDamage")) {
-            visitVersatileDamage(element);
-        } else if (name.equals("properties")) {
-            visitProperties(element);
-        } else if (name.equals("category")) {
-            visitCategory(element);
-        } else if (name.equals("range")) {
-            visitRange(element);
-        } else if (name.equals("ranged")) {
-            visitRanged(element);
-        } else {
-            return false;
+        switch (name) {
+            case "damage":
+                visitDamage(element);
+                break;
+            case "versatileDamage":
+                visitVersatileDamage(element);
+                break;
+            case "properties":
+                visitProperties(element);
+                break;
+            case "category":
+                visitCategory(element);
+                break;
+            case "range":
+                visitRange(element);
+                break;
+            case "ranged":
+                visitRanged(element);
+                break;
+            default:
+                return false;
         }
         return true;
     }

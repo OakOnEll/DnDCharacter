@@ -21,8 +21,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     private LanguagesSourcesAdapter adapter;
 
     public static LanguagesDialogFragment create() {
-        LanguagesDialogFragment frag = new LanguagesDialogFragment();
-        return frag;
+        return new LanguagesDialogFragment();
     }
 
 

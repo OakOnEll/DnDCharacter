@@ -72,7 +72,7 @@ public class Expression<T> {
             throw new RuntimeException("Expression '" + formula + "' results in " + resultType + ", but is expecting a " + expectedResultType);
         }
 
-        return new Expression(parser, context, resultType);
+        return new Expression<>(parser, context, expectedResultType);
     }
 
     private Expression(ExpressionParser parser, ExpressionContext context, ExpressionType<T> resultType) {
@@ -91,7 +91,7 @@ public class Expression<T> {
         return context;
     }
 
-    protected ExpressionParser getParser() {
+    ExpressionParser getParser() {
         return parser;
     }
 }

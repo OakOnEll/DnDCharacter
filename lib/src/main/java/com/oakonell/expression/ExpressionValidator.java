@@ -184,7 +184,7 @@ class ExpressionValidator extends ExpressionBaseVisitor<ExpressionType<?>> {
 
     @Override
     public ExpressionType<?> visitExprParen(ExpressionParser.ExprParenContext ctx) {
-        return (ExpressionType<?>) visit(ctx.genericExpression());
+        return visit(ctx.genericExpression());
     }
 
     @Override

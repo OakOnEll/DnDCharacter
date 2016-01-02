@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class CharacterWeapon extends CharacterItem {
     @Element(required = false)
-    boolean isRanged;
+    private    boolean isRanged;
 
     @Element(required = false)
     private String range;
@@ -55,7 +55,7 @@ public class CharacterWeapon extends CharacterItem {
     }
 
     public void setProperties(String[] properties) {
-        this.properties = new HashSet<String>();
+        this.properties = new HashSet<>();
         for (String each : properties) {
             this.properties.add(each.toUpperCase().trim());
         }

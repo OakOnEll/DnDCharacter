@@ -43,8 +43,6 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
 
     private ViewGroup parent;
     private ChooseMDTreeNode choicesMD = new RootChoiceMDNode();
-    //private Map<String, ChooseMD> choicesMD = new HashMap<>();
-    private ViewGroup top;
 
     protected void createGroup(String title) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, null);
@@ -59,7 +57,6 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
 
 
     public ChooseMDTreeNode appendToLayout(Element element, ViewGroup parent, SavedChoices choices) {
-        this.top = parent;
         this.parent = parent;
         this.choices = choices;
         visitChildren(element);
@@ -234,9 +231,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
-        // TODO get the list of tools...
         String category = element.getAttribute("category");
-        //String category = element.getAttribute("category");
         From nameSelect = new Select()
                 .from(ItemRow.class).orderBy("name");
         nameSelect = nameSelect.where("UPPER(category)= ?", category.toUpperCase());
@@ -279,7 +274,7 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
 
     private void appendCategoryDropDowns(int numChoices, CategoryChoicesMD categoryChoicesMD, List<String> savedSelections, List<String> choices, String prompt) {
         for (int i = 0; i < numChoices; i++) {
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(parent.getContext(),
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(parent.getContext(),
                     android.R.layout.simple_spinner_item, choices);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 

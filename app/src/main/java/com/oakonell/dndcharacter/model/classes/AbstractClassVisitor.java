@@ -15,12 +15,15 @@ public abstract class AbstractClassVisitor extends AbstractComponentVisitor {
     }
 
     protected boolean subVisit(Element element, String name) {
-        if (name.equals("class")) {
-            visitClass(element);
-        } else if (name.equals("level")) {
-            visitLevel(element);
-        } else {
-            return false;
+        switch (name) {
+            case "class":
+                visitClass(element);
+                break;
+            case "level":
+                visitLevel(element);
+                break;
+            default:
+                return false;
         }
         return true;
     }

@@ -36,7 +36,7 @@ public class SavedChoices {
         return selections.selections;
     }
 
-    // TODO use a wrapper for SimpleXML serialization
+    //  use a wrapper for SimpleXML serialization
     public static class SavedSelections {
         @ElementList(required = false, type = String.class, inline = true)
         List<String> selections = new ArrayList<>();

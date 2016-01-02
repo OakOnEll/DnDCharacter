@@ -158,8 +158,7 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
 
         }
 
-        // TODO treat natural 20/1 special?
-
+        // TODO treat natural 20/1 special? (or what about 19 for attack rolls with special feat/feature)
         if (total == 1) {
             critical_label.setText("Critical Failure");
             critical_label.setTextColor(getResources().getColor(android.R.color.holo_red_light));

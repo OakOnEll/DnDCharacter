@@ -19,7 +19,7 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFragment {
-    CharacterClass characterClass;
+    private CharacterClass characterClass;
     private int classIndex;
     private boolean includeHP;
 

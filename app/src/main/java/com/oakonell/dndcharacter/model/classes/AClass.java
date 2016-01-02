@@ -17,9 +17,9 @@ import java.util.List;
 @Table(name = "class", id = BaseColumns._ID)
 public class AClass extends AbstractComponentModel {
     @Column
-    public String name;
+    private String name;
     @Column
-    public String xml;
+    private String xml;
 
     @Override
     public String getXml() {
@@ -57,6 +57,9 @@ public class AClass extends AbstractComponentModel {
         // TODO move this..
         String hitDieString = XmlUtils.getElementText(rootClassElement, "hitDice");
         // TODO correct the charClass hitdie
+        if (hitDieString == null) {
+            throw new RuntimeException("Class has no hit die!");
+        }
         int hitDie = Integer.parseInt(hitDieString.substring(2));
         return hitDie;
     }

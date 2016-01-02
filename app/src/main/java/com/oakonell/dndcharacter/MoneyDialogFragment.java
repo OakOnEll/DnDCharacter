@@ -145,12 +145,11 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
     private int getResultCoins(TextView result) {
         CharSequence value = result.getText();
         if (value.toString().trim().length() == 0) return 0;
-        int intValue = Integer.parseInt(value.toString());
-        return intValue;
+        return Integer.parseInt(value.toString());
     }
 
     enum CoinType {
-        COPPER, SILVER, ELECTRUM, GOLD, PLATINUM;
+        COPPER, SILVER, ELECTRUM, GOLD, PLATINUM
     }
 
     static class CoinInputWatcher implements TextWatcher {

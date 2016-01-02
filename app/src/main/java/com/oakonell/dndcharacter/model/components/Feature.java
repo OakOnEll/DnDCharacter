@@ -20,7 +20,6 @@ public class Feature extends BaseCharacterComponent {
     private String usesFormula;
     @Element(required = false)
     private RefreshType refreshType;
-
     @Element(required = false)
     private UseType useType;
     @ElementList(required = false)
@@ -74,7 +73,7 @@ public class Feature extends BaseCharacterComponent {
     }
 
     public boolean isInContext(Set<FeatureContext> filter) {
-        Set<FeatureContext> intersection = new HashSet<FeatureContext>(filter);
+        Set<FeatureContext> intersection = new HashSet<>(filter);
         intersection.retainAll(contexts);
         return !intersection.isEmpty();
     }

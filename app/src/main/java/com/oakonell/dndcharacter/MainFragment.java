@@ -26,9 +26,9 @@ import java.util.Map;
  */
 public class MainFragment extends AbstractSheetFragment {
 
-    Map<StatType, StatBlockView> statViewsByType = new HashMap<StatType, StatBlockView>();
-    Map<StatType, SavingThrowBlockView> saveThrowViewsByType = new HashMap<StatType, SavingThrowBlockView>();
-    Map<SkillType, SkillBlockView> skillViewsByType = new HashMap<SkillType, SkillBlockView>();
+    Map<StatType, StatBlockView> statViewsByType = new HashMap<>();
+    Map<StatType, SavingThrowBlockView> saveThrowViewsByType = new HashMap<>();
+    Map<SkillType, SkillBlockView> skillViewsByType = new HashMap<>();
 
     TextView speed;
     TextView ac;

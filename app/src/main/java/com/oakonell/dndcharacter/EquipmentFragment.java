@@ -44,9 +44,9 @@ import java.util.Map;
  */
 public class EquipmentFragment extends AbstractSheetFragment {
     private static final int UNDO_DELAY = 5000;
-    TextView armor_proficiency;
-    TextView weapon_proficiency;
-    TextView tools_proficiency;
+    private TextView armor_proficiency;
+    private TextView weapon_proficiency;
+    private TextView tools_proficiency;
     private ViewGroup armor_group;
     private ViewGroup weapon_group;
     private ViewGroup tools_group;
@@ -65,7 +65,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private ViewGroup weaponItemsView;
     private RecyclerView itemsView;
 
-    private Map<CharacterItem, Long> beingDeleted = new HashMap<CharacterItem, Long>();
+    private Map<CharacterItem, Long> beingDeleted = new HashMap<>();
 
 
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
@@ -390,7 +390,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         weaponsAdapter.notifyDataSetChanged();
     }
 
-    static class ItemViewHolder extends AbstractItemViewHolder {
+    static class ItemViewHolder extends AbstractItemViewHolder<CharacterItem> {
         public ItemViewHolder(View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
         }
@@ -429,6 +429,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     // TODO unequip any contraindicated armor? Or just notify the user?
+                    // eg an effect for non-proficient armor use
                     item.setEquipped(isChecked);
                     // TODO update only views of any AC related fields
                     ((MainActivity) context.getActivity()).updateViews();
@@ -631,7 +632,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     }
 
-    public static class DeleteRowViewHolder extends BindableRecyclerViewHolder {
+    public static class DeleteRowViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> {
         TextView name;
         Button undo;
 
@@ -643,7 +644,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(final CharacterItem item, final EquipmentFragment context, final SubAdapter adapter) {
+        public void bindTo(final I item, final EquipmentFragment context, final SubAdapter adapter) {
             super.bindTo(item, context, adapter);
             name.setText(item.getName());
             undo.setOnClickListener(new View.OnClickListener() {
@@ -657,7 +658,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
     }
 
-    public abstract static class SubAdapter<I extends CharacterItem> extends RecyclerView.Adapter<BindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
+    public abstract static class SubAdapter<I extends CharacterItem> extends RecyclerView.Adapter<BindableRecyclerViewHolder<I>> implements ItemTouchHelperAdapter {
         protected Context context;
         protected EquipmentFragment fragment;
         protected List<I> list;
@@ -694,16 +695,15 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public final BindableRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public final BindableRecyclerViewHolder<I> onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == 1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.deleting_equipment_row, parent, false);
-                DeleteRowViewHolder holder = new DeleteRowViewHolder(newView);
-                return holder;
+                return new DeleteRowViewHolder<>(newView);
             }
             return onSubCreateViewHolder(parent, viewType);
         }
 
-        protected abstract BindableRecyclerViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType);
+        protected abstract BindableRecyclerViewHolder<I> onSubCreateViewHolder(ViewGroup parent, int viewType);
 
 
         protected Map<CharacterItem, Long> getItemPositionsBeingDeleted() {
@@ -711,7 +711,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
+        public void onBindViewHolder(BindableRecyclerViewHolder<I> holder, int position) {
             holder.bindTo(getItem(position), fragment, this);
 
 
@@ -720,7 +720,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         @Override
         public void onItemDismiss(final int position) {
             final Map<CharacterItem, Long> beingDeleted = getItemPositionsBeingDeleted();
-            final CharacterItem item = getItem(position);
+            final I item = getItem(position);
             if (beingDeleted.containsKey(item)) {
                 // actually delete the record, now
                 deleteRow(item);
@@ -734,7 +734,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             fragment.getView().postDelayed(new Runnable() {
                 public void run() {
                     // may have been deleted, undone, and then redeleted
-                    Long deletedTime = (Long) beingDeleted.get(item);
+                    Long deletedTime = beingDeleted.get(item);
                     if (deletedTime == null) return;
                     if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
                         // actually delete the record, now
@@ -748,7 +748,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         }
 
-        protected void deleteRow(CharacterItem item) {
+        protected void deleteRow(I item) {
             list.remove(item);
         }
 
@@ -810,7 +810,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
+        public void onBindViewHolder(BindableRecyclerViewHolder<CharacterItem> holder, int position) {
             holder.bindTo(getItem(position), fragment, this);
         }
 

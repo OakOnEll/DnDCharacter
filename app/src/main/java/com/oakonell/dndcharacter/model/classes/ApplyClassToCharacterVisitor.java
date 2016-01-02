@@ -16,14 +16,11 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
-    private final Map<String, String> customChoices;
-    private final CharacterClass charClass;
-    private final SavedChoices savedChoices;
 
-    public ApplyClassToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterClass charClass) {
-        this.charClass = charClass;
-        this.savedChoices = savedChoices;
-        this.customChoices = customChoices;
+    private ApplyClassToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterClass charClass) {
+        CharacterClass charClass1 = charClass;
+        SavedChoices savedChoices1 = savedChoices;
+        Map<String, String> customChoices1 = customChoices;
     }
 
 //    public static void replaceClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int characterLevel, int classLevel) {
@@ -43,7 +40,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
 
     public static void updateClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int classIndex, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, classIndex+1,classLevel, hpRoll);
+        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, classIndex + 1, classLevel, hpRoll);
         character.getClasses().set(classIndex, charClass);
     }
 
@@ -57,7 +54,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
         if (characterLevel == 1) {
             // this will not visit any level elements, but will apply top level stuff as the first class for a character
-            ApplyChangesToGenericComponent.applyToCharacter(rootClassElement, savedChoices, charClass, character,true);
+            ApplyChangesToGenericComponent.applyToCharacter(rootClassElement, savedChoices, charClass, character, true);
 
             // grab the first character level skills and such
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
@@ -74,7 +71,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
         Element levelElement = AClass.findLevelElement(rootClassElement, classLevel);
         if (levelElement != null) {
-            ApplyChangesToGenericComponent.applyToCharacter(levelElement, savedChoices, charClass, character,false);
+            ApplyChangesToGenericComponent.applyToCharacter(levelElement, savedChoices, charClass, character, false);
 
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
             newMe.visit(levelElement);
@@ -83,7 +80,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
     }
 
     public static void addClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int characterlevel, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, characterlevel,classLevel, hpRoll);
+        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, characterlevel, classLevel, hpRoll);
         character.getClasses().add(charClass);
     }
 
@@ -91,7 +88,6 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
     @Override
     protected void visitLevel(Element element) {
         // the visitor shouldn't actually dive into levels
-        return;
     }
 
 }

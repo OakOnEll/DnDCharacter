@@ -34,7 +34,7 @@ import java.util.Map;
  */
 public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragment {
     private static final int UNDO_DELAY = 5000;
-    RecyclerView list;
+    private RecyclerView list;
     private TextView classesTextView;
     private ViewGroup level_up_group;
     private ClassAdapter classesAdapter;
@@ -100,7 +100,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         level_up_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(null);
+                AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog();
                 dialog.show(getFragmentManager(), "level_up");
             }
         });
@@ -243,7 +243,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
             context.list.postDelayed(new Runnable() {
                 public void run() {
                     // may have been deleted, undone, and then redeleted
-                    Long deletedTime = (Long) context.recordsBeingDeleted.get(item);
+                    Long deletedTime = context.recordsBeingDeleted.get(item);
                     if (deletedTime == null) return;
                     if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
                         // actually delete the record, now

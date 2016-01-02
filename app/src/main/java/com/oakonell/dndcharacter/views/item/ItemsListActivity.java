@@ -35,11 +35,6 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
     }
 
     @Override
-    protected String getRecordTypeName() {
-        return "Item";
-    }
-
-    @Override
     protected String getSubtitle() {
         return "Items";
     }

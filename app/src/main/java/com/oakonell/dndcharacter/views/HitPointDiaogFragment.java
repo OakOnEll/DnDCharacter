@@ -21,7 +21,6 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.FeaturesFragment;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.DamageType;
@@ -38,22 +37,19 @@ import java.util.Set;
  */
 public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     private static final int UNDO_DELAY = 5000;
-    EditText hpText;
-    RadioButton damage;
-    RadioButton heal;
-    RadioButton tempHP;
-    Spinner type;
-    Button add;
-    Button subtract;
+    private EditText hpText;
+    private RadioButton damage;
+    private RadioButton heal;
+    private RadioButton tempHP;
+    private Spinner type;
 
-    Button cancel;
+    private Button cancel;
     private TextView start_hp;
     private TextView final_hp;
     private Button add_another;
     private RecyclerView hpListView;
 
     private HitPointsAdapter hpListAdapter;
-    private FeaturesFragment.FeatureAdapter featureContextAdapter;
 
     public enum HpType {
         DAMAGE, HEAL, TEMP_HP
@@ -143,7 +139,6 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     @Override
     public void onCharacterChanged(Character character) {
         super.onCharacterChanged(character);
-        featureContextAdapter.reloadList(character);
         updateView();
     }
 
@@ -165,8 +160,8 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         heal = (RadioButton) view.findViewById(R.id.heal_radio);
         tempHP = (RadioButton) view.findViewById(R.id.temp_hp_radio);
 
-        add = (Button) view.findViewById(R.id.add);
-        subtract = (Button) view.findViewById(R.id.subtract);
+        Button add = (Button) view.findViewById(R.id.add);
+        Button subtract = (Button) view.findViewById(R.id.subtract);
 
         start_hp = (TextView) view.findViewById(R.id.start_hp);
         final_hp = (TextView) view.findViewById(R.id.final_hp);

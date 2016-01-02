@@ -14,15 +14,12 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
-    private final Map<String, String> customChoices;
-    private final CharacterRace charRace;
-    private final SavedChoices savedChoices;
-    String currentChoiceName;
+    //String currentChoiceName;
 
-    public ApplyRaceToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterRace charRace) {
-        this.charRace = charRace;
-        this.savedChoices = savedChoices;
-        this.customChoices = customChoices;
+    private ApplyRaceToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterRace charRace) {
+//        CharacterRace charRace1 = charRace;
+//        SavedChoices savedChoices1 = savedChoices;
+//        Map<String, String> customChoices1 = customChoices;
     }
 
     public static void applyToCharacter(Race race, SavedChoices savedChoices, Map<String, String> customChoices,
@@ -30,8 +27,6 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
                                         Character character) {
         CharacterRace charRace = new CharacterRace();
         charRace.setSavedChoices(savedChoices);
-
-
 
         // apply common changes
         Element element = XmlUtils.getDocument(race.getXml()).getDocumentElement();

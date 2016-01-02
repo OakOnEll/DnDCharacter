@@ -57,7 +57,7 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
         View view = convertView;
         WithSourceViewHolder<C> holder;
         if (view != null) {
-            holder = (WithSourceViewHolder) view.getTag();
+            holder = (WithSourceViewHolder<C>) view.getTag();
         } else {
             view = LayoutInflater.from(activity).inflate(getLayoutResource(), parent, false);
             holder = newViewHolder();
@@ -96,8 +96,8 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
     }
 
     @NonNull
-    private WithSourceViewHolder newViewHolder() {
-        return new WithSourceViewHolder();
+    private WithSourceViewHolder<C> newViewHolder() {
+        return new WithSourceViewHolder<>();
     }
 
     public static class WithSourceViewHolder<C extends com.oakonell.dndcharacter.model.Character.WithSource> {

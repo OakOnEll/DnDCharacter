@@ -15,30 +15,42 @@ public abstract class AbstractBackgroundVisitor extends AbstractComponentVisitor
     }
 
     protected boolean subVisit(Element element, String name) {
-        if (name.equals("background")) {
-            visitBackground(element);
-        } else if (name.equals("specialties")) {
-            visitSpecialties(element);
-        } else if (name.equals("specialty")) {
-            visitSpecialty(element);
-        } else if (name.equals("personalityTraits")) {
-            visitTraits(element);
-        } else if (name.equals("trait")) {
-            visitTrait(element);
-        } else if (name.equals("ideals")) {
-            visitIdeals(element);
-        } else if (name.equals("ideal")) {
-            visitIdeal(element);
-        } else if (name.equals("bonds")) {
-            visitBonds(element);
-        } else if (name.equals("bond")) {
-            visitBond(element);
-        } else if (name.equals("flaws")) {
-            visitFlaws(element);
-        } else if (name.equals("flaw")) {
-            visitFlaw(element);
-        } else {
-            return false;
+        switch (name) {
+            case "background":
+                visitBackground(element);
+                break;
+            case "specialties":
+                visitSpecialties(element);
+                break;
+            case "specialty":
+                visitSpecialty(element);
+                break;
+            case "personalityTraits":
+                visitTraits(element);
+                break;
+            case "trait":
+                visitTrait(element);
+                break;
+            case "ideals":
+                visitIdeals(element);
+                break;
+            case "ideal":
+                visitIdeal(element);
+                break;
+            case "bonds":
+                visitBonds(element);
+                break;
+            case "bond":
+                visitBond(element);
+                break;
+            case "flaws":
+                visitFlaws(element);
+                break;
+            case "flaw":
+                visitFlaw(element);
+                break;
+            default:
+                return false;
         }
         return true;
     }

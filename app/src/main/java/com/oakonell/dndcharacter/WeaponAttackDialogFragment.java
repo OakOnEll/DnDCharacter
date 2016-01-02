@@ -291,6 +291,15 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     @Override
+    public void onCharacterChanged(Character character) {
+        super.onCharacterChanged(character);
+
+        loadWeapon(character);
+
+        updateViews();
+    }
+
+    @Override
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
         filter.add(FeatureContext.DICE_ROLL);
@@ -312,7 +321,6 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             two_handed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    // TODO more to do here?
                     updateViews();
                 }
             });
@@ -339,9 +347,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         attack_bonus.setText(attackModifiers.getAttackBonus() + "");
 
         name.setText(weapon.getName());
-        //description.setText(weapon.get);
 
-        // TODO handle versatile/two handed adjustment here
         if (two_handed.isChecked()) {
             damage_descr.setText(weapon.getVersatileDamageString());
         } else {
@@ -360,21 +366,14 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             }
         }
         if (weapons.isEmpty()) {
+            // TODO deal with weapon having been deleted
             throw new RuntimeException("No weapon named '" + name + "' in inventory");
         }
         if (weapons.size() > 1) {
-            // compare damages?
+            // TODO compare damages?
 
         }
         weapon = weapons.get(0);
-    }
-
-    @Override
-    public void onCharacterChanged(Character character) {
-        // TODO
-        super.onCharacterChanged(character);
-
-        onCharacterLoaded(character);
     }
 
 

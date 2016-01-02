@@ -20,7 +20,7 @@ public class DiceExtractor extends ExpressionEvaluator {
         return extractor.results;
     }
 
-    DiceExtractor(ExpressionContext context) {
+    private DiceExtractor(ExpressionContext context) {
         super(context);
     }
 

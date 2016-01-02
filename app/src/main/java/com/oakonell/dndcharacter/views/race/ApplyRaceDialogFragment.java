@@ -37,8 +37,8 @@ import java.util.Map;
 public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragment<Race> {
     private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
     private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
-    Race subrace;
-    List<Race> subraces;
+    private Race subrace;
+    private List<Race> subraces;
     private NoDefaultSpinner subraceSpinner;
     private ChooseMDTreeNode subRaceChooseMDs;
     private TextView subRaceErrorView;
@@ -64,13 +64,13 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
     @Override
     protected List<Page<Race>> createPages() {
-        List<Page<Race>> result = new ArrayList<Page<Race>>();
+        List<Page<Race>> result = new ArrayList<>();
         Page main = new Page<Race>() {
             @Override
             public ChooseMDTreeNode appendToLayout(Race model, final ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
                 Race race = getModel();
 
-                List<String> list = new ArrayList<String>();
+                List<String> list = new ArrayList<>();
                 From nameSelect = new Select()
                         .from(getModelClass()).orderBy("name");
                 nameSelect = nameSelect.where("parentRace = ?", race.getName());
@@ -94,7 +94,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
                         index++;
                     }
 
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(),
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
                             R.layout.large_spinner_text, list);
                     dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
                     subraceSpinner.setAdapter(dataAdapter);
@@ -117,7 +117,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
                             }
                             Map<String, String> customChoices = customChoicesByModel.get(name);
                             if (customChoices == null) {
-                                customChoices = new HashMap<String, String>();
+                                customChoices = new HashMap<>();
                                 customChoicesByModel.put(name, customChoices);
                             }
 

@@ -3,7 +3,6 @@ package com.oakonell.dndcharacter.views.classes;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterClass;
 import com.oakonell.dndcharacter.model.SavedChoices;
-import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
 
 import java.util.List;
@@ -13,12 +12,10 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFragment {
-    int classLevel;
+    private int classLevel;
 
-    public static AddClassLevelDialogFragment createDialog(AClass aClass) {
-        AddClassLevelDialogFragment newMe = new AddClassLevelDialogFragment();
-        newMe.setModel(aClass);
-        return newMe;
+    public static AddClassLevelDialogFragment createDialog() {
+        return new AddClassLevelDialogFragment();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import com.oakonell.dndcharacter.model.SkillBlock;
 import com.oakonell.dndcharacter.model.SkillType;
 import com.oakonell.dndcharacter.views.FeatureContext;
 import com.oakonell.dndcharacter.views.RowWithSourceAdapter;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.HashSet;
 import java.util.List;

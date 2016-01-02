@@ -1,9 +1,6 @@
 package com.oakonell.dndcharacter.views;
 
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
-
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.CharacterClass;

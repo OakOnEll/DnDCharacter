@@ -7,7 +7,7 @@ public enum Proficient {
     NONE(0), HALF(0.5), PROFICIENT(1), EXPERT(2);
     private final double multiplier;
 
-    private Proficient(double multiplier) {
+    Proficient(double multiplier) {
         this.multiplier = multiplier;
     }
 

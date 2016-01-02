@@ -260,14 +260,10 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
                     }
                     if (selected != null) {
-                        if (!selected.isArmor()) {
-                            selected.isDisabled = true;
-                        } else {
-                            selected.isDisabled = false;
-                        }
+                        selected.isDisabled = !selected.isArmor();
                         notifyItemChanged(selectedIndex);
+                        fragment.updateModifyingRows(selected.isArmor());
                     }
-                    fragment.updateModifyingRows(selected.isArmor());
                     fragment.updateAC();
                     // update other list items
                 }

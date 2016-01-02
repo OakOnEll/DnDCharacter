@@ -15,7 +15,7 @@ public class StringValue extends ExpressionValue<String> {
     }
 
     public boolean isString() {
-        return false;
+        return true;
     }
 
     @Override

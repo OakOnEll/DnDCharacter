@@ -46,11 +46,6 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
     }
 
     @Override
-    protected String getRecordTypeName() {
-        return "Race";
-    }
-
-    @Override
     protected String getSubtitle() {
         return "Races";
     }

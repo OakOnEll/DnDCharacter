@@ -12,9 +12,9 @@ import com.oakonell.dndcharacter.model.AbstractComponentModel;
 @Table(name = "background", id = BaseColumns._ID)
 public class Background extends AbstractComponentModel {
     @Column
-    public String name;
+    private String name;
     @Column
-    public String xml;
+    private String xml;
 
     @Override
     public String getXml() {

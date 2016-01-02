@@ -29,12 +29,12 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
-    SavedChoices choices;
-    int uiIdCounter;
-    int traitIndex;
-    ChooseMD<?> currentChooseMD;
+    private SavedChoices choices;
+    private int uiIdCounter;
+    private int traitIndex;
+    private ChooseMD<?> currentChooseMD;
 
-    private ViewGroup view;
+    //private ViewGroup view;
     private ViewGroup parent;
     private ChooseMDTreeNode choicesMD = new RootChoiceMDNode();
     private List<String> traitNames;
@@ -172,7 +172,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
     public ChooseMDTreeNode appendToLayout(Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, List<String> traitNames) {
         this.parent = parent;
-        this.view = parent;
+        //this.view = parent;
         this.choices = choices;
         this.customChoices = customChoices;
         this.traitNames = traitNames;

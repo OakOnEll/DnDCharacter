@@ -60,7 +60,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         final boolean isFirstLevel = isFirstCharacterLevel();
         if (isFirstLevel) {
             // first page, show base skills, saving throws, hit dice..
-            Page main = new Page<AClass>() {
+            Page<AClass> main = new Page<AClass>() {
                 @Override
                 public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
@@ -84,7 +84,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         // next page, show level specific stuff (if first, show hit die, or just show again)
         // TODO show when proficiency is increased!
         if (levelElement != null) {
-            Page level = new Page<AClass>() {
+            Page<AClass> level = new Page<AClass>() {
                 @Override
                 public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
@@ -98,7 +98,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
         // final page, show Hit points- unless classLevel = 1
         if (!isFirstLevel && includeHp()) {
-            Page hitPoints = new Page<AClass>() {
+            Page<AClass> hitPoints = new Page<AClass>() {
                 @Override
                 public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
@@ -146,7 +146,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         public void afterTextChanged(Editable s) {
                             String string = s.toString();
                             int val = 0;
-                            if (string != null && string.trim().length() > 0) {
+                            if (string.trim().length() > 0) {
                                 val = Integer.parseInt(string);
                             }
                             hp = val;

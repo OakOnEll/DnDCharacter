@@ -36,15 +36,16 @@ import java.util.TreeMap;
 public class Character {
     // more fluid data
     @Element(required = false)
+    private
     int hp;
     @Element(required = false)
     @Deprecated
     // TODO delete- will need to dump DB
             int tempHpMax;
     @Element(required = false)
-    int tempHp;
+    private int tempHp;
     @ElementMap(entry = "feature", key = "name", value = "uses", required = false)
-    Map<String, Integer> usedFeatures = new HashMap<String, Integer>();
+    private Map<String, Integer> usedFeatures = new HashMap<>();
     // relatively static data
     @Element(required = false)
     private String name;
@@ -53,9 +54,9 @@ public class Character {
     @Element(required = false)
     private CharacterRace race;
     @ElementList(required = false)
-    private List<CharacterClass> classes = new ArrayList<CharacterClass>();
+    private List<CharacterClass> classes = new ArrayList<>();
     @ElementMap(entry = "stat", key = "name", value = "value", required = false)
-    private Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
+    private Map<StatType, Integer> baseStats = new HashMap<>();
 
     @Element(required = false)
     private BaseStatsType statsType;
@@ -68,13 +69,13 @@ public class Character {
     private String backstory;
 
     @ElementList(required = false)
-    private List<CharacterItem> items = new ArrayList<CharacterItem>();
+    private List<CharacterItem> items = new ArrayList<>();
 
     @ElementList(required = false)
-    private List<CharacterArmor> armor = new ArrayList<CharacterArmor>();
+    private List<CharacterArmor> armor = new ArrayList<>();
 
     @ElementList(required = false)
-    private List<CharacterWeapon> weapons = new ArrayList<CharacterWeapon>();
+    private List<CharacterWeapon> weapons = new ArrayList<>();
 
 
     // Money
@@ -532,7 +533,6 @@ public class Character {
         if (activeRoot == null) {
             throw new RuntimeException("No active AC root!?");
         }
-        boolean isArmor = activeRoot.isArmor();
         // go through active equipment
         // if no equipment affects ac, it is just 10 + dex mod
 
@@ -551,7 +551,7 @@ public class Character {
 
     public SavedChoices getBackgroundChoices() {
         if (background == null) return new SavedChoices();
-        return background.savedChoices;
+        return background.getSavedChoices();
     }
 
     public void setBackground(CharacterBackground background) {
@@ -860,7 +860,7 @@ public class Character {
     }
 
     public List<FeatureInfo> getFeatureInfos() {
-        List<FeatureInfo> result = new ArrayList<FeatureInfo>();
+        List<FeatureInfo> result = new ArrayList<>();
         if (background != null) result.addAll(background.getFeatures());
         if (race != null) result.addAll(race.getFeatures());
         for (CharacterClass each : classes) {

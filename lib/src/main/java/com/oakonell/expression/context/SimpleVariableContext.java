@@ -25,8 +25,7 @@ public class SimpleVariableContext implements ExpressionVariableContext {
 
     @Override
     public ExpressionValue<?> getValue(String name) {
-        ExpressionValue<?> value = variables.get(name);
-        return value;
+        return variables.get(name);
     }
 
     public void registerString(String name) {

@@ -35,8 +35,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     private Map<Integer, HitDieUseRow> savedDiceCounts;
 
     public static ShortRestDialogFragment createDialog() {
-        ShortRestDialogFragment newMe = new ShortRestDialogFragment();
-        return newMe;
+        return new ShortRestDialogFragment();
     }
 
     @Override

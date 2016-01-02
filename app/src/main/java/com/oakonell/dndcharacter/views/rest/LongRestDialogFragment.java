@@ -31,8 +31,8 @@ import java.util.Set;
  * Created by Rob on 11/8/2015.
  */
 public class LongRestDialogFragment extends AbstractRestDialogFragment {
-    View fullHealingGroup;
-    CheckBox fullHealing;
+    private View fullHealingGroup;
+    private CheckBox fullHealing;
     private HitDiceRestoreAdapter diceAdapter;
     private RecyclerView hitDiceListView;
     private Bundle savedDiceRestoreBundle;

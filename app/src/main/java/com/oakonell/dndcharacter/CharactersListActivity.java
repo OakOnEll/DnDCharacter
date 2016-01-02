@@ -33,11 +33,6 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
     }
 
     @Override
-    protected String getRecordTypeName() {
-        return "Character";
-    }
-
-    @Override
     protected String getSubtitle() {
         return "Characters";
     }

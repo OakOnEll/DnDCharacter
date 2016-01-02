@@ -2,13 +2,11 @@ package com.oakonell.dndcharacter.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.*;
 
 /**
  * Created by Rob on 12/24/2015.

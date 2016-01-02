@@ -9,13 +9,13 @@ import java.util.List;
  */
 public class CharacterBackground extends BaseCharacterComponent {
     @Element(required = false)
-    String personalityTrait;
+    private String personalityTrait;
     @Element(required = false)
-    String ideal;
+    private String ideal;
     @Element(required = false)
-    String bond;
+    private String bond;
     @Element(required = false)
-    String flaw;
+    private String flaw;
     @Element(required = false)
     private String specialtyTitle;
     @Element(required = false)
@@ -32,7 +32,7 @@ public class CharacterBackground extends BaseCharacterComponent {
     }
 
     public void setTraitSavedChoiceToCustom(String trait) {
-        List<String> selections = savedChoices.getChoicesFor(trait);
+        List<String> selections = getSavedChoices().getChoicesFor(trait);
         selections.clear();
         selections.add("custom");
     }

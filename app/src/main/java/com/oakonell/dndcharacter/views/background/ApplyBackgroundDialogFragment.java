@@ -40,7 +40,7 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
 
     protected List<Page<Background>> createPages() {
         List<Page<Background>> pages = new ArrayList<>();
-        Page main = new Page<Background>() {
+        Page<Background> main = new Page<Background>() {
             @Override
             public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
@@ -49,35 +49,35 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
             }
         };
 
-        Page trait = new Page<Background>() {
+        Page<Background> trait = new Page<Background>() {
             @Override
             public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
                 return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "traits");
             }
         };
-        Page ideal = new Page<Background>() {
+        Page<Background> ideal = new Page<Background>() {
             @Override
             public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
                 return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "ideals");
             }
         };
-        Page bond = new Page<Background>() {
+        Page<Background> bond = new Page<Background>() {
             @Override
             public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
                 return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "bonds");
             }
         };
-        Page flaw = new Page<Background>() {
+        Page<Background> flaw = new Page<Background>() {
             @Override
             public ChooseMDTreeNode appendToLayout(Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 BackgroundViewCreatorVisitor visitor = new BackgroundViewCreatorVisitor();
                 return visitor.appendToLayout(background, dynamic, backgroundChoices, customChoices, "flaws");
             }
         };
-        Page extra = null;
+        Page<Background> extra = null;
         if (getModel() != null) {
             Element documentElement = XmlUtils.getDocument(getModel().getXml()).getDocumentElement();
             if (!XmlUtils.getChildElements(documentElement, "specialties").isEmpty()) {

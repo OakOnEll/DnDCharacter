@@ -85,7 +85,7 @@ public class XmlUtils {
     }
 
     public static Document getDocument(InputStream inputStream) {
-        Document document = null;
+        Document document;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = factory.newDocumentBuilder();

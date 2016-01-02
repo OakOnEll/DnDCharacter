@@ -134,7 +134,7 @@ public class MainActivity extends AbstractBaseActivity {
             return true;
         }
         if (id == R.id.action_level_up) {
-            AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog(null);
+            AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog();
             dialog.show(getSupportFragmentManager(), "level_up");
             return true;
         }
@@ -153,7 +153,7 @@ public class MainActivity extends AbstractBaseActivity {
 
     public void saveCharacter() {
         Serializer serializer = new Persister();
-        OutputStream out = null;
+        OutputStream out;
         try {
             out = new ByteArrayOutputStream();
             serializer.write(character, out);
@@ -224,7 +224,7 @@ public class MainActivity extends AbstractBaseActivity {
             } else {
 
                 Serializer serializer = new Persister();
-                InputStream input = null;
+                InputStream input;
                 try {
                     // offload this to a new thread
                     input = new ByteArrayInputStream(characterRow.xml.getBytes());

@@ -113,7 +113,7 @@ public class PersonaFragment extends AbstractSheetFragment {
         if (value == null) value = "";
         String newValue = newString;
         if (newValue == null) newValue = "";
-        return value.trim().equals(newString.trim());
+        return value.trim().equals(newValue.trim());
     }
 
     @Override

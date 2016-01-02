@@ -19,12 +19,15 @@ public class AbstractArmorVisitor extends AbstractComponentVisitor {
     }
 
     protected boolean subVisit(Element element, String name) {
-        if (name.equals("strengthMin")) {
-            visitStrengthMin(element);
-        } else if (name.equals("disadvantage")) {
-            visitDisadvantage(element);
-        } else {
-            return false;
+        switch (name) {
+            case "strengthMin":
+                visitStrengthMin(element);
+                break;
+            case "disadvantage":
+                visitDisadvantage(element);
+                break;
+            default:
+                return false;
         }
         return true;
     }

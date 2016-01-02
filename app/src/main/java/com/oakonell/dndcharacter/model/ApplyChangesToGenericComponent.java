@@ -24,9 +24,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private final C component;
     private final SavedChoices savedChoices;
     private final Character character;
-    String currentChoiceName;
+    private String currentChoiceName;
 
-    public ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, Character character) {
+    private ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, Character character) {
         this.component = component;
         this.savedChoices = savedChoices;
         this.character = character;
@@ -126,7 +126,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String skillName = element.getTextContent();
         String category = element.getAttribute("category");
 
-        // TODO how to endode expert, or half prof- via attribute?
+        // TODO how to encode expert, or half prof- via attribute?
         String level = element.getAttribute("level");
         Proficient proficient = Proficient.PROFICIENT;
         if (level != null && level.trim().length() > 0) {

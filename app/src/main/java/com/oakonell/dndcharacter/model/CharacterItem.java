@@ -9,7 +9,7 @@ import org.simpleframework.xml.Element;
  */
 public class CharacterItem extends BaseCharacterComponent {
     @Element(required = false)
-    ComponentType source;
+    private     ComponentType source;
     /*    @Element(required = false)
         private boolean isContainer;
 

@@ -43,17 +43,16 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
 
     private BaseStatsType statsType;
-    Map<StatType, EditText> customInputs = new HashMap<>();
-    List<BaseStatRow> baseStatRows = new ArrayList<>();
+    private Map<StatType, EditText> customInputs = new HashMap<>();
+    private List<BaseStatRow> baseStatRows = new ArrayList<>();
 
     // point buy
-    List<BaseStatPointBuy> pointBuyRows = new ArrayList<>();
+    private List<BaseStatPointBuy> pointBuyRows = new ArrayList<>();
     private TextView remaining_points;
 
     // rolled stats
-    Integer[] statRolls = new Integer[6];
+    private Integer[] statRolls = new Integer[6];
     private Spinner roll_type;
-    private Button roll;
     private List<BaseStatsType> list;
 
     private static class BaseStatPointBuy {
@@ -126,7 +125,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
 
         list = new ArrayList<>(Arrays.asList(BaseStatsType.values()));
-        ArrayAdapter<BaseStatsType> dataAdapter = new ArrayAdapter<BaseStatsType>(getContext(),
+        ArrayAdapter<BaseStatsType> dataAdapter = new ArrayAdapter<>(getContext(),
                 R.layout.large_spinner_text, list);
         dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
         stat_type.setAdapter(dataAdapter);
@@ -272,7 +271,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
         // roll inputs
         roll_type = (Spinner) view.findViewById(R.id.roll_type);
-        roll = (Button) view.findViewById(R.id.roll);
+        Button roll = (Button) view.findViewById(R.id.roll);
 
         final List<String> rollTypes = new ArrayList<>();
         rollTypes.add("3d6");
@@ -298,7 +297,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     @Override
     protected boolean onDone() {
         // update dialog that opened this one...
-        Map<StatType, Integer> baseStats = new HashMap<StatType, Integer>();
+        Map<StatType, Integer> baseStats = new HashMap<>();
         // TODO validate overall...? any general?
 
         // push chosen values to character model

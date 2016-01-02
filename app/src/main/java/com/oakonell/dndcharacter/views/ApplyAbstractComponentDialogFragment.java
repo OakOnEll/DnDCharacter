@@ -31,8 +31,8 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
     private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
     private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
-    int pageIndex = 0;
-    List<Page<M>> pages = new ArrayList<>();
+    private int pageIndex = 0;
+    private List<Page<M>> pages = new ArrayList<>();
     private M model;
     private ChooseMDTreeNode chooseMDs;
 
@@ -156,14 +156,6 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
     }
 
-    @Override
-    public void onCharacterChanged(Character character) {
-        // TODO
-        super.onCharacterChanged(character);
-        onCharacterLoaded(character);
-    }
-
-
     protected From filter(From nameSelect) {
         return nameSelect;
     }
@@ -184,7 +176,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
             SavedChoices savedChoices = savedChoicesByModel.get(name);
             Map<String, String> customChoices = customChoicesByModel.get(name);
 
-            Page page = pages.get(pageIndex);
+            Page<M> page = pages.get(pageIndex);
             chooseMDs = page.appendToLayout(model, dynamicView, savedChoices, customChoices);
         }
         nameSpinner.setEnabled(pageIndex == 0 && allowMainComponentChange());
@@ -243,9 +235,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
 
-
         int max = nameSpinner.getAdapter().getCount();
-
         for (int i = 0; i < max; i++) {
             String each = (String) nameSpinner.getAdapter().getItem(i);
             if (each.equals(getCurrentName())) {
@@ -254,7 +244,6 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
             }
         }
 
-
         SavedChoices savedChoices = getSavedChoicesFromCharacter(character).copy();
         Map<String, String> customChoices = getCustomChoicesFromCharacter(character);
 
@@ -262,7 +251,13 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         customChoicesByModel.put(getCurrentName(), customChoices);
 
         displayPage();
+    }
 
+    @Override
+    public void onCharacterChanged(Character character) {
+        // TODO
+        super.onCharacterChanged(character);
+        onCharacterLoaded(character);
     }
 
     public abstract String getModelSpinnerPrompt();

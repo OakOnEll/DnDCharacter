@@ -17,10 +17,10 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     private final Map<String, String> customChoices;
     private final CharacterBackground charBackground;
     private final SavedChoices savedChoices;
-    String currentChoiceName;
-    int traitIndex;
+    private String currentChoiceName;
+    private int traitIndex;
 
-    public ApplyBackgroundToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterBackground charBackground) {
+    private ApplyBackgroundToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterBackground charBackground) {
         this.charBackground = charBackground;
         this.savedChoices = savedChoices;
         this.customChoices = customChoices;

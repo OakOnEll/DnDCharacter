@@ -11,7 +11,6 @@ public class CharacterClass extends BaseCharacterComponent {
     // TODO derivable from order in character...? This is redundant currently
     @Element(required = false)
     private int level;
-
     @Element(required = false)
     private int hpRoll;
     @Element(required = false)

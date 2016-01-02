@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views;
 
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,7 +11,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -40,7 +38,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     private RecyclerView listView;
     private ComponentListAdapter adapter;
     private int loaderId;
-    private Map<Long, Long> recordsBeingDeleted = new HashMap<Long, Long>();
+    private Map<Long, Long> recordsBeingDeleted = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,13 +88,13 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
             @Override
             public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
                 Toast.makeText(AbstractComponentListActivity.this, "Load finished- cursor " + (cursor == null ? "is null!" : cursor.getCount()), Toast.LENGTH_SHORT).show();
-                ((ComponentListAdapter) adapter).swapCursor(cursor);
+                adapter.swapCursor(cursor);
             }
 
             @Override
             public void onLoaderReset(Loader<Cursor> arg0) {
                 Toast.makeText(AbstractComponentListActivity.this, "Loader rest ", Toast.LENGTH_SHORT).show();
-                ((ComponentListAdapter) adapter).swapCursor(null);
+                adapter.swapCursor(null);
             }
         });
 
@@ -129,8 +127,6 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
 
     abstract protected void openRecord(long id);
 
-    abstract protected String getRecordTypeName();
-
     protected abstract String getSubtitle();
 
     @Override
@@ -146,33 +142,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         return new RowViewHolder(newView);
     }
 
-    private void promptToDelete(final int position, final long rowId, String name, final ComponentListAdapter componentListAdapter) {
-        String recordTypeName = getRecordTypeName();
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Delete " + recordTypeName + " " + name + "(id=" + rowId + ", position=" + position + ")")
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        deleteRow(rowId);
-                        componentListAdapter.notifyItemRemoved(position);
-
-                        //componentListAdapter.notifyDataSetChanged();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        // restore the view?
-                        componentListAdapter.notifyDataSetChanged();
-                    }
-                });
-        // Create the AlertDialog object and return it
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
     protected abstract void deleteRow(long id);
-
 
     public static class DeleteRowViewHolder extends BindableRecyclerViewHolder {
         TextView name;
@@ -205,7 +175,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
 
     public static class RowViewHolder extends BindableRecyclerViewHolder implements ItemTouchHelperViewHolder {
         TextView name;
-        TextView description;
+        //TextView description;
         private Drawable originalBackground;
 
         public RowViewHolder(View itemView) {
@@ -219,7 +189,6 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
 
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
             final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
-            final int position = cursor.getPosition();
             name.setText(nameString);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -242,12 +211,12 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     }
 
     public static class ComponentListAdapter extends RecyclerView.Adapter<BindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
-        private final AbstractComponentListActivity context;
+        private final AbstractComponentListActivity<? extends Model> context;
         private final int layout;
         Cursor cursor;
         CursorIndexesByName cursorIndexesByName = new CursorIndexesByName();
 
-        public ComponentListAdapter(AbstractComponentListActivity context, int layout) {
+        public ComponentListAdapter(AbstractComponentListActivity<? extends Model> context, int layout) {
             this.context = context;
             this.layout = layout;
         }
@@ -272,12 +241,10 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         public BindableRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == 1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.component_deleted_item, parent, false);
-                DeleteRowViewHolder holder = new DeleteRowViewHolder(newView);
-                return holder;
+                return new DeleteRowViewHolder(newView);
             }
             View newView = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
-            BindableRecyclerViewHolder holder = this.context.newRowViewHolder(newView);
-            return holder;
+            return this.context.newRowViewHolder(newView);
         }
 
         @Override
@@ -316,7 +283,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
             context.listView.postDelayed(new Runnable() {
                 public void run() {
                     // may have been deleted, undone, and then redeleted
-                    Long deletedTime = (Long) context.recordsBeingDeleted.get(id);
+                    Long deletedTime = context.recordsBeingDeleted.get(id);
                     if (deletedTime == null) return;
                     if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
                         // actually delete the record, now

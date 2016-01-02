@@ -2,7 +2,8 @@ package com.oakonell.dndcharacter;
 
 import android.os.Bundle;
 
-import com.oakonell.dndcharacter.model.*;
+import com.oakonell.dndcharacter.model.StatBlock;
+import com.oakonell.dndcharacter.model.StatType;
 
 /**
  * Created by Rob on 12/24/2015.

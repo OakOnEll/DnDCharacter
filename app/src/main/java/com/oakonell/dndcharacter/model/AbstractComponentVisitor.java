@@ -11,48 +11,70 @@ public class AbstractComponentVisitor {
 
     protected void visit(Element element) {
         String name = element.getTagName();
-        if (name.equals("choose")) {
-            visitChoose(element);
-        } else if (name.equals("or")) {
-            visitOr(element);
-        } else if (name.equals("skills")) {
-            visitSkills(element);
-        } else if (name.equals("savingThrows")) {
-            visitSavingThrows(element);
-        } else if (name.equals("tools")) {
-            visitTools(element);
-        } else if (name.equals("armor")) {
-            visitArmor(element);
-        } else if (name.equals("weapons")) {
-            visitWeapons(element);
-        } else if (name.equals("tool")) {
-            visitTool(element);
-        } else if (name.equals("equipment")) {
-            visitEquipment(element);
-        } else if (name.equals("proficiency")) {
-            visitProficiency(element);
-        } else if (name.equals("languages")) {
-            visitLanguages(element);
-        } else if (name.equals("language")) {
-            visitLanguage(element);
-        } else if (name.equals("feature")) {
-            visitFeature(element);
-        } else if (name.equals("item")) {
-            visitItem(element);
-        } else if (name.equals("money")) {
-            visitMoney(element);
-        } else if (name.equals("name")) {
-            visitName(element);
-        } else if (name.equals("shortDescription")) {
-            visitShortDescription(element);
-        } else if (name.equals("description")) {
-            visitDescription(element);
-        } else if (name.equals("stat")) {
-            visitStat(element);
-        } else if (name.equals("increase")) {
-            visitIncrease(element);
-        } else {
-            boolean wasVisited = subVisit(element, name);
+        switch (name) {
+            case "choose":
+                visitChoose(element);
+                break;
+            case "or":
+                visitOr(element);
+                break;
+            case "skills":
+                visitSkills(element);
+                break;
+            case "savingThrows":
+                visitSavingThrows(element);
+                break;
+            case "tools":
+                visitTools(element);
+                break;
+            case "armor":
+                visitArmor(element);
+                break;
+            case "weapons":
+                visitWeapons(element);
+                break;
+            case "tool":
+                visitTool(element);
+                break;
+            case "equipment":
+                visitEquipment(element);
+                break;
+            case "proficiency":
+                visitProficiency(element);
+                break;
+            case "languages":
+                visitLanguages(element);
+                break;
+            case "language":
+                visitLanguage(element);
+                break;
+            case "feature":
+                visitFeature(element);
+                break;
+            case "item":
+                visitItem(element);
+                break;
+            case "money":
+                visitMoney(element);
+                break;
+            case "name":
+                visitName(element);
+                break;
+            case "shortDescription":
+                visitShortDescription(element);
+                break;
+            case "description":
+                visitDescription(element);
+                break;
+            case "stat":
+                visitStat(element);
+                break;
+            case "increase":
+                visitIncrease(element);
+                break;
+            default:
+                boolean wasVisited = subVisit(element, name);
+                break;
         }
 
     }

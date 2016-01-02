@@ -13,7 +13,7 @@ import org.w3c.dom.Element;
 public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     private final CharacterWeapon weapon;
 
-    public CreateCharacterWeaponVisitor(CharacterWeapon weapon) {
+    private CreateCharacterWeaponVisitor(CharacterWeapon weapon) {
         this.weapon = weapon;
     }
 
@@ -34,6 +34,9 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     protected void visitDamage(Element element) {
         String amount = XmlUtils.getElementText(element, "amount");
         String typeString = XmlUtils.getElementText(element, "damageType");
+        if (typeString == null) {
+            throw new RuntimeException("Weapon damage has no damage type!");
+        }
         DamageType type = DamageType.valueOf(typeString.substring(0, 1).toUpperCase() + typeString.substring(1).toLowerCase());
         weapon.addDamage(amount, type);
     }
@@ -42,6 +45,9 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     protected void visitVersatileDamage(Element element) {
         String amount = XmlUtils.getElementText(element, "amount");
         String typeString = XmlUtils.getElementText(element, "damageType");
+        if (typeString == null) {
+            throw new RuntimeException("Weapon versatile damage has no damage type!");
+        }
         DamageType type = DamageType.valueOf(typeString.substring(0, 1).toUpperCase() + typeString.substring(1).toLowerCase());
         weapon.addVersatileDamage(amount, type);
     }
@@ -67,8 +73,6 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
 
     @Override
     protected void visitRanged(Element element) {
-        if ("true".equals(element.getTextContent())) {
-            weapon.setIsRanged(true);
-        }
+        weapon.setIsRanged("true".equals(element.getTextContent()));
     }
 }

@@ -21,15 +21,6 @@ public class MultipleChoicesMD extends ChooseMD<CheckOptionMD> {
         this.minSelections = minSelections;
     }
 
-    public CheckOptionMD findOrOptionNamed(String optionName) {
-        for (CheckOptionMD each : getOptions()) {
-            if (!(each instanceof CheckOptionMD)) continue;
-            CheckOptionMD checkMD = (CheckOptionMD) each;
-            if (checkMD.getOptionName().equals(optionName)) return checkMD;
-        }
-        return null;
-    }
-
     public TextView getUiLabel() {
         return uiLabel;
     }
@@ -60,7 +51,7 @@ public class MultipleChoicesMD extends ChooseMD<CheckOptionMD> {
             for (CheckOptionMD each : getOptions()) {
                 CheckBox aCheck = each.getCheckbox();
                 aCheck.setEnabled(false);
-                each.setEnabled(enabled);
+                each.setEnabled(false);
             }
             return;
         }

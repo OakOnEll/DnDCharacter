@@ -40,7 +40,10 @@ public class ImportActivity extends AppCompatActivity {
     private ImageButton searchButton;
     private RecyclerView listView;
     private Button importRowsButton;
-    String filename;
+    private String filename;
+
+    private RecyclerView.Adapter<ImportRowViewHolder> listAdapter;
+    List<ImportRow> importRows = new ArrayList<>();
 
     private static final int FILE_IMPORT_REQUEST = 1;
     private TextView filenameText;
@@ -62,7 +65,6 @@ public class ImportActivity extends AppCompatActivity {
         }
     }
 
-    RecyclerView.Adapter<ImportRowViewHolder> listAdapter;
 
     public static class ImportRow {
         boolean shouldImport;
@@ -72,8 +74,6 @@ public class ImportActivity extends AppCompatActivity {
         public boolean imported;
         public String message;
     }
-
-    List<ImportRow> importRows = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +221,7 @@ public class ImportActivity extends AppCompatActivity {
 
     private Document readDocument() {
         File file = new File(filename);
-        FileInputStream in = null;
+        FileInputStream in;
         try {
             in = new FileInputStream(file);
         } catch (FileNotFoundException e) {

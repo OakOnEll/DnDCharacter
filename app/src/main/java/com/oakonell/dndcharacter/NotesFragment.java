@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.oakonell.dndcharacter.model.*;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 
 import org.simpleframework.xml.Serializer;

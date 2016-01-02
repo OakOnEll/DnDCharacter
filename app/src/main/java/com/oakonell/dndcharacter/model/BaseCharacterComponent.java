@@ -3,7 +3,6 @@ package com.oakonell.dndcharacter.model;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
-import com.oakonell.expression.ExpressionVariableContext;
 import com.oakonell.expression.context.SimpleVariableContext;
 
 import org.simpleframework.xml.Element;
@@ -21,21 +20,26 @@ import java.util.Map;
  */
 public abstract class BaseCharacterComponent {
     @Element(required = false)
-    SavedChoices savedChoices = new SavedChoices();
+    private SavedChoices savedChoices = new SavedChoices();
     @ElementMap(entry = "statMod", key = "name", value = "mod", required = false)
-    private Map<StatType, Integer> statModifiers = new HashMap<StatType, Integer>();
+    private Map<StatType, Integer> statModifiers = new HashMap<>();
     @ElementMap(entry = "skill", key = "name", value = "proficiency", required = false)
-    private Map<SkillType, Proficient> skillProficiencies = new HashMap<SkillType, Proficient>();
+    private Map<SkillType, Proficient> skillProficiencies = new HashMap<>();
     @ElementMap(entry = "saveMod", key = "name", value = "proficiency", required = false)
-    private Map<StatType, Proficient> saveProficiencies = new HashMap<StatType, Proficient>();
+    private Map<StatType, Proficient> saveProficiencies = new HashMap<>();
     @ElementList(required = false)
-    private List<Feature> features = new ArrayList<Feature>();
+    private List<Feature> features = new ArrayList<>();
     @ElementList(required = false)
     private List<String> languages = new ArrayList<>();
     @ElementMap(entry = "tool", key = "type", value = "proficiency", required = false)
     private Map<ProficiencyType, ToolProficiencies> toolProficiencies = new HashMap<>();
     @Element(required = false)
     private String name;
+    @Element(required = false)
+    private String acFormula;
+    @Element(required = false)
+    private  String activeFormula;
+
 
     public String getName() {
         return name;
@@ -50,12 +54,6 @@ public abstract class BaseCharacterComponent {
         if (value == null) return 0;
         return value;
     }
-
-    @Element(required = false)
-    String acFormula;
-
-    @Element(required = false)
-    String activeFormula;
 
     public void addModifier(StatType type, int modifier) {
         statModifiers.put(type, modifier);
@@ -88,7 +86,7 @@ public abstract class BaseCharacterComponent {
     }
 
     public List<FeatureInfo> getFeatures() {
-        List<FeatureInfo> result = new ArrayList<FeatureInfo>();
+        List<FeatureInfo> result = new ArrayList<>();
         for (Feature each : features) {
             FeatureInfo info = new FeatureInfo();
             info.feature = each;
@@ -146,7 +144,7 @@ public abstract class BaseCharacterComponent {
         // do nothing, let subclasses override
     }
 
-    // TODO use a wrapper for SimpleXML serialization
+    // use a wrapper for SimpleXML serialization
     public static class ToolProficiencies {
         @ElementList(required = false, type = Proficiency.class, inline = true)
         List<Proficiency> proficiencies = new ArrayList<>();

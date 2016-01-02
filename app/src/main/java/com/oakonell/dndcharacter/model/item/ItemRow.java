@@ -15,13 +15,13 @@ import org.w3c.dom.Element;
 @Table(name = "item", id = BaseColumns._ID)
 public class ItemRow extends AbstractComponentModel {
     @Column
-    public String name;
+    private String name;
     @Column
-    public String category;
+    private String category;
     @Column
-    public String xml;
+    private String xml;
     @Column
-    ItemType itemType;
+    private ItemType itemType;
 
     @Override
     public String getName() {
@@ -69,7 +69,11 @@ public class ItemRow extends AbstractComponentModel {
             type = null;
         } else {
             category = XmlUtils.getElementText(doc, "category");
-            type = ItemType.valueOf(XmlUtils.getElementText(doc, "itemType").toUpperCase());
+            String itemTypeString = XmlUtils.getElementText(doc, "itemType");
+            if (itemTypeString == null) {
+                throw new RuntimeException("Item has no itemType set!");
+            }
+            type = ItemType.valueOf(itemTypeString.toUpperCase());
         }
         setCategory(category);
         setItemType(type);

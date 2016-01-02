@@ -12,7 +12,7 @@ public enum SkillType {
 
     private final StatType statType;
 
-    private SkillType(StatType statType) {
+    SkillType(StatType statType) {
         this.statType = statType;
     }
 
