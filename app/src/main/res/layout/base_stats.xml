@@ -99,12 +99,7 @@
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/done"
-            android:layout_width="wrap_content"
+        <include layout="@layout/dialog_cancel_done" />
 
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Done" />
     </LinearLayout>
 </RelativeLayout>

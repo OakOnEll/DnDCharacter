@@ -33,6 +33,7 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         View view = onCreateTheView(inflater, container, savedInstanceState);
         feature_context_list = (RecyclerView) view.findViewById(R.id.feature_context_list);
         feature_context_group = (ViewGroup) view.findViewById(R.id.feature_context_group);
+        setCancelable(false);
 
         done = (Button) view.findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +46,16 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
                 dismiss();
             }
         });
+        Button cancel = (Button) view.findViewById(R.id.cancel);
+        if (cancel != null) {
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getDialog().dismiss();
+                }
+            });
+        }
+
 
         getMainActivity().addCharacterLoadLister(this);
 

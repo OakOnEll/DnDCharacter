@@ -43,7 +43,6 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     private RadioButton tempHP;
     private Spinner type;
 
-    private Button cancel;
     private TextView start_hp;
     private TextView final_hp;
     private Button add_another;
@@ -85,8 +84,6 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
         start_hp = (TextView) view.findViewById(R.id.start_hp);
         final_hp = (TextView) view.findViewById(R.id.final_hp);
-
-        cancel = (Button) view.findViewById(R.id.cancel);
 
         hpListView = (RecyclerView) view.findViewById(R.id.hp_list);
 
@@ -139,13 +136,6 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
             @Override
             public void onClick(View v) {
                 addHp(-1);
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getDialog().dismiss();
             }
         });
 

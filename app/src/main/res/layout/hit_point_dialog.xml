@@ -165,28 +165,7 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Done" />
-
-            <Button
-                android:id="@+id/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Cancel" />
-        </LinearLayout>
+        <include layout="@layout/dialog_cancel_done" />
 
     </LinearLayout>
 </RelativeLayout>

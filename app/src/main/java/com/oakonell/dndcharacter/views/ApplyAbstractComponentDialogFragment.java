@@ -44,7 +44,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.race_dialog, container);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.dynamic_apply_component_dialog, container);
 
         dynamicView = (ViewGroup) view.findViewById(R.id.dynamic_content);
         doneButton = (Button) view.findViewById(R.id.done);
