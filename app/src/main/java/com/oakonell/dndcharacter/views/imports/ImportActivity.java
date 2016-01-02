@@ -37,43 +37,14 @@ import java.util.List;
 
 public class ImportActivity extends AppCompatActivity {
     public static final String EXTRA_FILE_PATH = "filepath";
+    private static final int FILE_IMPORT_REQUEST = 1;
+    List<ImportRow> importRows = new ArrayList<>();
     private ImageButton searchButton;
     private RecyclerView listView;
     private Button importRowsButton;
     private String filename;
-
     private RecyclerView.Adapter<ImportRowViewHolder> listAdapter;
-    List<ImportRow> importRows = new ArrayList<>();
-
-    private static final int FILE_IMPORT_REQUEST = 1;
     private TextView filenameText;
-
-    public static class ImportRowViewHolder extends RecyclerView.ViewHolder {
-        CheckBox should_import;
-        TextView type;
-        TextView name;
-        ImageView imported;
-        TextView error;
-
-        public ImportRowViewHolder(View itemView) {
-            super(itemView);
-            should_import = (CheckBox) itemView.findViewById(R.id.should_import);
-            name = (TextView) itemView.findViewById(R.id.name);
-            type = (TextView) itemView.findViewById(R.id.type);
-            error = (TextView) itemView.findViewById(R.id.error);
-            imported = (ImageView) itemView.findViewById(R.id.imported);
-        }
-    }
-
-
-    public static class ImportRow {
-        boolean shouldImport;
-        String type;
-        String name;
-        Element element;
-        public boolean imported;
-        public String message;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,6 +201,31 @@ public class ImportActivity extends AppCompatActivity {
         return XmlUtils.getDocument(in);
     }
 
+    public static class ImportRowViewHolder extends RecyclerView.ViewHolder {
+        CheckBox should_import;
+        TextView type;
+        TextView name;
+        ImageView imported;
+        TextView error;
+
+        public ImportRowViewHolder(View itemView) {
+            super(itemView);
+            should_import = (CheckBox) itemView.findViewById(R.id.should_import);
+            name = (TextView) itemView.findViewById(R.id.name);
+            type = (TextView) itemView.findViewById(R.id.type);
+            error = (TextView) itemView.findViewById(R.id.error);
+            imported = (ImageView) itemView.findViewById(R.id.imported);
+        }
+    }
+
+    public static class ImportRow {
+        public boolean imported;
+        public String message;
+        boolean shouldImport;
+        String type;
+        String name;
+        Element element;
+    }
 
     public static class ImportRowAdapter extends RecyclerView.Adapter<ImportRowViewHolder> {
         private List<ImportRow> rows;

@@ -25,12 +25,8 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
     private TextView critical_label;
     private AppCompatSpinner advantageSpinner;
 
-    int modifier;
-    int startColor;
-
-//    private int roll;
-//    private int roll2;
-
+    private int modifier;
+    private int startColor;
 
     protected void superCreateView(View view, Bundle savedInstanceState) {
         if (savedInstanceState != null) {

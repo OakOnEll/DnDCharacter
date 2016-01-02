@@ -22,10 +22,6 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
     private final ListRetriever<C> listRetriever;
     private List<C> list;
 
-    public interface ListRetriever<C> {
-        List<C> getList(Character character);
-    }
-
     public RowWithSourceAdapter(MainActivity activity, ListRetriever<C> listRetriever) {
         this.listRetriever = listRetriever;
         this.list = listRetriever.getList(activity.getCharacter());
@@ -77,7 +73,7 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
                 if (source == null) {
                     launchNoSource(activity, character);
                 } else {
-                    ComponentLaunchHelper.editComponent(activity,  source, false);
+                    ComponentLaunchHelper.editComponent(activity, source, false);
                 }
             }
         });
@@ -98,6 +94,10 @@ public class RowWithSourceAdapter<C extends com.oakonell.dndcharacter.model.Char
     @NonNull
     private WithSourceViewHolder<C> newViewHolder() {
         return new WithSourceViewHolder<>();
+    }
+
+    public interface ListRetriever<C> {
+        List<C> getList(Character character);
     }
 
     public static class WithSourceViewHolder<C extends com.oakonell.dndcharacter.model.Character.WithSource> {

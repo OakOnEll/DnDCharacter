@@ -313,7 +313,8 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         Button roll;
         Button apply;
         Button cancel;
-        public HitDieUseAdapter usesAdapter;
+
+        HitDieUseAdapter usesAdapter;
 
         public HitDiceViewHolder(View itemView) {
             super(itemView);

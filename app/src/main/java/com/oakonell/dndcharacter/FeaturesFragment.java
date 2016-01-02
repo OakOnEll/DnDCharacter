@@ -67,15 +67,15 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
 
     private static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView source;
-        TextView shortDescription;
+        public TextView name;
+        public TextView source;
+        public TextView shortDescription;
 
         public ViewGroup limited_uses_group;
         public ViewGroup use_group;
-        TextView uses_label;
+        public TextView uses_label;
         public TextView uses_remaining;
-        Button useButton;
+        public Button useButton;
 
         public ViewGroup pool_apply_group;
         public TextView pool_value;
@@ -83,8 +83,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
         public ImageButton pool_apply_button;
         public ImageButton pool_cancel_button;
 
-
-        TextView refreshes_label;
+        public TextView refreshes_label;
 
         public ViewHolder(View itemView) {
             super(itemView);

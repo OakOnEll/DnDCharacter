@@ -10,15 +10,27 @@ import java.util.List;
  * Created by Rob on 11/8/2015.
  */
 public class HitDieUseRow implements Parcelable {
-    public int dieSides;
+    public static Creator<HitDieUseRow> CREATOR = new Creator<HitDieUseRow>() {
 
+        @Override
+        public HitDieUseRow createFromParcel(Parcel source) {
+            return new HitDieUseRow(source);
+        }
+
+        @Override
+        public HitDieUseRow[] newArray(int size) {
+            return new HitDieUseRow[size];
+        }
+
+    };
+    public int dieSides;
     public int numDiceRemaining;
     public int totalDice;
-
     public List<Integer> rolls = new ArrayList<>();
 
     public HitDieUseRow() {
     }
+
     public HitDieUseRow(Parcel source) {
         dieSides = source.readInt();
         numDiceRemaining = source.readInt();
@@ -44,24 +56,10 @@ public class HitDieUseRow implements Parcelable {
         final int size = rolls.size();
         dest.writeInt(size);
         int[] rollsArray = new int[size];
-        for (int i=0; i< size;i++) {
+        for (int i = 0; i < size; i++) {
             rollsArray[i] = rolls.get(i);
         }
         dest.writeIntArray(rollsArray);
     }
-
-    public static Creator<HitDieUseRow> CREATOR = new Creator<HitDieUseRow>() {
-
-        @Override
-        public HitDieUseRow createFromParcel(Parcel source) {
-            return new HitDieUseRow(source);
-        }
-
-        @Override
-        public HitDieUseRow[] newArray(int size) {
-            return new HitDieUseRow[size];
-        }
-
-    };
 
 }

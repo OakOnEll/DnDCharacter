@@ -55,57 +55,6 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     private Spinner roll_type;
     private List<BaseStatsType> list;
 
-    private static class BaseStatPointBuy {
-        public BaseStatPointBuy(StatType type, Button add, TextView value, Button subtract) {
-            this.type = type;
-            this.add = add;
-            this.valueTextView = value;
-            this.subtract = subtract;
-        }
-
-        StatType type;
-
-        Button add;
-        TextView valueTextView;
-        Button subtract;
-
-
-        public void setValue(int theValue) {
-            valueTextView.setText(theValue + "");
-        }
-
-        public int getValue() {
-            return Integer.parseInt(valueTextView.getText().toString());
-        }
-    }
-
-    private static class BaseStatRow {
-        public BaseStatRow(int index, StatType type, TextView typeView, TextView value, ImageView up, ImageView down) {
-            this.index = index;
-            this.type = type;
-            this.typeView = typeView;
-            this.valueTextView = value;
-            this.up = up;
-            this.down = down;
-        }
-
-        int index;
-        StatType type;
-
-        TextView typeView;
-        TextView valueTextView;
-        ImageView up;
-        ImageView down;
-
-        public void setValue(int theValue) {
-            valueTextView.setText(theValue + "");
-        }
-
-        public int getValue() {
-            return Integer.parseInt(valueTextView.getText().toString());
-        }
-    }
-
     public static BaseStatsDialogFragment createDialog() {
         return new BaseStatsDialogFragment();
     }
@@ -494,7 +443,6 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
     }
 
-
     private int rollStat(boolean useBest3_4) {
         int rolls = 3;
         if (useBest3_4) rolls++;
@@ -545,6 +493,52 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                 point_buyGroup.setVisibility(View.GONE);
                 roll_layout.setVisibility(View.VISIBLE);
                 break;
+        }
+    }
+
+    private static class BaseStatPointBuy {
+        StatType type;
+        Button add;
+        TextView valueTextView;
+        Button subtract;
+        public BaseStatPointBuy(StatType type, Button add, TextView value, Button subtract) {
+            this.type = type;
+            this.add = add;
+            this.valueTextView = value;
+            this.subtract = subtract;
+        }
+
+        public int getValue() {
+            return Integer.parseInt(valueTextView.getText().toString());
+        }
+
+        public void setValue(int theValue) {
+            valueTextView.setText(theValue + "");
+        }
+    }
+
+    private static class BaseStatRow {
+        int index;
+        StatType type;
+        TextView typeView;
+        TextView valueTextView;
+        ImageView up;
+        ImageView down;
+        public BaseStatRow(int index, StatType type, TextView typeView, TextView value, ImageView up, ImageView down) {
+            this.index = index;
+            this.type = type;
+            this.typeView = typeView;
+            this.valueTextView = value;
+            this.up = up;
+            this.down = down;
+        }
+
+        public int getValue() {
+            return Integer.parseInt(valueTextView.getText().toString());
+        }
+
+        public void setValue(int theValue) {
+            valueTextView.setText(theValue + "");
         }
     }
 

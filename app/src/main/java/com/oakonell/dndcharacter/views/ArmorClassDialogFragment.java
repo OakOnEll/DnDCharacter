@@ -181,6 +181,24 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
     }
 
+    private void updateModifyingRows(boolean armor) {
+        int position = -1;
+        for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
+            position++;
+            if (each.isArmor()) continue;
+
+            String activeFormula = each.getSource().getActiveFormula();
+            if (activeFormula == null) continue;
+            SimpleVariableContext variableContext = new SimpleVariableContext();
+            variableContext.setBoolean("armor", armor);
+            boolean shouldEquip = getCharacter().evaluateBooleanFormula(activeFormula, variableContext);
+            if (each.isEquipped() != shouldEquip) {
+                each.setIsEquipped(shouldEquip);
+                modifyingAcAdapter.notifyItemChanged(position);
+            }
+        }
+    }
+
     public static class AcViewHolder extends RecyclerView.ViewHolder {
         private final CheckBox checkBox;
         private final TextView name;
@@ -284,25 +302,6 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             return list.size();
         }
     }
-
-    private void updateModifyingRows(boolean armor) {
-        int position = -1;
-        for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
-            position++;
-            if (each.isArmor()) continue;
-
-            String activeFormula = each.getSource().getActiveFormula();
-            if (activeFormula == null) continue;
-            SimpleVariableContext variableContext = new SimpleVariableContext();
-            variableContext.setBoolean("armor", armor);
-            boolean shouldEquip = getCharacter().evaluateBooleanFormula(activeFormula, variableContext);
-            if (each.isEquipped() != shouldEquip) {
-                each.setIsEquipped(shouldEquip);
-                modifyingAcAdapter.notifyItemChanged(position);
-            }
-        }
-    }
-
 
     public static class ModifyingAcAdapter extends RecyclerView.Adapter<AcViewHolder> {
         List<Character.ArmorClassWithSource> list;

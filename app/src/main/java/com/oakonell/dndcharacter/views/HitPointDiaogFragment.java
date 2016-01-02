@@ -50,86 +50,6 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     private RecyclerView hpListView;
 
     private HitPointsAdapter hpListAdapter;
-
-    public enum HpType {
-        DAMAGE, HEAL, TEMP_HP
-    }
-
-    public static class HpRow implements Parcelable {
-        Long deleteRequestedTime;
-        final HpType hpType;
-        final DamageType damageType;
-        final int hp;
-
-        public HpRow(HpType hpType, DamageType damageType, int hp) {
-            this.hpType = hpType;
-            this.damageType = damageType;
-            this.hp = hp;
-        }
-
-        HpRow(Parcel parcel) {
-            byte b = parcel.readByte();
-            beingDeleted(b != 0);
-
-            hpType = HpType.values()[parcel.readInt()];
-            int damageTypeIndex = parcel.readInt();
-            if (damageTypeIndex >= 0) {
-                damageType = DamageType.values()[damageTypeIndex];
-            } else {
-                damageType = null;
-            }
-            hp = parcel.readInt();
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeByte((byte) (deleteRequestedTime != null ? 1 : 0));
-            dest.writeInt(hpType.ordinal());
-            if (damageType != null) {
-                dest.writeInt(damageType.ordinal());
-            } else {
-                dest.writeInt(-1);
-            }
-            dest.writeInt(hp);
-        }
-
-        // Method to recreate a HpRow from a Parcel
-        public static Creator<HpRow> CREATOR = new Creator<HpRow>() {
-
-            @Override
-            public HpRow createFromParcel(Parcel source) {
-                return new HpRow(source);
-            }
-
-            @Override
-            public HpRow[] newArray(int size) {
-                return new HpRow[size];
-            }
-
-        };
-
-        public boolean beingDeleted() {
-            return deleteRequestedTime != null;
-        }
-
-        public void beingDeleted(boolean delete) {
-            if (delete) {
-                deleteRequestedTime = System.currentTimeMillis();
-            } else {
-                deleteRequestedTime = null;
-            }
-        }
-
-        public Long deletedTime() {
-            return deleteRequestedTime;
-        }
-    }
-
     private ArrayList<HpRow> hpList = new ArrayList<>();
 
     public static HitPointDiaogFragment createDialog() {
@@ -398,7 +318,6 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         conditionallyEnableDone();
     }
 
-
     @Override
     protected boolean onDone() {
         Character character = getCharacter();
@@ -451,6 +370,84 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         boolean canApply = (damage.isChecked() || heal.isChecked() || tempHP.isChecked()) && getHp() > 0;
         enableDone(canApply || !hpList.isEmpty());
         add_another.setEnabled(canApply);
+    }
+
+    public enum HpType {
+        DAMAGE, HEAL, TEMP_HP
+    }
+
+    public static class HpRow implements Parcelable {
+        // Method to recreate a HpRow from a Parcel
+        public static Creator<HpRow> CREATOR = new Creator<HpRow>() {
+
+            @Override
+            public HpRow createFromParcel(Parcel source) {
+                return new HpRow(source);
+            }
+
+            @Override
+            public HpRow[] newArray(int size) {
+                return new HpRow[size];
+            }
+
+        };
+        final HpType hpType;
+        final DamageType damageType;
+        final int hp;
+        Long deleteRequestedTime;
+
+        public HpRow(HpType hpType, DamageType damageType, int hp) {
+            this.hpType = hpType;
+            this.damageType = damageType;
+            this.hp = hp;
+        }
+
+        HpRow(Parcel parcel) {
+            byte b = parcel.readByte();
+            beingDeleted(b != 0);
+
+            hpType = HpType.values()[parcel.readInt()];
+            int damageTypeIndex = parcel.readInt();
+            if (damageTypeIndex >= 0) {
+                damageType = DamageType.values()[damageTypeIndex];
+            } else {
+                damageType = null;
+            }
+            hp = parcel.readInt();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeByte((byte) (deleteRequestedTime != null ? 1 : 0));
+            dest.writeInt(hpType.ordinal());
+            if (damageType != null) {
+                dest.writeInt(damageType.ordinal());
+            } else {
+                dest.writeInt(-1);
+            }
+            dest.writeInt(hp);
+        }
+
+        public boolean beingDeleted() {
+            return deleteRequestedTime != null;
+        }
+
+        public void beingDeleted(boolean delete) {
+            if (delete) {
+                deleteRequestedTime = System.currentTimeMillis();
+            } else {
+                deleteRequestedTime = null;
+            }
+        }
+
+        public Long deletedTime() {
+            return deleteRequestedTime;
+        }
     }
 
     public static class BindableViewHolder extends RecyclerView.ViewHolder {

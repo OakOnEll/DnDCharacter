@@ -33,7 +33,6 @@ public class AbstractArmorVisitor extends AbstractComponentVisitor {
     }
 
 
-
     protected void visitStrengthMin(Element element) {
         visitSimpleItem(element);
     }

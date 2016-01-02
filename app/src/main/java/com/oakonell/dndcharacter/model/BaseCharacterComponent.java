@@ -38,7 +38,7 @@ public abstract class BaseCharacterComponent {
     @Element(required = false)
     private String acFormula;
     @Element(required = false)
-    private  String activeFormula;
+    private String activeFormula;
 
 
     public String getName() {
@@ -144,26 +144,20 @@ public abstract class BaseCharacterComponent {
         // do nothing, let subclasses override
     }
 
-    // use a wrapper for SimpleXML serialization
-    public static class ToolProficiencies {
-        @ElementList(required = false, type = Proficiency.class, inline = true)
-        List<Proficiency> proficiencies = new ArrayList<>();
+    public String getActiveFormula() {
+        return activeFormula;
     }
 
     public void setActiveFormula(String activeFormula) {
         this.activeFormula = activeFormula;
     }
 
-    public String getActiveFormula() {
-        return activeFormula;
+    public String getAcFormula() {
+        return acFormula;
     }
 
     public void setAcFormula(String acFormula) {
         this.acFormula = acFormula;
-    }
-
-    public String getAcFormula() {
-        return acFormula;
     }
 
     public boolean isBaseArmor() {
@@ -185,6 +179,12 @@ public abstract class BaseCharacterComponent {
         if (formula == null) return null;
 
         return formula;
+    }
+
+    // use a wrapper for SimpleXML serialization
+    public static class ToolProficiencies {
+        @ElementList(required = false, type = Proficiency.class, inline = true)
+        List<Proficiency> proficiencies = new ArrayList<>();
     }
 
 }

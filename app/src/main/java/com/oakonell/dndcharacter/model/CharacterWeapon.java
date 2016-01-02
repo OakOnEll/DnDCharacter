@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class CharacterWeapon extends CharacterItem {
     @Element(required = false)
-    private    boolean isRanged;
+    private boolean isRanged;
 
     @Element(required = false)
     private String range;
@@ -46,12 +46,12 @@ public class CharacterWeapon extends CharacterItem {
         versatileDamageFormulas.add(damage);
     }
 
-    public void setRange(String range) {
-        this.range = range;
-    }
-
     public String getRange() {
         return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
     }
 
     public void setProperties(String[] properties) {
@@ -146,6 +146,21 @@ public class CharacterWeapon extends CharacterItem {
         return builder.toString();
     }
 
+    public AttackModifiers getAttackModifiers(Character character, boolean useFinesse) {
+        StatBlock statBlock;
+        if (useFinesse || isRanged()) {
+            statBlock = character.getStatBlock(StatType.DEXTERITY);
+        } else {
+            statBlock = character.getStatBlock(StatType.STRENGTH);
+        }
+
+        int damageModifier = statBlock.getModifier();
+
+        boolean isProficient = character.isProficientWith(this);
+        int profBonus = isProficient ? character.getProficiency() : 0;
+
+        return new AttackModifiers(damageModifier + profBonus, damageModifier);
+    }
 
     public static class DamageFormula {
         @Element(required = false)
@@ -169,22 +184,6 @@ public class CharacterWeapon extends CharacterItem {
         public DamageType getType() {
             return type;
         }
-    }
-
-    public AttackModifiers getAttackModifiers(Character character, boolean useFinesse) {
-        StatBlock statBlock;
-        if (useFinesse || isRanged()) {
-            statBlock = character.getStatBlock(StatType.DEXTERITY);
-        } else {
-            statBlock = character.getStatBlock(StatType.STRENGTH);
-        }
-
-        int damageModifier = statBlock.getModifier();
-
-        boolean isProficient = character.isProficientWith(this);
-        int profBonus = isProficient ? character.getProficiency() : 0;
-
-        return new AttackModifiers(damageModifier + profBonus, damageModifier);
     }
 
     public static class AttackModifiers {

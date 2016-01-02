@@ -390,6 +390,18 @@ public class EquipmentFragment extends AbstractSheetFragment {
         weaponsAdapter.notifyDataSetChanged();
     }
 
+    public interface OnStartDragListener {
+
+        /**
+         * Called when a view is requesting a start of a drag.
+         *
+         * @param viewHolder The holder of the view to drag.
+         */
+        void onStartDrag(AbstractItemViewHolder viewHolder);
+
+        void onStartSwipe(AbstractItemViewHolder holder);
+    }
+
     static class ItemViewHolder extends AbstractItemViewHolder<CharacterItem> {
         public ItemViewHolder(View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
@@ -514,7 +526,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     }
 
-
     public static class BindableRecyclerViewHolder<I extends CharacterItem> extends RecyclerView.ViewHolder {
 
         public BindableRecyclerViewHolder(View itemView) {
@@ -524,18 +535,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
         public void bindTo(I item, EquipmentFragment context, SubAdapter adapter) {
 
         }
-    }
-
-    public interface OnStartDragListener {
-
-        /**
-         * Called when a view is requesting a start of a drag.
-         *
-         * @param viewHolder The holder of the view to drag.
-         */
-        void onStartDrag(AbstractItemViewHolder viewHolder);
-
-        void onStartSwipe(AbstractItemViewHolder holder);
     }
 
     static class SwipeOrDragListener implements View.OnTouchListener {

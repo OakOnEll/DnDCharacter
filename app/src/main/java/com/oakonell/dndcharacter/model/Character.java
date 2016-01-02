@@ -36,8 +36,8 @@ import java.util.TreeMap;
 public class Character {
     // more fluid data
     @Element(required = false)
-    private
-    int hp;
+    private int hp;
+
     @Element(required = false)
     @Deprecated
     // TODO delete- will need to dump DB

@@ -23,7 +23,7 @@ public class NotesFragment extends AbstractSheetFragment {
     EditText notes;
 
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.notes_sheet, container, false);
 
         superCreateViews(rootView);

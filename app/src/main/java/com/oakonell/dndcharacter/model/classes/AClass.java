@@ -21,26 +21,6 @@ public class AClass extends AbstractComponentModel {
     @Column
     private String xml;
 
-    @Override
-    public String getXml() {
-        return xml;
-    }
-
-    @Override
-    public void setXml(String xml) {
-        this.xml = xml;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public static Element findLevelElement(Element rootClassElement, int level) {
         // TODO change this to instance-based...
         List<Element> elements = XmlUtils.getChildElements(rootClassElement, "level");
@@ -62,5 +42,25 @@ public class AClass extends AbstractComponentModel {
         }
         int hitDie = Integer.parseInt(hitDieString.substring(2));
         return hitDie;
+    }
+
+    @Override
+    public String getXml() {
+        return xml;
+    }
+
+    @Override
+    public void setXml(String xml) {
+        this.xml = xml;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }

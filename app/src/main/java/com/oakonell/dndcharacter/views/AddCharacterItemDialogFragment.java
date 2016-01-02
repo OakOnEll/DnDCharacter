@@ -11,7 +11,7 @@ import com.oakonell.dndcharacter.R;
 /**
  * Created by Rob on 12/24/2015.
  */
-public class AddCharacterItemDialogFragment extends AbstractCharacterDialogFragment{
+public class AddCharacterItemDialogFragment extends AbstractCharacterDialogFragment {
     @Nullable
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

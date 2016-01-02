@@ -174,6 +174,19 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         return getExtraHealing();
     }
 
+    static class HitDiceRestoreViewHolder extends RecyclerView.ViewHolder {
+        TextView dieSides;
+        TextView currentDiceRemaining;
+        EditText numDiceToRestore;
+        TextView totalDice;
+        TextView resultDice;
+        TextWatcher numDiceToRestoreWatcher;
+
+        public HitDiceRestoreViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
     private class HitDieRestoreRow {
         public int dieSides;
         public int currentDiceRemaining;
@@ -289,18 +302,5 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         }
 
 
-    }
-
-    static class HitDiceRestoreViewHolder extends RecyclerView.ViewHolder {
-        TextView dieSides;
-        TextView currentDiceRemaining;
-        EditText numDiceToRestore;
-        TextView totalDice;
-        TextView resultDice;
-        TextWatcher numDiceToRestoreWatcher;
-
-        public HitDiceRestoreViewHolder(View itemView) {
-            super(itemView);
-        }
     }
 }

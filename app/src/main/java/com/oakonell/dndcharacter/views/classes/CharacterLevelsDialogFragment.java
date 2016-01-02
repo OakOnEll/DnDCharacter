@@ -129,18 +129,8 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         return super.onDone();
     }
 
-    public class CharacterItemTouchHelperCallback extends SimpleItemTouchHelperCallback {
-        public CharacterItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
-            super(adapter, false, true);
-        }
-
-        @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            if (viewHolder.getAdapterPosition() != recyclerView.getAdapter().getItemCount() - 1) {
-                return makeMovementFlags(0, 0);
-            }
-            return super.getMovementFlags(recyclerView, viewHolder);
-        }
+    private void updateView() {
+        classesTextView.setText(getCharacter().getClassesString());
     }
 
     public static class DeleteRowViewHolder extends BindableViewHolder {
@@ -262,10 +252,6 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
     }
 
-    private void updateView() {
-        classesTextView.setText(getCharacter().getClassesString());
-    }
-
     public static abstract class BindableViewHolder extends RecyclerView.ViewHolder {
         public BindableViewHolder(View itemView) {
             super(itemView);
@@ -328,5 +314,19 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
             itemView.setBackgroundDrawable(originalBackground);
         }
 
+    }
+
+    public class CharacterItemTouchHelperCallback extends SimpleItemTouchHelperCallback {
+        public CharacterItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+            super(adapter, false, true);
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            if (viewHolder.getAdapterPosition() != recyclerView.getAdapter().getItemCount() - 1) {
+                return makeMovementFlags(0, 0);
+            }
+            return super.getMovementFlags(recyclerView, viewHolder);
+        }
     }
 }

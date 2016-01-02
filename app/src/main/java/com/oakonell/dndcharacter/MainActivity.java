@@ -58,7 +58,7 @@ public class MainActivity extends AbstractBaseActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    private List<OnCharacterLoaded> onCharacterLoadListeners = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,6 +249,11 @@ public class MainActivity extends AbstractBaseActivity {
         return character;
     }
 
+    public void addCharacterLoadLister(OnCharacterLoaded onCharacterLoad) {
+        if (character != null) onCharacterLoad.onCharacterLoaded(character);
+        onCharacterLoadListeners.add(onCharacterLoad);
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -342,12 +347,5 @@ public class MainActivity extends AbstractBaseActivity {
             }
             return null;
         }
-    }
-
-    private List<OnCharacterLoaded> onCharacterLoadListeners = new ArrayList<>();
-
-    public void addCharacterLoadLister(OnCharacterLoaded onCharacterLoad) {
-        if (character != null) onCharacterLoad.onCharacterLoaded(character);
-        onCharacterLoadListeners.add(onCharacterLoad);
     }
 }
