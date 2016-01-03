@@ -47,6 +47,11 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         return new ApplyRaceDialogFragment();
     }
 
+    @Override
+    protected String getTitle() {
+        return "Choose a Race";
+    }
+
 
     @Override
     protected boolean validate(ViewGroup dynamicView, int pageIndex) {

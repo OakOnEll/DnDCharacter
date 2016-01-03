@@ -21,7 +21,6 @@ import java.util.List;
  * Created by Rob on 11/30/2015.
  */
 public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragment {
-    private TextView proficiency_label;
     private ListView listView;
 
     private ToolProficiencySourceAdapter adapter;
@@ -36,12 +35,15 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
         return frag;
     }
 
+    @Override
+    protected String getTitle() {
+        return "Tool Proficiencies";
+    }
+
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tool_proficiency_dialog, container);
-
-        proficiency_label = (TextView) view.findViewById(R.id.proficiency_label);
 
         listView = (ListView) view.findViewById(R.id.list);
 
@@ -67,8 +69,8 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
     @NonNull
     private ProficiencyType updateView() {
         final ProficiencyType proficiencyType = getProficiencyType();
+        getDialog().setTitle(proficiencyType.toString() + " proficiencies");
 
-        proficiency_label.setText(proficiencyType.toString());
         return proficiencyType;
     }
 

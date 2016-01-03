@@ -25,7 +25,6 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     private TextView total;
     private TextView modifier;
     private ListView listView;
-    private TextView statLabel;
 
     private StatSourceAdapter adapter;
 
@@ -43,14 +42,18 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         View view = inflater.inflate(R.layout.stat_dialog, container);
         superCreateView(view, savedInstanceState);
 
-        statLabel = (TextView) view.findViewById(R.id.stat_label);
-
         total = (TextView) view.findViewById(R.id.total);
         modifier = (TextView) view.findViewById(R.id.modifier);
         listView = (ListView) view.findViewById(R.id.list);
 
         return view;
     }
+
+    @Override
+    protected String getTitle() {
+        return "Stat";
+    }
+
 
     @Override
     public void onCharacterLoaded(Character character) {
@@ -81,7 +84,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     private void updateView(StatBlock statBlock) {
-        statLabel.setText(statBlock.getType().toString());
+        getDialog().setTitle(statBlock.getType().toString());
 
         setModifier(statBlock.getModifier());
         total.setText(statBlock.getValue() + "");

@@ -28,6 +28,10 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
     public static ApplyBackgroundDialogFragment createDialog() {
         return new ApplyBackgroundDialogFragment();
     }
+    @Override
+    protected String getTitle() {
+        return "Choose a Background";
+    }
 
 
     @Override

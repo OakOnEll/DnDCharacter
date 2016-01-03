@@ -64,6 +64,11 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     @Override
+    protected String getTitle() {
+        return "Character Class Levels";
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (recordsBeingDeleted != null && recordsBeingDeleted.size() > 0) {

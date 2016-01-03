@@ -51,7 +51,6 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.long_rest_dialog, container);
         configureCommon(view);
-        getDialog().setTitle("Long Rest");
 
         fullHealingGroup = view.findViewById(R.id.full_heal_group);
         fullHealing = (CheckBox) view.findViewById(R.id.full_healing);
@@ -77,6 +76,11 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         }
 
         return view;
+    }
+
+    @Override
+    protected String getTitle() {
+        return "Long Rest";
     }
 
     @Override

@@ -17,6 +17,10 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
     public static AddClassLevelDialogFragment createDialog() {
         return new AddClassLevelDialogFragment();
     }
+    @Override
+    protected String getTitle() {
+        return "Add a Class Level";
+    }
 
     @Override
     protected void modelChanged() {

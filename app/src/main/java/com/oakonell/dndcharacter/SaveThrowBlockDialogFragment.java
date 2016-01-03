@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     private ListView listView;
-    private TextView statLabel;
+
     private TextView statModLabel;
     private TextView statMod;
     private TextView proficiency;
@@ -45,7 +45,6 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         View view = inflater.inflate(R.layout.save_throw_dialog, container);
         superCreateView(view, savedInstanceState);
 
-        statLabel = (TextView) view.findViewById(R.id.stat_label);
         statModLabel = (TextView) view.findViewById(R.id.stat_mod_lbl);
         statMod = (TextView) view.findViewById(R.id.stat_mod);
         proficiency = (TextView) view.findViewById(R.id.proficiency);
@@ -55,6 +54,11 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         listView = (ListView) view.findViewById(R.id.list);
 
         return view;
+    }
+
+    @Override
+    protected String getTitle() {
+        return "Saving Throw";
     }
 
 
@@ -100,7 +104,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
         statModLabel.setText(statBlock.getType().toString() + " modifier");
         statMod.setText(statBlock.getModifier() + "");
-        statLabel.setText(statBlock.getType().toString());
+        getDialog().setTitle(statBlock.getType().toString() + " Saving Throw");
         total.setText(statBlock.getSaveModifier() + "");
     }
 

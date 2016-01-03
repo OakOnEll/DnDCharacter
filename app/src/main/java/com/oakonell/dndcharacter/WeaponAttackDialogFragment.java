@@ -219,6 +219,11 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         return view;
     }
 
+    @Override
+    protected String getTitle() {
+        return "Weapon Attack";
+    }
+
     protected boolean isCancelable(boolean hasCancelButton) {
         return false;
     }

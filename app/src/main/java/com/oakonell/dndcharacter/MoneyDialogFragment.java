@@ -43,6 +43,11 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
         return newMe;
     }
 
+    @Override
+    protected String getTitle() {
+        return "Money";
+    }
+
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,

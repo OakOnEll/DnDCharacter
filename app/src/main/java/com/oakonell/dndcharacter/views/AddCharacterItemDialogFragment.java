@@ -20,4 +20,9 @@ public class AddCharacterItemDialogFragment extends AbstractCharacterDialogFragm
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    protected String getTitle() {
+        return "Add an Item";
+    }
+
 }

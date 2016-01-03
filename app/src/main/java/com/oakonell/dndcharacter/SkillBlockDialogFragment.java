@@ -24,7 +24,6 @@ import java.util.Set;
  */
 public class SkillBlockDialogFragment extends RollableDialogFragment {
     private TextView statLabel;
-    private TextView skillLabel;
     private TextView statModLabel;
     private TextView statMod;
     private TextView proficiency;
@@ -55,7 +54,6 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         superCreateView(view, savedInstanceState);
 
         statLabel = (TextView) view.findViewById(R.id.stat_label);
-        skillLabel = (TextView) view.findViewById(R.id.skill_label);
         statModLabel = (TextView) view.findViewById(R.id.stat_mod_lbl);
         statMod = (TextView) view.findViewById(R.id.stat_mod);
         proficiency = (TextView) view.findViewById(R.id.proficiency);
@@ -66,6 +64,12 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
         return view;
     }
+
+    @Override
+    protected String getTitle() {
+        return "Skill Proficiency";
+    }
+
 
     @Override
     public void onCharacterLoaded(Character character) {
@@ -111,7 +115,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         statModLabel.setText(skillBlock.getType().getStatType().toString() + " modifier");
         statMod.setText(skillBlock.getStatModifier() + "");
         statLabel.setText(skillBlock.getType().getStatType().toString());
-        skillLabel.setText(skillBlock.getType().toString());
+        getDialog().setTitle(skillBlock.getType().toString());
         total.setText(skillBlock.getBonus() + "");
     }
 

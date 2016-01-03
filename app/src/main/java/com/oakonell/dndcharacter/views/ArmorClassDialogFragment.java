@@ -60,6 +60,11 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
+    protected String getTitle() {
+        return "Armor Class";
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {

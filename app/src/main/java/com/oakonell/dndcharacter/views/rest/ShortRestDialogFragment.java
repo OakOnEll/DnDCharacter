@@ -60,6 +60,10 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
         return view;
     }
+    @Override
+    protected String getTitle() {
+        return "Short Rest";
+    }
 
     @Override
     protected Set<FeatureContext> getContextFilter() {

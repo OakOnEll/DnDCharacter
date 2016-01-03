@@ -66,7 +66,6 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hit_point_dialog, container);
         hpText = (EditText) view.findViewById(R.id.hp);
-        getDialog().setTitle("Hit Points");
 
         damage = (RadioButton) view.findViewById(R.id.damage_radio);
         type = (Spinner) view.findViewById(R.id.damage_type);
@@ -220,6 +219,11 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         });
 
         return view;
+    }
+
+    @Override
+    protected String getTitle() {
+        return "Hit Points";
     }
 
     @Nullable

@@ -60,10 +60,14 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         setCancelable(isCancelable(cancel != null));
 
 
+        getDialog().setTitle(getTitle());
+
         getMainActivity().addCharacterLoadLister(this);
 
         return view;
     }
+
+    protected abstract String getTitle();
 
     protected void hideKeyboardFrom(TextView v) {
         InputMethodManager in = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

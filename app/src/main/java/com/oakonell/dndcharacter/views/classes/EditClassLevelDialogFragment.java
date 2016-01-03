@@ -36,6 +36,11 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     }
 
     @Override
+    protected String getTitle() {
+        return "Edit your Class";
+    }
+
+    @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         classIndex = getArguments().getInt("classIndex");
         includeHP = getArguments().getBoolean("includeHP");

@@ -36,6 +36,11 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
+    protected String getTitle() {
+        return "Languages Known";
+    }
+
+    @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
         RowWithSourceAdapter.ListRetriever<Character.LanguageWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.LanguageWithSource>() {

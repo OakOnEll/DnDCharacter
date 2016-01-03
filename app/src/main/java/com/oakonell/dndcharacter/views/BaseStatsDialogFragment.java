@@ -244,6 +244,12 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
+    protected String getTitle() {
+        return "Base Stats";
+    }
+
+
+    @Override
     protected boolean onDone() {
         // update dialog that opened this one...
         Map<StatType, Integer> baseStats = new HashMap<>();
