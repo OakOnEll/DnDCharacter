@@ -195,7 +195,6 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
         setModel(race);
 
-        super.onCharacterLoaded(character);
 
         String subraceName = character.getSubRaceName();
         if (subraceName != null) {
@@ -203,6 +202,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
             savedChoicesByModel.put(subraceName, character.getSubRaceChoices());
             customChoicesByModel.put(subraceName, new HashMap<String, String>());
         }
+        super.onCharacterLoaded(character);
     }
 
     @Override
