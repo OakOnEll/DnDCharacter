@@ -33,7 +33,6 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         View view = onCreateTheView(inflater, container, savedInstanceState);
         feature_context_list = (RecyclerView) view.findViewById(R.id.feature_context_list);
         feature_context_group = (ViewGroup) view.findViewById(R.id.feature_context_group);
-        setCancelable(false);
 
         done = (Button) view.findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
@@ -55,11 +54,16 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
                 }
             });
         }
+        setCancelable(isCancelable(cancel!=null));
 
 
         getMainActivity().addCharacterLoadLister(this);
 
         return view;
+    }
+
+    protected boolean isCancelable(boolean hasCancelButton) {
+        return !hasCancelButton;
     }
 
     protected void enableDone(boolean enabled) {

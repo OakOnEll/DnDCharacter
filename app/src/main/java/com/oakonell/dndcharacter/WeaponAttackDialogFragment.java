@@ -219,6 +219,10 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         return view;
     }
 
+    protected boolean isCancelable(boolean hasCancelButton) {
+        return false;
+    }
+
     private void damageInputChanged(int typeIndex, String string) {
         if (damage_input.getVisibility() != View.VISIBLE) return;
         attackDamageInfo = null;
