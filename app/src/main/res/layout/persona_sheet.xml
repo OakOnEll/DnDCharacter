@@ -219,7 +219,7 @@
                 android:text="Personality Traits"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/personality_traits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -239,7 +239,7 @@
                 android:text="Ideals"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/ideals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -259,7 +259,7 @@
                 android:text="Bonds"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/bonds"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -279,7 +279,7 @@
                 android:text="Flaws"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/flaws"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -299,7 +299,7 @@
                 android:text="Character Backstory"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/backstory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

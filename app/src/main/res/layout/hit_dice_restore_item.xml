@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="+" />
 
-    <EditText
+    <com.oakonell.dndcharacter.views.MyEditText
         android:id="@+id/dice_to_restore"
         android:layout_width="60dp"
         android:layout_height="wrap_content"

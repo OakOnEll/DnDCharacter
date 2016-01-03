@@ -27,7 +27,7 @@
                 android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/xml"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

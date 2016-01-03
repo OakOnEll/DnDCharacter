@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/attack_roll_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

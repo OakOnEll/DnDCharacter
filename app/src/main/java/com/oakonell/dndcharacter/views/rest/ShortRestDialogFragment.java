@@ -264,6 +264,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                     viewHolder.hit_die_val.setText("");
                     viewHolder.use_hit_die_group.setVisibility(View.GONE);
                     viewHolder.hit_die_group.setVisibility(View.VISIBLE);
+                    context.hideKeyboardFrom(viewHolder.hit_die_val);
                     viewHolder.useButton.setEnabled(true);
                 }
             });
@@ -286,6 +287,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                         // TODO validate value < max
                         row.rolls.add(value);
                         row.numDiceRemaining--;
+                        context.hideKeyboardFrom(viewHolder.hit_die_val);
                         notifyDataSetChanged();
                         context.updateView();
                     }

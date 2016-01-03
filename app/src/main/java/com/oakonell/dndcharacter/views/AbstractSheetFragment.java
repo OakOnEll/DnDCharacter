@@ -1,12 +1,15 @@
 package com.oakonell.dndcharacter.views;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -90,17 +93,38 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         changeName = (Button) rootView.findViewById(R.id.change_name);
         cancelName = (Button) rootView.findViewById(R.id.cancel);
 
+        character_name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                changeName.callOnClick();
+                return false;
+            }
+        });
+
     }
 
     private void allowNameEdit(boolean b) {
         int editVis = b ? View.VISIBLE : View.GONE;
         int readOnlyVis = b ? View.GONE : View.VISIBLE;
 
+
+        character_name.selectAll();
+
+        if (b) {
+            character_name.requestFocus();
+//            // show keyboard
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        } else {
+            character_name.clearFocus();
+//            // close keyboard
+            InputMethodManager in = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(character_name.getApplicationWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+        }
+
         character_name.setVisibility(editVis);
         changeName.setVisibility(editVis);
         cancelName.setVisibility(editVis);
-
-        character_name.selectAll();
 
         character_name_read_only.setVisibility(readOnlyVis);
     }

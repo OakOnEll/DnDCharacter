@@ -40,7 +40,7 @@
                 android:text="Restore"
                 android:id="@+id/restore_lbl" />
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"

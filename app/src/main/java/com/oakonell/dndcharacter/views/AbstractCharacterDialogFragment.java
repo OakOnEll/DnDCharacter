@@ -1,12 +1,15 @@
 package com.oakonell.dndcharacter.views;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.oakonell.dndcharacter.FeaturesFragment;
 import com.oakonell.dndcharacter.MainActivity;
@@ -54,12 +57,17 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
                 }
             });
         }
-        setCancelable(isCancelable(cancel!=null));
+        setCancelable(isCancelable(cancel != null));
 
 
         getMainActivity().addCharacterLoadLister(this);
 
         return view;
+    }
+
+    protected void hideKeyboardFrom(TextView v) {
+        InputMethodManager in = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     protected boolean isCancelable(boolean hasCancelButton) {

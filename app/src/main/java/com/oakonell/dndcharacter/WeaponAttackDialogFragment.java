@@ -39,18 +39,18 @@ import java.util.Set;
  * Created by Rob on 12/8/2015.
  */
 public class WeaponAttackDialogFragment extends RollableDialogFragment {
-    Button attack_roll_button;
-    TextView attack_roll1;
-    TextView attack_roll_modifier;
-    TextView attack_roll_total;
+    private Button attack_roll_button;
+    private TextView attack_roll1;
+    private TextView attack_roll_modifier;
+    private TextView attack_roll_total;
     private ViewGroup damage_input;
     private EditText attack_roll_input;
     private NoDefaultSpinner attack_roll_input_type;
 
-    TextView description;
-    TextView name;
-    TextView attack_bonus;
-    TextView damage_descr;
+    private TextView description;
+    private TextView name;
+    private TextView attack_bonus;
+    private TextView damage_descr;
     private CheckBox two_handed;
     private CheckBox use_dexterity;
 
@@ -61,12 +61,12 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
     // these are persistence safe do to being initialized onCharacterLoad()
-    CharacterWeapon weapon;
+    private CharacterWeapon weapon;
     private int damageModifier = 2;
 
     // these need to be persistence enabled
     private DamagesListAdapter damageListAdapter;
-    AttackDamageInfo attackDamageInfo;
+    private AttackDamageInfo attackDamageInfo;
 
 
     public static WeaponAttackDialogFragment create(CharacterItem item) {

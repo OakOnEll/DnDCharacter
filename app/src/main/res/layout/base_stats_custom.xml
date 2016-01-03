@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/strength"
                 style="@style/custom_stat_edit_style" />
 
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/dexterity"
                 style="@style/custom_stat_edit_style" />
 
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/constitution"
                 style="@style/custom_stat_edit_style" />
 
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/intelligence"
                 style="@style/custom_stat_edit_style" />
 
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/wisdom"
                 style="@style/custom_stat_edit_style" />
 
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/charisma"
                 style="@style/custom_stat_edit_style" />
 

@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/ic_menu_search" />
 
-            <EditText
+            <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -74,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:text="Extra healing" />
 
-                        <EditText
+                        <com.oakonell.dndcharacter.views.MyEditText
                             android:id="@+id/extra_healing"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
