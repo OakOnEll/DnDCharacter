@@ -200,6 +200,7 @@ public class AddEffectDialogFragment extends AbstractCharacterDialogFragment {
 
         CharacterEffect charEffect = AddEffectToCharacterVisitor.applyToCharacter(effect, getCharacter());
         getMainActivity().updateViews();
+        getMainActivity().saveCharacter();
 
         dismiss();
     }
