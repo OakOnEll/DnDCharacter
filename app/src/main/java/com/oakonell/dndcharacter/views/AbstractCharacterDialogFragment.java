@@ -43,6 +43,9 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
                 public void onClick(View v) {
                     boolean valid = onDone();
                     if (!valid) return;
+
+                    contextualComponentAdapter.deletePendingEffects(getCharacter());
+
                     getMainActivity().updateViews();
                     getMainActivity().saveCharacter();
                     dismiss();
@@ -89,17 +92,17 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
     protected abstract View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
 
-    protected final MainActivity getMainActivity() {
+    public final MainActivity getMainActivity() {
         return (MainActivity) getActivity();
     }
 
-    protected final com.oakonell.dndcharacter.model.Character getCharacter() {
+    public final com.oakonell.dndcharacter.model.Character getCharacter() {
         return getMainActivity().getCharacter();
     }
 
     public void onCharacterLoaded(com.oakonell.dndcharacter.model.Character character) {
         if (context_list != null) {
-            contextualComponentAdapter = new ContextualComponentAdapter(this.getMainActivity(), getContextFilter());
+            contextualComponentAdapter = new ContextualComponentAdapter(this, getContextFilter());
             context_list.setAdapter(contextualComponentAdapter);
             // decide on 1 or 2 columns based on screen size
             //int numColumns = getResources().getInteger(R.integer.feature_columns);

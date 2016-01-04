@@ -10,22 +10,29 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterEffect;
 import com.oakonell.dndcharacter.model.FeatureInfo;
+import com.oakonell.dndcharacter.views.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.FeatureContext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * Created by Rob on 1/4/2016.
  */
 public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, MainActivity>> {
+    private static final int UNDO_DELAY = 5000;
     private MainActivity context;
     private Set<FeatureContext> filter;
     private List<IContextualComponent> list;
+    private Map<String, Long> deletedEffects = new HashMap<>();
 
-    public ContextualComponentAdapter(MainActivity context, Set<FeatureContext> filter) {
-        this.context = context;
+
+    public ContextualComponentAdapter(AbstractCharacterDialogFragment context, Set<FeatureContext> filter) {
+        this.context = context.getMainActivity();
         this.filter = filter;
         list = filterList(context.getCharacter());
     }
@@ -37,6 +44,17 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
             list = filterList(character);
         }
         notifyDataSetChanged();
+    }
+
+    public void deletePendingEffects(com.oakonell.dndcharacter.model.Character character) {
+        for (Iterator<Map.Entry<String, Long>> iter = deletedEffects.entrySet().iterator(); iter.hasNext(); ) {
+            final Map.Entry<String, Long> next = iter.next();
+            iter.remove();
+            CharacterEffect effect = character.getEffectNamed(next.getKey());
+            if (effect != null) {
+                character.removeEffect(effect);
+            }
+        }
     }
 
     private List<IContextualComponent> filterList(Character character) {
@@ -80,6 +98,9 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
             return 1;
         }
         if (item instanceof CharacterEffect) {
+            if (deletedEffects.containsKey(((CharacterEffect) item).getName())) {
+                return 2;
+            }
             return 0;
         }
         throw new RuntimeException("Unknown component type " + item.getClass());
@@ -87,6 +108,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
 
     @Override
     public BindableComponentViewHolder<IContextualComponent, MainActivity> onCreateViewHolder(ViewGroup parent, int viewType) {
+
         if (viewType == 1) {
             View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
             BindableComponentViewHolder holder = new FeaturesFragment.FeatureViewHolder(view);
@@ -97,6 +119,11 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
             BindableComponentViewHolder holder = new EffectContextViewHolder(view);
             return holder;
         }
+        if (viewType == 2) {
+            View view = LayoutInflater.from(context).inflate(R.layout.effect_deleted_context_layout, parent, false);
+            BindableComponentViewHolder holder = new DeletedEffectContextViewHolder(view);
+            return holder;
+        }
 
         throw new RuntimeException("Unknown view type " + viewType);
     }
@@ -105,6 +132,35 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     public void onBindViewHolder(final BindableComponentViewHolder<IContextualComponent, MainActivity> viewHolder, final int position) {
         final IContextualComponent info = getItem(position);
         viewHolder.bind(context, this, info);
+    }
+
+    private static class DeletedEffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity> {
+        private final TextView name;
+
+        private final Button undo;
+
+        public DeletedEffectContextViewHolder(View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.name);
+
+            undo = (Button) view.findViewById(R.id.undo);
+        }
+
+        @Override
+        public void bind(final MainActivity context, final RecyclerView.Adapter<?> adapter, final CharacterEffect info) {
+            final String nameString = info.getName();
+            name.setText(nameString);
+
+            undo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final ContextualComponentAdapter componentAdapter = (ContextualComponentAdapter) adapter;
+
+                    componentAdapter.deletedEffects.remove(nameString);
+                    adapter.notifyItemChanged(getAdapterPosition());
+                }
+            });
+        }
     }
 
     private static class EffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity> {
@@ -129,9 +185,33 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
             end_effect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO add an undo ability here..
-                    context.getCharacter().removeEffect(info);
-                    context.updateViews();
+                    final ContextualComponentAdapter componentAdapter = (ContextualComponentAdapter) adapter;
+                    final String name = info.getName();
+                    if (componentAdapter.deletedEffects.containsKey(name)) {
+                        // actually delete the record, now
+                        componentAdapter.context.getCharacter().removeEffect(info);
+                        componentAdapter.deletedEffects.remove(name);
+                        adapter.notifyItemRemoved(getAdapterPosition());
+                    }
+
+                    componentAdapter.deletedEffects.put(name, System.currentTimeMillis());
+                    adapter.notifyItemChanged(getAdapterPosition());
+
+                    end_effect.postDelayed(new Runnable() {
+                        public void run() {
+                            // may have been deleted, undone, and then redeleted
+                            Long deletedTime = componentAdapter.deletedEffects.get(name);
+                            if (deletedTime == null) return;
+                            if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
+                                // actually delete the record, now
+                                componentAdapter.context.getCharacter().removeEffect(info);
+                                componentAdapter.deletedEffects.remove(name);
+                                context.updateViews();
+                                //adapter.notifyItemRemoved(getAdapterPosition());
+                            }
+                        }
+                    }, UNDO_DELAY);
+
                 }
             });
         }
