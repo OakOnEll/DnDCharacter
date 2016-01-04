@@ -25,7 +25,7 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
 //        Map<String, String> customChoices1 = customChoices;
     }
 
-    public static void applyToCharacter(Effect race, Character character) {
+    public static CharacterEffect applyToCharacter(Effect race, Character character) {
         CharacterEffect characterEffect = new CharacterEffect();
 
         // apply common changes
@@ -37,6 +37,7 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
         newMe.visit(element);
 
         character.addEffect(characterEffect);
+        return characterEffect;
     }
 
 

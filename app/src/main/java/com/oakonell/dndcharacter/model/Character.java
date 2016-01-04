@@ -367,6 +367,25 @@ public class Character {
         return background;
     }
 
+    public CharacterEffect getEffectNamed(String name) {
+        List<CharacterEffect> matchingEffects = new ArrayList<>();
+        for (CharacterEffect each : getEffects()) {
+            if (each.getName().equals(name)) {
+                matchingEffects.add(each);
+            }
+        }
+        if (matchingEffects.isEmpty()) return null;
+        if (matchingEffects.size() > 1) {
+            // report an error, or just return the first?
+            //throw new RuntimeException("Multiple effects named '" + name + "'!");
+        }
+        return matchingEffects.get(0);
+    }
+
+    public void removeEffect(CharacterEffect effect) {
+        effects.remove(effect);
+    }
+
     public static class ArmorClassWithSource extends WithSource {
         private final String formula;
         boolean isEquipped;

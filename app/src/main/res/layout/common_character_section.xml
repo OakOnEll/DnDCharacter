@@ -1,8 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/effect_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/add_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_input_add" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Effects:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!--  TODO Had trouble with the height of this view- when inside a nested scroll view,
+             the height wrap_content doesn't work?!
+             (despite the recyclerView being horizontal and the scrollview being vertical)
+             -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/effect_list"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,8 +57,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Feng"
             android:imeOptions="actionNext|actionDone"
+            android:text="Feng"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:visibility="gone" />
 

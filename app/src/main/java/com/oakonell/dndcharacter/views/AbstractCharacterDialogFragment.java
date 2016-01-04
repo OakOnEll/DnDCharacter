@@ -38,16 +38,18 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         feature_context_group = (ViewGroup) view.findViewById(R.id.feature_context_group);
 
         done = (Button) view.findViewById(R.id.done);
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean valid = onDone();
-                if (!valid) return;
-                getMainActivity().updateViews();
-                getMainActivity().saveCharacter();
-                dismiss();
-            }
-        });
+        if (done != null) {
+            done.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean valid = onDone();
+                    if (!valid) return;
+                    getMainActivity().updateViews();
+                    getMainActivity().saveCharacter();
+                    dismiss();
+                }
+            });
+        }
         Button cancel = (Button) view.findViewById(R.id.cancel);
         if (cancel != null) {
             cancel.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +81,9 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
     }
 
     protected void enableDone(boolean enabled) {
-        done.setEnabled(enabled);
+        if (done != null) {
+            done.setEnabled(enabled);
+        }
     }
 
 

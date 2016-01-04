@@ -17,6 +17,7 @@ import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.oakonell.dndcharacter.model.CharacterRow;
 import com.oakonell.dndcharacter.views.background.BackgroundsListActivity;
 import com.oakonell.dndcharacter.views.classes.ClassesListActivity;
+import com.oakonell.dndcharacter.views.effect.EffectsListActivity;
 import com.oakonell.dndcharacter.views.imports.ImportActivity;
 import com.oakonell.dndcharacter.views.item.ItemsListActivity;
 import com.oakonell.dndcharacter.views.race.RacesListActivity;
@@ -113,6 +114,10 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
             Intent intent = new Intent(this, CharactersListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+        } else if (id == R.id.nav_effects) {
+            Intent intent = new Intent(this, EffectsListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         } else if (id == R.id.nav_backgrounds) {
             Intent intent = new Intent(this, BackgroundsListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -132,13 +137,6 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_feats) {
             Toast.makeText(this, "Clicked feats ", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_import) {
-            Toast.makeText(this, "Clicked import ", Toast.LENGTH_SHORT).show();
-
-//            Intent filePickerIntent = new Intent(this, FilePickerActivity.class);
-//            filePickerIntent.putExtra(FilePickerActivity.REQUEST_CODE, FILE_IMPORT_REQUEST);
-//            filePickerIntent.putExtra(FilePickerActivity.MIME_TYPE, FileType.XML);
-//            startActivityForResult(filePickerIntent, FILE_IMPORT_REQUEST);
-
             Intent intent = new Intent(this, FilePickerActivity.class);
             startActivityForResult(intent, FILE_IMPORT_REQUEST);
         } else if (id == R.id.nav_share) {

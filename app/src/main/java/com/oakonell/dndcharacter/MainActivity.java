@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.AddEffectDialogFragment;
 import com.oakonell.dndcharacter.views.CharacterChangedListener;
 import com.oakonell.dndcharacter.views.OnCharacterLoaded;
 import com.oakonell.dndcharacter.views.classes.AddClassLevelDialogFragment;
@@ -121,6 +122,11 @@ public class MainActivity extends AbstractBaseActivity {
         if (id == R.id.action_long_rest) {
             LongRestDialogFragment dialog = LongRestDialogFragment.createDialog();
             dialog.show(getSupportFragmentManager(), "short_rest_frag");
+            return true;
+        }
+        if (id == R.id.action_add_effect) {
+            AddEffectDialogFragment dialog = AddEffectDialogFragment.createDialog();
+            dialog.show(getSupportFragmentManager(), "add_effect_frag");
             return true;
         }
         if (id == R.id.action_short_rest) {

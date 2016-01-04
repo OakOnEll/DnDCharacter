@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,21 +21,31 @@ import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.CharacterEffect;
 import com.oakonell.dndcharacter.views.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.views.classes.CharacterLevelsDialogFragment;
 import com.oakonell.dndcharacter.views.race.ApplyRaceDialogFragment;
+
+import org.solovyev.android.views.llm.LinearLayoutManager;
+
+import java.util.List;
 
 /**
  * Created by Rob on 10/27/2015.
  */
 public abstract class AbstractSheetFragment extends Fragment implements OnCharacterLoaded, CharacterChangedListener {
-    EditText character_name;
-    TextView classes;
-    TextView race;
-    TextView background;
-    TextView character_name_read_only;
-    Button changeName;
-    Button cancelName;
+    private EditText character_name;
+    private TextView classes;
+    private TextView race;
+    private TextView background;
+    private TextView character_name_read_only;
+    private Button changeName;
+    private Button cancelName;
+    private RecyclerView effectList;
+
+    private EffectsBarAdapter effectListAdapter;
+    private ViewGroup effect_group;
+    private ImageButton add_effect;
 
     @Override
     public final void onCharacterChanged(Character character) {
@@ -73,6 +85,13 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         background.setText(character.getBackgroundName());
         classes.setText(character.getClassesString());
 
+        if (effectListAdapter != null) {
+            effectListAdapter.reloadList(character);
+            effect_group.setVisibility(effectListAdapter.effects.size() > 0 ? View.VISIBLE : View.GONE);
+        } else {
+            effect_group.setVisibility(View.GONE);
+        }
+
     }
 
     public final View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,6 +119,10 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
                 return false;
             }
         });
+
+        effectList = (RecyclerView) rootView.findViewById(R.id.effect_list);
+        effect_group = (ViewGroup) rootView.findViewById(R.id.effect_group);
+        add_effect = (ImageButton) rootView.findViewById(R.id.add_effect);
 
     }
 
@@ -195,12 +218,81 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
                 }
             }
         });
+
+        effectListAdapter = new EffectsBarAdapter(this, character);
+        effectList.setAdapter(effectListAdapter);
+
+
+        effectList.setHasFixedSize(false);
+        effectList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL_LIST);
+        effectList.addItemDecoration(itemDecoration);
+
+        effect_group.setVisibility(effectListAdapter.effects.size() > 0 ? View.VISIBLE : View.GONE);
+
+        add_effect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddEffectDialogFragment dialog = AddEffectDialogFragment.createDialog();
+                dialog.show(getFragmentManager(), "add_effect_dialog");
+            }
+        });
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
         updateViews();
+    }
+
+    static class EffectBarRowViewHolder extends RecyclerView.ViewHolder {
+        private final TextView name;
+
+        public EffectBarRowViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.name);
+        }
+    }
+
+    static class EffectsBarAdapter extends RecyclerView.Adapter<EffectBarRowViewHolder> {
+        private final AbstractSheetFragment context;
+        private List<CharacterEffect> effects;
+
+        EffectsBarAdapter(AbstractSheetFragment context, Character character) {
+            effects = character.getEffects();
+            this.context = context;
+        }
+
+        public void reloadList(Character character) {
+            effects = character.getEffects();
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public EffectBarRowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.effect_bar_item, parent, false);
+            return new EffectBarRowViewHolder(newView);
+        }
+
+        @Override
+        public void onBindViewHolder(EffectBarRowViewHolder holder, int position) {
+            final CharacterEffect effect = effects.get(position);
+            holder.name.setText(effect.getName());
+            holder.name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewEffectDialogFragment dialog = ViewEffectDialogFragment.createDialog(effect);
+                    dialog.show(context.getFragmentManager(), "effect_dialog");
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return effects.size();
+        }
     }
 
 }
