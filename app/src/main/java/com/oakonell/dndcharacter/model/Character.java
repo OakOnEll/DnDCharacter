@@ -89,6 +89,8 @@ public class Character {
     private int electrum;
     @Element(required = false)
     private int platinum;
+    @ElementList(required = false)
+    private List<CharacterEffect> effects = new ArrayList<>();
 
     public Character(boolean defaults) {
         name = "Feng";
@@ -246,7 +248,7 @@ public class Character {
     }
 
     public String getLanguagesString() {
-        List<String> languages = getLanguages();
+        Set<String> languages = getLanguages();
         StringBuilder builder = new StringBuilder();
         for (Iterator<String> iter = languages.iterator(); iter.hasNext(); ) {
             String language = iter.next();
@@ -303,8 +305,8 @@ public class Character {
         this.platinum = platinum;
     }
 
-    public List<String> getLanguages() {
-        List<String> result = new ArrayList<>();
+    public Set<String> getLanguages() {
+        Set<String> result = new HashSet<>();
         for (LanguageWithSource each : deriveLanguages()) {
             result.add(each.language);
         }
@@ -312,27 +314,16 @@ public class Character {
     }
 
     public List<LanguageWithSource> deriveLanguages() {
-        List<LanguageWithSource> languages = new ArrayList<>();
-        if (background != null) {
-            for (String each : background.getLanguages()) {
-                LanguageWithSource row = new LanguageWithSource(each, background);
-                languages.add(row);
-            }
-        }
-        if (race != null) {
-            for (String each : race.getLanguages()) {
-                LanguageWithSource row = new LanguageWithSource(each, race);
-                languages.add(row);
-            }
-        }
-        if (classes != null) {
-            for (CharacterClass eachClass : classes) {
-                for (String each : eachClass.getLanguages()) {
-                    LanguageWithSource row = new LanguageWithSource(each, eachClass);
+        final List<LanguageWithSource> languages = new ArrayList<>();
+        CharacterAbilityDeriver languagesDeriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(BaseCharacterComponent component) {
+                for (String each : component.getLanguages()) {
+                    LanguageWithSource row = new LanguageWithSource(each, component);
                     languages.add(row);
                 }
             }
-        }
+        };
+        languagesDeriver.derive(this);
         return languages;
     }
 
@@ -366,6 +357,14 @@ public class Character {
             }
         }
         return false;
+    }
+
+    public CharacterRace getRace() {
+        return race;
+    }
+
+    public CharacterBackground getBackground() {
+        return background;
     }
 
     public static class ArmorClassWithSource extends WithSource {
@@ -677,8 +676,9 @@ public class Character {
         return getToolProficiencyString(type);
     }
 
-    public List<ModifierWithSource> deriveStat(StatType type) {
-        List<ModifierWithSource> result = new ArrayList<>();
+    public List<ModifierWithSource> deriveStat(final StatType type) {
+        final List<ModifierWithSource> result = new ArrayList<>();
+
         if (baseStats != null) {
             int value = baseStats.get(type);
             if (value > 0) {
@@ -686,146 +686,87 @@ public class Character {
                 result.add(base);
             }
         }
-        // look to background
-        if (background != null) {
-            int value = background.getStatModifier(type);
-            if (value > 0) {
-                ModifierWithSource base = new ModifierWithSource(value, background);
-                result.add(base);
-            }
-        }
-        // look to race
-        if (race != null) {
-            int value = race.getStatModifier(type);
-            if (value > 0) {
-                ModifierWithSource base = new ModifierWithSource(value, race);
-                result.add(base);
-            }
-        }
-        // look to classes
-        if (classes != null) {
-            for (CharacterClass each : classes) {
-                int value = each.getStatModifier(type);
+
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(BaseCharacterComponent component) {
+                int value = component.getStatModifier(type);
                 if (value > 0) {
-                    ModifierWithSource base = new ModifierWithSource(value, each);
+                    ModifierWithSource base = new ModifierWithSource(value, component);
                     result.add(base);
                 }
             }
-        }
-        // go through equipment
-        // go through effects..
+        };
+        deriver.derive(this);
 
         return result;
     }
 
-    public int deriveStatValue(StatType type) {
+    public int deriveStatValue(final StatType type) {
         // start with base stats
-        int value = 0;
+        final int value[] = new int[]{0};
         if (baseStats != null) {
-            value = baseStats.get(type);
+            value[0] = baseStats.get(type);
         }
-        // look to background
-        if (background != null) {
-            value += background.getStatModifier(type);
-        }
-        // look to race
-        if (race != null) {
-            value += race.getStatModifier(type);
-        }
-        // look to classes
-        if (classes != null) {
-            for (CharacterClass each : classes) {
-                value += each.getStatModifier(type);
+
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(BaseCharacterComponent component) {
+                value[0] += component.getStatModifier(type);
             }
-        }
-        // go through equipment
-        // go through effects..
-        return value;
+        };
+        deriver.derive(this);
+
+        return value[0];
     }
 
-    public List<ProficientWithSource> deriveSkillProciencies(SkillType type) {
-        List<ProficientWithSource> result = new ArrayList<>();
-        if (background != null) {
-            Proficient proficient = background.getSkillProficient(type);
-            if (proficient != Proficient.NONE) {
-                ProficientWithSource reason = new ProficientWithSource(proficient, background);
-                result.add(reason);
-            }
-        }
-        if (race != null) {
-            Proficient raceProficient = race.getSkillProficient(type);
-            if (raceProficient != Proficient.NONE) {
-                ProficientWithSource reason = new ProficientWithSource(raceProficient, race);
-                result.add(reason);
-            }
-        }
-        if (classes != null) {
-            for (CharacterClass each : classes) {
-                Proficient classProficient = each.getSkillProficient(type);
-                if (classProficient != null) {
-                    if (classProficient != Proficient.NONE) {
-                        ProficientWithSource reason = new ProficientWithSource(classProficient, each);
-                        result.add(reason);
-                    }
+    public List<ProficientWithSource> deriveSkillProciencies(final SkillType type) {
+        final List<ProficientWithSource> result = new ArrayList<>();
+
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(BaseCharacterComponent component) {
+                Proficient proficient = component.getSkillProficient(type);
+                if (proficient != Proficient.NONE) {
+                    ProficientWithSource reason = new ProficientWithSource(proficient, component);
+                    result.add(reason);
                 }
             }
-        }
+        };
+        deriver.derive(this);
+
         return result;
     }
 
-    public List<ProficientWithSource> deriveSaveProficiencies(StatType type) {
-        List<ProficientWithSource> result = new ArrayList<>();
-        if (background != null) {
-            Proficient proficient = background.getSaveProficient(type);
-            if (proficient != Proficient.NONE) {
-                ProficientWithSource reason = new ProficientWithSource(proficient, background);
-                result.add(reason);
-            }
-        }
-        if (race != null) {
-            Proficient raceProficient = race.getSaveProficient(type);
-            if (raceProficient != Proficient.NONE) {
-                ProficientWithSource reason = new ProficientWithSource(raceProficient, race);
-                result.add(reason);
-            }
-        }
-        if (classes != null) {
-            for (CharacterClass each : classes) {
-                Proficient classProficient = each.getSaveProficient(type);
-                if (classProficient != null) {
-                    if (classProficient != Proficient.NONE) {
-                        ProficientWithSource reason = new ProficientWithSource(classProficient, each);
-                        result.add(reason);
-                    }
+    public List<ProficientWithSource> deriveSaveProficiencies(final StatType type) {
+        final List<ProficientWithSource> result = new ArrayList<>();
+
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(BaseCharacterComponent component) {
+                Proficient proficient = component.getSaveProficient(type);
+                if (proficient != Proficient.NONE) {
+                    ProficientWithSource reason = new ProficientWithSource(proficient, background);
+                    result.add(reason);
                 }
             }
-        }
-        return result;
+        };
+        deriver.derive(this);
 
+        return result;
     }
 
-    public Proficient deriveSkillProciency(SkillType type) {
-        Proficient proficient = Proficient.NONE;
-        if (background != null) {
-            proficient = background.getSkillProficient(type);
-        }
-        if (race != null) {
-            Proficient raceProficient = race.getSkillProficient(type);
-            if (raceProficient.getMultiplier() > proficient.getMultiplier()) {
-                proficient = raceProficient;
-            }
-        }
-        if (classes != null) {
-            for (CharacterClass each : classes) {
-                Proficient classProficient = each.getSkillProficient(type);
-                if (classProficient != null) {
-                    if (classProficient.getMultiplier() > proficient.getMultiplier()) {
-                        proficient = classProficient;
-                    }
+    public Proficient deriveSkillProciency(final SkillType type) {
+        final Proficient proficient[] = new Proficient[1];
+        proficient[0] = Proficient.NONE;
+
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(BaseCharacterComponent component) {
+                Proficient compProficient = component.getSkillProficient(type);
+                if (compProficient.getMultiplier() > proficient[0].getMultiplier()) {
+                    proficient[0] = compProficient;
                 }
             }
-        }
-        return proficient;
+        };
+        deriver.derive(this);
+
+        return proficient[0];
     }
 
     public int getProficiency() {
@@ -840,32 +781,33 @@ public class Character {
         return 6;
     }
 
-    public Proficient deriveSaveProciency(StatType type) {
-        Proficient proficient = Proficient.NONE;
-        if (background != null) {
-            proficient = background.getSaveProficient(type);
-        }
-        if (classes != null) {
-            for (CharacterClass each : classes) {
-                Proficient classProficient = each.getSaveProficient(type);
-                if (classProficient != null) {
-                    if (classProficient.getMultiplier() > proficient.getMultiplier()) {
-                        proficient = classProficient;
-                    }
+    public Proficient deriveSaveProciency(final StatType type) {
+        final Proficient proficient[] = new Proficient[1];
+        proficient[0] = Proficient.NONE;
+        final List<LanguageWithSource> languages = new ArrayList<>();
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(BaseCharacterComponent component) {
+                Proficient compProficient = component.getSaveProficient(type);
+                if (compProficient.getMultiplier() > proficient[0].getMultiplier()) {
+                    proficient[0] = compProficient;
                 }
             }
-        }
-        //race.getSkillProficient(type);
-        return proficient;
+        };
+        deriver.derive(this);
+        return proficient[0];
     }
 
     public List<FeatureInfo> getFeatureInfos() {
-        List<FeatureInfo> result = new ArrayList<>();
-        if (background != null) result.addAll(background.getFeatures());
-        if (race != null) result.addAll(race.getFeatures());
-        for (CharacterClass each : classes) {
-            result.addAll(each.getFeatures());
-        }
+        final List<FeatureInfo> result = new ArrayList<>();
+
+        // features shouldn't contain features, and any effects are not automatic, but applied on use
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver(true) {
+            protected void visitComponent(BaseCharacterComponent component) {
+                result.addAll(component.getFeatures());
+            }
+        };
+        deriver.derive(this);
+
         return result;
     }
 
@@ -1128,38 +1070,29 @@ public class Character {
         background.setTraitSavedChoiceToCustom(trait);
     }
 
-    public List<ToolProficiencyWithSource> deriveToolProficiencies(ProficiencyType type) {
-        List<ToolProficiencyWithSource> result = new ArrayList<>();
-        // look to background
-        if (background != null) {
-            List<Proficiency> profs = background.getToolProficiencies(type);
-            for (Proficiency each : profs) {
-                ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(each, background);
-                result.add(newRow);
-            }
-        }
-        // look to race
-        if (race != null) {
-            List<Proficiency> profs = race.getToolProficiencies(type);
-            for (Proficiency each : profs) {
-                ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(each, race);
-                result.add(newRow);
-            }
-        }
-        // look to classes
-        if (classes != null) {
-            for (CharacterClass each : classes) {
-                List<Proficiency> profs = each.getToolProficiencies(type);
-                for (Proficiency eachProf : profs) {
-                    ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(eachProf, each);
+    public List<ToolProficiencyWithSource> deriveToolProficiencies(final ProficiencyType type) {
+        final List<ToolProficiencyWithSource> result = new ArrayList<>();
+
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(BaseCharacterComponent component) {
+                List<Proficiency> profs = component.getToolProficiencies(type);
+                for (Proficiency each : profs) {
+                    ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(each, component);
                     result.add(newRow);
                 }
             }
-        }
-        // go through equipment
-        // go through effects..
+        };
+        deriver.derive(this);
 
         return result;
+    }
+
+    public void addEffect(CharacterEffect characterEffect) {
+        effects.add(characterEffect);
+    }
+
+    public List<CharacterEffect> getEffects() {
+        return effects;
     }
 
     public void addItem(CharacterItem item) {

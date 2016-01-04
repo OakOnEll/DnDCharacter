@@ -7,36 +7,47 @@
             android:icon="@android:drawable/ic_menu_camera"
             android:title="Characters"></item>
         <item
-            android:id="@+id/nav_backgrounds"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Backgrounds" />
-        <item
-            android:id="@+id/nav_races"
-            android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="Races" />
-        <item
-            android:id="@+id/nav_classes"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Classes" />
-        <item
-            android:id="@+id/nav_items"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Items" />
-        <item
-            android:id="@+id/nav_spells"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Spells" />
-        <item
-            android:id="@+id/nav_feats"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Feats" />
-    </group>
+            android:id="@+id/nav_recent_characters"
+            android:title="Recent Characters">
+            <menu></menu>
+        </item>
 
-    <item
-        android:id="@+id/nav_recent_characters"
-        android:title="Recent Characters">
-        <menu></menu>
-    </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Components">
+            <menu>
+                <item
+                    android:id="@+id/nav_backgrounds"
+                    android:icon="@android:drawable/ic_menu_gallery"
+                    android:title="Backgrounds" />
+                <item
+                    android:id="@+id/nav_races"
+                    android:icon="@android:drawable/ic_menu_slideshow"
+                    android:title="Races" />
+                <item
+                    android:id="@+id/nav_classes"
+                    android:icon="@android:drawable/ic_menu_manage"
+                    android:title="Classes" />
+                <item
+                    android:id="@+id/nav_items"
+                    android:icon="@android:drawable/ic_menu_manage"
+                    android:title="Items" />
+                <item
+                    android:id="@+id/nav_spells"
+                    android:icon="@android:drawable/ic_menu_manage"
+                    android:title="Spells" />
+                <item
+                    android:id="@+id/nav_feats"
+                    android:icon="@android:drawable/ic_menu_manage"
+                    android:title="Feats" />
+                <item
+                    android:id="@+id/nav_effects"
+                    android:icon="@android:drawable/ic_menu_manage"
+                    android:title="Effects" />
+            </menu>
+        </item>
+
+    </group>
 
     <item android:title="Import">
         <menu>
