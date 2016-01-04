@@ -3,26 +3,21 @@ package com.oakonell.dndcharacter.model.effect;
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterEffect;
-import com.oakonell.dndcharacter.model.CharacterRace;
 import com.oakonell.dndcharacter.model.SavedChoices;
-import com.oakonell.dndcharacter.model.race.AbstractRaceVisitor;
-import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.utils.XmlUtils;
+import com.oakonell.dndcharacter.views.FeatureContext;
 
 import org.w3c.dom.Element;
-
-import java.util.Map;
 
 /**
  * Created by Rob on 11/9/2015.
  */
 public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
+    private final CharacterEffect charEffect;
     //String currentChoiceName;
 
     private AddEffectToCharacterVisitor(CharacterEffect charEffect) {
-//        CharacterRace charRace1 = charRace;
-//        SavedChoices savedChoices1 = savedChoices;
-//        Map<String, String> customChoices1 = customChoices;
+        this.charEffect = charEffect;
     }
 
     public static CharacterEffect applyToCharacter(Effect race, Character character) {
@@ -36,9 +31,22 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
         AddEffectToCharacterVisitor newMe = new AddEffectToCharacterVisitor(characterEffect);
         newMe.visit(element);
 
+        final String contextsString = XmlUtils.getElementText(element, "context");
+        if (contextsString != null) {
+            String[] contexts = contextsString.split(",");
+            for (String each : contexts) {
+                String contextString = each.trim();
+                FeatureContext context = FeatureContext.valueOf(contextString.toUpperCase());
+                characterEffect.addContext(context);
+            }
+        }
+
         character.addEffect(characterEffect);
         return characterEffect;
     }
 
-
+    @Override
+    protected void visitShortDescription(Element element) {
+        charEffect.setDescription(element.getTextContent());
+    }
 }

@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views;
 
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +59,6 @@ public class AbstractComponentViewCreator extends AbstractComponentVisitor {
         this.parent = parent;
         this.choices = choices;
         visitChildren(element);
-        Log.i("", "Testing");
         return choicesMD;
     }
 

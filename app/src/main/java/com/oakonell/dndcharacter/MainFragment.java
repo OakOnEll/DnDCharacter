@@ -13,6 +13,7 @@ import com.oakonell.dndcharacter.model.SkillType;
 import com.oakonell.dndcharacter.model.StatType;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.ArmorClassDialogFragment;
+import com.oakonell.dndcharacter.views.FeatureContext;
 import com.oakonell.dndcharacter.views.HitPointDiaogFragment;
 import com.oakonell.dndcharacter.views.SavingThrowBlockView;
 import com.oakonell.dndcharacter.views.SkillBlockView;
@@ -140,7 +141,13 @@ public class MainFragment extends AbstractSheetFragment {
 
             return;
         }
-        ac.setText(character.getArmorClass() + "");
+        String acText = character.getArmorClass() + "";
+        // if any TO_HIT context features, they kind of affect armor class, and will show up here
+        // so that clicking will bring up the AC dialog for details
+        if (getCharacter().anyContextFeats(FeatureContext.TO_HIT)) {
+            acText += "!";
+        }
+        ac.setText(acText);
 
         initiative.setText(character.getStatBlock(StatType.DEXTERITY).getModifier() + "");
 

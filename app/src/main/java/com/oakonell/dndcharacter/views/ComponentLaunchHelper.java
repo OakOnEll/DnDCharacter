@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views;
 
 
+import android.widget.Toast;
+
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.CharacterClass;
@@ -28,7 +30,15 @@ public final class ComponentLaunchHelper {
                 ApplyRaceDialogFragment raceDialog = ApplyRaceDialogFragment.createDialog();
                 raceDialog.show(context.getSupportFragmentManager(), "race");
                 break;
+            case FEATURE:
+                Toast.makeText(context, "Opening feature source not supported yet", Toast.LENGTH_SHORT).show();
+                break;
+            case EFFECT:
+                // is this one needed?
+                Toast.makeText(context, "Opening effect source not supported yet", Toast.LENGTH_SHORT).show();
+                break;
             case ITEM:
+                Toast.makeText(context, "Opening item source not supported yet", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

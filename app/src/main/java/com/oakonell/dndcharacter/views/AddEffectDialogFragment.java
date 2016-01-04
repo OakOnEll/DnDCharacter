@@ -199,7 +199,6 @@ public class AddEffectDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         CharacterEffect charEffect = AddEffectToCharacterVisitor.applyToCharacter(effect, getCharacter());
-        charEffect.setDescription("Testing...");
         getMainActivity().updateViews();
 
         dismiss();

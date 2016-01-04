@@ -1,13 +1,17 @@
 package com.oakonell.dndcharacter.model;
 
+import com.oakonell.dndcharacter.IContextualComponent;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.UseType;
+import com.oakonell.dndcharacter.views.FeatureContext;
 import com.oakonell.expression.context.SimpleVariableContext;
+
+import java.util.Set;
 
 /**
  * Created by Rob on 10/26/2015.
  */
-public class FeatureInfo {
+public class FeatureInfo implements IContextualComponent {
     Feature feature;
     BaseCharacterComponent source;
 
@@ -46,5 +50,15 @@ public class FeatureInfo {
 
     public UseType getUseType() {
         return feature.getUseType();
+    }
+
+    @Override
+    public boolean isInContext(FeatureContext context) {
+        return feature.isInContext(context);
+    }
+
+    @Override
+    public boolean isInContext(Set<FeatureContext> filter) {
+        return feature.isInContext(filter);
     }
 }

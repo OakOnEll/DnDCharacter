@@ -7,6 +7,7 @@ import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.item.ItemRow;
+import com.oakonell.dndcharacter.views.FeatureContext;
 import com.oakonell.expression.Expression;
 import com.oakonell.expression.ExpressionContext;
 import com.oakonell.expression.ExpressionType;
@@ -384,6 +385,16 @@ public class Character {
 
     public void removeEffect(CharacterEffect effect) {
         effects.remove(effect);
+    }
+
+    public boolean anyContextFeats(FeatureContext context) {
+        for (CharacterEffect each : getEffects()) {
+            if (each.isInContext(context)) return true;
+        }
+        for (FeatureInfo each : getFeatureInfos()) {
+            if (each.isInContext(context)) return true;
+        }
+        return false;
     }
 
     public static class ArmorClassWithSource extends WithSource {

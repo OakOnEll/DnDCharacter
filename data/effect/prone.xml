@@ -1,4 +1,5 @@
 <effect>
     <name>Prone</name>
     <shortDescription>Can only crawl to move, or stand up. You have disadvantage on attack rolls. Attacks within 5 feet are at advantage, otherwise at disadvantage.</shortDescription>
+    <context>WEAPON_ATTACK,TO_HIT</context>
 </effect>

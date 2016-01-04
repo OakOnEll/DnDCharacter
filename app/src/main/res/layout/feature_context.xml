@@ -10,7 +10,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ac_style"
-    android:id="@+id/feature_context_group"
+    android:id="@+id/context_group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
@@ -32,7 +32,7 @@
 
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/feature_context_list"
+            android:id="@+id/context_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />

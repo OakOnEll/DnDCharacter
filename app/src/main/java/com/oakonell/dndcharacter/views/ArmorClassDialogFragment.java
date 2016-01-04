@@ -152,6 +152,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
         filter.add(FeatureContext.ARMOR_CLASS);
+        filter.add(FeatureContext.TO_HIT);
         return filter;
     }
 
