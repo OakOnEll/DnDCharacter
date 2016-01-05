@@ -9,6 +9,9 @@ public class CharacterEffect extends AbstractContextualComponent {
     @Element(required = false)
     private String description;
 
+    @Element(required = false)
+    private BaseCharacterComponent source;
+
     @Override
     public ComponentType getType() {
         return ComponentType.EFFECT;
@@ -26,9 +29,8 @@ public class CharacterEffect extends AbstractContextualComponent {
         this.description = description;
     }
 
-    public String getSourceString() {
-        // TODO link an effect to a possible eg feature source
-        return "";
+    public BaseCharacterComponent getSource() {
+        return source;
     }
 
 
