@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterEffect;
 import com.oakonell.dndcharacter.model.FeatureInfo;
@@ -180,7 +181,10 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         @Override
         public void bind(final MainActivity context, final RecyclerView.Adapter<?> adapter, final CharacterEffect info) {
             name.setText(info.getName());
-            source.setText(info.getSourceString());
+            BaseCharacterComponent sourceComponent = info.getSource();
+            if (sourceComponent != null) {
+                source.setText(sourceComponent.getSourceString());
+            }
             short_description.setText(info.getDescription());
             end_effect.setOnClickListener(new View.OnClickListener() {
                 @Override
