@@ -93,24 +93,22 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         final String uses = XmlUtils.getElementText(element, "uses");
         final String pool = XmlUtils.getElementText(element, "pool");
         // TODO fail if both
-        UseType useType;
+        UseType useType = null;
         if (uses != null) {
             useType = UseType.PER_USE;
+            feature.setUseType(useType);
+        } else if (pool != null) {
+            useType = UseType.POOL;
+        }
+        if (useType != null) {
+            feature.setUseType(useType);
             feature.setFormula(uses);
             if (refreshType == null) {
                 throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
             }
             feature.setRefreshesOn(refreshType);
-            feature.setUseType(useType);
-        } else if (pool != null) {
-            useType = UseType.POOL;
-            feature.setFormula(pool);
-            if (refreshType == null) {
-                throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
-            }
-            feature.setRefreshesOn(refreshType);
-            feature.setUseType(useType);
         }
+
         final String ac = XmlUtils.getElementText(element, "ac");
         feature.setAcFormula(ac);
 
