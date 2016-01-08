@@ -1,7 +1,7 @@
 package com.oakonell.dndcharacter.model.item;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
-import com.oakonell.dndcharacter.model.CharacterArmor;
+import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -15,7 +15,7 @@ public class CreateCharacterArmorVisitor extends AbstractArmorVisitor {
         CharacterArmor armor1 = armor;
     }
 
-    public static CharacterArmor createArmor(ItemRow row, com.oakonell.dndcharacter.model.Character character) {
+    public static CharacterArmor createArmor(ItemRow row, com.oakonell.dndcharacter.model.character.Character character) {
         CharacterArmor armor = new CharacterArmor();
 
         final Element root = XmlUtils.getDocument(row.getXml()).getDocumentElement();

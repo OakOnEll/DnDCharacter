@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.model.components;
 
-import com.oakonell.dndcharacter.model.*;
-import com.oakonell.dndcharacter.model.Character;
+import com.oakonell.dndcharacter.model.character.Character;
 
 /**
  * Created by Rob on 1/4/2016.

@@ -1,11 +1,11 @@
 package com.oakonell.dndcharacter.model.effect;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
-import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.model.CharacterEffect;
-import com.oakonell.dndcharacter.model.SavedChoices;
+import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterEffect;
+import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.FeatureContext;
+import com.oakonell.dndcharacter.views.character.FeatureContext;
 
 import org.w3c.dom.Element;
 

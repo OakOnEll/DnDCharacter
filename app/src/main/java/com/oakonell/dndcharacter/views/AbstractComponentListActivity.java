@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
-import com.oakonell.dndcharacter.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
 

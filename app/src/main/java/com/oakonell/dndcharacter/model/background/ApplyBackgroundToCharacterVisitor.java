@@ -1,9 +1,9 @@
 package com.oakonell.dndcharacter.model.background;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
-import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.model.CharacterBackground;
-import com.oakonell.dndcharacter.model.SavedChoices;
+import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterBackground;
+import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;

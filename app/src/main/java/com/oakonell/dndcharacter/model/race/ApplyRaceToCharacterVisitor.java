@@ -1,9 +1,9 @@
 package com.oakonell.dndcharacter.model.race;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
-import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.model.CharacterRace;
-import com.oakonell.dndcharacter.model.SavedChoices;
+import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterRace;
+import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;

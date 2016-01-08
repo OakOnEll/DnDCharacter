@@ -3,6 +3,8 @@ package com.oakonell.dndcharacter.model;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
@@ -13,7 +15,7 @@ import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.FeatureContext;
+import com.oakonell.dndcharacter.views.character.FeatureContext;
 
 import org.w3c.dom.Element;
 
@@ -27,7 +29,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private final C component;
     private final SavedChoices savedChoices;
     @Nullable
-    private final Character character;
+    private final com.oakonell.dndcharacter.model.character.Character character;
     private String currentChoiceName;
 
     private ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, @Nullable Character character) {

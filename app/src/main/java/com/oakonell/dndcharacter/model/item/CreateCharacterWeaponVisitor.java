@@ -1,8 +1,7 @@
 package com.oakonell.dndcharacter.model.item;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
-import com.oakonell.dndcharacter.model.CharacterWeapon;
-import com.oakonell.dndcharacter.model.DamageType;
+import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -17,7 +16,7 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
         this.weapon = weapon;
     }
 
-    public static CharacterWeapon createWeapon(ItemRow row, com.oakonell.dndcharacter.model.Character character) {
+    public static CharacterWeapon createWeapon(ItemRow row, com.oakonell.dndcharacter.model.character.Character character) {
         CharacterWeapon weapon = new CharacterWeapon();
 
         ApplyChangesToGenericComponent.applyToCharacter(XmlUtils.getDocument(row.getXml()).getDocumentElement(), null, weapon, character, false);

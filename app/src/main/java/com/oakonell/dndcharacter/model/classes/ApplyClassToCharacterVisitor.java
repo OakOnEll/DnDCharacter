@@ -3,9 +3,9 @@ package com.oakonell.dndcharacter.model.classes;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
-import com.oakonell.dndcharacter.model.Character;
-import com.oakonell.dndcharacter.model.CharacterClass;
-import com.oakonell.dndcharacter.model.SavedChoices;
+import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterClass;
+import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
