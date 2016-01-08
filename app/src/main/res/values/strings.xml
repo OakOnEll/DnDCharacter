@@ -11,4 +11,5 @@
     <string name="choose_race">[Race]</string>
     <string name="damage_type">[Damage Type]</string>
     <string name="choose_background">[Background]</string>
+    <string name="vulnerability_type">[Vulnerability]</string>
 </resources>

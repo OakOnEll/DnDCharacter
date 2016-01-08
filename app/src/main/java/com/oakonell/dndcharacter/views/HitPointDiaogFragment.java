@@ -25,6 +25,7 @@ import com.oakonell.dndcharacter.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.DamageType;
+import com.oakonell.dndcharacter.model.VulnerabilityType;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -43,6 +44,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     private RadioButton heal;
     private RadioButton tempHP;
     private Spinner type;
+    private Spinner vulnerability_type;
 
     private TextView start_hp;
     private TextView final_hp;
@@ -69,10 +71,15 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         hpText = (EditText) view.findViewById(R.id.hp);
 
         damage = (RadioButton) view.findViewById(R.id.damage_radio);
-        type = (Spinner) view.findViewById(R.id.damage_type);
 
+        type = (Spinner) view.findViewById(R.id.damage_type);
         float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (type.getPrompt().length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, type.getResources().getDisplayMetrics());
         type.setMinimumWidth((int) minWidth);
+
+        vulnerability_type = (Spinner) view.findViewById(R.id.vulnerability_type);
+        minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (vulnerability_type.getPrompt().length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, vulnerability_type.getResources().getDisplayMetrics());
+        vulnerability_type.setMinimumWidth((int) minWidth);
+
 
         add_another = (Button) view.findViewById(R.id.add_another);
 
@@ -98,6 +105,16 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         type.setAdapter(dataAdapter);
 
 
+        List<String> vulnerabilityList = new ArrayList<>();
+        for (VulnerabilityType each : VulnerabilityType.values()) {
+            vulnerabilityList.add(each.toString());
+        }
+        ArrayAdapter<String> susceptibleListDataAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item, vulnerabilityList);
+        susceptibleListDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        vulnerability_type.setAdapter(susceptibleListDataAdapter);
+
+
         View.OnClickListener radioListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,16 +122,19 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
                     heal.setChecked(false);
                     tempHP.setChecked(false);
                     type.setEnabled(true);
+                    vulnerability_type.setEnabled(true);
                 }
                 if (v == heal && heal.isChecked()) {
                     damage.setChecked(false);
                     tempHP.setChecked((false));
                     type.setEnabled(false);
+                    vulnerability_type.setEnabled(false);
                 }
                 if (v == tempHP && tempHP.isChecked()) {
                     damage.setChecked(false);
                     heal.setChecked((false));
                     type.setEnabled(false);
+                    vulnerability_type.setEnabled(false);
                 }
                 updateView();
             }
@@ -203,15 +223,22 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
                 HpType hpType = getHpType();
 
                 DamageType damageType = null;
+                VulnerabilityType vulnerabilityType = null;
                 if (hpType == HpType.DAMAGE) {
                     int typeIndex = type.getSelectedItemPosition();
                     if (typeIndex >= 0) {
                         damageType = DamageType.values()[typeIndex];
                     }
+
+                    int vulnerabilityTypeIndex = vulnerability_type.getSelectedItemPosition();
+                    if (vulnerabilityTypeIndex >= 0) {
+                        vulnerabilityType = VulnerabilityType.values()[vulnerabilityTypeIndex];
+                    }
+
                 }
 
 
-                HpRow row = new HpRow(hpType, damageType, getHp());
+                HpRow row = new HpRow(hpType, damageType, vulnerabilityType, getHp());
                 hpList.add(row);
                 hpListAdapter.notifyDataSetChanged();
 
@@ -388,13 +415,15 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         };
         final HpType hpType;
         final DamageType damageType;
+        final VulnerabilityType vulnerabilityType;
         final int hp;
         Long deleteRequestedTime;
 
-        public HpRow(HpType hpType, DamageType damageType, int hp) {
+        public HpRow(HpType hpType, DamageType damageType, VulnerabilityType vulnerabilityType, int hp) {
             this.hpType = hpType;
             this.damageType = damageType;
             this.hp = hp;
+            this.vulnerabilityType = vulnerabilityType;
         }
 
         HpRow(Parcel parcel) {
@@ -408,6 +437,14 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
             } else {
                 damageType = null;
             }
+
+            int vulnerabilityTypeIndex = parcel.readInt();
+            if (vulnerabilityTypeIndex >= 0) {
+                vulnerabilityType = VulnerabilityType.values()[vulnerabilityTypeIndex];
+            } else {
+                vulnerabilityType = null;
+            }
+
             hp = parcel.readInt();
         }
 
@@ -422,6 +459,11 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
             dest.writeInt(hpType.ordinal());
             if (damageType != null) {
                 dest.writeInt(damageType.ordinal());
+            } else {
+                dest.writeInt(-1);
+            }
+            if (vulnerabilityType != null) {
+                dest.writeInt(vulnerabilityType.ordinal());
             } else {
                 dest.writeInt(-1);
             }
@@ -478,12 +520,14 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     public static class HitPointRowViewHolder extends AbstractHPViewHolder {
         private final TextView type;
+        private final TextView vulnerableType;
         private final TextView amount;
 
         public HitPointRowViewHolder(View itemView) {
             super(itemView);
             type = (TextView) itemView.findViewById(R.id.type);
             amount = (TextView) itemView.findViewById(R.id.amount);
+            vulnerableType = (TextView) itemView.findViewById(R.id.vulnerability);
         }
 
         @Override
@@ -493,6 +537,11 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
                     type.setText("Damage");
                 } else {
                     type.setText(hpRow.damageType.toString());
+                }
+                if (hpRow.vulnerabilityType == null) {
+                    vulnerableType.setText("");
+                } else {
+                    vulnerableType.setText(hpRow.vulnerabilityType.toString());
                 }
             } else if (hpRow.hpType == HpType.HEAL) {
                 type.setText("Heal");

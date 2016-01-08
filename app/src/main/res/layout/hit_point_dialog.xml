@@ -26,6 +26,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -37,13 +38,27 @@
                             android:layout_height="wrap_content"
                             android:text="Damage" />
 
-                        <com.oakonell.dndcharacter.views.NoDefaultSpinner
-                            android:id="@+id/damage_type"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:prompt="@string/damage_type"
-                            android:spinnerMode="dropdown" />
+                            android:orientation="vertical">
+
+                            <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                                android:id="@+id/damage_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:prompt="@string/damage_type"
+                                android:spinnerMode="dropdown" />
+
+                            <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                                android:id="@+id/vulnerability_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:prompt="@string/vulnerability_type"
+                                android:spinnerMode="dropdown" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <RadioButton
