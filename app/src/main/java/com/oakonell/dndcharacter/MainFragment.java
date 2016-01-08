@@ -67,7 +67,7 @@ public class MainFragment extends AbstractSheetFragment {
         final View.OnClickListener onClickHp = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = MainFragment.this.getChildFragmentManager();
+                FragmentManager fm = MainFragment.this.getFragmentManager();
                 HitPointDiaogFragment hpFragment = HitPointDiaogFragment.createDialog();
                 hpFragment.show(fm, "fragment_hp");
             }

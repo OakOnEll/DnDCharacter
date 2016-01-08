@@ -80,8 +80,9 @@
             <name>Second Wind</name>
             <refreshes>rest</refreshes>
             <uses>1</uses>
-            <action>hp += 1d10 + classLevel</action>
+            <!-- <action>hp += 1d10 + classLevel</action> -->
             <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.</shortDescription>
+            <context>HIT_POINTS</context>
         </feature>
         <armor>
             <proficiency category="light armor"></proficiency>

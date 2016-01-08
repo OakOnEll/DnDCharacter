@@ -37,7 +37,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
     @Override
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
-        adapter.notifyDataSetChanged();
+        adapter.reloadList(getCharacter());
     }
 
 

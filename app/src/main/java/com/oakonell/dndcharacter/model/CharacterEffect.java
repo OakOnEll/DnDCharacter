@@ -10,7 +10,7 @@ public class CharacterEffect extends AbstractContextualComponent {
     private String description;
 
     @Element(required = false)
-    private BaseCharacterComponent source;
+    private String origin;
 
     @Override
     public ComponentType getType() {
@@ -29,8 +29,12 @@ public class CharacterEffect extends AbstractContextualComponent {
         this.description = description;
     }
 
-    public BaseCharacterComponent getSource() {
-        return source;
+    public String getSource() {
+        return origin;
+    }
+
+    public void setSource(String source) {
+        this.origin = source;
     }
 
 

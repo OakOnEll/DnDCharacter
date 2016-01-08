@@ -60,7 +60,15 @@
             <name>Lay on Hands</name>
             <refreshes>long rest</refreshes>
             <pool>5*classLevel</pool>
-            <shortDescription>Pool of hit points to heal, or expend 5 HP to cure one disease or neutralize one poison.</shortDescription>
+            <shortDescription>A pool of hit points to heal, cure diseases or neutralize poisons.</shortDescription>
+            <action >
+                <name>Heal</name>
+                <shortDescription>Use some of the pool of hit points to heal someone.</shortDescription>
+            </action>
+            <action uses="5">
+                <name>Cure</name>
+                <shortDescription>Expend 5 HP to cure on disease or neutralize one poison.</shortDescription>
+            </action>
         </feature>
         <armor>
             <proficiency category="light armor"></proficiency>
@@ -114,7 +122,7 @@
         <feature>
             <name>Divine Health</name>
             <shortDescription>You are immune to disease.</shortDescription>
-            <context>SAVING_THROW</context>
+            <context>SAVING_THROW, HIT_POINTS</context>
         </feature>
     </level>
 </class>

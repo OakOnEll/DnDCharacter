@@ -1,10 +1,13 @@
 package com.oakonell.dndcharacter;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -14,8 +17,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.FeatureInfo;
+import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.UseType;
 import com.oakonell.dndcharacter.views.ComponentLaunchHelper;
+import com.oakonell.dndcharacter.views.DividerItemDecoration;
+
+import java.util.List;
 
 /**
  * Created by Rob on 1/4/2016.
@@ -26,18 +33,15 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     public TextView shortDescription;
 
     public ViewGroup limited_uses_group;
-    public ViewGroup use_group;
+
     public TextView uses_label;
     public TextView uses_remaining;
-    public Button useButton;
-
-    public ViewGroup pool_apply_group;
-    public TextView pool_value;
-    public TextView remaining_uses;
-    public ImageButton pool_apply_button;
-    public ImageButton pool_cancel_button;
 
     public TextView refreshes_label;
+
+    public RecyclerView action_list;
+    private ActionAdapter actionsAdapter;
+
 
     public FeatureViewHolder(View view) {
         super(view);
@@ -45,18 +49,13 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         source = (TextView) view.findViewById(R.id.source);
 
         limited_uses_group = (ViewGroup) view.findViewById(R.id.limited_uses_group);
+        action_list = (RecyclerView) view.findViewById(R.id.actions_list);
+
         uses_label = (TextView) view.findViewById(R.id.uses_label);
-        useButton = (Button) view.findViewById(R.id.use_button);
         uses_remaining = (TextView) view.findViewById(R.id.remaining);
         shortDescription = (TextView) view.findViewById(R.id.short_description);
         refreshes_label = (TextView) view.findViewById(R.id.refreshes_label);
-        remaining_uses = (TextView) view.findViewById(R.id.remaining_uses);
 
-        pool_apply_group = (ViewGroup) view.findViewById(R.id.pool_apply_group);
-        use_group = (ViewGroup) view.findViewById(R.id.use_group);
-        pool_value = (TextView) view.findViewById(R.id.pool_value);
-        pool_apply_button = (ImageButton) view.findViewById(R.id.pool_apply_button);
-        pool_cancel_button = (ImageButton) view.findViewById(R.id.pool_cancel_button);
     }
 
 
@@ -72,34 +71,96 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                 ComponentLaunchHelper.editComponent(context, info.getSource(), false);
             }
         });
+
+        if (actionsAdapter == null) {
+            actionsAdapter = new ActionAdapter(context);
+            action_list.setAdapter(actionsAdapter);
+
+            action_list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            action_list.setHasFixedSize(false);
+
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
+            action_list.addItemDecoration(itemDecoration);
+        }
+        actionsAdapter.setFeature(info);
+
+
         boolean hasLimitedUses = info.hasLimitedUses();
-        pool_apply_group.setVisibility(View.GONE);
         if (!hasLimitedUses) {
             limited_uses_group.setVisibility(View.GONE);
-            use_group.setVisibility(View.GONE);
         } else {
             limited_uses_group.setVisibility(View.VISIBLE);
+            bindLimitedUseViews(context, adapter, info, position);
+            if (info.getUseType() == UseType.PER_USE) {
+                uses_label.setText("Uses");
+            } else {
+                uses_label.setText("Pool");
+            }
+        }
+
+        shortDescription.setText(info.getShortDescription());
+    }
+
+    protected void bindLimitedUseViews(final MainActivity context, final RecyclerView.Adapter<?> adapter, final FeatureInfo info, final int position) {
+        int maxUses = info.evaluateMaxUses(context.getCharacter());
+        final int usesRemaining = context.getCharacter().getUsesRemaining(info);
+
+        uses_remaining.setText(usesRemaining + "/" + maxUses);
+        refreshes_label.setText("Refreshes on " + info.getFeature().getRefreshesOn().toString());
+
+
+    }
+
+
+    private static class ActionViewHolder extends RecyclerView.ViewHolder {
+        public ViewGroup use_group;
+        public Button useButton;
+        public TextView remaining_uses;
+
+        public ViewGroup pool_apply_group;
+        public TextView pool_value;
+        public ImageButton pool_apply_button;
+        public ImageButton pool_cancel_button;
+
+        public ActionViewHolder(View view) {
+            super(view);
+            remaining_uses = (TextView) view.findViewById(R.id.remaining_uses);
+
+
+            useButton = (Button) view.findViewById(R.id.use_button);
+
+            pool_apply_group = (ViewGroup) view.findViewById(R.id.pool_apply_group);
+            use_group = (ViewGroup) view.findViewById(R.id.use_group);
+            pool_value = (TextView) view.findViewById(R.id.pool_value);
+            pool_apply_button = (ImageButton) view.findViewById(R.id.pool_apply_button);
+            pool_cancel_button = (ImageButton) view.findViewById(R.id.pool_cancel_button);
+        }
+
+        public void bind(final MainActivity context, final ActionAdapter adapter, final IFeatureAction action) {
+            Log.i("FeatureViewHolder", "Binding row " + adapter.info.getName() + " action " + getAdapterPosition() + "/" + adapter.getItemCount());
+            pool_apply_group.setVisibility(View.GONE);
+            final FeatureInfo info = adapter.info;
+
             int maxUses = info.evaluateMaxUses(context.getCharacter());
             final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
-            uses_remaining.setText(usesRemaining + "/" + maxUses);
 
-            useButton.setEnabled(usesRemaining > 0);
-            if (info.getUseType() == UseType.PER_USE) {
-                use_group.setVisibility(View.VISIBLE);
-                uses_label.setText("Uses");
+            useButton.setText(action.getAction());
+
+
+            if (action.getCost() > 0) {
+                useButton.setEnabled(usesRemaining >= action.getCost());
+                // simple use action
                 useButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.getCharacter().useFeature(info.getFeature(), 1);
-                        adapter.notifyItemChanged(position);
+                        adapter.context.getCharacter().useFeatureAction(info.getFeature(), action);
+                        context.updateViews();
                     }
                 });
-
-            } else if (info.getUseType() == UseType.POOL) {
-                use_group.setVisibility(View.VISIBLE);
-                uses_label.setText("Pool");
-
+            } else {
+                useButton.setEnabled(usesRemaining > 0);
+                // pooled use action
                 remaining_uses.setText(" / " + usesRemaining);
                 useButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -110,7 +171,6 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(pool_value, InputMethodManager.SHOW_IMPLICIT);
 
-                        refreshes_label.setVisibility(View.GONE);
                         use_group.setVisibility(View.GONE);
                     }
                 });
@@ -120,7 +180,6 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                     public void onClick(View v) {
                         pool_apply_group.setVisibility(View.GONE);
                         pool_value.setText("");
-                        refreshes_label.setVisibility(View.VISIBLE);
                         use_group.setVisibility(View.VISIBLE);
 
                     }
@@ -148,9 +207,9 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                         context.saveCharacter();
                         pool_apply_group.setVisibility(View.GONE);
                         pool_value.setText("");
-                        refreshes_label.setVisibility(View.VISIBLE);
                         use_group.setVisibility(View.VISIBLE);
-                        adapter.notifyItemChanged(position);
+                        //adapter.notifyItemChanged(getAdapterPosition());
+                        context.updateViews();
                     }
                 });
 
@@ -193,12 +252,43 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                     }
                 });
             }
-
-            refreshes_label.setText("Refreshes on " + info.getFeature().getRefreshesOn().toString());
-
         }
-        shortDescription.setText(info.getShortDescription());
+    }
+
+
+    private static class ActionAdapter extends RecyclerView.Adapter<ActionViewHolder> {
+        private MainActivity context;
+        private FeatureInfo info;
+        private List<IFeatureAction> list;
+
+        ActionAdapter(MainActivity context) {
+            this.context = context;
+        }
+
+        @Override
+        public ActionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.feature_action_row, parent, false);
+            return new ActionViewHolder(newView);
+        }
+
+        @Override
+        public void onBindViewHolder(ActionViewHolder holder, int position) {
+            IFeatureAction action = list.get(position);
+            holder.bind(context, this, action);
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public void setFeature(FeatureInfo info) {
+            this.list = info.getFeature().getActionsAndEffects();
+            this.info = info;
+            notifyDataSetChanged();
+        }
     }
 }
+
 
 

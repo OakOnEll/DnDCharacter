@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.components.Feature;
+import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.item.ItemRow;
@@ -396,6 +397,7 @@ public class Character {
         }
         return false;
     }
+
 
     public static class ArmorClassWithSource extends WithSource {
         private final String formula;
@@ -903,6 +905,11 @@ public class Character {
         int uses = getUses(feature);
         uses = uses + amount;
         usedFeatures.put(feature.getName(), uses);
+    }
+
+    public void useFeatureAction(Feature feature, IFeatureAction action) {
+        useFeature(feature, action.getCost());
+        action.applyToCharacter(this);
     }
 
     public String getNotes() {

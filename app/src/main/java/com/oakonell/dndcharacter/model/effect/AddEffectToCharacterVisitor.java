@@ -21,12 +21,18 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
     }
 
     public static CharacterEffect applyToCharacter(Effect race, Character character) {
-        CharacterEffect characterEffect = new CharacterEffect();
-
-        // apply common changes
         Element element = XmlUtils.getDocument(race.getXml()).getDocumentElement();
+        CharacterEffect characterEffect = new CharacterEffect();
+        readEffect(element, characterEffect);
+
+        character.addEffect(characterEffect);
+        return characterEffect;
+    }
+
+    public static void readEffect(Element element, CharacterEffect characterEffect) {
         characterEffect.setName(XmlUtils.getElementText(element, "name"));
-        ApplyChangesToGenericComponent.applyToCharacter(element, new SavedChoices(), characterEffect, character, true);
+        // apply common changes
+        ApplyChangesToGenericComponent.applyToCharacter(element, new SavedChoices(), characterEffect, null, false);
 
         AddEffectToCharacterVisitor newMe = new AddEffectToCharacterVisitor(characterEffect);
         newMe.visit(element);
@@ -40,9 +46,6 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
                 characterEffect.addContext(context);
             }
         }
-
-        character.addEffect(characterEffect);
-        return characterEffect;
     }
 
     @Override

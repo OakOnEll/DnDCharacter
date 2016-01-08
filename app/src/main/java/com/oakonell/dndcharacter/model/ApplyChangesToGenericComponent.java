@@ -1,10 +1,13 @@
 package com.oakonell.dndcharacter.model;
 
+import android.support.annotation.Nullable;
+
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.model.components.UseType;
+import com.oakonell.dndcharacter.model.effect.AddEffectToCharacterVisitor;
 import com.oakonell.dndcharacter.model.item.CreateCharacterArmorVisitor;
 import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
@@ -23,10 +26,11 @@ import java.util.List;
 public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> extends AbstractComponentVisitor {
     private final C component;
     private final SavedChoices savedChoices;
+    @Nullable
     private final Character character;
     private String currentChoiceName;
 
-    private ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, Character character) {
+    private ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, @Nullable Character character) {
         this.component = component;
         this.savedChoices = savedChoices;
         this.character = character;
@@ -42,8 +46,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
     }
 
-    public static <C extends BaseCharacterComponent> void applyToCharacter(Element element, SavedChoices savedChoices, C component, Character character, boolean deleteEquipment) {
-        if (deleteEquipment) {
+    public static <C extends BaseCharacterComponent> void applyToCharacter(Element element, SavedChoices savedChoices, C component, @Nullable Character character, boolean deleteEquipment) {
+        if (deleteEquipment && character != null) {
             // first clear any equipment from this type previous value
             ComponentType componentType = component.getType();
             deleteItems(character.getItems(), componentType);
@@ -96,18 +100,57 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         UseType useType = null;
         if (uses != null) {
             useType = UseType.PER_USE;
-            feature.setUseType(useType);
+            feature.setFormula(uses);
         } else if (pool != null) {
             useType = UseType.POOL;
+            feature.setFormula(pool);
         }
         if (useType != null) {
             feature.setUseType(useType);
-            feature.setFormula(uses);
             if (refreshType == null) {
                 throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
             }
             feature.setRefreshesOn(refreshType);
+
+            boolean hadAnyActionsOrEffects = false;
+            final List<Element> effectElements = XmlUtils.getChildElements(element, "effect");
+            for (Element effectElement : effectElements) {
+                final Feature.FeatureCharacterEffect effect = new Feature.FeatureCharacterEffect();
+                AddEffectToCharacterVisitor.readEffect(effectElement, effect);
+                int cost = readIntegerAttribute(effectElement, "uses", -1);
+                effect.setCost(cost);
+                String actionName = effectElement.getAttribute("actionName");
+                if (actionName == null) {
+                    actionName = effect.getName();
+                }
+                effect.setAction(actionName);
+                feature.addEffect(effect);
+                effect.setSource(component.getSourceString() + "[" + feature.getSourceString() + "]");
+                hadAnyActionsOrEffects = true;
+            }
+
+            final List<Element> actionElements = XmlUtils.getChildElements(element, "action");
+            for (Element actionElement : actionElements) {
+                int cost = readIntegerAttribute(actionElement, "uses", -1);
+                String actionName = XmlUtils.getElementText(actionElement, "name");
+                String shortDescription = XmlUtils.getElementText(actionElement, "shortDescription");
+                Feature.FeatureAction action = new Feature.FeatureAction();
+
+                action.setName(actionName);
+                action.setCost(cost);
+                action.setDescription(shortDescription);
+                feature.addAction(action);
+                hadAnyActionsOrEffects = true;
+            }
+
+            if (!hadAnyActionsOrEffects) {
+                Feature.FeatureAction simpleAction = new Feature.FeatureAction();
+                simpleAction.setCost(1);
+                simpleAction.setName("Use");
+                feature.addAction(simpleAction);
+            }
         }
+
 
         final String ac = XmlUtils.getElementText(element, "ac");
         feature.setAcFormula(ac);
@@ -117,6 +160,14 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
         component.addFeature(feature);
         super.visitFeature(element);
+    }
+
+    protected int readIntegerAttribute(Element actionElement, String attributeName, int defaultValue) {
+        String stringValue = actionElement.getAttribute(attributeName);
+        if (stringValue != null && stringValue.trim().length() > 0) {
+            return Integer.parseInt(stringValue);
+        }
+        return defaultValue;
     }
 
     @Override
@@ -208,6 +259,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
     @Override
     protected void visitItem(Element element) {
+        if (character == null) {
+            return;
+        }
         final String itemName = element.getTextContent();
         addItem(itemName);
     }

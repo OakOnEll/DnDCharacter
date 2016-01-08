@@ -44,16 +44,15 @@
             android:text="Regain hp.. yada yada..."
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
+
         <LinearLayout
             android:id="@+id/limited_uses_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/use_group"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -70,63 +69,25 @@
                     android:paddingLeft="5dp"
                     android:text="5/10" />
 
-                <Button
-                    android:id="@+id/use_button"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/refreshes_label"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Use" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Refreshes on Short Rest"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
             </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/pool_apply_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="5dp"
-                    android:text="Use" />
-
-                <com.oakonell.dndcharacter.views.MyEditText
-                    android:id="@+id/pool_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="3"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:text="" />
-
-                <TextView
-                    android:id="@+id/remaining_uses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="/ 5" />
-
-                <ImageButton
-                    android:id="@+id/pool_apply_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/presence_online" />
-
-                <ImageButton
-                    android:id="@+id/pool_cancel_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/presence_offline" />
-            </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/actions_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
 
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:id="@+id/refreshes_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Refreshes on Short Rest"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -44,7 +44,9 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
                     boolean valid = onDone();
                     if (!valid) return;
 
-                    contextualComponentAdapter.deletePendingEffects(getCharacter());
+                    if (contextualComponentAdapter != null) {
+                        contextualComponentAdapter.deletePendingEffects(getCharacter());
+                    }
 
                     getMainActivity().updateViews();
                     getMainActivity().saveCharacter();
