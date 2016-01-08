@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.views.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.ExperienceDialogFragment;
 
 /**
  * Created by Rob on 10/26/2015.
@@ -36,6 +37,9 @@ public class PersonaFragment extends AbstractSheetFragment {
     TextView languages;
     ViewGroup languageGroup;
 
+    TextView xp;
+    ViewGroup xpGroup;
+
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.persona_sheet, container, false);
@@ -49,6 +53,9 @@ public class PersonaFragment extends AbstractSheetFragment {
         hair = (TextView) rootView.findViewById(R.id.hair);
         languages = (TextView) rootView.findViewById(R.id.languages);
         languageGroup = (ViewGroup) rootView.findViewById(R.id.language_group);
+
+        xp = (TextView) rootView.findViewById(R.id.xp);
+        xpGroup = (ViewGroup) rootView.findViewById(R.id.xp_group);
 
         specialtyGroup = (ViewGroup) rootView.findViewById(R.id.specialty_group);
         specialtyTitle = (TextView) rootView.findViewById(R.id.specialty_title);
@@ -142,6 +149,15 @@ public class PersonaFragment extends AbstractSheetFragment {
             public void onClick(View v) {
                 LanguagesDialogFragment fragment = LanguagesDialogFragment.create();
                 fragment.show(getFragmentManager(), "language_dialog");
+            }
+        });
+
+        xp.setText(character.getXp() + "");
+        xpGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExperienceDialogFragment fragment = ExperienceDialogFragment.create();
+                fragment.show(getFragmentManager(), "xp_dialog");
             }
         });
     }

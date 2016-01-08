@@ -41,6 +41,9 @@ public class Character {
     private int hp;
 
     @Element(required = false)
+    private int xp;
+
+    @Element(required = false)
     @Deprecated
     // TODO delete- will need to dump DB
             int tempHpMax;
@@ -1277,5 +1280,13 @@ public class Character {
             return source.getSourceString();
         }
 
+    }
+
+    public void addExperience(int xp) {
+        this.xp += xp;
+    }
+
+    public int getXp() {
+        return xp;
     }
 }
