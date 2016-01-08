@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
-import com.oakonell.dndcharacter.views.BindableRecyclerViewHolder;
+import com.oakonell.dndcharacter.views.CursorBindableRecyclerViewHolder;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
 
 /**
@@ -49,8 +49,8 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
 
     @NonNull
     @Override
-    protected CharacterRowViewHolder newRowViewHolder(View newView) {
-        return new CharacterRowViewHolder(newView);
+    protected CharacterRowViewHolderCursor newRowViewHolder(View newView) {
+        return new CharacterRowViewHolderCursor(newView);
     }
 
     @Override
@@ -58,11 +58,11 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
         return R.layout.character_list_item;
     }
 
-    protected static class CharacterRowViewHolder extends BindableRecyclerViewHolder {
+    protected static class CharacterRowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> {
         public TextView name;
         public TextView classes;
 
-        public CharacterRowViewHolder(View itemView) {
+        public CharacterRowViewHolderCursor(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             classes = (TextView) itemView.findViewById(R.id.classes);

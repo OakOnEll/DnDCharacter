@@ -435,12 +435,17 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
 
-    static class DamageViewHolder extends RecyclerView.ViewHolder {
+    static class DamageViewHolder extends BindableComponentViewHolder<AttackDamageInfo, WeaponAttackDialogFragment, DamagesListAdapter> {
         final TextView damage;
 
         public DamageViewHolder(View itemView) {
             super(itemView);
             damage = (TextView) itemView.findViewById(R.id.damage);
+        }
+
+        @Override
+        public void bind(WeaponAttackDialogFragment context, DamagesListAdapter adapter, AttackDamageInfo row) {
+            damage.setText(row.getDescription());
         }
     }
 
@@ -532,8 +537,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         @Override
         public void onBindViewHolder(DamageViewHolder holder, int position) {
             AttackDamageInfo row = damages.get(position);
-
-            holder.damage.setText(row.getDescription());
+            holder.bind(context, this, row);
         }
 
         @Override

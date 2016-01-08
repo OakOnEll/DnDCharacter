@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.CharacterArmor;
@@ -205,7 +206,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         }
     }
 
-    public static class AcViewHolder extends RecyclerView.ViewHolder {
+    public static class AcViewHolder extends BindableComponentViewHolder<Character.ArmorClassWithSource, ArmorClassDialogFragment, RootAcAdapter> {
         private final CheckBox checkBox;
         private final TextView name;
         private final TextView formula;
@@ -217,6 +218,69 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             formula = (TextView) itemView.findViewById(R.id.formula);
             value = (TextView) itemView.findViewById(R.id.value);
             checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
+        }
+
+        @Override
+        public void bind(final ArmorClassDialogFragment context, final RootAcAdapter adapter, final Character.ArmorClassWithSource row) {
+            name.setText(row.getSourceString());
+            formula.setText(row.getFormula());
+            final List<Character.ArmorClassWithSource> list = adapter.list;
+            checkBox.setOnCheckedChangeListener(null);
+            checkBox.setChecked(row.isEquipped());
+            checkBox.setEnabled(!row.isDisabled && list.size() > 1);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    row.setIsEquipped(isChecked);
+                    Character.ArmorClassWithSource selected = null;
+                    int selectedIndex = -1;
+                    if (isChecked) {
+                        selected = row;
+                        int index = -1;
+                        for (Character.ArmorClassWithSource other : list) {
+                            index++;
+                            if (other == row) {
+                                selectedIndex = index;
+                                continue;
+                            }
+                            if (!other.isEquipped()) continue;
+                            other.setIsEquipped(false);
+                            other.isDisabled = false;
+                            adapter.notifyItemChanged(index);
+                        }
+                    } else {
+                        int index = -1;
+                        for (Character.ArmorClassWithSource other : list) {
+                            index++;
+                            if (other == row) continue;
+                            if (other.isDisabled) continue;
+                            selected = other;
+                            selectedIndex = index;
+                            other.setIsEquipped(true);
+                            //other.isDisabled = true;
+                            adapter.notifyItemChanged(index);
+                            break;
+                        }
+
+                    }
+                    if (selected != null) {
+                        selected.isDisabled = !selected.isArmor();
+                        adapter.notifyItemChanged(selectedIndex);
+                        context.updateModifyingRows(selected.isArmor());
+                    }
+                    context.updateAC();
+                    // update other list items
+                }
+            });
+
+            String formula = row.getFormula();
+            int val = row.getValue();
+            String stringVal = val + "";
+            if (stringVal.equals(formula)) {
+                value.setText("");
+            } else {
+                value.setText("=" + stringVal);
+            }
         }
     }
 
@@ -242,65 +306,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         @Override
         public void onBindViewHolder(AcViewHolder holder, final int position) {
             final Character.ArmorClassWithSource row = list.get(position);
-            holder.name.setText(row.getSourceString());
-            holder.formula.setText(row.getFormula());
-
-            holder.checkBox.setOnCheckedChangeListener(null);
-            holder.checkBox.setChecked(row.isEquipped());
-            holder.checkBox.setEnabled(!row.isDisabled && list.size() > 1);
-            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    row.setIsEquipped(isChecked);
-                    Character.ArmorClassWithSource selected = null;
-                    int selectedIndex = -1;
-                    if (isChecked) {
-                        selected = row;
-                        int index = -1;
-                        for (Character.ArmorClassWithSource other : list) {
-                            index++;
-                            if (other == row) {
-                                selectedIndex = index;
-                                continue;
-                            }
-                            if (!other.isEquipped()) continue;
-                            other.setIsEquipped(false);
-                            other.isDisabled = false;
-                            notifyItemChanged(index);
-                        }
-                    } else {
-                        int index = -1;
-                        for (Character.ArmorClassWithSource other : list) {
-                            index++;
-                            if (other == row) continue;
-                            if (other.isDisabled) continue;
-                            selected = other;
-                            selectedIndex = index;
-                            other.setIsEquipped(true);
-                            //other.isDisabled = true;
-                            notifyItemChanged(index);
-                            break;
-                        }
-
-                    }
-                    if (selected != null) {
-                        selected.isDisabled = !selected.isArmor();
-                        notifyItemChanged(selectedIndex);
-                        fragment.updateModifyingRows(selected.isArmor());
-                    }
-                    fragment.updateAC();
-                    // update other list items
-                }
-            });
-
-            String formula = row.getFormula();
-            int val = row.getValue();
-            String stringVal = val + "";
-            if (stringVal.equals(formula)) {
-                holder.value.setText("");
-            } else {
-                holder.value.setText("=" + stringVal);
-            }
+            holder.bind(fragment, this, row);
         }
 
         @Override

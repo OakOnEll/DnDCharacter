@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * Created by Rob on 1/4/2016.
  */
-public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, MainActivity>> {
+public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter>> {
     private static final int UNDO_DELAY = 5000;
     private MainActivity context;
     private Set<FeatureContext> filter;
@@ -107,7 +107,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     }
 
     @Override
-    public BindableComponentViewHolder<IContextualComponent, MainActivity> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter> onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == 1) {
             View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
@@ -129,12 +129,12 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     }
 
     @Override
-    public void onBindViewHolder(final BindableComponentViewHolder<IContextualComponent, MainActivity> viewHolder, final int position) {
+    public void onBindViewHolder(final BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter> viewHolder, final int position) {
         final IContextualComponent info = getItem(position);
         viewHolder.bind(context, this, info);
     }
 
-    private static class DeletedEffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity> {
+    private static class DeletedEffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity, ContextualComponentAdapter> {
         private final TextView name;
 
         private final Button undo;
@@ -147,23 +147,21 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         }
 
         @Override
-        public void bind(final MainActivity context, final RecyclerView.Adapter<?> adapter, final CharacterEffect info) {
+        public void bind(final MainActivity context, final ContextualComponentAdapter componentAdapter, final CharacterEffect info) {
             final String nameString = info.getName();
             name.setText(nameString);
 
             undo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final ContextualComponentAdapter componentAdapter = (ContextualComponentAdapter) adapter;
-
                     componentAdapter.deletedEffects.remove(nameString);
-                    adapter.notifyItemChanged(getAdapterPosition());
+                    componentAdapter.notifyItemChanged(getAdapterPosition());
                 }
             });
         }
     }
 
-    private static class EffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity> {
+    private static class EffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity, ContextualComponentAdapter> {
         private final TextView name;
         private final TextView source;
         private final TextView short_description;
@@ -178,24 +176,24 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         }
 
         @Override
-        public void bind(final MainActivity context, final RecyclerView.Adapter<?> adapter, final CharacterEffect info) {
+        public void bind(final MainActivity context, final ContextualComponentAdapter componentAdapter, final CharacterEffect info) {
             name.setText(info.getName());
             source.setText(info.getSource());
             short_description.setText(info.getDescription());
             end_effect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final ContextualComponentAdapter componentAdapter = (ContextualComponentAdapter) adapter;
+
                     final String name = info.getName();
                     if (componentAdapter.deletedEffects.containsKey(name)) {
                         // actually delete the record, now
                         componentAdapter.context.getCharacter().removeEffect(info);
                         componentAdapter.deletedEffects.remove(name);
-                        adapter.notifyItemRemoved(getAdapterPosition());
+                        componentAdapter.notifyItemRemoved(getAdapterPosition());
                     }
 
                     componentAdapter.deletedEffects.put(name, System.currentTimeMillis());
-                    adapter.notifyItemChanged(getAdapterPosition());
+                    componentAdapter.notifyItemChanged(getAdapterPosition());
 
                     end_effect.postDelayed(new Runnable() {
                         public void run() {

@@ -138,17 +138,17 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     }
 
     @NonNull
-    protected BindableRecyclerViewHolder newRowViewHolder(View newView) {
-        return new RowViewHolder(newView);
+    protected CursorBindableRecyclerViewHolder newRowViewHolder(View newView) {
+        return new RowViewHolderCursor(newView);
     }
 
     protected abstract void deleteRow(long id);
 
-    public static class DeleteRowViewHolder extends BindableRecyclerViewHolder {
+    public static class DeleteRowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> {
         TextView name;
         Button undo;
 
-        public DeleteRowViewHolder(View itemView) {
+        public DeleteRowViewHolderCursor(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -173,12 +173,12 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
     }
 
-    public static class RowViewHolder extends BindableRecyclerViewHolder implements ItemTouchHelperViewHolder {
+    public static class RowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> implements ItemTouchHelperViewHolder {
         TextView name;
         //TextView description;
         private Drawable originalBackground;
 
-        public RowViewHolder(View itemView) {
+        public RowViewHolderCursor(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
         }
@@ -210,7 +210,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
     }
 
-    public static class ComponentListAdapter extends RecyclerView.Adapter<BindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
+    public static class ComponentListAdapter extends RecyclerView.Adapter<CursorBindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
         private final AbstractComponentListActivity<? extends Model> context;
         private final int layout;
         Cursor cursor;
@@ -238,17 +238,17 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public BindableRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public CursorBindableRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == 1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.component_deleted_item, parent, false);
-                return new DeleteRowViewHolder(newView);
+                return new DeleteRowViewHolderCursor(newView);
             }
             View newView = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
             return this.context.newRowViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
+        public void onBindViewHolder(CursorBindableRecyclerViewHolder holder, int position) {
             cursor.moveToPosition(position);
             holder.bindTo(cursor, context, this, cursorIndexesByName);
         }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oakonell.dndcharacter.AbstractBaseActivity;
+import com.oakonell.dndcharacter.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
@@ -247,12 +248,24 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         updateViews();
     }
 
-    static class EffectBarRowViewHolder extends RecyclerView.ViewHolder {
+    static class EffectBarRowViewHolder extends BindableComponentViewHolder<CharacterEffect, AbstractSheetFragment, EffectsBarAdapter> {
         private final TextView name;
 
         public EffectBarRowViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
+        }
+
+        @Override
+        public void bind(final AbstractSheetFragment context, EffectsBarAdapter adapter, final CharacterEffect effect) {
+            name.setText(effect.getName());
+            name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewEffectDialogFragment dialog = ViewEffectDialogFragment.createDialog(effect);
+                    dialog.show(context.getFragmentManager(), "effect_dialog");
+                }
+            });
         }
     }
 
@@ -279,14 +292,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         @Override
         public void onBindViewHolder(EffectBarRowViewHolder holder, int position) {
             final CharacterEffect effect = effects.get(position);
-            holder.name.setText(effect.getName());
-            holder.name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ViewEffectDialogFragment dialog = ViewEffectDialogFragment.createDialog(effect);
-                    dialog.show(context.getFragmentManager(), "effect_dialog");
-                }
-            });
+            holder.bind(context, this, effect);
         }
 
         @Override

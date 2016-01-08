@@ -21,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
 import com.oakonell.dndcharacter.model.DamageType;
@@ -444,15 +445,12 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         }
     }
 
-    public static class BindableViewHolder extends RecyclerView.ViewHolder {
+    public abstract static class AbstractHPViewHolder extends BindableComponentViewHolder<HpRow, HitPointDiaogFragment, HitPointsAdapter> {
 
-        public BindableViewHolder(View itemView) {
+        public AbstractHPViewHolder(View itemView) {
             super(itemView);
         }
 
-        public void bindTo(HitPointDiaogFragment context, RecyclerView.Adapter adapter, HpRow hpRow) {
-
-        }
     }
 
     public static class DeleteHitPointRowViewHolder extends HitPointRowViewHolder {
@@ -463,8 +461,9 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
             undo = (Button) itemView.findViewById(R.id.undo);
         }
 
-        public void bindTo(final HitPointDiaogFragment context, final RecyclerView.Adapter adapter, final HpRow hpRow) {
-            super.bindTo(context, adapter, hpRow);
+        @Override
+        public void bind(final HitPointDiaogFragment context, final HitPointsAdapter adapter, final HpRow hpRow) {
+            super.bind(context, adapter, hpRow);
 
             undo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -477,7 +476,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     }
 
-    public static class HitPointRowViewHolder extends BindableViewHolder {
+    public static class HitPointRowViewHolder extends AbstractHPViewHolder {
         private final TextView type;
         private final TextView amount;
 
@@ -487,7 +486,8 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
             amount = (TextView) itemView.findViewById(R.id.amount);
         }
 
-        public void bindTo(HitPointDiaogFragment context, RecyclerView.Adapter adapter, HpRow hpRow) {
+        @Override
+        public void bind(HitPointDiaogFragment context, HitPointsAdapter adapter, HpRow hpRow) {
             if (hpRow.hpType == HpType.DAMAGE) {
                 if (hpRow.damageType == null) {
                     type.setText("Damage");
@@ -504,7 +504,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     }
 
-    public static class HitPointsAdapter extends RecyclerView.Adapter<BindableViewHolder> implements ItemTouchHelperAdapter {
+    public static class HitPointsAdapter extends RecyclerView.Adapter<AbstractHPViewHolder> implements ItemTouchHelperAdapter {
         private final List<HpRow> hpRows;
         private final HitPointDiaogFragment fragment;
 
@@ -522,7 +522,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public BindableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AbstractHPViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == 1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.hp_row_delete, parent, false);
                 return new DeleteHitPointRowViewHolder(newView);
@@ -532,8 +532,8 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void onBindViewHolder(BindableViewHolder holder, int position) {
-            holder.bindTo(fragment, this, hpRows.get(position));
+        public void onBindViewHolder(AbstractHPViewHolder holder, int position) {
+            holder.bind(fragment, this, hpRows.get(position));
         }
 
         @Override

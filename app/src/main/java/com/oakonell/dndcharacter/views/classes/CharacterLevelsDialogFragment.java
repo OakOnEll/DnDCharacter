@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.Character;
@@ -138,11 +139,11 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         classesTextView.setText(getCharacter().getClassesString());
     }
 
-    public static class DeleteRowViewHolder extends BindableViewHolder {
+    public static class DeleteClassViewHolder extends AbstractCharacterClassViewHolder {
         TextView name;
         Button undo;
 
-        public DeleteRowViewHolder(View itemView) {
+        public DeleteClassViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -150,7 +151,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
 
         @Override
-        public void bindTo(final CharacterClass item, final CharacterLevelsDialogFragment context, final ClassAdapter adapter) {
+        public void bind(final CharacterLevelsDialogFragment context, final ClassAdapter adapter, final CharacterClass item) {
             name.setText(item.getName() + " - " + item.getLevel());
             undo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -163,7 +164,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
     }
 
-    public static class ClassAdapter extends RecyclerView.Adapter<BindableViewHolder>
+    public static class ClassAdapter extends RecyclerView.Adapter<AbstractCharacterClassViewHolder>
             implements ItemTouchHelperAdapter {
         private final CharacterLevelsDialogFragment context;
         private List<CharacterClass> classes;
@@ -188,18 +189,18 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
 
         @Override
-        public BindableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AbstractCharacterClassViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == -1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.deleting_equipment_row, parent, false);
-                return new DeleteRowViewHolder(newView);
+                return new DeleteClassViewHolder(newView);
             }
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_level_item, parent, false);
-            return new BindableRecyclerViewHolder(newView);
+            return new CharacterClassViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(BindableViewHolder holder, int position) {
-            holder.bindTo(getItem(position), context, this);
+        public void onBindViewHolder(AbstractCharacterClassViewHolder holder, int position) {
+            holder.bind(context, this, getItem(position));
         }
 
         private CharacterClass getItem(int position) {
@@ -257,15 +258,13 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
     }
 
-    public static abstract class BindableViewHolder extends RecyclerView.ViewHolder {
-        public BindableViewHolder(View itemView) {
+    public abstract static class AbstractCharacterClassViewHolder extends BindableComponentViewHolder<CharacterClass, CharacterLevelsDialogFragment, ClassAdapter> {
+        protected AbstractCharacterClassViewHolder(View itemView) {
             super(itemView);
         }
-
-        abstract void bindTo(final CharacterClass item, final CharacterLevelsDialogFragment context, final ClassAdapter adapter);
     }
 
-    public static class BindableRecyclerViewHolder extends BindableViewHolder implements ItemTouchHelperViewHolder {
+    public static class CharacterClassViewHolder extends AbstractCharacterClassViewHolder implements ItemTouchHelperViewHolder {
         TextView character_level;
         TextView class_name;
         TextView class_level;
@@ -274,7 +273,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         private Drawable originalBackground;
 
 
-        public BindableRecyclerViewHolder(View itemView) {
+        public CharacterClassViewHolder(View itemView) {
             super(itemView);
             character_level = (TextView) itemView.findViewById(R.id.character_level);
             class_name = (TextView) itemView.findViewById(R.id.class_name);
@@ -284,7 +283,8 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
 
         }
 
-        public void bindTo(final CharacterClass item, final CharacterLevelsDialogFragment context, final ClassAdapter adapter) {
+        @Override
+        public void bind(final CharacterLevelsDialogFragment context, final ClassAdapter adapter, final CharacterClass item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

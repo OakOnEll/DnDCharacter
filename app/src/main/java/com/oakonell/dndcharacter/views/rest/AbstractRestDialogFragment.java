@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractRestRequest;
 import com.oakonell.dndcharacter.model.Character;
@@ -213,90 +214,14 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             View view = View.inflate(context, R.layout.feature_reset_item, null);
             FeatureResetViewHolder viewHolder = new FeatureResetViewHolder(view);
 
-            viewHolder.name = (CheckBox) view.findViewById(R.id.feature_name);
-            viewHolder.description = (TextView) view.findViewById(R.id.description);
-            viewHolder.uses = (TextView) view.findViewById(R.id.uses);
-            viewHolder.numToRestore = (EditText) view.findViewById(R.id.num_to_restore);
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(final FeatureResetViewHolder viewHolder, int position) {
             final FeatureResetInfo row = getItem(position);
+            viewHolder.bind(context, this, row);
 
-            if (viewHolder.watcher != null) {
-                viewHolder.numToRestore.removeTextChangedListener(viewHolder.watcher);
-            }
-            viewHolder.name.setOnCheckedChangeListener(null);
-
-
-            viewHolder.name.setText(row.name);
-            viewHolder.name.setChecked(row.reset);
-
-            viewHolder.description.setText(row.description);
-
-            viewHolder.uses.setText(row.uses);
-
-            viewHolder.numToRestore.setText(row.numToRestore + "");
-            viewHolder.numToRestore.setEnabled(row.reset);
-
-            if (!row.needsResfesh) {
-                viewHolder.name.setChecked(false);
-                viewHolder.name.setEnabled(false);
-                viewHolder.numToRestore.setEnabled(false);
-            } else {
-                viewHolder.name.setEnabled(true);
-            }
-
-            TextWatcher watcher = new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    viewHolder.numToRestore.setError(null);
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    // TODO error handling, if val is too large
-                    if (s == null) return;
-                    if (!row.reset) return;
-
-                    String stringVal = s.toString().trim();
-                    if (stringVal.length() == 0) return;
-                    int value;
-                    try {
-                        value = Integer.parseInt(stringVal);
-                    } catch (Exception e) {
-                        viewHolder.numToRestore.setError("Enter a value <= " + row.maxToRestore);
-                        return;
-                    }
-                    if (value > row.maxToRestore) {
-                        viewHolder.numToRestore.setError("Enter a value <= " + row.maxToRestore);
-                    }
-
-                    row.numToRestore = value;
-                }
-            };
-            viewHolder.numToRestore.addTextChangedListener(watcher);
-            viewHolder.watcher = watcher;
-
-            viewHolder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    row.reset = isChecked;
-                    viewHolder.numToRestore.setEnabled(row.reset);
-                    if (row.reset) {
-                        // force a validation
-                        viewHolder.numToRestore.setText(viewHolder.numToRestore.getText());
-                    } else {
-                        viewHolder.numToRestore.setError(null);
-                    }
-                }
-            });
         }
 
         @Override
@@ -312,15 +237,95 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     }
 
-    static class FeatureResetViewHolder extends RecyclerView.ViewHolder {
+    static class FeatureResetViewHolder extends BindableComponentViewHolder<FeatureResetInfo, Context, FeatureResetsAdapter> {
         public TextWatcher watcher;
         CheckBox name;
         TextView description;
         TextView uses;
         EditText numToRestore;
 
-        public FeatureResetViewHolder(View itemView) {
-            super(itemView);
+        public FeatureResetViewHolder(View view) {
+            super(view);
+            name = (CheckBox) view.findViewById(R.id.feature_name);
+            description = (TextView) view.findViewById(R.id.description);
+            uses = (TextView) view.findViewById(R.id.uses);
+            numToRestore = (EditText) view.findViewById(R.id.num_to_restore);
+        }
+
+        @Override
+        public void bind(final Context context, final FeatureResetsAdapter adapter, final FeatureResetInfo row) {
+            if (watcher != null) {
+                numToRestore.removeTextChangedListener(watcher);
+            }
+            name.setOnCheckedChangeListener(null);
+
+            name.setText(row.name);
+            name.setChecked(row.reset);
+
+            description.setText(row.description);
+
+            uses.setText(row.uses);
+
+            numToRestore.setText(row.numToRestore + "");
+            numToRestore.setEnabled(row.reset);
+
+            if (!row.needsResfesh) {
+                name.setChecked(false);
+                name.setEnabled(false);
+                numToRestore.setEnabled(false);
+            } else {
+                name.setEnabled(true);
+            }
+
+            TextWatcher watcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    numToRestore.setError(null);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // TODO error handling, if val is too large
+                    if (s == null) return;
+                    if (!row.reset) return;
+
+                    String stringVal = s.toString().trim();
+                    if (stringVal.length() == 0) return;
+                    int value;
+                    try {
+                        value = Integer.parseInt(stringVal);
+                    } catch (Exception e) {
+                        numToRestore.setError("Enter a value <= " + row.maxToRestore);
+                        return;
+                    }
+                    if (value > row.maxToRestore) {
+                        numToRestore.setError("Enter a value <= " + row.maxToRestore);
+                    }
+
+                    row.numToRestore = value;
+                }
+            };
+            numToRestore.addTextChangedListener(watcher);
+            watcher = watcher;
+
+            name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    row.reset = isChecked;
+                    numToRestore.setEnabled(row.reset);
+                    if (row.reset) {
+                        // force a validation
+                        numToRestore.setText(numToRestore.getText());
+                    } else {
+                        numToRestore.setError(null);
+                    }
+                }
+            });
         }
     }
 }

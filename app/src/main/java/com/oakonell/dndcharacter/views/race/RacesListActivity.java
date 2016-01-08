@@ -17,8 +17,8 @@ import com.oakonell.dndcharacter.views.CursorIndexesByName;
 public class RacesListActivity extends AbstractComponentListActivity<Race> {
 
     @NonNull
-    protected RaceRowViewHolder newRowViewHolder(View newView) {
-        return new RaceRowViewHolder(newView);
+    protected RaceRowViewHolderCursor newRowViewHolder(View newView) {
+        return new RaceRowViewHolderCursor(newView);
     }
 
     @Override
@@ -55,10 +55,10 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
         Race.delete(Race.class, id);
     }
 
-    protected static class RaceRowViewHolder extends RowViewHolder {
+    protected static class RaceRowViewHolderCursor extends RowViewHolderCursor {
         public TextView parentRace;
 
-        public RaceRowViewHolder(View itemView) {
+        public RaceRowViewHolderCursor(View itemView) {
             super(itemView);
             parentRace = (TextView) itemView.findViewById(R.id.parent_race);
         }

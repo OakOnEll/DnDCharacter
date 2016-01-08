@@ -142,7 +142,7 @@ public class AddEffectDialogFragment extends AbstractCharacterDialogFragment {
     }
 
 
-    public static class RowViewHolder extends BindableRecyclerViewHolder implements ItemTouchHelperViewHolder {
+    public static class RowViewHolder extends CursorBindableRecyclerViewHolder<AddEffectDialogFragment> implements ItemTouchHelperViewHolder {
         TextView name;
         //TextView description;
         private Drawable originalBackground;
@@ -205,7 +205,7 @@ public class AddEffectDialogFragment extends AbstractCharacterDialogFragment {
         dismiss();
     }
 
-    public static class ComponentListAdapter extends RecyclerView.Adapter<BindableRecyclerViewHolder> {
+    public static class ComponentListAdapter extends RecyclerView.Adapter<CursorBindableRecyclerViewHolder<AddEffectDialogFragment>> {
         private final AddEffectDialogFragment context;
         private final int layout;
         Cursor cursor;
@@ -225,13 +225,13 @@ public class AddEffectDialogFragment extends AbstractCharacterDialogFragment {
 
 
         @Override
-        public BindableRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public CursorBindableRecyclerViewHolder<AddEffectDialogFragment> onCreateViewHolder(ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
             return this.context.newRowViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(BindableRecyclerViewHolder holder, int position) {
+        public void onBindViewHolder(CursorBindableRecyclerViewHolder<AddEffectDialogFragment> holder, int position) {
             cursor.moveToPosition(position);
             holder.bindTo(cursor, context, this, cursorIndexesByName);
         }
@@ -245,19 +245,10 @@ public class AddEffectDialogFragment extends AbstractCharacterDialogFragment {
 
     }
 
-    private BindableRecyclerViewHolder newRowViewHolder(View newView) {
+    private CursorBindableRecyclerViewHolder<AddEffectDialogFragment> newRowViewHolder(View newView) {
         return new RowViewHolder(newView);
     }
 
-    public static class BindableRecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        public BindableRecyclerViewHolder(View itemView) {
-            super(itemView);
-        }
-
-        public void bindTo(Cursor cursor, AddEffectDialogFragment context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
-
-        }
-    }
 
 }

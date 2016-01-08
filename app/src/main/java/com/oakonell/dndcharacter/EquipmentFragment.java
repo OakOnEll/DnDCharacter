@@ -419,8 +419,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(final CharacterArmor item, final EquipmentFragment context, SubAdapter adapter) {
-            super.bindTo(item, context, adapter);
+        public void bind(final EquipmentFragment context, final SubAdapter<CharacterArmor> adapter, final CharacterArmor item) {
+            super.bind(context, adapter, item);
 
             String acString = "?";
             if (item.isBaseArmor()) {
@@ -497,8 +497,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(final CharacterWeapon item, final EquipmentFragment context, SubAdapter adapter) {
-            super.bindTo(item, context, adapter);
+        public void bind(final EquipmentFragment context, final SubAdapter<CharacterWeapon> adapter, final CharacterWeapon item) {
+            super.bind(context, adapter, item);
 
 
             final CharacterWeapon.AttackModifiers attackModifiers = item.getAttackModifiers(context.getCharacter(), false);
@@ -526,15 +526,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     }
 
-    public static class BindableRecyclerViewHolder<I extends CharacterItem> extends RecyclerView.ViewHolder {
+    public abstract static class BindableRecyclerViewHolder<I extends CharacterItem> extends BindableComponentViewHolder<I, EquipmentFragment, SubAdapter<I>> {
 
         public BindableRecyclerViewHolder(View itemView) {
             super(itemView);
         }
 
-        public void bindTo(I item, EquipmentFragment context, SubAdapter adapter) {
-
-        }
     }
 
     static class SwipeOrDragListener implements View.OnTouchListener {
@@ -600,7 +597,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(I item, EquipmentFragment context, SubAdapter adapter) {
+        public void bind(EquipmentFragment context, SubAdapter<I> adapter, I item) {
             name.setText(getNameString(item));
             // TODO force child classes to implement onClick
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -629,6 +626,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             itemView.setBackgroundDrawable(originalBackground);
         }
 
+
     }
 
     public static class DeleteRowViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> {
@@ -643,8 +641,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bindTo(final I item, final EquipmentFragment context, final SubAdapter adapter) {
-            super.bindTo(item, context, adapter);
+        public void bind(final EquipmentFragment context, final SubAdapter<I> adapter, final I item) {
             name.setText(item.getName());
             undo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -711,9 +708,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         @Override
         public void onBindViewHolder(BindableRecyclerViewHolder<I> holder, int position) {
-            holder.bindTo(getItem(position), fragment, this);
-
-
+            holder.bind(fragment, this, getItem(position));
         }
 
         @Override
@@ -810,7 +805,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         @Override
         public void onBindViewHolder(BindableRecyclerViewHolder<CharacterItem> holder, int position) {
-            holder.bindTo(getItem(position), fragment, this);
+            holder.bind(fragment, this, getItem(position));
         }
 
     }

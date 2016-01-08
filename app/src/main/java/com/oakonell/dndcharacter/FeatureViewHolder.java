@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created by Rob on 1/4/2016.
  */
-public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, MainActivity> {
+public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, MainActivity,RecyclerView.Adapter<?>> {
     public TextView name;
     public TextView source;
     public TextView shortDescription;
@@ -57,7 +57,6 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         refreshes_label = (TextView) view.findViewById(R.id.refreshes_label);
 
     }
-
 
     @Override
     public void bind(final MainActivity context, final RecyclerView.Adapter<?> adapter, final FeatureInfo info) {
@@ -112,7 +111,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     }
 
 
-    private static class ActionViewHolder extends RecyclerView.ViewHolder {
+    private static class ActionViewHolder extends BindableComponentViewHolder<IFeatureAction, MainActivity, ActionAdapter> {
         public ViewGroup use_group;
         public Button useButton;
         public TextView remaining_uses;

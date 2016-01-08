@@ -41,8 +41,8 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
 
     @NonNull
     @Override
-    protected ItemRowViewHolder newRowViewHolder(View newView) {
-        return new ItemRowViewHolder(newView);
+    protected ItemRowViewHolderCursor newRowViewHolder(View newView) {
+        return new ItemRowViewHolderCursor(newView);
     }
 
     @Override
@@ -55,10 +55,10 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         ItemRow.delete(ItemRow.class, id);
     }
 
-    protected static class ItemRowViewHolder extends RowViewHolder {
+    protected static class ItemRowViewHolderCursor extends RowViewHolderCursor {
         public TextView category;
 
-        public ItemRowViewHolder(View itemView) {
+        public ItemRowViewHolderCursor(View itemView) {
             super(itemView);
             category = (TextView) itemView.findViewById(R.id.category);
         }
