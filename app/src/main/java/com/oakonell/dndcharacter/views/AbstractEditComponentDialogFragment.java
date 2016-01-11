@@ -31,6 +31,15 @@ public class AbstractEditComponentDialogFragment<M extends AbstractComponentMode
         title = (TextView) view.findViewById(R.id.title);
         xmltext = (EditText) view.findViewById(R.id.xml);
         Button done = (Button) view.findViewById(R.id.done);
+        Button cancel = (Button) view.findViewById(R.id.cancel);
+        if (cancel != null) {
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+        }
 
         title.setText(model.getName());
         xmltext.setText(model.getXml());
