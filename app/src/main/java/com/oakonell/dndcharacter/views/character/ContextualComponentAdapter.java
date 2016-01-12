@@ -207,6 +207,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
                                 componentAdapter.context.getCharacter().removeEffect(info);
                                 componentAdapter.deletedEffects.remove(name);
                                 context.updateViews();
+                                context.saveCharacter();
                                 //adapter.notifyItemRemoved(getAdapterPosition());
                             }
                         }

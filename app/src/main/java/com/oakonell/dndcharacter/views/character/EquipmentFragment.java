@@ -34,6 +34,7 @@ import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
 import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
+import com.oakonell.dndcharacter.views.character.item.AmmunitionViewHelper;
 import com.oakonell.dndcharacter.views.character.item.ToolProficiencyDialogFragment;
 import com.oakonell.dndcharacter.views.character.item.WeaponAttackDialogFragment;
 
@@ -460,8 +461,14 @@ public class EquipmentFragment extends AbstractSheetFragment {
                     // eg an effect for non-proficient armor use
                     item.setEquipped(isChecked);
                     // TODO update only views of any AC related fields
-                    ((MainActivity) context.getActivity()).updateViews();
-                    ((MainActivity) context.getActivity()).saveCharacter();
+                    // if the delay is too low, the check animation is laggy
+                    ac.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((MainActivity) context.getActivity()).updateViews();
+                            ((MainActivity) context.getActivity()).saveCharacter();
+                        }
+                    }, 500);
                 }
             });
         }
@@ -471,22 +478,16 @@ public class EquipmentFragment extends AbstractSheetFragment {
         TextView bonus;
         TextView damage;
 
-        ViewGroup ammunition_layout;
-        private final TextView ammunition_count;
-        private final TextView ammunition_name;
-        private final Button use_ammunition;
-        private final Button add_ammunition;
+        private final AmmunitionViewHelper ammunitionViewHelper;
 
 
         public WeaponViewHolder(View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
             bonus = (TextView) view.findViewById(R.id.hit_bonus);
             damage = (TextView) view.findViewById(R.id.damage);
-            ammunition_layout = (ViewGroup) view.findViewById(R.id.ammunition_layout);
-            ammunition_count = (TextView) view.findViewById(R.id.ammunition_count);
-            ammunition_name = (TextView) view.findViewById(R.id.ammunition_name);
-            use_ammunition = (Button) view.findViewById(R.id.use_ammunition);
-            add_ammunition = (Button) view.findViewById(R.id.add_ammunition);
+
+            ammunitionViewHelper = new AmmunitionViewHelper();
+            ammunitionViewHelper.createView(view);
         }
 
         protected String getNameString(CharacterWeapon item) {
@@ -551,61 +552,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             });
 
 
-            final String ammunitionName = item.getAmmunition();
-            if (ammunitionName != null) {
-                ammunition_layout.setVisibility(View.VISIBLE);
-                ammunition_name.setText(ammunitionName);
-// TODO link to the character's ammunition items, to count and adjust here
-                final List<CharacterItem> ammo = context.getCharacter().getItemsNamed(ammunitionName);
-                int amount = 0;
-                for (CharacterItem each : ammo) {
-                    amount += each.getCount();
-                }
-                ammunition_count.setText(amount + "");
-                add_ammunition.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final List<CharacterItem> ammo = context.getCharacter().getItemsNamed(ammunitionName);
-                        if (ammo.isEmpty()) {
-                            // TODO use a fancy visitor, create one from the model if exists
-                            CharacterItem item = new CharacterItem();
-                            item.setName(ammunitionName);
-                            context.getCharacter().addItem(item);
-                            context.updateViews();
-                        } else {
-                            final CharacterItem firstItem = ammo.get(0);
-                            firstItem.setCount(firstItem.getCount() + 1);
-                            context.updateViews();
-                        }
-                    }
-                });
-                use_ammunition.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final List<CharacterItem> ammo = context.getCharacter().getItemsNamed(ammunitionName);
-                        if (ammo.isEmpty()) {
-                            // do nothing..
-                            context.updateViews();
-                        } else {
-                            final CharacterItem firstItem = ammo.get(0);
-                            firstItem.setCount(Math.max(firstItem.getCount() - 1, 0));
-                            if (firstItem.getCount() <= 0) {
-                                context.getCharacter().getItems().remove(firstItem);
-                            }
-                            context.updateViews();
-                        }
-                    }
-                });
-//                ammunition_count = (TextView) view.findViewById(R.id.ammunition_count);
-//                use_ammunition = (Button) view.findViewById(R.id.use_ammunition);
-//                add_ammunition = (Button) view.findViewById(R.id.add_ammunition);
-
-
-            } else {
-                ammunition_layout.setVisibility(View.GONE);
-            }
-
-
+            ammunitionViewHelper.bindView(context.getMainActivity(), item);
         }
 
     }

@@ -66,6 +66,7 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
                 public void onClick(View v) {
                     character.removeEffect(effect);
                     getMainActivity().updateViews();
+                    getMainActivity().saveCharacter();
                     dismiss();
                 }
             });

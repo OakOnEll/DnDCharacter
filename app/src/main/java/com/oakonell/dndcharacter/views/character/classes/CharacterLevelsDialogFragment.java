@@ -229,6 +229,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
                 if (context.getMainActivity() != null) {
                     context.updateView();
                     ((MainActivity) context.getActivity()).updateViews();
+                    ((MainActivity) context.getActivity()).saveCharacter();
                 }
             }
 
@@ -249,6 +250,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
                             notifyItemRemoved(position);
                             context.updateView();
                             activity.updateViews();
+                            activity.saveCharacter();
                         }
 
                     }

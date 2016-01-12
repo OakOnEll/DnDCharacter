@@ -163,7 +163,13 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                     @Override
                     public void onClick(View v) {
                         adapter.context.getCharacter().useFeatureAction(info.getFeature(), action);
-                        context.updateViews();
+                        useButton.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                context.updateViews();
+                                context.saveCharacter();
+                            }
+                        },10);
                     }
                 });
             } else {
@@ -218,7 +224,13 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                         pool_value.setText("");
                         use_group.setVisibility(View.VISIBLE);
                         //adapter.notifyItemChanged(getAdapterPosition());
-                        context.updateViews();
+                        use_group.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                context.updateViews();
+                                context.saveCharacter();
+                            }
+                        }, 10);
                     }
                 });
 

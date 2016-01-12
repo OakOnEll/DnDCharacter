@@ -56,6 +56,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     private TextView damage_descr;
     private CheckBox two_handed;
     private CheckBox use_dexterity;
+    private AmmunitionViewHelper ammunitionViewHelper;
 
     private Button add_another;
     private RecyclerView damagesRecyclerView;
@@ -96,6 +97,9 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         damage_descr = (TextView) view.findViewById(R.id.damage_descr);
         two_handed = (CheckBox) view.findViewById(R.id.two_handed);
         use_dexterity = (CheckBox) view.findViewById(R.id.use_dexterity);
+
+        ammunitionViewHelper = new AmmunitionViewHelper();
+        ammunitionViewHelper.createView(view);
 
         attack_roll_button = (Button) view.findViewById(R.id.attack_roll_button);
         attack_roll1 = (TextView) view.findViewById(R.id.attack_roll1);
@@ -298,7 +302,6 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         super.onCharacterLoaded(character);
 
         loadWeapon(character);
-
         updateViews();
     }
 
@@ -307,7 +310,6 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         super.onCharacterChanged(character);
 
         loadWeapon(character);
-
         updateViews();
     }
 
@@ -366,6 +368,8 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             damage_descr.setText(weapon.getDamageString());
         }
         attack_roll_modifier.setText(damageModifier + "");
+
+        ammunitionViewHelper.bindView(getMainActivity(), weapon);
     }
 
     private void loadWeapon(Character character) {
