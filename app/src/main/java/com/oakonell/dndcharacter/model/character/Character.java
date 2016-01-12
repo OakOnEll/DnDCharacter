@@ -236,6 +236,12 @@ public class Character {
             }
             Integer level = entry.getValue();
             String name = entry.getKey();
+
+            String subclass = getSubclassFor(name);
+            if (subclass != null) {
+                name += "[" + subclass + "]";
+            }
+
             builder.append(name + " " + level);
         }
         return builder.toString();
@@ -250,6 +256,15 @@ public class Character {
             classLevels.put(each.getName(), level + 1);
         }
         return classLevels;
+    }
+
+    public String getSubclassFor(String className) {
+        for (CharacterClass each : classes) {
+            if (!each.getName().equals(className)) continue;
+            String subclass = each.getSubclassName();
+            if (subclass != null) return subclass;
+        }
+        return null;
     }
 
     public String getLanguagesString() {

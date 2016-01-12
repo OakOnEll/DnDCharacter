@@ -17,12 +17,24 @@
     </savingThrows>
     <skills>
         <choose name="skills" number="2">
-            <or name="arcana"><proficiency>Arcana</proficiency></or>
-            <or name="deception"><proficiency>Deception</proficiency></or>
-            <or name="insight"><proficiency>Insight</proficiency></or>
-            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
-            <or name="persuasion"><proficiency>Persuasion</proficiency></or>
-            <or name="religion"><proficiency>Religion</proficiency></or>
+            <or name="arcana">
+                <proficiency>Arcana</proficiency>
+            </or>
+            <or name="deception">
+                <proficiency>Deception</proficiency>
+            </or>
+            <or name="insight">
+                <proficiency>Insight</proficiency>
+            </or>
+            <or name="intimidation">
+                <proficiency>Intimidation</proficiency>
+            </or>
+            <or name="persuasion">
+                <proficiency>Persuasion</proficiency>
+            </or>
+            <or name="religion">
+                <proficiency>Religion</proficiency>
+            </or>
         </choose>
     </skills>
     <equipment>
@@ -54,4 +66,25 @@
         </choose>
     </equipment>
 
+    <level value="1">
+        <subclass label="Sorcerous Origin" />
+    </level>
+    <level value="2">
+        <feature>
+            <name>Font of Magic</name>
+            <refreshes>rest</refreshes>
+            <pool>2</pool>
+            <shortDescription>You have sorcery points representing a deep wellspring of magic within yourself.</shortDescription>
+            <context></context>
+        </feature>
+    </level>
+    <level value="3">
+        <feature>
+            <name>Metamagic</name>
+            <refreshes>rest</refreshes>
+            <pool>2</pool>
+            <shortDescription>You can choose a metamagic option to apply to spells cast.</shortDescription>
+            <context></context>
+        </feature>
+    </level>
 </class>

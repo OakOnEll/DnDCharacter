@@ -16,6 +16,9 @@ public abstract class AbstractClassVisitor extends AbstractComponentVisitor {
 
     protected boolean subVisit(Element element, String name) {
         switch (name) {
+            case "subclass":
+                visitSubClass(element);
+                break;
             case "class":
                 visitClass(element);
                 break;
@@ -26,6 +29,10 @@ public abstract class AbstractClassVisitor extends AbstractComponentVisitor {
                 return false;
         }
         return true;
+    }
+
+    protected void visitSubClass(Element element) {
+        visitChildren(element);
     }
 
     protected void visitClass(Element element) {

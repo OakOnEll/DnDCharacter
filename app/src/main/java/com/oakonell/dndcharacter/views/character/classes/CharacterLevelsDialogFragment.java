@@ -13,17 +13,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
-import com.oakonell.dndcharacter.views.character.MainActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.StatType;
-import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
+import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
 import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
+import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
+import com.oakonell.dndcharacter.views.character.MainActivity;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -270,6 +270,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         TextView class_level;
         TextView hp;
         TextView hit_dice;
+        TextView subclass_name;
         private Drawable originalBackground;
 
 
@@ -280,6 +281,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
             class_level = (TextView) itemView.findViewById(R.id.class_level);
             hp = (TextView) itemView.findViewById(R.id.hp);
             hit_dice = (TextView) itemView.findViewById(R.id.hit_dice);
+            subclass_name = (TextView) itemView.findViewById(R.id.subclass_name);
 
         }
 
@@ -304,8 +306,12 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
                 conModStr = " - " + Math.abs(conModifier);
             }
             hit_dice.setText("1d" + item.getHitDie() + conModStr);
-
-
+            String subclassNameString = item.getSubclassName();
+            if (subclassNameString != null) {
+                subclass_name.setText(subclassNameString);
+            } else {
+                subclass_name.setText("");
+            }
         }
 
         @Override

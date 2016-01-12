@@ -6,16 +6,24 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.utils.RandomUtils;
+import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.character.StatType;
 import com.oakonell.dndcharacter.model.classes.AClass;
+import com.oakonell.dndcharacter.utils.RandomUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
+import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.character.ApplyAbstractComponentDialogFragment;
 import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;
@@ -24,6 +32,7 @@ import com.oakonell.dndcharacter.views.character.md.RootChoiceMDNode;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +42,34 @@ import java.util.Map;
 public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstractComponentDialogFragment<AClass> {
     int hp;
 
+    private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
+    private List<AClass> subclasses;
+    private NoDefaultSpinner subclassSpinner;
+    private TextView subclassErrorView;
+    private AClass subclass;
+    private ChooseMDTreeNode subclassChooseMDs;
+
+    protected AClass getSubClass() {
+        return subclass;
+    }
+
+    protected SavedChoices getSubClassChoices() {
+        if (subclass == null) return null;
+        return savedChoicesByModel.get(subclass.getName());
+    }
+
+    protected void setSubClassName(String name, SavedChoices choices) {
+        if (name != null) {
+            subclass = new Select().from(AClass.class).where("name = ?", name).executeSingle();
+            if (subclass != null) {
+                savedChoicesByModel.put(name, choices);
+            } else {
+                // TODO report an error!?
+            }
+        } else {
+            subclass = null;
+        }
+    }
 
     @NonNull
     @Override
@@ -89,11 +126,46 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                 public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
 
+                    Element subclassElement = XmlUtils.getElement(levelElement, "subclass");
+                    if (subclassElement != null) {
+                        String label = subclassElement.getAttribute("label");
+                        if (label == null) {
+                            label = "Archtype";
+                        }
+                        addSubclassSpinner(label, aClass, dynamic, backgroundChoices);
+                    } else {
+                        //
+                        String charSubclass = getCharacter().getSubclassFor(aClass.getName());
+                        if (charSubclass == null) {
+                            subclass = null;
+                        } else {
+                            subclass = new Select().from(getModelClass()).where("name = ?", charSubclass).executeSingle();
+                        }
+                    }
+
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
                     return visitor.appendToLayout(levelElement, dynamic, backgroundChoices);
                 }
             };
             pages.add(level);
+
+            if (subclass != null) {
+                Element subclassRoot = XmlUtils.getDocument(subclass.getXml()).getDocumentElement();
+                final Element subclassLevelElement = AClass.findLevelElement(subclassRoot, getClassLevel());
+                if (subclassLevelElement != null) {
+                    Page<AClass> subclassPage = new Page<AClass>() {
+                        @Override
+                        public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
+                            AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
+
+                            subclassChooseMDs = visitor.appendToLayout(subclassLevelElement, dynamic, savedChoices);
+                            return new RootChoiceMDNode();
+                        }
+                    };
+                    pages.add(subclassPage);
+                }
+            }
+
         }
 
         // final page, show Hit points- unless classLevel = 1
@@ -163,6 +235,79 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         return pages;
     }
 
+    private void addSubclassSpinner(String label, AClass aClass, final ViewGroup dynamicView, SavedChoices backgroundChoices) {
+        List<String> list = new ArrayList<>();
+        From nameSelect = new Select()
+                .from(getModelClass()).orderBy("name");
+        nameSelect = nameSelect.where("parentClass = ?", aClass.getName());
+        subclasses = nameSelect.execute();
+
+        if (subclasses.size() > 0) {
+
+            ViewGroup layout = (ViewGroup) LayoutInflater.from(dynamicView.getContext()).inflate(R.layout.drop_down_layout, dynamicView);
+            subclassSpinner = (NoDefaultSpinner) layout.findViewById(R.id.spinner);
+            subclassErrorView = (TextView) layout.findViewById(R.id.tvInvisibleError);
+
+            subclassSpinner.setPrompt("[" + label + "]");
+
+
+            int index = 0;
+            int current = -1;
+            for (AClass each : subclasses) {
+                if (subclass != null && each.getName().equals(subclass.getName())) {
+                    current = index;
+                }
+                list.add(each.getName());
+                index++;
+            }
+
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
+                    R.layout.large_spinner_text, list);
+            dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
+            subclassSpinner.setAdapter(dataAdapter);
+
+            subclassSpinner.setSelection(current);
+
+            subclassSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    AClass newModel = subclasses.get(position);
+                    if (newModel == subclass) return;
+                    subclass = newModel;
+                    dynamicView.removeAllViews();
+
+                    String name = subclass.getName();
+                    SavedChoices savedChoices = savedChoicesByModel.get(name);
+                    if (savedChoices == null) {
+                        savedChoices = new SavedChoices();
+                        savedChoicesByModel.put(name, savedChoices);
+                    }
+//                    Map<String, String> customChoices = customChoicesByModel.get(name);
+//                    if (customChoices == null) {
+//                        customChoices = new HashMap<>();
+//                        customChoicesByModel.put(name, customChoices);
+//                    }
+
+                    recreatePages();
+                    displayPage();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            subclassSpinner.setEnabled(canModifySubclass());
+
+        } else {
+            subclassSpinner = null;
+            subclass = null;
+        }
+
+
+    }
+
     private void addClassLevelTextView(ViewGroup dynamic) {
         TextView textView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.class_level_text, dynamic, false);
         textView.setText("Level " + getClassLevel());
@@ -174,5 +319,27 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
     protected abstract boolean isFirstCharacterLevel();
 
     protected abstract int getClassLevel();
+
+
+    protected From filter(From nameSelect) {
+        return nameSelect.where("parentClass is null OR trim(parentClass) = ''");
+    }
+
+
+    @Override
+    protected boolean validate(ViewGroup dynamicView, int pageIndex) {
+        boolean subraceValid = true;
+        if (subclassSpinner != null) {
+            if (subclassSpinner.getSelectedItemPosition() < 0) {
+                subclassErrorView.setError("Choose subclass");
+                Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
+                subclassSpinner.startAnimation(shake);
+                subraceValid = false;
+            }
+        }
+        return super.validate(dynamicView, pageIndex) && subraceValid;
+    }
+
+    protected abstract boolean canModifySubclass();
 
 }

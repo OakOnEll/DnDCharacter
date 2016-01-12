@@ -5,6 +5,7 @@ import android.provider.BaseColumns;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -20,6 +21,8 @@ public class AClass extends AbstractComponentModel {
     private String name;
     @Column
     private String xml;
+    @Column(name = "parentClass")
+    private String parentClass;
 
     public static Element findLevelElement(Element rootClassElement, int level) {
         // TODO change this to instance-based...
@@ -63,4 +66,23 @@ public class AClass extends AbstractComponentModel {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getParentClass() {
+        return parentClass;
+    }
+
+    public void setParentClass(String parentClass) {
+        this.parentClass = parentClass;
+    }
+
+    @Override
+    public void setDocument(Element doc) {
+        super.setDocument(doc);
+        if (doc == null) {
+            setParentClass("XmlParseError");
+        } else {
+            setParentClass(XmlUtils.getElementText(doc, "parent"));
+        }
+    }
+
 }

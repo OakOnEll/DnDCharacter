@@ -31,7 +31,7 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
 
     @Override
     protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices) {
-        ApplyClassToCharacterVisitor.addClassLevel(getModel(), savedChoices, customChoices, getCharacter(), getCharacter().getClasses().size() + 1, classLevel, hp);
+        ApplyClassToCharacterVisitor.addClassLevel(getModel(), savedChoices, customChoices, getSubClass(), getSubClassChoices(), getCharacter(), getCharacter().getClasses().size() + 1, classLevel, hp);
     }
 
 
@@ -62,4 +62,9 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
     protected int getClassLevel() {
         return classLevel;
     }
+
+    protected boolean canModifySubclass() {
+        return true;
+    }
+
 }

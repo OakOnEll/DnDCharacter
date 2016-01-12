@@ -39,13 +39,13 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 //    }
 
 
-    public static void updateClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int classIndex, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, classIndex + 1, classLevel, hpRoll);
+    public static void updateClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, Character character, int classIndex, int classLevel, int hpRoll) {
+        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, classIndex + 1, classLevel, hpRoll);
         character.getClasses().set(classIndex, charClass);
     }
 
     @NonNull
-    private static CharacterClass createCharacterClass(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int characterLevel, int classLevel, int hpRoll) {
+    private static CharacterClass createCharacterClass(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, Character character, int characterLevel, int classLevel, int hpRoll) {
         CharacterClass charClass = new CharacterClass();
         charClass.setSavedChoices(savedChoices);
         // apply common changes
@@ -76,11 +76,24 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
             newMe.visit(levelElement);
         }
+
+        if (subClass != null) {
+            Element subClassRootElement = XmlUtils.getDocument(subClass.getXml()).getDocumentElement();
+            Element subClassLevelElement = AClass.findLevelElement(subClassRootElement, classLevel);
+            if (subClassLevelElement != null) {
+                ApplyChangesToGenericComponent.applyToCharacter(subClassLevelElement, subclassSavedChoices, charClass, character, false);
+                ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(subclassSavedChoices, null, charClass);
+                newMe.visit(subClassLevelElement);
+                charClass.setSubclassName(subClass.getName());
+                charClass.setSubClassChoices(subclassSavedChoices);
+            }
+        }
+
         return charClass;
     }
 
-    public static void addClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int characterlevel, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, character, characterlevel, classLevel, hpRoll);
+    public static void addClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, Character character, int characterlevel, int classLevel, int hpRoll) {
+        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, characterlevel, classLevel, hpRoll);
         character.getClasses().add(charClass);
     }
 

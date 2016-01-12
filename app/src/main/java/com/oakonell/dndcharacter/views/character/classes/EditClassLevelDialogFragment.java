@@ -9,7 +9,6 @@ import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
-import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
 
@@ -50,13 +49,13 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     @Override
     public void onCharacterLoaded(Character character) {
         characterClass = character.getClasses().get(classIndex);
-        AClass aClass = new Select().from(Background.class).where("name = ?", characterClass.getName()).executeSingle();
+        AClass aClass = new Select().from(AClass.class).where("name = ?", characterClass.getName()).executeSingle();
         setModel(aClass);
 
+        final String subclassName = character.getSubclassFor(aClass.getName());
+        setSubClassName(subclassName, characterClass.getSubClassChoices());
 
         super.onCharacterLoaded(character);
-
-
     }
 
     @Override
@@ -70,7 +69,7 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
 
     @Override
     protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices) {
-        ApplyClassToCharacterVisitor.updateClassLevel(getModel(), savedChoices, customChoices, getCharacter(), classIndex, characterClass.getLevel(), hp);
+        ApplyClassToCharacterVisitor.updateClassLevel(getModel(), savedChoices, customChoices, getSubClass(), getSubClassChoices(), getCharacter(), classIndex, characterClass.getLevel(), hp);
     }
 
 
@@ -102,4 +101,13 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     protected int getClassLevel() {
         return characterClass.getLevel();
     }
+
+    protected boolean canModifySubclass() {
+        return isLastClassLevel();
+    }
+
+    private boolean isLastClassLevel() {
+        return getCharacter().getClassLevels().get(getCurrentName()) == getClassLevel();
+    }
+
 }

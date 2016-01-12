@@ -1,15 +1,26 @@
 package com.oakonell.dndcharacter.views.classes;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.activeandroid.Model;
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
+import com.oakonell.dndcharacter.views.CursorIndexesByName;
 
 /**
  * Created by Rob on 11/2/2015.
  */
 public class ClassesListActivity extends AbstractComponentListActivity {
+
+    @Override
+    protected int getListItemResource() {
+        return R.layout.class_list_item;
+    }
 
     @NonNull
     @Override
@@ -30,6 +41,11 @@ public class ClassesListActivity extends AbstractComponentListActivity {
         dialog.show(getSupportFragmentManager(), "class_edit");
     }
 
+    @NonNull
+    protected ClassRowViewHolderCursor newRowViewHolder(View newView) {
+        return new ClassRowViewHolderCursor(newView);
+    }
+
     @Override
     protected String getSubtitle() {
         return "Classes";
@@ -38,5 +54,21 @@ public class ClassesListActivity extends AbstractComponentListActivity {
     @Override
     protected void deleteRow(long id) {
         AClass.delete(AClass.class, id);
+    }
+
+    protected static class ClassRowViewHolderCursor extends RowViewHolderCursor {
+        public TextView parentClass;
+
+        public ClassRowViewHolderCursor(View itemView) {
+            super(itemView);
+            parentClass = (TextView) itemView.findViewById(R.id.parent_class);
+        }
+
+        @Override
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+            super.bindTo(cursor, context, adapter, cursorIndexesByName);
+            final String parentName = cursor.getString(cursorIndexesByName.getIndex(cursor, "parentClass"));
+            parentClass.setText(parentName);
+        }
     }
 }

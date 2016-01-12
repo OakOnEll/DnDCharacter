@@ -1,0 +1,14 @@
+<class>
+    <name>Draconic Bloodline</name>
+    <parent>Sorcerer</parent>
+
+    <level value="1">
+        <feature>
+            <name>Draconic Resilience</name>
+            <ac>=13 + dexterityMod</ac>
+            <shortDescription>While not wearing armor, your AC equals 10 + dex + con modifiers. Can still use a shield.</shortDescription>
+            <context>ARMOR_CLASS</context>
+        </feature>
+
+    </level>
+</class>

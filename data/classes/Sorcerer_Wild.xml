@@ -1,0 +1,15 @@
+<class>
+    <name>Wild Magic Sorcerer</name>
+    <parent>Sorcerer</parent>
+
+    <level value="1">
+        <feature>
+            <name>Tides of Chaos</name>
+            <uses>1</uses>
+            <refreshes>longRest</refreshes>
+            <shortDescription>...</shortDescription>
+            <context>WEAPON_ATTACK,SKILL_ROLL,SAVING_THROW</context>
+        </feature>
+
+    </level>
+</class>

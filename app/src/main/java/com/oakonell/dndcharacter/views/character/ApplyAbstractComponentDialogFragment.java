@@ -89,7 +89,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
                 modelChanged();
 
-                pages = createPages();
+                recreatePages();
 
                 displayPage();
             }
@@ -100,7 +100,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
             }
         });
 
-        pages = createPages();
+        recreatePages();
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +123,10 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         });
 
         return view;
+    }
+
+    protected void recreatePages() {
+        pages = createPages();
     }
 
     @Override
@@ -171,7 +175,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     }
 
     protected void displayPage() {
-        if (model != null) {
+        if (model != null && pages.size() > 0) {
             String name = model.getName();
             SavedChoices savedChoices = savedChoicesByModel.get(name);
             Map<String, String> customChoices = customChoicesByModel.get(name);
@@ -250,6 +254,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         savedChoicesByModel.put(getCurrentName(), savedChoices);
         customChoicesByModel.put(getCurrentName(), customChoices);
 
+        recreatePages();
         displayPage();
     }
 

@@ -15,6 +15,10 @@ public class CharacterClass extends BaseCharacterComponent {
     private int hpRoll;
     @Element(required = false)
     private int hitDie;
+    @Element(required = false)
+    private String subclassName;
+    @Element(required = false)
+    private SavedChoices subClassChoices;
 
 
     @Override
@@ -55,5 +59,21 @@ public class CharacterClass extends BaseCharacterComponent {
     public void addExtraFormulaVariables(SimpleVariableContext variableContext) {
         super.addExtraFormulaVariables(variableContext);
         variableContext.setNumber("classLevel", getLevel());
+    }
+
+    public String getSubclassName() {
+        return subclassName;
+    }
+
+    public void setSubclassName(String subclassName) {
+        this.subclassName = subclassName;
+    }
+
+    public SavedChoices getSubClassChoices() {
+        return subClassChoices;
+    }
+
+    public void setSubClassChoices(SavedChoices subClassChoices) {
+        this.subClassChoices = subClassChoices;
     }
 }
