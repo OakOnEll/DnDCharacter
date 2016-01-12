@@ -311,7 +311,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                 }
             };
             numToRestore.addTextChangedListener(watcher);
-            watcher = watcher;
+            this.watcher = watcher;
 
             name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
