@@ -23,13 +23,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
@@ -388,9 +388,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
         });
 
 
-        equipmentAdapter.notifyDataSetChanged();
-        armorAdapter.notifyDataSetChanged();
-        weaponsAdapter.notifyDataSetChanged();
+        equipmentAdapter.reloadList(character);
+        armorAdapter.reloadList(character);
+        weaponsAdapter.reloadList(character);
     }
 
     public interface OnStartDragListener {
@@ -406,8 +406,21 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     static class ItemViewHolder extends AbstractItemViewHolder<CharacterItem> {
+        TextView count;
+
         public ItemViewHolder(View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
+            count = (TextView) view.findViewById(R.id.count);
+        }
+
+        @Override
+        public void bind(EquipmentFragment context, SubAdapter<CharacterItem> adapter, CharacterItem item) {
+            super.bind(context, adapter, item);
+            if (item.getCount() != 1) {
+                count.setText("(" + item.getCount() + ")");
+            } else {
+                count.setText("");
+            }
         }
     }
 
@@ -458,10 +471,22 @@ public class EquipmentFragment extends AbstractSheetFragment {
         TextView bonus;
         TextView damage;
 
+        ViewGroup ammunition_layout;
+        private final TextView ammunition_count;
+        private final TextView ammunition_name;
+        private final Button use_ammunition;
+        private final Button add_ammunition;
+
+
         public WeaponViewHolder(View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
             bonus = (TextView) view.findViewById(R.id.hit_bonus);
             damage = (TextView) view.findViewById(R.id.damage);
+            ammunition_layout = (ViewGroup) view.findViewById(R.id.ammunition_layout);
+            ammunition_count = (TextView) view.findViewById(R.id.ammunition_count);
+            ammunition_name = (TextView) view.findViewById(R.id.ammunition_name);
+            use_ammunition = (Button) view.findViewById(R.id.use_ammunition);
+            add_ammunition = (Button) view.findViewById(R.id.add_ammunition);
         }
 
         protected String getNameString(CharacterWeapon item) {
@@ -503,7 +528,6 @@ public class EquipmentFragment extends AbstractSheetFragment {
         public void bind(final EquipmentFragment context, final SubAdapter<CharacterWeapon> adapter, final CharacterWeapon item) {
             super.bind(context, adapter, item);
 
-
             final CharacterWeapon.AttackModifiers attackModifiers = item.getAttackModifiers(context.getCharacter(), false);
             final int damageModifier = attackModifiers.getDamageModifier();
             String damageModString = "";
@@ -525,6 +549,63 @@ public class EquipmentFragment extends AbstractSheetFragment {
                     fragment.show(context.getFragmentManager(), "weapon_dialog");
                 }
             });
+
+
+            final String ammunitionName = item.getAmmunition();
+            if (ammunitionName != null) {
+                ammunition_layout.setVisibility(View.VISIBLE);
+                ammunition_name.setText(ammunitionName);
+// TODO link to the character's ammunition items, to count and adjust here
+                final List<CharacterItem> ammo = context.getCharacter().getItemsNamed(ammunitionName);
+                int amount = 0;
+                for (CharacterItem each : ammo) {
+                    amount += each.getCount();
+                }
+                ammunition_count.setText(amount + "");
+                add_ammunition.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final List<CharacterItem> ammo = context.getCharacter().getItemsNamed(ammunitionName);
+                        if (ammo.isEmpty()) {
+                            // TODO use a fancy visitor, create one from the model if exists
+                            CharacterItem item = new CharacterItem();
+                            item.setName(ammunitionName);
+                            context.getCharacter().addItem(item);
+                            context.updateViews();
+                        } else {
+                            final CharacterItem firstItem = ammo.get(0);
+                            firstItem.setCount(firstItem.getCount() + 1);
+                            context.updateViews();
+                        }
+                    }
+                });
+                use_ammunition.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final List<CharacterItem> ammo = context.getCharacter().getItemsNamed(ammunitionName);
+                        if (ammo.isEmpty()) {
+                            // do nothing..
+                            context.updateViews();
+                        } else {
+                            final CharacterItem firstItem = ammo.get(0);
+                            firstItem.setCount(Math.max(firstItem.getCount() - 1, 0));
+                            if (firstItem.getCount() <= 0) {
+                                context.getCharacter().getItems().remove(firstItem);
+                            }
+                            context.updateViews();
+                        }
+                    }
+                });
+//                ammunition_count = (TextView) view.findViewById(R.id.ammunition_count);
+//                use_ammunition = (Button) view.findViewById(R.id.use_ammunition);
+//                add_ammunition = (Button) view.findViewById(R.id.add_ammunition);
+
+
+            } else {
+                ammunition_layout.setVisibility(View.GONE);
+            }
+
+
         }
 
     }
@@ -661,14 +742,24 @@ public class EquipmentFragment extends AbstractSheetFragment {
         protected Context context;
         protected EquipmentFragment fragment;
         protected List<I> list;
+        ListRetriever<I> listRetriever;
         OnStartDragListener mDragStartListener;
 
-        public SubAdapter(EquipmentFragment fragment, List<I> list) {
-            this.context = fragment.getContext();
-            this.fragment = fragment;
-            this.list = list;
+        interface ListRetriever<I> {
+            List<I> getList(Character character);
         }
 
+        public SubAdapter(EquipmentFragment fragment, ListRetriever<I> listRetriever) {
+            this.context = fragment.getContext();
+            this.fragment = fragment;
+            this.listRetriever = listRetriever;
+            this.list = listRetriever.getList(fragment.getCharacter());
+        }
+
+        public void reloadList(Character character) {
+            this.list = listRetriever.getList(character);
+            notifyDataSetChanged();
+        }
 
         @Override
         public int getItemCount() {
@@ -771,7 +862,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     public static class ArmorAdapter extends SubAdapter<CharacterArmor> {
         public ArmorAdapter(EquipmentFragment fragment, Character character) {
-            super(fragment, character.getArmor());
+            super(fragment, new ListRetriever<CharacterArmor>() {
+                @Override
+                public List<CharacterArmor> getList(Character character) {
+                    return character.getArmor();
+                }
+            });
         }
 
         @Override
@@ -784,7 +880,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     public static class WeaponsAdapter extends SubAdapter<CharacterWeapon> {
         public WeaponsAdapter(EquipmentFragment fragment, Character character) {
-            super(fragment, character.getWeapons());
+            super(fragment, new ListRetriever<CharacterWeapon>() {
+                @Override
+                public List<CharacterWeapon> getList(Character character) {
+                    return character.getWeapons();
+                }
+            });
         }
 
         @Override
@@ -797,7 +898,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
     public static class EquipmentAdapter extends SubAdapter<CharacterItem> {
 
         public EquipmentAdapter(EquipmentFragment fragment, Character character) {
-            super(fragment, character.getItems());
+            super(fragment, new ListRetriever<CharacterItem>() {
+                @Override
+                public List<CharacterItem> getList(Character character) {
+                    return character.getItems();
+                }
+            });
         }
 
         @Override

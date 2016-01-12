@@ -33,6 +33,8 @@ public class AbstractWeaponVisitor extends AbstractComponentVisitor {
                 break;
             case "ranged":
                 visitRanged(element);
+            case "ammunition":
+                visitAmmunition(element);
                 break;
             default:
                 return false;
@@ -53,6 +55,10 @@ public class AbstractWeaponVisitor extends AbstractComponentVisitor {
     }
 
     protected void visitRange(Element element) {
+        visitSimpleItem(element);
+    }
+
+    protected void visitAmmunition(Element element) {
         visitSimpleItem(element);
     }
 

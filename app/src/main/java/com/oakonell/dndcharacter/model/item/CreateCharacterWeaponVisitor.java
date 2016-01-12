@@ -1,7 +1,7 @@
 package com.oakonell.dndcharacter.model.item;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
-import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -28,6 +28,12 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
         character.addWeapon(weapon);
 
         return weapon;
+    }
+
+    @Override
+    protected void visitAmmunition(Element element) {
+        String ammunition = element.getTextContent();
+        weapon.setAmmunition(ammunition);
     }
 
     @Override

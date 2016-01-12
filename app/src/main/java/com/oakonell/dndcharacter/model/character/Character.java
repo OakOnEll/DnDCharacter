@@ -427,7 +427,6 @@ public class Character {
         return false;
     }
 
-
     public static class ArmorClassWithSource extends WithSource {
         private final String formula;
         boolean isEquipped;
@@ -1167,6 +1166,14 @@ public class Character {
 
     public List<CharacterItem> getItems() {
         return items;
+    }
+
+    public List<CharacterItem> getItemsNamed(String name) {
+        List<CharacterItem> result = new ArrayList<>();
+        for (CharacterItem each : items) {
+            if (each.getName().equals(name)) result.add(each);
+        }
+        return result;
     }
 
     public void addWeapon(CharacterWeapon weapon) {

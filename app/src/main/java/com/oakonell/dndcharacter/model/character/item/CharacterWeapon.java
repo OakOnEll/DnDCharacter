@@ -32,6 +32,8 @@ public class CharacterWeapon extends CharacterItem {
 
     @ElementList(required = false)
     private List<DamageFormula> versatileDamageFormulas = new ArrayList<>();
+    @Element(required = false)
+    private String ammunition;
 
 
     public ItemType getItemType() {
@@ -163,6 +165,14 @@ public class CharacterWeapon extends CharacterItem {
         int profBonus = isProficient ? character.getProficiency() : 0;
 
         return new AttackModifiers(damageModifier + profBonus, damageModifier);
+    }
+
+    public void setAmmunition(String ammunition) {
+        this.ammunition = ammunition;
+    }
+
+    public String getAmmunition() {
+        return ammunition;
     }
 
     public static class DamageFormula {

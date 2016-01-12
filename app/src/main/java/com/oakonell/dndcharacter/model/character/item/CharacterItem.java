@@ -20,6 +20,8 @@ public class CharacterItem extends BaseCharacterComponent {
     */
     @Element(required = false)
     private String category;
+    @Element(required = false)
+    private int count = 1;
 
     @Override
     public ComponentType getType() {
@@ -62,5 +64,13 @@ public class CharacterItem extends BaseCharacterComponent {
 
     public String toString() {
         return getItemType() + ":" + getName();
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }
