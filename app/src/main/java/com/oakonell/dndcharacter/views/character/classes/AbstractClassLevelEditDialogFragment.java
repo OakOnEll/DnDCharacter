@@ -47,6 +47,8 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
     private TextView subclassErrorView;
     private AClass subclass;
     private ChooseMDTreeNode subclassChooseMDs;
+    private EditText hpRoll;
+    private int maxHp;
 
     protected AClass getSubClass() {
         return subclass;
@@ -179,7 +181,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     TextView hitDiceView = (TextView) hpView.findViewById(R.id.hit_dice);
                     final TextView hp_increase = (TextView) hpView.findViewById(R.id.hp_increase);
                     TextView con_mod = (TextView) hpView.findViewById(R.id.con_mod);
-                    final EditText roll1 = (EditText) hpView.findViewById(R.id.roll1);
+                    hpRoll = (EditText) hpView.findViewById(R.id.roll1);
 
                     final int conModifier = getCharacter().getStatBlock(StatType.CONSTITUTION).getModifier();
                     con_mod.setText(conModifier + "");
@@ -187,10 +189,10 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     Element rootClassElement = XmlUtils.getDocument(aClass.getXml()).getDocumentElement();
                     String hitDieString = XmlUtils.getElementText(rootClassElement, "hitDice");
                     hitDiceView.setText(hitDieString);
-                    final int maxHp = AClass.getHitDieSides(rootClassElement);
+                    maxHp = AClass.getHitDieSides(rootClassElement);
 
                     // set the current values
-                    roll1.setText((hp) + "");
+                    hpRoll.setText((hp) + "");
                     hp_increase.setText((hp + conModifier) + "");
 
 
@@ -198,14 +200,15 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         @Override
                         public void onClick(View v) {
                             int rollValue = RandomUtils.random(1, maxHp);
-                            roll1.setText(rollValue + "");
+                            hpRoll.setError(null);
+                            hpRoll.setText(rollValue + "");
                         }
                     });
 
-                    roll1.addTextChangedListener(new TextWatcher() {
+                    hpRoll.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                            hpRoll.setError(null);
                         }
 
                         @Override
@@ -220,8 +223,14 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                             if (string.trim().length() > 0) {
                                 val = Integer.parseInt(string);
                             }
-                            hp = val;
-                            hp_increase.setText((hp + conModifier) + "");
+                            if (val <= 0 || val > maxHp) {
+                                hpRoll.setError("Enter an hp value between 1 and " + maxHp);
+                                Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+                                hpRoll.startAnimation(shake);
+                            } else {
+                                hp = val;
+                                hp_increase.setText((hp + conModifier) + "");
+                            }
                         }
                     });
 
@@ -232,6 +241,12 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         }
 
         return pages;
+    }
+
+    @Override
+    protected void displayPage() {
+        hpRoll = null;
+        super.displayPage();
     }
 
     private void addSubclassSpinner(String label, AClass aClass, final ViewGroup dynamicView, SavedChoices backgroundChoices) {
@@ -336,7 +351,22 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                 subraceValid = false;
             }
         }
-        return super.validate(dynamicView, pageIndex) && subraceValid;
+        boolean hpRollValid = true;
+        if (hpRoll != null) {
+            hpRoll.setError(null);
+            String string = hpRoll.getText().toString();
+            int val = 0;
+            if (string.trim().length() > 0) {
+                val = Integer.parseInt(string);
+            }
+            if (val <= 0 || val > maxHp) {
+                hpRoll.setError("Enter an hp value between 1 and " + maxHp);
+                Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
+                hpRoll.startAnimation(shake);
+                hpRollValid = false;
+            }
+        }
+        return super.validate(dynamicView, pageIndex) && subraceValid && hpRollValid;
     }
 
     protected abstract boolean canModifySubclass();

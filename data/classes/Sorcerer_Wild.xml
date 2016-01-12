@@ -9,6 +9,11 @@
             <refreshes>longRest</refreshes>
             <shortDescription>...</shortDescription>
             <context>WEAPON_ATTACK,SKILL_ROLL,SAVING_THROW</context>
+            <effect actionName="Use">
+                <name>Wild Magic Surge</name>
+                <shortDescription>Before regaining use of Tides of Chaos, roll on the Wild Magic Surge table.</shortDescription>
+                <context>LONG_REST</context>
+            </effect>
         </feature>
 
     </level>

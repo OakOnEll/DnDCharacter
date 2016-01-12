@@ -16,11 +16,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.UseType;
+import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.character.MainActivity;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Created by Rob on 1/4/2016.
  */
-public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, MainActivity,RecyclerView.Adapter<?>> {
+public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, MainActivity, RecyclerView.Adapter<?>> {
     public TextView name;
     public TextView source;
     public TextView shortDescription;
@@ -117,6 +117,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     private static class ActionViewHolder extends BindableComponentViewHolder<IFeatureAction, MainActivity, ActionAdapter> {
         public ViewGroup use_group;
         public Button useButton;
+        public TextView use_description;
         public TextView remaining_uses;
 
         public ViewGroup pool_apply_group;
@@ -130,6 +131,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
 
             useButton = (Button) view.findViewById(R.id.use_button);
+            use_description = (TextView) view.findViewById(R.id.use_description);
 
             pool_apply_group = (ViewGroup) view.findViewById(R.id.pool_apply_group);
             use_group = (ViewGroup) view.findViewById(R.id.use_group);
@@ -147,10 +149,14 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
 
-            useButton.setText(action.getAction());
-
-
             if (action.getCost() > 0) {
+                // TODO get a short description? Possibly place the cost on the button?
+                if (action.getCost() != 1) {
+                    useButton.setText(action.getAction() + "(" + action.getCost() + ")");
+                } else {
+                    useButton.setText(action.getAction());
+                }
+                //use_description.setText("" + action.getCost());
                 useButton.setEnabled(usesRemaining >= action.getCost());
                 // simple use action
                 useButton.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +167,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                     }
                 });
             } else {
+                useButton.setText(action.getAction());
                 useButton.setEnabled(usesRemaining > 0);
                 // pooled use action
                 remaining_uses.setText(" / " + usesRemaining);

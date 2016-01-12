@@ -124,10 +124,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             for (Element effectElement : effectElements) {
                 final Feature.FeatureCharacterEffect effect = new Feature.FeatureCharacterEffect();
                 AddEffectToCharacterVisitor.readEffect(effectElement, effect);
-                int cost = readIntegerAttribute(effectElement, "uses", -1);
+                int cost = readIntegerAttribute(effectElement, "uses", 1);
                 effect.setCost(cost);
                 String actionName = effectElement.getAttribute("actionName");
-                if (actionName == null) {
+                if (actionName == null || actionName.trim().length()==0) {
                     actionName = effect.getName();
                 }
                 effect.setAction(actionName);
