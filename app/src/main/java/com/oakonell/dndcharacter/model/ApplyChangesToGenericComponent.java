@@ -5,6 +5,11 @@ import android.support.annotation.Nullable;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
+import com.oakonell.dndcharacter.model.character.item.CharacterItem;
+import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
+import com.oakonell.dndcharacter.model.character.stats.SkillType;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
@@ -15,7 +20,7 @@ import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.character.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.w3c.dom.Element;
 

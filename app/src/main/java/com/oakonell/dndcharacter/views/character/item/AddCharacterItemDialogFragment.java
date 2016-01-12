@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.item;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
 /**
  * Created by Rob on 12/24/2015.

@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.stats;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.StatBlock;
-import com.oakonell.dndcharacter.model.character.StatType;
+import com.oakonell.dndcharacter.model.character.stats.StatBlock;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 
 
 /**

@@ -1,5 +1,7 @@
-package com.oakonell.dndcharacter.model.character;
+package com.oakonell.dndcharacter.model.character.item;
 
+import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
+import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.item.ItemType;
 
 import org.simpleframework.xml.Element;

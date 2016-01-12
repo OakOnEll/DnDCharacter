@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
-import com.oakonell.dndcharacter.model.character.StatType;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;

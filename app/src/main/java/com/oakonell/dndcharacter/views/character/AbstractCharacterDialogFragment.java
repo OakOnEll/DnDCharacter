@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 

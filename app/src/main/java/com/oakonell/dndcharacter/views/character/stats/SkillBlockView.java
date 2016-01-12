@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.stats;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
-import com.oakonell.dndcharacter.model.character.SkillBlock;
-import com.oakonell.dndcharacter.model.character.SkillType;
+import com.oakonell.dndcharacter.model.character.stats.SkillBlock;
+import com.oakonell.dndcharacter.model.character.stats.SkillType;
 
 /**
  * Created by Rob on 10/22/2015.

@@ -10,8 +10,16 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.SkillType;
-import com.oakonell.dndcharacter.model.character.StatType;
+import com.oakonell.dndcharacter.model.character.stats.SkillType;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
+import com.oakonell.dndcharacter.views.character.stats.SaveThrowBlockDialogFragment;
+import com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView;
+import com.oakonell.dndcharacter.views.character.stats.SkillBlockDialogFragment;
+import com.oakonell.dndcharacter.views.character.stats.SkillBlockView;
+import com.oakonell.dndcharacter.views.character.stats.StatBlockDialogFragment;
+import com.oakonell.dndcharacter.views.character.stats.StatBlockView;
 
 import java.util.HashMap;
 import java.util.Map;

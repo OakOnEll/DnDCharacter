@@ -1,7 +1,10 @@
-package com.oakonell.dndcharacter.model.character;
+package com.oakonell.dndcharacter.model.character.item;
 
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.stats.StatBlock;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.item.ItemType;
 
 import org.simpleframework.xml.Element;
@@ -146,7 +149,7 @@ public class CharacterWeapon extends CharacterItem {
         return builder.toString();
     }
 
-    public AttackModifiers getAttackModifiers(Character character, boolean useFinesse) {
+    public AttackModifiers getAttackModifiers(com.oakonell.dndcharacter.model.character.Character character, boolean useFinesse) {
         StatBlock statBlock;
         if (useFinesse || isRanged()) {
             statBlock = character.getStatBlock(StatType.DEXTERITY);

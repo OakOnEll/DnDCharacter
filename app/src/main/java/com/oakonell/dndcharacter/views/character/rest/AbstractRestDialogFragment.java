@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.AbstractRestRequest;
+import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.model.character.FeatureResetInfo;

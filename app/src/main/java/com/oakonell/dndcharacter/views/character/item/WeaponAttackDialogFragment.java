@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.item;
 
 import android.os.Bundle;
 import android.os.Parcel;
@@ -21,11 +21,13 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.CharacterItem;
-import com.oakonell.dndcharacter.model.character.CharacterWeapon;
+import com.oakonell.dndcharacter.model.character.item.CharacterItem;
+import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 

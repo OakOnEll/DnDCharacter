@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.model.character;
+package com.oakonell.dndcharacter.model.character.stats;
 
 /**
  * Created by Rob on 12/15/2015.

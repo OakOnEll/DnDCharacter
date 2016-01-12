@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.feature;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +22,8 @@ import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.UseType;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
+import com.oakonell.dndcharacter.views.character.ComponentLaunchHelper;
+import com.oakonell.dndcharacter.views.character.MainActivity;
 
 import java.util.List;
 

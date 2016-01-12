@@ -1,7 +1,7 @@
 package com.oakonell.dndcharacter.model.item;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
-import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;

@@ -25,6 +25,8 @@ import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.views.character.classes.CharacterLevelsDialogFragment;
+import com.oakonell.dndcharacter.views.character.feature.AddEffectDialogFragment;
+import com.oakonell.dndcharacter.views.character.feature.ViewEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.ApplyRaceDialogFragment;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;

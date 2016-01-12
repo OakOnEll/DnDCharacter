@@ -1,7 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
 import com.oakonell.dndcharacter.views.character.IContextualComponent;
-import com.oakonell.dndcharacter.views.character.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.simpleframework.xml.ElementList;
 

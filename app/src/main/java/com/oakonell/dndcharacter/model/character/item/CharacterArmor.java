@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.model.character;
+package com.oakonell.dndcharacter.model.character.item;
 
 import com.oakonell.dndcharacter.model.item.ItemType;
 

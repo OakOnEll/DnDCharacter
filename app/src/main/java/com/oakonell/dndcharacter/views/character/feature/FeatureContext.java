@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.feature;
 
 /**
  * Created by Rob on 1/1/2016.

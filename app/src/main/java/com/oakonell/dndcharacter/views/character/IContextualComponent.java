@@ -1,6 +1,6 @@
 package com.oakonell.dndcharacter.views.character;
 
-import com.oakonell.dndcharacter.views.character.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import java.util.Set;
 

@@ -24,6 +24,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.views.character.classes.AddClassLevelDialogFragment;
+import com.oakonell.dndcharacter.views.character.feature.AddEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.rest.LongRestDialogFragment;
 import com.oakonell.dndcharacter.views.character.rest.ShortRestDialogFragment;
 

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.FeatureViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

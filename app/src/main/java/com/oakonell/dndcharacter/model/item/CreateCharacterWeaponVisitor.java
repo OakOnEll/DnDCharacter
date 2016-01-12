@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.model.item;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;

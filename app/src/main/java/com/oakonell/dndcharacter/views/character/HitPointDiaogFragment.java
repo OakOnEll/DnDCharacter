@@ -30,6 +30,7 @@ import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 

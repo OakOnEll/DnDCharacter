@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.item;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +12,8 @@ import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
+import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
 import java.util.List;
 

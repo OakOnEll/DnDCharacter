@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.feature;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -30,6 +30,7 @@ import com.oakonell.dndcharacter.views.CursorBindableRecyclerViewHolder;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
+import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 

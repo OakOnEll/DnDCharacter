@@ -1,8 +1,10 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
 
-import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.stats.StatBlock;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
 
 /**
  * Created by Rob on 12/24/2015.

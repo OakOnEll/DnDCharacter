@@ -1,5 +1,9 @@
 package com.oakonell.dndcharacter.model.character;
 
+import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
+import com.oakonell.dndcharacter.model.character.item.CharacterItem;
+import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
+
 import java.util.List;
 
 /**

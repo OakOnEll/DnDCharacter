@@ -3,7 +3,7 @@ package com.oakonell.dndcharacter.model.character;
 import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.UseType;
-import com.oakonell.dndcharacter.views.character.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.expression.context.SimpleVariableContext;
 
 import java.util.Set;

@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import com.oakonell.dndcharacter.model.character.stats.SkillType;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;

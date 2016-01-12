@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.model.character;
+package com.oakonell.dndcharacter.model.character.rest;
 
 import java.util.HashMap;
 import java.util.Map;

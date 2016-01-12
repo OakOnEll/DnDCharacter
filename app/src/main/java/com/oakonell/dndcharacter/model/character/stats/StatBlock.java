@@ -1,4 +1,7 @@
-package com.oakonell.dndcharacter.model.character;
+package com.oakonell.dndcharacter.model.character.stats;
+
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.Character;
 
 import java.util.List;
 
@@ -6,7 +9,7 @@ import java.util.List;
  * Created by Rob on 10/21/2015.
  */
 public class StatBlock {
-    private final Character character;
+    private final com.oakonell.dndcharacter.model.character.Character character;
     private final StatType type;
 
     public StatBlock(Character character, StatType type) {

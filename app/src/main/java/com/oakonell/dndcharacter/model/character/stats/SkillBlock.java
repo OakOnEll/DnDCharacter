@@ -1,4 +1,7 @@
-package com.oakonell.dndcharacter.model.character;
+package com.oakonell.dndcharacter.model.character.stats;
+
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.Character;
 
 import java.util.List;
 
@@ -6,7 +9,7 @@ import java.util.List;
  * Created by Rob on 10/22/2015.
  */
 public class SkillBlock {
-    private Character character;
+    private com.oakonell.dndcharacter.model.character.Character character;
     private SkillType type;
 
     public SkillBlock(Character character, SkillType type) {

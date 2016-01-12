@@ -8,6 +8,7 @@
     </damage>
     <ranged>true</ranged>
     <properties>ammunition, loading, two-handed</properties>
+    <ammunition>bolt</ammunition>
     <range>80/320</range>
     <weight>5</weight>
     <cost>25gp</cost>

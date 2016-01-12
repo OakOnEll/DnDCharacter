@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,10 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.StatBlock;
+import com.oakonell.dndcharacter.model.character.stats.StatBlock;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
 import java.util.HashSet;
 import java.util.List;

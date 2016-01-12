@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,10 +17,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.BaseStatsType;
+import com.oakonell.dndcharacter.model.character.stats.BaseStatsType;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.utils.RandomUtils;
-import com.oakonell.dndcharacter.model.character.StatType;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;

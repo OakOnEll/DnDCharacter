@@ -15,10 +15,10 @@ import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.utils.RandomUtils;
-import com.oakonell.dndcharacter.model.character.ShortRestRequest;
+import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
-import com.oakonell.dndcharacter.views.character.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -6,8 +6,8 @@
         <feature>
             <name>Draconic Resilience</name>
             <ac>=13 + dexterityMod</ac>
-            <shortDescription>While not wearing armor, your AC equals 10 + dex + con modifiers. Can still use a shield.</shortDescription>
-            <context>ARMOR_CLASS</context>
+            <shortDescription>Your maximum HP increases by 1HP per character level. While not wearing armor, your AC equals 10 + dex + con modifiers. Can still use a shield.</shortDescription>
+            <context>ARMOR_CLASS,HIT_POINTS</context>
         </feature>
 
     </level>

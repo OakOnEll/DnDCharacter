@@ -5,7 +5,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.character.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.w3c.dom.Element;
 

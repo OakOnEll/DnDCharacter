@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,11 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
-import com.oakonell.dndcharacter.model.character.StatBlock;
+import com.oakonell.dndcharacter.model.character.stats.SkillBlock;
+import com.oakonell.dndcharacter.model.character.stats.SkillType;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
+import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,36 +24,44 @@ import java.util.Set;
 /**
  * Created by Rob on 11/7/2015.
  */
-public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
-    private ListView listView;
-
+public class SkillBlockDialogFragment extends RollableDialogFragment {
+    private TextView statLabel;
     private TextView statModLabel;
     private TextView statMod;
     private TextView proficiency;
     private View proficiencyLayout;
-
     private TextView total;
+    private ListView listView;
 
-    private SaveThrowSourcesAdapter adapter;
+    private SkillBlock skillBlock;
+    private SkillType type;
 
-    public static SaveThrowBlockDialogFragment create(StatBlock block) {
-        SaveThrowBlockDialogFragment frag = new SaveThrowBlockDialogFragment();
-        frag.setStatTypeArg(block);
+    private SkillSourceAdapter adapter;
+
+    public static SkillBlockDialogFragment create(SkillBlock block) {
+        SkillBlockDialogFragment frag = new SkillBlockDialogFragment();
+        int typeIndex = block.getType().ordinal();
+        Bundle args = new Bundle();
+        args.putInt("type", typeIndex);
+        frag.setArguments(args);
+
         return frag;
     }
+
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.save_throw_dialog, container);
+        View view = inflater.inflate(R.layout.skill_dialog, container);
         superCreateView(view, savedInstanceState);
 
+        statLabel = (TextView) view.findViewById(R.id.stat_label);
         statModLabel = (TextView) view.findViewById(R.id.stat_mod_lbl);
         statMod = (TextView) view.findViewById(R.id.stat_mod);
         proficiency = (TextView) view.findViewById(R.id.proficiency);
         proficiencyLayout = view.findViewById(R.id.proficiency_layout);
 
-        total = (TextView) view.findViewById(R.id.modifier);
+        total = (TextView) view.findViewById(R.id.total);
         listView = (ListView) view.findViewById(R.id.list);
 
         return view;
@@ -57,26 +69,27 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @Override
     protected String getTitle() {
-        return "Saving Throw";
+        return "Skill Proficiency";
     }
 
 
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
-        StatBlock statBlock = setStatBlock(character);
+        int typeIndex = getArguments().getInt("type");
+        type = SkillType.values()[typeIndex];
+        skillBlock = character.getSkillBlock(type);
 
-
-        updateView(statBlock);
+        updateView(character);
 
         RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
             @Override
             public List<Character.ProficientWithSource> getList(Character character) {
-                return getStatBlock().getSaveProficiencies();
+                return character.getSkillBlock(type).getProficiencies();
             }
         };
 
-        adapter = new SaveThrowSourcesAdapter(this, listRetriever);
+        adapter = new SkillSourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
     }
@@ -85,40 +98,45 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
         filter.add(FeatureContext.DICE_ROLL);
-        filter.add(FeatureContext.SAVING_THROW);
+        filter.add(FeatureContext.SKILL_ROLL);
         return filter;
     }
 
-    private void updateView(StatBlock statBlock) {
-        setModifier(statBlock.getSaveModifier());
+    private void updateView(Character character) {
+        setModifier(skillBlock.getBonus());
 
-        List<Character.ProficientWithSource> proficiencies = statBlock.getSaveProficiencies();
+        List<Character.ProficientWithSource> proficiencies = skillBlock.getProficiencies();
 
         if (proficiencies.isEmpty()) {
             proficiencyLayout.setVisibility(View.GONE);
         } else {
             proficiencyLayout.setVisibility(View.VISIBLE);
-            proficiency.setText(statBlock.getCharacter().getProficiency() + "");
+            proficiency.setText(skillBlock.getCharacter().getProficiency() + "");
         }
 
-        statModLabel.setText(statBlock.getType().toString() + " modifier");
-        statMod.setText(statBlock.getModifier() + "");
-        getDialog().setTitle(statBlock.getType().toString() + " Saving Throw");
-        total.setText(statBlock.getSaveModifier() + "");
+        statModLabel.setText(skillBlock.getType().getStatType().toString() + " modifier");
+        statMod.setText(skillBlock.getStatModifier() + "");
+        statLabel.setText(skillBlock.getType().getStatType().toString());
+        getDialog().setTitle(skillBlock.getType().toString());
+        total.setText(skillBlock.getBonus() + "");
     }
 
     @Override
     public void onCharacterChanged(Character character) {
         super.onCharacterChanged(character);
 
-        StatBlock statBlock = setStatBlock(character);
+        int typeIndex = getArguments().getInt("type");
+        SkillType type = SkillType.values()[typeIndex];
+        skillBlock = character.getSkillBlock(type);
 
-        updateView(statBlock);
+        updateView(character);
+
         adapter.reloadList(character);
     }
 
-    public static class SaveThrowSourcesAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {
-        SaveThrowSourcesAdapter(SaveThrowBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
+
+    public static class SkillSourceAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {
+        SkillSourceAdapter(SkillBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
@@ -133,8 +151,8 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
             } else {
                 holder.source.setText(source.getSourceString());
             }
-        }
 
+        }
     }
 
 
