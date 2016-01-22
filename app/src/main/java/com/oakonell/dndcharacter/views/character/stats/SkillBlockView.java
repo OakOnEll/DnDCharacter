@@ -91,10 +91,14 @@ public class SkillBlockView extends LinearLayout {
     }
 
     private void updateViews() {
-        SkillBlock statblock = character.getSkillBlock(this.type);
-
-        setProficiency(statblock.getProficiency());
-        setBonus(statblock.getBonus());
+        if (character != null) {
+            SkillBlock statblock = character.getSkillBlock(this.type);
+            setProficiency(statblock.getProficiency());
+            setBonus(statblock.getBonus());
+        } else {
+            setProficiency(Proficient.NONE);
+            setBonus(0);
+        }
         setLabel(this.type.name());
     }
 

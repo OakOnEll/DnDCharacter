@@ -1,9 +1,11 @@
 package com.oakonell.dndcharacter.views.character;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -101,6 +103,18 @@ public class MainActivity extends AbstractBaseActivity {
     }
 
     @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        loadCharacter(savedInstanceState);
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        loadCharacter(-1);
+//    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
@@ -165,13 +179,23 @@ public class MainActivity extends AbstractBaseActivity {
         }
     }
 
-    @DebugLog
     public void saveCharacter() {
-        BackgroundCharacterSaver characterSaver = new BackgroundCharacterSaver();
+        saveCharacter(null);
+    }
+
+    @DebugLog
+    public void saveCharacter(Runnable post) {
+        BackgroundCharacterSaver characterSaver = new BackgroundCharacterSaver(post);
         characterSaver.execute();
     }
 
     public class BackgroundCharacterSaver extends AsyncTask<Void, Void, Void> {
+        private final Runnable post;
+
+        public BackgroundCharacterSaver(Runnable post) {
+            this.post = post;
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
             Serializer serializer = new Persister();
@@ -209,7 +233,10 @@ public class MainActivity extends AbstractBaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(MainActivity.this, "Character saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Character '" + character.getName() + "' saved", Toast.LENGTH_SHORT).show();
+            if (post != null) {
+                post.run();
+            }
         }
     }
 
@@ -226,6 +253,12 @@ public class MainActivity extends AbstractBaseActivity {
         if (savedId == -1 && getIntent().getExtras() != null) {
             savedId = getIntent().getExtras().getLong(CHARACTER_ID);
         }
+
+        loadCharacter(savedId);
+
+    }
+
+    private void loadCharacter(long savedId) {
         // 3.   find the last viewed character
         if (savedId == -1) {
             SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -246,7 +279,7 @@ public class MainActivity extends AbstractBaseActivity {
                 character = new Character(true);
             } else {
                 id = savedId;
-                publishProgress("Loading an existing Character id=" + id);
+                //publishProgress("Loading an existing Character id=" + id);
                 CharacterRow characterRow = CharacterRow.load(CharacterRow.class, id);
                 if (characterRow == null) {
                     //  Toast.makeText(this, "Making a new Character", Toast.LENGTH_SHORT).show();
@@ -276,11 +309,7 @@ public class MainActivity extends AbstractBaseActivity {
                     }
                 }
             }
-            for (Iterator<OnCharacterLoaded> iter = onCharacterLoadListeners.iterator(); iter.hasNext(); ) {
-                OnCharacterLoaded listener = iter.next();
-                listener.onCharacterLoaded(character);
-                iter.remove();
-            }
+
 
             return null;
         }
@@ -292,13 +321,16 @@ public class MainActivity extends AbstractBaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(MainActivity.this, "Character loaded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Character '" + character.getName() + "' loaded", Toast.LENGTH_SHORT).show();
+            for (Iterator<OnCharacterLoaded> iter = onCharacterLoadListeners.iterator(); iter.hasNext(); ) {
+                OnCharacterLoaded listener = iter.next();
+                listener.onCharacterLoaded(character);
+                iter.remove();
+            }
+            updateViews();
         }
     }
 
-    private void loadCharacterInBackground(long savedId, AsyncTask<Long, String, Void> asyncTask) {
-
-    }
 
     public Character getCharacter() {
         return character;
@@ -409,5 +441,18 @@ public class MainActivity extends AbstractBaseActivity {
             }
             return null;
         }
+    }
+
+    public void openCharacter(final long id) {
+        saveCharacter(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = getIntent();
+                intent.putExtra(MainActivity.CHARACTER_ID, id);
+
+                loadCharacter(id);
+                closeNavigationDrawer();
+            }
+        });
     }
 }

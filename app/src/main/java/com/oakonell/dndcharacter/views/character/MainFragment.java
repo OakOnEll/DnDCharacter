@@ -121,7 +121,7 @@ public class MainFragment extends AbstractSheetFragment {
         super.updateViews(rootView);
         Character character = getCharacter();
         if (character == null) {
-            // TODO shouldn't be possible now...
+// TODO shouldn't be possible now...
             ac.setText("");
             initiative.setText("");
             hp.setText("0 / 0");
@@ -140,7 +140,6 @@ public class MainFragment extends AbstractSheetFragment {
                 entry.getValue().setCharacter(null);
                 entry.getValue().setType(entry.getKey());
             }
-
             return;
         }
         String acText = character.getArmorClass() + "";

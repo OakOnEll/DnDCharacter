@@ -177,6 +177,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
             public void onClick(View v) {
                 getCharacter().setName(character_name.getText().toString());
                 allowNameEdit(false);
+                getMainActivity().saveCharacter();
                 updateViews();
                 // a name change should update recent characters
                 ((AbstractBaseActivity) getActivity()).populateRecentCharacters();
@@ -254,7 +255,10 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     @Override
     public void onResume() {
         super.onResume();
-        updateViews();
+        if (getCharacter() != null) {
+            updateViews();
+        }
+        // when the activity resumes, the characterLoad stuff will run, causing updates
     }
 
     static class EffectBarRowViewHolder extends BindableComponentViewHolder<CharacterEffect, AbstractSheetFragment, EffectsBarAdapter> {

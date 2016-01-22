@@ -73,9 +73,14 @@ public class StatBlockView extends LinearLayout {
     }
 
     private void updateViews() {
-        StatBlock statblock = character.getStatBlock(this.type);
-        setValue(statblock.getValue());
-        setModifier(statblock.getModifier());
+        if (character != null) {
+            StatBlock statblock = character.getStatBlock(this.type);
+            setValue(statblock.getValue());
+            setModifier(statblock.getModifier());
+        } else {
+            setValue(10);
+            setModifier(0);
+        }
         setLabel(this.type.name());
     }
 }

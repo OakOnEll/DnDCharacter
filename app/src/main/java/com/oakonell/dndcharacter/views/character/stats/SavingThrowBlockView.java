@@ -92,10 +92,14 @@ public class SavingThrowBlockView extends LinearLayout {
     }
 
     private void updateViews() {
-        StatBlock statblock = character.getStatBlock(this.type);
-
-        setProficiency(statblock.getSaveProficiency());
-        setBonus(statblock.getSaveModifier());
+        if (character != null) {
+            StatBlock statblock = character.getStatBlock(this.type);
+            setProficiency(statblock.getSaveProficiency());
+            setBonus(statblock.getSaveModifier());
+        } else {
+            setProficiency(Proficient.NONE);
+            setBonus(0);
+        }
         setLabel(this.type.name());
     }
 
