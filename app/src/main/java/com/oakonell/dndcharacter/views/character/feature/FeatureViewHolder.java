@@ -141,7 +141,6 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         }
 
         public void bind(final MainActivity context, final ActionAdapter adapter, final IFeatureAction action) {
-            Log.i("FeatureViewHolder", "Binding row " + adapter.info.getName() + " action " + getAdapterPosition() + "/" + adapter.getItemCount());
             pool_apply_group.setVisibility(View.GONE);
             final FeatureInfo info = adapter.info;
 
