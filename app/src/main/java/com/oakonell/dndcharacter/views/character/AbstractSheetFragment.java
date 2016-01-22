@@ -17,21 +17,25 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.oakonell.dndcharacter.views.AbstractBaseActivity;
-import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
+import com.oakonell.dndcharacter.DndCharacterApp;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
+import com.oakonell.dndcharacter.views.AbstractBaseActivity;
+import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.views.character.classes.CharacterLevelsDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.AddEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.ViewEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.ApplyRaceDialogFragment;
+import com.squareup.leakcanary.RefWatcher;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.List;
+
+import hugo.weaving.DebugLog;
 
 /**
  * Created by Rob on 10/27/2015.
@@ -50,6 +54,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     private ViewGroup effect_group;
     private ImageButton add_effect;
 
+    @DebugLog
     @Override
     public final void onCharacterChanged(Character character) {
         updateViews();
@@ -67,6 +72,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         return getMainActivity().getCharacter();
     }
 
+    @DebugLog
     protected void updateViews(View rootView) {
         Character character = getCharacter();
         if (character == null) {
@@ -155,6 +161,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         character_name_read_only.setVisibility(readOnlyVis);
     }
 
+    @DebugLog
     @Override
     public void onCharacterLoaded(Character character) {
         character_name_read_only.setOnClickListener(new View.OnClickListener() {
@@ -303,4 +310,11 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         }
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = DndCharacterApp.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
 }

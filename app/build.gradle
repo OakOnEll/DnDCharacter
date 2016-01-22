@@ -64,6 +64,25 @@ dependencies {
     compile 'com.nbsp:library:1.02'
 }
 
+dependencies {
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1' // or 1.4-beta1
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1' // or 1.4-beta1
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1' // or 1.4-beta1
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.hugo'
+
 // Would like totry this one, but it breaks with NavigationViewPresenter class not found when the minSdk->16
 //repositories {
 //    maven { url "https://jitpack.io" }

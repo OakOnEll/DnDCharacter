@@ -11,14 +11,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.DndCharacterApp;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.squareup.leakcanary.RefWatcher;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.Collections;
 import java.util.Set;
+
+import hugo.weaving.DebugLog;
 
 /**
  * Created by Rob on 12/24/2015.
@@ -102,6 +106,7 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         return getMainActivity().getCharacter();
     }
 
+    @DebugLog
     public void onCharacterLoaded(Character character) {
         if (context_list != null) {
             contextualComponentAdapter = new ContextualComponentAdapter(this, getContextFilter());
@@ -118,6 +123,7 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         }
     }
 
+    @DebugLog
     public void onCharacterChanged(Character character) {
         if (contextualComponentAdapter != null) {
             contextualComponentAdapter.reloadList(character);
@@ -135,6 +141,13 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
 
     protected boolean onDone() {
         return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = DndCharacterApp.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 
 }
