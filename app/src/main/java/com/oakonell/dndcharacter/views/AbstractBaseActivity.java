@@ -17,13 +17,14 @@ import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.views.background.BackgroundsListActivity;
-import com.oakonell.dndcharacter.views.character.CharactersListActivity;
+import com.oakonell.dndcharacter.views.characters.CharactersListActivity;
 import com.oakonell.dndcharacter.views.character.MainActivity;
 import com.oakonell.dndcharacter.views.classes.ClassesListActivity;
 import com.oakonell.dndcharacter.views.effect.EffectsListActivity;
 import com.oakonell.dndcharacter.views.imports.ImportActivity;
 import com.oakonell.dndcharacter.views.item.ItemsListActivity;
 import com.oakonell.dndcharacter.views.race.RacesListActivity;
+import com.oakonell.dndcharacter.views.spell.SpellsListActivity;
 
 import java.util.List;
 
@@ -135,6 +136,10 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_items) {
             Intent intent = new Intent(this, ItemsListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        } else if (id == R.id.nav_spells) {
+            Intent intent = new Intent(this, SpellsListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (id == R.id.nav_feats) {
