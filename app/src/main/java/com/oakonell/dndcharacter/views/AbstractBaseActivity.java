@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
@@ -96,33 +97,43 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
 
 
     public void populateRecentCharacters() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        List<CharacterRow> characters = new Select()
-                .from(CharacterRow.class).orderBy("last_viewed desc").limit(NUM_RECENT_CHARACTERS).execute();
 
-        Menu m = navigationView.getMenu();
-        MenuItem item = m.findItem(R.id.nav_recent_characters);
-        SubMenu sub = item.getSubMenu();
+        AsyncTask<Void, Void, List<CharacterRow>> task = new AsyncTask<Void, Void, List<CharacterRow>>() {
+            @Override
+            protected List<CharacterRow> doInBackground(Void... params) {
+                List<CharacterRow> characters = new Select()
+                        .from(CharacterRow.class).orderBy("last_viewed desc").limit(NUM_RECENT_CHARACTERS).execute();
+                return characters;
+            }
 
-        // delete current items
-        sub.clear();
+            @Override
+            protected void onPostExecute(List<CharacterRow> characters) {
+                Menu m = navigationView.getMenu();
+                MenuItem item = m.findItem(R.id.nav_recent_characters);
+                SubMenu sub = item.getSubMenu();
 
-        for (final CharacterRow each : characters) {
-            MenuItem subitem = sub.add(each.name + "- " + each.classesString);
-            subitem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    openCharacter(each.getId());
-                    return true;
+                // delete current items
+                sub.clear();
+
+                for (final CharacterRow each : characters) {
+                    MenuItem subitem = sub.add(each.name + "- " + each.classesString);
+                    subitem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            openCharacter(each.getId());
+                            return true;
+                        }
+                    });
                 }
-            });
-        }
 
-
-        // hack, from http://stackoverflow.com/questions/30695038/how-to-programmatically-add-a-submenu-item-to-the-new-material-design-android-su
-        MenuItem mi = m.getItem(m.size() - 1);
-        mi.setTitle(mi.getTitle());
+                // hack, from http://stackoverflow.com/questions/30695038/how-to-programmatically-add-a-submenu-item-to-the-new-material-design-android-su
+                MenuItem mi = m.getItem(m.size() - 1);
+                mi.setTitle(mi.getTitle());
+            }
+        };
+        task.execute();
     }
 
     public void openCharacter(long id) {

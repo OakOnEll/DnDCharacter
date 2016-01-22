@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -355,9 +356,30 @@ public class EquipmentFragment extends AbstractSheetFragment {
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
         Character character = getCharacter();
-        armor_proficiency.setText(character.getArmorProficiencyString());
-        weapon_proficiency.setText(character.getWeaponsProficiencyString());
-        tools_proficiency.setText(character.getToolsProficiencyString());
+
+        // proficiency strings query the db for collapsing categories/items
+        AsyncTask<Character, Void, Void> profGetter = new AsyncTask<Character, Void, Void>() {
+            String armor;
+            String weapon;
+            String tools;
+
+            @Override
+            protected Void doInBackground(Character... params) {
+                Character character = params[0];
+                armor = character.getArmorProficiencyString();
+                weapon = character.getWeaponsProficiencyString();
+                tools = character.getToolsProficiencyString();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                armor_proficiency.setText(armor);
+                weapon_proficiency.setText(weapon);
+                tools_proficiency.setText(tools);
+            }
+        };
+        profGetter.execute(character);
 
         goldPieces.setText(character.getGold() + "");
         copperPieces.setText(character.getCopper() + "");

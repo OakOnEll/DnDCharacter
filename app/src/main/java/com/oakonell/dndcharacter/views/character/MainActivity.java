@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.character;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -23,15 +24,15 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractBaseActivity;
+import com.oakonell.dndcharacter.views.character.classes.AddClassLevelDialogFragment;
+import com.oakonell.dndcharacter.views.character.feature.AddEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeaturesFragment;
 import com.oakonell.dndcharacter.views.character.item.EquipmentFragment;
 import com.oakonell.dndcharacter.views.character.persona.NotesFragment;
 import com.oakonell.dndcharacter.views.character.persona.PersonaFragment;
-import com.oakonell.dndcharacter.views.character.spell.SpellsFragment;
-import com.oakonell.dndcharacter.views.character.classes.AddClassLevelDialogFragment;
-import com.oakonell.dndcharacter.views.character.feature.AddEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.rest.LongRestDialogFragment;
 import com.oakonell.dndcharacter.views.character.rest.ShortRestDialogFragment;
+import com.oakonell.dndcharacter.views.character.spell.SpellsFragment;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -166,39 +167,52 @@ public class MainActivity extends AbstractBaseActivity {
 
     @DebugLog
     public void saveCharacter() {
-        Serializer serializer = new Persister();
-        OutputStream out;
-        try {
-            out = new ByteArrayOutputStream();
-            serializer.write(character, out);
-            out.close();
-        } catch (Exception e) {
-            throw new RuntimeException("Error writing character xml", e);
-        }
-        String xml = out.toString();
-        CharacterRow row;
-        String action;
-        if (id >= 0) {
-            row = CharacterRow.load(CharacterRow.class, id);
-            action = "Updated";
-        } else {
-            row = new CharacterRow();
-            action = "Added";
-        }
-        row.classesString = character.getClassesString();
-        row.name = character.getName();
-        row.xml = xml;
-        row.last_updated = new Date();
-
-        id = row.save();
-
-        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putLong(CHARACTER_ID, id);
-        editor.commit();
-
-        //Toast.makeText(this, action + " character '" + row.name + "', id = " + id, Toast.LENGTH_SHORT).show();
+        BackgroundCharacterSaver characterSaver = new BackgroundCharacterSaver();
+        characterSaver.execute();
     }
+
+    public class BackgroundCharacterSaver extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            Serializer serializer = new Persister();
+            OutputStream out;
+            try {
+                out = new ByteArrayOutputStream();
+                serializer.write(character, out);
+                out.close();
+            } catch (Exception e) {
+                throw new RuntimeException("Error writing character xml", e);
+            }
+            String xml = out.toString();
+            CharacterRow row;
+            String action;
+            if (id >= 0) {
+                row = CharacterRow.load(CharacterRow.class, id);
+                action = "Updated";
+            } else {
+                row = new CharacterRow();
+                action = "Added";
+            }
+            row.classesString = character.getClassesString();
+            row.name = character.getName();
+            row.xml = xml;
+            row.last_updated = new Date();
+
+            id = row.save();
+
+            SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putLong(CHARACTER_ID, id);
+            editor.commit();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Toast.makeText(MainActivity.this, "Character saved", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @DebugLog
     private void loadCharacter(Bundle savedInstanceState) {
@@ -217,47 +231,73 @@ public class MainActivity extends AbstractBaseActivity {
             SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             savedId = sharedpreferences.getLong(CHARACTER_ID, -1);
         }
-        if (savedId == -1) {
-            // otherwise if no character, launch either wizard (no characters in list) or character list to choose
-            Toast.makeText(this, "Making a new Character", Toast.LENGTH_SHORT).show();
-            character = new Character(true);
-        } else {
-            id = savedId;
-            Toast.makeText(this, "Loading an existing Character id=" + id, Toast.LENGTH_SHORT).show();
-            CharacterRow characterRow = CharacterRow.load(CharacterRow.class, id);
-            if (characterRow == null) {
-                Toast.makeText(this, "Making a new Character", Toast.LENGTH_SHORT).show();
-                characterRow = new CharacterRow();
-                id = characterRow.save();
-            }
-            characterRow.last_viewed = new Date();
-            characterRow.save();
-            populateRecentCharacters();
 
-            if (characterRow.xml == null || characterRow.xml.trim().length() == 0) {
+        BackgroundCharacterLoader characterLoader = new BackgroundCharacterLoader();
+        characterLoader.execute(savedId);
+    }
+
+    public class BackgroundCharacterLoader extends AsyncTask<Long, String, Void> {
+        @Override
+        protected Void doInBackground(Long... savedIds) {
+            long savedId = savedIds[0];
+            if (savedId == -1) {
+                // otherwise if no character, launch either wizard (no characters in list) or character list to choose
+                publishProgress("Making a new Character");
                 character = new Character(true);
             } else {
+                id = savedId;
+                publishProgress("Loading an existing Character id=" + id);
+                CharacterRow characterRow = CharacterRow.load(CharacterRow.class, id);
+                if (characterRow == null) {
+                    //  Toast.makeText(this, "Making a new Character", Toast.LENGTH_SHORT).show();
+                    characterRow = new CharacterRow();
+                    id = characterRow.save();
+                }
+                characterRow.last_viewed = new Date();
+                characterRow.save();
+                populateRecentCharacters();
 
-                Serializer serializer = new Persister();
-                InputStream input;
-                try {
-                    // offload this to a new thread
-                    input = new ByteArrayInputStream(characterRow.xml.getBytes());
-                    character = serializer.read(Character.class, input);
-                    input.close();
-                } catch (Exception e) {
-                    Toast.makeText(this, "Error loading a Character, making a new one for now: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e(MainActivity.class.getName(), "Error loading character", e);
+                if (characterRow.xml == null || characterRow.xml.trim().length() == 0) {
                     character = new Character(true);
-                    //throw new RuntimeException("Error loading xml", e);
+                } else {
+
+                    Serializer serializer = new Persister();
+                    InputStream input;
+                    try {
+                        // offload this to a new thread
+                        input = new ByteArrayInputStream(characterRow.xml.getBytes());
+                        character = serializer.read(Character.class, input);
+                        input.close();
+                    } catch (Exception e) {
+                        publishProgress("Error loading a Character, making a new one for now: " + e.getMessage());
+                        Log.e(MainActivity.class.getName(), "Error loading character", e);
+                        character = new Character(true);
+                        //throw new RuntimeException("Error loading xml", e);
+                    }
                 }
             }
+            for (Iterator<OnCharacterLoaded> iter = onCharacterLoadListeners.iterator(); iter.hasNext(); ) {
+                OnCharacterLoaded listener = iter.next();
+                listener.onCharacterLoaded(character);
+                iter.remove();
+            }
+
+            return null;
         }
-        for (Iterator<OnCharacterLoaded> iter = onCharacterLoadListeners.iterator(); iter.hasNext(); ) {
-            OnCharacterLoaded listener = iter.next();
-            listener.onCharacterLoaded(character);
-            iter.remove();
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            Toast.makeText(MainActivity.this, values[0], Toast.LENGTH_SHORT).show();
         }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Toast.makeText(MainActivity.this, "Character loaded", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void loadCharacterInBackground(long savedId, AsyncTask<Long, String, Void> asyncTask) {
+
     }
 
     public Character getCharacter() {
@@ -265,7 +305,10 @@ public class MainActivity extends AbstractBaseActivity {
     }
 
     public void addCharacterLoadLister(OnCharacterLoaded onCharacterLoad) {
-        if (character != null) onCharacterLoad.onCharacterLoaded(character);
+        if (character != null) {
+            onCharacterLoad.onCharacterLoaded(character);
+            return;
+        }
         onCharacterLoadListeners.add(onCharacterLoad);
     }
 
