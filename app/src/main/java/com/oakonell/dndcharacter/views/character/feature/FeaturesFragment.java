@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.feature;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
-import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
-import com.oakonell.dndcharacter.views.character.feature.FeatureViewHolder;
+import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.character.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;

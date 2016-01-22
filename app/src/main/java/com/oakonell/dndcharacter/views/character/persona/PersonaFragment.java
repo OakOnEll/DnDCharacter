@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.persona;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
 
 /**
  * Created by Rob on 10/26/2015.

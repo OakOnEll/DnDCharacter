@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.persona;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +14,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
+import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 

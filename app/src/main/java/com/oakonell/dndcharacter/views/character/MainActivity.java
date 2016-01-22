@@ -19,10 +19,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.oakonell.dndcharacter.views.AbstractBaseActivity;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
+import com.oakonell.dndcharacter.views.AbstractBaseActivity;
+import com.oakonell.dndcharacter.views.character.feature.FeaturesFragment;
+import com.oakonell.dndcharacter.views.character.item.EquipmentFragment;
+import com.oakonell.dndcharacter.views.character.persona.NotesFragment;
+import com.oakonell.dndcharacter.views.character.persona.PersonaFragment;
+import com.oakonell.dndcharacter.views.character.spell.SpellsFragment;
 import com.oakonell.dndcharacter.views.character.classes.AddClassLevelDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.AddEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.rest.LongRestDialogFragment;
@@ -39,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import hugo.weaving.DebugLog;
 
 public class MainActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
@@ -147,6 +154,7 @@ public class MainActivity extends AbstractBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @DebugLog
     public void updateViews() {
         // loop over fragments and check for character change listeners
         for (Fragment each : getSupportFragmentManager().getFragments()) {
@@ -156,6 +164,7 @@ public class MainActivity extends AbstractBaseActivity {
         }
     }
 
+    @DebugLog
     public void saveCharacter() {
         Serializer serializer = new Persister();
         OutputStream out;
@@ -191,6 +200,7 @@ public class MainActivity extends AbstractBaseActivity {
         //Toast.makeText(this, action + " character '" + row.name + "', id = " + id, Toast.LENGTH_SHORT).show();
     }
 
+    @DebugLog
     private void loadCharacter(Bundle savedInstanceState) {
         long savedId = -1;
         // try to get a character id from
@@ -317,6 +327,9 @@ public class MainActivity extends AbstractBaseActivity {
             if (position == 2) {
                 return new EquipmentFragment();
             }
+            if (position == 3) {
+                return new SpellsFragment();
+            }
             if (position == 4) {
                 return new PersonaFragment();
 
@@ -324,9 +337,10 @@ public class MainActivity extends AbstractBaseActivity {
             if (position == 5) {
                 return new NotesFragment();
             }
+            throw new RuntimeException("Not a valid tab");
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            //return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override

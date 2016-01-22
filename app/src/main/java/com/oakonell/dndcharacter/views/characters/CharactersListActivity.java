@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.characters;
 
 import android.database.Cursor;
 import android.provider.BaseColumns;

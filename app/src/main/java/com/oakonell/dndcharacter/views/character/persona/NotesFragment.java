@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.persona;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,6 +44,9 @@ public class NotesFragment extends AbstractSheetFragment {
 
                     return;
                 }
+
+
+                //notes.setText("character size = " +character + out.toString());
                 notes.setText(out.toString());
             }
         });

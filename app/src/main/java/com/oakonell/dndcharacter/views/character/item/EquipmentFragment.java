@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character;
+package com.oakonell.dndcharacter.views.character.item;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,9 +34,8 @@ import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
 import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
-import com.oakonell.dndcharacter.views.character.item.AmmunitionViewHelper;
-import com.oakonell.dndcharacter.views.character.item.ToolProficiencyDialogFragment;
-import com.oakonell.dndcharacter.views.character.item.WeaponAttackDialogFragment;
+import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
+import com.oakonell.dndcharacter.views.character.MainActivity;
 
 import java.util.Collections;
 import java.util.HashMap;
