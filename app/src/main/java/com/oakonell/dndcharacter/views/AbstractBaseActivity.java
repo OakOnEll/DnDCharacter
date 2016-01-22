@@ -1,6 +1,9 @@
 package com.oakonell.dndcharacter.views;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,11 +17,12 @@ import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+import com.oakonell.dndcharacter.BuildConfig;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.views.background.BackgroundsListActivity;
-import com.oakonell.dndcharacter.views.characters.CharactersListActivity;
 import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.characters.CharactersListActivity;
 import com.oakonell.dndcharacter.views.classes.ClassesListActivity;
 import com.oakonell.dndcharacter.views.effect.EffectsListActivity;
 import com.oakonell.dndcharacter.views.imports.ImportActivity;
@@ -36,6 +40,44 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
 
     public static final int NUM_RECENT_CHARACTERS = 3;
     public static final int FILE_IMPORT_REQUEST = 1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+//                        .detectDiskReads()
+                    .penaltyLog()
+                    .penaltyFlashScreen()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectAll()
+//                        .detectLeakedSqlLiteObjects()
+//                        .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .build());
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+//                        .detectDiskReads()
+                    .penaltyLog()
+                    .penaltyFlashScreen()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectAll()
+//                        .detectLeakedSqlLiteObjects()
+//                        .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .build());
+        }
+    }
 
     protected void configureCommon() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

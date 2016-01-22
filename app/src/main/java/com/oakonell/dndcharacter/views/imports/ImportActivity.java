@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.imports;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+import com.oakonell.dndcharacter.BuildConfig;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.background.Background;
@@ -52,6 +54,22 @@ public class ImportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import);
+
+
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+//                        .detectDiskReads()
+                    .penaltyLog()
+                    .penaltyFlashScreen()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectAll()
+//                        .detectLeakedSqlLiteObjects()
+//                        .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .build());
+        }
 
         searchButton = (ImageButton) findViewById(R.id.search);
         listView = (RecyclerView) findViewById(R.id.list);
