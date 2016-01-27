@@ -1,22 +1,22 @@
 package com.oakonell.dndcharacter.model;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * Created by Rob on 11/18/2015.
  */
-public class AbstractComponentVisitor {
+public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
     protected VisitState state;
 
     protected void visit(Element element) {
         String name = element.getTagName();
+        boolean wasVisited = true;
         switch (name) {
-            case "choose":
-                visitChoose(element);
+            case "charLevel":
+                visitCharacterLevel(element);
                 break;
-            case "or":
-                visitOr(element);
+            case "cantrip":
+                visitCantrip(element);
                 break;
             case "skills":
                 visitSkills(element);
@@ -57,15 +57,6 @@ public class AbstractComponentVisitor {
             case "money":
                 visitMoney(element);
                 break;
-            case "name":
-                visitName(element);
-                break;
-            case "shortDescription":
-                visitShortDescription(element);
-                break;
-            case "description":
-                visitDescription(element);
-                break;
             case "stat":
                 visitStat(element);
                 break;
@@ -73,11 +64,22 @@ public class AbstractComponentVisitor {
                 visitIncrease(element);
                 break;
             default:
-                boolean wasVisited = subVisit(element, name);
+                wasVisited = false;
                 break;
         }
-
+        if (!wasVisited) {
+            super.visit(element);
+        }
     }
+
+    protected void visitCharacterLevel(Element element) {
+        visitGroup(element);
+    }
+
+    protected void visitCantrip(Element element) {
+        visitSimpleItem(element);
+    }
+
 
     protected void visitIncrease(Element element) {
         visitSimpleItem(element);
@@ -88,10 +90,6 @@ public class AbstractComponentVisitor {
         state = VisitState.STATS;
         visitGroup(element);
         state = oldState;
-    }
-
-    protected boolean subVisit(Element element, String name) {
-        return false;
     }
 
     protected void visitLanguage(Element element) {
@@ -155,15 +153,6 @@ public class AbstractComponentVisitor {
         visitSimpleItem(element);
     }
 
-
-    protected void visitOr(Element element) {
-        visitChildren(element);
-    }
-
-    protected void visitChoose(Element element) {
-        visitChildren(element);
-    }
-
     protected void visitFeature(Element element) {
         VisitState oldState = state;
         state = VisitState.FEATURE;
@@ -192,24 +181,6 @@ public class AbstractComponentVisitor {
         state = oldState;
     }
 
-    protected void visitGroup(Element element) {
-        visitChildren(element);
-    }
-
-    protected void visitSimpleItem(Element element) {
-        visitChildren(element);
-    }
-
-    protected void visitChildren(Element element) {
-        Node child = element.getFirstChild();
-
-        while (child != null) {
-            if (child.getNodeType() == Node.ELEMENT_NODE) {
-                visit((Element) child);
-            }
-            child = child.getNextSibling();
-        }
-    }
 
     public enum VisitState {
         SAVING_THROWS, SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, WEAPONS, ARMOR, EQUIPMENT, SPECIALTIES

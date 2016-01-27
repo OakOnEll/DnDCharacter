@@ -22,16 +22,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Spells" />
+            android:text="Casting info"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <include layout="@layout/spell_caster_info_row"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/caster_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Spells"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/spell_level_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
     <!-- having multiple lists on this page requires a merge adapter --><!--    <android.support.v7.widget.RecyclerView

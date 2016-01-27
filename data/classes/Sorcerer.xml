@@ -65,11 +65,29 @@
             </or>
         </choose>
     </equipment>
-
+    <spellCastingStat>charisma</spellCastingStat>
     <level value="1">
         <subclass label="Sorcerous Origin" />
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <known>2</known>
+            <slots>
+                <level value="1">2</level>
+            </slots>
+        </spells>
     </level>
     <level value="2">
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <known>3</known>
+            <slots>
+                <level value="1">3</level>
+            </slots>
+        </spells>
         <feature>
             <name>Font of Magic</name>
             <refreshes>rest</refreshes>
@@ -79,6 +97,16 @@
         </feature>
     </level>
     <level value="3">
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <known>4</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">2</level>
+            </slots>
+        </spells>
         <feature>
             <name>Metamagic</name>
             <refreshes>rest</refreshes>

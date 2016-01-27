@@ -112,16 +112,6 @@ public class Spell extends AbstractComponentModel {
         super.setDocument(doc);
 
         if (doc != null) {
-            Element classesElement = XmlUtils.getElement(doc, "classes");
-            if (classesElement != null) {
-                List<String> classes = new ArrayList<>();
-                for (Element each : XmlUtils.getChildElements(classesElement, "class")) {
-                    classes.add(each.getTextContent());
-                }
-                setUsableByClasses(classes);
-            } else {
-                setUsableByClasses(Collections.<String>emptyList());
-            }
 
             setSchool(XmlUtils.getElementText(doc, "school"));
             setConcentration("true".equals(XmlUtils.getElementText(doc, "concentration")));
@@ -139,7 +129,25 @@ public class Spell extends AbstractComponentModel {
             setConcentration(false);
             setRitual(false);
             setLevel(-1);
+        }
+    }
+
+    protected void addRelatedChildren(Element doc) {
+        if (doc != null) {
+            Element classesElement = XmlUtils.getElement(doc, "classes");
+            if (classesElement != null) {
+                List<String> classes = new ArrayList<>();
+                for (Element each : XmlUtils.getChildElements(classesElement, "class")) {
+                    classes.add(each.getTextContent());
+                }
+                setUsableByClasses(classes);
+            } else {
+                setUsableByClasses(Collections.<String>emptyList());
+            }
+        } else {
             setUsableByClasses(Collections.<String>emptyList());
         }
     }
+
+
 }

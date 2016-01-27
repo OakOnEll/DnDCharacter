@@ -48,8 +48,7 @@ public class AbstractEditComponentDialogFragment<M extends AbstractComponentMode
             @Override
             public void onClick(View v) {
                 Document doc = XmlUtils.getDocument(xmltext.getText().toString());
-                model.setDocument(doc.getDocumentElement());
-                model.save();
+                model.setDocumentAndSave(doc.getDocumentElement());
                 dismiss();
             }
         });

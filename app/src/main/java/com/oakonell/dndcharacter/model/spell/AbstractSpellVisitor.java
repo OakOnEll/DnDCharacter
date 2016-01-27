@@ -19,6 +19,9 @@ public class AbstractSpellVisitor extends AbstractNameDescriptionVisitor {
         String name = element.getTagName();
         boolean wasVisited = true;
         switch (name) {
+            case "spell":
+                visitSpell(element);
+                break;
             default:
                 wasVisited = false;
                 break;
@@ -26,6 +29,10 @@ public class AbstractSpellVisitor extends AbstractNameDescriptionVisitor {
         if (!wasVisited) {
             super.visit(element);
         }
+    }
+
+    protected void visitSpell(Element element) {
+        visitGroup(element);
     }
 
 

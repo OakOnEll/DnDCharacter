@@ -64,11 +64,11 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         updateViews(getView());
     }
 
-    protected MainActivity getMainActivity() {
+    public MainActivity getMainActivity() {
         return (MainActivity) getActivity();
     }
 
-    protected Character getCharacter() {
+    public Character getCharacter() {
         return getMainActivity().getCharacter();
     }
 
@@ -87,6 +87,10 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
             return;
         }
         ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(character.getName());
+        if (character_name_read_only == null) {
+            // odd case of the activity in a bad state..?
+            return;
+        }
         character_name_read_only.setText(character.getName());
         character_name.setText(character.getName());
 

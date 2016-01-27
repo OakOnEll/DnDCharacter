@@ -9,6 +9,7 @@ import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
 import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
 import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
+import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.BaseStatsType;
 import com.oakonell.dndcharacter.model.character.stats.SkillBlock;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
@@ -93,6 +94,12 @@ public class Character {
     @ElementList(required = false)
     private List<CharacterWeapon> weapons = new ArrayList<>();
 
+    @ElementList(required = false)
+    private List<CharacterSpell> cantrips = new ArrayList<>();
+
+    @ElementMap(entry = "spellLevel", key = "level", value = "spells", required = false)
+    private Map<Integer, SpellListWrapper> spellsForLevel = new HashMap<>();
+
 
     // Money
     @Element(required = false)
@@ -107,6 +114,10 @@ public class Character {
     private int platinum;
     @ElementList(required = false)
     private List<CharacterEffect> effects = new ArrayList<>();
+
+    @ElementMap(entry = "spellSlotsUsed", key = "level", value = "used", required = false)
+    private Map<Integer, Integer> spellSlotsUsed = new HashMap<>();
+
 
     public Character(boolean defaults) {
         name = "Feng";
@@ -354,7 +365,7 @@ public class Character {
                 }
             }
         };
-        languagesDeriver.derive(this);
+        languagesDeriver.derive(this, "languages");
         return languages;
     }
 
@@ -426,6 +437,43 @@ public class Character {
         }
         return false;
     }
+
+    public int getCantripsForClass(String className) {
+        int count = 0;
+        for (CharacterSpell each : cantrips) {
+            if (className.equals(each.getCasterClass())) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getSpellsKnownForClass(String className) {
+        int known = 0;
+        for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
+            List<CharacterSpell> spells = entry.getValue().spells;
+            for (CharacterSpell each : spells) {
+                if (className.equals(each.getCasterClass())) {
+                    known++;
+                }
+            }
+        }
+        return known;
+    }
+
+    public int getSpellsPreparedForClass(String className) {
+        int prepared = 0;
+        for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
+            List<CharacterSpell> spells = entry.getValue().spells;
+            for (CharacterSpell each : spells) {
+                if (className.equals(each.getCasterClass())) {
+                    prepared++;
+                }
+            }
+        }
+        return prepared;
+    }
+
 
     public static class ArmorClassWithSource extends WithSource {
         private final String formula;
@@ -756,7 +804,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this);
+        deriver.derive(this, "stat " + type);
 
         return result;
     }
@@ -773,7 +821,7 @@ public class Character {
                 value[0] += component.getStatModifier(type);
             }
         };
-        deriver.derive(this);
+        deriver.derive(this, "stat value " + type);
 
         return value[0];
     }
@@ -790,7 +838,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this);
+        deriver.derive(this, "skill profs " + type);
 
         return result;
     }
@@ -807,7 +855,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this);
+        deriver.derive(this, "save throw prof " + type);
 
         return result;
     }
@@ -824,7 +872,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this);
+        deriver.derive(this, "skill prof " + type);
 
         return proficient[0];
     }
@@ -853,7 +901,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this);
+        deriver.derive(this, "save prof " + type);
         return proficient[0];
     }
 
@@ -866,7 +914,7 @@ public class Character {
                 result.addAll(component.getFeatures());
             }
         };
-        deriver.derive(this);
+        deriver.derive(this, "Feature infos");
 
         return result;
     }
@@ -1147,7 +1195,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this);
+        deriver.derive(this, "tools profs " + type);
 
         return result;
     }
@@ -1322,4 +1370,349 @@ public class Character {
     public int getXp() {
         return xp;
     }
+
+    public List<CharacterSpell> getSpells(int level) {
+        if (level == 0) {
+            return cantrips;
+        }
+        if (spellsForLevel == null) {
+            spellsForLevel = new HashMap<>();
+        }
+        SpellListWrapper spells = spellsForLevel.get(level);
+        if (spells == null) {
+            spells = new SpellListWrapper();
+            spellsForLevel.put(level, spells);
+        }
+        return spells.spells;
+    }
+
+    public List<SpellLevelInfo> getSpellInfos() {
+        // cantrips can come from random components- background, race
+        final List<SpellLevelInfo> spellsLevels = new ArrayList<>();
+        final SpellLevelInfo cantrips = new SpellLevelInfo();
+
+        CharacterAbilityDeriver spellDeriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(BaseCharacterComponent component) {
+                for (CharacterSpell each : component.getCantrips()) {
+                    cantrips.getSpellInfos().add(each);
+                }
+            }
+        };
+        spellDeriver.derive(this, "spell infos");
+
+
+        for (CharacterSpell each : this.cantrips) {
+            cantrips.spellInfos.add(each);
+        }
+
+        List<SpellLevelInfo> result = new ArrayList<>();
+        result.add(cantrips);
+
+        // go through class levels for usable spell levels?
+
+        final Map<String, CastingClassInfo> casterClassInfo = getCasterClassInfo();
+        if (casterClassInfo.size() == 0) {
+            return result;
+        }
+        int maxSlotLevel = 0;
+        final Map<String, Integer> classLevels = getClassLevels();
+        if (classLevels.size() > 1) {
+            // multiclass
+            Map<String, Integer> multiclassCasterSlots = new HashMap<>();
+            List<CastingClassInfo> specialSlotClasses = new ArrayList<>();
+            for (CastingClassInfo each : casterClassInfo.values()) {
+                String factor = each.getMulticlassCastorFactor();
+                if (factor.equals("-1")) {
+                    specialSlotClasses.add(each);
+                    continue;
+                }
+                Integer factorLevel = multiclassCasterSlots.get(factor);
+                if (factorLevel == null) factorLevel = 0;
+                factorLevel += classLevels.get(each.getClassName());
+                multiclassCasterSlots.put(factor, factorLevel);
+            }
+            int effectiveCasterLevel = 0;
+            for (Map.Entry<String, Integer> each : multiclassCasterSlots.entrySet()) {
+                final String factorFormula = each.getKey();
+
+                final Integer value = each.getValue();
+                int roundedLevel = evaluateFormula(factorFormula + " * " + value, null);
+                effectiveCasterLevel += roundedLevel;
+            }
+            addMulticlassSpellSlotLevels(result, effectiveCasterLevel, specialSlotClasses);
+            maxSlotLevel = result.size()-1;
+        } else {
+            final CastingClassInfo casterInfo = casterClassInfo.values().iterator().next();
+            maxSlotLevel = casterInfo.getMaxSpellLevel();
+            for (int i = 1; i <= maxSlotLevel; i++) {
+                SpellLevelInfo level = new SpellLevelInfo();
+                level.level = i;
+                final String slots = casterInfo.getSlotMap().get(i);
+                if (slots != null) {
+                    level.maxSlots = evaluateFormula(slots, null);
+                } else {
+                    level.maxSlots = 0;
+                }
+
+                result.add(level);
+            }
+        }
+
+
+        for (int i = 1; i <= maxSlotLevel; i++) {
+            Integer used = spellSlotsUsed.get(i);
+            if (used == null) used = 0;
+            SpellLevelInfo level = result.get(i);
+            level.slotsAvailable = level.maxSlots - used;
+
+            final List<CharacterSpell> spells = level.getSpellInfos();
+            for (CharacterSpell each : getSpells(i)) {
+                spells.add(each);
+            }
+        }
+
+//
+//        // spell levels / slots
+//        // warlock spell slots count by themselves
+//        // others multiclass
+//        for (int i = 1; i <= 2; i++) {
+//            SpellLevelInfo level = new SpellLevelInfo();
+//            level.level = i;
+//            if (i > 0) {
+//                // TODO
+//                level.maxSlots = 4 / i;
+//                level.slotsAvailable = level.maxSlots;
+//            }
+//            if (i == 1) {
+////                SpellInfo info = new SpellInfo();
+////                info.preparable = true;
+////                info.prepared = true;
+////                info.spell = new CharacterSpell();
+////                info.spell.setName("Charm");
+////                level.spellInfos.add(info);
+//            }
+//            if (i == 2) {
+////                SpellInfo info = new SpellInfo();
+////                info.preparable = false;
+////                info.prepared = true;
+////                info.spell = new CharacterSpell();
+////                info.spell.setName("Level 2 spell...");
+////                level.spellInfos.add(info);
+//            }
+//            result.add(level);
+//        }
+        return result;
+    }
+
+    private void addMulticlassSpellSlotLevels(List<SpellLevelInfo> result, int effectiveCasterLevel, List<CastingClassInfo> specialSlotClasses) {
+        if (effectiveCasterLevel == 1) {
+            SpellLevelInfo level = new SpellLevelInfo();
+            level.level = 1;
+            level.maxSlots = 2;
+            result.add(level);
+        } else if (effectiveCasterLevel == 2) {
+            SpellLevelInfo level = new SpellLevelInfo();
+            level.level = 1;
+            level.maxSlots = 3;
+            result.add(level);
+        } else if (effectiveCasterLevel == 3) {
+            SpellLevelInfo level = new SpellLevelInfo();
+            level.level = 1;
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo();
+            level.level = 2;
+            level.maxSlots = 2;
+            result.add(level);
+        } else if (effectiveCasterLevel == 4) {
+            SpellLevelInfo level = new SpellLevelInfo();
+            level.level = 1;
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo();
+            level.level = 2;
+            level.maxSlots = 3;
+            result.add(level);
+        } else if (effectiveCasterLevel == 5) {
+            SpellLevelInfo level = new SpellLevelInfo();
+            level.level = 1;
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo();
+            level.level = 2;
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo();
+            level.level = 3;
+            level.maxSlots = 2;
+            result.add(level);
+        }// TODO ...
+
+        for (CastingClassInfo specialCastingClass : specialSlotClasses) {
+            for (Map.Entry<Integer, String> each : specialCastingClass.getSlotMap().entrySet()) {
+                int level = each.getKey();
+                String slots = each.getValue();
+                while (level >= result.size()) {
+                    SpellLevelInfo levelInfo = new SpellLevelInfo();
+                    levelInfo.level = result.size();
+                    result.add(levelInfo);
+                }
+                final SpellLevelInfo levelInfo = result.get(level);
+                levelInfo.maxSlots += evaluateFormula(slots, null);
+            }
+        }
+
+    }
+
+    public static class SpellLevelInfo {
+        int level;
+        int slotsAvailable;
+        int maxSlots;
+
+        private List<CharacterSpell> spellInfos = new ArrayList<>();
+
+        public List<CharacterSpell> getSpellInfos() {
+            return spellInfos;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        public int getSlotsAvailable() {
+            return slotsAvailable;
+        }
+
+        public int getMaxSlots() {
+            return maxSlots;
+        }
+    }
+
+    public static class CastingClassInfo {
+        String className;
+
+        StatType castingStat;
+        String multiclassCastorFactor = "1";
+
+        String knownCantrips;
+
+        String preparedSpells;
+        String knownSpells;
+        int maxSpellLevel;
+        public Map<Integer, String> slotMap;
+
+        public String getClassName() {
+            return className;
+        }
+
+        public StatType getCastingStat() {
+            return castingStat;
+        }
+
+        public String getMulticlassCastorFactor() {
+            return multiclassCastorFactor;
+        }
+
+        public String getKnownCantrips() {
+            return knownCantrips;
+        }
+
+        public String getPreparedSpells() {
+            return preparedSpells;
+        }
+
+        public String getKnownSpells() {
+            return knownSpells;
+        }
+
+        public int getMaxSpellLevel() {
+            return maxSpellLevel;
+        }
+
+        public Map<Integer, String> getSlotMap() {
+            return slotMap;
+        }
+    }
+
+    public Map<String, CastingClassInfo> getCasterClassInfo() {
+        Map<String, CastingClassInfo> classInfoMap = new HashMap<>();
+
+        for (CharacterClass each : classes) {
+            StatType castingStat = each.getCasterStat();
+            CastingClassInfo info = classInfoMap.get(each.getName());
+
+            if (castingStat != null) {
+                String prepared = each.getPreparedSpellsFormula();
+                String castorFactor = each.getMulticlassCasterFactorFormula();
+
+                if (info == null) {
+                    info = new CastingClassInfo();
+                    info.className = each.getName();
+                    classInfoMap.put(info.className, info);
+                }
+                info.castingStat = castingStat;
+                if (prepared != null) info.preparedSpells = prepared;
+                if (castorFactor != null) info.multiclassCastorFactor = castorFactor;
+            }
+
+            // look for cantrips/spells
+            String cantripsKnown = each.getCantripsKnownFormula();
+            if (cantripsKnown != null && cantripsKnown.trim().length() > 0) {
+                if (info == null) {
+                    info = new CastingClassInfo();
+                    info.className = each.getName();
+                    classInfoMap.put(info.className, info);
+                }
+                info.knownCantrips = cantripsKnown;
+            }
+
+            String spellsKnown = each.getSpellsKnownFormula();
+            if (spellsKnown != null && spellsKnown.trim().length() > 0) {
+                if (info == null) {
+                    info = new CastingClassInfo();
+                    info.className = each.getName();
+                    classInfoMap.put(info.className, info);
+                }
+                info.knownSpells = spellsKnown;
+            }
+            int maxLevel = 0;
+            Map<Integer, String> slotMap = each.getSpellLevelSlotFormulas();
+            if (slotMap != null) {
+                for (Integer level : slotMap.keySet()) {
+                    if (level > maxLevel) maxLevel = level;
+                }
+                info.maxSpellLevel = maxLevel;
+                info.slotMap = slotMap;
+            }
+        }
+        return classInfoMap;
+    }
+
+
+    private static class SpellListWrapper {
+        @ElementList(required = false)
+        List<CharacterSpell> spells = new ArrayList<>();
+    }
+
+    public void deleteSpell(CharacterSpell info) {
+        int level = info.getLevel();
+        if (level == 0) {
+            boolean wasRemoved = cantrips.remove(info);
+            if (wasRemoved) return;
+//            return;
+            // fall through for current bad data...
+        }
+        final SpellListWrapper listWrapper = spellsForLevel.get(level);
+        if (listWrapper.spells.remove(info)) return;
+
+        // fall through for current bad data...
+        for (SpellListWrapper each : spellsForLevel.values()) {
+            if (each.spells.remove(info)) return;
+        }
+    }
+
 }

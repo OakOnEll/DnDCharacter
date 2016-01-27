@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.item.ItemRow;
@@ -36,13 +37,20 @@ import java.util.List;
 /**
  * Created by Rob on 11/18/2015.
  */
-public class AbstractComponentViewCreator extends AbstractComponentVisitor {
+public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor {
     SavedChoices choices;
     int uiIdCounter;
     ChooseMD<?> currentChooseMD;
 
     private ViewGroup parent;
     private ChooseMDTreeNode choicesMD = new RootChoiceMDNode();
+
+    protected void setParent(ViewGroup parent) {
+        this.parent = parent;
+    }
+    protected ViewGroup getParent() {
+        return parent;
+    }
 
     protected void createGroup(String title) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, null);

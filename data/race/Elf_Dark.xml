@@ -21,9 +21,27 @@
         <shortDescription>Disadvantage on attack rolls and perception checks when you or target are in direct sunlight.</shortDescription>
         <context>WEAPON_ATTACK,SKILL_ROLL</context>
     </feature>
-    <!-- TODO know dancing light cantrip-->
-    <!-- TODO at 3rd level, can cast faerie fire 1x long rest, charisma-->
-    <!-- TODO at 5th level can cast darkness 1x long rest, charisma -->
+    <cantrip stat="Charisma">Dancing lights</cantrip>
+    <charLevel value ="3">
+        <!-- at 3rd level, can cast faerie fire 1x long rest, charisma-->
+        <feature>
+            <name>Faerie Fire</name>
+            <shortDescription>Each object in a 20 foot cube within a 60 foot range is outlined in blue, green, or violet. Any creature failing a dexterity saving throw is also outlined. Any attack against creature has advantage if attacker sees the target. Lasts while concentrating, for up to 1 minute.</shortDescription>
+            <refreshes>longRest</refreshes>
+            <uses>1</uses>
+            <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+        </feature>
+    </charLevel>
+    <charLevel value ="3">
+        <!-- at 5th level can cast darkness 1x long rest, charisma -->
+        <feature>
+            <name>Darkness</name>
+            <shortDescription>Magical darkness spreads from a point within a 60 feet range, to fill a 15 foot radius for up to ten minutes, while concentrating.</shortDescription>
+            <refreshes>longRest</refreshes>
+            <uses>1</uses>
+            <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+        </feature>
+    </charLevel>
     <stat>
         <increase name="Charisma">1</increase>
     </stat>

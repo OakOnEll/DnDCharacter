@@ -18,7 +18,10 @@ public class AbstractArmorVisitor extends AbstractComponentVisitor {
         visit(XmlUtils.getDocument(anItem.getXml()).getDocumentElement());
     }
 
-    protected boolean subVisit(Element element, String name) {
+    @Override
+    protected void visit(Element element) {
+        boolean wasVisited = true;
+        String name = element.getTagName();
         switch (name) {
             case "strengthMin":
                 visitStrengthMin(element);
@@ -27,9 +30,11 @@ public class AbstractArmorVisitor extends AbstractComponentVisitor {
                 visitDisadvantage(element);
                 break;
             default:
-                return false;
+                wasVisited = false;
         }
-        return true;
+        if (!wasVisited) {
+            super.visit(element);
+        }
     }
 
 

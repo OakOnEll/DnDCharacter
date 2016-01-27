@@ -47,20 +47,67 @@
             </or>
         </choose>
     </equipment>
+    <spellCastingStat>charisma</spellCastingStat>
+    <multiclassCasterFactor>-1</multiclassCasterFactor>
     <level value="1">
+        <cantrips>
+            <known>2</known>
+        </cantrips>
+        <spells>
+            <known>2</known>
+            <slots>
+                <level value="1">1</level>
+            </slots>
+        </spells>
         <armor>
             <proficiency category="light armor"></proficiency>
         </armor>
         <weapons>
             <proficiency category="simple weapons"></proficiency>
         </weapons>
+    </level>
+    <level value="2">
+        <cantrips>
+            <known>2</known>
+        </cantrips>
         <spells>
-            <level name="0">
-                <known value="2"/>
-            </level>
-            <level name="1" slots="1">
-                <known value="2"/>
-            </level>
+            <known>3</known>
+            <slots>
+                <level value="1">2</level>
+            </slots>
+        </spells>
+    </level>
+    <level value="3">
+        <cantrips>
+            <known>2</known>
+        </cantrips>
+        <spells>
+            <known>4</known>
+            <slots>
+                <level value="2">2</level>
+            </slots>
+        </spells>
+    </level>
+    <level value="4">
+        <cantrips>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <known>5</known>
+            <slots>
+                <level value="2">2</level>
+            </slots>
+        </spells>
+    </level>
+    <level value="5">
+        <cantrips>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <known>6</known>
+            <slots>
+                <level value="3">2</level>
+            </slots>
         </spells>
     </level>
 </class>

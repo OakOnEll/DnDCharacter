@@ -6,10 +6,13 @@ import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,27 +20,13 @@ import java.util.Map;
  */
 public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
+    private final CharacterClass charClass;
+
     private ApplyClassToCharacterVisitor(SavedChoices savedChoices, Map<String, String> customChoices, CharacterClass charClass) {
-        CharacterClass charClass1 = charClass;
+        this.charClass = charClass;
         SavedChoices savedChoices1 = savedChoices;
         Map<String, String> customChoices1 = customChoices;
     }
-
-//    public static void replaceClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, Character character, int characterLevel, int classLevel) {
-//        // TODO this could get complex... moving other class levels around...
-//        CharacterClass charClass = new CharacterClass();
-//        charClass.setSavedChoices(savedChoices);
-//        // apply common changes
-//        Element element = XmlUtils.getDocument(aClass.getXml()).getDocumentElement();
-//        ApplyChangesToGenericComponent.applyToCharacter(element, savedChoices, charClass, character);
-//
-//
-//        ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass, classLevel);
-//        newMe.visit(element);
-////        character.getClasses().remove(characterLevel);
-////        character.setBackground(charBackground);
-//    }
-
 
     public static void updateClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, Character character, int classIndex, int classLevel, int hpRoll) {
         CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, classIndex + 1, classLevel, hpRoll);
@@ -74,7 +63,24 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             ApplyChangesToGenericComponent.applyToCharacter(levelElement, savedChoices, charClass, character, false);
 
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
-            newMe.visit(levelElement);
+            newMe.visitChildren(levelElement);
+        }
+        if (classLevel == 1 && characterLevel != 1) {
+            // apply the root level spell related things
+            // TODO maybe better to move these elements to level 1, directly
+            ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
+            Element prepared = XmlUtils.getElement(rootClassElement, "preparedSpellsFormula");
+            if (prepared != null) {
+                newMe.visitPreparedSpells(prepared);
+            }
+            Element spellCastingStat = XmlUtils.getElement(rootClassElement, "spellCastingStat");
+            if (spellCastingStat != null) {
+                newMe.visitSpellCastingStat(spellCastingStat);
+            }
+            Element multiclassCasterFactor = XmlUtils.getElement(rootClassElement, "multiclassCasterFactor");
+            if (multiclassCasterFactor != null) {
+                newMe.visitMulticlassCasterFactor(multiclassCasterFactor);
+            }
         }
 
         if (subClass != null) {
@@ -83,7 +89,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             if (subClassLevelElement != null) {
                 ApplyChangesToGenericComponent.applyToCharacter(subClassLevelElement, subclassSavedChoices, charClass, character, false);
                 ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(subclassSavedChoices, null, charClass);
-                newMe.visit(subClassLevelElement);
+                newMe.visitChildren(subClassLevelElement);
                 charClass.setSubclassName(subClass.getName());
                 charClass.setSubClassChoices(subclassSavedChoices);
             }
@@ -103,4 +109,54 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         // the visitor shouldn't actually dive into levels
     }
 
+    @Override
+    protected void visitPreparedSpells(Element element) {
+        String preparedSpellsFormula = element.getTextContent();
+        charClass.setPreparedSpellsFormula(preparedSpellsFormula);
+    }
+
+    @Override
+    protected void visitMulticlassCasterFactor(Element element) {
+        String multiclassFactorFormula = element.getTextContent();
+        charClass.setMulticlassCasterFactorFormula(multiclassFactorFormula);
+    }
+
+    @Override
+    protected void visitSpellCastingStat(Element element) {
+        String statName = element.getTextContent();
+        statName = statName.replaceAll(" ", "_");
+        statName = statName.toUpperCase();
+        StatType stat = StatType.valueOf(StatType.class, statName);
+        // TODO handle error
+        charClass.setCasterStat(stat);
+    }
+
+    @Override
+    protected void visitCantrips(Element element) {
+        String known = XmlUtils.getElementText(element, "known");
+        charClass.setCantripsKnownFormula(known);
+    }
+
+    @Override
+    protected void visitSpells(Element element) {
+        /* <spells>
+        * <known>4</known>
+        * <slots>
+        * <level value="1">4</level>
+        * <level value="2">2</level>
+        * </slots>
+        * </spells>
+        */
+        String spellsKnown = XmlUtils.getElementText(element, "known");
+        charClass.setSpellsKnownFormula(spellsKnown);
+        Element slotsElem = XmlUtils.getElement(element, "slots");
+        List<Element> spellLevelElems = XmlUtils.getChildElements(slotsElem, "level");
+        Map<Integer, String> levelFormulas = new HashMap<>();
+        for (Element each : spellLevelElems) {
+            String levelString = each.getAttribute("value");
+            int level = Integer.parseInt(levelString);
+            levelFormulas.put(level, each.getTextContent());
+        }
+        charClass.setSpellLevelSlotFormulas(levelFormulas);
+    }
 }

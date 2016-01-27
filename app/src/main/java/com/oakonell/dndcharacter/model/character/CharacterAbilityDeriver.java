@@ -6,6 +6,8 @@ import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 
 import java.util.List;
 
+import hugo.weaving.DebugLog;
+
 /**
  * Created by Rob on 1/3/2016.
  */
@@ -20,7 +22,8 @@ public abstract class CharacterAbilityDeriver {
         this.skipFeatures = skipFeatures;
     }
 
-    void derive(Character character) {
+    //@DebugLog
+    void derive(Character character, String comment) {
         CharacterBackground background = character.getBackground();
         if (background != null) {
             visitComponent(background);

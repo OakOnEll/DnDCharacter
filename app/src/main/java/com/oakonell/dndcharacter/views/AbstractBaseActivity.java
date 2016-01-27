@@ -154,6 +154,13 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         }
     }
 
+    protected void closeNavigationDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+    }
+
     @Override
     protected void onResume() {
         populateRecentCharacters();

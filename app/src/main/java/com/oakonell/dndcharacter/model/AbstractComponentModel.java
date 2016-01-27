@@ -26,4 +26,14 @@ public abstract class AbstractComponentModel extends Model {
         }
 
     }
+
+    public void setDocumentAndSave(Element doc) {
+        setDocument(doc);
+        save();
+        addRelatedChildren(doc);
+    }
+
+    protected void addRelatedChildren(Element doc) {
+
+    }
 }

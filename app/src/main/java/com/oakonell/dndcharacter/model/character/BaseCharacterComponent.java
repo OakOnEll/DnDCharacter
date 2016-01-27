@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.character;
 
+import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.Feature;
@@ -41,6 +42,8 @@ public abstract class BaseCharacterComponent {
     private String acFormula;
     @Element(required = false)
     private String activeFormula;
+    @ElementList(required = false)
+    private List<CharacterSpell> cantrips = new ArrayList<>();
 
 
     public String getName() {
@@ -183,10 +186,13 @@ public abstract class BaseCharacterComponent {
         return formula;
     }
 
+    public List<CharacterSpell> getCantrips() {
+        return cantrips;
+    }
+
     // use a wrapper for SimpleXML serialization
     public static class ToolProficiencies {
         @ElementList(required = false, type = Proficiency.class, inline = true)
         List<Proficiency> proficiencies = new ArrayList<>();
     }
-
 }

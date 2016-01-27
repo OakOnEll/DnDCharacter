@@ -3,11 +3,15 @@ package com.oakonell.dndcharacter.model;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
-import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentType;
+import com.oakonell.dndcharacter.model.character.Proficient;
+import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
+import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.Feature;
@@ -19,6 +23,7 @@ import com.oakonell.dndcharacter.model.item.CreateCharacterArmorVisitor;
 import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
+import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
@@ -30,7 +35,7 @@ import java.util.List;
 /**
  * Created by Rob on 11/18/2015.
  */
-public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> extends AbstractComponentVisitor {
+public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> extends AbstractChoiceComponentVisitor {
     private final C component;
     private final SavedChoices savedChoices;
     @Nullable
@@ -79,8 +84,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             String[] contexts = contextsString.split(",");
             for (String each : contexts) {
                 String contextString = each.trim();
-                FeatureContext context = FeatureContext.valueOf(contextString.toUpperCase());
-                feature.addContext(context);
+                if (contextString.length() > 0) {
+                    FeatureContext context = FeatureContext.valueOf(contextString.toUpperCase());
+                    feature.addContext(context);
+                }
             }
         }
 
@@ -127,7 +134,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 int cost = readIntegerAttribute(effectElement, "uses", 1);
                 effect.setCost(cost);
                 String actionName = effectElement.getAttribute("actionName");
-                if (actionName == null || actionName.trim().length()==0) {
+                if (actionName == null || actionName.trim().length() == 0) {
                     actionName = effect.getName();
                 }
                 effect.setAction(actionName);
@@ -262,6 +269,46 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
 
         currentChoiceName = oldChoiceName;
+    }
+
+    protected void visitCharacterLevel(Element element) {
+        // TODO ...
+        //visitGroup(element);
+    }
+
+    @Override
+    protected void visitCantrip(Element element) {
+        final String cantripName = element.getTextContent();
+        String statString = element.getAttribute("stat");
+
+        StatType stat = null;
+        if (statString != null && statString.trim().length() > 0) {
+            statString = statString.toUpperCase();
+            stat = StatType.valueOf(StatType.class, statString);
+        }
+        addCantrip(cantripName, stat);
+    }
+
+    private void addCantrip(String cantripName, StatType stat) {
+        List<Spell> spells = new Select()
+                .from(Spell.class).where("UPPER(name) = ?", cantripName.toUpperCase()).execute();
+        CharacterSpell characterSpell = null;
+        if (!spells.isEmpty()) {
+            if (spells.size() > 1) {
+                throw new RuntimeException("Too many spells named " + cantripName);
+            }
+            final Spell spell = spells.get(0);
+            characterSpell = new CharacterSpell();
+            final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
+            ApplyChangesToGenericComponent.applyToCharacter(root, null, characterSpell, null, false);
+        } else {
+            characterSpell = new CharacterSpell();
+        }
+        characterSpell.setLevel(0);
+        characterSpell.setName(cantripName);
+        characterSpell.setCastingStat(stat);
+        characterSpell.setSource(component.getType());
+        component.getCantrips().add(characterSpell);
     }
 
     @Override

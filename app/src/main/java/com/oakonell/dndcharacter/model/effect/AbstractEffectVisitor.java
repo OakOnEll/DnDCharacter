@@ -14,15 +14,21 @@ public abstract class AbstractEffectVisitor extends AbstractComponentVisitor {
         visit(XmlUtils.getDocument(effect.getXml()).getDocumentElement());
     }
 
-    protected boolean subVisit(Element element, String name) {
-        if (name.equals("effect")) {
-            visitEffect(element);
-        } else {
-            return false;
+    @Override
+    protected void visit(Element element) {
+        boolean wasVisited = true;
+        String name = element.getTagName();
+        switch (name) {
+            case "effect":
+                visitEffect(element);
+                break;
+            default:
+                wasVisited = false;
         }
-        return true;
+        if (!wasVisited) {
+            super.visit(element);
+        }
     }
-
 
     protected void visitEffect(Element element) {
         visitChildren(element);

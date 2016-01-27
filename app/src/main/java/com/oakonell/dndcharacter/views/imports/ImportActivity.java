@@ -158,8 +158,7 @@ public class ImportActivity extends AppCompatActivity {
                         model = modelClass.newInstance();
                         isUpdated = false;
                     }
-                    model.setDocument(each.element);
-                    model.save();
+                    model.setDocumentAndSave(each.element);
                     if (isUpdated) {
                         updated++;
                     } else {

@@ -1,6 +1,6 @@
 package com.oakonell.dndcharacter.model.background;
 
-import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
+import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -8,13 +8,16 @@ import org.w3c.dom.Element;
 /**
  * Created by Rob on 11/9/2015.
  */
-public abstract class AbstractBackgroundVisitor extends AbstractComponentVisitor {
+public abstract class AbstractBackgroundVisitor extends AbstractChoiceComponentVisitor {
 
     public void visit(Background background) {
         visit(XmlUtils.getDocument(background.getXml()).getDocumentElement());
     }
 
-    protected boolean subVisit(Element element, String name) {
+    @Override
+    protected void visit(Element element) {
+        boolean wasVisited = true;
+        String name = element.getTagName();
         switch (name) {
             case "background":
                 visitBackground(element);
@@ -50,9 +53,11 @@ public abstract class AbstractBackgroundVisitor extends AbstractComponentVisitor
                 visitFlaw(element);
                 break;
             default:
-                return false;
+                wasVisited = false;
         }
-        return true;
+        if (!wasVisited) {
+            super.visit(element);
+        }
     }
 
     protected void visitFlaw(Element element) {

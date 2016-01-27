@@ -49,6 +49,9 @@
             </or>
         </choose>
     </equipment>
+    <preparedSpellsFormula>max(charismaMod + classLevel/2,1)</preparedSpellsFormula>
+    <spellCastingStat>charisma</spellCastingStat>
+    <multiclassCasterFactor>1/2</multiclassCasterFactor>
     <level value="1">
         <feature>
             <name>Divine Sense</name>
@@ -81,6 +84,11 @@
         </weapons>
     </level>
     <level value="2">
+        <spells>
+            <slots>
+                <level value="1">2</level>
+            </slots>
+        </spells>
         <choose name="fighting_style">
             <or name="defense">
                 <feature>
@@ -119,6 +127,11 @@
         </feature>
     </level>
     <level value="3">
+        <spells>
+            <slots>
+                <level value="1">3</level>
+            </slots>
+        </spells>
         <feature>
             <name>Divine Health</name>
             <shortDescription>You are immune to disease.</shortDescription>

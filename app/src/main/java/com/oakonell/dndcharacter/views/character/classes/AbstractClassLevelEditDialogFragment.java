@@ -92,7 +92,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         List<Page<AClass>> pages = new ArrayList<>();
         if (getModel() == null) return pages;
 
-        Element rootClassElement = XmlUtils.getDocument(getModel().getXml()).getDocumentElement();
+        final Element rootClassElement = XmlUtils.getDocument(getModel().getXml()).getDocumentElement();
         final Element levelElement = AClass.findLevelElement(rootClassElement, getClassLevel());
 
         final boolean isFirstLevel = isFirstCharacterLevel();
@@ -121,6 +121,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
         // next page, show level specific stuff (if first, show hit die, or just show again)
         // TODO show when proficiency is increased!
+        final Element spellCastingStat = XmlUtils.getElement(rootClassElement, "spellCastingStat");
         if (levelElement != null) {
             Page<AClass> level = new Page<AClass>() {
                 @Override
@@ -145,10 +146,51 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     }
 
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
-                    return visitor.appendToLayout(levelElement, dynamic, backgroundChoices);
+                    final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, dynamic, backgroundChoices);
+
+                    if (spellCastingStat != null) {
+//                        TextView text = new TextView(parent.getContext());
+//                        parent.addView(text);
+//                        String name = element.getTextContent();
+//                        final String countString = element.getAttribute("count");
+//                        if (countString != null && countString.trim().length() > 0) {
+//                            name += " (" + countString + ")";
+//                        }
+//                        text.setText(" *  " + name);
+                    }
+
+
+                    return chooseMDTreeNode;
                 }
             };
             pages.add(level);
+
+            final Element spells = XmlUtils.getElement(levelElement, "spells");
+            final Element cantrips = XmlUtils.getElement(levelElement, "cantrips");
+            if (spellCastingStat != null && (spells != null || cantrips != null)) {
+/*
+                        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <known>3</known>
+            <slots>
+                <level value="1">3</level>
+            </slots>
+        </spells>
+                 */
+                Page<AClass> spellPage = new Page<AClass>() {
+                    @Override
+                    public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
+                        SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator();
+
+                        visitor.appendToLayout(dynamic, rootClassElement, spells, cantrips);
+                        return new RootChoiceMDNode();
+                    }
+                };
+                pages.add(spellPage);
+
+            }
 
             if (subclass != null) {
                 Element subclassRoot = XmlUtils.getDocument(subclass.getXml()).getDocumentElement();
