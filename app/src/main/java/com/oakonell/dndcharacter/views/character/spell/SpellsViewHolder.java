@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -59,14 +60,23 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
         }
 
         @Override
-        public void bind(SpellsFragment context, AbstractSpellAdapter adapter, CharacterSpell info) {
+        public void bind(final SpellsFragment context, AbstractSpellAdapter adapter, final CharacterSpell info) {
             super.bind(context, adapter, info);
             if (!info.isPreparable()) {
                 prepared.setVisibility(View.INVISIBLE);
             } else {
                 prepared.setVisibility(View.VISIBLE);
             }
+            prepared.setOnCheckedChangeListener(null);
             prepared.setChecked(info.isPrepared());
+            prepared.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    info.setPrepared(isChecked);
+                    context.updateViews();
+                    context.getMainActivity().saveCharacter();
+                }
+            });
         }
     }
 }

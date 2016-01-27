@@ -63,21 +63,25 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
         int level = Integer.parseInt(levelString);
         charSpell.setLevel(level);
 
-        String school= XmlUtils.getElementText(element, "school");
+
+        String name = XmlUtils.getElementText(element, "name");
+        charSpell.setName(name);
+
+        String school = XmlUtils.getElementText(element, "school");
         charSpell.setSchool(school);
 
 
         //charSpell.setAttackType();
-        String castingTime= XmlUtils.getElementText(element, "castingTime");
+        String castingTime = XmlUtils.getElementText(element, "castingTime");
         charSpell.setCastingTime(castingTime);
 
     }
 
-    @Override
-    protected void visitName(Element element) {
-        String name = element.getTextContent();
-        charSpell.setName(name);
-    }
+//    @Override
+//    protected void visitName(Element element) {
+//        String name = element.getTextContent();
+//        charSpell.setName(name);
+//    }
 
 
 }

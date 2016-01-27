@@ -176,7 +176,15 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
 
         final CharacterSpell characterSpell = ApplySpellToCharacterVisitor.createCharacterSpell(spell, getCharacter());
         characterSpell.setSource(ComponentType.CLASS);
-        characterSpell.setCasterClass((String) classNameSpinner.getSelectedItem());
+        final String className = (String) classNameSpinner.getSelectedItem();
+        characterSpell.setCasterClass(className);
+
+        if (spell.getLevel() > 0) {
+            final Character.CastingClassInfo info = getCharacter().getCasterClassInfo().get(className);
+            if (info.usesPreparedSpells()) {
+                characterSpell.setPreparable(true);
+            }
+        }
 
         getMainActivity().updateViews();
         getMainActivity().saveCharacter();

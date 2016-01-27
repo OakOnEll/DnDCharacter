@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
+import com.oakonell.expression.context.SimpleVariableContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,12 +71,16 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
 
         @Override
         public void bind(SpellsFragment context, CasterInfoAdapter adapter, Character.CastingClassInfo info) {
-            class_name.setText(info.getClassName());
-            casting_stat.setText(info.getCastingStat().toString());
+            class_name.setText(info.getClassName() + "(" + info.getClassLevel() + ")");
+            casting_stat.setText(info.getCastingStat().toString() + "(" + context.getCharacter().getStatBlock(info.getCastingStat()).getModifier() + ")");
 
             int cantrips = context.getCharacter().getCantripsForClass(info.getClassName());
             int maxCantrips = context.getCharacter().evaluateFormula(info.getKnownCantrips(), null);
-            cantrips_known.setText(cantrips + "/" + maxCantrips);
+            if (maxCantrips > 0) {
+                cantrips_known.setText(cantrips + "/" + maxCantrips);
+            } else {
+                cantrips_known.setText(cantrips + "");
+            }
             if (cantrips > maxCantrips) {
                 cantrips_known.setError("Too many cantrips for " + info.getClassName());
             } else {
@@ -83,12 +88,38 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
             }
 
             int spellsKnown = context.getCharacter().getSpellsKnownForClass(info.getClassName());
-            int maxKnown = context.getCharacter().evaluateFormula(info.getKnownSpells(), null);
-            spells_known.setText(spellsKnown + "/" + maxKnown);
+            final String maxKnownSpellsFormula = info.getKnownSpells();
+            if (maxKnownSpellsFormula != null && maxKnownSpellsFormula.length() > 0) {
+                int maxKnown = context.getCharacter().evaluateFormula(maxKnownSpellsFormula, null);
+                spells_known.setText(spellsKnown + "/" + maxKnown);
+                if (spellsKnown > maxKnown) {
+                    spells_known.setError("Too many known spells for " + info.getClass());
+                } else {
+                    spells_known.setError(null);
+                }
+            } else {
+                spells_known.setText(spellsKnown + "");
+            }
 
-            int spellsPrepared = context.getCharacter().getSpellsPreparedForClass(info.getClassName());
-            int maxPrepared = context.getCharacter().evaluateFormula(info.getPreparedSpells(), null);
-            spells_prepared.setText(spellsPrepared + "/" + maxPrepared);
+
+            final String maxPreparedSpellsFormula = info.getPreparedSpells();
+            if (maxPreparedSpellsFormula != null && maxPreparedSpellsFormula.length() > 0) {
+                spells_prepared.setVisibility(View.VISIBLE);
+                int spellsPrepared = context.getCharacter().getSpellsPreparedForClass(info.getClassName());
+                SimpleVariableContext variableContext = new SimpleVariableContext();
+                variableContext.setNumber("classLevel", info.getClassLevel());
+                int maxPrepared = context.getCharacter().evaluateFormula(maxPreparedSpellsFormula, variableContext);
+                spells_prepared.setText(spellsPrepared + "/" + maxPrepared);
+
+                if (spellsPrepared > maxPrepared) {
+                    spells_prepared.setError("Too many prepared spells for " + info.getClass());
+                } else {
+                    spells_prepared.setError(null);
+                }
+            } else {
+                spells_prepared.setVisibility(View.INVISIBLE);
+            }
+
 
             max_spell_level.setText("" + info.getMaxSpellLevel());
         }

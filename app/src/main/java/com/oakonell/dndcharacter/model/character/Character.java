@@ -467,7 +467,7 @@ public class Character {
             List<CharacterSpell> spells = entry.getValue().spells;
             for (CharacterSpell each : spells) {
                 if (className.equals(each.getCasterClass())) {
-                    prepared++;
+                    if (each.isPrepared()) prepared++;
                 }
             }
         }
@@ -1440,7 +1440,7 @@ public class Character {
                 effectiveCasterLevel += roundedLevel;
             }
             addMulticlassSpellSlotLevels(result, effectiveCasterLevel, specialSlotClasses);
-            maxSlotLevel = result.size()-1;
+            maxSlotLevel = result.size() - 1;
         } else {
             final CastingClassInfo casterInfo = casterClassInfo.values().iterator().next();
             maxSlotLevel = casterInfo.getMaxSpellLevel();
@@ -1604,6 +1604,7 @@ public class Character {
         String knownSpells;
         int maxSpellLevel;
         public Map<Integer, String> slotMap;
+        private int classLevel;
 
         public String getClassName() {
             return className;
@@ -1635,6 +1636,14 @@ public class Character {
 
         public Map<Integer, String> getSlotMap() {
             return slotMap;
+        }
+
+        public int getClassLevel() {
+            return classLevel;
+        }
+
+        public boolean usesPreparedSpells() {
+            return preparedSpells != null && preparedSpells.length() > 0;
         }
     }
 
@@ -1687,6 +1696,10 @@ public class Character {
                 }
                 info.maxSpellLevel = maxLevel;
                 info.slotMap = slotMap;
+            }
+            // allow this to be overwritten with each class level processed, in order
+            if (info != null) {
+                info.classLevel = each.getLevel();
             }
         }
         return classInfoMap;
