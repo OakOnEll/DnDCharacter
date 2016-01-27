@@ -48,7 +48,7 @@ public class ClassesListActivity extends AbstractComponentListActivity {
 
     @Override
     protected String getSubtitle() {
-        return "Classes";
+        return getString(R.string.classes);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ClassesListActivity extends AbstractComponentListActivity {
     }
 
     protected static class ClassRowViewHolderCursor extends RowViewHolderCursor {
-        public TextView parentClass;
+        public final TextView parentClass;
 
         public ClassRowViewHolderCursor(View itemView) {
             super(itemView);

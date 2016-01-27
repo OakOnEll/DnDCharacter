@@ -85,7 +85,7 @@ public class NoDefaultSpinner extends Spinner {
      */
     protected class SpinnerAdapterProxy implements InvocationHandler {
 
-        protected SpinnerAdapter obj;
+        protected final SpinnerAdapter obj;
         protected Method getView;
 
 

@@ -23,7 +23,7 @@ public class AddCharacterItemDialogFragment extends AbstractCharacterDialogFragm
 
     @Override
     protected String getTitle() {
-        return "Add an Item";
+        return getString(R.string.add_an_item);
     }
 
 }

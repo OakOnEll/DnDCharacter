@@ -70,7 +70,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private ViewGroup weaponItemsView;
     private RecyclerView itemsView;
 
-    private Map<CharacterItem, Long> beingDeleted = new HashMap<>();
+    private final Map<CharacterItem, Long> beingDeleted = new HashMap<>();
 
 
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
@@ -429,7 +429,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     static class ItemViewHolder extends AbstractItemViewHolder<CharacterItem> {
-        TextView count;
+        final TextView count;
 
         public ItemViewHolder(View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
@@ -448,8 +448,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     static class ArmorViewHolder extends AbstractItemViewHolder<CharacterArmor> {
-        TextView ac;
-        CheckBox equipped;
+        final TextView ac;
+        final CheckBox equipped;
 
         public ArmorViewHolder(View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
@@ -497,8 +497,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     static class WeaponViewHolder extends AbstractItemViewHolder<CharacterWeapon> {
-        TextView bonus;
-        TextView damage;
+        final TextView bonus;
+        final TextView damage;
 
         private final AmmunitionViewHelper ammunitionViewHelper;
 
@@ -512,8 +512,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
             ammunitionViewHelper.createView(view);
         }
 
-        protected String getNameString(CharacterWeapon item) {
-            String base = super.getNameString(item);
+        @Override
+        protected String getNameString(CharacterWeapon item, EquipmentFragment context) {
+            String base = super.getNameString(item, context);
             StringBuilder builder = new StringBuilder(" [");
             boolean hasExtra = false;
             if (item.isRanged()) {
@@ -529,14 +530,14 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 if (hasExtra) {
                     builder.append(", ");
                 }
-                builder.append("Versatile");
+                builder.append(context.getString(R.string.versatile));
                 hasExtra = true;
             }
             if (item.isFinesse()) {
                 if (hasExtra) {
                     builder.append(", ");
                 }
-                builder.append("Finesse");
+                builder.append(context.getString(R.string.finesse));
                 hasExtra = true;
             }
 
@@ -591,7 +592,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     static class SwipeOrDragListener implements View.OnTouchListener {
         static final int MIN_DISTANCE = 10;
         private final OnStartDragListener mDragStartListener;
-        AbstractItemViewHolder holder;
+        final AbstractItemViewHolder holder;
         boolean lookForDrag;
         private float downX;
         private float downY;
@@ -605,14 +606,14 @@ public class EquipmentFragment extends AbstractSheetFragment {
         public boolean onTouch(View v, MotionEvent event) {
             int action = event.getAction();
             if (action == MotionEvent.ACTION_DOWN && !lookForDrag) {
-                Log.i("Equpiment", "touch down");
+                Log.i("Equipment", "touch down");
                 downX = event.getX();
                 downY = event.getY();
                 lookForDrag = true;
                 //mSwipeDetected = Action.None;
                 return true; // allow other events like Click to be processed
             } else if (action == MotionEvent.ACTION_MOVE && lookForDrag) {
-                Log.i("Equpiment", "action move ");
+                Log.i("Equipment", "action move ");
                 float upX = event.getX();
                 float upY = event.getY();
 
@@ -640,7 +641,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     static class AbstractItemViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> implements ItemTouchHelperViewHolder {
         private final ImageView handleView;
         private final OnStartDragListener mDragStartListener;
-        TextView name;
+        final TextView name;
         private Drawable originalBackground;
 
         public AbstractItemViewHolder(View view, OnStartDragListener mDragStartListener) {
@@ -652,7 +653,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         @Override
         public void bind(EquipmentFragment context, SubAdapter<I> adapter, I item) {
-            name.setText(getNameString(item));
+            name.setText(getNameString(item, context));
             // TODO force child classes to implement onClick
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -664,7 +665,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             handleView.setOnTouchListener(new SwipeOrDragListener(mDragStartListener, this));
         }
 
-        protected String getNameString(I item) {
+        protected String getNameString(I item, EquipmentFragment context) {
             return item.getName();
         }
 
@@ -684,8 +685,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     public static class DeleteRowViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> {
-        TextView name;
-        Button undo;
+        final TextView name;
+        final Button undo;
 
         public DeleteRowViewHolder(View itemView) {
             super(itemView);
@@ -709,10 +710,10 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     public abstract static class SubAdapter<I extends CharacterItem> extends RecyclerView.Adapter<BindableRecyclerViewHolder<I>> implements ItemTouchHelperAdapter {
-        protected Context context;
-        protected EquipmentFragment fragment;
+        protected final Context context;
+        protected final EquipmentFragment fragment;
         protected List<I> list;
-        ListRetriever<I> listRetriever;
+        final ListRetriever<I> listRetriever;
         OnStartDragListener mDragStartListener;
 
         interface ListRetriever<I> {

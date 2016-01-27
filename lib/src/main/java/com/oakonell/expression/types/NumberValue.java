@@ -7,7 +7,7 @@ import com.oakonell.expression.ExpressionValue;
  * Created by Rob on 12/23/2015.
  */
 public class NumberValue extends ExpressionValue<Integer> {
-    public static NumberValue ZERO = new NumberValue(0);
+    public static final NumberValue ZERO = new NumberValue(0);
     private final int value;
 
     public NumberValue(int value) {

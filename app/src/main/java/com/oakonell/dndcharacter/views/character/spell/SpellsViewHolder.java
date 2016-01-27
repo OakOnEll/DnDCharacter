@@ -53,7 +53,7 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
     }
 
     public static class SpellViewHolder extends AbstractSpellAdapter.AbstractSpellViewHolder {
-        CheckBox prepared;
+        final CheckBox prepared;
 
         public SpellViewHolder(View itemView) {
             super(itemView);

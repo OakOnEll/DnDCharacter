@@ -181,7 +181,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
     }
 
     protected void visitSpecialties(final Element element) {
-        String groupTitle = "Specialties";
+        String groupTitle = parent.getContext().getString(R.string.specialties);
         String choiceName = "specialties";
         Runnable superVisit = new Runnable() {
             @Override
@@ -195,7 +195,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
 
     protected void visitTraits(final Element element) {
-        String groupTitle = "Personality Traits";
+        String groupTitle = parent.getContext().getString(R.string.personality_traits);
         String choiceName = "traits";
         Runnable superVisit = new Runnable() {
             @Override
@@ -210,7 +210,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
     protected void visitBonds(final Element element) {
         String choiceName = "bonds";
-        String groupTitle = "Bonds";
+        String groupTitle = parent.getContext().getString(R.string.bonds);
         Runnable superVisit = new Runnable() {
             @Override
             public void run() {
@@ -223,7 +223,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
 
     protected void visitFlaws(final Element element) {
-        String groupTitle = "Flaws";
+        String groupTitle = parent.getContext().getString(R.string.flaws);
         String choiceName = "flaws";
         Runnable superVisit = new Runnable() {
             @Override
@@ -236,7 +236,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
     }
 
     protected void visitIdeals(final Element element) {
-        String groupTitle = "Ideals";
+        String groupTitle = parent.getContext().getString(R.string.ideals);
         String choiceName = "ideals";
         Runnable superVisit = new Runnable() {
             @Override

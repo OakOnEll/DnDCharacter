@@ -37,7 +37,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     private RecyclerView listView;
     private ComponentListAdapter adapter;
     private int loaderId;
-    private Map<Long, Long> recordsBeingDeleted = new HashMap<>();
+    private final Map<Long, Long> recordsBeingDeleted = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,8 +144,8 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     protected abstract void deleteRow(long id);
 
     public static class DeleteRowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> {
-        TextView name;
-        Button undo;
+        final TextView name;
+        final Button undo;
 
         public DeleteRowViewHolderCursor(View itemView) {
             super(itemView);
@@ -173,7 +173,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     }
 
     public static class RowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> implements ItemTouchHelperViewHolder {
-        TextView name;
+        final TextView name;
         //TextView description;
         private Drawable originalBackground;
 

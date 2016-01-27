@@ -53,7 +53,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @Override
     protected String getTitle() {
-        return "Stat";
+        return getString(R.string.stat_title);
     }
 
 

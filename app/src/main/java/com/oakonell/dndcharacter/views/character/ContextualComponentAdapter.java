@@ -27,10 +27,10 @@ import java.util.Set;
  */
 public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter>> {
     private static final int UNDO_DELAY = 5000;
-    private MainActivity context;
-    private Set<FeatureContext> filter;
+    private final MainActivity context;
+    private final Set<FeatureContext> filter;
     private List<IContextualComponent> list;
-    private Map<String, Long> deletedEffects = new HashMap<>();
+    private final Map<String, Long> deletedEffects = new HashMap<>();
 
 
     public ContextualComponentAdapter(AbstractCharacterDialogFragment context, Set<FeatureContext> filter) {

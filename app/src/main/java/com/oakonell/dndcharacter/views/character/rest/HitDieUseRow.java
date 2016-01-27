@@ -26,7 +26,7 @@ public class HitDieUseRow implements Parcelable {
     public int dieSides;
     public int numDiceRemaining;
     public int totalDice;
-    public List<Integer> rolls = new ArrayList<>();
+    public final List<Integer> rolls = new ArrayList<>();
 
     public HitDieUseRow() {
     }

@@ -20,6 +20,12 @@ import java.util.List;
  * Created by Rob on 12/1/2015.
  */
 public abstract class RollableDialogFragment extends AbstractCharacterDialogFragment {
+    public static final String ADVANTAGE_INDEX = "advantageIndex";
+    public static final String START_COLOR = "startColor";
+    public static final String ROLL = "roll";
+    public static final String ROLL_2 = "roll2";
+    public static final String MODIFIER = "modifier";
+
     private TextView roll1Text;
     private TextView roll2Text;
     private TextView modifierText;
@@ -32,7 +38,7 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
 
     protected void superCreateView(View view, Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            modifier = savedInstanceState.getInt("modifier");
+            modifier = savedInstanceState.getInt(MODIFIER);
         }
 
         advantageSpinner = (AppCompatSpinner) view.findViewById(R.id.advantage);
@@ -42,10 +48,10 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
         roll2Text = (TextView) view.findViewById(R.id.roll2);
 
         if (savedInstanceState != null) {
-            startColor = savedInstanceState.getInt("startColor", roll1Text.getCurrentTextColor());
+            startColor = savedInstanceState.getInt(START_COLOR, roll1Text.getCurrentTextColor());
 
-            roll1Text.setText(savedInstanceState.getString("roll", ""));
-            roll2Text.setText(savedInstanceState.getString("roll2", ""));
+            roll1Text.setText(savedInstanceState.getString(ROLL, ""));
+            roll2Text.setText(savedInstanceState.getString(ROLL_2, ""));
         } else {
             startColor = roll1Text.getCurrentTextColor();
         }
@@ -56,9 +62,9 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
         critical_label = (TextView) view.findViewById(R.id.critical_label);
 
         List<String> list = new ArrayList<>();
-        list.add("Normal");
-        list.add("Advantage");
-        list.add("Disadvantage");
+        list.add(getString(R.string.normal_advantage));
+        list.add(getString(R.string.advantage));
+        list.add(getString(R.string.disadvantage));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>
                 (getActivity(), android.R.layout.simple_spinner_item, list);
@@ -66,7 +72,7 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
         advantageSpinner.setAdapter(dataAdapter);
         int advantageIndex = 0;
         if (savedInstanceState != null) {
-            advantageIndex = savedInstanceState.getInt("advantageIndex", 0);
+            advantageIndex = savedInstanceState.getInt(ADVANTAGE_INDEX, 0);
         }
 
         advantageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -102,11 +108,11 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         // TODO not sure why the roll Texts aren't being saved per android FW?
-        outState.putString("roll", roll1Text.getText().toString());
-        outState.putString("roll2", roll2Text.getText().toString());
-        outState.putInt("modifier", modifier);
-        outState.putInt("startColor", startColor);
-        outState.putInt("advantageIndex", advantageSpinner.getSelectedItemPosition());
+        outState.putString(ROLL, roll1Text.getText().toString());
+        outState.putString(ROLL_2, roll2Text.getText().toString());
+        outState.putInt(MODIFIER, modifier);
+        outState.putInt(START_COLOR, startColor);
+        outState.putInt(ADVANTAGE_INDEX, advantageSpinner.getSelectedItemPosition());
 
     }
 

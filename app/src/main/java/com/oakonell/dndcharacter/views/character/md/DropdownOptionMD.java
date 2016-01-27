@@ -38,7 +38,7 @@ public class DropdownOptionMD extends OptionMD<CategoryChoicesMD> {
     @Override
     public boolean validate(ViewGroup dynamicView) {
         if (spinner.getSelectedItemPosition() < 0) {
-            errorTextView.setError("Choose one");
+            errorTextView.setError(dynamicView.getContext().getString(R.string.choose_one_error));
             Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
             spinner.startAnimation(shake);
             return false;

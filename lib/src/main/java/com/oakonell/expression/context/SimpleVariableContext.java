@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by Rob on 12/23/2015.
  */
 public class SimpleVariableContext implements ExpressionVariableContext {
-    Map<String, ExpressionValue<?>> variables = new HashMap<>();
+    final Map<String, ExpressionValue<?>> variables = new HashMap<>();
 
     @Override
     public ExpressionType<?> getType(String name) {

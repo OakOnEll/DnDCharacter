@@ -38,7 +38,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Languages Known";
+        return getString(R.string.languages_known_title);
     }
 
     @Override

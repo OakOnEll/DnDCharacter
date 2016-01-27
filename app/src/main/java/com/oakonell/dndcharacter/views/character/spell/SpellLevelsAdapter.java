@@ -62,7 +62,7 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
 
     public abstract static class AbstractSpellLevelViewHolder extends BindableComponentViewHolder<Character.SpellLevelInfo, SpellsFragment, SpellLevelsAdapter> {
         private final RecyclerView list;
-        private ImageButton add_spell;
+        private final ImageButton add_spell;
         private AbstractSpellAdapter spellAdapter;
 
         public AbstractSpellLevelViewHolder(View itemView) {

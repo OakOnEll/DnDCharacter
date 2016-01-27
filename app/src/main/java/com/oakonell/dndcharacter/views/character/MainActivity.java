@@ -68,7 +68,7 @@ public class MainActivity extends AbstractBaseActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private List<OnCharacterLoaded> onCharacterLoadListeners = new ArrayList<>();
+    private final List<OnCharacterLoaded> onCharacterLoadListeners = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

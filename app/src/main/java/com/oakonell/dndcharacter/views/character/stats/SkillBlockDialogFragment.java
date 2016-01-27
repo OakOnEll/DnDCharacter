@@ -26,6 +26,7 @@ import java.util.Set;
  * Created by Rob on 11/7/2015.
  */
 public class SkillBlockDialogFragment extends RollableDialogFragment {
+    public static final String TYPE = "type";
     private TextView statLabel;
     private TextView statModLabel;
     private TextView statMod;
@@ -43,7 +44,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         SkillBlockDialogFragment frag = new SkillBlockDialogFragment();
         int typeIndex = block.getType().ordinal();
         Bundle args = new Bundle();
-        args.putInt("type", typeIndex);
+        args.putInt(TYPE, typeIndex);
         frag.setArguments(args);
 
         return frag;
@@ -70,14 +71,14 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Skill Proficiency";
+        return getString(R.string.skill_proficiency);
     }
 
 
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
-        int typeIndex = getArguments().getInt("type");
+        int typeIndex = getArguments().getInt(TYPE);
         type = SkillType.values()[typeIndex];
         skillBlock = character.getSkillBlock(type);
 
@@ -126,7 +127,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     public void onCharacterChanged(Character character) {
         super.onCharacterChanged(character);
 
-        int typeIndex = getArguments().getInt("type");
+        int typeIndex = getArguments().getInt(TYPE);
         SkillType type = SkillType.values()[typeIndex];
         skillBlock = character.getSkillBlock(type);
 

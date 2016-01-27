@@ -42,7 +42,7 @@ import java.util.List;
 public class ImportActivity extends AppCompatActivity {
     public static final String EXTRA_FILE_PATH = "filepath";
     private static final int FILE_IMPORT_REQUEST = 1;
-    List<ImportRow> importRows = new ArrayList<>();
+    final List<ImportRow> importRows = new ArrayList<>();
     private ImageButton searchButton;
     private RecyclerView listView;
     private Button importRowsButton;
@@ -227,11 +227,11 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     public static class ImportRowViewHolder extends RecyclerView.ViewHolder {
-        CheckBox should_import;
-        TextView type;
-        TextView name;
-        ImageView imported;
-        TextView error;
+        final CheckBox should_import;
+        final TextView type;
+        final TextView name;
+        final ImageView imported;
+        final TextView error;
 
         public ImportRowViewHolder(View itemView) {
             super(itemView);
@@ -253,7 +253,7 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     public static class ImportRowAdapter extends RecyclerView.Adapter<ImportRowViewHolder> {
-        private List<ImportRow> rows;
+        private final List<ImportRow> rows;
 
         ImportRowAdapter(List<ImportRow> rows) {
             this.rows = rows;

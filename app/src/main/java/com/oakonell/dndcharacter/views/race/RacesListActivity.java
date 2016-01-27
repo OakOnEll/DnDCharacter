@@ -47,7 +47,7 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
 
     @Override
     protected String getSubtitle() {
-        return "Races";
+        return getString(R.string.races);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
     }
 
     protected static class RaceRowViewHolderCursor extends RowViewHolderCursor {
-        public TextView parentRace;
+        public final TextView parentRace;
 
         public RaceRowViewHolderCursor(View itemView) {
             super(itemView);

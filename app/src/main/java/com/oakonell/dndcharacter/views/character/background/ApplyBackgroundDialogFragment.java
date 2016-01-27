@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import com.activeandroid.query.Select;
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.background.ApplyBackgroundToCharacterVisitor;
@@ -30,7 +31,7 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
     }
     @Override
     protected String getTitle() {
-        return "Choose a Background";
+        return getString(R.string.choose_a_background);
     }
 
 
@@ -118,7 +119,7 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
 
     @Override
     public String getModelSpinnerPrompt() {
-        return "[Background]";
+        return getString(R.string.background_prompt);
     }
 
 

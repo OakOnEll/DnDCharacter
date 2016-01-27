@@ -29,6 +29,9 @@ import java.util.Set;
  * Created by Rob on 12/21/2015.
  */
 public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
+    public static final String BASE_ARMOR = "baseArmor";
+    public static final String MODIFYING_ARMOR = "modifyingArmor";
+
     private TextView acText;
     private RecyclerView rootList;
     private RecyclerView modList;
@@ -56,8 +59,8 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
 
         if (savedInstanceState != null) {
-            baseArmorSaved = savedInstanceState.getString("baseArmor");
-            modifyingArmorSaved = savedInstanceState.getStringArrayList("modifyingArmor");
+            baseArmorSaved = savedInstanceState.getString(BASE_ARMOR);
+            modifyingArmorSaved = savedInstanceState.getStringArrayList(MODIFYING_ARMOR);
         }
 
         return view;
@@ -65,7 +68,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Armor Class";
+        return getString(R.string.armor_class_title);
     }
 
     @Override
@@ -73,7 +76,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         super.onSaveInstanceState(outState);
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
             if (each.isEquipped()) {
-                outState.putString("baseArmor", each.getSourceString());
+                outState.putString(BASE_ARMOR, each.getSourceString());
                 break;
             }
         }
@@ -83,7 +86,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
                 equippedBonuses.add(each.getSourceString());
             }
         }
-        outState.putStringArrayList("modifyingArmor", equippedBonuses);
+        outState.putStringArrayList(MODIFYING_ARMOR, equippedBonuses);
     }
 
     @Override
@@ -289,7 +292,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
     public static class RootAcAdapter extends RecyclerView.Adapter<AcViewHolder> {
         List<Character.ArmorClassWithSource> list;
-        ArmorClassDialogFragment fragment;
+        final ArmorClassDialogFragment fragment;
 
         RootAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, Character character) {
             list = character.deriveRootAcs();
@@ -320,7 +323,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
     public static class ModifyingAcAdapter extends RecyclerView.Adapter<AcViewHolder> {
         List<Character.ArmorClassWithSource> list;
-        ArmorClassDialogFragment fragment;
+        final ArmorClassDialogFragment fragment;
 
         ModifyingAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, Character character) {
             list = character.deriveModifyingAcs();

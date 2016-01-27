@@ -37,7 +37,7 @@ public class MultipleChoicesMD extends ChooseMD<CheckOptionMD> {
             }
         }
         if (checked < minSelections) {
-            uiLabel.setError("Choose " + minSelections);
+            uiLabel.setError(dynamicView.getContext().getString(R.string.choose_n, minSelections));
             Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
             uiLabel.startAnimation(shake);
             return false;

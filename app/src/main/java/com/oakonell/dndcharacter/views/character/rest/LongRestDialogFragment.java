@@ -33,6 +33,7 @@ import java.util.Set;
  * Created by Rob on 11/8/2015.
  */
 public class LongRestDialogFragment extends AbstractRestDialogFragment {
+    public static final String DICE_RESTORES = "diceRestores";
     private View fullHealingGroup;
     private CheckBox fullHealing;
     private HitDiceRestoreAdapter diceAdapter;
@@ -74,7 +75,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         view.findViewById(R.id.dice_to_restore).setVisibility(View.GONE);
 
         if (savedInstanceState != null) {
-            savedDiceRestoreBundle = savedInstanceState.getBundle("diceRestores");
+            savedDiceRestoreBundle = savedInstanceState.getBundle(DICE_RESTORES);
         }
 
         return view;
@@ -82,7 +83,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Long Rest";
+        return getString(R.string.long_rest_title);
     }
 
     @Override
@@ -100,7 +101,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
             int sides = each.dieSides;
             diceRestoreBundle.putInt(sides + "", each.numDiceToRestore);
         }
-        outState.putBundle("diceRestores", diceRestoreBundle);
+        outState.putBundle(DICE_RESTORES, diceRestoreBundle);
     }
 
     @Override
@@ -182,11 +183,11 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     static class HitDiceRestoreViewHolder extends BindableComponentViewHolder<HitDieRestoreRow, Context, HitDiceRestoreAdapter> {
-        TextView dieSides;
-        TextView currentDiceRemaining;
-        EditText numDiceToRestore;
-        TextView totalDice;
-        TextView resultDice;
+        final TextView dieSides;
+        final TextView currentDiceRemaining;
+        final EditText numDiceToRestore;
+        final TextView totalDice;
+        final TextView resultDice;
         TextWatcher numDiceToRestoreWatcher;
 
         public HitDiceRestoreViewHolder(View view) {
@@ -260,7 +261,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
 
     private class HitDiceRestoreAdapter extends RecyclerView.Adapter<HitDiceRestoreViewHolder> {
         List<HitDieRestoreRow> diceCounts;
-        private Context context;
+        private final Context context;
 
         public HitDiceRestoreAdapter(Context context, Character character) {
             this.context = context;

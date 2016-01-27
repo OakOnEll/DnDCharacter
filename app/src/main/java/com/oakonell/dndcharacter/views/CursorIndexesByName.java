@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by Rob on 12/7/2015.
  */
 public class CursorIndexesByName {
-    private Map<String, Integer> cursorIndexesByName = new HashMap<>();
+    private final Map<String, Integer> cursorIndexesByName = new HashMap<>();
 
     public int getIndex(Cursor cursor, String name) {
         Integer result = cursorIndexesByName.get(name);

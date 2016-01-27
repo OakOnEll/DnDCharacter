@@ -200,8 +200,8 @@ public class CharacterWeapon extends CharacterItem {
     }
 
     public static class AttackModifiers {
-        int attackBonus;
-        int damageModifier;
+        final int attackBonus;
+        final int damageModifier;
 
         public AttackModifiers(int attackBonus, int damageModifier) {
             this.attackBonus = attackBonus;

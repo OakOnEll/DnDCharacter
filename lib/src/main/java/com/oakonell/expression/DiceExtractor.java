@@ -10,7 +10,7 @@ import java.util.Map;
  * Created by Rob on 12/29/2015.
  */
 public class DiceExtractor extends ExpressionEvaluator {
-    private Map<Integer, Integer> results = new HashMap<>();
+    private final Map<Integer, Integer> results = new HashMap<>();
 
     public static Map<Integer, Integer> extractDieRolls(Expression<?> expression) {
         DiceExtractor extractor = new DiceExtractor(expression.getContext());

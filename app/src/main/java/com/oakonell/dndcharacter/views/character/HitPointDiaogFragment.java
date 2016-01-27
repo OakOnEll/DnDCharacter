@@ -45,6 +45,7 @@ import java.util.Set;
  */
 public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     private static final int UNDO_DELAY = 5000;
+    public static final String HP_ROWS = "hpRows";
     private EditText hpText;
     private RadioButton damage;
     private RadioButton heal;
@@ -184,7 +185,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
 
         if (savedInstanceState != null) {
-            hpList = savedInstanceState.getParcelableArrayList("hpRows");
+            hpList = savedInstanceState.getParcelableArrayList(HP_ROWS);
         }
 
         hpListAdapter = new HitPointsAdapter(this, hpList);
@@ -257,7 +258,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Hit Points";
+        return getString(R.string.hit_points_title);
     }
 
     @Nullable
@@ -276,7 +277,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("hpRows", hpList);
+        outState.putParcelableArrayList(HP_ROWS, hpList);
     }
 
     @Override
@@ -298,7 +299,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         Character character = getCharacter();
         int currentHp = character.getHP();
         int tempHp = character.getTempHp();
-        String startHptext = currentHp + "/" + character.getMaxHP();
+        String startHptext = getString(R.string.fraction_d_slash_d, currentHp, character.getMaxHP());
         if (character.getTempHp() > 0) {
             startHptext += " + " + tempHp;
         }
@@ -338,7 +339,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
             }
         }
 
-        String finalHpText = finalHp + "/" + character.getMaxHP();
+        String finalHpText = getString(R.string.fraction_d_slash_d, finalHp, character.getMaxHP());
         if (tempHp > 0) {
             finalHpText += " + " + tempHp;
         }
@@ -377,9 +378,8 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     private void addHp(int amount) {
         int hp = getHp();
-        String hpString;
         hp = Math.max(0, hp + amount);
-        hpString = hp + "";
+        String hpString = hp + "";
         hpText.setText(hpString);
         hpText.setSelection(hpString.length());
         conditionallyEnableDone();

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.activeandroid.query.Select;
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
@@ -18,6 +19,8 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFragment {
+    public static final String CLASS_INDEX = "classIndex";
+    public static final String INCLUDE_HP = "includeHP";
     private CharacterClass characterClass;
     private int classIndex;
     private boolean includeHP;
@@ -25,8 +28,8 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     public static EditClassLevelDialogFragment createDialog(int classIndex, boolean includeHP) {
         EditClassLevelDialogFragment newMe = new EditClassLevelDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("classIndex", classIndex);
-        bundle.putBoolean("includeHP", includeHP);
+        bundle.putInt(CLASS_INDEX, classIndex);
+        bundle.putBoolean(INCLUDE_HP, includeHP);
 
         newMe.setArguments(bundle);
 
@@ -36,13 +39,13 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
 
     @Override
     protected String getTitle() {
-        return "Edit your Class";
+        return getString(R.string.edit_class);
     }
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        classIndex = getArguments().getInt("classIndex");
-        includeHP = getArguments().getBoolean("includeHP");
+        classIndex = getArguments().getInt(CLASS_INDEX);
+        includeHP = getArguments().getBoolean(INCLUDE_HP);
         return super.onCreateTheView(inflater, container, savedInstanceState);
     }
 

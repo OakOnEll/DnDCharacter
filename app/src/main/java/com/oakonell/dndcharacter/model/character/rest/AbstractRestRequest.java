@@ -7,7 +7,7 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class AbstractRestRequest {
-    Map<String, Integer> featureResets = new HashMap<>();
+    final Map<String, Integer> featureResets = new HashMap<>();
 
     public void addFeatureReset(String name, int numToRestore) {
         Integer resets = featureResets.get(name);

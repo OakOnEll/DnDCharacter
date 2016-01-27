@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.classes;
 
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
@@ -17,9 +18,10 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
     public static AddClassLevelDialogFragment createDialog() {
         return new AddClassLevelDialogFragment();
     }
+
     @Override
     protected String getTitle() {
-        return "Add a Class Level";
+        return getString(R.string.add_class_level);
     }
 
     @Override

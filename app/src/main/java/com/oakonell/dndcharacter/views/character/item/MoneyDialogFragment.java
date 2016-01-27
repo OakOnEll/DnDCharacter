@@ -18,6 +18,7 @@ import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment
  * Created by Rob on 12/2/2015.
  */
 public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
+    public static final String FOCUS = "focus";
     private TextView copperResult;
     private TextView silverResult;
     private TextView electrumResult;
@@ -39,7 +40,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
     public static MoneyDialogFragment createFragment(CoinType focus) {
         MoneyDialogFragment newMe = new MoneyDialogFragment();
         Bundle args = new Bundle();
-        args.putInt("focus", focus.ordinal());
+        args.putInt(FOCUS, focus.ordinal());
         newMe.setArguments(args);
 
         return newMe;
@@ -47,7 +48,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Money";
+        return getString(R.string.money_title);
     }
 
 
@@ -76,10 +77,10 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
         platinumResult = (TextView) rootView.findViewById(R.id.platinum_result);
 
         EditText focusedInput = null;
-        int ordinal = getArguments().getInt("focus", -1);
+        int ordinal = getArguments().getInt(FOCUS, -1);
         if (ordinal >= 0) {
             // consume the focus
-            getArguments().putInt("focus", -1);
+            getArguments().putInt(FOCUS, -1);
             CoinType focus = CoinType.values()[ordinal];
             switch (focus) {
                 case COPPER:
@@ -131,7 +132,6 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     public void onCharacterChanged(Character character) {
-
         super.onCharacterChanged(character);
         updateView(character);
     }

@@ -30,18 +30,18 @@ import java.util.List;
  * Created by Rob on 1/4/2016.
  */
 public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, MainActivity, RecyclerView.Adapter<?>> {
-    public TextView name;
-    public TextView source;
-    public TextView shortDescription;
+    public final TextView name;
+    public final TextView source;
+    public final TextView shortDescription;
 
-    public ViewGroup limited_uses_group;
+    public final ViewGroup limited_uses_group;
 
-    public TextView uses_label;
-    public TextView uses_remaining;
+    public final TextView uses_label;
+    public final TextView uses_remaining;
 
-    public TextView refreshes_label;
+    public final TextView refreshes_label;
 
-    public RecyclerView action_list;
+    public final RecyclerView action_list;
     private ActionAdapter actionsAdapter;
 
 
@@ -112,15 +112,15 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
 
     private static class ActionViewHolder extends BindableComponentViewHolder<IFeatureAction, MainActivity, ActionAdapter> {
-        public ViewGroup use_group;
-        public Button useButton;
-        public TextView use_description;
-        public TextView remaining_uses;
+        public final ViewGroup use_group;
+        public final Button useButton;
+        public final TextView use_description;
+        public final TextView remaining_uses;
 
-        public ViewGroup pool_apply_group;
-        public TextView pool_value;
-        public ImageButton pool_apply_button;
-        public ImageButton pool_cancel_button;
+        public final ViewGroup pool_apply_group;
+        public final TextView pool_value;
+        public final ImageButton pool_apply_button;
+        public final ImageButton pool_cancel_button;
 
         public ActionViewHolder(View view) {
             super(view);
@@ -152,7 +152,6 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                 } else {
                     useButton.setText(action.getAction());
                 }
-                //use_description.setText("" + action.getCost());
                 useButton.setEnabled(usesRemaining >= action.getCost());
                 // simple use action
                 useButton.setOnClickListener(new View.OnClickListener() {
@@ -274,7 +273,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
 
     private static class ActionAdapter extends RecyclerView.Adapter<ActionViewHolder> {
-        private MainActivity context;
+        private final MainActivity context;
         private FeatureInfo info;
         private List<IFeatureAction> list;
 

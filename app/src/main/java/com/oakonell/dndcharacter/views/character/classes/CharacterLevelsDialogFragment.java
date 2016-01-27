@@ -41,7 +41,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     private ViewGroup level_up_group;
     private ClassAdapter classesAdapter;
 
-    private Map<CharacterClass, Long> recordsBeingDeleted = new HashMap<>();
+    private final Map<CharacterClass, Long> recordsBeingDeleted = new HashMap<>();
     private boolean savedDeleteInProgress;
 
     public static CharacterLevelsDialogFragment createDialog() {
@@ -67,7 +67,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
 
     @Override
     protected String getTitle() {
-        return "Character Class Levels";
+        return getString(R.string.character_class_levels);
     }
 
     @Override
@@ -141,8 +141,8 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     public static class DeleteClassViewHolder extends AbstractCharacterClassViewHolder {
-        TextView name;
-        Button undo;
+        final TextView name;
+        final Button undo;
 
         public DeleteClassViewHolder(View itemView) {
             super(itemView);
@@ -268,12 +268,12 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     public static class CharacterClassViewHolder extends AbstractCharacterClassViewHolder implements ItemTouchHelperViewHolder {
-        TextView character_level;
-        TextView class_name;
-        TextView class_level;
-        TextView hp;
-        TextView hit_dice;
-        TextView subclass_name;
+        final TextView character_level;
+        final TextView class_name;
+        final TextView class_level;
+        final TextView hp;
+        final TextView hit_dice;
+        final TextView subclass_name;
         private Drawable originalBackground;
 
 

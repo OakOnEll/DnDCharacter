@@ -10,7 +10,7 @@ public class ShortRestRequest extends AbstractRestRequest {
 
 
     private int healing;
-    private Map<Integer, Integer> hitDieUses = new HashMap<>();
+    private final Map<Integer, Integer> hitDieUses = new HashMap<>();
 
     public void addHitDiceUsed(int dieSides, int numUses) {
         Integer uses = hitDieUses.get(dieSides);

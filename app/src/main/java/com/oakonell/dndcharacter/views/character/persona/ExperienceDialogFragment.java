@@ -43,7 +43,7 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Experience";
+        return getString(R.string.experience_title);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     protected void updateViews() {
-        start_xp.setText(String.format("%,d", getCharacter().getXp()));
+        start_xp.setText(NumberUtils.formatNumber(getCharacter().getXp()));
 
         int partySize = Math.abs(getPartySize());
 
@@ -127,7 +127,7 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
         }
 
 
-        end_xp.setText(String.format("%,d", (getCharacter().getXp() + xp)));
+        end_xp.setText(NumberUtils.formatNumber(getCharacter().getXp() + xp));
 
 
         party_size.addTextChangedListener(new TextWatcher() {
@@ -185,7 +185,7 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
         if (partySizeString.length() > 0) {
             partySize = Integer.parseInt(partySizeString);
             if (partySize == 0) {
-                party_size.setError("Enter a positive number");
+                party_size.setError(getString(R.string.enter_positive_number_error));
                 partySize = -1;
             }
         }
@@ -211,8 +211,8 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     static class XpLevel {
-        int level;
-        int xp;
+        final int level;
+        final int xp;
 
         public XpLevel(int level, int xp) {
             this.level = level;
@@ -221,9 +221,9 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     static class XpLevelViewHolder extends BindableComponentViewHolder<XpLevel, ExperienceDialogFragment, XpLevelAdapter> {
-        TextView xp;
-        TextView level;
-        TextView comment;
+        final TextView xp;
+        final TextView level;
+        final TextView comment;
 
         public XpLevelViewHolder(View itemView) {
             super(itemView);
@@ -252,8 +252,8 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     static class XpLevelAdapter extends RecyclerView.Adapter<XpLevelViewHolder> {
-        List<XpLevel> list;
-        ExperienceDialogFragment context;
+        final List<XpLevel> list;
+        final ExperienceDialogFragment context;
 
         XpLevelAdapter(ExperienceDialogFragment context, List<XpLevel> list) {
             this.list = list;

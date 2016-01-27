@@ -43,7 +43,11 @@ import java.util.Set;
  * Created by Rob on 12/8/2015.
  */
 public class WeaponAttackDialogFragment extends RollableDialogFragment {
-    private Button attack_roll_button;
+    public static final String WEAPON = "weapon";
+
+    public static final String ATTACK_DAMAGE_INFO = "attackDamageInfo";
+    public static final String DAMAGE_LIST = "damageList";
+
     private TextView attack_roll1;
     private TextView attack_roll_modifier;
     private TextView attack_roll_total;
@@ -79,7 +83,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         String name = item.getName();
 
         Bundle args = new Bundle();
-        args.putString("weapon", name);
+        args.putString(WEAPON, name);
         newMe.setArguments(args);
 
         return newMe;
@@ -102,7 +106,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         ammunitionViewHelper = new AmmunitionViewHelper();
         ammunitionViewHelper.createView(view);
 
-        attack_roll_button = (Button) view.findViewById(R.id.attack_roll_button);
+        Button attack_roll_button = (Button) view.findViewById(R.id.attack_roll_button);
         attack_roll1 = (TextView) view.findViewById(R.id.attack_roll1);
         attack_roll_modifier = (TextView) view.findViewById(R.id.attack_roll_modifier);
         attack_roll_total = (TextView) view.findViewById(R.id.attack_roll_total);
@@ -182,8 +186,8 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         damageListAdapter = new DamagesListAdapter(this, damagesList);
 
         if (savedInstanceState != null) {
-            attackDamageInfo = savedInstanceState.getParcelable("attackDamageInfo");
-            ArrayList<AttackDamageInfo> damageList = savedInstanceState.getParcelableArrayList("damageList");
+            attackDamageInfo = savedInstanceState.getParcelable(ATTACK_DAMAGE_INFO);
+            ArrayList<AttackDamageInfo> damageList = savedInstanceState.getParcelableArrayList(DAMAGE_LIST);
             if (damageList != null) {
                 damageListAdapter.damages.addAll(damageList);
             }
@@ -229,7 +233,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Weapon Attack";
+        return getString(R.string.weapon_attack);
     }
 
     protected boolean isCancelable(boolean hasCancelButton) {
@@ -266,10 +270,10 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     AttackDamageInfo attackDamageInfo;
          */
         if (attackDamageInfo != null) {
-            outState.putParcelable("attackDamageInfo", attackDamageInfo);
+            outState.putParcelable(ATTACK_DAMAGE_INFO, attackDamageInfo);
         }
         if (!damageListAdapter.damages.isEmpty()) {
-            outState.putParcelableArrayList("damageList", damageListAdapter.damages);
+            outState.putParcelableArrayList(DAMAGE_LIST, damageListAdapter.damages);
         }
 
     }
@@ -374,7 +378,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     private void loadWeapon(Character character) {
-        String name = getArguments().getString("weapon");
+        String name = getArguments().getString(WEAPON);
 
         List<CharacterWeapon> weapons = new ArrayList<>();
         for (CharacterWeapon each : character.getWeapons()) {
@@ -458,7 +462,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     static class AttackDamageInfo implements Parcelable {
-        Map<DamageType, Integer> damages = new HashMap<>();
+        final Map<DamageType, Integer> damages = new HashMap<>();
 
         AttackDamageInfo() {
 

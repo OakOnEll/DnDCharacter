@@ -30,6 +30,8 @@ import java.util.List;
  */
 public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<AbstractAddComponentDialogFragment.RowViewHolder> {
 
+    public static final String CASTER_CLASSES = "casterClasses";
+    public static final String CANTRIPS_ONLY = "cantripsOnly";
     private NoDefaultSpinner classNameSpinner;
     private TextView max_spell_level;
     private boolean cantripsOnly;
@@ -37,8 +39,8 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
     public static AddSpellDialogFragment createDialog(Collection<String> casterClasses, boolean cantripsOnly) {
         AddSpellDialogFragment dialog = new AddSpellDialogFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList("casterClasses", new ArrayList<String>(casterClasses));
-        args.putBoolean("cantripsOnly", cantripsOnly);
+        args.putStringArrayList(CASTER_CLASSES, new ArrayList<>(casterClasses));
+        args.putBoolean(CANTRIPS_ONLY, cantripsOnly);
         dialog.setArguments(args);
         return dialog;
     }
@@ -50,14 +52,14 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
         max_spell_level = (TextView) view.findViewById(R.id.max_spell_level);
 
         classNameSpinner = (NoDefaultSpinner) view.findViewById(R.id.class_name);
-        final String prompt = "[" + "Caster Class" + "]";
+        final String prompt = getString(R.string.caster_class_prompt);
         classNameSpinner.setPrompt(prompt);
         float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (prompt.length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, classNameSpinner.getResources().getDisplayMetrics());
         classNameSpinner.setMinimumWidth((int) minWidth);
 
 
-        final List<String> casterClasses = getArguments().getStringArrayList("casterClasses");
-        cantripsOnly = getArguments().getBoolean("cantripsOnly");
+        final List<String> casterClasses = getArguments().getStringArrayList(CASTER_CLASSES);
+        cantripsOnly = getArguments().getBoolean(CANTRIPS_ONLY);
 
         if (cantripsOnly) {
             view.findViewById(R.id.max_spell_level_group).setVisibility(View.GONE);
@@ -147,9 +149,9 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
     @Override
     protected String getTitle() {
         if (cantripsOnly) {
-            return "Add Cantrip";
+            return getString(R.string.add_cantrip);
         }
-        return "Add Spell";
+        return getString(R.string.add_spell);
     }
 
     @Override
@@ -164,7 +166,7 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
         final List<CharacterSpell> existingSpells = getCharacter().getSpells(spell.getLevel());
         for (CharacterSpell each : existingSpells) {
             if (each.getName().equals(spell.getName())) {
-                new AlertDialog.Builder(getContext()).setTitle("Add a spell").setMessage("Spell '" + each.getName() + " already known.").setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(getContext()).setTitle(R.string.add_spell).setMessage(getString(R.string.spell_already_known, each.getName(), each.getOriginString())).setNeutralButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

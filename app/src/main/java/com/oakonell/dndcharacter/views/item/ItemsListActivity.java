@@ -36,7 +36,7 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
 
     @Override
     protected String getSubtitle() {
-        return "Items";
+        return getString(R.string.items);
     }
 
     @NonNull
@@ -56,7 +56,7 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
     }
 
     protected static class ItemRowViewHolderCursor extends RowViewHolderCursor {
-        public TextView category;
+        public final TextView category;
 
         public ItemRowViewHolderCursor(View itemView) {
             super(itemView);

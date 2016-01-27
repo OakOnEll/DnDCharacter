@@ -35,7 +35,7 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
 
     @Override
     protected String getSubtitle() {
-        return "Characters";
+        return getString(R.string.characters_title);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
     }
 
     protected static class CharacterRowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> {
-        public TextView name;
-        public TextView classes;
+        public final TextView name;
+        public final TextView classes;
 
         public CharacterRowViewHolderCursor(View itemView) {
             super(itemView);

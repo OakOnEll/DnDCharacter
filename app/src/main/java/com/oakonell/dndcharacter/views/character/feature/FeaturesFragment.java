@@ -60,7 +60,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
 
     public class FeatureAdapter extends RecyclerView.Adapter<FeatureViewHolder> {
-        private MainActivity context;
+        private final MainActivity context;
         private Set<FeatureContext> filter;
         private List<FeatureInfo> list;
 

@@ -60,7 +60,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @Override
     protected String getTitle() {
-        return "Saving Throw";
+        return getString(R.string.saving_throw);
     }
 
 

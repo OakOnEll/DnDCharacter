@@ -89,7 +89,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Override
     protected void visitSkills(Element element) {
         ViewGroup oldParent = parent;
-        createGroup("Skill proficiencies");
+        createGroup(parent.getContext().getString(R.string.skill_proficiencies));
         super.visitSkills(element);
         parent = oldParent;
     }
@@ -97,7 +97,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Override
     protected void visitSavingThrows(Element element) {
         ViewGroup oldParent = parent;
-        createGroup("Saving Throw proficiencies");
+        createGroup(parent.getContext().getString(R.string.saving_throw_proficiencies));
         super.visitSavingThrows(element);
         parent = oldParent;
     }
@@ -105,7 +105,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Override
     protected void visitLanguages(Element element) {
         ViewGroup oldParent = parent;
-        createGroup("Languages");
+        createGroup(parent.getContext().getString(R.string.languages_label));
         super.visitLanguages(element);
 
         parent = oldParent;
@@ -114,7 +114,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Override
     protected void visitTools(Element element) {
         ViewGroup oldParent = parent;
-        createGroup("Tool proficiencies");
+        createGroup(parent.getContext().getString(R.string.tool_proficiencies));
         super.visitTools(element);
         parent = oldParent;
     }
@@ -122,7 +122,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Override
     protected void visitArmor(Element element) {
         ViewGroup oldParent = parent;
-        createGroup("Armor proficiencies");
+        createGroup(parent.getContext().getString(R.string.armor_proficiencies));
         super.visitArmor(element);
         parent = oldParent;
     }
@@ -130,7 +130,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Override
     protected void visitWeapons(Element element) {
         ViewGroup oldParent = parent;
-        createGroup("Weapons proficiencies");
+        createGroup(parent.getContext().getString(R.string.weapons_proficiencies));
         super.visitWeapons(element);
         parent = oldParent;
     }
@@ -138,7 +138,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Override
     protected void visitEquipment(Element element) {
         ViewGroup oldParent = parent;
-        createGroup("Equipment");
+        createGroup(parent.getContext().getString(R.string.equipment));
         super.visitEquipment(element);
 
         parent = oldParent;
@@ -276,8 +276,9 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
-
-        appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, languages, "Language");
+        String languagePrompt = parent.getContext().getString(R.string.language);
+        appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, languages, languagePrompt);
+        ;
     }
 
     private void appendCategoryDropDowns(int numChoices, CategoryChoicesMD categoryChoicesMD, List<String> savedSelections, List<String> choices, String prompt) {

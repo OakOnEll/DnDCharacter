@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.effect;
 
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.effect.Effect;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 
@@ -30,7 +31,7 @@ public class EffectsListActivity extends AbstractComponentListActivity<Effect> {
 
     @Override
     protected String getSubtitle() {
-        return "Effects";
+        return getString(R.string.effects);
     }
 
     @Override

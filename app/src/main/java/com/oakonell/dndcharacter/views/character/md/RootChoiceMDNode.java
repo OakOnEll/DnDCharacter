@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Rob on 12/29/2015.
  */
 public class RootChoiceMDNode implements ChooseMDTreeNode {
-    List<ChooseMD<?>> choiceMDs = new ArrayList<>();
+    final List<ChooseMD<?>> choiceMDs = new ArrayList<>();
 
     @Override
     public void addChildChoice(ChooseMD<?> choiceMd) {

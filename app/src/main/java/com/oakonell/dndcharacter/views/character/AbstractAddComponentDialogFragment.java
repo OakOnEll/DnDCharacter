@@ -54,7 +54,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         listView.addItemDecoration(itemDecoration);
 
-        adapter = new ComponentListAdapter<V>(this, getListItemResource());
+        adapter = new ComponentListAdapter<>(this, getListItemResource());
         listView.setAdapter(adapter);
 
         final EditText searchTerms = (EditText) view.findViewById(R.id.search_terms);
@@ -180,7 +180,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
 
 
     public static class RowViewHolder extends CursorBindableRecyclerViewHolder<AbstractAddComponentDialogFragment> implements ItemTouchHelperViewHolder {
-        TextView name;
+        final TextView name;
         //TextView description;
         private Drawable originalBackground;
 

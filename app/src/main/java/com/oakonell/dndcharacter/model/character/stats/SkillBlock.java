@@ -9,8 +9,8 @@ import java.util.List;
  * Created by Rob on 10/22/2015.
  */
 public class SkillBlock {
-    private com.oakonell.dndcharacter.model.character.Character character;
-    private SkillType type;
+    private final com.oakonell.dndcharacter.model.character.Character character;
+    private final SkillType type;
 
     public SkillBlock(Character character, SkillType type) {
         this.character = character;

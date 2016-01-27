@@ -21,6 +21,7 @@ import java.util.List;
  * Created by Rob on 11/30/2015.
  */
 public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragment {
+    public static final String TYPE = "type";
     private ListView listView;
 
     private ToolProficiencySourceAdapter adapter;
@@ -29,7 +30,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
         ToolProficiencyDialogFragment frag = new ToolProficiencyDialogFragment();
         int typeIndex = type.ordinal();
         Bundle args = new Bundle();
-        args.putInt("type", typeIndex);
+        args.putInt(TYPE, typeIndex);
         frag.setArguments(args);
 
         return frag;
@@ -37,7 +38,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
 
     @Override
     protected String getTitle() {
-        return "Tool Proficiencies";
+        return getString(R.string.tool_proficiencies);
     }
 
 
@@ -69,13 +70,13 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
     @NonNull
     private ProficiencyType updateView() {
         final ProficiencyType proficiencyType = getProficiencyType();
-        getDialog().setTitle(proficiencyType.toString() + " proficiencies");
+        getDialog().setTitle(getString(R.string.proficiency_type_proficiencies, proficiencyType.toString()));
 
         return proficiencyType;
     }
 
     private ProficiencyType getProficiencyType() {
-        int typeIndex = getArguments().getInt("type");
+        int typeIndex = getArguments().getInt(TYPE);
         return ProficiencyType.values()[typeIndex];
     }
 

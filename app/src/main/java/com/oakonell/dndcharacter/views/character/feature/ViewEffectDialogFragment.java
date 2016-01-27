@@ -16,6 +16,7 @@ import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment
  * Created by Rob on 1/4/2016.
  */
 public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
+    public static final String NAME = "name";
     private TextView description;
     private Button endEffectButton;
 
@@ -23,7 +24,7 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
         ViewEffectDialogFragment frag = new ViewEffectDialogFragment();
         String name = effect.getName();
         Bundle args = new Bundle();
-        args.putString("name", name);
+        args.putString(NAME, name);
         frag.setArguments(args);
 
         return frag;
@@ -42,7 +43,7 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     private String getNameArgument() {
-        return getArguments().getString("name");
+        return getArguments().getString(NAME);
     }
 
 

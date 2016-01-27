@@ -45,15 +45,15 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
 
     private BaseStatsType statsType;
-    private Map<StatType, EditText> customInputs = new HashMap<>();
-    private List<BaseStatRow> baseStatRows = new ArrayList<>();
+    private final Map<StatType, EditText> customInputs = new HashMap<>();
+    private final List<BaseStatRow> baseStatRows = new ArrayList<>();
 
     // point buy
-    private List<BaseStatPointBuy> pointBuyRows = new ArrayList<>();
+    private final List<BaseStatPointBuy> pointBuyRows = new ArrayList<>();
     private TextView remaining_points;
 
     // rolled stats
-    private Integer[] statRolls = new Integer[6];
+    private final Integer[] statRolls = new Integer[6];
     private Spinner roll_type;
     private List<BaseStatsType> list;
 
@@ -149,7 +149,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     int value = Integer.parseInt(string);
                     // allow a '1', assuming it will be followed by a 0-8...
                     if (value != 1 && (value < 3 || value > 18)) {
-                        each.setError("Enter a number between 3 and 18");
+                        each.setError(getString(R.string.enter_a_number_between_3_18));
                         return;
                     }
                     each.setError(null);
@@ -225,8 +225,8 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         Button roll = (Button) view.findViewById(R.id.roll);
 
         final List<String> rollTypes = new ArrayList<>();
-        rollTypes.add("3d6");
-        rollTypes.add("4d6 - Best 3");
+        rollTypes.add(getString(R.string.roll_3d6));
+        rollTypes.add(getString(R.string.roll_4d6_best_3));
         ArrayAdapter<String> rollTypeAdapter = new ArrayAdapter<>(getContext(),
                 R.layout.large_spinner_text, rollTypes);
         rollTypeAdapter.setDropDownViewResource(R.layout.large_spinner_text);
@@ -247,7 +247,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Base Stats";
+        return getString(R.string.base_stats_title);
     }
 
 
@@ -266,11 +266,11 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     EditText editText = entry.getValue();
                     String string = editText.getText().toString();
                     if (string.trim().length() == 0) {
-                        editText.setError("Enter a number between 3 and 18");
+                        editText.setError(getString(R.string.enter_a_number_between_3_18));
                     }
                     int num = Integer.parseInt(string);
                     if (num < 3 || num > 18) {
-                        editText.setError("Enter a number between 3 and 18");
+                        editText.setError(getString(R.string.enter_a_number_between_3_18));
                     }
                     if (editText.getError() != null) {
                         if (!hadError) {
@@ -302,7 +302,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                 if (Integer.parseInt(remaining_points.getText().toString()) != 0) {
                     Animation shake = AnimationUtils.loadAnimation(BaseStatsDialogFragment.this.getContext(), R.anim.shake);
                     remaining_points.startAnimation(shake);
-                    remaining_points.setError("There are still remaining points!");
+                    remaining_points.setError(getString(R.string.there_are_still_remaining_points, remaining_points.getText()));
                     return false;
                 }
                 for (BaseStatPointBuy each : pointBuyRows) {
@@ -505,10 +505,10 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     private static class BaseStatPointBuy {
-        StatType type;
-        Button add;
-        TextView valueTextView;
-        Button subtract;
+        final StatType type;
+        final Button add;
+        final TextView valueTextView;
+        final Button subtract;
 
         public BaseStatPointBuy(StatType type, Button add, TextView value, Button subtract) {
             this.type = type;
@@ -527,12 +527,12 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     private static class BaseStatRow {
-        int index;
+        final int index;
         StatType type;
-        TextView typeView;
-        TextView valueTextView;
-        ImageView up;
-        ImageView down;
+        final TextView typeView;
+        final TextView valueTextView;
+        final ImageView up;
+        final ImageView down;
 
         public BaseStatRow(int index, StatType type, TextView typeView, TextView value, ImageView up, ImageView down) {
             this.index = index;

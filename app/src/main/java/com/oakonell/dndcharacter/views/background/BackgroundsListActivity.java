@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.background;
 
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 
@@ -30,7 +31,7 @@ public class BackgroundsListActivity extends AbstractComponentListActivity<Backg
 
     @Override
     protected String getSubtitle() {
-        return "Backgrounds";
+        return getString(R.string.backgrounds);
     }
 
     @Override

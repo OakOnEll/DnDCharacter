@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.activeandroid.Model;
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.effect.AddEffectToCharacterVisitor;
 import com.oakonell.dndcharacter.model.effect.Effect;
@@ -22,7 +23,7 @@ public class AddEffectDialogFragment extends AbstractAddComponentDialogFragment<
 
     @Override
     protected String getTitle() {
-        return "Add Effect";
+        return getString(R.string.add_effect);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class AddEffectDialogFragment extends AbstractAddComponentDialogFragment<
         final CharacterEffect existingEffect = getCharacter().getEffectNamed(name);
         if (existingEffect != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Character already has effect '" + name + "'");
+            builder.setTitle(getString(R.string.already_has_effect, name));
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

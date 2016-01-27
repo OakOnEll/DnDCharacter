@@ -32,6 +32,7 @@ import java.util.Set;
  * Created by Rob on 11/7/2015.
  */
 public class ShortRestDialogFragment extends AbstractRestDialogFragment {
+    public static final String DICE_COUNTS = "diceCounts";
     private HitDiceAdapter diceAdapter;
     private RecyclerView hitDiceListView;
     private Map<Integer, HitDieUseRow> savedDiceCounts;
@@ -46,12 +47,10 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         View view = inflater.inflate(R.layout.short_rest_dialog, container);
         configureCommon(view);
 
-        getDialog().setTitle("Short Rest");
-
         hitDiceListView = (RecyclerView) view.findViewById(R.id.hit_dice_list);
 
         if (savedInstanceState != null) {
-            ArrayList<HitDieUseRow> savedList = savedInstanceState.getParcelableArrayList("diceCounts");
+            ArrayList<HitDieUseRow> savedList = savedInstanceState.getParcelableArrayList(DICE_COUNTS);
             if (savedList != null) {
                 savedDiceCounts = new HashMap<>();
                 for (HitDieUseRow each : savedList) {
@@ -65,7 +64,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
     @Override
     protected String getTitle() {
-        return "Short Rest";
+        return getString(R.string.short_rest_title);
     }
 
     @Override
@@ -79,7 +78,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("diceCounts", diceAdapter.diceCounts);
+        outState.putParcelableArrayList(DICE_COUNTS, diceAdapter.diceCounts);
     }
 
     @Override
@@ -162,7 +161,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
     private static class HitDiceAdapter extends RecyclerView.Adapter<HitDiceViewHolder> {
         ArrayList<HitDieUseRow> diceCounts;
-        private ShortRestDialogFragment context;
+        private final ShortRestDialogFragment context;
 
         public HitDiceAdapter(ShortRestDialogFragment context, Character character) {
             this.context = context;
@@ -234,17 +233,17 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     static class HitDiceViewHolder extends BindableComponentViewHolder<HitDieUseRow, ShortRestDialogFragment, HitDiceAdapter> {
-        TextView numDice;
-        TextView die;
-        ViewGroup hit_die_group;
-        Button useButton;
-        RecyclerView uses;
+        final TextView numDice;
+        final TextView die;
+        final ViewGroup hit_die_group;
+        final Button useButton;
+        final RecyclerView uses;
 
-        ViewGroup use_hit_die_group;
-        EditText hit_die_val;
-        Button roll;
-        Button apply;
-        Button cancel;
+        final ViewGroup use_hit_die_group;
+        final EditText hit_die_val;
+        final Button roll;
+        final Button apply;
+        final Button cancel;
 
         HitDieUseAdapter usesAdapter;
 
@@ -336,8 +335,8 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     static class HitDieUseViewHolder extends BindableComponentViewHolder<Integer, HitDiceAdapter, HitDieUseAdapter> {
-        TextView value;
-        ImageButton deleteButton;
+        final TextView value;
+        final ImageButton deleteButton;
 
         public HitDieUseViewHolder(View view) {
             super(view);
@@ -362,7 +361,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     static class HitDieUseAdapter extends RecyclerView.Adapter<HitDieUseViewHolder> {
         List<Integer> rolls;
         int hitDieRow;
-        HitDiceAdapter adapter;
+        final HitDiceAdapter adapter;
 
         HitDieUseAdapter(HitDiceAdapter adapter) {
             this.adapter = adapter;

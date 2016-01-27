@@ -49,7 +49,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
     @Override
     protected String getTitle() {
-        return "Choose a Race";
+        return getString(R.string.choose_a_race);
     }
 
 
@@ -58,7 +58,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         boolean subraceValid = true;
         if (pageIndex == 0 && subraceSpinner != null) {
             if (subraceSpinner.getSelectedItemPosition() < 0) {
-                subRaceErrorView.setError("Choose subrace");
+                subRaceErrorView.setError(getString(R.string.choose_subrace_error));
                 Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
                 subraceSpinner.startAnimation(shake);
                 subraceValid = false;
@@ -87,7 +87,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
                     subraceSpinner = (NoDefaultSpinner) layout.findViewById(R.id.spinner);
                     subRaceErrorView = (TextView) layout.findViewById(R.id.tvInvisibleError);
 
-                    subraceSpinner.setPrompt("[SubRace]");
+                    subraceSpinner.setPromptId(R.string.subrace_prompt);
 
                     int index = 0;
                     int current = -1;
@@ -207,7 +207,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
     @Override
     public String getModelSpinnerPrompt() {
-        return "[Race]";
+        return getString(R.string.race_prompt);
     }
 
 

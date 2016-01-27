@@ -47,7 +47,7 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
 
     @Override
     protected String getSubtitle() {
-        return "Spells";
+        return getString(R.string.spells_title);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
             final int level = cursor.getInt(cursorIndexesByName.getIndex(cursor, "level"));
             String levelString;
             if (level == 0) {
-                levelString = "Cantrip";
+                levelString = context.getString(R.string.cantrip_label);
             } else {
                 levelString = level + "";
             }

@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class LongRestRequest extends AbstractRestRequest {
     private int healing;
-    private Map<Integer, Integer> hitDieRestores = new HashMap<>();
+    private final Map<Integer, Integer> hitDieRestores = new HashMap<>();
 
     public int getHealing() {
         return healing;
