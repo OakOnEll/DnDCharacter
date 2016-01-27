@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
@@ -29,7 +30,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Current XP" />
+                        android:text="@string/current_xp" />
 
                     <TextView
                         android:id="@+id/start_xp"
@@ -45,7 +46,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Add XP" />
+                        android:text="@string/add_xp" />
 
                     <EditText
                         android:id="@+id/xp"
@@ -57,7 +58,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Divided amongst" />
+                        android:text="@string/divided_amongst_label" />
 
                     <EditText
                         android:id="@+id/party_size"
@@ -70,7 +71,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="party members" />
+                        android:text="@string/party_members_label" />
 
 
                 </LinearLayout>
@@ -83,7 +84,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Your XP Gain" />
+                        android:text="@string/your_xp_gain" />
 
                     <TextView
                         android:id="@+id/your_xp"
@@ -98,7 +99,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Final XP" />
+                        android:text="@string/final_xp" />
 
                     <TextView
                         android:id="@+id/end_xp"
@@ -110,7 +111,9 @@
                     android:id="@+id/xp_levels"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    tools:layout_height="100dp"
+                    tools:listitem="@layout/xp_level_row" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

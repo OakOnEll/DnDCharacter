@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
@@ -36,13 +37,13 @@
                         android:id="@+id/stat_mod_lbl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dexterity Modifier" />
+                        tools:text="Dexterity Modifier" />
 
                     <TextView
                         android:id="@+id/stat_mod"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2" />
+                        tools:text="2" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -56,13 +57,13 @@
                         android:id="@+id/proficiency_lbl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Proficiency" />
+                        android:text="@string/proficiency" />
 
                     <TextView
                         android:id="@+id/proficiency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2" />
+                        tools:text="2" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -75,13 +76,13 @@
                         android:id="@+id/modifier_lbl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Modifier" />
+                        android:text="@string/modifier_label" />
 
                     <TextView
                         android:id="@+id/modifier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2" />
+                        tools:text="2" />
                 </LinearLayout>
 
                 <include layout="@layout/skill_roll_layout" />

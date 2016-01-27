@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/list_item_style"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,16 +21,16 @@
             android:ellipsize="end"
             android:lines="1"
             android:maxLines="1"
-            android:text="Spell name"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="Spell name" />
 
         <TextView
             android:id="@+id/level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="Cantrip"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="Cantrip" />
 
 
     </LinearLayout>
@@ -41,7 +42,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:maxLines="1"
-        android:text="Short description"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="Short description" />
 
 </LinearLayout>

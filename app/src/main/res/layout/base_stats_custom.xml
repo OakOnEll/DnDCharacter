@@ -20,7 +20,7 @@
 
             <TextView
                 style="@style/custom_stat_label_style"
-                android:text="Strength" />
+                android:text="@string/strength" />
         </TableRow>
 
         <TableRow
@@ -33,7 +33,7 @@
 
             <TextView
                 style="@style/custom_stat_label_style"
-                android:text="Dexterity" />
+                android:text="@string/dexterity" />
         </TableRow>
 
         <TableRow
@@ -46,7 +46,7 @@
 
             <TextView
                 style="@style/custom_stat_label_style"
-                android:text="Constitution" />
+                android:text="@string/constitution" />
         </TableRow>
 
         <TableRow
@@ -59,7 +59,7 @@
 
             <TextView
                 style="@style/custom_stat_label_style"
-                android:text="Intelligence" />
+                android:text="@string/intelligence" />
         </TableRow>
 
         <TableRow
@@ -72,7 +72,7 @@
 
             <TextView
                 style="@style/custom_stat_label_style"
-                android:text="Wisdom" />
+                android:text="@string/wisdom" />
         </TableRow>
 
         <TableRow
@@ -86,7 +86,7 @@
             <TextView
                 style="@style/custom_stat_label_style"
 
-                android:text="Charisma" />
+                android:text="@string/charisma" />
         </TableRow>
     </TableLayout>
 

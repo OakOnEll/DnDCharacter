@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/ac_style"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,7 +17,7 @@
             android:id="@+id/attack_roll_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Roll" />
+            android:text="@string/roll_button_label" />
 
 
         <TextView
@@ -41,7 +42,7 @@
             android:id="@+id/attack_modifier_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Modifier"
+            android:text="@string/modifier_label"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
@@ -49,8 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minEms="4"
-            android:text="-2"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="-2" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,7 +65,7 @@
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Result"
+            android:text="@string/result_roll_label"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -85,9 +86,9 @@
                 android:id="@+id/attack_roll_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:minEms="4"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:inputType="number" />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <com.oakonell.dndcharacter.views.NoDefaultSpinner
                 android:id="@+id/attack_roll_input_type"
@@ -104,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Add\nAnother" />
+        android:text="@string/add_another_button_label" />
 
     <LinearLayout
         android:id="@+id/total_group"
@@ -117,7 +118,8 @@
             android:id="@+id/damages"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:listitem="@layout/damage_row" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,7 +131,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total"
+                android:text="@string/total_roll_label"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView

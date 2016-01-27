@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Proficiencies"
+            android:text="@string/proficiencies_label"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Armor"
+                    android:text="@string/armor_title"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -54,7 +54,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Weapons"
+                    android:text="@string/weapons_title"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -75,7 +75,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tools"
+                    android:text="@string/tools_title"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Money"
+            android:text="@string/money_title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
@@ -116,7 +116,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CP"
+                    android:text="@string/copper_pieces_label"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -138,7 +138,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SP"
+                    android:text="@string/silver_pieces_label"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -160,7 +160,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="EP"
+                    android:text="@string/electrum_pieces_label"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -183,7 +183,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GP"
+                    android:text="@string/gold_pieces_label"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -206,7 +206,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PP"
+                    android:text="@string/platinum_pieces_label"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView

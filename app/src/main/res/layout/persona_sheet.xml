@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -19,8 +20,8 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                style="@style/ac_style"
                 android:id="@+id/xp_group"
+                style="@style/ac_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -30,16 +31,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Experience" />
+                    android:text="@string/experience_label" />
 
                 <TextView
+                    android:id="@+id/xp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="300"
-                    android:id="@+id/xp" />
+                    tools:text="300" />
             </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,13 +57,13 @@
                     android:id="@+id/age_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Age" />
+                    android:text="@string/age_label" />
 
                 <TextView
                     android:id="@+id/age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="14" />
+                    tools:text="14" />
             </LinearLayout>
 
             <LinearLayout
@@ -74,13 +76,13 @@
                     android:id="@+id/height_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Height" />
+                    android:text="@string/height_label" />
 
                 <TextView
                     android:id="@+id/height"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6'2" />
+                    tools:text="6'2" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,13 +95,13 @@
                     android:id="@+id/weight_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Weight" />
+                    android:text="@string/weight_label" />
 
                 <TextView
                     android:id="@+id/weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="204" />
+                    tools:text="204" />
             </LinearLayout>
 
         </LinearLayout>
@@ -120,13 +122,13 @@
                     android:id="@+id/eyes_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Eyes" />
+                    android:text="@string/eye_color_label" />
 
                 <TextView
                     android:id="@+id/eyes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Green" />
+                    tools:text="Green" />
             </LinearLayout>
 
             <LinearLayout
@@ -140,13 +142,13 @@
                     android:id="@+id/skin_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Skin" />
+                    android:text="@string/skin_label" />
 
                 <TextView
                     android:id="@+id/skin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grey-green" />
+                    tools:text="Grey-green" />
             </LinearLayout>
 
             <LinearLayout
@@ -159,13 +161,13 @@
                     android:id="@+id/hair_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hair" />
+                    android:text="@string/hair_label" />
 
                 <TextView
                     android:id="@+id/hair"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Black" />
+                    tools:text="Black" />
             </LinearLayout>
         </LinearLayout>
 
@@ -175,8 +177,8 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                style="@style/ac_style"
                 android:id="@+id/language_group"
+                style="@style/ac_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -186,13 +188,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Languages" />
+                    android:text="@string/languages_label" />
 
                 <TextView
+                    android:id="@+id/languages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Common, Elvish"
-                    android:id="@+id/languages" />
+                    tools:text="Common, Elvish" />
             </LinearLayout>
 
             <LinearLayout
@@ -206,23 +208,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Alignment" />
+                    android:text="@string/alignment_label" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/specialty_group"
             style="@style/ac_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:id="@+id/specialty_group"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/specialty_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/specialty_title"
-                android:text="Specialty"
+                android:text="@string/specialty_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -242,7 +244,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Personality Traits"
+                android:text="@string/personality_traits_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <com.oakonell.dndcharacter.views.MyEditText
@@ -262,7 +264,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ideals"
+                android:text="@string/ideals_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <com.oakonell.dndcharacter.views.MyEditText
@@ -282,7 +284,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bonds"
+                android:text="@string/bonds_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <com.oakonell.dndcharacter.views.MyEditText
@@ -302,7 +304,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Flaws"
+                android:text="@string/flaws_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <com.oakonell.dndcharacter.views.MyEditText
@@ -322,7 +324,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Character Backstory"
+                android:text="@string/backstory_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <com.oakonell.dndcharacter.views.MyEditText

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -15,15 +16,15 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hit Die"
+            android:text="@string/hit_die"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/hit_dice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1d8"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="1d8" />
     </LinearLayout>
 
     <LinearLayout
@@ -36,17 +37,17 @@
             android:id="@+id/roll_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Roll" />
+            android:text="@string/roll_button_label" />
 
         <com.oakonell.dndcharacter.views.MyEditText
             android:id="@+id/roll1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
+            android:inputType="number"
             android:minEms="3"
             android:text=""
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:inputType="number" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,7 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Constitution Modifier"
+            android:text="@string/constitution_modifier_label"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -68,8 +69,8 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:minEms="2"
-            android:text="1"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="1" />
     </LinearLayout>
 
 
@@ -83,7 +84,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HP increase"
+            android:text="@string/hp_increase"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView

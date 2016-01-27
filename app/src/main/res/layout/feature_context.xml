@@ -9,8 +9,9 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/ac_style"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/context_group"
+    style="@style/ac_style"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
@@ -20,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Applicable Features and Effects"
+        android:text="@string/applicable_features_label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
@@ -35,6 +36,7 @@
             android:id="@+id/context_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:listitem="@layout/feature_layout" />
     </LinearLayout>
 </LinearLayout><!--         </LinearLayout> -->

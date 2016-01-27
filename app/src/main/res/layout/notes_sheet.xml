@@ -18,7 +18,7 @@
             android:id="@+id/notes_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notes"
+            android:text="@string/notes"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top|left"
-            android:hint="Enter notes"
+            android:hint="@string/enter_note_hint"
             android:minLines="10" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

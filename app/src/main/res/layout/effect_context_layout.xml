@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="7dp"
@@ -24,7 +25,7 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Second Wind"
+                tools:text="Second Wind"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -33,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/list_selector"
-                android:text="Fighter 1"
+                tools:text="Fighter 1"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
@@ -41,7 +42,7 @@
             android:id="@+id/short_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Regain hp.. yada yada..."
+            tools:text="Regain hp.. yada yada..."
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
@@ -49,6 +50,6 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End Effect" />
+            android:text="@string/end_effect_button_label" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

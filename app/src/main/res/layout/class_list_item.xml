@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/list_item_style"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,7 +19,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:maxLines="1"
-            android:text="Race name"
+            tools:text="Race name"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
@@ -29,7 +30,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:maxLines="1"
-            android:text="parent race"
+            tools:text="parent race"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -40,7 +41,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:maxLines="1"
-        android:text="Short description"
+        tools:text="Short description"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>

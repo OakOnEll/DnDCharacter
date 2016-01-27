@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -21,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Effects:"
+            android:text="@string/effects_label"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <!--  TODO Had trouble with the height of this view- when inside a nested scroll view,
@@ -33,7 +34,8 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/effect_bar_item" />
 
     </LinearLayout>
 
@@ -49,8 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/simple_block_selector"
-            android:text="Feng"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="Feng" />
 
         <com.oakonell.dndcharacter.views.MyEditText
             android:id="@+id/character_name"
@@ -58,16 +60,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:imeOptions="actionNext|actionDone"
-            android:text="Feng"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:text="Feng" />
 
         <Button
             android:id="@+id/change_name"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ok"
+            android:text="@string/ok_button_label"
             android:visibility="gone" />
 
         <Button
@@ -84,8 +86,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@drawable/simple_block_selector"
-            android:text="Half-Orc"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="Half-Orc" />
 
     </LinearLayout>
 
@@ -99,8 +101,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/simple_block_selector"
-            android:text="Urchin"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="Urchin" />
 
         <TextView
             android:id="@+id/classes"
@@ -108,8 +110,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@drawable/simple_block_selector"
-            android:text="Sorcerer 1"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="Sorcerer 1" />
     </LinearLayout>
 
 </LinearLayout>

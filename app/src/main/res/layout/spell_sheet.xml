@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -22,29 +23,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Casting info"
+            android:text="@string/caster_info_title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <include layout="@layout/spell_caster_info_row"/>
+        <include layout="@layout/spell_caster_info_row" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/caster_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:layout_height="100dp"
+            tools:listitem="@layout/spell_caster_info_row" />
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Spells"
+            android:text="@string/spells_title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/spell_level_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:layout_height="100dp"
+            tools:listitem="@layout/spell_char_spells" />
 
     </LinearLayout>
     <!-- having multiple lists on this page requires a merge adapter --><!--    <android.support.v7.widget.RecyclerView

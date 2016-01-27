@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/list_item_style"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
@@ -25,7 +26,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Deleting"
+            android:text="@string/deleting_label"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -35,7 +36,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:maxLines="1"
-            android:text="Medium Text"
+            tools:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="" />
     </LinearLayout>
@@ -44,6 +45,6 @@
         android:id="@+id/undo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Undo" />
+        android:text="@string/undo_button_label" />
 
 </LinearLayout>

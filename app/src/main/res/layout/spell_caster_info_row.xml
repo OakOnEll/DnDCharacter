@@ -5,12 +5,13 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
+    <!-- these double as the hear row, as well -->
     <TextView
         android:id="@+id/class_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Class" />
+        android:text="@string/class_label" />
 
     <TextView
         android:id="@+id/casting_stat"
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingLeft="5dp"
-        android:text="Casting\nStat" />
+        android:text="@string/caster_stat_column_label" />
 
 
     <TextView
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingLeft="5dp"
-        android:text="Cantrips\nknown" />
+        android:text="@string/cantrips_known_column_label" />
 
     <TextView
         android:id="@+id/spells_known"
@@ -35,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingLeft="5dp"
-        android:text="Spells\nknown" />
+        android:text="@string/spells_known_column_label" />
 
     <TextView
         android:id="@+id/spells_prepared"
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingLeft="5dp"
-        android:text="Spells\nprepared" />
+        android:text="@string/spells_prepared_column_label" />
 
 
     <TextView
@@ -52,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingLeft="5dp"
-        android:text="Max\nLevel" />
+        android:text="@string/max_spell_level_column_label" />
 
 
 </LinearLayout>

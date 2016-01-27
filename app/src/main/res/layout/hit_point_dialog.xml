@@ -2,6 +2,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
@@ -40,7 +41,7 @@
                             android:id="@+id/damage_radio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Damage" />
+                            android:text="@string/damage_radio_button_label" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -69,13 +70,13 @@
                         android:id="@+id/heal_radio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Heal" />
+                        android:text="@string/heal_radio_button_lbl" />
 
                     <RadioButton
                         android:id="@+id/temp_hp_radio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Temp HP" />
+                        android:text="@string/temp_hp_radio_lbl" />
 
                 </LinearLayout>
 
@@ -95,7 +96,7 @@
                         android:ems="5"
                         android:enabled="true"
                         android:gravity="right"
-                        android:hint="HP"
+                        android:hint="@string/hp_hint"
                         android:inputType="number" />
 
                     <LinearLayout
@@ -127,7 +128,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="Add\n another" />
+                        android:text="@string/add_another_button_label" />
                 </LinearLayout>
 
 
@@ -141,23 +142,23 @@
                         android:id="@+id/textView12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Starting HP" />
+                        android:text="@string/starting_hp" />
 
                     <TextView
                         android:id="@+id/start_hp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="8"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        tools:text="8" />
                 </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/hp_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
-
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_weight="1"
+                    tools:layout_height="20dp"
+                    tools:listitem="@layout/hp_row" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -170,14 +171,14 @@
                         android:id="@+id/textView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Final HP" />
+                        android:text="@string/final_hp" />
 
                     <TextView
                         android:id="@+id/final_hp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="8"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        tools:text="8" />
                 </LinearLayout>
 
                 <include layout="@layout/feature_context" />

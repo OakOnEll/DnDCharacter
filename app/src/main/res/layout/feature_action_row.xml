@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -17,7 +18,8 @@
             android:id="@+id/use_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Use" />
+            android:text="@string/use_button_label" />
+
         <TextView
             android:id="@+id/use_description"
             android:layout_width="wrap_content"
@@ -28,14 +30,13 @@
     <LinearLayout
         android:id="@+id/pool_apply_group"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="5dp"
-            android:text="Use" />
+            android:text="@string/use_label" />
 
         <com.oakonell.dndcharacter.views.MyEditText
             android:id="@+id/pool_value"
@@ -43,15 +44,14 @@
             android:layout_height="wrap_content"
             android:ems="3"
             android:imeOptions="actionDone"
-            android:inputType="number"
-            android:text="" />
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/remaining_uses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
-            android:text="/ 5" />
+            tools:text="/ 5" />
 
         <ImageButton
             android:id="@+id/pool_apply_button"

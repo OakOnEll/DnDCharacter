@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
@@ -33,7 +34,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Hit Dice Healing"
+                        android:text="@string/hit_dice_healing"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <LinearLayout
@@ -46,20 +47,22 @@
                             android:id="@+id/textView6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Starting HP" />
+                            android:text="@string/starting_hp" />
 
                         <TextView
                             android:id="@+id/start_hp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="8"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            tools:text="8" />
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/hit_dice_list"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        tools:layout_height="50dp"
+                        tools:listitem="@layout/hit_die_use_row" />
 
                     <LinearLayout
                         android:id="@+id/extra_heal_group"
@@ -72,7 +75,7 @@
                             android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Extra healing" />
+                            android:text="@string/extra_healing" />
 
                         <com.oakonell.dndcharacter.views.MyEditText
                             android:id="@+id/extra_healing"
@@ -94,14 +97,14 @@
                             android:id="@+id/hp_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Final HP" />
+                            android:text="@string/final_hp" />
 
                         <TextView
                             android:id="@+id/final_hp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="8"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            tools:text="8" />
 
                     </LinearLayout>
 
@@ -117,7 +120,7 @@
                             android:id="@+id/textView8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="No Healing Required" />
+                            android:text="@string/no_helaing_required" />
 
                     </LinearLayout>
 

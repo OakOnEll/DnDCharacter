@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
@@ -27,33 +28,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Base Armor Class"
+                    android:text="@string/base_armor_class_title"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/root_ac_list"
-
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content"
+                    tools:layout_height="100dp"
+                    tools:listitem="@layout/armor_class_root_item" />
 
                 <LinearLayout
                     android:id="@+id/modifiers_group"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Armor Class Modifiers"
+                        android:text="@string/armor_class_modifiers_title"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/mod_ac_list"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+
+                        android:layout_height="wrap_content"
+
+                        tools:layout_height="100dp"
+                        tools:listitem="@layout/armor_class_root_item" />
 
 
                 </LinearLayout>
@@ -67,7 +71,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Armor Class"
+                        android:text="@string/armor_class_label"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <TextView
@@ -75,8 +79,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="5dp"
-                        android:text="18"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        tools:text="18" />
 
                 </LinearLayout>
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
@@ -29,21 +30,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Max Spell Level" />
+                    android:text="@string/max_spell_level" />
 
                 <TextView
                     android:id="@+id/max_spell_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
-                    android:text="9" />
+                    tools:text="9" />
             </LinearLayout>
 
             <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/search_terms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name, terms"
+                android:hint="@string/component_search_hint"
                 android:text="" />
 
         </LinearLayout>
@@ -52,7 +53,8 @@
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:listitem="@layout/spell_list_item" />
 
         <include layout="@layout/dialog_done" />
 

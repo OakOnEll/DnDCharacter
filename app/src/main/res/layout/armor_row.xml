@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/equipment_item_style"
@@ -9,7 +10,7 @@
         android:id="@+id/handle"
         style="@style/handle_style"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"></ImageView>
+        android:layout_height="match_parent"/>
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -26,7 +27,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:maxLines="1"
-        android:text="Name" />
+        tools:text="Name" />
 
     <TextView
         android:id="@+id/ac"
@@ -34,6 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="right|center_vertical"
-        android:text="AC/Mod" />
+        tools:text="16" />
 
 </LinearLayout>

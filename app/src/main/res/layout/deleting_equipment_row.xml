@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Deleting"
+        android:text="@string/deleting_label"
 
         />
 
@@ -43,7 +43,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Undo" />
+        android:text="@string/undo_button_label" />
 
 
 </LinearLayout>

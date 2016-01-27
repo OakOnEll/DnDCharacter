@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
@@ -24,17 +25,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Long sword"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
 
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    tools:text="Long sword" />
 
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Short description"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    tools:text="Short description" />
 
 
                 <LinearLayout
@@ -47,15 +48,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Attack Bonus"
+                        android:text="@string/attack_bonus_label"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <TextView
                         android:id="@+id/attack_bonus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+5"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        tools:text="+5" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -68,15 +69,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Damage"
+                        android:text="@string/damage_label"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <TextView
                         android:id="@+id/damage_descr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1d6"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        tools:text="1d6" />
                 </LinearLayout>
 
                 <CheckBox
@@ -84,27 +85,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Two Handed" />
+                    android:text="@string/two_handed_checkbox" />
 
                 <CheckBox
                     android:id="@+id/use_dexterity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Use Dexterity" />
+                    android:text="@string/use_dexterity_checkbox" />
 
                 <LinearLayout
-                    android:layout_gravity="center_horizontal"
                     android:id="@+id/ammunition_layout"
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
-                        android:text="Ammunition:" />
+                        android:text="@string/ammunition_label" />
 
                     <TextView
                         android:id="@+id/ammunition_count"
@@ -116,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="Bolts" />
+                        tools:text="Bolts" />
 
                     <android.support.v7.widget.AppCompatButton
                         android:id="@+id/use_ammunition"
@@ -140,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Attack Roll"
+                    android:text="@string/attack_roll"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <include layout="@layout/skill_roll_layout" />
@@ -149,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Damage Roll"
+                    android:text="@string/damage_roll"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <include layout="@layout/attack_roll_layout" />

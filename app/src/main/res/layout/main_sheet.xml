@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="AC"
+                    android:text="@string/short_armor_class_label"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ac_lbl"
                     android:layout_centerHorizontal="true"
-                    android:text="11"
+                    tools:text="11"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </RelativeLayout>
 
@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Speed"
+                    android:text="@string/spped_label"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/speed_lbl"
                     android:layout_centerHorizontal="true"
-                    android:text="25"
+                    tools:text="25"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </RelativeLayout>
 
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Initiative"
+                    android:text="@string/initiative_label"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -116,7 +116,7 @@
                     android:layout_below="@id/initiative_lbl"
                     android:layout_centerHorizontal="true"
 
-                    android:text="2"
+                    tools:text="2"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </RelativeLayout>
 
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Hit Points"
+                    android:text="@string/hit_point_label"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/hp_lbl"
                     android:layout_centerHorizontal="true"
-                    android:text="8 / 8"
+                    tools:text="8 / 8"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
             </RelativeLayout>
@@ -180,7 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Temp HP"
+                    android:text="@string/temp_hp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -189,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/temp_hp_lbl"
                     android:layout_centerHorizontal="true"
-                    android:text="8 / 8"
+                    tools:text="8 / 8"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <!--                <ImageView
@@ -215,7 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Hit Die"
+                    android:text="@string/hit_die"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/hit_die_lbl"
                     android:layout_centerHorizontal="true"
-                    android:text="2d8, 1d10"
+                    tools:text="2d8, 1d10"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <!--<ImageView
@@ -250,7 +250,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></ImageView>
+                    android:layout_height="wrap_content"/>
 
 
                 <LinearLayout
@@ -332,7 +332,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:text="Pass. Perc."
+                            android:text="@string/short_passive_perception_label"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <TextView
@@ -341,7 +341,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/passive_perception_lbl"
                             android:layout_centerHorizontal="true"
-                            android:text="11"
+                            tools:text="11"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
                     </RelativeLayout>
 
@@ -365,7 +365,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:text="Proficiency"
+                            android:text="@string/proficiency"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <TextView
@@ -374,14 +374,14 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/proficiency_lbl"
                             android:layout_centerHorizontal="true"
-                            android:text="2"
+                            tools:text="2"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
                     </RelativeLayout>
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></ImageView>
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -403,44 +403,44 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
-                            android:text="Saving Throws"
+                            android:text="@string/saving_throws_title"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
                             android:id="@+id/strength_save"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/saving_throw_label"></com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView>
+                            android:layout_below="@id/saving_throw_label" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
                             android:id="@+id/dexterity_save"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/strength_save"></com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView>
+                            android:layout_below="@id/strength_save" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
                             android:id="@+id/constitution_save"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/dexterity_save"></com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView>
+                            android:layout_below="@id/dexterity_save" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
                             android:id="@+id/intelligence_save"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/constitution_save"></com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView>
+                            android:layout_below="@id/constitution_save" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
                             android:id="@+id/wisdom_save"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/intelligence_save"></com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView>
+                            android:layout_below="@id/intelligence_save" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
                             android:id="@+id/charisma_save"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/wisdom_save"></com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView>
+                            android:layout_below="@id/wisdom_save" />
 
                     </RelativeLayout>
 
@@ -458,119 +458,119 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
-                            android:text="Skills"
+                            android:text="@string/skills_title"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/acrobatics_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/skills_label"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/skills_label" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/animal_handling_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/acrobatics_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/acrobatics_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/arcana_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/animal_handling_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/animal_handling_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/athletics_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/arcana_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/arcana_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/deception_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/athletics_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/athletics_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/history_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/deception_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/deception_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/insight_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/history_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/history_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/intimidation_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignLeft="@id/saving_throws_block"
-                            android:layout_below="@id/insight_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_alignLeft="@id/acrobatics_skill"
+                            android:layout_below="@id/insight_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/investigation_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/intimidation_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/intimidation_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/medicine_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/investigation_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/investigation_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/nature_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/medicine_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/medicine_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/perception_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/nature_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/nature_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/performance_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/perception_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/perception_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/persuasion_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/performance_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/performance_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/religion_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/persuasion_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/persuasion_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/sleight_of_hand_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/religion_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/religion_skill" />
 
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
@@ -578,14 +578,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/sleight_of_hand_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/sleight_of_hand_skill" />
 
                         <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
                             android:id="@+id/survival_skill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/acrobatics_skill"
-                            android:layout_below="@id/stealth_skill"></com.oakonell.dndcharacter.views.character.stats.SkillBlockView>
+                            android:layout_below="@id/stealth_skill" />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -593,7 +593,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></ImageView>
+                    android:layout_height="wrap_content"/>
 
             </TableRow>
         </TableLayout>

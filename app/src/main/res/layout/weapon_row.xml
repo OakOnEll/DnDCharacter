@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/equipment_item_style"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,8 +16,9 @@
             android:id="@+id/handle"
             style="@style/handle_style"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"></ImageView>
+            android:layout_height="match_parent"/>
 
+        <!-- these double as a header row -->
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
@@ -26,21 +28,21 @@
             android:ellipsize="end"
             android:lines="1"
             android:maxLines="1"
-            android:text="Name" />
+            android:text="@string/name_label" />
 
         <TextView
             android:id="@+id/hit_bonus"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Attack Bonus" />
+            android:text="@string/attack_bonus_label" />
 
         <TextView
             android:id="@+id/damage"
             android:layout_width="100sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Damage" />
+            android:text="@string/damage_label" />
 
     </LinearLayout>
 
@@ -55,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
-            android:text="Ammunition:" />
+            android:text="@string/ammunition_label" />
 
         <TextView
             android:id="@+id/ammunition_count"
@@ -67,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Bolts" />
+            tools:text="Bolts" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/use_ammunition"

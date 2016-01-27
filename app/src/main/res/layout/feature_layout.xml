@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="7dp"
@@ -24,8 +25,8 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Second Wind"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="Second Wind" />
 
             <TextView
                 android:id="@+id/source"
@@ -33,16 +34,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/list_selector"
-                android:text="Fighter 1"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="Fighter 1" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/short_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Regain hp.. yada yada..."
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="Regain hp.. yada yada..." />
 
 
         <LinearLayout
@@ -60,14 +61,14 @@
                     android:id="@+id/uses_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Uses" />
+                    tools:text="Uses" />
 
                 <TextView
                     android:id="@+id/remaining"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
-                    android:text="5/10" />
+                    tools:text="5/10" />
 
                 <TextView
                     android:id="@+id/refreshes_label"
@@ -76,16 +77,16 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="Refreshes on Short Rest"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="Refreshes on Short Rest" />
 
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/actions_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/feature_action_row" />
 
 
         </LinearLayout>

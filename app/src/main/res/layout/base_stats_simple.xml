@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -17,7 +18,7 @@
             <TextView
                 android:id="@+id/value1"
                 style="@style/simple_stat_value_style"
-                android:text="15" />
+                tools:text="15" />
 
             <ImageView
                 android:id="@+id/up1"
@@ -26,7 +27,7 @@
             <TextView
                 android:id="@+id/stat_name1"
                 style="@style/simple_stat_value_name_style"
-                android:text="Strength" />
+                android:text="@string/strength" />
 
             <ImageView
                 android:id="@+id/down1"
@@ -42,7 +43,7 @@
             <TextView
                 android:id="@+id/value2"
                 style="@style/simple_stat_value_style"
-                android:text="15" />
+                tools:text="15" />
 
             <ImageView
                 android:id="@+id/up2"
@@ -51,7 +52,7 @@
             <TextView
                 android:id="@+id/stat_name2"
                 style="@style/simple_stat_value_name_style"
-                android:text="Dexterity" />
+                android:text="@string/dexterity" />
 
             <ImageView
                 android:id="@+id/down2"
@@ -67,7 +68,7 @@
             <TextView
                 android:id="@+id/value3"
                 style="@style/simple_stat_value_style"
-                android:text="15" />
+                tools:text="15" />
 
             <ImageView
                 android:id="@+id/up3"
@@ -76,7 +77,7 @@
             <TextView
                 android:id="@+id/stat_name3"
                 style="@style/simple_stat_value_name_style"
-                android:text="Constitution" />
+                android:text="@string/constitution" />
 
             <ImageView
                 android:id="@+id/down3"
@@ -92,7 +93,7 @@
             <TextView
                 android:id="@+id/value4"
                 style="@style/simple_stat_value_style"
-                android:text="15" />
+                tools:text="15" />
 
             <ImageView
                 android:id="@+id/up4"
@@ -101,7 +102,7 @@
             <TextView
                 android:id="@+id/stat_name4"
                 style="@style/simple_stat_value_name_style"
-                android:text="Intelligence" />
+                android:text="@string/intelligence" />
 
             <ImageView
                 android:id="@+id/down4"
@@ -117,7 +118,7 @@
             <TextView
                 android:id="@+id/value5"
                 style="@style/simple_stat_value_style"
-                android:text="15" />
+                tools:text="15" />
 
             <ImageView
                 android:id="@+id/up5"
@@ -126,7 +127,7 @@
             <TextView
                 android:id="@+id/stat_name5"
                 style="@style/simple_stat_value_name_style"
-                android:text="Wisdom" />
+                android:text="@string/wisdom" />
 
             <ImageView
                 android:id="@+id/down5"
@@ -141,7 +142,7 @@
             <TextView
                 android:id="@+id/value6"
                 style="@style/simple_stat_value_style"
-                android:text="15" />
+                tools:text="15" />
 
             <ImageView
                 android:id="@+id/up6"
@@ -150,7 +151,7 @@
             <TextView
                 android:id="@+id/stat_name6"
                 style="@style/simple_stat_value_name_style"
-                android:text="Charisma" />
+                android:text="@string/charisma" />
 
             <ImageView
                 android:id="@+id/down6"

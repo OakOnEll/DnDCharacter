@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
@@ -20,8 +21,8 @@
                 android:id="@+id/classes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sorcerer 1"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="Sorcerer 1" />
 
         </LinearLayout>
 
@@ -29,9 +30,8 @@
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
-
-        </android.support.v7.widget.RecyclerView>
+            android:layout_weight="1"
+            tools:listitem="@layout/class_level_item" />
 
 
         <LinearLayout
@@ -56,8 +56,8 @@
                 android:id="@+id/level_up_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Level Up"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="Level Up" />
         </LinearLayout>
 
         <include layout="@layout/dialog_done" />

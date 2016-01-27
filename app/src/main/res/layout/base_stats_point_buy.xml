@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -15,14 +16,14 @@
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Points Remaining"
+            android:text="@string/points_remaining"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/remaining_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="27"
+            tools:text="27"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
@@ -37,7 +38,7 @@
 
             <TextView
                 style="@style/point_buy_stat_label"
-                android:text="Strength" />
+                android:text="@string/strength" />
 
             <Button
                 android:id="@+id/strength_add"
@@ -45,8 +46,7 @@
 
             <TextView
                 android:id="@+id/strength_buy"
-                style="@style/point_buy_stat_value"
-                 />
+                style="@style/point_buy_stat_value" />
 
             <Button
                 android:id="@+id/strength_subtract"
@@ -60,7 +60,7 @@
 
             <TextView
                 style="@style/point_buy_stat_label"
-                android:text="Dexterity" />
+                android:text="@string/dexterity" />
 
             <Button
                 android:id="@+id/dexterity_add"
@@ -81,7 +81,7 @@
 
             <TextView
                 style="@style/point_buy_stat_label"
-                android:text="Constitution" />
+                android:text="@string/constitution" />
 
             <Button
                 android:id="@+id/constitution_add"
@@ -102,7 +102,7 @@
 
             <TextView
                 style="@style/point_buy_stat_label"
-                android:text="Intelligence" />
+                android:text="@string/intelligence" />
 
             <Button
                 android:id="@+id/intelligence_add"
@@ -123,7 +123,7 @@
 
             <TextView
                 style="@style/point_buy_stat_label"
-                android:text="Wisdom" />
+                android:text="@string/wisdom" />
 
             <Button
                 android:id="@+id/wisdom_add"
@@ -145,7 +145,7 @@
 
             <TextView
                 style="@style/point_buy_stat_label"
-                android:text="Charisma" />
+                android:text="@string/charisma" />
 
             <Button
                 android:id="@+id/charisma_add"

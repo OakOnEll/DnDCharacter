@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
@@ -27,15 +28,15 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Racial bonuses"
+                android:text="@string/racial_bonuses_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/race_bonuses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Intelligence+1, Dexterity+2"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="Intelligence+1, Dexterity+2" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,8 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Roll" />
-
+                android:text="@string/roll_button_label" />
 
         </LinearLayout>
 

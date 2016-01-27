@@ -15,6 +15,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:text="Done" />
+        android:text="@string/done_button_label" />
 
 </LinearLayout>

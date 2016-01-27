@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_horizontal"
-        android:text="Weapons"
-        android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+        android:text="@string/weapons_title"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <Button
         android:id="@+id/add"
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Add" />
+        android:text="@string/add_button_label" />
 
 
 </LinearLayout>
