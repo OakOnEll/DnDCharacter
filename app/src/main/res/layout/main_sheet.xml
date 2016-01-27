@@ -270,8 +270,7 @@
                     <com.oakonell.dndcharacter.views.character.stats.StatBlockView
                         android:id="@+id/dexterity_stat"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/strength_stat">
+                        android:layout_height="wrap_content">
 
                     </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
 
@@ -279,8 +278,7 @@
                     <com.oakonell.dndcharacter.views.character.stats.StatBlockView
                         android:id="@+id/constitution_stat"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/dexterity_stat">
+                        android:layout_height="wrap_content">
 
                     </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
 
@@ -288,8 +286,7 @@
                     <com.oakonell.dndcharacter.views.character.stats.StatBlockView
                         android:id="@+id/intelligence_stat"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/constitution_stat">
+                        android:layout_height="wrap_content">
 
                     </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
 
@@ -297,8 +294,7 @@
                     <com.oakonell.dndcharacter.views.character.stats.StatBlockView
                         android:id="@+id/wisdom_stat"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/intelligence_stat">
+                        android:layout_height="wrap_content">
 
                     </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
 
@@ -306,8 +302,7 @@
                     <com.oakonell.dndcharacter.views.character.stats.StatBlockView
                         android:id="@+id/charisma_stat"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/wisdom_stat">
+                        android:layout_height="wrap_content">
 
                     </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
 
@@ -393,8 +388,7 @@
                         android:id="@+id/saving_throws_block"
                         style="@style/saves_block"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true">
+                        android:layout_height="wrap_content">
 
                         <!-- Saving throws -->
                         <TextView
@@ -449,7 +443,6 @@
                         style="@style/skills_block"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:background="@drawable/skill_block">
                         <!-- Skills -->
                         <TextView
