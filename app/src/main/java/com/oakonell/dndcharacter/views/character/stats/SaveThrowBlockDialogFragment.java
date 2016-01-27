@@ -12,6 +12,7 @@ import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
@@ -100,13 +101,13 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
             proficiencyLayout.setVisibility(View.GONE);
         } else {
             proficiencyLayout.setVisibility(View.VISIBLE);
-            proficiency.setText(statBlock.getCharacter().getProficiency() + "");
+            proficiency.setText(NumberUtils.formatNumber(statBlock.getCharacter().getProficiency()));
         }
 
-        statModLabel.setText(statBlock.getType().toString() + " modifier");
-        statMod.setText(statBlock.getModifier() + "");
-        getDialog().setTitle(statBlock.getType().toString() + " Saving Throw");
-        total.setText(statBlock.getSaveModifier() + "");
+        statModLabel.setText(getString(R.string.statname_modifier_label, statBlock.getType().toString()));
+        statMod.setText(NumberUtils.formatNumber(statBlock.getModifier()));
+        getDialog().setTitle(getString(R.string.statname_saving_throw_title, statBlock.getType().toString()));
+        total.setText(NumberUtils.formatNumber(statBlock.getSaveModifier()));
     }
 
     @Override
@@ -131,7 +132,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
             final BaseCharacterComponent source = item.getSource();
             if (source == null) {
                 // a base stat
-                holder.source.setText("Base Stat");
+                holder.source.setText(R.string.base_stat);
             } else {
                 holder.source.setText(source.getSourceString());
             }

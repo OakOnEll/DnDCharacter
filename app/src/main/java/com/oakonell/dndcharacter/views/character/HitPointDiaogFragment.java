@@ -21,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -539,7 +540,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         public void bind(HitPointDiaogFragment context, HitPointsAdapter adapter, HpRow hpRow) {
             if (hpRow.hpType == HpType.DAMAGE) {
                 if (hpRow.damageType == null) {
-                    type.setText("Damage");
+                    type.setText(R.string.damage_label);
                 } else {
                     type.setText(hpRow.damageType.toString());
                 }
@@ -549,11 +550,11 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
                     vulnerableType.setText(hpRow.vulnerabilityType.toString());
                 }
             } else if (hpRow.hpType == HpType.HEAL) {
-                type.setText("Heal");
+                type.setText(R.string.heal);
             } else if (hpRow.hpType == HpType.TEMP_HP) {
-                type.setText("Temp HP");
+                type.setText(R.string.temp_hp);
             }
-            amount.setText(hpRow.hp + "");
+            amount.setText(NumberUtils.formatNumber(hpRow.hp));
         }
 
     }

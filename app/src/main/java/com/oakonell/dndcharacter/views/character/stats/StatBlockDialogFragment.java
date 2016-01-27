@@ -11,6 +11,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.MainActivity;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
@@ -88,8 +89,8 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         getDialog().setTitle(statBlock.getType().toString());
 
         setModifier(statBlock.getModifier());
-        total.setText(statBlock.getValue() + "");
-        modifier.setText(statBlock.getModifier() + "");
+        total.setText(NumberUtils.formatNumber(statBlock.getValue()));
+        modifier.setText(NumberUtils.formatNumber(statBlock.getModifier()));
     }
 
     @Override
@@ -125,8 +126,8 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
             final BaseCharacterComponent source = item.getSource();
             if (source == null) {
                 // a base stat
-                holder.source.setText("Base Stat");
-                holder.value.setText(value + "");
+                holder.source.setText(R.string.base_stat);
+                holder.value.setText(NumberUtils.formatNumber(value));
             } else {
                 holder.source.setText(source.getSourceString());
                 holder.value.setText("+" + value);

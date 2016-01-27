@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.stats.BaseStatsType;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
@@ -334,7 +335,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     final Integer value = stats.get(type);
                     statRolls[i] = value;
                     EditText editText = entry.getValue();
-                    editText.setText(value + "");
+                    editText.setText(NumberUtils.formatNumber(value));
                     i++;
                 }
             }
@@ -348,7 +349,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                 pointBuyRows.get(5).setValue(stats.get(StatType.CHARISMA));
 
                 final int remainingPoints = calculateRemainingPoints();
-                remaining_points.setText(remainingPoints + "");
+                remaining_points.setText(NumberUtils.formatNumber(remainingPoints));
 
                 updatePointBuyRows(remainingPoints);
                 break;
@@ -395,7 +396,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         int currentPoints = Integer.parseInt(remaining_points.getText().toString());
         int newPoints = currentPoints - newCost + currentCost;
 
-        remaining_points.setText(newPoints + "");
+        remaining_points.setText(NumberUtils.formatNumber(newPoints));
         each.setValue(newScore);
 
         updatePointBuyRows(newPoints);
@@ -485,7 +486,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                 break;
             case POINT_BUY:
                 final int remainingPoints = calculateRemainingPoints();
-                remaining_points.setText(remainingPoints + "");
+                remaining_points.setText(NumberUtils.formatNumber(remainingPoints));
 
                 updatePointBuyRows(remainingPoints);
 
@@ -508,6 +509,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         Button add;
         TextView valueTextView;
         Button subtract;
+
         public BaseStatPointBuy(StatType type, Button add, TextView value, Button subtract) {
             this.type = type;
             this.add = add;
@@ -520,7 +522,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         public void setValue(int theValue) {
-            valueTextView.setText(theValue + "");
+            valueTextView.setText(NumberUtils.formatNumber(theValue));
         }
     }
 
@@ -531,6 +533,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         TextView valueTextView;
         ImageView up;
         ImageView down;
+
         public BaseStatRow(int index, StatType type, TextView typeView, TextView value, ImageView up, ImageView down) {
             this.index = index;
             this.type = type;
@@ -545,7 +548,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         public void setValue(int theValue) {
-            valueTextView.setText(theValue + "");
+            valueTextView.setText(NumberUtils.formatNumber(theValue));
         }
     }
 

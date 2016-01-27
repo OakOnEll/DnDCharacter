@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
 /**
@@ -109,17 +110,17 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     private void updateView(Character character) {
-        copperCurrent.setText(character.getCopper() + "");
-        silverCurrent.setText(character.getSilver() + "");
-        electrumCurrent.setText(character.getElectrum() + "");
-        goldCurrent.setText(character.getGold() + "");
-        platinumCurrent.setText(character.getPlatinum() + "");
+        copperCurrent.setText(NumberUtils.formatNumber(character.getCopper()));
+        silverCurrent.setText(NumberUtils.formatNumber(character.getSilver()));
+        electrumCurrent.setText(NumberUtils.formatNumber(character.getElectrum()));
+        goldCurrent.setText(NumberUtils.formatNumber(character.getGold()));
+        platinumCurrent.setText(NumberUtils.formatNumber(character.getPlatinum()));
 
-        copperResult.setText(character.getCopper() + "");
-        silverResult.setText(character.getSilver() + "");
-        electrumResult.setText(character.getElectrum() + "");
-        goldResult.setText(character.getGold() + "");
-        platinumResult.setText(character.getPlatinum() + "");
+        copperResult.setText(NumberUtils.formatNumber(character.getCopper()));
+        silverResult.setText(NumberUtils.formatNumber(character.getSilver()));
+        electrumResult.setText(NumberUtils.formatNumber(character.getElectrum()));
+        goldResult.setText(NumberUtils.formatNumber(character.getGold()));
+        platinumResult.setText(NumberUtils.formatNumber(character.getPlatinum()));
 
         copperPieces.addTextChangedListener(new CoinInputWatcher(character.getCopper(), copperPieces, copperResult));
         silverPieces.addTextChangedListener(new CoinInputWatcher(character.getSilver(), silverPieces, silverResult));
@@ -158,7 +159,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
         COPPER, SILVER, ELECTRUM, GOLD, PLATINUM
     }
 
-    static class CoinInputWatcher implements TextWatcher {
+    class CoinInputWatcher implements TextWatcher {
         private final TextView result;
         private final EditText input;
         private final int current;
@@ -188,7 +189,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
                 try {
                     value = Integer.parseInt(s.toString());
                 } catch (Exception e) {
-                    result.setError("Invalid number");
+                    result.setError(getString(R.string.invalid_number));
                 }
             }
             if (value > 0 && !str.startsWith("+")) {
@@ -199,7 +200,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
             if (value == 0 && !(str.equals("-") || str.equals(""))) {
                 input.setText("");
             }
-            result.setText(current + value + "");
+            result.setText(NumberUtils.formatNumber(current + value));
         }
     }
 }

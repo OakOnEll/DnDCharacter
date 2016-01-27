@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.MainActivity;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class AmmunitionViewHelper {
             for (CharacterItem each : ammo) {
                 amount += each.getCount();
             }
-            ammunition_count.setText(amount + "");
+            ammunition_count.setText(NumberUtils.formatNumber(amount));
             add_ammunition.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -54,7 +55,7 @@ public class AmmunitionViewHelper {
                     } else {
                         final CharacterItem firstItem = ammo.get(0);
                         firstItem.setCount(firstItem.getCount() + 1);
-                        ammunition_count.setText(firstItem.getCount() + "");
+                        ammunition_count.setText(NumberUtils.formatNumber(firstItem.getCount()));
                     }
                     ammunition_count.postDelayed(new Runnable() {
                         @Override
@@ -74,7 +75,7 @@ public class AmmunitionViewHelper {
                     } else {
                         final CharacterItem firstItem = ammo.get(0);
                         firstItem.setCount(Math.max(firstItem.getCount() - 1, 0));
-                        ammunition_count.setText(firstItem.getCount() + "");
+                        ammunition_count.setText(NumberUtils.formatNumber(firstItem.getCount()));
                         if (firstItem.getCount() <= 0) {
                             context.getCharacter().getItems().remove(firstItem);
                         }

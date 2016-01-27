@@ -54,7 +54,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         listView.addItemDecoration(itemDecoration);
 
-        adapter = new ComponentListAdapter(this, getListItemResource());
+        adapter = new ComponentListAdapter<V>(this, getListItemResource());
         listView.setAdapter(adapter);
 
         final EditText searchTerms = (EditText) view.findViewById(R.id.search_terms);
@@ -86,9 +86,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
                     String[] extraArgs = selectionArgs;
                     selectionArgs = new String[selectionArgs.length + 1];
                     selectionArgs[0] = searchTermString;
-                    for (int i = 1; i < extraArgs.length + 1; i++) {
-                        selectionArgs[i] = extraArgs[i - 1];
-                    }
+                    System.arraycopy(extraArgs, 0, selectionArgs, 1, extraArgs.length + 1 - 1);
                 }
                 return new CursorLoader(getActivity(),
                         ContentProvider.createUri(getComponentClass(), null),
@@ -170,10 +168,12 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
 
     public abstract Class<? extends Model> getComponentClass();
 
+    @SuppressWarnings("SameReturnValue")
     protected int getListItemResource() {
         return R.layout.component_list_item;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public String getCursorSortBy() {
         return "name";
     }

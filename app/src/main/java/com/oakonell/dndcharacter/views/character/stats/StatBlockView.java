@@ -10,6 +10,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 
 
 /**
@@ -51,11 +52,11 @@ public class StatBlockView extends LinearLayout {
     }
 
     protected void setValue(int value) {
-        stat_value.setText(value + "");
+        stat_value.setText(NumberUtils.formatNumber(value));
     }
 
     protected void setModifier(int mod) {
-        stat_mod.setText(mod + "");
+        stat_mod.setText(NumberUtils.formatNumber(mod ));
     }
 
     public void setType(StatType type) {

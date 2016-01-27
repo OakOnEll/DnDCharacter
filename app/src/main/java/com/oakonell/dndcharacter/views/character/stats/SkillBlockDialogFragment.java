@@ -13,6 +13,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.stats.SkillBlock;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
@@ -111,14 +112,14 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
             proficiencyLayout.setVisibility(View.GONE);
         } else {
             proficiencyLayout.setVisibility(View.VISIBLE);
-            proficiency.setText(skillBlock.getCharacter().getProficiency() + "");
+            proficiency.setText(NumberUtils.formatNumber(skillBlock.getCharacter().getProficiency()));
         }
 
-        statModLabel.setText(skillBlock.getType().getStatType().toString() + " modifier");
-        statMod.setText(skillBlock.getStatModifier() + "");
+        statModLabel.setText(getString(R.string.statname_modifier_label, skillBlock.getType().getStatType().toString()));
+        statMod.setText(NumberUtils.formatNumber(skillBlock.getStatModifier()));
         statLabel.setText(skillBlock.getType().getStatType().toString());
         getDialog().setTitle(skillBlock.getType().toString());
-        total.setText(skillBlock.getBonus() + "");
+        total.setText(NumberUtils.formatNumber(skillBlock.getBonus()));
     }
 
     @Override
@@ -147,7 +148,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
             final BaseCharacterComponent source = item.getSource();
             if (source == null) {
                 // a base stat
-                holder.source.setText("Base Stat");
+                holder.source.setText(R.string.base_stat);
             } else {
                 holder.source.setText(source.getSourceString());
             }

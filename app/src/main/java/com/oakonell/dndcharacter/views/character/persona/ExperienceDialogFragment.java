@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
@@ -36,9 +37,6 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
     private ViewGroup your_xp_group;
     private TextView your_xp;
 
-    private RecyclerView xp_levels;
-    private XpLevelAdapter xpAdapter;
-
     public static ExperienceDialogFragment create() {
         return new ExperienceDialogFragment();
     }
@@ -61,9 +59,9 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
         your_xp_group = (ViewGroup) view.findViewById(R.id.your_xp_group);
         your_xp = (TextView) view.findViewById(R.id.your_xp);
 
-        xp_levels = (RecyclerView) view.findViewById(R.id.xp_levels);
+        RecyclerView xp_levels = (RecyclerView) view.findViewById(R.id.xp_levels);
 
-        xpAdapter = new XpLevelAdapter(this, getLevels());
+        XpLevelAdapter xpAdapter = new XpLevelAdapter(this, getLevels());
         xp_levels.setAdapter(xpAdapter);
 
         xp_levels.setHasFixedSize(false);
@@ -236,18 +234,18 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
 
         @Override
         public void bind(ExperienceDialogFragment context, XpLevelAdapter adapter, XpLevel info) {
-            xp.setText(String.format("%,d", info.xp));
-            level.setText(info.level + "");
+            xp.setText(NumberUtils.formatNumber(info.xp));
+            level.setText(NumberUtils.formatNumber(info.level));
             int currentLevel = context.getCharacter().getCharacterLevel();
             int currentXp = context.getCharacter().getXp();
             comment.setText("");
             if (currentLevel == info.level) {
                 // TODO highlight background
-                comment.setText("Current Level");
+                comment.setText(R.string.current_level);
             } else if (currentLevel == info.level - 1) {
                 int needed = info.xp - currentXp;
                 if (needed > 0) {
-                    comment.setText("Need " + String.format("%,d", needed));
+                    comment.setText(context.getString(R.string.need_xp_for_next_level, needed));
                 }
             }
         }

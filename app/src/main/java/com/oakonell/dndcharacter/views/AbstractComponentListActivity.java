@@ -209,7 +209,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
     }
 
-    public static class ComponentListAdapter extends RecyclerView.Adapter<CursorBindableRecyclerViewHolder> implements ItemTouchHelperAdapter {
+    public static class ComponentListAdapter extends RecyclerView.Adapter<CursorBindableRecyclerViewHolder<? extends AbstractComponentListActivity>> implements ItemTouchHelperAdapter {
         private final AbstractComponentListActivity<? extends Model> context;
         private final int layout;
         Cursor cursor;

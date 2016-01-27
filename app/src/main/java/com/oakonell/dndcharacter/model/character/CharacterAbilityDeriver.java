@@ -6,8 +6,6 @@ import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 
 import java.util.List;
 
-import hugo.weaving.DebugLog;
-
 /**
  * Created by Rob on 1/3/2016.
  */

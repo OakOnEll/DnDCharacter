@@ -17,6 +17,7 @@ import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.spell.ApplySpellToCharacterVisitor;
 import com.oakonell.dndcharacter.model.spell.Spell;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractAddComponentDialogFragment;
 
@@ -78,7 +79,7 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
                 final String className = (String) classNameSpinner.getSelectedItem();
                 final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfo().get(className);
                 if (castingClassInfo != null) {
-                    max_spell_level.setText("" + castingClassInfo.getMaxSpellLevel());
+                    max_spell_level.setText(NumberUtils.formatNumber(castingClassInfo.getMaxSpellLevel()));
                 } else {
                     max_spell_level.setText("?");
                 }
@@ -126,7 +127,6 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
     protected String[] getSelectionArgs() {
         if (classNameSpinner == null) return null;
         final String className = (String) classNameSpinner.getSelectedItem();
-        if (className == null) return null;
         int maxLevel = 9;
         if (cantripsOnly) {
             maxLevel = 0;
@@ -137,7 +137,7 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
                 maxLevel = castingClassInfo.getMaxSpellLevel();
             }
         }
-        return new String[]{((String) className).toUpperCase(), Integer.toString(maxLevel)};
+        return new String[]{className.toUpperCase(), Integer.toString(maxLevel)};
     }
 
     protected int getDialogResource() {

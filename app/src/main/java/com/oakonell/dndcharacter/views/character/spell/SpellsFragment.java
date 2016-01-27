@@ -15,7 +15,6 @@ import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
  * Created by Rob on 1/19/2016.
  */
 public class SpellsFragment extends AbstractSheetFragment {
-    private View rootView;
     private RecyclerView spell_level_list;
     private SpellLevelsAdapter spellsAdapter;
     private RecyclerView caster_list;
@@ -23,7 +22,7 @@ public class SpellsFragment extends AbstractSheetFragment {
 
     @Override
     protected View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.spell_sheet, container, false);
+        View rootView = inflater.inflate(R.layout.spell_sheet, container, false);
 
         spell_level_list = (RecyclerView) rootView.findViewById(R.id.spell_level_list);
         caster_list = (RecyclerView) rootView.findViewById(R.id.caster_list);

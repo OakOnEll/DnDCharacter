@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -90,6 +91,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         }
         request.setHealing(getHealing());
 
+        //noinspection ConstantConditions
         isValid = isValid && updateCommonRequest(request);
         isValid = isValid && super.onDone();
         if (isValid) {
@@ -275,8 +277,8 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             hit_die_group.setVisibility(View.VISIBLE);
             use_hit_die_group.setVisibility(View.GONE);
 
-            numDice.setText(row.numDiceRemaining + "");
-            die.setText(row.dieSides + "");
+            numDice.setText(NumberUtils.formatNumber(row.numDiceRemaining));
+            die.setText(NumberUtils.formatNumber(row.dieSides));
             if (row.numDiceRemaining > 0) {
                 useButton.setEnabled(true);
                 useButton.setOnClickListener(new View.OnClickListener() {
@@ -307,7 +309,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                 @Override
                 public void onClick(View v) {
                     int value = RandomUtils.random(1, row.dieSides);
-                    hit_die_val.setText(value + "");
+                    hit_die_val.setText(NumberUtils.formatNumber(value));
                     apply.setEnabled(true);
                 }
             });
@@ -345,7 +347,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
         @Override
         public void bind(final HitDiceAdapter context, final HitDieUseAdapter adapter, final Integer rollValue) {
-            value.setText(rollValue + "");
+            value.setText(NumberUtils.formatNumber(rollValue));
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

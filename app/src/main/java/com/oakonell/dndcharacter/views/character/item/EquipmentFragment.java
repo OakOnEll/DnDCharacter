@@ -30,6 +30,7 @@ import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
@@ -381,11 +382,11 @@ public class EquipmentFragment extends AbstractSheetFragment {
         };
         profGetter.execute(character);
 
-        goldPieces.setText(character.getGold() + "");
-        copperPieces.setText(character.getCopper() + "");
-        silverPieces.setText(character.getSilver() + "");
-        electrumPieces.setText(character.getElectrum() + "");
-        platinumPieces.setText(character.getPlatinum() + "");
+        goldPieces.setText(NumberUtils.formatNumber(character.getGold()));
+        copperPieces.setText(NumberUtils.formatNumber(character.getCopper()));
+        silverPieces.setText(NumberUtils.formatNumber(character.getSilver()));
+        electrumPieces.setText(NumberUtils.formatNumber(character.getElectrum()));
+        platinumPieces.setText(NumberUtils.formatNumber(character.getPlatinum()));
 
         armor_group.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -516,6 +517,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             StringBuilder builder = new StringBuilder(" [");
             boolean hasExtra = false;
             if (item.isRanged()) {
+                //noinspection ConstantConditions
                 if (hasExtra) {
                     builder.append(", ");
                 }
@@ -562,7 +564,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 damageModString += Math.abs(damageModifier);
             }
             damage.setText(item.getDamageString() + damageModString);
-            bonus.setText(attackModifiers.getAttackBonus() + "");
+            bonus.setText(NumberUtils.formatNumber(attackModifiers.getAttackBonus()));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

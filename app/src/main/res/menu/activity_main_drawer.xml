@@ -5,10 +5,10 @@
         <item
             android:id="@+id/nav_characters"
             android:icon="@android:drawable/ic_menu_camera"
-            android:title="Characters"></item>
+            android:title="@string/characters_label"></item>
         <item
             android:id="@+id/nav_recent_characters"
-            android:title="Recent Characters">
+            android:title="@string/recent_characters_label">
             <menu></menu>
         </item>
 
@@ -19,55 +19,55 @@
                 <item
                     android:id="@+id/nav_backgrounds"
                     android:icon="@android:drawable/ic_menu_gallery"
-                    android:title="Backgrounds" />
+                    android:title="@string/backgrounds" />
                 <item
                     android:id="@+id/nav_races"
                     android:icon="@android:drawable/ic_menu_slideshow"
-                    android:title="Races" />
+                    android:title="@string/races" />
                 <item
                     android:id="@+id/nav_classes"
                     android:icon="@android:drawable/ic_menu_manage"
-                    android:title="Classes" />
+                    android:title="@string/classes" />
                 <item
                     android:id="@+id/nav_items"
                     android:icon="@android:drawable/ic_menu_manage"
-                    android:title="Items" />
+                    android:title="@string/items" />
                 <item
                     android:id="@+id/nav_spells"
                     android:icon="@android:drawable/ic_menu_manage"
-                    android:title="Spells" />
+                    android:title="@string/spells_title" />
                 <item
                     android:id="@+id/nav_feats"
                     android:icon="@android:drawable/ic_menu_manage"
-                    android:title="Feats" />
+                    android:title="@string/feats" />
                 <item
                     android:id="@+id/nav_effects"
                     android:icon="@android:drawable/ic_menu_manage"
-                    android:title="Effects" />
+                    android:title="@string/effects" />
             </menu>
         </item>
 
     </group>
 
-    <item android:title="Import">
+    <item android:title="@string/import_action">
         <menu>
             <item
                 android:id="@+id/nav_import"
                 android:icon="@android:drawable/ic_menu_add"
-                android:title="Import" />
+                android:title="@string/import_action" />
         </menu>
     </item>
 
-    <item android:title="Export">
+    <item android:title="@string/export">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@android:drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@android:drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="@string/send" />
         </menu>
     </item>
 

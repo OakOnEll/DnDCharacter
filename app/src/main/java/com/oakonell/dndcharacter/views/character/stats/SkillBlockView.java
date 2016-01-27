@@ -12,6 +12,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.stats.SkillBlock;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 
 /**
  * Created by Rob on 10/22/2015.
@@ -48,7 +49,7 @@ public class SkillBlockView extends LinearLayout {
     }
 
     protected void setBonus(int bonus) {
-        this.bonus.setText(bonus + "");
+        this.bonus.setText(NumberUtils.formatNumber(bonus));
     }
 
     protected void setLabel(String label) {

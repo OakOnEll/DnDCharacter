@@ -55,7 +55,7 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     protected void updateViews(final Character character) {
         final CharacterEffect effect = character.getEffectNamed(getNameArgument());
         if (effect == null) {
-            description.setText("Not active");
+            description.setText(R.string.effect_not_active);
             endEffectButton.setOnClickListener(null);
             endEffectButton.setEnabled(false);
         } else {

@@ -16,9 +16,9 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
-import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.item.ItemRow;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.md.CategoryChoicesMD;
@@ -48,6 +48,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void setParent(ViewGroup parent) {
         this.parent = parent;
     }
+
     protected ViewGroup getParent() {
         return parent;
     }
@@ -169,7 +170,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void visitIncrease(Element element) {
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
-        String string = "Increase " + element.getAttribute("name") + " by " + element.getTextContent();
+        String string = parent.getResources().getString(R.string.increase_statname_by, element.getAttribute("name"), element.getTextContent());
         text.setText(" *  " + string);
     }
 
@@ -215,7 +216,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             currentChooseMD = multipleChoicesMD;
             choicesMD.addChildChoice(currentChooseMD);
 
-            numChoicesTextView.setText(numChoices + "");
+            numChoicesTextView.setText(NumberUtils.formatNumber(numChoices));
 
             super.visitChoose(element);
             setCheckedEnabledStates(multipleChoicesMD);

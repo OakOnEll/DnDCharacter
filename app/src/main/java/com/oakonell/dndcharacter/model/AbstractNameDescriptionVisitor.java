@@ -28,6 +28,7 @@ public class AbstractNameDescriptionVisitor extends AbstractXmlVisitor {
         }
     }
 
+    @SuppressWarnings("EmptyMethod")
     protected void elementNotHandled(Element element) {
 
     }

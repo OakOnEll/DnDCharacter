@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,9 +93,9 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             limited_uses_group.setVisibility(View.VISIBLE);
             bindLimitedUseViews(context, adapter, info, position);
             if (info.getUseType() == UseType.PER_USE) {
-                uses_label.setText("Uses");
+                uses_label.setText(R.string.uses);
             } else {
-                uses_label.setText("Pool");
+                uses_label.setText(R.string.pool);
             }
         }
 
@@ -107,10 +106,8 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         int maxUses = info.evaluateMaxUses(context.getCharacter());
         final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
-        uses_remaining.setText(usesRemaining + "/" + maxUses);
-        refreshes_label.setText("Refreshes on " + info.getFeature().getRefreshesOn().toString());
-
-
+        uses_remaining.setText(context.getString(R.string.fraction_d_slash_d, usesRemaining, maxUses));
+        refreshes_label.setText(context.getString(R.string.refreshes_on_s, info.getFeature().getRefreshesOn().toString()));
     }
 
 
@@ -151,7 +148,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             if (action.getCost() > 0) {
                 // TODO get a short description? Possibly place the cost on the button?
                 if (action.getCost() != 1) {
-                    useButton.setText(action.getAction() + "(" + action.getCost() + ")");
+                    useButton.setText(context.getString(R.string.action_with_cost, action.getAction(), action.getCost()));
                 } else {
                     useButton.setText(action.getAction());
                 }
@@ -168,7 +165,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                                 context.updateViews();
                                 context.saveCharacter();
                             }
-                        },10);
+                        }, 10);
                     }
                 });
             } else {
@@ -203,18 +200,18 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                     public void onClick(View v) {
                         String string = pool_value.getText().toString().trim();
                         if (string.length() == 0) {
-                            pool_value.setError("Enter a number <= " + usesRemaining);
+                            pool_value.setError(context.getString(R.string.enter_number_less_than_equal_n, usesRemaining));
                             return;
                         }
                         int value;
                         try {
                             value = Integer.parseInt(string);
                         } catch (NumberFormatException e) {
-                            pool_value.setError("Enter a number <= " + usesRemaining);
+                            pool_value.setError(context.getString(R.string.enter_number_less_than_equal_n, usesRemaining));
                             return;
                         }
                         if (value > usesRemaining) {
-                            pool_value.setError("Enter a number <= " + usesRemaining);
+                            pool_value.setError(context.getString(R.string.enter_number_less_than_equal_n, usesRemaining));
                             return;
                         }
                         context.getCharacter().useFeature(info.getFeature(), value);
@@ -263,11 +260,11 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                         try {
                             value = Integer.parseInt(string);
                         } catch (NumberFormatException e) {
-                            pool_value.setError("Enter a number <= " + usesRemaining);
+                            pool_value.setError(context.getString(R.string.enter_number_less_than_equal_n, usesRemaining));
                             return;
                         }
                         if (value > usesRemaining) {
-                            pool_value.setError("Enter a number <= " + usesRemaining);
+                            pool_value.setError(context.getString(R.string.enter_number_less_than_equal_n, usesRemaining));
                         }
                     }
                 });

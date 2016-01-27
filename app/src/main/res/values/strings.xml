@@ -31,7 +31,7 @@
     <string name="points_remaining">Points Remaining</string>
     <string name="choose_label">Choose</string>
     <string name="effects_label">Effects:</string>
-    <string name="ok_button_label">ok</string>
+    <string name="ok_button_label">OK</string>
     <string name="deleting_label">Deleting</string>
     <string name="undo_button_label">Undo</string>
     <string name="component_search_hint">Name, terms</string>
@@ -133,5 +133,50 @@
     <string name="your_xp_gain">Your XP Gain</string>
     <string name="final_xp">Final XP</string>
     <string name="import_path_hint">/file/path</string>
+    <string name="level_n">Level %d</string>
+    <string name="increase_statname_by">Increase %1$s by %2$s</string>
+    <string name="fraction_d_slash_d">%1$d / %2$d</string>
+    <string name="enter_hp_between_1_and_n">Enter an hp value between 1 and %d</string>
+    <string name="class_spinner_hint">[Class]</string>
+    <string name="archtype_hint">Archtype</string>
+    <string name="choose_subclass_error">Choose subclass</string>
+    <string name="armor_class_base_formula">=%s</string>
+    <string name="class_and_level">%1$s (%2$d)</string>
+    <string name="stat_and_mod">%1$s (%2$d)</string>
+    <string name="too_many_cantrips_for_class">Too many cantrips for %s</string>
+    <string name="too_many_known_spells_for_class">Too many known spells for %s</string>
+    <string name="too_many_prepared_spells_for_class">Too many prepared spells for %s</string>
+    <string name="current_level">Current Level</string>
+    <string name="need_xp_for_next_level">Need %,d</string>
+    <string name="uses">Uses</string>
+    <string name="pool">Pool</string>
+    <string name="refreshes_on_s">Refreshes on %s</string>
+    <string name="action_with_cost">%1$s (%2$d)</string>
+    <string name="enter_number_less_than_equal_n"><![CDATA[Enter a number <= %d]]></string>
+    <string name="heal">Heal</string>
+    <string name="base_stat">Base Stat</string>
+    <string name="invalid_number">Invalid number</string>
+    <string name="critical_failure">Critical Failure</string>
+    <string name="critical_success">Critical Success</string>
+    <string name="statname_modifier_label">%s modifier</string>
+    <string name="statname_saving_throw_title">%s Saving Throw</string>
+    <string name="effect_not_active">Not active</string>
+    <string name="characters_label">Characters</string>
+    <string name="recent_characters_label">Recent Characters</string>
+    <string name="backgrounds">Backgrounds</string>
+    <string name="races">Races</string>
+    <string name="classes">Classes</string>
+    <string name="items">Items</string>
+    <string name="feats">Feats</string>
+    <string name="effects">Effects</string>
+    <string name="import_action">Import</string>
+    <string name="export">Export</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string name="short_rest">Short Rest</string>
+    <string name="long_rest">Long Rest</string>
+    <string name="add_effect">Add Effect</string>
+    <string name="level_up">Level Up</string>
+    <string name="delete">Delete</string>
 
 </resources>

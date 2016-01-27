@@ -70,7 +70,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
     @Override
     protected List<Page<Race>> createPages() {
         List<Page<Race>> result = new ArrayList<>();
-        Page main = new Page<Race>() {
+        Page<Race> main = new Page<Race>() {
             @Override
             public ChooseMDTreeNode appendToLayout(Race model, final ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
                 Race race = getModel();

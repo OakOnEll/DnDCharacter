@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -186,7 +187,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             }
         }
 
-        acText.setText(ac + "");
+        acText.setText(NumberUtils.formatNumber(ac));
 
     }
 
@@ -281,7 +282,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             if (stringVal.equals(formula)) {
                 value.setText("");
             } else {
-                value.setText("=" + stringVal);
+                value.setText(context.getString(R.string.armor_class_base_formula, stringVal));
             }
         }
     }
@@ -360,7 +361,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             if (stringVal.equals(formula)) {
                 holder.value.setText("");
             } else {
-                holder.value.setText("=" + stringVal);
+                holder.value.setText(fragment.getString(R.string.armor_class_base_formula, stringVal));
             }
         }
 

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.expression.context.SimpleVariableContext;
 
@@ -71,18 +72,18 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
 
         @Override
         public void bind(SpellsFragment context, CasterInfoAdapter adapter, Character.CastingClassInfo info) {
-            class_name.setText(info.getClassName() + "(" + info.getClassLevel() + ")");
-            casting_stat.setText(info.getCastingStat().toString() + "(" + context.getCharacter().getStatBlock(info.getCastingStat()).getModifier() + ")");
+            class_name.setText(context.getString(R.string.class_and_level, info.getClassName(), info.getClassLevel()));
+            casting_stat.setText(context.getString(R.string.stat_and_mod, info.getCastingStat().toString(), context.getCharacter().getStatBlock(info.getCastingStat()).getModifier()));
 
             int cantrips = context.getCharacter().getCantripsForClass(info.getClassName());
             int maxCantrips = context.getCharacter().evaluateFormula(info.getKnownCantrips(), null);
             if (maxCantrips > 0) {
-                cantrips_known.setText(cantrips + "/" + maxCantrips);
+                cantrips_known.setText(context.getString(R.string.fraction_d_slash_d, cantrips, maxCantrips));
             } else {
-                cantrips_known.setText(cantrips + "");
+                cantrips_known.setText(NumberUtils.formatNumber(cantrips));
             }
             if (cantrips > maxCantrips) {
-                cantrips_known.setError("Too many cantrips for " + info.getClassName());
+                cantrips_known.setError(context.getString(R.string.too_many_cantrips_for_class, info.getClassName()));
             } else {
                 cantrips_known.setError(null);
             }
@@ -91,14 +92,14 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
             final String maxKnownSpellsFormula = info.getKnownSpells();
             if (maxKnownSpellsFormula != null && maxKnownSpellsFormula.length() > 0) {
                 int maxKnown = context.getCharacter().evaluateFormula(maxKnownSpellsFormula, null);
-                spells_known.setText(spellsKnown + "/" + maxKnown);
+                spells_known.setText(context.getString(R.string.fraction_d_slash_d, spellsKnown, maxKnown));
                 if (spellsKnown > maxKnown) {
-                    spells_known.setError("Too many known spells for " + info.getClass());
+                    spells_known.setError(context.getString(R.string.too_many_known_spells_for_class, info.getClassName()));
                 } else {
                     spells_known.setError(null);
                 }
             } else {
-                spells_known.setText(spellsKnown + "");
+                spells_known.setText(NumberUtils.formatNumber(spellsKnown));
             }
 
 
@@ -109,10 +110,10 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
                 SimpleVariableContext variableContext = new SimpleVariableContext();
                 variableContext.setNumber("classLevel", info.getClassLevel());
                 int maxPrepared = context.getCharacter().evaluateFormula(maxPreparedSpellsFormula, variableContext);
-                spells_prepared.setText(spellsPrepared + "/" + maxPrepared);
+                spells_prepared.setText(context.getString(R.string.fraction_d_slash_d, spellsPrepared, maxPrepared));
 
                 if (spellsPrepared > maxPrepared) {
-                    spells_prepared.setError("Too many prepared spells for " + info.getClass());
+                    spells_prepared.setError(context.getString(R.string.too_many_prepared_spells_for_class, info.getClassName()));
                 } else {
                     spells_prepared.setError(null);
                 }
@@ -121,7 +122,7 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
             }
 
 
-            max_spell_level.setText("" + info.getMaxSpellLevel());
+            max_spell_level.setText(NumberUtils.formatNumber(info.getMaxSpellLevel()));
         }
     }
 }

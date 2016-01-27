@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -113,6 +114,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         }
         request.setHealing(getHealing());
 
+        //noinspection ConstantConditions
         isValid = isValid && updateCommonRequest(request);
         isValid = isValid && super.onDone();
         if (isValid) {
@@ -203,10 +205,10 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
             }
 
             dieSides.setText("d" + row.dieSides);
-            currentDiceRemaining.setText(row.currentDiceRemaining + "");
-            numDiceToRestore.setText(row.numDiceToRestore + "");
-            totalDice.setText(row.totalDice + "");
-            resultDice.setText((row.currentDiceRemaining + row.numDiceToRestore) + "");
+            currentDiceRemaining.setText(NumberUtils.formatNumber(row.currentDiceRemaining));
+            numDiceToRestore.setText(NumberUtils.formatNumber(row.numDiceToRestore));
+            totalDice.setText(NumberUtils.formatNumber(row.totalDice));
+            resultDice.setText(NumberUtils.formatNumber((row.currentDiceRemaining + row.numDiceToRestore)));
 
             numDiceToRestore.setEnabled(row.currentDiceRemaining != row.totalDice);
 
@@ -227,21 +229,21 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
                     String string = s.toString();
                     if (string.length() == 0) {
                         row.numDiceToRestore = 0;
-                        resultDice.setText((row.currentDiceRemaining + row.numDiceToRestore) + "");
+                        resultDice.setText(NumberUtils.formatNumber((row.currentDiceRemaining + row.numDiceToRestore)));
                         return;
                     }
                     try {
                         int value = Integer.parseInt(string);
                         if (value > row.totalDice - row.currentDiceRemaining) {
                             row.numDiceToRestore = 0;
-                            numDiceToRestore.setError("Enter a number less than or equal to " + (row.totalDice - row.currentDiceRemaining));
+                            numDiceToRestore.setError(context.getString(R.string.enter_number_less_than_equal_n, (row.totalDice - row.currentDiceRemaining)));
                             return;
                         }
                         row.numDiceToRestore = value;
-                        resultDice.setText((row.currentDiceRemaining + row.numDiceToRestore) + "");
+                        resultDice.setText(NumberUtils.formatNumber(row.currentDiceRemaining + row.numDiceToRestore));
                     } catch (NumberFormatException e) {
                         row.numDiceToRestore = 0;
-                        numDiceToRestore.setError("Enter a number less than or equal to " + (row.totalDice - row.currentDiceRemaining));
+                        numDiceToRestore.setError(context.getString(R.string.enter_number_less_than_equal_n, (row.totalDice - row.currentDiceRemaining)));
                     }
                 }
             };

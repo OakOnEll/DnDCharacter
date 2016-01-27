@@ -38,6 +38,9 @@ public class FeaturesFragment extends AbstractSheetFragment {
     @Override
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
+        if (adapter == null) { // odd state
+            return;
+        }
         adapter.reloadList(getCharacter());
     }
 

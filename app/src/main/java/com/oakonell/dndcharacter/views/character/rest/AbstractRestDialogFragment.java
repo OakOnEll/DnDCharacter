@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
@@ -87,7 +88,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             finalHpGroup.setVisibility(View.VISIBLE);
         }
 
-        startHp.setText(character.getHP() + " / " + character.getMaxHP());
+        startHp.setText(getString(R.string.fraction_d_slash_d, character.getHP(),character.getMaxHP()));
 
         List<FeatureInfo> features = character.getFeatureInfos();
         List<FeatureResetInfo> featureResets = new ArrayList<>();
@@ -178,7 +179,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         int hp = character.getHP();
         int healing = getHealing();
         hp = Math.min(hp + healing, character.getMaxHP());
-        finalHp.setText(hp + " / " + character.getMaxHP());
+        finalHp.setText(getString(R.string.fraction_d_slash_d,hp ,character.getMaxHP()));
     }
 
     protected abstract int getHealing();
@@ -266,7 +267,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
             uses.setText(row.uses);
 
-            numToRestore.setText(row.numToRestore + "");
+            numToRestore.setText(NumberUtils.formatNumber(row.numToRestore));
             numToRestore.setEnabled(row.reset);
 
             if (!row.needsResfesh) {

@@ -1,8 +1,6 @@
 package com.oakonell.dndcharacter.model.components;
 
-import com.oakonell.dndcharacter.model.character.AbstractContextualComponent;
 import com.oakonell.dndcharacter.model.character.*;
-import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.Character;
 
 import org.simpleframework.xml.Element;

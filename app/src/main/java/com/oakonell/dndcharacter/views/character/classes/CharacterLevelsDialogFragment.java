@@ -17,6 +17,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
@@ -151,12 +152,12 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
 
         @Override
-        public void bind(final CharacterLevelsDialogFragment context, final ClassAdapter adapter, final CharacterClass item) {
-            name.setText(item.getName() + " - " + item.getLevel());
+        public void bind(final CharacterLevelsDialogFragment context, final ClassAdapter adapter, final CharacterClass characterClass) {
+            name.setText(context.getString(R.string.class_and_level, characterClass.getName(), characterClass.getLevel()));
             undo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.recordsBeingDeleted.remove(item);
+                    context.recordsBeingDeleted.remove(characterClass);
                     adapter.notifyItemChanged(getAdapterPosition());
                 }
             });
@@ -296,11 +297,11 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
                     dialog.show(context.getFragmentManager(), "class_edit");
                 }
             });
-            character_level.setText((getAdapterPosition() + 1) + "");
+            character_level.setText(NumberUtils.formatNumber(getAdapterPosition() + 1));
             class_name.setText(item.getName());
-            class_level.setText(item.getLevel() + "");
+            class_level.setText(NumberUtils.formatNumber(item.getLevel()));
             final int conModifier = context.getCharacter().getStatBlock(StatType.CONSTITUTION).getModifier();
-            hp.setText((item.getHpRoll() + conModifier) + "");
+            hp.setText(NumberUtils.formatNumber((item.getHpRoll() + conModifier)));
             String conModStr = "";
             if (conModifier > 0) {
                 conModStr = " + " + conModifier;

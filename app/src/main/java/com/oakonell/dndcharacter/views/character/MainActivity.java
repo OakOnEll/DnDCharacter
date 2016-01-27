@@ -227,7 +227,7 @@ public class MainActivity extends AbstractBaseActivity {
             SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putLong(CHARACTER_ID, id);
-            editor.commit();
+            editor.apply();
             return null;
         }
 

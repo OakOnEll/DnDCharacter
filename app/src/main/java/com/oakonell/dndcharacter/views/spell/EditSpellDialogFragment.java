@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views.spell;
 
-import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.views.AbstractEditComponentDialogFragment;
 

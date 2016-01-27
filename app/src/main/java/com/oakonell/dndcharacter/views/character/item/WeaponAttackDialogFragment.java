@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -358,7 +359,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
         description.setText(weapon.getDescriptionString());
-        attack_bonus.setText(attackModifiers.getAttackBonus() + "");
+        attack_bonus.setText(NumberUtils.formatNumber(attackModifiers.getAttackBonus()));
 
         name.setText(weapon.getName());
 
@@ -367,7 +368,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         } else {
             damage_descr.setText(weapon.getDamageString());
         }
-        attack_roll_modifier.setText(damageModifier + "");
+        attack_roll_modifier.setText(NumberUtils.formatNumber(damageModifier));
 
         ammunitionViewHelper.bindView(getMainActivity(), weapon);
     }

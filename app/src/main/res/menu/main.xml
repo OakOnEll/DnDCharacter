@@ -7,28 +7,28 @@
         android:id="@+id/action_short_rest"
         android:icon="@drawable/short_rest"
         android:orderInCategory="100"
-        android:title="Short Rest"
+        android:title="@string/short_rest"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_long_rest"
         android:icon="@drawable/long_rest"
         android:orderInCategory="101"
-        android:title="Long Rest"
+        android:title="@string/long_rest"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_add_effect"
         android:icon="@drawable/ic_certificate_box"
         android:orderInCategory="102"
-        android:title="Add Effectr"
+        android:title="@string/add_effect"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_level_up"
-        android:title="Level Up"
+        android:title="@string/level_up"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_delete"
         android:icon="@android:drawable/ic_menu_delete"
-        android:title="Delete"
+        android:title="@string/delete"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_settings"

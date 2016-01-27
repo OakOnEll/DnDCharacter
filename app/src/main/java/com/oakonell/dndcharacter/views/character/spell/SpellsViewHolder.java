@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 
 /**
  * Created by Rob on 1/24/2016.
@@ -29,9 +30,9 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
     @Override
     public void bind(SpellsFragment context, SpellLevelsAdapter adapter, com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo info) {
         super.bind(context, adapter, info);
-        available_slots.setText(info.getSlotsAvailable() + "");
-        total_slots.setText(info.getMaxSlots() + "");
-        level.setText(info.getLevel() + "");
+        available_slots.setText(NumberUtils.formatNumber(info.getSlotsAvailable()));
+        total_slots.setText(NumberUtils.formatNumber(info.getMaxSlots()));
+        level.setText(NumberUtils.formatNumber(info.getLevel()));
     }
 
     @Override

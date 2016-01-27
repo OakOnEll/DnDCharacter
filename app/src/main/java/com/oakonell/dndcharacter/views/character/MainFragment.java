@@ -12,6 +12,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
 import com.oakonell.dndcharacter.views.character.stats.SaveThrowBlockDialogFragment;
@@ -142,27 +143,31 @@ public class MainFragment extends AbstractSheetFragment {
             }
             return;
         }
-        String acText = character.getArmorClass() + "";
+        String acText = NumberUtils.formatNumber(character.getArmorClass());
         // if any TO_HIT context features, they kind of affect armor class, and will show up here
         // so that clicking will bring up the AC dialog for details
         if (getCharacter().anyContextFeats(FeatureContext.TO_HIT)) {
             acText += "!";
         }
+        if (ac == null) {
+            //odd state
+            return;
+        }
         ac.setText(acText);
 
-        initiative.setText(character.getStatBlock(StatType.DEXTERITY).getModifier() + "");
+        initiative.setText(NumberUtils.formatNumber(character.getStatBlock(StatType.DEXTERITY).getModifier()));
 
-        hp.setText(character.getHP() + " / " + character.getMaxHP());
+        hp.setText(getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP()));
         int tempHpVal = character.getTempHp();
         if (tempHpVal > 0) {
             temp_hp_layout.setVisibility(View.VISIBLE);
-            tempHp.setText(tempHpVal + "");
+            tempHp.setText(NumberUtils.formatNumber(tempHpVal));
         } else {
             temp_hp_layout.setVisibility(View.GONE);
         }
 
         hitDice.setText(character.getHitDiceString());
-        proficiency.setText(character.getProficiency() + "");
+        proficiency.setText(NumberUtils.formatNumber(character.getProficiency()));
 
         for (final Map.Entry<StatType, StatBlockView> entry : statViewsByType.entrySet()) {
             entry.getValue().setCharacter(character);

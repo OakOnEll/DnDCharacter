@@ -20,6 +20,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.classes.AClass;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
@@ -80,7 +81,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
     @Override
     public String getModelSpinnerPrompt() {
-        return "[Class]";
+        return getString(R.string.class_spinner_hint);
     }
 
     protected boolean includeHp() {
@@ -132,7 +133,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     if (subclassElement != null) {
                         String label = subclassElement.getAttribute("label");
                         if (label == null) {
-                            label = "Archtype";
+                            label = getString(R.string.archtype_hint);
                         }
                         addSubclassSpinner(label, aClass, dynamic, backgroundChoices);
                     } else {
@@ -226,7 +227,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     hpRoll = (EditText) hpView.findViewById(R.id.roll1);
 
                     final int conModifier = getCharacter().getStatBlock(StatType.CONSTITUTION).getModifier();
-                    con_mod.setText(conModifier + "");
+                    con_mod.setText(NumberUtils.formatNumber(conModifier));
 
                     Element rootClassElement = XmlUtils.getDocument(aClass.getXml()).getDocumentElement();
                     String hitDieString = XmlUtils.getElementText(rootClassElement, "hitDice");
@@ -234,8 +235,8 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     maxHp = AClass.getHitDieSides(rootClassElement);
 
                     // set the current values
-                    hpRoll.setText((hp) + "");
-                    hp_increase.setText((hp + conModifier) + "");
+                    hpRoll.setText(NumberUtils.formatNumber(hp));
+                    hp_increase.setText(NumberUtils.formatNumber(hp + conModifier));
 
 
                     rollButton.setOnClickListener(new View.OnClickListener() {
@@ -243,7 +244,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         public void onClick(View v) {
                             int rollValue = RandomUtils.random(1, maxHp);
                             hpRoll.setError(null);
-                            hpRoll.setText(rollValue + "");
+                            hpRoll.setText(NumberUtils.formatNumber(rollValue));
                         }
                     });
 
@@ -266,12 +267,12 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                                 val = Integer.parseInt(string);
                             }
                             if (val <= 0 || val > maxHp) {
-                                hpRoll.setError("Enter an hp value between 1 and " + maxHp);
+                                hpRoll.setError(getString(R.string.enter_hp_between_1_and_n, maxHp));
                                 Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
                                 hpRoll.startAnimation(shake);
                             } else {
                                 hp = val;
-                                hp_increase.setText((hp + conModifier) + "");
+                                hp_increase.setText(NumberUtils.formatNumber(hp + conModifier));
                             }
                         }
                     });
@@ -366,7 +367,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
     private void addClassLevelTextView(ViewGroup dynamic) {
         TextView textView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.class_level_text, dynamic, false);
-        textView.setText("Level " + getClassLevel());
+        textView.setText(getResources().getString(R.string.level_n, getClassLevel()));
         dynamic.addView(textView);
     }
 
@@ -387,7 +388,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         boolean subraceValid = true;
         if (subclassSpinner != null) {
             if (subclassSpinner.getSelectedItemPosition() < 0) {
-                subclassErrorView.setError("Choose subclass");
+                subclassErrorView.setError(getString(R.string.choose_subclass_error));
                 Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
                 subclassSpinner.startAnimation(shake);
                 subraceValid = false;
@@ -402,7 +403,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                 val = Integer.parseInt(string);
             }
             if (val <= 0 || val > maxHp) {
-                hpRoll.setError("Enter an hp value between 1 and " + maxHp);
+                hpRoll.setError(getString(R.string.enter_hp_between_1_and_n, maxHp));
                 Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
                 hpRoll.startAnimation(shake);
                 hpRollValid = false;

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
@@ -114,8 +115,8 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
         int roll2 = RandomUtils.random(1, 20);
 
         // TODO animate the roll, with sound fx
-        roll1Text.setText(roll + "");
-        roll2Text.setText(roll2 + "");
+        roll1Text.setText(NumberUtils.formatNumber(roll));
+        roll2Text.setText(NumberUtils.formatNumber(roll2));
 
         updateRollView();
     }
@@ -157,17 +158,17 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
 
         // TODO treat natural 20/1 special? (or what about 19 for attack rolls with special feat/feature)
         if (total == 1) {
-            critical_label.setText("Critical Failure");
+            critical_label.setText(R.string.critical_failure);
             critical_label.setTextColor(getResources().getColor(android.R.color.holo_red_light));
         } else if (total == 20) {
-            critical_label.setText("Critical Success");
+            critical_label.setText(R.string.critical_success);
             critical_label.setTextColor(getResources().getColor(android.R.color.holo_green_light));
         } else {
             critical_label.setText("");
         }
 
         total += modifier;
-        totalText.setText(total + "");
+        totalText.setText(NumberUtils.formatNumber(total));
     }
 
     private int getTextViewInteger(TextView textView) {
@@ -178,7 +179,7 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
 
     protected void setModifier(int modifier) {
         this.modifier = modifier;
-        modifierText.setText(modifier + "");
+        modifierText.setText(NumberUtils.formatNumber(modifier));
     }
 
 }

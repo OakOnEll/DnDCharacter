@@ -12,6 +12,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 
 /**
  * Created by Rob on 10/26/2015.
@@ -49,7 +50,7 @@ public class SavingThrowBlockView extends LinearLayout {
     }
 
     protected void setBonus(int bonus) {
-        this.bonus.setText(bonus + "");
+        this.bonus.setText(NumberUtils.formatNumber(bonus));
     }
 
     protected void setLabel(String label) {

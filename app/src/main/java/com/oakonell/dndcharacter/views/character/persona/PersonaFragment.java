@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
 
 /**
@@ -72,6 +73,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (traits.getTag() == NON_USER_CHANGE) return;
+                if (getCharacter() == null) return;
                 if (notDifferent(getCharacter().getPersonalityTrait(), string)) return;
                 getCharacter().setPersonalityTrait(string);
                 getCharacter().setTraitSavedChoiceToCustom("traits");
@@ -81,6 +83,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (ideals.getTag() == NON_USER_CHANGE) return;
+                if (getCharacter() == null) return;
                 if (notDifferent(getCharacter().getIdeals(), string)) return;
                 getCharacter().setIdeals(string);
                 getCharacter().setTraitSavedChoiceToCustom("ideals");
@@ -90,6 +93,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (bonds.getTag() == NON_USER_CHANGE) return;
+                if (getCharacter() == null) return;
                 if (notDifferent(getCharacter().getBonds(), string)) return;
                 getCharacter().setBonds(string);
                 getCharacter().setTraitSavedChoiceToCustom("bonds");
@@ -99,6 +103,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             @Override
             void textChanged(String string) {
                 if (flaws.getTag() == NON_USER_CHANGE) return;
+                if (getCharacter() == null) return;
                 if (notDifferent(getCharacter().getFlaws(), string)) return;
                 getCharacter().setFlaws(string);
                 getCharacter().setTraitSavedChoiceToCustom("flaws");
@@ -107,6 +112,7 @@ public class PersonaFragment extends AbstractSheetFragment {
         backstory.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
+                if (getCharacter() == null) return;
                 getCharacter().setBackstory(string);
             }
         });
@@ -152,7 +158,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             }
         });
 
-        xp.setText(character.getXp() + "");
+        xp.setText(NumberUtils.formatNumber(character.getXp()));
         xpGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
