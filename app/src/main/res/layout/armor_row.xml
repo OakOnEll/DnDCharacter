@@ -27,7 +27,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:maxLines="1"
-        tools:text="Name" />
+        android:text="@string/name_label" />
 
     <TextView
         android:id="@+id/ac"

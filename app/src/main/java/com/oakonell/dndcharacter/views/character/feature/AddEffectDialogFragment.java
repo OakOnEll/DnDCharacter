@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.feature;
 
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
@@ -17,6 +18,7 @@ import com.oakonell.dndcharacter.views.character.AbstractAddComponentDialogFragm
 public class AddEffectDialogFragment extends AbstractAddComponentDialogFragment<AbstractAddComponentDialogFragment.RowViewHolder> {
 
 
+    @NonNull
     public static AddEffectDialogFragment createDialog() {
         return new AddEffectDialogFragment();
     }
@@ -26,6 +28,7 @@ public class AddEffectDialogFragment extends AbstractAddComponentDialogFragment<
         return getString(R.string.add_effect);
     }
 
+    @NonNull
     @Override
     public Class<? extends Model> getComponentClass() {
         return Effect.class;
@@ -42,7 +45,7 @@ public class AddEffectDialogFragment extends AbstractAddComponentDialogFragment<
             builder.setTitle(getString(R.string.already_has_effect, name));
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(@NonNull DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
@@ -58,6 +61,7 @@ public class AddEffectDialogFragment extends AbstractAddComponentDialogFragment<
     }
 
 
+    @NonNull
     @Override
     public RowViewHolder newRowViewHolder(View newView) {
         return new RowViewHolder(newView);

@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,12 +22,12 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
     private final SpellsFragment context;
     private List<Character.SpellLevelInfo> spellLevels;
 
-    public SpellLevelsAdapter(SpellsFragment spellsFragment, Character character) {
+    public SpellLevelsAdapter(SpellsFragment spellsFragment, @NonNull Character character) {
         this.context = spellsFragment;
         this.spellLevels = character.getSpellInfos();
     }
 
-    public void reloadList(Character character) {
+    public void reloadList(@NonNull Character character) {
         this.spellLevels = character.getSpellInfos();
         notifyDataSetChanged();
     }
@@ -39,8 +40,9 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
         return 1;
     }
 
+    @NonNull
     @Override
-    public AbstractSpellLevelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AbstractSpellLevelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 0) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.spell_char_cantrips, parent, false);
             return new CantripsViewHolder(newView);
@@ -50,7 +52,7 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(AbstractSpellLevelViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AbstractSpellLevelViewHolder holder, int position) {
         final Character.SpellLevelInfo levelInfo = spellLevels.get(position);
         holder.bind(context, this, levelInfo);
     }
@@ -61,18 +63,20 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
     }
 
     public abstract static class AbstractSpellLevelViewHolder extends BindableComponentViewHolder<Character.SpellLevelInfo, SpellsFragment, SpellLevelsAdapter> {
+        @NonNull
         private final RecyclerView list;
+        @NonNull
         private final ImageButton add_spell;
         private AbstractSpellAdapter spellAdapter;
 
-        public AbstractSpellLevelViewHolder(View itemView) {
+        public AbstractSpellLevelViewHolder(@NonNull View itemView) {
             super(itemView);
             list = (RecyclerView) itemView.findViewById(R.id.spells);
             add_spell = (ImageButton) itemView.findViewById(R.id.add_spell);
         }
 
         @Override
-        public void bind(final SpellsFragment context, final SpellLevelsAdapter adapter, final Character.SpellLevelInfo info) {
+        public void bind(@NonNull final SpellsFragment context, final SpellLevelsAdapter adapter, final Character.SpellLevelInfo info) {
             add_spell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -97,6 +101,7 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
             return false;
         }
 
+        @NonNull
         protected abstract AbstractSpellAdapter newAdapter(SpellsFragment context, Character.SpellLevelInfo info);
     }
 }

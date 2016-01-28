@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.rest;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ public class AbstractRestRequest {
         featureResets.put(name, numToRestore + resets);
     }
 
+    @NonNull
     public Map<String, Integer> getFeatureResets() {
         return featureResets;
     }

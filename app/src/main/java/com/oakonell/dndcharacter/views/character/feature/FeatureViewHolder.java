@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.character.feature;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -30,22 +32,30 @@ import java.util.List;
  * Created by Rob on 1/4/2016.
  */
 public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, MainActivity, RecyclerView.Adapter<?>> {
+    @NonNull
     public final TextView name;
+    @NonNull
     public final TextView source;
+    @NonNull
     public final TextView shortDescription;
 
+    @NonNull
     public final ViewGroup limited_uses_group;
 
+    @NonNull
     public final TextView uses_label;
+    @NonNull
     public final TextView uses_remaining;
 
+    @NonNull
     public final TextView refreshes_label;
 
+    @NonNull
     public final RecyclerView action_list;
     private ActionAdapter actionsAdapter;
 
 
-    public FeatureViewHolder(View view) {
+    public FeatureViewHolder(@NonNull View view) {
         super(view);
         name = (TextView) view.findViewById(R.id.name);
         source = (TextView) view.findViewById(R.id.source);
@@ -61,7 +71,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     }
 
     @Override
-    public void bind(final MainActivity context, final RecyclerView.Adapter<?> adapter, final FeatureInfo info) {
+    public void bind(@NonNull final MainActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info) {
         final int position = getAdapterPosition();
 
         name.setText(info.getName());
@@ -102,7 +112,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         shortDescription.setText(info.getShortDescription());
     }
 
-    protected void bindLimitedUseViews(final MainActivity context, final RecyclerView.Adapter<?> adapter, final FeatureInfo info, final int position) {
+    protected void bindLimitedUseViews(@NonNull final MainActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info, final int position) {
         int maxUses = info.evaluateMaxUses(context.getCharacter());
         final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
@@ -112,17 +122,25 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
 
     private static class ActionViewHolder extends BindableComponentViewHolder<IFeatureAction, MainActivity, ActionAdapter> {
+        @NonNull
         public final ViewGroup use_group;
+        @NonNull
         public final Button useButton;
+        @NonNull
         public final TextView use_description;
+        @NonNull
         public final TextView remaining_uses;
 
+        @NonNull
         public final ViewGroup pool_apply_group;
+        @NonNull
         public final TextView pool_value;
+        @NonNull
         public final ImageButton pool_apply_button;
+        @NonNull
         public final ImageButton pool_cancel_button;
 
-        public ActionViewHolder(View view) {
+        public ActionViewHolder(@NonNull View view) {
             super(view);
             remaining_uses = (TextView) view.findViewById(R.id.remaining_uses);
 
@@ -137,7 +155,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             pool_cancel_button = (ImageButton) view.findViewById(R.id.pool_cancel_button);
         }
 
-        public void bind(final MainActivity context, final ActionAdapter adapter, final IFeatureAction action) {
+        public void bind(@NonNull final MainActivity context, @NonNull final ActionAdapter adapter, @NonNull final IFeatureAction action) {
             pool_apply_group.setVisibility(View.GONE);
             final FeatureInfo info = adapter.info;
 
@@ -251,7 +269,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                     }
 
                     @Override
-                    public void afterTextChanged(Editable s) {
+                    public void afterTextChanged(@Nullable Editable s) {
                         if (s == null) return;
                         String string = s.toString();
                         if (string.length() == 0) return;
@@ -281,14 +299,15 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             this.context = context;
         }
 
+        @NonNull
         @Override
-        public ActionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ActionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.feature_action_row, parent, false);
             return new ActionViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(ActionViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ActionViewHolder holder, int position) {
             IFeatureAction action = list.get(position);
             holder.bind(context, this, action);
         }
@@ -298,7 +317,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             return list.size();
         }
 
-        public void setFeature(FeatureInfo info) {
+        public void setFeature(@NonNull FeatureInfo info) {
             this.list = info.getFeature().getActionsAndEffects();
             this.info = info;
             notifyDataSetChanged();

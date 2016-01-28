@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views;
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
 public class CursorIndexesByName {
     private final Map<String, Integer> cursorIndexesByName = new HashMap<>();
 
-    public int getIndex(Cursor cursor, String name) {
+    public int getIndex(@NonNull Cursor cursor, String name) {
         Integer result = cursorIndexesByName.get(name);
         if (result != null) return result;
         result = cursor.getColumnIndex(name);

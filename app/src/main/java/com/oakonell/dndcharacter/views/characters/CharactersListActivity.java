@@ -23,6 +23,7 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
         return CharacterRow.class;
     }
 
+    @NonNull
     @Override
     protected CharacterRow createNewRecord() {
         return new CharacterRow();
@@ -33,6 +34,7 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
         openCharacter(id);
     }
 
+    @NonNull
     @Override
     protected String getSubtitle() {
         return getString(R.string.characters_title);
@@ -50,7 +52,7 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
 
     @NonNull
     @Override
-    protected CharacterRowViewHolderCursor newRowViewHolder(View newView) {
+    protected CharacterRowViewHolderCursor newRowViewHolder(@NonNull View newView) {
         return new CharacterRowViewHolderCursor(newView);
     }
 
@@ -60,17 +62,19 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
     }
 
     protected static class CharacterRowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> {
+        @NonNull
         public final TextView name;
+        @NonNull
         public final TextView classes;
 
-        public CharacterRowViewHolderCursor(View itemView) {
+        public CharacterRowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             classes = (TextView) itemView.findViewById(R.id.classes);
         }
 
         @Override
-        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));

@@ -4,6 +4,7 @@ package com.oakonell.dndcharacter.views.character;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
@@ -58,9 +59,12 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     private Button add_another;
     private RecyclerView hpListView;
 
+    @Nullable
     private HitPointsAdapter hpListAdapter;
+    @Nullable
     private ArrayList<HpRow> hpList = new ArrayList<>();
 
+    @NonNull
     public static HitPointDiaogFragment createDialog() {
         return new HitPointDiaogFragment();
     }
@@ -72,8 +76,8 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
+                                @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hit_point_dialog, container);
         hpText = (EditText) view.findViewById(R.id.hp);
 
@@ -275,7 +279,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(HP_ROWS, hpList);
     }
@@ -287,6 +291,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         updateView();
     }
 
+    @NonNull
     @Override
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
@@ -406,13 +411,16 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     public static class HpRow implements Parcelable {
         // Method to recreate a HpRow from a Parcel
+        @NonNull
         public static Creator<HpRow> CREATOR = new Creator<HpRow>() {
 
+            @NonNull
             @Override
-            public HpRow createFromParcel(Parcel source) {
+            public HpRow createFromParcel(@NonNull Parcel source) {
                 return new HpRow(source);
             }
 
+            @NonNull
             @Override
             public HpRow[] newArray(int size) {
                 return new HpRow[size];
@@ -420,9 +428,12 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
         };
         final HpType hpType;
+        @Nullable
         final DamageType damageType;
+        @Nullable
         final VulnerabilityType vulnerabilityType;
         final int hp;
+        @Nullable
         Long deleteRequestedTime;
 
         public HpRow(HpType hpType, DamageType damageType, VulnerabilityType vulnerabilityType, int hp) {
@@ -432,7 +443,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
             this.vulnerabilityType = vulnerabilityType;
         }
 
-        HpRow(Parcel parcel) {
+        HpRow(@NonNull Parcel parcel) {
             byte b = parcel.readByte();
             beingDeleted(b != 0);
 
@@ -460,7 +471,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             dest.writeByte((byte) (deleteRequestedTime != null ? 1 : 0));
             dest.writeInt(hpType.ordinal());
             if (damageType != null) {
@@ -488,6 +499,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
             }
         }
 
+        @Nullable
         public Long deletedTime() {
             return deleteRequestedTime;
         }
@@ -502,15 +514,16 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     }
 
     public static class DeleteHitPointRowViewHolder extends HitPointRowViewHolder {
+        @NonNull
         private final Button undo;
 
-        public DeleteHitPointRowViewHolder(View itemView) {
+        public DeleteHitPointRowViewHolder(@NonNull View itemView) {
             super(itemView);
             undo = (Button) itemView.findViewById(R.id.undo);
         }
 
         @Override
-        public void bind(final HitPointDiaogFragment context, final HitPointsAdapter adapter, final HpRow hpRow) {
+        public void bind(final HitPointDiaogFragment context, @NonNull final HitPointsAdapter adapter, @NonNull final HpRow hpRow) {
             super.bind(context, adapter, hpRow);
 
             undo.setOnClickListener(new View.OnClickListener() {
@@ -525,11 +538,14 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     }
 
     public static class HitPointRowViewHolder extends AbstractHPViewHolder {
+        @NonNull
         private final TextView type;
+        @NonNull
         private final TextView vulnerableType;
+        @NonNull
         private final TextView amount;
 
-        public HitPointRowViewHolder(View itemView) {
+        public HitPointRowViewHolder(@NonNull View itemView) {
             super(itemView);
             type = (TextView) itemView.findViewById(R.id.type);
             amount = (TextView) itemView.findViewById(R.id.amount);
@@ -537,7 +553,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(HitPointDiaogFragment context, HitPointsAdapter adapter, HpRow hpRow) {
+        public void bind(HitPointDiaogFragment context, HitPointsAdapter adapter, @NonNull HpRow hpRow) {
             if (hpRow.hpType == HpType.DAMAGE) {
                 if (hpRow.damageType == null) {
                     type.setText(R.string.damage_label);
@@ -576,8 +592,9 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
             return 0;
         }
 
+        @NonNull
         @Override
-        public AbstractHPViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AbstractHPViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == 1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.hp_row_delete, parent, false);
                 return new DeleteHitPointRowViewHolder(newView);
@@ -587,7 +604,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void onBindViewHolder(AbstractHPViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull AbstractHPViewHolder holder, int position) {
             holder.bind(fragment, this, hpRows.get(position));
         }
 

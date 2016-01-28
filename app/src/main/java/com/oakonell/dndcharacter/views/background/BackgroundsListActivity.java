@@ -16,6 +16,7 @@ public class BackgroundsListActivity extends AbstractComponentListActivity<Backg
         return Background.class;
     }
 
+    @NonNull
     @Override
     protected Background createNewRecord() {
         return new Background();
@@ -29,6 +30,7 @@ public class BackgroundsListActivity extends AbstractComponentListActivity<Backg
         dialog.show(getSupportFragmentManager(), "background_edit");
     }
 
+    @NonNull
     @Override
     protected String getSubtitle() {
         return getString(R.string.backgrounds);

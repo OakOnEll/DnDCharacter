@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.views.item;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.views.AbstractEditComponentDialogFragment;
 
@@ -8,6 +10,7 @@ import com.oakonell.dndcharacter.views.AbstractEditComponentDialogFragment;
  */
 public class EditItemDialogFragment extends AbstractEditComponentDialogFragment<ItemRow> {
 
+    @NonNull
     public static EditItemDialogFragment create(ItemRow itemRow) {
         EditItemDialogFragment frag = new EditItemDialogFragment();
         frag.setModel(itemRow);

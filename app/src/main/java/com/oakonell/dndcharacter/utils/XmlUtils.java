@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.utils;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.w3c.dom.Document;
@@ -30,13 +32,13 @@ import javax.xml.transform.stream.StreamResult;
  * Created by Rob on 11/9/2015.
  */
 public class XmlUtils {
-    public static String getElementText(Element parent, String childElemName) {
+    public static String getElementText(@NonNull Element parent, String childElemName) {
         Element element = getElement(parent, childElemName);
         if (element == null) return null;
         return element.getTextContent();
     }
 
-    public static Element getElement(Element parent, String childElemName) {
+    public static Element getElement(@NonNull Element parent, String childElemName) {
         List<Element> elements = getChildElements(parent, childElemName);
         if (elements.isEmpty()) return null;
         if (elements.size() > 1) {
@@ -47,7 +49,8 @@ public class XmlUtils {
 
     }
 
-    public static List<Element> getChildElements(Element parent) {
+    @NonNull
+    public static List<Element> getChildElements(@NonNull Element parent) {
         Node child = parent.getFirstChild();
         List<Element> elements = new ArrayList<>();
         while (child != null) {
@@ -60,7 +63,8 @@ public class XmlUtils {
         return elements;
     }
 
-    public static List<Element> getChildElements(Element parent, String childElemName) {
+    @NonNull
+    public static List<Element> getChildElements(@NonNull Element parent, String childElemName) {
         Node child = parent.getFirstChild();
         List<Element> elements = new ArrayList<>();
         while (child != null) {
@@ -120,7 +124,8 @@ public class XmlUtils {
         }
     }
 
-    public static Document getDocument(String s) {
+    @Nullable
+    public static Document getDocument(@NonNull String s) {
         try {
             InputStream stream = new ByteArrayInputStream(s.getBytes("UTF-8"));
             return getDocument(stream);

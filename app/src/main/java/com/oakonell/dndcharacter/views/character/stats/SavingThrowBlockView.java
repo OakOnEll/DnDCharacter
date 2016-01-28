@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.stats;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,7 +58,7 @@ public class SavingThrowBlockView extends LinearLayout {
         skill_label.setText(label);
     }
 
-    protected void setProficiency(Proficient proficient) {
+    protected void setProficiency(@NonNull Proficient proficient) {
         int imageResource = R.drawable.not_proficient;
         switch (proficient) {
             case NONE:

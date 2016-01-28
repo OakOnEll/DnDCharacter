@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.background;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterBackground;
@@ -26,7 +28,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
         this.customChoices = customChoices;
     }
 
-    public static void applyToCharacter(Background background, SavedChoices savedChoices, Map<String, String> customChoices, Character character) {
+    public static void applyToCharacter(@NonNull Background background, SavedChoices savedChoices, Map<String, String> customChoices, @NonNull Character character) {
         CharacterBackground charBackground = new CharacterBackground();
         charBackground.setSavedChoices(savedChoices);
         // apply common changes
@@ -39,7 +41,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
         character.setBackground(charBackground);
     }
 
-    private void applyTraits(String choiceName, Runnable superVisit, ApplyTrait applyTrait) {
+    private void applyTraits(String choiceName, @NonNull Runnable superVisit, @NonNull ApplyTrait applyTrait) {
         traitIndex = 1;
         String oldChoiceName = currentChoiceName;
         currentChoiceName = choiceName;
@@ -54,7 +56,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
         currentChoiceName = oldChoiceName;
     }
 
-    private void applyTrait(Element element, ApplyTrait applyTrait) {
+    private void applyTrait(@NonNull Element element, @NonNull ApplyTrait applyTrait) {
         String optionName = traitIndex + "";
         if (savedChoices.getChoicesFor(currentChoiceName).contains(optionName)) {
             applyTrait.applyTrait(element.getTextContent());
@@ -70,7 +72,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitSpecialties(final Element element) {
+    protected void visitSpecialties(@NonNull final Element element) {
         String choiceName = "specialties";
         traitIndex = 1;
         String oldChoiceName = currentChoiceName;
@@ -85,7 +87,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitSpecialty(final Element element) {
+    protected void visitSpecialty(@NonNull final Element element) {
         applyTrait(element, new ApplyTrait() {
             @Override
             public void applyTrait(String value) {
@@ -168,7 +170,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitTrait(Element element) {
+    protected void visitTrait(@NonNull Element element) {
         applyTrait(element, new ApplyTrait() {
             @Override
             public void applyTrait(String value) {
@@ -178,7 +180,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitBond(Element element) {
+    protected void visitBond(@NonNull Element element) {
         applyTrait(element, new ApplyTrait() {
             @Override
             public void applyTrait(String value) {
@@ -188,7 +190,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitFlaw(Element element) {
+    protected void visitFlaw(@NonNull Element element) {
         applyTrait(element, new ApplyTrait() {
             @Override
             public void applyTrait(String value) {
@@ -198,7 +200,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitIdeal(Element element) {
+    protected void visitIdeal(@NonNull Element element) {
         applyTrait(element, new ApplyTrait() {
             @Override
             public void applyTrait(String value) {

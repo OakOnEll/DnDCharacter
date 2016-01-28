@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.item;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.item.ItemType;
 
 import org.simpleframework.xml.Element;
@@ -12,6 +14,7 @@ public class CharacterArmor extends CharacterItem {
     @Element(required = false)
     private boolean equipped;
 
+    @NonNull
     public ItemType getItemType() {
         return ItemType.ARMOR;
     }

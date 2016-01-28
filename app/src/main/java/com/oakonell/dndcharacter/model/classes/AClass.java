@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model.classes;
 
 import android.provider.BaseColumns;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -75,7 +76,7 @@ public class AClass extends AbstractComponentModel {
     }
 
     @Override
-    public void setDocument(Element doc) {
+    public void setDocument(@Nullable Element doc) {
         super.setDocument(doc);
         if (doc == null) {
             setParentClass("XmlParseError");

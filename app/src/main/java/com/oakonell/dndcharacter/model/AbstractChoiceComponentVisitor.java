@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model;
 
+import android.support.annotation.NonNull;
+
 import org.w3c.dom.Element;
 
 /**
@@ -9,7 +11,7 @@ public class AbstractChoiceComponentVisitor extends AbstractComponentVisitor {
 
 
     @Override
-    protected void visit(Element element) {
+    protected void visit(@NonNull Element element) {
         boolean wasVisited = true;
         String name = element.getTagName();
         switch (name) {
@@ -27,11 +29,11 @@ public class AbstractChoiceComponentVisitor extends AbstractComponentVisitor {
         }
     }
 
-    protected void visitOr(Element element) {
+    protected void visitOr(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitChoose(Element element) {
+    protected void visitChoose(@NonNull Element element) {
         visitChildren(element);
     }
 

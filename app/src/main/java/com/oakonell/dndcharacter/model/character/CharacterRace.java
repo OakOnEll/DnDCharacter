@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.NonNull;
+
 import org.simpleframework.xml.Element;
 
 /**
@@ -11,6 +13,7 @@ public class CharacterRace extends BaseCharacterComponent {
     @Element(required = false)
     private SavedChoices subRaceChoices;
 
+    @NonNull
     @Override
     public ComponentType getType() {
         return ComponentType.RACE;

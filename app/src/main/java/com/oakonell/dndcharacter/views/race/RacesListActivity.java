@@ -17,7 +17,7 @@ import com.oakonell.dndcharacter.views.CursorIndexesByName;
 public class RacesListActivity extends AbstractComponentListActivity<Race> {
 
     @NonNull
-    protected RaceRowViewHolderCursor newRowViewHolder(View newView) {
+    protected RaceRowViewHolderCursor newRowViewHolder(@NonNull View newView) {
         return new RaceRowViewHolderCursor(newView);
     }
 
@@ -32,6 +32,7 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
         return Race.class;
     }
 
+    @NonNull
     @Override
     protected Race createNewRecord() {
         return new Race();
@@ -45,6 +46,7 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
         dialog.show(getSupportFragmentManager(), "race_edit");
     }
 
+    @NonNull
     @Override
     protected String getSubtitle() {
         return getString(R.string.races);
@@ -56,15 +58,16 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
     }
 
     protected static class RaceRowViewHolderCursor extends RowViewHolderCursor {
+        @NonNull
         public final TextView parentRace;
 
-        public RaceRowViewHolderCursor(View itemView) {
+        public RaceRowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             parentRace = (TextView) itemView.findViewById(R.id.parent_race);
         }
 
         @Override
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String parentName = cursor.getString(cursorIndexesByName.getIndex(cursor, "parentRace"));
             parentRace.setText(parentName);

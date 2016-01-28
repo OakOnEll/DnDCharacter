@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.UseType;
@@ -41,7 +43,7 @@ public class FeatureInfo implements IContextualComponent {
         return feature;
     }
 
-    public int evaluateMaxUses(Character character) {
+    public int evaluateMaxUses(@NonNull Character character) {
         SimpleVariableContext variableContext = new SimpleVariableContext();
         source.addExtraFormulaVariables(variableContext);
         return character.evaluateFormula(feature.getUsesFormula(), variableContext);

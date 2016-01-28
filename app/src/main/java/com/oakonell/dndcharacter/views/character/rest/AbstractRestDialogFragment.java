@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character.rest;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -45,6 +47,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     private FeatureResetsAdapter featureResetAdapter;
     private android.support.v7.widget.RecyclerView featureListView;
+    @Nullable
     private Bundle savedFeatureResets;
 
     protected boolean allowExtraHealing() {
@@ -56,7 +59,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             savedFeatureResets = savedInstanceState.getBundle(FEATURE_RESETS_SAVE_BUNDLE_KEY);
         }
@@ -64,7 +67,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle resets = new Bundle();
         for (FeatureResetInfo each : featureResetAdapter.resets) {
@@ -77,7 +80,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
         conditionallyShowExtraHealing();
@@ -136,7 +139,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     }
 
-    protected void configureCommon(View view) {
+    protected void configureCommon(@NonNull View view) {
         //featureResetsGroup = view.findViewById(R.id.feature_resets);
         startHp = (TextView) view.findViewById(R.id.start_hp);
         finalHp = (TextView) view.findViewById(R.id.final_hp);
@@ -188,7 +191,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     protected abstract int getHealing();
 
-    protected boolean updateCommonRequest(AbstractRestRequest request) {
+    protected boolean updateCommonRequest(@NonNull AbstractRestRequest request) {
         boolean isValid = true;
         for (FeatureResetInfo each : featureResetAdapter.resets) {
             if (each.reset) {
@@ -214,6 +217,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             return resets.get(position);
         }
 
+        @NonNull
         @Override
         public FeatureResetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = View.inflate(context, R.layout.feature_reset_item, null);
@@ -223,7 +227,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         }
 
         @Override
-        public void onBindViewHolder(final FeatureResetViewHolder viewHolder, int position) {
+        public void onBindViewHolder(@NonNull final FeatureResetViewHolder viewHolder, int position) {
             final FeatureResetInfo row = getItem(position);
             viewHolder.bind(context, this, row);
 
@@ -243,13 +247,18 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     }
 
     static class FeatureResetViewHolder extends BindableComponentViewHolder<FeatureResetInfo, Context, FeatureResetsAdapter> {
+        @Nullable
         public TextWatcher watcher;
+        @NonNull
         final CheckBox name;
+        @NonNull
         final TextView description;
+        @NonNull
         final TextView uses;
+        @NonNull
         final EditText numToRestore;
 
-        public FeatureResetViewHolder(View view) {
+        public FeatureResetViewHolder(@NonNull View view) {
             super(view);
             name = (CheckBox) view.findViewById(R.id.feature_name);
             description = (TextView) view.findViewById(R.id.description);
@@ -258,7 +267,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         }
 
         @Override
-        public void bind(final Context context, final FeatureResetsAdapter adapter, final FeatureResetInfo row) {
+        public void bind(@NonNull final Context context, final FeatureResetsAdapter adapter, @NonNull final FeatureResetInfo row) {
             if (watcher != null) {
                 numToRestore.removeTextChangedListener(watcher);
             }
@@ -294,7 +303,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                 }
 
                 @Override
-                public void afterTextChanged(Editable s) {
+                public void afterTextChanged(@Nullable Editable s) {
                     // TODO error handling, if val is too large
                     if (s == null) return;
                     if (!row.reset) return;

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -54,6 +56,7 @@ public class MainActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
     private final String MyPREFERENCES = "prefs";
     long id = -1;
+    @Nullable
     private Character character = null;
     /**
      * The {@link PagerAdapter} that will provide
@@ -115,7 +118,7 @@ public class MainActivity extends AbstractBaseActivity {
 //    }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putLong(CHARACTER_ID, id);
@@ -129,7 +132,7 @@ public class MainActivity extends AbstractBaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -196,6 +199,7 @@ public class MainActivity extends AbstractBaseActivity {
             this.post = post;
         }
 
+        @Nullable
         @Override
         protected Void doInBackground(Void... params) {
             Serializer serializer = new Persister();
@@ -242,7 +246,7 @@ public class MainActivity extends AbstractBaseActivity {
 
 
     @DebugLog
-    private void loadCharacter(Bundle savedInstanceState) {
+    private void loadCharacter(@Nullable Bundle savedInstanceState) {
         long savedId = -1;
         // try to get a character id from
         // 1.   the saved bundle
@@ -270,6 +274,7 @@ public class MainActivity extends AbstractBaseActivity {
     }
 
     public class BackgroundCharacterLoader extends AsyncTask<Long, String, Void> {
+        @Nullable
         @Override
         protected Void doInBackground(Long... savedIds) {
             long savedId = savedIds[0];
@@ -332,11 +337,12 @@ public class MainActivity extends AbstractBaseActivity {
     }
 
 
+    @Nullable
     public Character getCharacter() {
         return character;
     }
 
-    public void addCharacterLoadLister(OnCharacterLoaded onCharacterLoad) {
+    public void addCharacterLoadLister(@NonNull OnCharacterLoaded onCharacterLoad) {
         if (character != null) {
             onCharacterLoad.onCharacterLoaded(character);
             return;
@@ -361,6 +367,7 @@ public class MainActivity extends AbstractBaseActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
+        @NonNull
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
@@ -370,7 +377,7 @@ public class MainActivity extends AbstractBaseActivity {
         }
 
         @Override
-        public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+        public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                     Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             superCreateViews(rootView);
@@ -391,6 +398,7 @@ public class MainActivity extends AbstractBaseActivity {
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
@@ -423,6 +431,7 @@ public class MainActivity extends AbstractBaseActivity {
             return 6;
         }
 
+        @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {

@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.rest;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +29,7 @@ public class ShortRestRequest extends AbstractRestRequest {
         this.healing = healing;
     }
 
+    @NonNull
     public Map<Integer, Integer> getHitDieUses() {
         return hitDieUses;
     }

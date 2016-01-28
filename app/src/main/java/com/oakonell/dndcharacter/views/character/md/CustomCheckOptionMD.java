@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.md;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -18,7 +19,7 @@ public class CustomCheckOptionMD extends CheckOptionMD {
         this.textView = textView;
     }
 
-    protected void addToSavedList(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices) {
+    protected void addToSavedList(ViewGroup dynamicView, @NonNull List<String> list, @NonNull Map<String, String> customChoices) {
         String custom = textView.getText().toString();
         customChoices.put(getChoiceName(), custom);
         list.add(getOptionName());

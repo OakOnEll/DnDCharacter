@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.components;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
 
@@ -22,12 +24,15 @@ public class Feature extends AbstractContextualComponent {
     @Element(required = false)
     private UseType useType;
 
+    @NonNull
     @ElementList(required = false)
     private List<FeatureCharacterEffect> effects = new ArrayList<>();
+    @NonNull
     @ElementList(required = false)
     private List<FeatureAction> actions = new ArrayList<>();
 
 
+    @NonNull
     @Override
     public ComponentType getType() {
         return ComponentType.FEATURE;
@@ -70,6 +75,7 @@ public class Feature extends AbstractContextualComponent {
         effects.add(characterEffect);
     }
 
+    @NonNull
     public List<FeatureCharacterEffect> getEffects() {
         return effects;
     }
@@ -78,10 +84,12 @@ public class Feature extends AbstractContextualComponent {
         actions.add(action);
     }
 
+    @NonNull
     public List<FeatureAction> getActions() {
         return actions;
     }
 
+    @NonNull
     public List<IFeatureAction> getActionsAndEffects() {
         List<IFeatureAction> result = new ArrayList<>();
         result.addAll(getActions());
@@ -159,7 +167,7 @@ public class Feature extends AbstractContextualComponent {
         }
 
         @Override
-        public void applyToCharacter(Character character) {
+        public void applyToCharacter(@NonNull Character character) {
             character.addEffect(this);
         }
     }

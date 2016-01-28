@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.character.item;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,15 +41,18 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
     private RootAcAdapter rootAcAdapter;
     private ModifyingAcAdapter modifyingAcAdapter;
+    @Nullable
     private String baseArmorSaved;
+    @Nullable
     private ArrayList<String> modifyingArmorSaved;
 
+    @NonNull
     public static ArmorClassDialogFragment createDialog() {
         return new ArmorClassDialogFragment();
     }
 
-    public View onCreateTheView(LayoutInflater inflater, final ViewGroup container,
-                                Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, final ViewGroup container,
+                                @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.armor_class_dialog, container);
 
         acText = (TextView) view.findViewById(R.id.ac);
@@ -72,7 +77,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
             if (each.isEquipped()) {
@@ -103,7 +108,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
         rootAcAdapter = new RootAcAdapter(this, character);
@@ -155,6 +160,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         updateAC();
     }
 
+    @NonNull
     @Override
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
@@ -164,7 +170,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         rootAcAdapter.reloadList(character);
         modifyingAcAdapter.reloadList(character);
@@ -213,12 +219,16 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     public static class AcViewHolder extends BindableComponentViewHolder<Character.ArmorClassWithSource, ArmorClassDialogFragment, RootAcAdapter> {
+        @NonNull
         private final CheckBox checkBox;
+        @NonNull
         private final TextView name;
+        @NonNull
         private final TextView formula;
+        @NonNull
         private final TextView value;
 
-        public AcViewHolder(View itemView) {
+        public AcViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             formula = (TextView) itemView.findViewById(R.id.formula);
@@ -227,7 +237,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(final ArmorClassDialogFragment context, final RootAcAdapter adapter, final Character.ArmorClassWithSource row) {
+        public void bind(@NonNull final ArmorClassDialogFragment context, @NonNull final RootAcAdapter adapter, @NonNull final Character.ArmorClassWithSource row) {
             name.setText(row.getSourceString());
             formula.setText(row.getFormula());
             final List<Character.ArmorClassWithSource> list = adapter.list;
@@ -294,23 +304,24 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         List<Character.ArmorClassWithSource> list;
         final ArmorClassDialogFragment fragment;
 
-        RootAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, Character character) {
+        RootAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, @NonNull Character character) {
             list = character.deriveRootAcs();
             this.fragment = armorClassDialogFragment;
         }
 
-        public void reloadList(Character character) {
+        public void reloadList(@NonNull Character character) {
             list = character.deriveRootAcs();
         }
 
+        @NonNull
         @Override
-        public AcViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AcViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.armor_class_root_item, parent, false);
             return new AcViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(AcViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull AcViewHolder holder, final int position) {
             final Character.ArmorClassWithSource row = list.get(position);
             holder.bind(fragment, this, row);
         }
@@ -325,23 +336,24 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         List<Character.ArmorClassWithSource> list;
         final ArmorClassDialogFragment fragment;
 
-        ModifyingAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, Character character) {
+        ModifyingAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, @NonNull Character character) {
             list = character.deriveModifyingAcs();
             this.fragment = armorClassDialogFragment;
         }
 
-        public void reloadList(Character character) {
+        public void reloadList(@NonNull Character character) {
             list = character.deriveRootAcs();
         }
 
+        @NonNull
         @Override
-        public AcViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AcViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.armor_class_root_item, parent, false);
             return new AcViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(AcViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull AcViewHolder holder, final int position) {
             final Character.ArmorClassWithSource row = list.get(position);
             holder.name.setText(row.getSourceString());
             holder.formula.setText(row.getFormula());

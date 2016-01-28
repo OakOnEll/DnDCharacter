@@ -39,7 +39,7 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
 
 
     @NonNull
-    public static CharacterSpell createCharacterSpell(Spell spell, Character character) {
+    public static CharacterSpell createCharacterSpell(@NonNull Spell spell, @NonNull Character character) {
         CharacterSpell charSpell = new CharacterSpell();
 
         final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();

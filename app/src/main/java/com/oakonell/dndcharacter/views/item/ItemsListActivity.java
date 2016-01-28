@@ -21,6 +21,7 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         return ItemRow.class;
     }
 
+    @NonNull
     @Override
     protected ItemRow createNewRecord() {
         return new ItemRow();
@@ -34,6 +35,7 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         dialog.show(getSupportFragmentManager(), "item_edit");
     }
 
+    @NonNull
     @Override
     protected String getSubtitle() {
         return getString(R.string.items);
@@ -41,7 +43,7 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
 
     @NonNull
     @Override
-    protected ItemRowViewHolderCursor newRowViewHolder(View newView) {
+    protected ItemRowViewHolderCursor newRowViewHolder(@NonNull View newView) {
         return new ItemRowViewHolderCursor(newView);
     }
 
@@ -56,15 +58,16 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
     }
 
     protected static class ItemRowViewHolderCursor extends RowViewHolderCursor {
+        @NonNull
         public final TextView category;
 
-        public ItemRowViewHolderCursor(View itemView) {
+        public ItemRowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             category = (TextView) itemView.findViewById(R.id.category);
         }
 
         @Override
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String categoryString = cursor.getString(cursorIndexesByName.getIndex(cursor, "category"));
             category.setText(categoryString);

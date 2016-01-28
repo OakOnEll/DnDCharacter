@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model.item;
 
 import android.provider.BaseColumns;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -60,7 +61,7 @@ public class ItemRow extends AbstractComponentModel {
     }
 
     @Override
-    public void setDocument(Element doc) {
+    public void setDocument(@Nullable Element doc) {
         super.setDocument(doc);
         String category;
         ItemType type;

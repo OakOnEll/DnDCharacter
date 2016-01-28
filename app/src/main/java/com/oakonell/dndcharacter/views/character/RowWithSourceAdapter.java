@@ -17,11 +17,13 @@ import java.util.List;
  * Created by Rob on 12/16/2015.
  */
 public class RowWithSourceAdapter<C extends Character.WithSource> extends BaseAdapter {
+    @NonNull
     private final MainActivity activity;
+    @NonNull
     private final ListRetriever<C> listRetriever;
     private List<C> list;
 
-    public RowWithSourceAdapter(MainActivity activity, ListRetriever<C> listRetriever) {
+    public RowWithSourceAdapter(@NonNull MainActivity activity, @NonNull ListRetriever<C> listRetriever) {
         this.listRetriever = listRetriever;
         this.list = listRetriever.getList(activity.getCharacter());
         this.activity = activity;

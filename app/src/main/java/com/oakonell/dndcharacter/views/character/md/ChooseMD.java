@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.md;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import com.oakonell.dndcharacter.model.character.SavedChoices;
@@ -21,7 +22,7 @@ public abstract class ChooseMD<O extends OptionMD> {
         this.maxChoices = maxChoices;
     }
 
-    public void saveChoice(ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
+    public void saveChoice(ViewGroup dynamicView, @NonNull SavedChoices savedChoices, Map<String, String> customChoices) {
         List<String> list = savedChoices.getChoicesFor(choiceName);
         list.clear();
         for (O each : options) {
@@ -33,6 +34,7 @@ public abstract class ChooseMD<O extends OptionMD> {
         options.add(option);
     }
 
+    @NonNull
     public List<O> getOptions() {
         return options;
     }

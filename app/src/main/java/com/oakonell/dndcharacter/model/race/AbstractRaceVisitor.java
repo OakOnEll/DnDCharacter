@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.race;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -10,12 +12,12 @@ import org.w3c.dom.Element;
  */
 public abstract class AbstractRaceVisitor extends AbstractChoiceComponentVisitor {
 
-    public void visit(Race race) {
+    public void visit(@NonNull Race race) {
         visit(XmlUtils.getDocument(race.getXml()).getDocumentElement());
     }
 
     @Override
-    protected void visit(Element element) {
+    protected void visit(@NonNull Element element) {
         boolean wasVisited = true;
         String name = element.getTagName();
         if (name.equals("race")) {

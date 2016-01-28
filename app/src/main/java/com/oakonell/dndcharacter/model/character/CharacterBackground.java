@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.NonNull;
+
 import org.simpleframework.xml.Element;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class CharacterBackground extends BaseCharacterComponent {
     private String specialty;
 
 
+    @NonNull
     @Override
     public ComponentType getType() {
         return ComponentType.BACKGROUND;

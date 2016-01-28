@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.spell;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.ComponentType;
@@ -72,6 +74,7 @@ public class CharacterSpell extends BaseCharacterComponent {
 
 
     // if the target is self, can apply the effect..
+    @NonNull
     @ElementList(required = false)
     private List<CharacterEffect> effects = new ArrayList<>();
 
@@ -97,6 +100,7 @@ public class CharacterSpell extends BaseCharacterComponent {
     }
 
 
+    @NonNull
     @Override
     public ComponentType getType() {
         return ComponentType.SPELL;
@@ -106,6 +110,7 @@ public class CharacterSpell extends BaseCharacterComponent {
         effects.add(characterEffect);
     }
 
+    @NonNull
     public List<CharacterEffect> getEffects() {
         return effects;
     }

@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.item;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment
 public class AddCharacterItemDialogFragment extends AbstractCharacterDialogFragment {
     @Nullable
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_search_dialog, container);
 
         return super.onCreateView(inflater, container, savedInstanceState);

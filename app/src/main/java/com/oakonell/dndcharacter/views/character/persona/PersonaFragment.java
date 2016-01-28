@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.character.persona;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -41,7 +43,7 @@ public class PersonaFragment extends AbstractSheetFragment {
     TextView xp;
     ViewGroup xpGroup;
 
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.persona_sheet, container, false);
 
@@ -168,7 +170,7 @@ public class PersonaFragment extends AbstractSheetFragment {
         });
     }
 
-    private void nonUserUpdate(EditText editText, String value) {
+    private void nonUserUpdate(@NonNull EditText editText, String value) {
         editText.setTag(NON_USER_CHANGE);
         editText.setText(value);
         editText.setTag(null);
@@ -187,7 +189,7 @@ public class PersonaFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void afterTextChanged(@Nullable Editable s) {
             if (s == null) {
                 textChanged("");
                 return;

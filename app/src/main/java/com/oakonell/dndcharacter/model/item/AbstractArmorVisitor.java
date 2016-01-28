@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.item;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -14,12 +16,12 @@ public class AbstractArmorVisitor extends AbstractComponentVisitor {
         <strengthMin>13</strengthMin>
 
      */
-    public void visit(ItemRow anItem) {
+    public void visit(@NonNull ItemRow anItem) {
         visit(XmlUtils.getDocument(anItem.getXml()).getDocumentElement());
     }
 
     @Override
-    protected void visit(Element element) {
+    protected void visit(@NonNull Element element) {
         boolean wasVisited = true;
         String name = element.getTagName();
         switch (name) {

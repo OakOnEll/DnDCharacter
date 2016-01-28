@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.character;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,7 @@ public class MainFragment extends AbstractSheetFragment {
     TextView proficiency;
     private TextView initiative;
 
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_sheet, container, false);
 

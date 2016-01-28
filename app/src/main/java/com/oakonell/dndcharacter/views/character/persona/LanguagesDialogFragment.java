@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.persona;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +22,14 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     private ListView listView;
     private LanguagesSourcesAdapter adapter;
 
+    @NonNull
     public static LanguagesDialogFragment create() {
         return new LanguagesDialogFragment();
     }
 
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.language_proficiency_dialog, container);
 
@@ -45,8 +47,9 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
         RowWithSourceAdapter.ListRetriever<Character.LanguageWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.LanguageWithSource>() {
+            @NonNull
             @Override
-            public List<Character.LanguageWithSource> getList(Character character) {
+            public List<Character.LanguageWithSource> getList(@NonNull Character character) {
                 return character.deriveLanguages();
             }
         };
@@ -62,12 +65,12 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     public static class LanguagesSourcesAdapter extends RowWithSourceAdapter<Character.LanguageWithSource> {
-        LanguagesSourcesAdapter(LanguagesDialogFragment fragment, ListRetriever<Character.LanguageWithSource> listRetriever) {
+        LanguagesSourcesAdapter(@NonNull LanguagesDialogFragment fragment, ListRetriever<Character.LanguageWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
         @Override
-        protected void bindView(View view, WithSourceViewHolder<Character.LanguageWithSource> holder, Character.LanguageWithSource item) {
+        protected void bindView(View view, @NonNull WithSourceViewHolder<Character.LanguageWithSource> holder, @NonNull Character.LanguageWithSource item) {
             String language = item.getLanguage();
 
             holder.value.setText(language);

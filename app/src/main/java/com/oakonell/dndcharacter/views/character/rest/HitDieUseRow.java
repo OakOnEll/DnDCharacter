@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.character.rest;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +11,16 @@ import java.util.List;
  * Created by Rob on 11/8/2015.
  */
 public class HitDieUseRow implements Parcelable {
+    @NonNull
     public static Creator<HitDieUseRow> CREATOR = new Creator<HitDieUseRow>() {
 
+        @NonNull
         @Override
-        public HitDieUseRow createFromParcel(Parcel source) {
+        public HitDieUseRow createFromParcel(@NonNull Parcel source) {
             return new HitDieUseRow(source);
         }
 
+        @NonNull
         @Override
         public HitDieUseRow[] newArray(int size) {
             return new HitDieUseRow[size];
@@ -31,7 +35,7 @@ public class HitDieUseRow implements Parcelable {
     public HitDieUseRow() {
     }
 
-    public HitDieUseRow(Parcel source) {
+    public HitDieUseRow(@NonNull Parcel source) {
         dieSides = source.readInt();
         numDiceRemaining = source.readInt();
         totalDice = source.readInt();
@@ -49,7 +53,7 @@ public class HitDieUseRow implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeInt(dieSides);
         dest.writeInt(numDiceRemaining);
         dest.writeInt(totalDice);

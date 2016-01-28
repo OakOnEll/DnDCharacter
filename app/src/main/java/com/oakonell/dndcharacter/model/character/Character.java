@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
@@ -61,6 +62,7 @@ public class Character {
             int tempHpMax;
     @Element(required = false)
     private int tempHp;
+    @NonNull
     @ElementMap(entry = "feature", key = "name", value = "uses", required = false)
     private Map<String, Integer> usedFeatures = new HashMap<>();
     // relatively static data
@@ -70,6 +72,7 @@ public class Character {
     private CharacterBackground background;
     @Element(required = false)
     private CharacterRace race;
+    @NonNull
     @ElementList(required = false)
     private List<CharacterClass> classes = new ArrayList<>();
     @ElementMap(entry = "stat", key = "name", value = "value", required = false)
@@ -79,24 +82,30 @@ public class Character {
     private BaseStatsType statsType;
     @Element(required = false)
     private String notes;
+    @NonNull
     @ElementMap(entry = "hitDie", key = "die", value = "uses", required = false)
     private Map<Integer, Integer> hitDieUses = new HashMap<>();
 
     @Element(required = false)
     private String backstory;
 
+    @NonNull
     @ElementList(required = false)
     private List<CharacterItem> items = new ArrayList<>();
 
+    @NonNull
     @ElementList(required = false)
     private List<CharacterArmor> armor = new ArrayList<>();
 
+    @NonNull
     @ElementList(required = false)
     private List<CharacterWeapon> weapons = new ArrayList<>();
 
+    @NonNull
     @ElementList(required = false)
     private List<CharacterSpell> cantrips = new ArrayList<>();
 
+    @NonNull
     @ElementMap(entry = "spellLevel", key = "level", value = "spells", required = false)
     private Map<Integer, SpellListWrapper> spellsForLevel = new HashMap<>();
 
@@ -112,9 +121,11 @@ public class Character {
     private int electrum;
     @Element(required = false)
     private int platinum;
+    @NonNull
     @ElementList(required = false)
     private List<CharacterEffect> effects = new ArrayList<>();
 
+    @NonNull
     @ElementMap(entry = "spellSlotsUsed", key = "level", value = "used", required = false)
     private Map<Integer, Integer> spellSlotsUsed = new HashMap<>();
 
@@ -216,10 +227,12 @@ public class Character {
         return hp;
     }
 
+    @NonNull
     public StatBlock getStatBlock(StatType type) {
         return new StatBlock(this, type);
     }
 
+    @NonNull
     public SkillBlock getSkillBlock(SkillType type) {
         return new SkillBlock(this, type);
     }
@@ -243,6 +256,7 @@ public class Character {
         return classes.size();
     }
 
+    @NonNull
     public String getClassesString() {
         Map<String, Integer> classLevels = getClassLevels();
         if (classLevels.isEmpty()) {
@@ -280,6 +294,7 @@ public class Character {
         return classLevels;
     }
 
+    @Nullable
     public String getSubclassFor(String className) {
         for (CharacterClass each : classes) {
             if (!each.getName().equals(className)) continue;
@@ -289,6 +304,7 @@ public class Character {
         return null;
     }
 
+    @NonNull
     public String getLanguagesString() {
         Set<String> languages = getLanguages();
         StringBuilder builder = new StringBuilder();
@@ -303,6 +319,7 @@ public class Character {
     }
 
 
+    @NonNull
     public List<CharacterClass> getClasses() {
         return classes;
     }
@@ -347,6 +364,7 @@ public class Character {
         this.platinum = platinum;
     }
 
+    @NonNull
     public Set<String> getLanguages() {
         Set<String> result = new HashSet<>();
         for (LanguageWithSource each : deriveLanguages()) {
@@ -355,10 +373,11 @@ public class Character {
         return result;
     }
 
+    @NonNull
     public List<LanguageWithSource> deriveLanguages() {
         final List<LanguageWithSource> languages = new ArrayList<>();
         CharacterAbilityDeriver languagesDeriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 for (String each : component.getLanguages()) {
                     LanguageWithSource row = new LanguageWithSource(each, component);
                     languages.add(row);
@@ -369,7 +388,7 @@ public class Character {
         return languages;
     }
 
-    public boolean isProficientWith(CharacterWeapon weapon) {
+    public boolean isProficientWith(@NonNull CharacterWeapon weapon) {
         List<ToolProficiencyWithSource> list = deriveToolProficiencies(ProficiencyType.WEAPON);
         String name = weapon.getName().toUpperCase();
         String category = weapon.getCategory();
@@ -409,6 +428,7 @@ public class Character {
         return background;
     }
 
+    @Nullable
     public CharacterEffect getEffectNamed(String name) {
         List<CharacterEffect> matchingEffects = new ArrayList<>();
         for (CharacterEffect each : getEffects()) {
@@ -438,7 +458,7 @@ public class Character {
         return false;
     }
 
-    public int getCantripsForClass(String className) {
+    public int getCantripsForClass(@NonNull String className) {
         int count = 0;
         for (CharacterSpell each : cantrips) {
             if (className.equals(each.getCasterClass())) {
@@ -448,7 +468,7 @@ public class Character {
         return count;
     }
 
-    public int getSpellsKnownForClass(String className) {
+    public int getSpellsKnownForClass(@NonNull String className) {
         int known = 0;
         for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
             List<CharacterSpell> spells = entry.getValue().spells;
@@ -461,7 +481,7 @@ public class Character {
         return known;
     }
 
-    public int getSpellsPreparedForClass(String className) {
+    public int getSpellsPreparedForClass(@NonNull String className) {
         int prepared = 0;
         for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
             List<CharacterSpell> spells = entry.getValue().spells;
@@ -511,6 +531,7 @@ public class Character {
         }
     }
 
+    @NonNull
     public List<ArmorClassWithSource> deriveRootAcs() {
         List<ArmorClassWithSource> result = new ArrayList<>();
         String baseFormula = "10 + dexterityMod";
@@ -535,7 +556,7 @@ public class Character {
         }
         Collections.sort(result, new Comparator<ArmorClassWithSource>() {
             @Override
-            public int compare(ArmorClassWithSource lhs, ArmorClassWithSource rhs) {
+            public int compare(@NonNull ArmorClassWithSource lhs, @NonNull ArmorClassWithSource rhs) {
                 int lv = lhs.getValue();
                 int rv = rhs.getValue();
                 return lv < rv ? -1 : (lv == rv ? 0 : 1);
@@ -574,6 +595,7 @@ public class Character {
         return result;
     }
 
+    @NonNull
     public List<ArmorClassWithSource> deriveModifyingAcs() {
         List<ArmorClassWithSource> result = new ArrayList<>();
 
@@ -700,11 +722,13 @@ public class Character {
         return background.getSpecialtyTitle();
     }
 
+    @Nullable
     public String getSpecialty() {
         if (background == null) return null;
         return background.getSpecialty();
     }
 
+    @NonNull
     public String getArmorProficiencyString() {
         final ProficiencyType type = ProficiencyType.ARMOR;
         return getToolProficiencyString(type);
@@ -761,7 +785,7 @@ public class Character {
         return builder.toString();
     }
 
-    private String appendToolProficiencies(StringBuilder builder, String comma, Set<Map.Entry<String, Proficient>> entries) {
+    private String appendToolProficiencies(@NonNull StringBuilder builder, String comma, @NonNull Set<Map.Entry<String, Proficient>> entries) {
         for (Map.Entry<String, Proficient> each : entries) {
             builder.append(comma);
             comma = ", ";
@@ -774,16 +798,19 @@ public class Character {
         return comma;
     }
 
+    @NonNull
     public String getWeaponsProficiencyString() {
         final ProficiencyType type = ProficiencyType.WEAPON;
         return getToolProficiencyString(type);
     }
 
+    @NonNull
     public String getToolsProficiencyString() {
         final ProficiencyType type = ProficiencyType.TOOL;
         return getToolProficiencyString(type);
     }
 
+    @NonNull
     public List<ModifierWithSource> deriveStat(final StatType type) {
         final List<ModifierWithSource> result = new ArrayList<>();
 
@@ -796,7 +823,7 @@ public class Character {
         }
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 int value = component.getStatModifier(type);
                 if (value > 0) {
                     ModifierWithSource base = new ModifierWithSource(value, component);
@@ -817,7 +844,7 @@ public class Character {
         }
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 value[0] += component.getStatModifier(type);
             }
         };
@@ -826,11 +853,12 @@ public class Character {
         return value[0];
     }
 
+    @NonNull
     public List<ProficientWithSource> deriveSkillProciencies(final SkillType type) {
         final List<ProficientWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 Proficient proficient = component.getSkillProficient(type);
                 if (proficient != Proficient.NONE) {
                     ProficientWithSource reason = new ProficientWithSource(proficient, component);
@@ -843,11 +871,12 @@ public class Character {
         return result;
     }
 
+    @NonNull
     public List<ProficientWithSource> deriveSaveProficiencies(final StatType type) {
         final List<ProficientWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 Proficient proficient = component.getSaveProficient(type);
                 if (proficient != Proficient.NONE) {
                     ProficientWithSource reason = new ProficientWithSource(proficient, background);
@@ -865,7 +894,7 @@ public class Character {
         proficient[0] = Proficient.NONE;
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 Proficient compProficient = component.getSkillProficient(type);
                 if (compProficient.getMultiplier() > proficient[0].getMultiplier()) {
                     proficient[0] = compProficient;
@@ -894,7 +923,7 @@ public class Character {
         proficient[0] = Proficient.NONE;
         final List<LanguageWithSource> languages = new ArrayList<>();
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 Proficient compProficient = component.getSaveProficient(type);
                 if (compProficient.getMultiplier() > proficient[0].getMultiplier()) {
                     proficient[0] = compProficient;
@@ -905,12 +934,13 @@ public class Character {
         return proficient[0];
     }
 
+    @NonNull
     public List<FeatureInfo> getFeatureInfos() {
         final List<FeatureInfo> result = new ArrayList<>();
 
         // features shouldn't contain features, and any effects are not automatic, but applied on use
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver(true) {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 result.addAll(component.getFeatures());
             }
         };
@@ -919,7 +949,7 @@ public class Character {
         return result;
     }
 
-    public boolean evaluateBooleanFormula(String formula, SimpleVariableContext variableContext) {
+    public boolean evaluateBooleanFormula(@Nullable String formula, @Nullable SimpleVariableContext variableContext) {
         // TODO formula might reference stats and such
         if (formula == null || formula.length() == 0) return false;
         if (variableContext == null) variableContext = new SimpleVariableContext();
@@ -942,7 +972,7 @@ public class Character {
         }
     }
 
-    public int evaluateFormula(String formula, SimpleVariableContext variableContext) {
+    public int evaluateFormula(@Nullable String formula, @Nullable SimpleVariableContext variableContext) {
         // TODO formula might reference stats and such
         if (formula == null || formula.length() == 0) return 0;
         if (variableContext == null) variableContext = new SimpleVariableContext();
@@ -966,24 +996,24 @@ public class Character {
         }
     }
 
-    public int getUses(Feature feature) {
+    public int getUses(@NonNull Feature feature) {
         Integer uses = usedFeatures.get(feature.getName());
         if (uses == null) return 0;
         return uses;
     }
 
-    public int getUsesRemaining(FeatureInfo feature) {
+    public int getUsesRemaining(@NonNull FeatureInfo feature) {
         return feature.evaluateMaxUses(this) - getUses(feature.getFeature());
     }
 
-    public void useFeature(Feature feature, int amount) {
+    public void useFeature(@NonNull Feature feature, int amount) {
         // TODO apply known effects from feature
         int uses = getUses(feature);
         uses = uses + amount;
         usedFeatures.put(feature.getName(), uses);
     }
 
-    public void useFeatureAction(Feature feature, IFeatureAction action) {
+    public void useFeatureAction(@NonNull Feature feature, @NonNull IFeatureAction action) {
         useFeature(feature, action.getCost());
         action.applyToCharacter(this);
     }
@@ -992,7 +1022,7 @@ public class Character {
         return notes;
     }
 
-    public void longRest(LongRestRequest request) {
+    public void longRest(@NonNull LongRestRequest request) {
         hp = Math.min(hp + request.getHealing(), getMaxHP());
 
         // restore hit die / 2
@@ -1018,7 +1048,7 @@ public class Character {
         resetFeatures(request);
     }
 
-    private void resetFeatures(AbstractRestRequest request) {
+    private void resetFeatures(@NonNull AbstractRestRequest request) {
         List<FeatureInfo> featureInfos = getFeatureInfos();
         for (FeatureInfo each : featureInfos) {
             Integer resetRequest = request.getFeatureResets().get(each.getName());
@@ -1037,7 +1067,7 @@ public class Character {
 
     }
 
-    public void shortRest(ShortRestRequest request) {
+    public void shortRest(@NonNull ShortRestRequest request) {
         hp = Math.min(hp + request.getHealing(), getMaxHP());
 
         for (Map.Entry<Integer, Integer> entry : request.getHitDieUses().entrySet()) {
@@ -1053,6 +1083,7 @@ public class Character {
         resetFeatures(request);
     }
 
+    @NonNull
     public String getHitDiceString() {
         if (classes == null) return "";
 
@@ -1067,6 +1098,7 @@ public class Character {
         return builder.toString();
     }
 
+    @NonNull
     public List<HitDieRow> getHitDiceCounts() {
         Map<Integer, Integer> dice = new LinkedHashMap<>();
         if (classes == null) return Collections.emptyList();
@@ -1183,11 +1215,12 @@ public class Character {
         background.setTraitSavedChoiceToCustom(trait);
     }
 
+    @NonNull
     public List<ToolProficiencyWithSource> deriveToolProficiencies(final ProficiencyType type) {
         final List<ToolProficiencyWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 List<Proficiency> profs = component.getToolProficiencies(type);
                 for (Proficiency each : profs) {
                     ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(each, component);
@@ -1204,6 +1237,7 @@ public class Character {
         effects.add(characterEffect);
     }
 
+    @NonNull
     public List<CharacterEffect> getEffects() {
         return effects;
     }
@@ -1212,10 +1246,12 @@ public class Character {
         items.add(item);
     }
 
+    @NonNull
     public List<CharacterItem> getItems() {
         return items;
     }
 
+    @NonNull
     public List<CharacterItem> getItemsNamed(String name) {
         List<CharacterItem> result = new ArrayList<>();
         for (CharacterItem each : items) {
@@ -1228,6 +1264,7 @@ public class Character {
         weapons.add(weapon);
     }
 
+    @NonNull
     public List<CharacterArmor> getArmor() {
         return armor;
     }
@@ -1236,6 +1273,7 @@ public class Character {
         this.armor.add(armor);
     }
 
+    @NonNull
     public List<CharacterWeapon> getWeapons() {
         return weapons;
     }
@@ -1268,6 +1306,7 @@ public class Character {
             return language;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return language + " (" + getSourceString() + ")";
@@ -1288,6 +1327,7 @@ public class Character {
             return modifier;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return modifier + " (" + getSourceString() + ")";
@@ -1306,6 +1346,7 @@ public class Character {
             return proficient;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return proficient + " (" + getSourceString() + ")";
@@ -1318,6 +1359,7 @@ public class Character {
         public int numDiceRemaining;
         public int totalDice;
 
+        @NonNull
         public String toString() {
             return "(" + numDiceRemaining + "/" + totalDice + ")" + "d" + dieSides;
         }
@@ -1335,6 +1377,7 @@ public class Character {
             return proficient;
         }
 
+        @NonNull
         @Override
         public String toString() {
             if (proficient.getCategory() != null) {
@@ -1371,6 +1414,7 @@ public class Character {
         return xp;
     }
 
+    @NonNull
     public List<CharacterSpell> getSpells(int level) {
         if (level == 0) {
             return cantrips;
@@ -1386,13 +1430,14 @@ public class Character {
         return spells.spells;
     }
 
+    @NonNull
     public List<SpellLevelInfo> getSpellInfos() {
         // cantrips can come from random components- background, race
         final List<SpellLevelInfo> spellsLevels = new ArrayList<>();
         final SpellLevelInfo cantrips = new SpellLevelInfo();
 
         CharacterAbilityDeriver spellDeriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 for (CharacterSpell each : component.getCantrips()) {
                     cantrips.getSpellInfos().add(each);
                 }
@@ -1504,7 +1549,7 @@ public class Character {
         return result;
     }
 
-    private void addMulticlassSpellSlotLevels(List<SpellLevelInfo> result, int effectiveCasterLevel, List<CastingClassInfo> specialSlotClasses) {
+    private void addMulticlassSpellSlotLevels(@NonNull List<SpellLevelInfo> result, int effectiveCasterLevel, @NonNull List<CastingClassInfo> specialSlotClasses) {
         if (effectiveCasterLevel == 1) {
             SpellLevelInfo level = new SpellLevelInfo();
             level.level = 1;
@@ -1573,8 +1618,10 @@ public class Character {
         int slotsAvailable;
         int maxSlots;
 
+        @NonNull
         private List<CharacterSpell> spellInfos = new ArrayList<>();
 
+        @NonNull
         public List<CharacterSpell> getSpellInfos() {
             return spellInfos;
         }
@@ -1647,6 +1694,7 @@ public class Character {
         }
     }
 
+    @NonNull
     public Map<String, CastingClassInfo> getCasterClassInfo() {
         Map<String, CastingClassInfo> classInfoMap = new HashMap<>();
 
@@ -1707,11 +1755,12 @@ public class Character {
 
 
     private static class SpellListWrapper {
+        @NonNull
         @ElementList(required = false)
         List<CharacterSpell> spells = new ArrayList<>();
     }
 
-    public void deleteSpell(CharacterSpell info) {
+    public void deleteSpell(@NonNull CharacterSpell info) {
         int level = info.getLevel();
         if (level == 0) {
             boolean wasRemoved = cantrips.remove(info);

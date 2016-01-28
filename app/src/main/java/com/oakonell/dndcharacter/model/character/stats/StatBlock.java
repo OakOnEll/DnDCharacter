@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.stats;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
 
@@ -49,6 +51,7 @@ public class StatBlock {
         return (int) Math.floor((value - 10) / 2.0);
     }
 
+    @NonNull
     public String toString() {
         StringBuilder builder = new StringBuilder("Stat: " + type.name() + " = " + getValue() + "(initial)");
         builder.append(" => ");

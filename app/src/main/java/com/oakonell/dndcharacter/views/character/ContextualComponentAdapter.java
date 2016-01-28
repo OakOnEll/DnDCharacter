@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.views.character;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,13 +35,13 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     private final Map<String, Long> deletedEffects = new HashMap<>();
 
 
-    public ContextualComponentAdapter(AbstractCharacterDialogFragment context, Set<FeatureContext> filter) {
+    public ContextualComponentAdapter(@NonNull AbstractCharacterDialogFragment context, Set<FeatureContext> filter) {
         this.context = context.getMainActivity();
         this.filter = filter;
         list = filterList(context.getCharacter());
     }
 
-    public void reloadList(Character character) {
+    public void reloadList(@NonNull Character character) {
         if (filter == null) {
 //                list = context.getCharacter().getFeatureInfos();
         } else {
@@ -48,7 +50,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         notifyDataSetChanged();
     }
 
-    public void deletePendingEffects(Character character) {
+    public void deletePendingEffects(@NonNull Character character) {
         for (Iterator<Map.Entry<String, Long>> iter = deletedEffects.entrySet().iterator(); iter.hasNext(); ) {
             final Map.Entry<String, Long> next = iter.next();
             iter.remove();
@@ -59,7 +61,8 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         }
     }
 
-    private List<IContextualComponent> filterList(Character character) {
+    @NonNull
+    private List<IContextualComponent> filterList(@NonNull Character character) {
         List<IContextualComponent> result = new ArrayList<>();
 
         if (filter == null) {
@@ -87,6 +90,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     }
 
 
+    @Nullable
     public IContextualComponent getItem(int position) {
         if (context.getCharacter() == null) return null;
         return list.get(position);
@@ -108,6 +112,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         throw new RuntimeException("Unknown component type " + item.getClass());
     }
 
+    @NonNull
     @Override
     public BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter> onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -131,17 +136,19 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     }
 
     @Override
-    public void onBindViewHolder(final BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter> viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull final BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter> viewHolder, final int position) {
         final IContextualComponent info = getItem(position);
         viewHolder.bind(context, this, info);
     }
 
     private static class DeletedEffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity, ContextualComponentAdapter> {
+        @NonNull
         private final TextView name;
 
+        @NonNull
         private final Button undo;
 
-        public DeletedEffectContextViewHolder(View view) {
+        public DeletedEffectContextViewHolder(@NonNull View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
 
@@ -149,7 +156,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         }
 
         @Override
-        public void bind(final MainActivity context, final ContextualComponentAdapter componentAdapter, final CharacterEffect info) {
+        public void bind(final MainActivity context, @NonNull final ContextualComponentAdapter componentAdapter, @NonNull final CharacterEffect info) {
             final String nameString = info.getName();
             name.setText(nameString);
 
@@ -164,12 +171,16 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     }
 
     private static class EffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity, ContextualComponentAdapter> {
+        @NonNull
         private final TextView name;
+        @NonNull
         private final TextView source;
+        @NonNull
         private final TextView short_description;
+        @NonNull
         private final Button end_effect;
 
-        public EffectContextViewHolder(View view) {
+        public EffectContextViewHolder(@NonNull View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
             source = (TextView) view.findViewById(R.id.source);
@@ -178,7 +189,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         }
 
         @Override
-        public void bind(final MainActivity context, final ContextualComponentAdapter componentAdapter, final CharacterEffect info) {
+        public void bind(@NonNull final MainActivity context, @NonNull final ContextualComponentAdapter componentAdapter, @NonNull final CharacterEffect info) {
             name.setText(info.getName());
             source.setText(info.getSource());
             short_description.setText(info.getDescription());

@@ -28,6 +28,7 @@ public class ClassesListActivity extends AbstractComponentListActivity {
         return AClass.class;
     }
 
+    @NonNull
     @Override
     protected AClass createNewRecord() {
         return new AClass();
@@ -42,10 +43,11 @@ public class ClassesListActivity extends AbstractComponentListActivity {
     }
 
     @NonNull
-    protected ClassRowViewHolderCursor newRowViewHolder(View newView) {
+    protected ClassRowViewHolderCursor newRowViewHolder(@NonNull View newView) {
         return new ClassRowViewHolderCursor(newView);
     }
 
+    @NonNull
     @Override
     protected String getSubtitle() {
         return getString(R.string.classes);
@@ -57,15 +59,16 @@ public class ClassesListActivity extends AbstractComponentListActivity {
     }
 
     protected static class ClassRowViewHolderCursor extends RowViewHolderCursor {
+        @NonNull
         public final TextView parentClass;
 
-        public ClassRowViewHolderCursor(View itemView) {
+        public ClassRowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             parentClass = (TextView) itemView.findViewById(R.id.parent_class);
         }
 
         @Override
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String parentName = cursor.getString(cursorIndexesByName.getIndex(cursor, "parentClass"));
             parentClass.setText(parentName);

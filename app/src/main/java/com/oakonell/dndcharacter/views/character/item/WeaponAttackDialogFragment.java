@@ -3,6 +3,8 @@ package com.oakonell.dndcharacter.views.character.item;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -75,10 +77,12 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
     // these need to be persistence enabled
     private DamagesListAdapter damageListAdapter;
+    @Nullable
     private AttackDamageInfo attackDamageInfo;
 
 
-    public static WeaponAttackDialogFragment create(CharacterItem item) {
+    @NonNull
+    public static WeaponAttackDialogFragment create(@NonNull CharacterItem item) {
         WeaponAttackDialogFragment newMe = new WeaponAttackDialogFragment();
         String name = item.getName();
 
@@ -91,8 +95,8 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
+                                @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.weapon_attack_dialog, container);
         superCreateView(view, savedInstanceState);
 
@@ -144,7 +148,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(@NonNull Editable s) {
                 damageInputChanged(attack_roll_input_type.getSelectedItemPosition(), s.toString().trim());
             }
         });
@@ -240,7 +244,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         return false;
     }
 
-    private void damageInputChanged(int typeIndex, String string) {
+    private void damageInputChanged(int typeIndex, @NonNull String string) {
         if (damage_input.getVisibility() != View.VISIBLE) return;
         attackDamageInfo = null;
         try {
@@ -263,7 +267,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         /*
         private DamagesListAdapter damageListAdapter;
@@ -291,7 +295,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         attack_roll_final_total.setText(info.getDescription());
     }
 
-    private void addAttackDamage(Map<DamageType, Integer> sum, AttackDamageInfo each) {
+    private void addAttackDamage(@NonNull Map<DamageType, Integer> sum, @NonNull AttackDamageInfo each) {
         for (Map.Entry<DamageType, Integer> damage : each.damages.entrySet()) {
             final DamageType type = damage.getKey();
             final Integer value = damage.getValue();
@@ -303,7 +307,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
         loadWeapon(character);
@@ -311,13 +315,14 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
 
         loadWeapon(character);
         updateViews();
     }
 
+    @NonNull
     @Override
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
@@ -377,7 +382,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         ammunitionViewHelper.bindView(getMainActivity(), weapon);
     }
 
-    private void loadWeapon(Character character) {
+    private void loadWeapon(@NonNull Character character) {
         String name = getArguments().getString(WEAPON);
 
         List<CharacterWeapon> weapons = new ArrayList<>();
@@ -448,15 +453,16 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
     static class DamageViewHolder extends BindableComponentViewHolder<AttackDamageInfo, WeaponAttackDialogFragment, DamagesListAdapter> {
+        @NonNull
         final TextView damage;
 
-        public DamageViewHolder(View itemView) {
+        public DamageViewHolder(@NonNull View itemView) {
             super(itemView);
             damage = (TextView) itemView.findViewById(R.id.damage);
         }
 
         @Override
-        public void bind(WeaponAttackDialogFragment context, DamagesListAdapter adapter, AttackDamageInfo row) {
+        public void bind(WeaponAttackDialogFragment context, DamagesListAdapter adapter, @NonNull AttackDamageInfo row) {
             damage.setText(row.getDescription());
         }
     }
@@ -468,7 +474,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
         }
 
-        protected AttackDamageInfo(Parcel in) {
+        protected AttackDamageInfo(@NonNull Parcel in) {
             int size = in.readInt();
 
             for (int i = 0; i < size; i++) {
@@ -480,17 +486,20 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         }
 
         public static final Creator<AttackDamageInfo> CREATOR = new Creator<AttackDamageInfo>() {
+            @NonNull
             @Override
-            public AttackDamageInfo createFromParcel(Parcel in) {
+            public AttackDamageInfo createFromParcel(@NonNull Parcel in) {
                 return new AttackDamageInfo(in);
             }
 
+            @NonNull
             @Override
             public AttackDamageInfo[] newArray(int size) {
                 return new AttackDamageInfo[size];
             }
         };
 
+        @NonNull
         public String getDescription() {
             StringBuilder builder = new StringBuilder();
             boolean isFirst = true;
@@ -522,7 +531,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             dest.writeInt(damages.size());
             for (Map.Entry<DamageType, Integer> entry : damages.entrySet()) {
                 dest.writeString(entry.getKey().toString());
@@ -540,14 +549,15 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             this.context = context;
         }
 
+        @NonNull
         @Override
-        public DamageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public DamageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.damage_row, parent, false);
             return new DamageViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(DamageViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull DamageViewHolder holder, int position) {
             AttackDamageInfo row = damages.get(position);
             holder.bind(context, this, row);
         }

@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
@@ -21,7 +23,7 @@ public abstract class CharacterAbilityDeriver {
     }
 
     //@DebugLog
-    void derive(Character character, String comment) {
+    void derive(@NonNull Character character, String comment) {
         CharacterBackground background = character.getBackground();
         if (background != null) {
             visitComponent(background);

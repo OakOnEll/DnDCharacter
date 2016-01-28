@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.spell;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.AbstractNameDescriptionVisitor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -10,12 +12,12 @@ import org.w3c.dom.Element;
  */
 public class AbstractSpellVisitor extends AbstractNameDescriptionVisitor {
 
-    public void visit(Spell spell) {
+    public void visit(@NonNull Spell spell) {
         visit(XmlUtils.getDocument(spell.getXml()).getDocumentElement());
     }
 
     @Override
-    protected void visit(Element element) {
+    protected void visit(@NonNull Element element) {
         String name = element.getTagName();
         boolean wasVisited = true;
         switch (name) {

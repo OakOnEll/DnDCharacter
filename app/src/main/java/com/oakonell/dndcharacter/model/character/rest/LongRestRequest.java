@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.rest;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ public class LongRestRequest extends AbstractRestRequest {
 
     }
 
+    @NonNull
     public Map<Integer, Integer> getHitDiceToRestore() {
         return hitDieRestores;
     }

@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -7,7 +8,7 @@ import android.view.View;
  * Created by Rob on 1/4/2016.
  */
 public abstract class BindableComponentViewHolder<T, C, A extends RecyclerView.Adapter<?>> extends RecyclerView.ViewHolder {
-    public BindableComponentViewHolder(View itemView) {
+    public BindableComponentViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 

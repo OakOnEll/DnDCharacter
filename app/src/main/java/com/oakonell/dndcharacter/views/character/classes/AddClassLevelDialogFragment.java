@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.views.character.classes;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
@@ -15,6 +17,7 @@ import java.util.Map;
 public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFragment {
     private int classLevel;
 
+    @NonNull
     public static AddClassLevelDialogFragment createDialog() {
         return new AddClassLevelDialogFragment();
     }
@@ -37,6 +40,7 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
     }
 
 
+    @NonNull
     protected SavedChoices getSavedChoicesFromCharacter(Character character) {
         // a new class level won't have save choices
         return new SavedChoices();

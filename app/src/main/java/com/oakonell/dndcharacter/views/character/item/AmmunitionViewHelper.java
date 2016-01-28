@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.item;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,7 +24,7 @@ public class AmmunitionViewHelper {
     private Button use_ammunition;
     private Button add_ammunition;
 
-    public void createView(View view) {
+    public void createView(@NonNull View view) {
         ammunition_layout = (ViewGroup) view.findViewById(R.id.ammunition_layout);
         ammunition_count = (TextView) view.findViewById(R.id.ammunition_count);
         ammunition_name = (TextView) view.findViewById(R.id.ammunition_name);
@@ -31,7 +32,7 @@ public class AmmunitionViewHelper {
         add_ammunition = (Button) view.findViewById(R.id.add_ammunition);
     }
 
-    public void bindView(final MainActivity context, CharacterWeapon item) {
+    public void bindView(@NonNull final MainActivity context, @NonNull CharacterWeapon item) {
         final String ammunitionName = item.getAmmunition();
         if (ammunitionName != null) {
             ammunition_layout.setVisibility(View.VISIBLE);

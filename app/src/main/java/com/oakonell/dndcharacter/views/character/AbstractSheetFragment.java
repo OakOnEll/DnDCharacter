@@ -3,6 +3,8 @@ package com.oakonell.dndcharacter.views.character;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -64,10 +66,12 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         updateViews(getView());
     }
 
+    @NonNull
     public MainActivity getMainActivity() {
         return (MainActivity) getActivity();
     }
 
+    @Nullable
     public Character getCharacter() {
         return getMainActivity().getCharacter();
     }
@@ -116,7 +120,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
 
     protected abstract View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
-    protected void superCreateViews(View rootView) {
+    protected void superCreateViews(@NonNull View rootView) {
         character_name_read_only = (TextView) rootView.findViewById(R.id.character_name_read);
         character_name = (EditText) rootView.findViewById(R.id.character_name);
         classes = (TextView) rootView.findViewById(R.id.classes);
@@ -167,7 +171,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
 
     @DebugLog
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         character_name_read_only.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,15 +270,16 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     }
 
     static class EffectBarRowViewHolder extends BindableComponentViewHolder<CharacterEffect, AbstractSheetFragment, EffectsBarAdapter> {
+        @NonNull
         private final TextView name;
 
-        public EffectBarRowViewHolder(View itemView) {
+        public EffectBarRowViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
         }
 
         @Override
-        public void bind(final AbstractSheetFragment context, EffectsBarAdapter adapter, final CharacterEffect effect) {
+        public void bind(@NonNull final AbstractSheetFragment context, EffectsBarAdapter adapter, @NonNull final CharacterEffect effect) {
             name.setText(effect.getName());
             name.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -290,24 +295,25 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         private final AbstractSheetFragment context;
         private List<CharacterEffect> effects;
 
-        EffectsBarAdapter(AbstractSheetFragment context, Character character) {
+        EffectsBarAdapter(AbstractSheetFragment context, @NonNull Character character) {
             effects = character.getEffects();
             this.context = context;
         }
 
-        public void reloadList(Character character) {
+        public void reloadList(@NonNull Character character) {
             effects = character.getEffects();
             notifyDataSetChanged();
         }
 
+        @NonNull
         @Override
-        public EffectBarRowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public EffectBarRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.effect_bar_item, parent, false);
             return new EffectBarRowViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(EffectBarRowViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull EffectBarRowViewHolder holder, int position) {
             final CharacterEffect effect = effects.get(position);
             holder.bind(context, this, effect);
         }

@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model;
 
+import android.support.annotation.NonNull;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -12,15 +14,15 @@ public class AbstractXmlVisitor {
         // by default, do nothing
     }
 
-    protected void visitGroup(Element element) {
+    protected void visitGroup(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitSimpleItem(Element element) {
+    protected void visitSimpleItem(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitChildren(Element element) {
+    protected void visitChildren(@NonNull Element element) {
         Node child = element.getFirstChild();
 
         while (child != null) {

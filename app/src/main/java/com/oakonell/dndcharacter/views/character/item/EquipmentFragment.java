@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,7 +75,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private final Map<CharacterItem, Long> beingDeleted = new HashMap<>();
 
 
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.equipment_sheet, container, false);
 
@@ -268,7 +270,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 // Set up the buttons
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(@NonNull DialogInterface dialog, int which) {
                 String name = input.getText().toString();
                 CharacterWeapon item = new CharacterWeapon();
                 item.setName(name);
@@ -279,7 +281,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(@NonNull DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
@@ -301,7 +303,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 // Set up the buttons
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(@NonNull DialogInterface dialog, int which) {
                 String name = input.getText().toString();
                 CharacterArmor item = new CharacterArmor();
                 item.setName(name);
@@ -312,7 +314,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(@NonNull DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
@@ -334,7 +336,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 // Set up the buttons
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(@NonNull DialogInterface dialog, int which) {
                 String name = input.getText().toString();
                 CharacterItem item = new CharacterItem();
                 item.setName(name);
@@ -345,7 +347,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(@NonNull DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
@@ -364,6 +366,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             String weapon;
             String tools;
 
+            @Nullable
             @Override
             protected Void doInBackground(Character... params) {
                 Character character = params[0];
@@ -429,15 +432,16 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     static class ItemViewHolder extends AbstractItemViewHolder<CharacterItem> {
+        @NonNull
         final TextView count;
 
-        public ItemViewHolder(View view, OnStartDragListener mDragStartListener) {
+        public ItemViewHolder(@NonNull View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
             count = (TextView) view.findViewById(R.id.count);
         }
 
         @Override
-        public void bind(EquipmentFragment context, SubAdapter<CharacterItem> adapter, CharacterItem item) {
+        public void bind(EquipmentFragment context, SubAdapter<CharacterItem> adapter, @NonNull CharacterItem item) {
             super.bind(context, adapter, item);
             if (item.getCount() != 1) {
                 count.setText("(" + item.getCount() + ")");
@@ -448,17 +452,19 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     static class ArmorViewHolder extends AbstractItemViewHolder<CharacterArmor> {
+        @NonNull
         final TextView ac;
+        @NonNull
         final CheckBox equipped;
 
-        public ArmorViewHolder(View view, OnStartDragListener mDragStartListener) {
+        public ArmorViewHolder(@NonNull View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
             equipped = (CheckBox) view.findViewById(R.id.equip);
             ac = (TextView) view.findViewById(R.id.ac);
         }
 
         @Override
-        public void bind(final EquipmentFragment context, final SubAdapter<CharacterArmor> adapter, final CharacterArmor item) {
+        public void bind(@NonNull final EquipmentFragment context, final SubAdapter<CharacterArmor> adapter, @NonNull final CharacterArmor item) {
             super.bind(context, adapter, item);
 
             String acString = "?";
@@ -497,13 +503,16 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     static class WeaponViewHolder extends AbstractItemViewHolder<CharacterWeapon> {
+        @NonNull
         final TextView bonus;
+        @NonNull
         final TextView damage;
 
+        @NonNull
         private final AmmunitionViewHelper ammunitionViewHelper;
 
 
-        public WeaponViewHolder(View view, OnStartDragListener mDragStartListener) {
+        public WeaponViewHolder(@NonNull View view, OnStartDragListener mDragStartListener) {
             super(view, mDragStartListener);
             bonus = (TextView) view.findViewById(R.id.hit_bonus);
             damage = (TextView) view.findViewById(R.id.damage);
@@ -513,7 +522,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        protected String getNameString(CharacterWeapon item, EquipmentFragment context) {
+        protected String getNameString(@NonNull CharacterWeapon item, @NonNull EquipmentFragment context) {
             String base = super.getNameString(item, context);
             StringBuilder builder = new StringBuilder(" [");
             boolean hasExtra = false;
@@ -550,7 +559,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(final EquipmentFragment context, final SubAdapter<CharacterWeapon> adapter, final CharacterWeapon item) {
+        public void bind(@NonNull final EquipmentFragment context, final SubAdapter<CharacterWeapon> adapter, @NonNull final CharacterWeapon item) {
             super.bind(context, adapter, item);
 
             final CharacterWeapon.AttackModifiers attackModifiers = item.getAttackModifiers(context.getCharacter(), false);
@@ -603,7 +612,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public boolean onTouch(View v, @NonNull MotionEvent event) {
             int action = event.getAction();
             if (action == MotionEvent.ACTION_DOWN && !lookForDrag) {
                 Log.i("Equipment", "touch down");
@@ -639,12 +648,14 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     static class AbstractItemViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> implements ItemTouchHelperViewHolder {
+        @NonNull
         private final ImageView handleView;
         private final OnStartDragListener mDragStartListener;
+        @NonNull
         final TextView name;
         private Drawable originalBackground;
 
-        public AbstractItemViewHolder(View view, OnStartDragListener mDragStartListener) {
+        public AbstractItemViewHolder(@NonNull View view, OnStartDragListener mDragStartListener) {
             super(view);
             this.mDragStartListener = mDragStartListener;
             handleView = (ImageView) itemView.findViewById(R.id.handle);
@@ -652,7 +663,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(EquipmentFragment context, SubAdapter<I> adapter, I item) {
+        public void bind(EquipmentFragment context, SubAdapter<I> adapter, @NonNull I item) {
             name.setText(getNameString(item, context));
             // TODO force child classes to implement onClick
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -665,7 +676,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             handleView.setOnTouchListener(new SwipeOrDragListener(mDragStartListener, this));
         }
 
-        protected String getNameString(I item, EquipmentFragment context) {
+        protected String getNameString(@NonNull I item, EquipmentFragment context) {
             return item.getName();
         }
 
@@ -685,10 +696,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     public static class DeleteRowViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> {
+        @NonNull
         final TextView name;
+        @NonNull
         final Button undo;
 
-        public DeleteRowViewHolder(View itemView) {
+        public DeleteRowViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -696,7 +709,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(final EquipmentFragment context, final SubAdapter<I> adapter, final I item) {
+        public void bind(final EquipmentFragment context, @NonNull final SubAdapter<I> adapter, @NonNull final I item) {
             name.setText(item.getName());
             undo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -711,16 +724,19 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     public abstract static class SubAdapter<I extends CharacterItem> extends RecyclerView.Adapter<BindableRecyclerViewHolder<I>> implements ItemTouchHelperAdapter {
         protected final Context context;
+        @NonNull
         protected final EquipmentFragment fragment;
         protected List<I> list;
+        @NonNull
         final ListRetriever<I> listRetriever;
         OnStartDragListener mDragStartListener;
 
         interface ListRetriever<I> {
+            @NonNull
             List<I> getList(Character character);
         }
 
-        public SubAdapter(EquipmentFragment fragment, ListRetriever<I> listRetriever) {
+        public SubAdapter(@NonNull EquipmentFragment fragment, @NonNull ListRetriever<I> listRetriever) {
             this.context = fragment.getContext();
             this.fragment = fragment;
             this.listRetriever = listRetriever;
@@ -743,6 +759,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             return 0;
         }
 
+        @Nullable
         public I getItem(int position) {
             if (list == null) return null;
             return list.get(position);
@@ -755,8 +772,9 @@ public class EquipmentFragment extends AbstractSheetFragment {
             return 0;
         }
 
+        @NonNull
         @Override
-        public final BindableRecyclerViewHolder<I> onCreateViewHolder(ViewGroup parent, int viewType) {
+        public final BindableRecyclerViewHolder<I> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == 1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.deleting_equipment_row, parent, false);
                 return new DeleteRowViewHolder<>(newView);
@@ -764,15 +782,17 @@ public class EquipmentFragment extends AbstractSheetFragment {
             return onSubCreateViewHolder(parent, viewType);
         }
 
+        @NonNull
         protected abstract BindableRecyclerViewHolder<I> onSubCreateViewHolder(ViewGroup parent, int viewType);
 
 
+        @NonNull
         protected Map<CharacterItem, Long> getItemPositionsBeingDeleted() {
             return fragment.beingDeleted;
         }
 
         @Override
-        public void onBindViewHolder(BindableRecyclerViewHolder<I> holder, int position) {
+        public void onBindViewHolder(@NonNull BindableRecyclerViewHolder<I> holder, int position) {
             holder.bind(fragment, this, getItem(position));
         }
 
@@ -832,17 +852,19 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     public static class ArmorAdapter extends SubAdapter<CharacterArmor> {
-        public ArmorAdapter(EquipmentFragment fragment, Character character) {
+        public ArmorAdapter(@NonNull EquipmentFragment fragment, Character character) {
             super(fragment, new ListRetriever<CharacterArmor>() {
+                @NonNull
                 @Override
-                public List<CharacterArmor> getList(Character character) {
+                public List<CharacterArmor> getList(@NonNull Character character) {
                     return character.getArmor();
                 }
             });
         }
 
+        @NonNull
         @Override
-        public ArmorViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
+        public ArmorViewHolder onSubCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.armor_row, parent, false);
             return new ArmorViewHolder(view, mDragStartListener);
         }
@@ -850,17 +872,19 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     public static class WeaponsAdapter extends SubAdapter<CharacterWeapon> {
-        public WeaponsAdapter(EquipmentFragment fragment, Character character) {
+        public WeaponsAdapter(@NonNull EquipmentFragment fragment, Character character) {
             super(fragment, new ListRetriever<CharacterWeapon>() {
+                @NonNull
                 @Override
-                public List<CharacterWeapon> getList(Character character) {
+                public List<CharacterWeapon> getList(@NonNull Character character) {
                     return character.getWeapons();
                 }
             });
         }
 
+        @NonNull
         @Override
-        public WeaponViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
+        public WeaponViewHolder onSubCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.weapon_row, parent, false);
             return new WeaponViewHolder(view, mDragStartListener);
         }
@@ -868,23 +892,25 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     public static class EquipmentAdapter extends SubAdapter<CharacterItem> {
 
-        public EquipmentAdapter(EquipmentFragment fragment, Character character) {
+        public EquipmentAdapter(@NonNull EquipmentFragment fragment, Character character) {
             super(fragment, new ListRetriever<CharacterItem>() {
+                @NonNull
                 @Override
-                public List<CharacterItem> getList(Character character) {
+                public List<CharacterItem> getList(@NonNull Character character) {
                     return character.getItems();
                 }
             });
         }
 
+        @NonNull
         @Override
-        public ItemViewHolder onSubCreateViewHolder(ViewGroup parent, int viewType) {
+        public ItemViewHolder onSubCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.equipment_row, parent, false);
             return new ItemViewHolder(view, mDragStartListener);
         }
 
         @Override
-        public void onBindViewHolder(BindableRecyclerViewHolder<CharacterItem> holder, int position) {
+        public void onBindViewHolder(@NonNull BindableRecyclerViewHolder<CharacterItem> holder, int position) {
             holder.bind(fragment, this, getItem(position));
         }
 

@@ -32,6 +32,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
     private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
     private int pageIndex = 0;
+    @NonNull
     private List<Page<M>> pages = new ArrayList<>();
     private M model;
     private ChooseMDTreeNode chooseMDs;
@@ -43,7 +44,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     private ViewGroup dynamicView;
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.dynamic_apply_component_dialog, container);
 
         dynamicView = (ViewGroup) view.findViewById(R.id.dynamic_content);
@@ -217,6 +218,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         return new SavedChoices();
     }
 
+    @NonNull
     abstract protected List<Page<M>> createPages();
 
     abstract protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices);
@@ -259,7 +261,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         // TODO
         super.onCharacterChanged(character);
         onCharacterLoaded(character);

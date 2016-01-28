@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
@@ -12,6 +14,7 @@ import java.util.Set;
  * Created by Rob on 1/4/2016.
  */
 public abstract class AbstractContextualComponent extends BaseCharacterComponent implements IContextualComponent{
+    @NonNull
     @ElementList(required = false)
     private Set<FeatureContext> contexts = new HashSet<>();
 
@@ -25,7 +28,7 @@ public abstract class AbstractContextualComponent extends BaseCharacterComponent
     }
 
     @Override
-    public boolean isInContext(Set<FeatureContext> filter) {
+    public boolean isInContext(@NonNull Set<FeatureContext> filter) {
         Set<FeatureContext> intersection = new HashSet<>(filter);
         intersection.retainAll(contexts);
         return !intersection.isEmpty();

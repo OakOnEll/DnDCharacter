@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model;
 
+import android.support.annotation.NonNull;
+
 import org.w3c.dom.Element;
 
 /**
@@ -7,7 +9,7 @@ import org.w3c.dom.Element;
  */
 public class AbstractNameDescriptionVisitor extends AbstractXmlVisitor {
 
-    protected void visit(Element element) {
+    protected void visit(@NonNull Element element) {
         String name = element.getTagName();
         boolean found = true;
         switch (name) {
@@ -33,15 +35,15 @@ public class AbstractNameDescriptionVisitor extends AbstractXmlVisitor {
 
     }
 
-    protected void visitShortDescription(Element element) {
+    protected void visitShortDescription(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitDescription(Element element) {
+    protected void visitDescription(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitName(Element element) {
+    protected void visitName(@NonNull Element element) {
         visitChildren(element);
     }
 }

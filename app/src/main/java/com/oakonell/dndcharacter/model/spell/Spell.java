@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.model.spell;
 
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -55,6 +57,7 @@ public class Spell extends AbstractComponentModel {
         this.name = name;
     }
 
+    @NonNull
     public List<String> getUsableByClasses() {
         List<SpellClass> spellClasses = new Select().from(SpellClass.class).where("spell = ?", this).execute();
         List<String> result = new ArrayList<>();
@@ -64,7 +67,7 @@ public class Spell extends AbstractComponentModel {
         return result;
     }
 
-    public void setUsableByClasses(List<String> classes) {
+    public void setUsableByClasses(@NonNull List<String> classes) {
         new Delete().from(SpellClass.class).where("spell = ?", this).execute();
         for (String each : classes) {
             SpellClass spellClass = new SpellClass();
@@ -108,7 +111,7 @@ public class Spell extends AbstractComponentModel {
 
 
     @Override
-    public void setDocument(Element doc) {
+    public void setDocument(@Nullable Element doc) {
         super.setDocument(doc);
 
         if (doc != null) {
@@ -132,7 +135,7 @@ public class Spell extends AbstractComponentModel {
         }
     }
 
-    protected void addRelatedChildren(Element doc) {
+    protected void addRelatedChildren(@Nullable Element doc) {
         if (doc != null) {
             Element classesElement = XmlUtils.getElement(doc, "classes");
             if (classesElement != null) {

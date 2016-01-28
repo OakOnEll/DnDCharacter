@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.persona;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class NotesFragment extends AbstractSheetFragment {
     Button toXml;
     EditText notes;
 
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.notes_sheet, container, false);
 

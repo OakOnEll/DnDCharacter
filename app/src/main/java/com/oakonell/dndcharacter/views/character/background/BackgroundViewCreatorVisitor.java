@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.background;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -41,6 +42,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
     private Map<String, String> customChoices;
 
 
+    @NonNull
     private TextView createGroup(String title) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -56,7 +58,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
     }
 
 
-    private void createCharacterTraitSelection(String groupTitle, String choiceName, Runnable superVisit, boolean allowCustom) {
+    private void createCharacterTraitSelection(String groupTitle, String choiceName, @NonNull Runnable superVisit, boolean allowCustom) {
         if (!traitNames.contains(choiceName)) return;
         ViewGroup oldParent = parent;
         ChooseMD oldChooseMD = currentChooseMD;
@@ -120,7 +122,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         parent = oldParent;
     }
 
-    private void createTraitOption(Element element) {
+    private void createTraitOption(@NonNull Element element) {
         CheckBox checkbox = new CheckBox(parent.getContext());
         checkbox.setText(element.getTextContent());
         parent.addView(checkbox);
@@ -151,7 +153,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         traitIndex++;
     }
 
-    private void configureTraitChecks(MultipleChoicesMD myTraitChoices, boolean isChecked) {
+    private void configureTraitChecks(@NonNull MultipleChoicesMD myTraitChoices, boolean isChecked) {
         for (CheckOptionMD each : myTraitChoices.getOptions()) {
             // we know a trait only contains checkMDs
             //CheckOptionMD checkMD = (CheckOptionMD) each;
@@ -164,13 +166,13 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         }
     }
 
-    public ChooseMDTreeNode appendToLayout(Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, String trait) {
+    public ChooseMDTreeNode appendToLayout(@NonNull Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, String trait) {
         List<String> list = new ArrayList<>();
         list.add(trait);
         return appendToLayout(background, parent, choices, customChoices, list);
     }
 
-    public ChooseMDTreeNode appendToLayout(Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, List<String> traitNames) {
+    public ChooseMDTreeNode appendToLayout(@NonNull Background background, ViewGroup parent, SavedChoices choices, Map<String, String> customChoices, List<String> traitNames) {
         this.parent = parent;
         //this.view = parent;
         this.choices = choices;
@@ -251,23 +253,23 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
 
     @Override
-    protected void visitSpecialty(Element element) {
+    protected void visitSpecialty(@NonNull Element element) {
         createTraitOption(element);
     }
 
-    protected void visitFlaw(Element element) {
+    protected void visitFlaw(@NonNull Element element) {
         createTraitOption(element);
     }
 
-    protected void visitIdeal(Element element) {
+    protected void visitIdeal(@NonNull Element element) {
         createTraitOption(element);
     }
 
-    protected void visitBond(Element element) {
+    protected void visitBond(@NonNull Element element) {
         createTraitOption(element);
     }
 
-    protected void visitTrait(Element element) {
+    protected void visitTrait(@NonNull Element element) {
         createTraitOption(element);
     }
 

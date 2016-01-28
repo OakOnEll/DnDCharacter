@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.expression.context.SimpleVariableContext;
 
@@ -37,11 +39,13 @@ public class CharacterClass extends BaseCharacterComponent {
     private Map<Integer, String> spellLevelSlotFormulas;
 
 
+    @NonNull
     @Override
     public ComponentType getType() {
         return ComponentType.CLASS;
     }
 
+    @NonNull
     @Override
     public String getSourceString() {
         return getType().toString() + ": " + getName() + " " + level;
@@ -72,7 +76,7 @@ public class CharacterClass extends BaseCharacterComponent {
     }
 
     @Override
-    public void addExtraFormulaVariables(SimpleVariableContext variableContext) {
+    public void addExtraFormulaVariables(@NonNull SimpleVariableContext variableContext) {
         super.addExtraFormulaVariables(variableContext);
         variableContext.setNumber("classLevel", getLevel());
     }

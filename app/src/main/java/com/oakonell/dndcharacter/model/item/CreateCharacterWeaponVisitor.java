@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.item;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
@@ -17,7 +19,8 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
         this.weapon = weapon;
     }
 
-    public static CharacterWeapon createWeapon(ItemRow row, com.oakonell.dndcharacter.model.character.Character character) {
+    @NonNull
+    public static CharacterWeapon createWeapon(@NonNull ItemRow row, @NonNull com.oakonell.dndcharacter.model.character.Character character) {
         CharacterWeapon weapon = new CharacterWeapon();
 
         ApplyChangesToGenericComponent.applyToCharacter(XmlUtils.getDocument(row.getXml()).getDocumentElement(), null, weapon, character, false);
@@ -31,7 +34,7 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     }
 
     @Override
-    protected void visitAmmunition(Element element) {
+    protected void visitAmmunition(@NonNull Element element) {
         String ammunition = element.getTextContent();
         weapon.setAmmunition(ammunition);
     }
@@ -59,26 +62,26 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     }
 
     @Override
-    protected void visitRange(Element element) {
+    protected void visitRange(@NonNull Element element) {
         String range = element.getTextContent();
         weapon.setRange(range);
     }
 
     @Override
-    protected void visitProperties(Element element) {
+    protected void visitProperties(@NonNull Element element) {
         String propertiesString = element.getTextContent();
         final String[] properties = propertiesString.split(",");
         weapon.setProperties(properties);
     }
 
     @Override
-    protected void visitCategory(Element element) {
+    protected void visitCategory(@NonNull Element element) {
         String category = element.getTextContent();
         weapon.setCategory(category);
     }
 
     @Override
-    protected void visitRanged(Element element) {
+    protected void visitRanged(@NonNull Element element) {
         weapon.setIsRanged("true".equals(element.getTextContent()));
     }
 }

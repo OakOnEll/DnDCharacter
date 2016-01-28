@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.classes;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     private int classIndex;
     private boolean includeHP;
 
+    @NonNull
     public static EditClassLevelDialogFragment createDialog(int classIndex, boolean includeHP) {
         EditClassLevelDialogFragment newMe = new EditClassLevelDialogFragment();
         Bundle bundle = new Bundle();
@@ -50,7 +52,7 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         characterClass = character.getClasses().get(classIndex);
         AClass aClass = new Select().from(AClass.class).where("name = ?", characterClass.getName()).executeSingle();
         setModel(aClass);

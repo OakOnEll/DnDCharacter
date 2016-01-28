@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.classes;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -10,12 +12,12 @@ import org.w3c.dom.Element;
  */
 public abstract class AbstractClassVisitor extends AbstractChoiceComponentVisitor {
 
-    public void visit(AClass aClass) {
+    public void visit(@NonNull AClass aClass) {
         visit(XmlUtils.getDocument(aClass.getXml()).getDocumentElement());
     }
 
     @Override
-    protected void visit(Element element) {
+    protected void visit(@NonNull Element element) {
         boolean wasVisited = true;
         String name = element.getTagName();
         switch (name) {

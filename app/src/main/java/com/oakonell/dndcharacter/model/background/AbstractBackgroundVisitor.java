@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.background;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -10,12 +12,12 @@ import org.w3c.dom.Element;
  */
 public abstract class AbstractBackgroundVisitor extends AbstractChoiceComponentVisitor {
 
-    public void visit(Background background) {
+    public void visit(@NonNull Background background) {
         visit(XmlUtils.getDocument(background.getXml()).getDocumentElement());
     }
 
     @Override
-    protected void visit(Element element) {
+    protected void visit(@NonNull Element element) {
         boolean wasVisited = true;
         String name = element.getTagName();
         switch (name) {

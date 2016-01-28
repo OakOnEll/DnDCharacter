@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.character;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +38,7 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
     private int modifier;
     private int startColor;
 
-    protected void superCreateView(View view, Bundle savedInstanceState) {
+    protected void superCreateView(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             modifier = savedInstanceState.getInt(MODIFIER);
         }
@@ -105,7 +107,7 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // TODO not sure why the roll Texts aren't being saved per android FW?
         outState.putString(ROLL, roll1Text.getText().toString());
@@ -177,7 +179,7 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
         totalText.setText(NumberUtils.formatNumber(total));
     }
 
-    private int getTextViewInteger(TextView textView) {
+    private int getTextViewInteger(@NonNull TextView textView) {
         final String string = textView.getText().toString();
         if (string.trim().length() == 0) return 0;
         return Integer.parseInt(string);

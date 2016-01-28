@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model.classes;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -28,13 +29,13 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         Map<String, String> customChoices1 = customChoices;
     }
 
-    public static void updateClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, Character character, int classIndex, int classLevel, int hpRoll) {
+    public static void updateClassLevel(@NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int classIndex, int classLevel, int hpRoll) {
         CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, classIndex + 1, classLevel, hpRoll);
         character.getClasses().set(classIndex, charClass);
     }
 
     @NonNull
-    private static CharacterClass createCharacterClass(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, Character character, int characterLevel, int classLevel, int hpRoll) {
+    private static CharacterClass createCharacterClass(@NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, @Nullable AClass subClass, SavedChoices subclassSavedChoices, Character character, int characterLevel, int classLevel, int hpRoll) {
         CharacterClass charClass = new CharacterClass();
         charClass.setSavedChoices(savedChoices);
         // apply common changes
@@ -98,7 +99,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         return charClass;
     }
 
-    public static void addClassLevel(AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, Character character, int characterlevel, int classLevel, int hpRoll) {
+    public static void addClassLevel(@NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int characterlevel, int classLevel, int hpRoll) {
         CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, characterlevel, classLevel, hpRoll);
         character.getClasses().add(charClass);
     }
@@ -110,19 +111,19 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
     }
 
     @Override
-    protected void visitPreparedSpells(Element element) {
+    protected void visitPreparedSpells(@NonNull Element element) {
         String preparedSpellsFormula = element.getTextContent();
         charClass.setPreparedSpellsFormula(preparedSpellsFormula);
     }
 
     @Override
-    protected void visitMulticlassCasterFactor(Element element) {
+    protected void visitMulticlassCasterFactor(@NonNull Element element) {
         String multiclassFactorFormula = element.getTextContent();
         charClass.setMulticlassCasterFactorFormula(multiclassFactorFormula);
     }
 
     @Override
-    protected void visitSpellCastingStat(Element element) {
+    protected void visitSpellCastingStat(@NonNull Element element) {
         String statName = element.getTextContent();
         statName = statName.replaceAll(" ", "_");
         statName = statName.toUpperCase();

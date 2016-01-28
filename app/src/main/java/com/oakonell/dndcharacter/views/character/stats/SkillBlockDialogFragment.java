@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,8 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     private SkillSourceAdapter adapter;
 
-    public static SkillBlockDialogFragment create(SkillBlock block) {
+    @NonNull
+    public static SkillBlockDialogFragment create(@NonNull SkillBlock block) {
         SkillBlockDialogFragment frag = new SkillBlockDialogFragment();
         int typeIndex = block.getType().ordinal();
         Bundle args = new Bundle();
@@ -52,7 +54,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.skill_dialog, container);
         superCreateView(view, savedInstanceState);
@@ -76,7 +78,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
         int typeIndex = getArguments().getInt(TYPE);
         type = SkillType.values()[typeIndex];
@@ -86,7 +88,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
         RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
             @Override
-            public List<Character.ProficientWithSource> getList(Character character) {
+            public List<Character.ProficientWithSource> getList(@NonNull Character character) {
                 return character.getSkillBlock(type).getProficiencies();
             }
         };
@@ -96,6 +98,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     }
 
+    @NonNull
     @Override
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
@@ -124,7 +127,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
 
         int typeIndex = getArguments().getInt(TYPE);
@@ -138,12 +141,12 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
 
     public static class SkillSourceAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {
-        SkillSourceAdapter(SkillBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
+        SkillSourceAdapter(@NonNull SkillBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
         @Override
-        protected void bindView(View view, WithSourceViewHolder<Character.ProficientWithSource> holder, Character.ProficientWithSource item) {
+        protected void bindView(View view, @NonNull WithSourceViewHolder<Character.ProficientWithSource> holder, @NonNull Character.ProficientWithSource item) {
             Proficient value = item.getProficient();
             holder.value.setText(value.toString());
             final BaseCharacterComponent source = item.getSource();

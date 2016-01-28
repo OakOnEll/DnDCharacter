@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.effect;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -10,12 +12,12 @@ import org.w3c.dom.Element;
  */
 public abstract class AbstractEffectVisitor extends AbstractComponentVisitor {
 
-    public void visit(Effect effect) {
+    public void visit(@NonNull Effect effect) {
         visit(XmlUtils.getDocument(effect.getXml()).getDocumentElement());
     }
 
     @Override
-    protected void visit(Element element) {
+    protected void visit(@NonNull Element element) {
         boolean wasVisited = true;
         String name = element.getTagName();
         switch (name) {

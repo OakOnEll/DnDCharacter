@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.item;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -37,7 +38,8 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
     private EditText goldPieces;
     private EditText platinumPieces;
 
-    public static MoneyDialogFragment createFragment(CoinType focus) {
+    @NonNull
+    public static MoneyDialogFragment createFragment(@NonNull CoinType focus) {
         MoneyDialogFragment newMe = new MoneyDialogFragment();
         Bundle args = new Bundle();
         args.putInt(FOCUS, focus.ordinal());
@@ -53,7 +55,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
 
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.money_dialog, container);
 
@@ -106,11 +108,11 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         updateView(character);
     }
 
-    private void updateView(Character character) {
+    private void updateView(@NonNull Character character) {
         copperCurrent.setText(NumberUtils.formatNumber(character.getCopper()));
         silverCurrent.setText(NumberUtils.formatNumber(character.getSilver()));
         electrumCurrent.setText(NumberUtils.formatNumber(character.getElectrum()));
@@ -131,7 +133,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         updateView(character);
     }
@@ -149,7 +151,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
         return super.onDone();
     }
 
-    private int getResultCoins(TextView result) {
+    private int getResultCoins(@NonNull TextView result) {
         CharSequence value = result.getText();
         if (value.toString().trim().length() == 0) return 0;
         return Integer.parseInt(value.toString());
@@ -181,7 +183,7 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void afterTextChanged(@NonNull Editable s) {
             int value = 0;
             final String str = s.toString().trim();
             result.setError(null);

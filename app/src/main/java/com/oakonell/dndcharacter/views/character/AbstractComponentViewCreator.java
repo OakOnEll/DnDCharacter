@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character;
 
+import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +66,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
 
-    public ChooseMDTreeNode appendToLayout(Element element, ViewGroup parent, SavedChoices choices) {
+    public ChooseMDTreeNode appendToLayout(@NonNull Element element, ViewGroup parent, SavedChoices choices) {
         this.parent = parent;
         this.choices = choices;
         visitChildren(element);
@@ -73,7 +74,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitFeature(Element element) {
+    protected void visitFeature(@NonNull Element element) {
         ViewGroup oldParent = parent;
         String name = XmlUtils.getElementText(element, "name");
         String description = XmlUtils.getElementText(element, "shortDescription");
@@ -87,7 +88,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitSkills(Element element) {
+    protected void visitSkills(@NonNull Element element) {
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.skill_proficiencies));
         super.visitSkills(element);
@@ -95,7 +96,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitSavingThrows(Element element) {
+    protected void visitSavingThrows(@NonNull Element element) {
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.saving_throw_proficiencies));
         super.visitSavingThrows(element);
@@ -103,7 +104,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitLanguages(Element element) {
+    protected void visitLanguages(@NonNull Element element) {
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.languages_label));
         super.visitLanguages(element);
@@ -112,7 +113,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitTools(Element element) {
+    protected void visitTools(@NonNull Element element) {
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.tool_proficiencies));
         super.visitTools(element);
@@ -120,7 +121,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitArmor(Element element) {
+    protected void visitArmor(@NonNull Element element) {
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.armor_proficiencies));
         super.visitArmor(element);
@@ -128,7 +129,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitWeapons(Element element) {
+    protected void visitWeapons(@NonNull Element element) {
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.weapons_proficiencies));
         super.visitWeapons(element);
@@ -136,7 +137,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitEquipment(Element element) {
+    protected void visitEquipment(@NonNull Element element) {
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.equipment));
         super.visitEquipment(element);
@@ -145,7 +146,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitProficiency(Element element) {
+    protected void visitProficiency(@NonNull Element element) {
         String category = element.getAttribute("category");
         if (category != null && category.trim().length() > 0) {
             TextView text = new TextView(parent.getContext());
@@ -158,7 +159,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitStat(Element element) {
+    protected void visitStat(@NonNull Element element) {
         ViewGroup oldParent = parent;
         createGroup("Stats");
         super.visitStat(element);
@@ -167,7 +168,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitIncrease(Element element) {
+    protected void visitIncrease(@NonNull Element element) {
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
         String string = parent.getResources().getString(R.string.increase_statname_by, element.getAttribute("name"), element.getTextContent());
@@ -175,7 +176,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitSimpleItem(Element element) {
+    protected void visitSimpleItem(@NonNull Element element) {
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
         String name = element.getTextContent();
@@ -187,7 +188,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitChoose(Element element) {
+    protected void visitChoose(@NonNull Element element) {
         ChooseMD oldChooseMD = currentChooseMD;
         ViewGroup oldParent = parent;
 
@@ -227,7 +228,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         parent = oldParent;
     }
 
-    protected void categoryChoices(Element element, int numChoices) {
+    protected void categoryChoices(@NonNull Element element, int numChoices) {
         if (state == VisitState.LANGUAGES) {
             visitLanguageCategoryChoices(numChoices);
         } else if (state == VisitState.TOOLS || state == VisitState.EQUIPMENT) {
@@ -235,7 +236,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         }
     }
 
-    private void visitToolCategoryChoices(Element element, int numChoices) {
+    private void visitToolCategoryChoices(@NonNull Element element, int numChoices) {
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
@@ -281,7 +282,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         ;
     }
 
-    private void appendCategoryDropDowns(int numChoices, CategoryChoicesMD categoryChoicesMD, List<String> savedSelections, List<String> choices, String prompt) {
+    private void appendCategoryDropDowns(int numChoices, @NonNull CategoryChoicesMD categoryChoicesMD, @NonNull List<String> savedSelections, @NonNull List<String> choices, @NonNull String prompt) {
         for (int i = 0; i < numChoices; i++) {
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(parent.getContext(),
                     android.R.layout.simple_spinner_item, choices);
@@ -322,7 +323,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
-    protected void visitOr(Element element) {
+    protected void visitOr(@NonNull Element element) {
         ViewGroup oldParent = parent;
 
         LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.or_layout, null);
@@ -359,7 +360,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         parent = oldParent;
     }
 
-    private void setCheckedEnabledStates(MultipleChoicesMD chooseMD) {
+    private void setCheckedEnabledStates(@NonNull MultipleChoicesMD chooseMD) {
         chooseMD.getUiLabel().setError(null);
         chooseMD.setEnabled(true);
     }

@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.md;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
@@ -24,7 +25,7 @@ public class CheckOptionMD extends OptionMD<MultipleChoicesMD> implements Choose
     }
 
     @Override
-    public void saveChoice(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices, SavedChoices savedChoices) {
+    public void saveChoice(ViewGroup dynamicView, @NonNull List<String> list, Map<String, String> customChoices, @NonNull SavedChoices savedChoices) {
         if (checkbox.isChecked()) {
             addToSavedList(dynamicView, list, customChoices);
         }
@@ -50,7 +51,7 @@ public class CheckOptionMD extends OptionMD<MultipleChoicesMD> implements Choose
         return name;
     }
 
-    protected void addToSavedList(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices) {
+    protected void addToSavedList(ViewGroup dynamicView, @NonNull List<String> list, Map<String, String> customChoices) {
         list.add(name);
     }
 
@@ -58,6 +59,7 @@ public class CheckOptionMD extends OptionMD<MultipleChoicesMD> implements Choose
         childChoices.add(choiceMd);
     }
 
+    @NonNull
     @Override
     public List<ChooseMD<?>> getChildChoiceMDs() {
         return childChoices;

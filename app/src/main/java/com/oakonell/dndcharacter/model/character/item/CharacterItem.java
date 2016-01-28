@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.item;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.item.ItemType;
@@ -23,6 +25,7 @@ public class CharacterItem extends BaseCharacterComponent {
     @Element(required = false)
     private int count = 1;
 
+    @NonNull
     @Override
     public ComponentType getType() {
         return ComponentType.ITEM;
@@ -62,6 +65,7 @@ public class CharacterItem extends BaseCharacterComponent {
         this.category = category;
     }
 
+    @NonNull
     public String toString() {
         return getItemType() + ":" + getName();
     }

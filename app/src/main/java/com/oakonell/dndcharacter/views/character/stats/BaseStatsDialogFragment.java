@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -57,12 +58,13 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     private Spinner roll_type;
     private List<BaseStatsType> list;
 
+    @NonNull
     public static BaseStatsDialogFragment createDialog() {
         return new BaseStatsDialogFragment();
     }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.base_stats, container);
 
@@ -140,7 +142,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                 }
 
                 @Override
-                public void afterTextChanged(Editable s) {
+                public void afterTextChanged(@NonNull Editable s) {
                     String string = s.toString();
                     if (string.trim().length() == 0) {
                         // allow empty text boxes, until done hit
@@ -318,7 +320,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         // pull current values from the character, and display
         statsType = character.getStatsType();
@@ -359,7 +361,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                 List<Map.Entry<StatType, Integer>> types = new ArrayList<>(stats.entrySet());
                 Collections.sort(types, new Comparator<Map.Entry<StatType, Integer>>() {
                     @Override
-                    public int compare(Map.Entry<StatType, Integer> lhs, Map.Entry<StatType, Integer> rhs) {
+                    public int compare(@NonNull Map.Entry<StatType, Integer> lhs, @NonNull Map.Entry<StatType, Integer> rhs) {
                         return -lhs.getValue().compareTo(rhs.getValue());
                     }
                 });
@@ -379,14 +381,14 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
         onCharacterChanged(character);
 
     }
 
-    private void pointBuy(BaseStatPointBuy each, int increase) {
+    private void pointBuy(@NonNull BaseStatPointBuy each, int increase) {
         remaining_points.setError(null);
         int current = each.getValue();
         int currentCost = pointCost(current);

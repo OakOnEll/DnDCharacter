@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.NonNull;
+
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
 
@@ -12,9 +14,11 @@ import java.util.Map;
  * Created by Rob on 11/9/2015.
  */
 public class SavedChoices {
+    @NonNull
     @ElementMap(entry = "choice", key = "name", value = "selections", required = false)
     Map<String, SavedSelections> choices = new HashMap<>();
 
+    @NonNull
     public SavedChoices copy() {
         SavedChoices copy = new SavedChoices();
         for (Map.Entry<String, SavedSelections> each : choices.entrySet()) {
@@ -27,6 +31,7 @@ public class SavedChoices {
         return copy;
     }
 
+    @NonNull
     public List<String> getChoicesFor(String choiceName) {
         SavedSelections selections = choices.get(choiceName);
         if (selections == null) {
@@ -38,6 +43,7 @@ public class SavedChoices {
 
     //  use a wrapper for SimpleXML serialization
     public static class SavedSelections {
+        @NonNull
         @ElementList(required = false, type = String.class, inline = true)
         List<String> selections = new ArrayList<>();
     }

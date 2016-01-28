@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.NonNull;
+
 import org.simpleframework.xml.Element;
 
 /**
@@ -12,11 +14,13 @@ public class CharacterEffect extends AbstractContextualComponent {
     @Element(required = false)
     private String origin;
 
+    @NonNull
     @Override
     public ComponentType getType() {
         return ComponentType.EFFECT;
     }
 
+    @NonNull
     public String toString() {
         return "Effect: " + getName();
     }

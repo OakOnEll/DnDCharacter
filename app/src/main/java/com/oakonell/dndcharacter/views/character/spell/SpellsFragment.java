@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +22,7 @@ public class SpellsFragment extends AbstractSheetFragment {
     private CasterInfoAdapter casterInfoAdapter;
 
     @Override
-    protected View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.spell_sheet, container, false);
 
         spell_level_list = (RecyclerView) rootView.findViewById(R.id.spell_level_list);

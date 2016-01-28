@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.views.character.md;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class RootChoiceMDNode implements ChooseMDTreeNode {
         choiceMDs.add(choiceMd);
     }
 
+    @NonNull
     @Override
     public List<ChooseMD<?>> getChildChoiceMDs() {
         return choiceMDs;

@@ -26,7 +26,8 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
 
     private ToolProficiencySourceAdapter adapter;
 
-    public static ToolProficiencyDialogFragment create(ProficiencyType type) {
+    @NonNull
+    public static ToolProficiencyDialogFragment create(@NonNull ProficiencyType type) {
         ToolProficiencyDialogFragment frag = new ToolProficiencyDialogFragment();
         int typeIndex = type.ordinal();
         Bundle args = new Bundle();
@@ -43,7 +44,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
 
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tool_proficiency_dialog, container);
 
         listView = (ListView) view.findViewById(R.id.list);
@@ -57,8 +58,9 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
         final ProficiencyType proficiencyType = updateView();
 
         RowWithSourceAdapter.ListRetriever<Character.ToolProficiencyWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ToolProficiencyWithSource>() {
+            @NonNull
             @Override
-            public List<Character.ToolProficiencyWithSource> getList(Character character) {
+            public List<Character.ToolProficiencyWithSource> getList(@NonNull Character character) {
                 return character.deriveToolProficiencies(proficiencyType);
             }
         };
@@ -87,12 +89,12 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
     }
 
     public static class ToolProficiencySourceAdapter extends RowWithSourceAdapter<Character.ToolProficiencyWithSource> {
-        ToolProficiencySourceAdapter(ToolProficiencyDialogFragment fragment, ListRetriever<Character.ToolProficiencyWithSource> listRetriever) {
+        ToolProficiencySourceAdapter(@NonNull ToolProficiencyDialogFragment fragment, ListRetriever<Character.ToolProficiencyWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
         @Override
-        protected void bindView(View view, WithSourceViewHolder<Character.ToolProficiencyWithSource> holder, Character.ToolProficiencyWithSource item) {
+        protected void bindView(View view, @NonNull WithSourceViewHolder<Character.ToolProficiencyWithSource> holder, @NonNull Character.ToolProficiencyWithSource item) {
             String category = item.getProficiency().getCategory();
             String text;
             if (category != null) {

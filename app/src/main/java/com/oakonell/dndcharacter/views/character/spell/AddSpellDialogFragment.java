@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character.spell;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -36,7 +38,8 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
     private TextView max_spell_level;
     private boolean cantripsOnly;
 
-    public static AddSpellDialogFragment createDialog(Collection<String> casterClasses, boolean cantripsOnly) {
+    @NonNull
+    public static AddSpellDialogFragment createDialog(@NonNull Collection<String> casterClasses, boolean cantripsOnly) {
         AddSpellDialogFragment dialog = new AddSpellDialogFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(CASTER_CLASSES, new ArrayList<>(casterClasses));
@@ -118,6 +121,7 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
         return classNameSpinner != null && classNameSpinner.getSelectedItemPosition() >= 0;
     }
 
+    @Nullable
     @Override
     protected String getSelection() {
         if (classNameSpinner == null) return null;
@@ -125,6 +129,7 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
         return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level <= ?";
     }
 
+    @Nullable
     @Override
     protected String[] getSelectionArgs() {
         if (classNameSpinner == null) return null;
@@ -154,6 +159,7 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
         return getString(R.string.add_spell);
     }
 
+    @NonNull
     @Override
     public Class<? extends Spell> getComponentClass() {
         return Spell.class;
@@ -168,7 +174,7 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
             if (each.getName().equals(spell.getName())) {
                 new AlertDialog.Builder(getContext()).setTitle(R.string.add_spell).setMessage(getString(R.string.spell_already_known, each.getName(), each.getOriginString())).setNeutralButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 }).show();

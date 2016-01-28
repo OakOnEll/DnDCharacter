@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.classes;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -44,23 +45,28 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
     private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
     private List<AClass> subclasses;
+    @Nullable
     private NoDefaultSpinner subclassSpinner;
     private TextView subclassErrorView;
+    @Nullable
     private AClass subclass;
     private ChooseMDTreeNode subclassChooseMDs;
+    @Nullable
     private EditText hpRoll;
     private int maxHp;
 
+    @Nullable
     protected AClass getSubClass() {
         return subclass;
     }
 
+    @Nullable
     protected SavedChoices getSubClassChoices() {
         if (subclass == null) return null;
         return savedChoicesByModel.get(subclass.getName());
     }
 
-    protected void setSubClassName(String name, SavedChoices choices) {
+    protected void setSubClassName(@Nullable String name, SavedChoices choices) {
         if (name != null) {
             subclass = new Select().from(AClass.class).where("name = ?", name).executeSingle();
             if (subclass != null) {
@@ -89,6 +95,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
     }
 
 
+    @NonNull
     protected List<Page<AClass>> createPages() {
         List<Page<AClass>> pages = new ArrayList<>();
         if (getModel() == null) return pages;
@@ -101,7 +108,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
             // first page, show base skills, saving throws, hit dice..
             Page<AClass> main = new Page<AClass>() {
                 @Override
-                public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
 
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
@@ -126,7 +133,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         if (levelElement != null) {
             Page<AClass> level = new Page<AClass>() {
                 @Override
-                public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
 
                     Element subclassElement = XmlUtils.getElement(levelElement, "subclass");
@@ -181,6 +188,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         </spells>
                  */
                 Page<AClass> spellPage = new Page<AClass>() {
+                    @NonNull
                     @Override
                     public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
                         SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator();
@@ -198,6 +206,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                 final Element subclassLevelElement = AClass.findLevelElement(subclassRoot, getClassLevel());
                 if (subclassLevelElement != null) {
                     Page<AClass> subclassPage = new Page<AClass>() {
+                        @NonNull
                         @Override
                         public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
                             AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
@@ -215,8 +224,9 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         // final page, show Hit points- unless classLevel = 1
         if (!isFirstLevel && includeHp()) {
             Page<AClass> hitPoints = new Page<AClass>() {
+                @NonNull
                 @Override
-                public ChooseMDTreeNode appendToLayout(AClass aClass, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
 
                     ViewGroup hpView = (ViewGroup) LayoutInflater.from(dynamic.getContext()).inflate(R.layout.level_hitpoints_layout, dynamic);
@@ -260,7 +270,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         }
 
                         @Override
-                        public void afterTextChanged(Editable s) {
+                        public void afterTextChanged(@NonNull Editable s) {
                             String string = s.toString();
                             int val = 0;
                             if (string.trim().length() > 0) {
@@ -292,7 +302,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         super.displayPage();
     }
 
-    private void addSubclassSpinner(String label, AClass aClass, final ViewGroup dynamicView, SavedChoices backgroundChoices) {
+    private void addSubclassSpinner(String label, @NonNull AClass aClass, @NonNull final ViewGroup dynamicView, SavedChoices backgroundChoices) {
         List<String> list = new ArrayList<>();
         From nameSelect = new Select()
                 .from(getModelClass()).orderBy("name");
@@ -365,7 +375,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
     }
 
-    private void addClassLevelTextView(ViewGroup dynamic) {
+    private void addClassLevelTextView(@NonNull ViewGroup dynamic) {
         TextView textView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.class_level_text, dynamic, false);
         textView.setText(getResources().getString(R.string.level_n, getClassLevel()));
         dynamic.addView(textView);
@@ -378,13 +388,14 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
     protected abstract int getClassLevel();
 
 
-    protected From filter(From nameSelect) {
+    @NonNull
+    protected From filter(@NonNull From nameSelect) {
         return nameSelect.where("parentClass is null OR trim(parentClass) = ''");
     }
 
 
     @Override
-    protected boolean validate(ViewGroup dynamicView, int pageIndex) {
+    protected boolean validate(@NonNull ViewGroup dynamicView, int pageIndex) {
         boolean subraceValid = true;
         if (subclassSpinner != null) {
             if (subclassSpinner.getSelectedItemPosition() < 0) {

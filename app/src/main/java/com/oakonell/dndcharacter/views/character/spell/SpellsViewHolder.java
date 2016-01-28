@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,14 @@ import com.oakonell.dndcharacter.utils.NumberUtils;
  * Created by Rob on 1/24/2016.
  */
 public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewHolder {
+    @NonNull
     private final TextView available_slots;
+    @NonNull
     private final TextView total_slots;
+    @NonNull
     private final TextView level;
 
-    public SpellsViewHolder(View itemView) {
+    public SpellsViewHolder(@NonNull View itemView) {
         super(itemView);
         level = (TextView) itemView.findViewById(R.id.level);
         available_slots = (TextView) itemView.findViewById(R.id.available_slots);
@@ -28,13 +32,14 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
     }
 
     @Override
-    public void bind(SpellsFragment context, SpellLevelsAdapter adapter, com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo info) {
+    public void bind(SpellsFragment context, SpellLevelsAdapter adapter, @NonNull com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo info) {
         super.bind(context, adapter, info);
         available_slots.setText(NumberUtils.formatNumber(info.getSlotsAvailable()));
         total_slots.setText(NumberUtils.formatNumber(info.getMaxSlots()));
         level.setText(NumberUtils.formatNumber(info.getLevel()));
     }
 
+    @NonNull
     @Override
     protected AbstractSpellAdapter newAdapter(SpellsFragment context, Character.SpellLevelInfo info) {
         return new SpellAdapter(context, info);
@@ -45,23 +50,25 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
             super(context, spellLevelInfo);
         }
 
+        @NonNull
         @Override
-        public SpellViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public SpellViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.spell_char_row, parent, false);
             return new SpellViewHolder(newView);
         }
     }
 
     public static class SpellViewHolder extends AbstractSpellAdapter.AbstractSpellViewHolder {
+        @NonNull
         final CheckBox prepared;
 
-        public SpellViewHolder(View itemView) {
+        public SpellViewHolder(@NonNull View itemView) {
             super(itemView);
             prepared = (CheckBox) itemView.findViewById(R.id.prepared);
         }
 
         @Override
-        public void bind(final SpellsFragment context, AbstractSpellAdapter adapter, final CharacterSpell info) {
+        public void bind(@NonNull final SpellsFragment context, AbstractSpellAdapter adapter, @NonNull final CharacterSpell info) {
             super.bind(context, adapter, info);
             if (!info.isPreparable()) {
                 prepared.setVisibility(View.INVISIBLE);

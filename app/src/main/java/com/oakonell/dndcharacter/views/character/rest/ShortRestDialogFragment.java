@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.character.rest;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,15 +37,17 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     public static final String DICE_COUNTS = "diceCounts";
     private HitDiceAdapter diceAdapter;
     private RecyclerView hitDiceListView;
+    @Nullable
     private Map<Integer, HitDieUseRow> savedDiceCounts;
 
+    @NonNull
     public static ShortRestDialogFragment createDialog() {
         return new ShortRestDialogFragment();
     }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
+                                @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.short_rest_dialog, container);
         configureCommon(view);
 
@@ -67,6 +71,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         return getString(R.string.short_rest_title);
     }
 
+    @NonNull
     @Override
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
@@ -76,7 +81,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(DICE_COUNTS, diceAdapter.diceCounts);
     }
@@ -100,7 +105,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
         diceAdapter = new HitDiceAdapter(this, character);
@@ -123,7 +128,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         diceAdapter.reloadList(character);
         updateView();
     }
@@ -163,12 +168,12 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         ArrayList<HitDieUseRow> diceCounts;
         private final ShortRestDialogFragment context;
 
-        public HitDiceAdapter(ShortRestDialogFragment context, Character character) {
+        public HitDiceAdapter(ShortRestDialogFragment context, @NonNull Character character) {
             this.context = context;
             populateDiceCounts(character, null);
         }
 
-        private void populateDiceCounts(Character character, Map<Integer, HitDieUseRow> existingRows) {
+        private void populateDiceCounts(@NonNull Character character, @Nullable Map<Integer, HitDieUseRow> existingRows) {
             diceCounts = new ArrayList<>();
             for (Character.HitDieRow each : character.getHitDiceCounts()) {
                 HitDieUseRow newRow = new HitDieUseRow();
@@ -191,7 +196,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             }
         }
 
-        public void reloadList(Character character) {
+        public void reloadList(@NonNull Character character) {
             // TODO don't throw away user entered data?
             Map<Integer, HitDieUseRow> existing = new HashMap<>();
             for (HitDieUseRow each : diceCounts) {
@@ -216,6 +221,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             return diceCounts.size();
         }
 
+        @NonNull
         @Override
         public HitDiceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = View.inflate(context.getMainActivity(), R.layout.hit_dice_item, null);
@@ -224,7 +230,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         }
 
         @Override
-        public void onBindViewHolder(final HitDiceViewHolder viewHolder, int position) {
+        public void onBindViewHolder(@NonNull final HitDiceViewHolder viewHolder, int position) {
             final HitDieUseRow row = getItem(position);
             viewHolder.bind(context, this, row);
         }
@@ -233,21 +239,31 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     static class HitDiceViewHolder extends BindableComponentViewHolder<HitDieUseRow, ShortRestDialogFragment, HitDiceAdapter> {
+        @NonNull
         final TextView numDice;
+        @NonNull
         final TextView die;
+        @NonNull
         final ViewGroup hit_die_group;
+        @NonNull
         final Button useButton;
+        @NonNull
         final RecyclerView uses;
 
+        @NonNull
         final ViewGroup use_hit_die_group;
+        @NonNull
         final EditText hit_die_val;
+        @NonNull
         final Button roll;
+        @NonNull
         final Button apply;
+        @NonNull
         final Button cancel;
 
         HitDieUseAdapter usesAdapter;
 
-        public HitDiceViewHolder(View view) {
+        public HitDiceViewHolder(@NonNull View view) {
             super(view);
             hit_die_group = (ViewGroup) view.findViewById(R.id.hit_die_group);
             numDice = (TextView) view.findViewById(R.id.num_dice);
@@ -264,7 +280,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         }
 
         @Override
-        public void bind(final ShortRestDialogFragment context, final HitDiceAdapter adapter, final HitDieUseRow row) {
+        public void bind(@NonNull final ShortRestDialogFragment context, @NonNull final HitDiceAdapter adapter, @NonNull final HitDieUseRow row) {
             if (usesAdapter == null) {
                 usesAdapter = new HitDieUseAdapter(adapter);
                 uses.setAdapter(usesAdapter);
@@ -335,17 +351,19 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     static class HitDieUseViewHolder extends BindableComponentViewHolder<Integer, HitDiceAdapter, HitDieUseAdapter> {
+        @NonNull
         final TextView value;
+        @NonNull
         final ImageButton deleteButton;
 
-        public HitDieUseViewHolder(View view) {
+        public HitDieUseViewHolder(@NonNull View view) {
             super(view);
             value = (TextView) view.findViewById(R.id.value);
             deleteButton = (ImageButton) view.findViewById(R.id.delete_button);
         }
 
         @Override
-        public void bind(final HitDiceAdapter context, final HitDieUseAdapter adapter, final Integer rollValue) {
+        public void bind(@NonNull final HitDiceAdapter context, @NonNull final HitDieUseAdapter adapter, final Integer rollValue) {
             value.setText(NumberUtils.formatNumber(rollValue));
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -367,15 +385,16 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             this.adapter = adapter;
         }
 
+        @NonNull
         @Override
-        public HitDieUseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public HitDieUseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = View.inflate(parent.getContext(), R.layout.hit_die_use_row, null);
             HitDieUseViewHolder viewHolder = new HitDieUseViewHolder(view);
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(HitDieUseViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull HitDieUseViewHolder holder, final int position) {
             final Integer value = rolls.get(position);
             holder.bind(adapter, this, value);
         }

@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
@@ -20,18 +21,18 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
     private final SpellsFragment context;
     List<CharacterSpell> spellInfos;
 
-    AbstractSpellAdapter(SpellsFragment context, Character.SpellLevelInfo spellLevelInfo) {
+    AbstractSpellAdapter(SpellsFragment context, @NonNull Character.SpellLevelInfo spellLevelInfo) {
         this.context = context;
         this.spellInfos = spellLevelInfo.getSpellInfos();
     }
 
-    public void reloadList(Character.SpellLevelInfo spellLevelInfo) {
+    public void reloadList(@NonNull Character.SpellLevelInfo spellLevelInfo) {
         this.spellInfos = spellLevelInfo.getSpellInfos();
         notifyDataSetChanged();
     }
 
     @Override
-    public void onBindViewHolder(AbstractSpellViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AbstractSpellViewHolder holder, int position) {
         CharacterSpell spellInfo = spellInfos.get(position);
         holder.bind(context, this, spellInfo);
     }
@@ -42,12 +43,16 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
     }
 
     public static class AbstractSpellViewHolder extends BindableComponentViewHolder<CharacterSpell, SpellsFragment, AbstractSpellAdapter<?>> {
+        @NonNull
         private final TextView name;
+        @NonNull
         private final TextView school;
+        @NonNull
         private final TextView source;
+        @NonNull
         private final ImageButton delete;
 
-        public AbstractSpellViewHolder(View itemView) {
+        public AbstractSpellViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             source = (TextView) itemView.findViewById(R.id.source);
@@ -56,7 +61,7 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
         }
 
         @Override
-        public void bind(final SpellsFragment context, final AbstractSpellAdapter adapter, final CharacterSpell info) {
+        public void bind(@NonNull final SpellsFragment context, @NonNull final AbstractSpellAdapter adapter, @NonNull final CharacterSpell info) {
             name.setText(info.getName());
             school.setText(info.getSchool());
             source.setText(info.getOriginString());

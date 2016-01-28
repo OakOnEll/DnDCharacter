@@ -17,7 +17,7 @@ import com.oakonell.dndcharacter.views.CursorIndexesByName;
 public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
 
     @NonNull
-    protected SpellRowViewHolderCursor newRowViewHolder(View newView) {
+    protected SpellRowViewHolderCursor newRowViewHolder(@NonNull View newView) {
         return new SpellRowViewHolderCursor(newView);
     }
 
@@ -32,6 +32,7 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
         return Spell.class;
     }
 
+    @NonNull
     @Override
     protected Spell createNewRecord() {
         return new Spell();
@@ -45,6 +46,7 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
         dialog.show(getSupportFragmentManager(), "spell_edit");
     }
 
+    @NonNull
     @Override
     protected String getSubtitle() {
         return getString(R.string.spells_title);
@@ -56,15 +58,16 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
     }
 
     protected static class SpellRowViewHolderCursor extends RowViewHolderCursor {
+        @NonNull
         private final TextView levelTextView;
 
-        public SpellRowViewHolderCursor(View itemView) {
+        public SpellRowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             levelTextView = (TextView) itemView.findViewById(R.id.level);
         }
 
         @Override
-        public void bindTo(Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final int level = cursor.getInt(cursorIndexesByName.getIndex(cursor, "level"));
             String levelString;

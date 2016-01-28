@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.persona;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,6 +38,7 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
     private ViewGroup your_xp_group;
     private TextView your_xp;
 
+    @NonNull
     public static ExperienceDialogFragment create() {
         return new ExperienceDialogFragment();
     }
@@ -47,7 +49,7 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    protected View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.xp_dialog, container);
 
         start_xp = (TextView) view.findViewById(R.id.start_xp);
@@ -74,6 +76,7 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
         return view;
     }
 
+    @NonNull
     private List<XpLevel> getLevels() {
         List<XpLevel> result = new ArrayList<>();
         result.add(new XpLevel(1, 0));
@@ -221,11 +224,14 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     static class XpLevelViewHolder extends BindableComponentViewHolder<XpLevel, ExperienceDialogFragment, XpLevelAdapter> {
+        @NonNull
         final TextView xp;
+        @NonNull
         final TextView level;
+        @NonNull
         final TextView comment;
 
-        public XpLevelViewHolder(View itemView) {
+        public XpLevelViewHolder(@NonNull View itemView) {
             super(itemView);
             xp = (TextView) itemView.findViewById(R.id.xp);
             level = (TextView) itemView.findViewById(R.id.level);
@@ -233,7 +239,7 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(ExperienceDialogFragment context, XpLevelAdapter adapter, XpLevel info) {
+        public void bind(@NonNull ExperienceDialogFragment context, XpLevelAdapter adapter, @NonNull XpLevel info) {
             xp.setText(NumberUtils.formatNumber(info.xp));
             level.setText(NumberUtils.formatNumber(info.level));
             int currentLevel = context.getCharacter().getCharacterLevel();
@@ -260,14 +266,15 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
             this.context = context;
         }
 
+        @NonNull
         @Override
-        public XpLevelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public XpLevelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.xp_level_row, parent, false);
             return new XpLevelViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(XpLevelViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull XpLevelViewHolder holder, int position) {
             holder.bind(context, this, list.get(position));
         }
 

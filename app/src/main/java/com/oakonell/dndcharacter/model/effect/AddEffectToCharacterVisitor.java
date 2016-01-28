@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.effect;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
@@ -20,7 +22,8 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
         this.charEffect = charEffect;
     }
 
-    public static CharacterEffect applyToCharacter(Effect race, Character character) {
+    @NonNull
+    public static CharacterEffect applyToCharacter(@NonNull Effect race, @NonNull Character character) {
         Element element = XmlUtils.getDocument(race.getXml()).getDocumentElement();
         CharacterEffect characterEffect = new CharacterEffect();
         readEffect(element, characterEffect);
@@ -29,7 +32,7 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
         return characterEffect;
     }
 
-    public static void readEffect(Element element, CharacterEffect characterEffect) {
+    public static void readEffect(@NonNull Element element, @NonNull CharacterEffect characterEffect) {
         characterEffect.setName(XmlUtils.getElementText(element, "name"));
         // apply common changes
         ApplyChangesToGenericComponent.applyToCharacter(element, new SavedChoices(), characterEffect, null, false);
@@ -49,7 +52,7 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
     }
 
     @Override
-    protected void visitShortDescription(Element element) {
+    protected void visitShortDescription(@NonNull Element element) {
         charEffect.setDescription(element.getTextContent());
     }
 }

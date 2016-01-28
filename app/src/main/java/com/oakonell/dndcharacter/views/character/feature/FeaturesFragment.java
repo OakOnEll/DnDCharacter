@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.character.feature;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -25,7 +27,8 @@ public class FeaturesFragment extends AbstractSheetFragment {
     private FeatureAdapter adapter;
     private RecyclerView gridView;
 
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @NonNull
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.feature_sheet, container, false);
 
         superCreateViews(rootView);
@@ -60,22 +63,23 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
 
     public class FeatureAdapter extends RecyclerView.Adapter<FeatureViewHolder> {
+        @NonNull
         private final MainActivity context;
         private Set<FeatureContext> filter;
         private List<FeatureInfo> list;
 
-        public FeatureAdapter(MainActivity context) {
+        public FeatureAdapter(@NonNull MainActivity context) {
             this.context = context;
             list = context.getCharacter().getFeatureInfos();
         }
 
-        public FeatureAdapter(MainActivity context, Set<FeatureContext> filter) {
+        public FeatureAdapter(@NonNull MainActivity context, Set<FeatureContext> filter) {
             this.context = context;
             this.filter = filter;
             list = filterList(context.getCharacter());
         }
 
-        public void reloadList(Character character) {
+        public void reloadList(@NonNull Character character) {
             if (filter == null) {
                 list = context.getCharacter().getFeatureInfos();
             } else {
@@ -84,7 +88,8 @@ public class FeaturesFragment extends AbstractSheetFragment {
             notifyDataSetChanged();
         }
 
-        private List<FeatureInfo> filterList(Character character) {
+        @NonNull
+        private List<FeatureInfo> filterList(@NonNull Character character) {
             if (filter == null) return character.getFeatureInfos();
             List<FeatureInfo> result = new ArrayList<>();
             for (FeatureInfo each : character.getFeatureInfos()) {
@@ -102,11 +107,13 @@ public class FeaturesFragment extends AbstractSheetFragment {
         }
 
 
+        @Nullable
         public FeatureInfo getItem(int position) {
             if (context.getCharacter() == null) return null;
             return list.get(position);
         }
 
+        @NonNull
         @Override
         public FeatureViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
@@ -117,7 +124,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void onBindViewHolder(final FeatureViewHolder viewHolder, final int position) {
+        public void onBindViewHolder(@NonNull final FeatureViewHolder viewHolder, final int position) {
             final FeatureInfo info = getItem(position);
             viewHolder.bind(context, this, info);
         }

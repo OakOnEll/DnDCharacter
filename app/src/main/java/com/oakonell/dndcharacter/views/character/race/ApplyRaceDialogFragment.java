@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.race;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +38,15 @@ import java.util.Map;
 public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragment<Race> {
     private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
     private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
+    @Nullable
     private Race subrace;
     private List<Race> subraces;
+    @Nullable
     private NoDefaultSpinner subraceSpinner;
     private ChooseMDTreeNode subRaceChooseMDs;
     private TextView subRaceErrorView;
 
+    @NonNull
     public static ApplyRaceDialogFragment createDialog() {
         return new ApplyRaceDialogFragment();
     }
@@ -54,7 +58,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
 
     @Override
-    protected boolean validate(ViewGroup dynamicView, int pageIndex) {
+    protected boolean validate(@NonNull ViewGroup dynamicView, int pageIndex) {
         boolean subraceValid = true;
         if (pageIndex == 0 && subraceSpinner != null) {
             if (subraceSpinner.getSelectedItemPosition() < 0) {
@@ -67,12 +71,13 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         return super.validate(dynamicView, pageIndex) && subraceValid;
     }
 
+    @NonNull
     @Override
     protected List<Page<Race>> createPages() {
         List<Page<Race>> result = new ArrayList<>();
         Page<Race> main = new Page<Race>() {
             @Override
-            public ChooseMDTreeNode appendToLayout(Race model, final ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
+            public ChooseMDTreeNode appendToLayout(@NonNull Race model, @NonNull final ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
                 Race race = getModel();
 
                 List<String> list = new ArrayList<>();
@@ -177,7 +182,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         return Race.class;
     }
 
-    protected SavedChoices getSavedChoicesFromCharacter(Character character) {
+    protected SavedChoices getSavedChoicesFromCharacter(@NonNull Character character) {
         return character.getRaceChoices();
     }
 
@@ -185,13 +190,14 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         return getCharacter().getRaceName();
     }
 
-    protected From filter(From nameSelect) {
+    @NonNull
+    protected From filter(@NonNull From nameSelect) {
         return nameSelect.where("parentRace is null OR trim(parentRace) = ''");
     }
 
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
         setModel(race);
 

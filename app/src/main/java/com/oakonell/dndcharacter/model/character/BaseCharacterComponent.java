@@ -1,5 +1,8 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
@@ -24,16 +27,22 @@ import java.util.Map;
 public abstract class BaseCharacterComponent {
     @Element(required = false)
     private SavedChoices savedChoices = new SavedChoices();
+    @NonNull
     @ElementMap(entry = "statMod", key = "name", value = "mod", required = false)
     private Map<StatType, Integer> statModifiers = new HashMap<>();
+    @NonNull
     @ElementMap(entry = "skill", key = "name", value = "proficiency", required = false)
     private Map<SkillType, Proficient> skillProficiencies = new HashMap<>();
+    @NonNull
     @ElementMap(entry = "saveMod", key = "name", value = "proficiency", required = false)
     private Map<StatType, Proficient> saveProficiencies = new HashMap<>();
+    @NonNull
     @ElementList(required = false)
     private List<Feature> features = new ArrayList<>();
+    @NonNull
     @ElementList(required = false)
     private List<String> languages = new ArrayList<>();
+    @NonNull
     @ElementMap(entry = "tool", key = "type", value = "proficiency", required = false)
     private Map<ProficiencyType, ToolProficiencies> toolProficiencies = new HashMap<>();
     @Element(required = false)
@@ -42,6 +51,7 @@ public abstract class BaseCharacterComponent {
     private String acFormula;
     @Element(required = false)
     private String activeFormula;
+    @NonNull
     @ElementList(required = false)
     private List<CharacterSpell> cantrips = new ArrayList<>();
 
@@ -90,6 +100,7 @@ public abstract class BaseCharacterComponent {
         features.add(feature);
     }
 
+    @NonNull
     public List<FeatureInfo> getFeatures() {
         List<FeatureInfo> result = new ArrayList<>();
         for (Feature each : features) {
@@ -101,10 +112,12 @@ public abstract class BaseCharacterComponent {
         return result;
     }
 
+    @NonNull
     public String getSourceString() {
         return getType().toString() + ": " + getName();
     }
 
+    @NonNull
     public List<String> getLanguages() {
         return languages;
     }
@@ -137,6 +150,7 @@ public abstract class BaseCharacterComponent {
         wrappedList.proficiencies.add(proficiency);
     }
 
+    @NonNull
     public List<Proficiency> getToolProficiencies(ProficiencyType type) {
         ToolProficiencies wrappedList = toolProficiencies.get(type);
         if (wrappedList == null) {
@@ -171,6 +185,7 @@ public abstract class BaseCharacterComponent {
         return formula.startsWith("=");
     }
 
+    @Nullable
     public String getBaseAcFormula() {
         if (!isBaseArmor()) return null;
         String formula = getAcFormula();
@@ -178,6 +193,7 @@ public abstract class BaseCharacterComponent {
         return formula.substring(1);
     }
 
+    @Nullable
     public String getModifyingAcFormula() {
         if (isBaseArmor()) return null;
         String formula = getAcFormula();
@@ -186,12 +202,14 @@ public abstract class BaseCharacterComponent {
         return formula;
     }
 
+    @NonNull
     public List<CharacterSpell> getCantrips() {
         return cantrips;
     }
 
     // use a wrapper for SimpleXML serialization
     public static class ToolProficiencies {
+        @NonNull
         @ElementList(required = false, type = Proficiency.class, inline = true)
         List<Proficiency> proficiencies = new ArrayList<>();
     }

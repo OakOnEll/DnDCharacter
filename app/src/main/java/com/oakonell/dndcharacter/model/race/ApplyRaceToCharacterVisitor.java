@@ -1,5 +1,8 @@
 package com.oakonell.dndcharacter.model.race;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterRace;
@@ -22,9 +25,9 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
 //        Map<String, String> customChoices1 = customChoices;
     }
 
-    public static void applyToCharacter(Race race, SavedChoices savedChoices, Map<String, String> customChoices,
-                                        Race subrace, SavedChoices subraceSavedChoices, Map<String, String> subraceCustomChoices,
-                                        Character character) {
+    public static void applyToCharacter(@NonNull Race race, SavedChoices savedChoices, Map<String, String> customChoices,
+                                        @Nullable Race subrace, SavedChoices subraceSavedChoices, Map<String, String> subraceCustomChoices,
+                                        @NonNull Character character) {
         CharacterRace charRace = new CharacterRace();
         charRace.setSavedChoices(savedChoices);
 

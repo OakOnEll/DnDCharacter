@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model.race;
 
 import android.provider.BaseColumns;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -50,7 +51,7 @@ public class Race extends AbstractComponentModel {
     }
 
     @Override
-    public void setDocument(Element doc) {
+    public void setDocument(@Nullable Element doc) {
         super.setDocument(doc);
         if (doc == null) {
             setParentRace("XmlParseError");

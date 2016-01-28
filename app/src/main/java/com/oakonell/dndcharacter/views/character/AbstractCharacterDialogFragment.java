@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,6 +36,7 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
     private ContextualComponentAdapter contextualComponentAdapter;
     private ViewGroup context_group;
 
+    @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = onCreateTheView(inflater, container, savedInstanceState);
@@ -77,9 +80,10 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         return view;
     }
 
+    @Nullable
     protected abstract String getTitle();
 
-    protected void hideKeyboardFrom(TextView v) {
+    protected void hideKeyboardFrom(@NonNull TextView v) {
         InputMethodManager in = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         in.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
@@ -95,13 +99,16 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
     }
 
 
+    @Nullable
     protected abstract View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
 
+    @NonNull
     public final MainActivity getMainActivity() {
         return (MainActivity) getActivity();
     }
 
+    @Nullable
     public final com.oakonell.dndcharacter.model.character.Character getCharacter() {
         return getMainActivity().getCharacter();
     }
@@ -124,7 +131,7 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
     }
 
     @DebugLog
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         if (contextualComponentAdapter != null) {
             contextualComponentAdapter.reloadList(character);
             if (contextualComponentAdapter.getItemCount() == 0) {
@@ -135,6 +142,7 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         }
     }
 
+    @NonNull
     protected Set<FeatureContext> getContextFilter() {
         return Collections.emptySet();
     }

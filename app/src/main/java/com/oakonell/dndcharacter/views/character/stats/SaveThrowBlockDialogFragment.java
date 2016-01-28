@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +36,15 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     private SaveThrowSourcesAdapter adapter;
 
-    public static SaveThrowBlockDialogFragment create(StatBlock block) {
+    @NonNull
+    public static SaveThrowBlockDialogFragment create(@NonNull StatBlock block) {
         SaveThrowBlockDialogFragment frag = new SaveThrowBlockDialogFragment();
         frag.setStatTypeArg(block);
         return frag;
     }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.save_throw_dialog, container);
         superCreateView(view, savedInstanceState);
@@ -65,7 +67,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
         StatBlock statBlock = setStatBlock(character);
 
@@ -84,6 +86,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     }
 
+    @NonNull
     @Override
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
@@ -92,7 +95,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         return filter;
     }
 
-    private void updateView(StatBlock statBlock) {
+    private void updateView(@NonNull StatBlock statBlock) {
         setModifier(statBlock.getSaveModifier());
 
         List<Character.ProficientWithSource> proficiencies = statBlock.getSaveProficiencies();
@@ -111,7 +114,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
 
         StatBlock statBlock = setStatBlock(character);
@@ -121,12 +124,12 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     public static class SaveThrowSourcesAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {
-        SaveThrowSourcesAdapter(SaveThrowBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
+        SaveThrowSourcesAdapter(@NonNull SaveThrowBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
         @Override
-        protected void bindView(View view, WithSourceViewHolder<Character.ProficientWithSource> holder, Character.ProficientWithSource item) {
+        protected void bindView(View view, @NonNull WithSourceViewHolder<Character.ProficientWithSource> holder, @NonNull Character.ProficientWithSource item) {
             Proficient value = item.getProficient();
             holder.value.setText(value.toString());
             final BaseCharacterComponent source = item.getSource();

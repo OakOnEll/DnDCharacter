@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ public class CantripsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelVie
         super(itemView);
     }
 
+    @NonNull
     @Override
     protected CantripAdapter newAdapter(SpellsFragment context, com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo info) {
         return new CantripAdapter(context, info);
@@ -35,8 +37,9 @@ public class CantripsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelVie
             super(context, spellLevelInfo);
         }
 
+        @NonNull
         @Override
-        public AbstractSpellViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AbstractSpellViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.spell_char_cantrip_row, parent, false);
             return new CantripViewHolder(newView);
         }

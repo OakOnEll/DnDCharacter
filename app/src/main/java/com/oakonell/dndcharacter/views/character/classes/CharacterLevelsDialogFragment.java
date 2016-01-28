@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -44,13 +46,14 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     private final Map<CharacterClass, Long> recordsBeingDeleted = new HashMap<>();
     private boolean savedDeleteInProgress;
 
+    @NonNull
     public static CharacterLevelsDialogFragment createDialog() {
         return new CharacterLevelsDialogFragment();
     }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
+                                @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.character_levels_dialog, container);
 
         classesTextView = (TextView) view.findViewById(R.id.classes);
@@ -71,7 +74,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (recordsBeingDeleted != null && recordsBeingDeleted.size() > 0) {
             outState.putByte("deleteInProgress", (byte) 1);
@@ -80,7 +83,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
         classesAdapter = new ClassAdapter(this, character.getClasses());
 
@@ -116,7 +119,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         classesAdapter.reloadList(character);
         updateView();
@@ -141,10 +144,12 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     public static class DeleteClassViewHolder extends AbstractCharacterClassViewHolder {
+        @NonNull
         final TextView name;
+        @NonNull
         final Button undo;
 
-        public DeleteClassViewHolder(View itemView) {
+        public DeleteClassViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -152,7 +157,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
 
         @Override
-        public void bind(final CharacterLevelsDialogFragment context, final ClassAdapter adapter, final CharacterClass characterClass) {
+        public void bind(@NonNull final CharacterLevelsDialogFragment context, @NonNull final ClassAdapter adapter, @NonNull final CharacterClass characterClass) {
             name.setText(context.getString(R.string.class_and_level, characterClass.getName(), characterClass.getLevel()));
             undo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -175,7 +180,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
             this.classes = classes;
         }
 
-        public void reloadList(Character character) {
+        public void reloadList(@NonNull Character character) {
             classes = character.getClasses();
             notifyDataSetChanged();
         }
@@ -189,8 +194,9 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
             return super.getItemViewType(position);
         }
 
+        @NonNull
         @Override
-        public AbstractCharacterClassViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AbstractCharacterClassViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == -1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.deleting_equipment_row, parent, false);
                 return new DeleteClassViewHolder(newView);
@@ -200,7 +206,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
 
         @Override
-        public void onBindViewHolder(AbstractCharacterClassViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull AbstractCharacterClassViewHolder holder, int position) {
             holder.bind(context, this, getItem(position));
         }
 
@@ -268,16 +274,22 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     public static class CharacterClassViewHolder extends AbstractCharacterClassViewHolder implements ItemTouchHelperViewHolder {
+        @NonNull
         final TextView character_level;
+        @NonNull
         final TextView class_name;
+        @NonNull
         final TextView class_level;
+        @NonNull
         final TextView hp;
+        @NonNull
         final TextView hit_dice;
+        @NonNull
         final TextView subclass_name;
         private Drawable originalBackground;
 
 
-        public CharacterClassViewHolder(View itemView) {
+        public CharacterClassViewHolder(@NonNull View itemView) {
             super(itemView);
             character_level = (TextView) itemView.findViewById(R.id.character_level);
             class_name = (TextView) itemView.findViewById(R.id.class_name);
@@ -289,7 +301,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
 
         @Override
-        public void bind(final CharacterLevelsDialogFragment context, final ClassAdapter adapter, final CharacterClass item) {
+        public void bind(@NonNull final CharacterLevelsDialogFragment context, final ClassAdapter adapter, @NonNull final CharacterClass item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -336,7 +348,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         }
 
         @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             if (viewHolder.getAdapterPosition() != recyclerView.getAdapter().getItemCount() - 1) {
                 return makeMovementFlags(0, 0);
             }

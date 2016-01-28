@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.md;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 /**
@@ -12,7 +13,7 @@ public class CategoryChoicesMD extends ChooseMD<DropdownOptionMD> {
     }
 
     @Override
-    public boolean validate(ViewGroup dynamicView) {
+    public boolean validate(@NonNull ViewGroup dynamicView) {
         int numInvalid = 0;
         for (DropdownOptionMD each : getOptions()) {
             if (!each.validate(dynamicView)) {

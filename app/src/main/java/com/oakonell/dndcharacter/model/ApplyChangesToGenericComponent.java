@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
@@ -49,7 +50,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
 
-    private static void deleteItems(List<? extends CharacterItem> items, ComponentType componentType) {
+    private static void deleteItems(@NonNull List<? extends CharacterItem> items, ComponentType componentType) {
         for (Iterator<? extends CharacterItem> iterator = items.iterator(); iterator.hasNext(); ) {
             CharacterItem item = iterator.next();
             if (item.getSource() == componentType) {
@@ -58,7 +59,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
     }
 
-    public static <C extends BaseCharacterComponent> void applyToCharacter(Element element, SavedChoices savedChoices, C component, @Nullable Character character, boolean deleteEquipment) {
+    public static <C extends BaseCharacterComponent> void applyToCharacter(@NonNull Element element, SavedChoices savedChoices, @NonNull C component, @Nullable Character character, boolean deleteEquipment) {
         if (deleteEquipment && character != null) {
             // first clear any equipment from this type previous value
             ComponentType componentType = component.getType();
@@ -72,7 +73,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
-    protected void visitFeature(Element element) {
+    protected void visitFeature(@NonNull Element element) {
         Feature feature = new Feature();
         String name = XmlUtils.getElementText(element, "name");
         feature.setName(name);
@@ -176,7 +177,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         super.visitFeature(element);
     }
 
-    protected int readIntegerAttribute(Element actionElement, String attributeName, int defaultValue) {
+    protected int readIntegerAttribute(@NonNull Element actionElement, String attributeName, int defaultValue) {
         String stringValue = actionElement.getAttribute(attributeName);
         if (stringValue != null && stringValue.trim().length() > 0) {
             return Integer.parseInt(stringValue);
@@ -185,7 +186,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
-    protected void visitProficiency(Element element) {
+    protected void visitProficiency(@NonNull Element element) {
         String skillName = element.getTextContent();
         String category = element.getAttribute("category");
 
@@ -233,7 +234,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
-    protected void visitIncrease(Element element) {
+    protected void visitIncrease(@NonNull Element element) {
         String statName = element.getAttribute("name");
         String amountStr = element.getTextContent();
 
@@ -248,14 +249,14 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
-    protected void visitLanguage(Element element) {
+    protected void visitLanguage(@NonNull Element element) {
         String language = element.getTextContent();
         component.getLanguages().add(language);
         super.visitLanguage(element);
     }
 
     @Override
-    protected void visitChoose(Element element) {
+    protected void visitChoose(@NonNull Element element) {
         String oldChoiceName = currentChoiceName;
 
         currentChoiceName = element.getAttribute("name");
@@ -277,7 +278,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
-    protected void visitCantrip(Element element) {
+    protected void visitCantrip(@NonNull Element element) {
         final String cantripName = element.getTextContent();
         String statString = element.getAttribute("stat");
 
@@ -289,7 +290,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         addCantrip(cantripName, stat);
     }
 
-    private void addCantrip(String cantripName, StatType stat) {
+    private void addCantrip(@NonNull String cantripName, StatType stat) {
         List<Spell> spells = new Select()
                 .from(Spell.class).where("UPPER(name) = ?", cantripName.toUpperCase()).execute();
         CharacterSpell characterSpell = null;
@@ -312,7 +313,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
-    protected void visitItem(Element element) {
+    protected void visitItem(@NonNull Element element) {
         if (character == null) {
             return;
         }
@@ -320,7 +321,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         addItem(itemName);
     }
 
-    private void addItem(String itemName) {
+    private void addItem(@NonNull String itemName) {
         // look up in items table for more information
         List<ItemRow> items = new Select()
                 .from(ItemRow.class).where("UPPER(name) = ?", itemName.toUpperCase()).execute();
@@ -384,7 +385,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
-    protected void visitOr(Element element) {
+    protected void visitOr(@NonNull Element element) {
         String optionName = element.getAttribute("name");
         List<String> selections = savedChoices.getChoicesFor(currentChoiceName);
         if (selections.contains(optionName)) {

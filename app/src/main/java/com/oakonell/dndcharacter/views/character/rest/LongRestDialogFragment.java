@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character.rest;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -38,8 +40,10 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     private CheckBox fullHealing;
     private HitDiceRestoreAdapter diceAdapter;
     private RecyclerView hitDiceListView;
+    @Nullable
     private Bundle savedDiceRestoreBundle;
 
+    @NonNull
     public static LongRestDialogFragment createDialog() {
         return new LongRestDialogFragment();
     }
@@ -50,8 +54,8 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
+                                @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.long_rest_dialog, container);
         configureCommon(view);
 
@@ -86,6 +90,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         return getString(R.string.long_rest_title);
     }
 
+    @NonNull
     @Override
     protected Set<FeatureContext> getContextFilter() {
         Set<FeatureContext> filter = new HashSet<>();
@@ -94,7 +99,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle diceRestoreBundle = new Bundle();
         for (HitDieRestoreRow each : diceAdapter.diceCounts) {
@@ -125,7 +130,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
         diceAdapter = new HitDiceRestoreAdapter(getActivity(), character);
@@ -153,7 +158,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         updateView();
         diceAdapter.reloadList(character);
     }
@@ -183,14 +188,19 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     static class HitDiceRestoreViewHolder extends BindableComponentViewHolder<HitDieRestoreRow, Context, HitDiceRestoreAdapter> {
+        @NonNull
         final TextView dieSides;
+        @NonNull
         final TextView currentDiceRemaining;
+        @NonNull
         final EditText numDiceToRestore;
+        @NonNull
         final TextView totalDice;
+        @NonNull
         final TextView resultDice;
         TextWatcher numDiceToRestoreWatcher;
 
-        public HitDiceRestoreViewHolder(View view) {
+        public HitDiceRestoreViewHolder(@NonNull View view) {
             super(view);
             dieSides = (TextView) view.findViewById(R.id.die);
             currentDiceRemaining = (TextView) view.findViewById(R.id.current_dice_remaining);
@@ -200,7 +210,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         }
 
         @Override
-        public void bind(final Context context, final HitDiceRestoreAdapter adapter, final HitDieRestoreRow row) {
+        public void bind(@NonNull final Context context, final HitDiceRestoreAdapter adapter, @NonNull final HitDieRestoreRow row) {
             if (numDiceToRestoreWatcher != null) {
                 numDiceToRestore.removeTextChangedListener(numDiceToRestoreWatcher);
             }
@@ -226,7 +236,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
                 }
 
                 @Override
-                public void afterTextChanged(Editable s) {
+                public void afterTextChanged(@NonNull Editable s) {
                     String string = s.toString();
                     if (string.length() == 0) {
                         row.numDiceToRestore = 0;
@@ -263,12 +273,12 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         List<HitDieRestoreRow> diceCounts;
         private final Context context;
 
-        public HitDiceRestoreAdapter(Context context, Character character) {
+        public HitDiceRestoreAdapter(Context context, @NonNull Character character) {
             this.context = context;
             populateDiceCounts(character);
         }
 
-        private void populateDiceCounts(Character character) {
+        private void populateDiceCounts(@NonNull Character character) {
             diceCounts = new ArrayList<>();
             for (Character.HitDieRow each : character.getHitDiceCounts()) {
                 HitDieRestoreRow newRow = new HitDieRestoreRow();
@@ -282,7 +292,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         }
 
 
-        public void reloadList(Character character) {
+        public void reloadList(@NonNull Character character) {
             populateDiceCounts(character);
             notifyDataSetChanged();
         }
@@ -291,6 +301,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
             return diceCounts.get(position);
         }
 
+        @NonNull
         @Override
         public HitDiceRestoreViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = View.inflate(context, R.layout.hit_dice_restore_item, null);
@@ -299,7 +310,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
         }
 
         @Override
-        public void onBindViewHolder(final HitDiceRestoreViewHolder viewHolder, final int position) {
+        public void onBindViewHolder(@NonNull final HitDiceRestoreViewHolder viewHolder, final int position) {
             final HitDieRestoreRow row = getItem(position);
             viewHolder.bind(context, this, row);
         }

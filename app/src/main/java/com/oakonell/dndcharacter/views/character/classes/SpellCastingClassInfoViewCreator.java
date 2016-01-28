@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.views.character.classes;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -14,7 +16,7 @@ import java.util.List;
  * Created by Rob on 1/24/2016.
  */
 public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreator {
-    public void appendToLayout(ViewGroup parent, Element rootClassElement, Element spells, Element cantrips) {
+    public void appendToLayout(ViewGroup parent, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips) {
         setParent(parent);
 
         Element castingStatElem = XmlUtils.getElement(rootClassElement, "spellCastingStat");

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -109,7 +110,7 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
             }
 
             @Override
-            protected void onPostExecute(List<CharacterRow> characters) {
+            protected void onPostExecute(@NonNull List<CharacterRow> characters) {
                 Menu m = navigationView.getMenu();
                 MenuItem item = m.findItem(R.id.nav_recent_characters);
                 SubMenu sub = item.getSubMenu();
@@ -170,7 +171,7 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -219,7 +220,7 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == FILE_IMPORT_REQUEST && resultCode == RESULT_OK) {

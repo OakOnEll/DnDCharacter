@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ public class NoDefaultSpinner extends Spinner {
     }
 
     @Override
-    public void setAdapter(SpinnerAdapter orig) {
+    public void setAdapter(@NonNull SpinnerAdapter orig) {
         final SpinnerAdapter adapter = newProxy(orig);
 
         super.setAdapter(adapter);
@@ -58,7 +59,8 @@ public class NoDefaultSpinner extends Spinner {
         }
     }
 
-    protected SpinnerAdapter newProxy(SpinnerAdapter obj) {
+    @NonNull
+    protected SpinnerAdapter newProxy(@NonNull SpinnerAdapter obj) {
         return (SpinnerAdapter) java.lang.reflect.Proxy.newProxyInstance(
                 obj.getClass().getClassLoader(),
                 new Class[]{SpinnerAdapter.class},
@@ -99,7 +101,7 @@ public class NoDefaultSpinner extends Spinner {
             }
         }
 
-        public Object invoke(Object proxy, Method m, Object[] args) throws Throwable {
+        public Object invoke(Object proxy, @NonNull Method m, Object[] args) throws Throwable {
             try {
                 return m.equals(getView) &&
                         (Integer) (args[0]) < 0 ?

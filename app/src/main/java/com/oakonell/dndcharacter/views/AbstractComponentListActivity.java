@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -74,8 +75,9 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
 
 
         getSupportLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+            @NonNull
             @Override
-            public Loader<Cursor> onCreateLoader(int theLoaderId, Bundle cursor) {
+            public Loader<Cursor> onCreateLoader(int theLoaderId, @Nullable Bundle cursor) {
                 loaderId = theLoaderId;
                 Toast.makeText(AbstractComponentListActivity.this, "Loader created- cursor " + (cursor == null ? "is null!" : " bundled"), Toast.LENGTH_SHORT).show();
                 return new CursorLoader(AbstractComponentListActivity.this,
@@ -85,7 +87,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
             }
 
             @Override
-            public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
+            public void onLoadFinished(Loader<Cursor> arg0, @Nullable Cursor cursor) {
                 Toast.makeText(AbstractComponentListActivity.this, "Load finished- cursor " + (cursor == null ? "is null!" : cursor.getCount()), Toast.LENGTH_SHORT).show();
                 adapter.swapCursor(cursor);
             }
@@ -122,10 +124,12 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     abstract protected Class<? extends M> getComponentClass();
 
 
+    @NonNull
     protected abstract M createNewRecord();
 
     abstract protected void openRecord(long id);
 
+    @NonNull
     protected abstract String getSubtitle();
 
     @Override
@@ -137,17 +141,19 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     }
 
     @NonNull
-    protected CursorBindableRecyclerViewHolder newRowViewHolder(View newView) {
+    protected CursorBindableRecyclerViewHolder newRowViewHolder(@NonNull View newView) {
         return new RowViewHolderCursor(newView);
     }
 
     protected abstract void deleteRow(long id);
 
     public static class DeleteRowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> {
+        @NonNull
         final TextView name;
+        @NonNull
         final Button undo;
 
-        public DeleteRowViewHolderCursor(View itemView) {
+        public DeleteRowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -155,7 +161,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, final RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractComponentListActivity context, @NonNull final RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
@@ -173,17 +179,18 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
     }
 
     public static class RowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> implements ItemTouchHelperViewHolder {
+        @NonNull
         final TextView name;
         //TextView description;
         private Drawable originalBackground;
 
-        public RowViewHolderCursor(View itemView) {
+        public RowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
         }
 
         @Override
-        public void bindTo(Cursor cursor, final AbstractComponentListActivity context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
@@ -213,6 +220,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         private final AbstractComponentListActivity<? extends Model> context;
         private final int layout;
         Cursor cursor;
+        @NonNull
         CursorIndexesByName cursorIndexesByName = new CursorIndexesByName();
 
         public ComponentListAdapter(AbstractComponentListActivity<? extends Model> context, int layout) {
@@ -236,8 +244,9 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
             return 0;
         }
 
+        @NonNull
         @Override
-        public CursorBindableRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public CursorBindableRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == 1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.component_deleted_item, parent, false);
                 return new DeleteRowViewHolderCursor(newView);
@@ -247,7 +256,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public void onBindViewHolder(CursorBindableRecyclerViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull CursorBindableRecyclerViewHolder holder, int position) {
             cursor.moveToPosition(position);
             holder.bindTo(cursor, context, this, cursorIndexesByName);
         }

@@ -3,6 +3,8 @@ package com.oakonell.dndcharacter.views.imports;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,12 +48,13 @@ public class ImportActivity extends AppCompatActivity {
     private ImageButton searchButton;
     private RecyclerView listView;
     private Button importRowsButton;
+    @Nullable
     private String filename;
     private RecyclerView.Adapter<ImportRowViewHolder> listAdapter;
     private TextView filenameText;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import);
 
@@ -176,7 +179,7 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         if (filename != null) {
@@ -185,7 +188,7 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == FILE_IMPORT_REQUEST && resultCode == RESULT_OK) {
@@ -215,6 +218,7 @@ public class ImportActivity extends AppCompatActivity {
         listAdapter.notifyDataSetChanged();
     }
 
+    @Nullable
     private Document readDocument() {
         File file = new File(filename);
         FileInputStream in;
@@ -227,13 +231,18 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     public static class ImportRowViewHolder extends RecyclerView.ViewHolder {
+        @NonNull
         final CheckBox should_import;
+        @NonNull
         final TextView type;
+        @NonNull
         final TextView name;
+        @NonNull
         final ImageView imported;
+        @NonNull
         final TextView error;
 
-        public ImportRowViewHolder(View itemView) {
+        public ImportRowViewHolder(@NonNull View itemView) {
             super(itemView);
             should_import = (CheckBox) itemView.findViewById(R.id.should_import);
             name = (TextView) itemView.findViewById(R.id.name);
@@ -248,6 +257,7 @@ public class ImportActivity extends AppCompatActivity {
         public String message;
         boolean shouldImport;
         String type;
+        @Nullable
         String name;
         Element element;
     }
@@ -259,14 +269,15 @@ public class ImportActivity extends AppCompatActivity {
             this.rows = rows;
         }
 
+        @NonNull
         @Override
-        public ImportRowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ImportRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.import_row_item, parent, false);
             return new ImportRowViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(ImportRowViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ImportRowViewHolder holder, int position) {
             final ImportRow row = getItem(position);
             holder.name.setText(row.name);
             holder.type.setText(row.type);

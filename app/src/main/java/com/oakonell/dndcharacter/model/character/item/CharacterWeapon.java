@@ -27,15 +27,18 @@ public class CharacterWeapon extends CharacterItem {
     @ElementList(required = false)
     private Set<String> properties;
 
+    @NonNull
     @ElementList(required = false)
     private List<DamageFormula> damageFormulas = new ArrayList<>();
 
+    @NonNull
     @ElementList(required = false)
     private List<DamageFormula> versatileDamageFormulas = new ArrayList<>();
     @Element(required = false)
     private String ammunition;
 
 
+    @NonNull
     public ItemType getItemType() {
         return ItemType.WEAPON;
     }
@@ -59,25 +62,27 @@ public class CharacterWeapon extends CharacterItem {
         this.range = range;
     }
 
-    public void setProperties(String[] properties) {
+    public void setProperties(@NonNull String[] properties) {
         this.properties = new HashSet<>();
         for (String each : properties) {
             this.properties.add(each.toUpperCase().trim());
         }
     }
 
+    @NonNull
     public String getDamageString() {
         final List<DamageFormula> damageFormulas = this.damageFormulas;
         return getDamagesString(damageFormulas);
     }
 
+    @NonNull
     public String getVersatileDamageString() {
         final List<DamageFormula> damageFormulas = this.versatileDamageFormulas;
         return getDamagesString(damageFormulas);
     }
 
     @NonNull
-    private String getDamagesString(List<DamageFormula> damageFormulas) {
+    private String getDamagesString(@NonNull List<DamageFormula> damageFormulas) {
         StringBuilder builder = new StringBuilder();
         boolean isFirst = true;
         for (DamageFormula each : damageFormulas) {
@@ -92,10 +97,12 @@ public class CharacterWeapon extends CharacterItem {
         return builder.toString();
     }
 
+    @NonNull
     public List<DamageFormula> getDamages() {
         return damageFormulas;
     }
 
+    @NonNull
     public List<DamageFormula> getVersatileDamages() {
         return versatileDamageFormulas;
     }
@@ -121,6 +128,7 @@ public class CharacterWeapon extends CharacterItem {
         return properties != null && properties.contains("FINESSE");
     }
 
+    @NonNull
     public String getDescriptionString() {
         StringBuilder builder = new StringBuilder();
         boolean isFirst = true;
@@ -151,7 +159,8 @@ public class CharacterWeapon extends CharacterItem {
         return builder.toString();
     }
 
-    public AttackModifiers getAttackModifiers(com.oakonell.dndcharacter.model.character.Character character, boolean useFinesse) {
+    @NonNull
+    public AttackModifiers getAttackModifiers(@NonNull com.oakonell.dndcharacter.model.character.Character character, boolean useFinesse) {
         StatBlock statBlock;
         if (useFinesse || isRanged()) {
             statBlock = character.getStatBlock(StatType.DEXTERITY);

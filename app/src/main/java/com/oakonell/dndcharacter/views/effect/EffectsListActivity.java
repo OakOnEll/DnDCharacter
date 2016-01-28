@@ -16,6 +16,7 @@ public class EffectsListActivity extends AbstractComponentListActivity<Effect> {
         return Effect.class;
     }
 
+    @NonNull
     @Override
     protected Effect createNewRecord() {
         return new Effect();
@@ -29,6 +30,7 @@ public class EffectsListActivity extends AbstractComponentListActivity<Effect> {
         dialog.show(getSupportFragmentManager(), "background_edit");
     }
 
+    @NonNull
     @Override
     protected String getSubtitle() {
         return getString(R.string.effects);

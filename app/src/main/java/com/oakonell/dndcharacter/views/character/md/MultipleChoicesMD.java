@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.md;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,7 +27,7 @@ public class MultipleChoicesMD extends ChooseMD<CheckOptionMD> {
     }
 
     @Override
-    public boolean validate(ViewGroup dynamicView) {
+    public boolean validate(@NonNull ViewGroup dynamicView) {
         int checked = 0;
         boolean isValid = true;
         for (CheckOptionMD each : getOptions()) {

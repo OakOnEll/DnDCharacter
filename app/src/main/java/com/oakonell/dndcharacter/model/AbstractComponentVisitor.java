@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model;
 
+import android.support.annotation.NonNull;
+
 import org.w3c.dom.Element;
 
 /**
@@ -8,7 +10,7 @@ import org.w3c.dom.Element;
 public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
     protected VisitState state;
 
-    protected void visit(Element element) {
+    protected void visit(@NonNull Element element) {
         String name = element.getTagName();
         boolean wasVisited = true;
         switch (name) {
@@ -72,62 +74,62 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
         }
     }
 
-    protected void visitCharacterLevel(Element element) {
+    protected void visitCharacterLevel(@NonNull Element element) {
         visitGroup(element);
     }
 
-    protected void visitCantrip(Element element) {
+    protected void visitCantrip(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
 
-    protected void visitIncrease(Element element) {
+    protected void visitIncrease(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitStat(Element element) {
+    protected void visitStat(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.STATS;
         visitGroup(element);
         state = oldState;
     }
 
-    protected void visitLanguage(Element element) {
+    protected void visitLanguage(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitEquipment(Element element) {
+    protected void visitEquipment(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.EQUIPMENT;
         visitGroup(element);
         state = oldState;
     }
 
-    protected void visitShortDescription(Element element) {
+    protected void visitShortDescription(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitDescription(Element element) {
+    protected void visitDescription(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitName(Element element) {
+    protected void visitName(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitProficiency(Element element) {
+    protected void visitProficiency(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitMoney(Element element) {
+    protected void visitMoney(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitTool(Element element) {
+    protected void visitTool(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitTools(Element element) {
+    protected void visitTools(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.TOOLS;
         visitGroup(element);
@@ -135,46 +137,46 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
     }
 
 
-    protected void visitArmor(Element element) {
+    protected void visitArmor(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.ARMOR;
         visitGroup(element);
         state = oldState;
     }
 
-    protected void visitWeapons(Element element) {
+    protected void visitWeapons(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.WEAPONS;
         visitGroup(element);
         state = oldState;
     }
 
-    protected void visitItem(Element element) {
+    protected void visitItem(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitFeature(Element element) {
+    protected void visitFeature(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.FEATURE;
         visitChildren(element);
         state = oldState;
     }
 
-    protected void visitLanguages(Element element) {
+    protected void visitLanguages(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.LANGUAGES;
         visitGroup(element);
         state = oldState;
     }
 
-    protected void visitSkills(Element element) {
+    protected void visitSkills(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.SKILLS;
         visitGroup(element);
         state = oldState;
     }
 
-    protected void visitSavingThrows(Element element) {
+    protected void visitSavingThrows(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.SAVING_THROWS;
         visitGroup(element);

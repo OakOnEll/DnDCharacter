@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.character.feature;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,8 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     private TextView description;
     private Button endEffectButton;
 
-    public static ViewEffectDialogFragment createDialog(CharacterEffect effect) {
+    @NonNull
+    public static ViewEffectDialogFragment createDialog(@NonNull CharacterEffect effect) {
         ViewEffectDialogFragment frag = new ViewEffectDialogFragment();
         String name = effect.getName();
         Bundle args = new Bundle();
@@ -31,7 +34,7 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.effect_dialog, container);
 
@@ -42,18 +45,19 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
         return view;
     }
 
+    @Nullable
     private String getNameArgument() {
         return getArguments().getString(NAME);
     }
 
 
     @Override
-    public void onCharacterLoaded(final Character character) {
+    public void onCharacterLoaded(@NonNull final Character character) {
         super.onCharacterLoaded(character);
         updateViews(character);
     }
 
-    protected void updateViews(final Character character) {
+    protected void updateViews(@NonNull final Character character) {
         final CharacterEffect effect = character.getEffectNamed(getNameArgument());
         if (effect == null) {
             description.setText(R.string.effect_not_active);
@@ -75,11 +79,12 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         updateViews(character);
     }
 
+    @Nullable
     @Override
     protected String getTitle() {
         return getNameArgument();

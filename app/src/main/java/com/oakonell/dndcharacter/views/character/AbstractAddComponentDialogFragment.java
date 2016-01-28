@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -35,6 +37,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
     private RecyclerView listView;
     private ComponentListAdapter<V> adapter;
     private int loaderId;
+    @Nullable
     private LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks;
 
 
@@ -42,7 +45,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
     protected abstract String getTitle();
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(getDialogResource(), container);
 
@@ -60,8 +63,9 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
         final EditText searchTerms = (EditText) view.findViewById(R.id.search_terms);
 
         loaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
+            @NonNull
             @Override
-            public Loader<Cursor> onCreateLoader(int theLoaderId, Bundle cursor) {
+            public Loader<Cursor> onCreateLoader(int theLoaderId, @Nullable Bundle cursor) {
                 loaderId = theLoaderId;
                 Toast.makeText(getActivity(), "Loader created- cursor " + (cursor == null ? "is null!" : " bundled"), Toast.LENGTH_SHORT).show();
 
@@ -95,7 +99,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
             }
 
             @Override
-            public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
+            public void onLoadFinished(Loader<Cursor> arg0, @Nullable Cursor cursor) {
                 Toast.makeText(getActivity(), "Load finished- cursor " + (cursor == null ? "is null!" : cursor.getCount()), Toast.LENGTH_SHORT).show();
                 adapter.swapCursor(cursor);
             }
@@ -145,10 +149,12 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
         }
     }
 
+    @Nullable
     protected String[] getSelectionArgs() {
         return null;
     }
 
+    @Nullable
     protected String getSelection() {
         return null;
     }
@@ -166,6 +172,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
         super.onResume();
     }
 
+    @NonNull
     public abstract Class<? extends Model> getComponentClass();
 
     @SuppressWarnings("SameReturnValue")
@@ -173,6 +180,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
         return R.layout.component_list_item;
     }
 
+    @NonNull
     @SuppressWarnings("SameReturnValue")
     public String getCursorSortBy() {
         return "name";
@@ -180,17 +188,18 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
 
 
     public static class RowViewHolder extends CursorBindableRecyclerViewHolder<AbstractAddComponentDialogFragment> implements ItemTouchHelperViewHolder {
+        @NonNull
         final TextView name;
         //TextView description;
         private Drawable originalBackground;
 
-        public RowViewHolder(View itemView) {
+        public RowViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
         }
 
         @Override
-        public void bindTo(Cursor cursor, final AbstractAddComponentDialogFragment context, RecyclerView.Adapter adapter, CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractAddComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
@@ -224,6 +233,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
         private final AbstractAddComponentDialogFragment context;
         private final int layout;
         Cursor cursor;
+        @NonNull
         CursorIndexesByName cursorIndexesByName = new CursorIndexesByName();
 
         public ComponentListAdapter(AbstractAddComponentDialogFragment context, int layout) {
@@ -239,14 +249,15 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
         }
 
 
+        @NonNull
         @Override
-        public V onCreateViewHolder(ViewGroup parent, int viewType) {
+        public V onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
             return (V) this.context.newRowViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(V holder, int position) {
+        public void onBindViewHolder(@NonNull V holder, int position) {
             cursor.moveToPosition(position);
             holder.bindTo(cursor, context, this, cursorIndexesByName);
         }
@@ -260,7 +271,8 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
 
     }
 
-    public V newRowViewHolder(View newView) {
+    @NonNull
+    public V newRowViewHolder(@NonNull View newView) {
         return (V) new RowViewHolder(newView);
     }
 
