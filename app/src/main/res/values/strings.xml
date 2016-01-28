@@ -231,5 +231,6 @@
     <string name="skill_proficiency">Skill Proficiency</string>
     <string name="stat_title">Stat</string>
     <string name="characters_title">Characters</string>
+    <string name="ac_mod_label">AC/Mod</string>
 
 </resources>
