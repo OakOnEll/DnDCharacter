@@ -17,6 +17,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layouts/character/armorclass',
+                            'src/main/res/layouts/character/hitpoints',
+                            'src/main/res/layouts/character/feature',
+                            'src/main/res/layouts/character/item',
+                            'src/main/res/layouts/character/main',
+                            'src/main/res/layouts/character/persona',
+                            'src/main/res/layouts/character/rest',
+                            'src/main/res/layouts/character/spell',
+                            'src/main/res/layouts/character/stats',
+                            'src/main/res/layouts/character',
+
+                            'src/main/res/layouts/characters',
+                            'src/main/res/layouts/import',
+                            'src/main/res/layouts/race',
+                            'src/main/res/layouts/spell',
+
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
+        }
+    }
 }
 
 dependencies {
@@ -57,7 +82,7 @@ dependencies {
 
 repositories {
     maven {
-        url  "http://dl.bintray.com/lukaville/maven"
+        url "http://dl.bintray.com/lukaville/maven"
     }
 }
 
