@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -23,20 +24,31 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
     private final TextView total_slots;
     @NonNull
     private final TextView level;
+    private final Button use_button;
 
     public SpellsViewHolder(@NonNull View itemView) {
         super(itemView);
         level = (TextView) itemView.findViewById(R.id.level);
         available_slots = (TextView) itemView.findViewById(R.id.available_slots);
         total_slots = (TextView) itemView.findViewById(R.id.total_slots);
+        use_button = (Button) itemView.findViewById(R.id.use_button);
     }
 
     @Override
-    public void bind(SpellsFragment context, SpellLevelsAdapter adapter, @NonNull com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo info) {
+    public void bind(final SpellsFragment context, SpellLevelsAdapter adapter, final @NonNull com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo info) {
         super.bind(context, adapter, info);
         available_slots.setText(NumberUtils.formatNumber(info.getSlotsAvailable()));
         total_slots.setText(NumberUtils.formatNumber(info.getMaxSlots()));
         level.setText(NumberUtils.formatNumber(info.getLevel()));
+        use_button.setEnabled(info.getSlotsAvailable() > 0);
+        use_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.getCharacter().useSpellSlot(info.getLevel());
+                context.updateViews();
+                context.getMainActivity().saveCharacter();
+            }
+        });
     }
 
     @NonNull

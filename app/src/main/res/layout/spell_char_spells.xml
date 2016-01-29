@@ -10,6 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -66,8 +67,17 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/slash"
             android:gravity="center_horizontal"
-            tools:text="5"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="5" />
+
+        <Button
+            android:id="@+id/use_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/add_spell"
+            android:text="@string/use_button_label" />
+
 
         <ImageButton
             android:id="@+id/add_spell"

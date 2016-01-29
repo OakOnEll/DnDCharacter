@@ -494,6 +494,12 @@ public class Character {
         return prepared;
     }
 
+    public void useSpellSlot(int level) {
+        Integer used = spellSlotsUsed.get(level);
+        if (used == null) used = 0;
+        spellSlotsUsed.put(level, used + 1);
+    }
+
 
     public static class ArmorClassWithSource extends WithSource {
         private final String formula;
@@ -1046,6 +1052,23 @@ public class Character {
 
         //refresh features
         resetFeatures(request);
+        resetSpellSlots(request);
+    }
+
+    private void resetSpellSlots(@NonNull AbstractRestRequest request) {
+        final Map<Integer, Integer> spellSlotResets = request.getSpellSlotResets();
+        for (Map.Entry<Integer, Integer> entry : spellSlotResets.entrySet()) {
+            Integer level = entry.getKey();
+            Integer toRestore = entry.getValue();
+            Integer used = spellSlotsUsed.get(level);
+            if (used == null) used = 0;
+            used = Math.max(0, used - toRestore);
+            if (used == 0) {
+                spellSlotsUsed.remove(level);
+            } else {
+                spellSlotsUsed.put(level, used);
+            }
+        }
     }
 
     private void resetFeatures(@NonNull AbstractRestRequest request) {
@@ -1081,6 +1104,7 @@ public class Character {
         }
 
         resetFeatures(request);
+        resetSpellSlots(request);
     }
 
     @NonNull

@@ -165,6 +165,8 @@
 
                 </LinearLayout>
 
+                <include layout="@layout/rest_spell_slot_reset_layout" />
+
                 <include layout="@layout/feature_reset_layout" />
 
                 <include layout="@layout/feature_context" />

@@ -166,6 +166,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     @Override
     public void updateView() {
         super.updateView();
+        if (getCharacter() == null) return;
         if (getCharacter().getHP() == getCharacter().getMaxHP()) {
             fullHealingGroup.setVisibility(View.GONE);
         } else {
@@ -327,4 +328,14 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
 
 
     }
+
+
+    protected boolean shouldResetSpellSlot(Character.SpellLevelInfo each) {
+        return true;
+    }
+
+    protected int getSlotsToRestore(Character.SpellLevelInfo each) {
+        return each.getMaxSlots() - each.getSlotsAvailable();
+    }
+
 }

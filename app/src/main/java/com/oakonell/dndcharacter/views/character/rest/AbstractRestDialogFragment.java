@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.character.SpellSlotResetInfo;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
@@ -27,14 +28,19 @@ import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rob on 11/8/2015.
  */
 public abstract class AbstractRestDialogFragment extends AbstractCharacterDialogFragment {
     public static final String FEATURE_RESETS_SAVE_BUNDLE_KEY = "featureResets";
+    public static final String SPELL_SLOT_RESETS_SAVE_BUNDLE_KEY = "spellSlotResets";
+
     public static final String RESET = "reset";
     public static final String NUM_TO_RESTORE = "numToRestore";
 
@@ -46,9 +52,13 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     private View noHealingGroup;
 
     private FeatureResetsAdapter featureResetAdapter;
-    private android.support.v7.widget.RecyclerView featureListView;
+    private RecyclerView featureListView;
+    private SpellSlotsResetsAdapter spellSlotResetAdapter;
+    private RecyclerView spell_slot_list;
+
     @Nullable
     private Bundle savedFeatureResets;
+    private Bundle savedSpellSlotResets;
 
     protected boolean allowExtraHealing() {
         return getCharacter().getHP() != getCharacter().getMaxHP();
@@ -62,6 +72,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             savedFeatureResets = savedInstanceState.getBundle(FEATURE_RESETS_SAVE_BUNDLE_KEY);
+            savedSpellSlotResets = savedInstanceState.getBundle(SPELL_SLOT_RESETS_SAVE_BUNDLE_KEY);
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -77,6 +88,15 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             resets.putBundle(each.name, reset);
         }
         outState.putBundle(FEATURE_RESETS_SAVE_BUNDLE_KEY, resets);
+
+        Bundle slotResets = new Bundle();
+        for (SpellSlotResetInfo each : spellSlotResetAdapter.resets) {
+            Bundle reset = new Bundle();
+            reset.putByte(RESET, (byte) (each.reset ? 1 : 0));
+            reset.putInt(NUM_TO_RESTORE, each.restoreSlots);
+            slotResets.putBundle(each.level + "", reset);
+        }
+        outState.putBundle(SPELL_SLOT_RESETS_SAVE_BUNDLE_KEY, slotResets);
     }
 
     @Override
@@ -119,6 +139,8 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                 resetInfo.reset = shouldReset(refreshOn);
                 if (resetInfo.reset) {
                     resetInfo.numToRestore = maxUses - usesRemaining;
+                } else {
+                    resetInfo.numToRestore = 0;
                 }
             }
             resetInfo.refreshOn = refreshOn;
@@ -137,6 +159,54 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         featureListView.addItemDecoration(itemDecoration);
 
+
+        List<SpellSlotResetInfo> spellSlotResets = new ArrayList<>();
+
+        final List<Character.SpellLevelInfo> spellInfos = character.getSpellInfos();
+        for (Character.SpellLevelInfo each : spellInfos) {
+            if (each.getLevel() == 0) continue;
+            SpellSlotResetInfo resetInfo = new SpellSlotResetInfo();
+            resetInfo.level = each.getLevel();
+            resetInfo.maxSlots = each.getMaxSlots();
+            resetInfo.availableSlots = each.getSlotsAvailable();
+
+            Bundle resetBundle = null;
+            if (savedSpellSlotResets != null) {
+                resetBundle = savedSpellSlotResets.getBundle(each.getLevel() + "");
+            }
+            if (resetBundle != null) {
+                resetInfo.reset = resetBundle.getByte(RESET) != 0;
+                resetInfo.restoreSlots = resetBundle.getInt(NUM_TO_RESTORE);
+            } else {
+                resetInfo.reset = shouldResetSpellSlot(each);
+                if (resetInfo.reset) {
+                    resetInfo.restoreSlots = getSlotsToRestore(each);
+                } else {
+                    resetInfo.restoreSlots = 0;
+                }
+            }
+            spellSlotResets.add(resetInfo);
+        }
+        savedSpellSlotResets = null;
+
+
+        spellSlotResetAdapter = new SpellSlotsResetsAdapter(getActivity(), spellSlotResets);
+        spell_slot_list.setAdapter(spellSlotResetAdapter);
+
+        spell_slot_list.setHasFixedSize(false);
+        spell_slot_list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
+        DividerItemDecoration horizontalDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL_LIST);
+        spell_slot_list.addItemDecoration(horizontalDecoration);
+
+    }
+
+    protected boolean shouldResetSpellSlot(Character.SpellLevelInfo each) {
+        return false;
+    }
+
+    protected int getSlotsToRestore(Character.SpellLevelInfo each) {
+        return 0;
     }
 
     protected void configureCommon(@NonNull View view) {
@@ -149,7 +219,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         noHealingGroup = view.findViewById(R.id.no_healing_group);
 
         featureListView = (RecyclerView) view.findViewById(R.id.feature_list);
-
+        spell_slot_list = (RecyclerView) view.findViewById(R.id.spell_slot_list);
 
         extraHealingtextView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -183,6 +253,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     public void updateView() {
         Character character = getCharacter();
+        if (character == null) return;
         int hp = character.getHP();
         int healing = getHealing();
         hp = Math.min(hp + healing, character.getMaxHP());
@@ -199,9 +270,81 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                 request.addFeatureReset(each.name, each.numToRestore);
             }
         }
+        for (SpellSlotResetInfo each : spellSlotResetAdapter.resets) {
+            if (each.reset) {
+                isValid = isValid && each.restoreSlots <= each.maxSlots - each.availableSlots;
+                request.addSpellSlotReset(each.level, each.restoreSlots);
+            }
+        }
         return isValid;
     }
 
+    static class SpellSlotResetViewHolder extends BindableComponentViewHolder<SpellSlotResetInfo, Context, SpellSlotsResetsAdapter> {
+        private final CheckBox level;
+        private final TextView slots;
+        private final TextView final_slots;
+
+        public SpellSlotResetViewHolder(@NonNull View itemView) {
+            super(itemView);
+            itemView.findViewById(R.id.level_label).setVisibility(View.GONE);
+            level = (CheckBox) itemView.findViewById(R.id.level);
+            level.setVisibility(View.VISIBLE);
+            slots = (TextView) itemView.findViewById(R.id.slots);
+            final_slots = (TextView) itemView.findViewById(R.id.final_slots);
+        }
+
+        @Override
+        public void bind(Context context, final SpellSlotsResetsAdapter adapter, final SpellSlotResetInfo info) {
+            level.setText(NumberUtils.formatNumber(info.level));
+            level.setOnCheckedChangeListener(null);
+            level.setChecked(info.reset);
+            slots.setText(context.getString(R.string.fraction_d_slash_d, info.availableSlots, info.maxSlots));
+            level.setEnabled(info.availableSlots < info.maxSlots);
+
+
+            level.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        info.restoreSlots = info.maxSlots - info.availableSlots;
+                    } else {
+                        info.restoreSlots = 0;
+                    }
+                    info.reset = isChecked;
+                    adapter.notifyItemChanged(getAdapterPosition());
+                }
+            });
+
+            final_slots.setText(context.getString(R.string.fraction_d_slash_d, info.availableSlots + info.restoreSlots, info.maxSlots));
+        }
+    }
+
+    static class SpellSlotsResetsAdapter extends RecyclerView.Adapter<SpellSlotResetViewHolder> {
+        private final List<SpellSlotResetInfo> resets;
+        private final Context context;
+
+        SpellSlotsResetsAdapter(Context context, List<SpellSlotResetInfo> resets) {
+            this.context = context;
+            this.resets = resets;
+        }
+
+        @Override
+        public SpellSlotResetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = View.inflate(context, R.layout.rest_spell_slot_reset_item, null);
+            SpellSlotResetViewHolder holder = new SpellSlotResetViewHolder(view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(SpellSlotResetViewHolder holder, int position) {
+            holder.bind(context, this, resets.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return resets.size();
+        }
+    }
 
     static class FeatureResetsAdapter extends RecyclerView.Adapter<FeatureResetViewHolder> {
         private final List<FeatureResetInfo> resets;
@@ -314,11 +457,11 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                     try {
                         value = Integer.parseInt(stringVal);
                     } catch (Exception e) {
-                        numToRestore.setError(context.getString(R.string.enter_number_less_than_equal_n,  row.maxToRestore));
+                        numToRestore.setError(context.getString(R.string.enter_number_less_than_equal_n, row.maxToRestore));
                         return;
                     }
                     if (value > row.maxToRestore) {
-                        numToRestore.setError(context.getString(R.string.enter_number_less_than_equal_n,  row.maxToRestore));
+                        numToRestore.setError(context.getString(R.string.enter_number_less_than_equal_n, row.maxToRestore));
                     }
 
                     row.numToRestore = value;

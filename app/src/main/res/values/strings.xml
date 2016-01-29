@@ -232,5 +232,9 @@
     <string name="stat_title">Stat</string>
     <string name="characters_title">Characters</string>
     <string name="ac_mod_label">AC/Mod</string>
+    <string name="spell_slot_resets_title">Spell Slot Resets</string>
+    <string name="current_slots">Current Slots</string>
+    <string name="final_slots">Final Slots</string>
+    <string name="spell_level">Spell Level</string>
 
 </resources>
