@@ -20,6 +20,7 @@ import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.expression.Expression;
@@ -1518,7 +1519,9 @@ public class Character {
                 level.level = i;
                 final String slots = casterInfo.getSlotMap().get(i);
                 if (slots != null) {
-                    level.maxSlots = evaluateFormula(slots, null);
+                    SimpleVariableContext variableContext = new SimpleVariableContext();
+                    variableContext.setNumber("classLevel", casterInfo.classLevel);
+                    level.maxSlots = evaluateFormula(slots, variableContext);
                 } else {
                     level.maxSlots = 0;
                 }
@@ -1677,6 +1680,8 @@ public class Character {
         public Map<Integer, String> slotMap;
         private int classLevel;
 
+        public RefreshType spellSlotRefresh;
+
         public String getClassName() {
             return className;
         }
@@ -1715,6 +1720,14 @@ public class Character {
 
         public boolean usesPreparedSpells() {
             return preparedSpells != null && preparedSpells.length() > 0;
+        }
+
+        public RefreshType getSpellSlotRefresh() {
+            return spellSlotRefresh;
+        }
+
+        public void setSpellSlotRefresh(RefreshType spellSlotRefresh) {
+            this.spellSlotRefresh = spellSlotRefresh;
         }
     }
 
@@ -1772,6 +1785,7 @@ public class Character {
             // allow this to be overwritten with each class level processed, in order
             if (info != null) {
                 info.classLevel = each.getLevel();
+                info.spellSlotRefresh = each.getSpellSlotRefresh();
             }
         }
         return classInfoMap;

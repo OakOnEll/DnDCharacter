@@ -178,9 +178,11 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                 resetInfo.reset = resetBundle.getByte(RESET) != 0;
                 resetInfo.restoreSlots = resetBundle.getInt(NUM_TO_RESTORE);
             } else {
-                resetInfo.reset = shouldResetSpellSlot(each);
+
+                int toRestore = getSlotsToRestore(each);
+                resetInfo.reset = toRestore > 0;
                 if (resetInfo.reset) {
-                    resetInfo.restoreSlots = getSlotsToRestore(each);
+                    resetInfo.restoreSlots = toRestore;
                 } else {
                     resetInfo.restoreSlots = 0;
                 }
@@ -201,13 +203,8 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     }
 
-    protected boolean shouldResetSpellSlot(Character.SpellLevelInfo each) {
-        return false;
-    }
 
-    protected int getSlotsToRestore(Character.SpellLevelInfo each) {
-        return 0;
-    }
+    protected abstract int getSlotsToRestore(Character.SpellLevelInfo each);
 
     protected void configureCommon(@NonNull View view) {
         //featureResetsGroup = view.findViewById(R.id.feature_resets);

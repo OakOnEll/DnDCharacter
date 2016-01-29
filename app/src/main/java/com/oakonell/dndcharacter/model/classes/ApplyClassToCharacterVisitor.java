@@ -8,6 +8,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -159,5 +160,25 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             levelFormulas.put(level, each.getTextContent());
         }
         charClass.setSpellLevelSlotFormulas(levelFormulas);
+        String refreshString = XmlUtils.getElementText(slotsElem, "refreshes");
+        RefreshType refreshType = null;
+        if (refreshString != null) {
+            refreshString = refreshString.toLowerCase();
+            refreshString = refreshString.replaceAll(" ", "");
+            switch (refreshString) {
+                case "rest": // fall through
+                case "shortrest":
+                    refreshType = RefreshType.SHORT_REST;
+                    break;
+                case "longrest":
+                    refreshType = RefreshType.LONG_REST;
+                    break;
+                default:
+                    throw new RuntimeException("Unknown refresh string '" + refreshString + "' on class " + charClass.getName() + ", spell slots");
+            }
+            charClass.setSpellSlotRefresh(refreshType);
+        }
+
+
     }
 }

@@ -359,6 +359,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
         Character character = getCharacter();
+        if (goldPieces == null) return;
 
         // proficiency strings query the db for collapsing categories/items
         AsyncTask<Character, Void, Void> profGetter = new AsyncTask<Character, Void, Void>() {

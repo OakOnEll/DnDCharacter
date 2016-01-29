@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.model.character;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.expression.context.SimpleVariableContext;
 
 import org.simpleframework.xml.Element;
@@ -37,6 +38,8 @@ public class CharacterClass extends BaseCharacterComponent {
     private String spellsKnownFormula;
     @ElementMap(entry = "levelSlot", key = "level", value = "slots", required = false)
     private Map<Integer, String> spellLevelSlotFormulas;
+    @Element(required = false)
+    private RefreshType spellSlotRefresh;
 
 
     @NonNull
@@ -143,5 +146,13 @@ public class CharacterClass extends BaseCharacterComponent {
 
     public Map<Integer, String> getSpellLevelSlotFormulas() {
         return spellLevelSlotFormulas;
+    }
+
+    public void setSpellSlotRefresh(RefreshType refresh) {
+        spellSlotRefresh = refresh;
+    }
+
+    public RefreshType getSpellSlotRefresh() {
+        return spellSlotRefresh;
     }
 }

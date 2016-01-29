@@ -22,6 +22,7 @@ import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.expression.context.SimpleVariableContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -410,5 +411,22 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             notifyDataSetChanged();
         }
     }
+
+
+    protected int getSlotsToRestore(Character.SpellLevelInfo info) {
+        int value = 0;
+        for (Character.CastingClassInfo each : getCharacter().getCasterClassInfo().values()) {
+            final RefreshType refreshType = each.getSpellSlotRefresh();
+            if (refreshType != RefreshType.SHORT_REST) continue;
+            final String slotFormula = each.getSlotMap().get(info.getLevel());
+            if (slotFormula == null || slotFormula.length() == 0) continue;
+
+            SimpleVariableContext variableContext = new SimpleVariableContext();
+            variableContext.setNumber("classLevel", each.getClassLevel());
+            value += getCharacter().evaluateFormula(slotFormula, variableContext);
+        }
+        return value;
+    }
+
 
 }
