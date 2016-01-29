@@ -75,16 +75,9 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/add_spell"
+            android:layout_alignParentRight="true"
             android:text="@string/use_button_label" />
 
-
-        <ImageButton
-            android:id="@+id/add_spell"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:src="@android:drawable/ic_input_add" />
     </RelativeLayout>
 
 

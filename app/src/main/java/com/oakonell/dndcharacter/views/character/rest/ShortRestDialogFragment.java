@@ -425,7 +425,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             variableContext.setNumber("classLevel", each.getClassLevel());
             value += getCharacter().evaluateFormula(slotFormula, variableContext);
         }
-        return value;
+        return Math.min(info.getMaxSlots() - info.getSlotsAvailable(), value);
     }
 
 

@@ -33,17 +33,17 @@ import java.util.List;
 public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<AbstractAddComponentDialogFragment.RowViewHolder> {
 
     public static final String CASTER_CLASSES = "casterClasses";
-    public static final String CANTRIPS_ONLY = "cantripsOnly";
+    public static final String CANTRIPS = "cantrips";
     private NoDefaultSpinner classNameSpinner;
     private TextView max_spell_level;
-    private boolean cantripsOnly;
+    private boolean cantrips;
 
     @NonNull
-    public static AddSpellDialogFragment createDialog(@NonNull Collection<String> casterClasses, boolean cantripsOnly) {
+    public static AddSpellDialogFragment createDialog(@NonNull Collection<String> casterClasses, boolean cantrips) {
         AddSpellDialogFragment dialog = new AddSpellDialogFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(CASTER_CLASSES, new ArrayList<>(casterClasses));
-        args.putBoolean(CANTRIPS_ONLY, cantripsOnly);
+        args.putBoolean(CANTRIPS, cantrips);
         dialog.setArguments(args);
         return dialog;
     }
@@ -62,9 +62,9 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
 
 
         final List<String> casterClasses = getArguments().getStringArrayList(CASTER_CLASSES);
-        cantripsOnly = getArguments().getBoolean(CANTRIPS_ONLY);
+        cantrips = getArguments().getBoolean(CANTRIPS);
 
-        if (cantripsOnly) {
+        if (cantrips) {
             view.findViewById(R.id.max_spell_level_group).setVisibility(View.GONE);
         }
 
@@ -126,7 +126,11 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
     protected String getSelection() {
         if (classNameSpinner == null) return null;
         if (classNameSpinner.getSelectedItem() == null) return null;
-        return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level <= ?";
+        if (cantrips) {
+            return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level = 0";
+        } else {
+            return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level > 0 and level <= ? ";
+        }
     }
 
     @Nullable
@@ -134,15 +138,14 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
     protected String[] getSelectionArgs() {
         if (classNameSpinner == null) return null;
         final String className = (String) classNameSpinner.getSelectedItem();
+        if (cantrips) {
+            return new String[]{className.toUpperCase()};
+        }
         int maxLevel = 9;
-        if (cantripsOnly) {
-            maxLevel = 0;
-        } else {
-            if (className == null) return null;
-            final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfo().get(className);
-            if (castingClassInfo != null) {
-                maxLevel = castingClassInfo.getMaxSpellLevel();
-            }
+        if (className == null) return null;
+        final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfo().get(className);
+        if (castingClassInfo != null) {
+            maxLevel = castingClassInfo.getMaxSpellLevel();
         }
         return new String[]{className.toUpperCase(), Integer.toString(maxLevel)};
     }
@@ -153,7 +156,7 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
 
     @Override
     protected String getTitle() {
-        if (cantripsOnly) {
+        if (cantrips) {
             return getString(R.string.add_cantrip);
         }
         return getString(R.string.add_spell);

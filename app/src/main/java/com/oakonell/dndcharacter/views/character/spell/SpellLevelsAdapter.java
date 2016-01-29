@@ -24,29 +24,22 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
 
     public SpellLevelsAdapter(SpellsFragment spellsFragment, @NonNull Character character) {
         this.context = spellsFragment;
+        getSpellLevels(character);
+    }
+
+    protected void getSpellLevels(@NonNull Character character) {
         this.spellLevels = character.getSpellInfos();
+        this.spellLevels = spellLevels.subList(1, spellLevels.size());
     }
 
     public void reloadList(@NonNull Character character) {
-        this.spellLevels = character.getSpellInfos();
+        getSpellLevels(character);
         notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return 0;
-        }
-        return 1;
     }
 
     @NonNull
     @Override
     public AbstractSpellLevelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == 0) {
-            View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.spell_char_cantrips, parent, false);
-            return new CantripsViewHolder(newView);
-        }
         View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.spell_char_spells, parent, false);
         return new SpellsViewHolder(newView);
     }
@@ -65,25 +58,15 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
     public abstract static class AbstractSpellLevelViewHolder extends BindableComponentViewHolder<Character.SpellLevelInfo, SpellsFragment, SpellLevelsAdapter> {
         @NonNull
         private final RecyclerView list;
-        @NonNull
-        private final ImageButton add_spell;
         private AbstractSpellAdapter spellAdapter;
 
         public AbstractSpellLevelViewHolder(@NonNull View itemView) {
             super(itemView);
             list = (RecyclerView) itemView.findViewById(R.id.spells);
-            add_spell = (ImageButton) itemView.findViewById(R.id.add_spell);
         }
 
         @Override
         public void bind(@NonNull final SpellsFragment context, final SpellLevelsAdapter adapter, final Character.SpellLevelInfo info) {
-            add_spell.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AddSpellDialogFragment frag = AddSpellDialogFragment.createDialog(context.getCharacter().getCasterClassInfo().keySet(), cantripsOnly());
-                    frag.show(context.getFragmentManager(), "add_spell_frag");
-                }
-            });
             if (spellAdapter == null) {
                 spellAdapter = newAdapter(context, info);
                 list.setAdapter(spellAdapter);
@@ -97,9 +80,6 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
             }
         }
 
-        protected boolean cantripsOnly() {
-            return false;
-        }
 
         @NonNull
         protected abstract AbstractSpellAdapter newAdapter(SpellsFragment context, Character.SpellLevelInfo info);

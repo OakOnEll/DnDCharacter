@@ -36,12 +36,62 @@
             tools:listitem="@layout/spell_caster_info_row" />
 
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/spells_title"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cantrips_title"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageButton
+                android:id="@+id/add_cantrip"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/ac_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cantrips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_height="100dp"
+                tools:listitem="@layout/spell_char_cantrip_row" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/spells_title"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageButton
+                android:id="@+id/add_spell"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
 
 
         <android.support.v7.widget.RecyclerView
@@ -52,12 +102,4 @@
             tools:listitem="@layout/spell_char_spells" />
 
     </LinearLayout>
-    <!-- having multiple lists on this page requires a merge adapter --><!--    <android.support.v7.widget.RecyclerView
-            android:id="@+id/merge_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-    -->
-
 </android.support.v4.widget.NestedScrollView>
