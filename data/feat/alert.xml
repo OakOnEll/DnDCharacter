@@ -1,0 +1,6 @@
+<feat>
+    <name>Alert</name>
+    <shortDescription>You gain +5 to initiative. You can't be surprised while conscious.</shortDescription>
+    <!-- TODO have an initiative modifier -->
+    <context>SKILL_ROLL</context>
+</feat>

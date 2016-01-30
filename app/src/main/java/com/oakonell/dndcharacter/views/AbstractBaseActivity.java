@@ -27,6 +27,7 @@ import com.oakonell.dndcharacter.views.character.MainActivity;
 import com.oakonell.dndcharacter.views.characters.CharactersListActivity;
 import com.oakonell.dndcharacter.views.classes.ClassesListActivity;
 import com.oakonell.dndcharacter.views.effect.EffectsListActivity;
+import com.oakonell.dndcharacter.views.feat.FeatsListActivity;
 import com.oakonell.dndcharacter.views.imports.ImportActivity;
 import com.oakonell.dndcharacter.views.item.ItemsListActivity;
 import com.oakonell.dndcharacter.views.race.RacesListActivity;
@@ -204,7 +205,9 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (id == R.id.nav_feats) {
-            Toast.makeText(this, "Clicked feats ", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, FeatsListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         } else if (id == R.id.nav_import) {
             Intent intent = new Intent(this, FilePickerActivity.class);
             startActivityForResult(intent, FILE_IMPORT_REQUEST);

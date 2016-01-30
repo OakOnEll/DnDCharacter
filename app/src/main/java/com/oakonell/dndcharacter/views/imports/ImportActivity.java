@@ -27,6 +27,7 @@ import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.effect.Effect;
+import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.model.spell.Spell;
@@ -145,6 +146,9 @@ public class ImportActivity extends AppCompatActivity {
                     break;
                 case "spell":
                     modelClass = Spell.class;
+                    break;
+                case "feat":
+                    modelClass = Feat.class;
                     break;
                 default:
                     each.message = "Not imported. Type not handled";
