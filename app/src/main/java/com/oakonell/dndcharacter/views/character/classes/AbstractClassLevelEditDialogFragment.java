@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,15 @@ import com.oakonell.dndcharacter.views.character.md.RootChoiceMDNode;
 
 import org.w3c.dom.Element;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Created by Rob on 12/17/2015.
@@ -219,6 +225,28 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                 }
             }
 
+        }
+
+        if (getCharacter().canChooseAbilityScoreImprovement(getModel(), getClassLevel())) {
+            Page<AClass> asiOrFeat = new Page<AClass>() {
+                @NonNull
+                @Override
+                public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                    addClassLevelTextView(dynamic);
+
+                    InputStream in = null;
+                    try {
+                        in = getActivity().getAssets().open("asi.xml");
+                    } catch (IOException e) {
+                        Log.e("ClassLevelEditDialog", "Error parsing asi.xml in assets!", e);
+                        throw new RuntimeException("Error parsing asi.xml in assets!", e);
+                    }
+                    final Element root = XmlUtils.getDocument(in).getDocumentElement();
+                    AbstractComponentViewCreator visitor = new AbilityScoreImprovementViewCreator();
+                    return visitor.appendToLayout(root, dynamic, backgroundChoices);
+                }
+            };
+            pages.add(asiOrFeat);
         }
 
         // final page, show Hit points- unless classLevel = 1

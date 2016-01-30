@@ -1,7 +1,9 @@
 package com.oakonell.dndcharacter.model.classes;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -13,6 +15,8 @@ import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,13 +34,13 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         Map<String, String> customChoices1 = customChoices;
     }
 
-    public static void updateClassLevel(@NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int classIndex, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, classIndex + 1, classLevel, hpRoll);
+    public static void updateClassLevel(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int classIndex, int classLevel, int hpRoll) {
+        CharacterClass charClass = createCharacterClass(context, aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, classIndex + 1, classLevel, hpRoll);
         character.getClasses().set(classIndex, charClass);
     }
 
     @NonNull
-    private static CharacterClass createCharacterClass(@NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, @Nullable AClass subClass, SavedChoices subclassSavedChoices, Character character, int characterLevel, int classLevel, int hpRoll) {
+    private static CharacterClass createCharacterClass(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, @Nullable AClass subClass, SavedChoices subclassSavedChoices, Character character, int characterLevel, int classLevel, int hpRoll) {
         CharacterClass charClass = new CharacterClass();
         charClass.setSavedChoices(savedChoices);
         // apply common changes
@@ -97,11 +101,23 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             }
         }
 
+        if (character.canChooseAbilityScoreImprovement(aClass, classLevel)) {
+            InputStream in = null;
+            try {
+                in = context.getAssets().open("asi.xml");
+            } catch (IOException e) {
+                Log.e("ClassLevelEditDialog", "Error parsing asi.xml in assets!", e);
+                throw new RuntimeException("Error parsing asi.xml in assets!", e);
+            }
+            final Element root = XmlUtils.getDocument(in).getDocumentElement();
+            ApplyChangesToGenericComponent.applyToCharacter(root, savedChoices, charClass, character, false);
+        }
+
         return charClass;
     }
 
-    public static void addClassLevel(@NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int characterlevel, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, characterlevel, classLevel, hpRoll);
+    public static void addClassLevel(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int characterlevel, int classLevel, int hpRoll) {
+        CharacterClass charClass = createCharacterClass(context, aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, characterlevel, classLevel, hpRoll);
         character.getClasses().add(charClass);
     }
 

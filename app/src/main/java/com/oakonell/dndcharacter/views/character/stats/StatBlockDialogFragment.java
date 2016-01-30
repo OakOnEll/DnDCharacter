@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,7 @@ import java.util.Set;
 public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     private TextView total;
     private TextView modifier;
-    private ListView listView;
+    private RecyclerView listView;
 
     private StatSourceAdapter adapter;
 
@@ -48,7 +50,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
         total = (TextView) view.findViewById(R.id.total);
         modifier = (TextView) view.findViewById(R.id.modifier);
-        listView = (ListView) view.findViewById(R.id.list);
+        listView = (RecyclerView) view.findViewById(R.id.list);
 
         return view;
     }
@@ -76,6 +78,9 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
         adapter = new StatSourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
+
+        listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        listView.setHasFixedSize(false);
 
     }
 
@@ -106,8 +111,29 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         adapter.reloadList(character);
     }
 
+    public static class StatSourceViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.ModifierWithSource> {
 
-    public static class StatSourceAdapter extends RowWithSourceAdapter<Character.ModifierWithSource> {
+        public StatSourceViewHolder(@NonNull View view) {
+            super(view);
+        }
+
+        @Override
+        public void bind(MainActivity activity, RowWithSourceAdapter<Character.ModifierWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ModifierWithSource>> adapter, Character.ModifierWithSource item) {
+            super.bind(activity, adapter, item);
+            final BaseCharacterComponent source = item.getSource();
+            int value = item.getModifier();
+            if (source == null) {
+                // a base stat
+                this.source.setText(R.string.base_stat);
+                this.value.setText(NumberUtils.formatNumber(value));
+            } else {
+                this.source.setText(source.getSourceString());
+                this.value.setText("+" + value);
+            }
+        }
+    }
+
+    public static class StatSourceAdapter extends RowWithSourceAdapter<Character.ModifierWithSource, StatSourceViewHolder> {
         StatSourceAdapter(@NonNull StatBlockDialogFragment fragment, ListRetriever<Character.ModifierWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
@@ -117,24 +143,16 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
             return R.layout.stat_mod_row;
         }
 
+        @NonNull
+        @Override
+        protected StatSourceViewHolder newViewHolder(View view) {
+            return new StatSourceViewHolder(view);
+        }
+
         @Override
         protected void launchNoSource(@NonNull MainActivity activity, Character character) {
             BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog();
             dialog.show(activity.getSupportFragmentManager(), "base_stats");
-        }
-
-        @Override
-        protected void bindView(View view, @NonNull WithSourceViewHolder<Character.ModifierWithSource> holder, @NonNull Character.ModifierWithSource item) {
-            int value = item.getModifier();
-            final BaseCharacterComponent source = item.getSource();
-            if (source == null) {
-                // a base stat
-                holder.source.setText(R.string.base_stat);
-                holder.value.setText(NumberUtils.formatNumber(value));
-            } else {
-                holder.source.setText(source.getSourceString());
-                holder.value.setText("+" + value);
-            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,14 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 
 import java.util.List;
 
 /**
  * Created by Rob on 12/16/2015.
  */
-public class RowWithSourceAdapter<C extends Character.WithSource> extends BaseAdapter {
+public abstract class RowWithSourceAdapter<C extends Character.WithSource, V extends RowWithSourceAdapter.WithSourceViewHolder<C>> extends RecyclerView.Adapter<V> {
     @NonNull
     private final MainActivity activity;
     @NonNull
@@ -34,75 +36,75 @@ public class RowWithSourceAdapter<C extends Character.WithSource> extends BaseAd
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getCount() {
-        return list.size();
-    }
 
-    @Override
     public C getItem(int position) {
         return list.get(position);
     }
 
     @Override
-    public long getItemId(int position) {
-        return 0;
+    public V onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(activity).inflate(getLayoutResource(), parent, false);
+        V holder = newViewHolder(view);
+        return holder;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        WithSourceViewHolder<C> holder;
-        if (view != null) {
-            holder = (WithSourceViewHolder<C>) view.getTag();
-        } else {
-            view = LayoutInflater.from(activity).inflate(getLayoutResource(), parent, false);
-            holder = newViewHolder();
-            holder.value = (TextView) view.findViewById(R.id.value);
-            holder.source = (TextView) view.findViewById(R.id.source);
-            view.setTag(holder);
-        }
-
-        C item = getItem(position);
-        bindView(view, holder, item);
-
-        final BaseCharacterComponent source = item.getSource();
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Character character = activity.getCharacter();
-                if (source == null) {
-                    launchNoSource(activity, character);
-                } else {
-                    ComponentLaunchHelper.editComponent(activity, source, false);
-                }
-            }
-        });
-        return view;
+    public void onBindViewHolder(V holder, int position) {
+        final C item = getItem(position);
+        holder.bind(activity, (RowWithSourceAdapter<C, WithSourceViewHolder<C>>) this, item);
     }
+
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
 
     protected int getLayoutResource() {
         return R.layout.skill_prof_row;
-    }
-
-    protected void bindView(View view, WithSourceViewHolder<C> holder, C item) {
-
     }
 
     protected void launchNoSource(MainActivity activity, Character character) {
     }
 
     @NonNull
-    private WithSourceViewHolder<C> newViewHolder() {
-        return new WithSourceViewHolder<>();
-    }
+    abstract protected V newViewHolder(View view);
+
+//    @NonNull
+//    protected V newViewHolder(View view) {
+//        return (V) new WithSourceViewHolder<C>(view);
+//    }
 
     public interface ListRetriever<C> {
         List<C> getList(Character character);
     }
 
-    public static class WithSourceViewHolder<C extends Character.WithSource> {
+    public static class WithSourceViewHolder<C extends Character.WithSource> extends BindableComponentViewHolder<C, MainActivity, RowWithSourceAdapter<C, WithSourceViewHolder<C>>> {
         public TextView value;
         public TextView source;
+
+        public WithSourceViewHolder(@NonNull View view) {
+            super(view);
+            value = (TextView) view.findViewById(R.id.value);
+            source = (TextView) view.findViewById(R.id.source);
+        }
+
+        @Override
+        public void bind(final MainActivity activity, final RowWithSourceAdapter<C, WithSourceViewHolder<C>> adapter, C item) {
+            final BaseCharacterComponent source = item.getSource();
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Character character = activity.getCharacter();
+                    if (source == null) {
+                        adapter.launchNoSource(activity, character);
+                    } else {
+                        ComponentLaunchHelper.editComponent(activity, source, false);
+                    }
+                }
+            });
+        }
+
     }
 }

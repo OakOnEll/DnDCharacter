@@ -27,12 +27,14 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     tools:text="Dexterity" />
 
-                <ListView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    tools:layout_height="80dp"
+                    tools:listitem="@layout/skill_prof_row" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -95,6 +97,7 @@
                 <include layout="@layout/skill_roll_layout" />
 
                 <include layout="@layout/feature_context" />
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

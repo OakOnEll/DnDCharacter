@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character.item;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
+import com.oakonell.dndcharacter.views.character.MainActivity;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.List;
  */
 public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragment {
     public static final String TYPE = "type";
-    private ListView listView;
+    private RecyclerView listView;
 
     private ToolProficiencySourceAdapter adapter;
 
@@ -47,7 +50,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tool_proficiency_dialog, container);
 
-        listView = (ListView) view.findViewById(R.id.list);
+        listView = (RecyclerView) view.findViewById(R.id.list);
 
         return view;
     }
@@ -67,6 +70,9 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
 
         adapter = new ToolProficiencySourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
+
+        listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        listView.setHasFixedSize(false);
     }
 
     @NonNull
@@ -88,13 +94,14 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
         adapter.reloadList(character);
     }
 
-    public static class ToolProficiencySourceAdapter extends RowWithSourceAdapter<Character.ToolProficiencyWithSource> {
-        ToolProficiencySourceAdapter(@NonNull ToolProficiencyDialogFragment fragment, ListRetriever<Character.ToolProficiencyWithSource> listRetriever) {
-            super(fragment.getMainActivity(), listRetriever);
+    public static class ToolProfViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.ToolProficiencyWithSource> {
+        public ToolProfViewHolder(@NonNull View view) {
+            super(view);
         }
 
         @Override
-        protected void bindView(View view, @NonNull WithSourceViewHolder<Character.ToolProficiencyWithSource> holder, @NonNull Character.ToolProficiencyWithSource item) {
+        public void bind(MainActivity activity, RowWithSourceAdapter<Character.ToolProficiencyWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ToolProficiencyWithSource>> adapter, Character.ToolProficiencyWithSource item) {
+            super.bind(activity, adapter, item);
             String category = item.getProficiency().getCategory();
             String text;
             if (category != null) {
@@ -106,14 +113,27 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
             if (proficient.getMultiplier() != 1) {
                 text += "[" + proficient + "]";
             }
-            holder.value.setText(text);
+            this.value.setText(text);
             final BaseCharacterComponent source = item.getSource();
             if (source == null) {
                 // a base stat
-                holder.source.setText(R.string.base_stat);
+                this.source.setText(R.string.base_stat);
             } else {
-                holder.source.setText(source.getSourceString());
+                this.source.setText(source.getSourceString());
             }
+        }
+    }
+
+    public static class ToolProficiencySourceAdapter extends RowWithSourceAdapter<Character.ToolProficiencyWithSource, ToolProfViewHolder> {
+        ToolProficiencySourceAdapter(@NonNull ToolProficiencyDialogFragment fragment, ListRetriever<Character.ToolProficiencyWithSource> listRetriever) {
+            super(fragment.getMainActivity(), listRetriever);
+        }
+
+
+        @NonNull
+        @Override
+        protected ToolProfViewHolder newViewHolder(View view) {
+            return new ToolProfViewHolder(view);
         }
     }
 

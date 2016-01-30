@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character.persona;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
+import com.oakonell.dndcharacter.views.character.MainActivity;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.List;
  * Created by Rob on 11/30/2015.
  */
 public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
-    private ListView listView;
+    private RecyclerView listView;
     private LanguagesSourcesAdapter adapter;
 
     @NonNull
@@ -33,7 +36,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.language_proficiency_dialog, container);
 
-        listView = (ListView) view.findViewById(R.id.list);
+        listView = (RecyclerView) view.findViewById(R.id.list);
 
         return view;
     }
@@ -56,6 +59,10 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
 
         adapter = new LanguagesSourcesAdapter(this, listRetriever);
         listView.setAdapter(adapter);
+
+        listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        listView.setHasFixedSize(false);
+
     }
 
     @Override
@@ -64,23 +71,38 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
         adapter.reloadList(character);
     }
 
-    public static class LanguagesSourcesAdapter extends RowWithSourceAdapter<Character.LanguageWithSource> {
+    public static class LanguageSourceViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.LanguageWithSource> {
+
+        public LanguageSourceViewHolder(@NonNull View view) {
+            super(view);
+        }
+
+        @Override
+        public void bind(MainActivity activity, RowWithSourceAdapter<Character.LanguageWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.LanguageWithSource>> adapter, Character.LanguageWithSource item) {
+            super.bind(activity, adapter, item);
+            String language = item.getLanguage();
+
+            this.value.setText(language);
+            final BaseCharacterComponent source = item.getSource();
+            if (source == null) {
+                // a base stat
+                this.source.setText(R.string.base_stat);
+            } else {
+                this.source.setText(source.getSourceString());
+            }
+        }
+    }
+
+    public static class LanguagesSourcesAdapter extends RowWithSourceAdapter<Character.LanguageWithSource, LanguageSourceViewHolder> {
         LanguagesSourcesAdapter(@NonNull LanguagesDialogFragment fragment, ListRetriever<Character.LanguageWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
-        @Override
-        protected void bindView(View view, @NonNull WithSourceViewHolder<Character.LanguageWithSource> holder, @NonNull Character.LanguageWithSource item) {
-            String language = item.getLanguage();
 
-            holder.value.setText(language);
-            final BaseCharacterComponent source = item.getSource();
-            if (source == null) {
-                // a base stat
-                holder.source.setText(R.string.base_stat);
-            } else {
-                holder.source.setText(source.getSourceString());
-            }
+        @NonNull
+        @Override
+        protected LanguageSourceViewHolder newViewHolder(View view) {
+            return new LanguageSourceViewHolder(view);
         }
     }
 

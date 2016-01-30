@@ -1,0 +1,59 @@
+<root>
+    <choose name="asi">
+        <or name="asi">
+            <stat>
+                <choose name="asi_count">
+                    <or name="one_stat_by_two">
+                        <choose name="stat">
+                            <or name="strength">
+                                <increase name="Strength">2</increase>
+                            </or>
+                            <or name="dexterity">
+                                <increase name="Dexterity">2</increase>
+                            </or>
+                            <or name="constitution">
+                                <increase name="Constitution">2</increase>
+                            </or>
+                            <or name="intelligence">
+                                <increase name="Intelligence">2</increase>
+                            </or>
+                            <or name="wisdom">
+                                <increase name="Wisdom">2</increase>
+                            </or>
+                            <or name="charisma">
+                                <increase name="Charisma">2</increase>
+                            </or>
+                        </choose>
+                    </or>
+                    <or name="two_stats_by_one">
+                        <choose name="stats" number="2">
+                            <or name="strength">
+                                <increase name="Strength">1</increase>
+                            </or>
+                            <or name="dexterity">
+                                <increase name="Dexterity">1</increase>
+                            </or>
+                            <or name="constitution">
+                                <increase name="Constitution">1</increase>
+                            </or>
+                            <or name="intelligence">
+                                <increase name="Intelligence">1</increase>
+                            </or>
+                            <or name="wisdom">
+                                <increase name="Wisdom">1</increase>
+                            </or>
+                            <or name="charisma">
+                                <increase name="Charisma">1</increase>
+                            </or>
+                        </choose>
+                    </or>
+                </choose>
+            </stat>
+        </or>
+        <or name="feat">
+            <feat>
+                <choose name="\feat\" />
+            </feat>
+        </or>
+    </choose>
+</root>

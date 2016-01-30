@@ -16,6 +16,7 @@ import com.oakonell.dndcharacter.model.character.stats.SkillBlock;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.Proficiency;
@@ -499,6 +500,20 @@ public class Character {
         Integer used = spellSlotsUsed.get(level);
         if (used == null) used = 0;
         spellSlotsUsed.put(level, used + 1);
+    }
+
+    public boolean canChooseAbilityScoreImprovement(AClass model, int classLevel) {
+        // all classes have standard ASI levels!
+        switch (classLevel) {
+            case 4:
+            case 8:
+            case 12:
+            case 16:
+            case 19:
+                return true;
+            default:
+                return false;
+        }
     }
 
 

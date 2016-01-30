@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.views.character.MainActivity;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
@@ -25,7 +28,7 @@ import java.util.Set;
  * Created by Rob on 11/7/2015.
  */
 public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
-    private ListView listView;
+    private RecyclerView listView;
 
     private TextView statModLabel;
     private TextView statMod;
@@ -55,7 +58,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         proficiencyLayout = view.findViewById(R.id.proficiency_layout);
 
         total = (TextView) view.findViewById(R.id.modifier);
-        listView = (ListView) view.findViewById(R.id.list);
+        listView = (RecyclerView) view.findViewById(R.id.list);
 
         return view;
     }
@@ -84,6 +87,8 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         adapter = new SaveThrowSourcesAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
+        listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        listView.setHasFixedSize(false);
     }
 
     @NonNull
@@ -123,24 +128,37 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         adapter.reloadList(character);
     }
 
-    public static class SaveThrowSourcesAdapter extends RowWithSourceAdapter<Character.ProficientWithSource> {
+    public static class SaveThrowSourceViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.ProficientWithSource> {
+        public SaveThrowSourceViewHolder(@NonNull View view) {
+            super(view);
+        }
+
+        @Override
+        public void bind(MainActivity activity, RowWithSourceAdapter<Character.ProficientWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ProficientWithSource>> adapter, Character.ProficientWithSource item) {
+            super.bind(activity, adapter, item);
+            Proficient value = item.getProficient();
+            this.value.setText(value.toString());
+            final BaseCharacterComponent source = item.getSource();
+            if (source == null) {
+                // a base stat
+                this.source.setText(R.string.base_stat);
+            } else {
+                this.source.setText(source.getSourceString());
+            }
+        }
+    }
+
+    public static class SaveThrowSourcesAdapter extends RowWithSourceAdapter<Character.ProficientWithSource, SaveThrowSourceViewHolder> {
         SaveThrowSourcesAdapter(@NonNull SaveThrowBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
-        @Override
-        protected void bindView(View view, @NonNull WithSourceViewHolder<Character.ProficientWithSource> holder, @NonNull Character.ProficientWithSource item) {
-            Proficient value = item.getProficient();
-            holder.value.setText(value.toString());
-            final BaseCharacterComponent source = item.getSource();
-            if (source == null) {
-                // a base stat
-                holder.source.setText(R.string.base_stat);
-            } else {
-                holder.source.setText(source.getSourceString());
-            }
-        }
 
+        @NonNull
+        @Override
+        protected SaveThrowSourceViewHolder newViewHolder(View view) {
+            return new SaveThrowSourceViewHolder(view);
+        }
     }
 
 
