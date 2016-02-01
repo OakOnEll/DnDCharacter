@@ -33,16 +33,25 @@ import org.solovyev.android.views.llm.LinearLayoutManager;
 /**
  * Created by Rob on 1/24/2016.
  */
-public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddComponentDialogFragment.RowViewHolder> extends AbstractCharacterDialogFragment {
+public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSelectComponentDialogFragment.RowViewHolder> extends AbstractCharacterDialogFragment {
     private RecyclerView listView;
     private ComponentListAdapter<V> adapter;
     private int loaderId;
     @Nullable
     private LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks;
+    private boolean searchWhenCharacterAvailable;
 
 
     @Override
     protected abstract String getTitle();
+
+    @Override
+    public void onCharacterLoaded(com.oakonell.dndcharacter.model.character.Character character) {
+        super.onCharacterLoaded(character);
+        if (searchWhenCharacterAvailable) {
+            search();
+        }
+    }
 
     @Override
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -141,6 +150,10 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
     }
 
     protected void search() {
+        if (getCharacter() == null) {
+            searchWhenCharacterAvailable = true;
+            return;
+        }
         if (!canSearch()) return;
         if (loaderId > 0) {
             getLoaderManager().getLoader(loaderId).forceLoad();
@@ -187,7 +200,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
     }
 
 
-    public static class RowViewHolder extends CursorBindableRecyclerViewHolder<AbstractAddComponentDialogFragment> implements ItemTouchHelperViewHolder {
+    public static class RowViewHolder extends CursorBindableRecyclerViewHolder<AbstractSelectComponentDialogFragment> implements ItemTouchHelperViewHolder {
         @NonNull
         final TextView name;
         //TextView description;
@@ -199,7 +212,7 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractAddComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractSelectComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
@@ -229,14 +242,14 @@ public abstract class AbstractAddComponentDialogFragment<V extends AbstractAddCo
 
     abstract protected boolean applyAction(long id);
 
-    public static class ComponentListAdapter<V extends CursorBindableRecyclerViewHolder<AbstractAddComponentDialogFragment>> extends RecyclerView.Adapter<V> {
-        private final AbstractAddComponentDialogFragment context;
+    public static class ComponentListAdapter<V extends CursorBindableRecyclerViewHolder<AbstractSelectComponentDialogFragment>> extends RecyclerView.Adapter<V> {
+        private final AbstractSelectComponentDialogFragment context;
         private final int layout;
         Cursor cursor;
         @NonNull
         CursorIndexesByName cursorIndexesByName = new CursorIndexesByName();
 
-        public ComponentListAdapter(AbstractAddComponentDialogFragment context, int layout) {
+        public ComponentListAdapter(AbstractSelectComponentDialogFragment context, int layout) {
             this.context = context;
             this.layout = layout;
         }

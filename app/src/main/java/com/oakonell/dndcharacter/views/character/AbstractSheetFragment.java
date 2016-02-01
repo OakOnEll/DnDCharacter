@@ -28,7 +28,7 @@ import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.views.character.classes.CharacterLevelsDialogFragment;
-import com.oakonell.dndcharacter.views.character.feature.AddEffectDialogFragment;
+import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.ViewEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.ApplyRaceDialogFragment;
 import com.squareup.leakcanary.RefWatcher;
@@ -43,6 +43,7 @@ import hugo.weaving.DebugLog;
  * Created by Rob on 10/27/2015.
  */
 public abstract class AbstractSheetFragment extends Fragment implements OnCharacterLoaded, CharacterChangedListener {
+    public static final String ADD_EFFECT_DIALOG = "add_effect_dialog";
     private EditText character_name;
     private TextView classes;
     private TextView race;
@@ -114,7 +115,14 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     public final View onCreateView(LayoutInflater inflater, ViewGroup container,
                                    Bundle savedInstanceState) {
         View view = onCreateTheView(inflater, container, savedInstanceState);
-        ((MainActivity) getActivity()).addCharacterLoadLister(this);
+        getMainActivity().addCharacterLoadLister(this);
+        if (savedInstanceState != null) {
+            SelectEffectDialogFragment dpf = (SelectEffectDialogFragment) getActivity().getSupportFragmentManager()
+                    .findFragmentByTag(ADD_EFFECT_DIALOG);
+            if (dpf != null) {
+                dpf.setListener(new SelectEffectDialogFragment.AddEffectToCharacterListener(getMainActivity()));
+            }
+        }
         return view;
     }
 
@@ -253,8 +261,8 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         add_effect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddEffectDialogFragment dialog = AddEffectDialogFragment.createDialog();
-                dialog.show(getFragmentManager(), "add_effect_dialog");
+                SelectEffectDialogFragment dialog = SelectEffectDialogFragment.createDialog(new SelectEffectDialogFragment.AddEffectToCharacterListener(getMainActivity()));
+                dialog.show(getFragmentManager(), ADD_EFFECT_DIALOG);
             }
         });
     }

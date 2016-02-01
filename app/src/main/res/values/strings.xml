@@ -175,6 +175,7 @@
     <string name="send">Send</string>
     <string name="short_rest">Short Rest</string>
     <string name="long_rest">Long Rest</string>
+    <string name="select_effect">Select Effect</string>
     <string name="add_effect">Add Effect</string>
     <string name="level_up">Level Up</string>
     <string name="delete">Delete</string>
@@ -218,8 +219,8 @@
     <string name="long_rest_title">Long Rest</string>
     <string name="short_rest_title">Short Rest</string>
     <string name="caster_class_prompt">[Caster Class]</string>
-    <string name="add_cantrip">Add Cantrip</string>
-    <string name="add_spell">Add Spell</string>
+    <string name="select_cantrip">Select Cantrip</string>
+    <string name="select_spell">Select Spell</string>
     <string name="spell_already_known">Spell \'%1$s\' already known from %2$s.</string>
     <string name="enter_a_number_between_3_18">Enter a number between 3 and 18</string>
     <string name="roll_4d6_best_3">4d6 - Best 3</string>

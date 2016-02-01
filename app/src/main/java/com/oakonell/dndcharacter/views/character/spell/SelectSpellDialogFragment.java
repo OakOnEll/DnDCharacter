@@ -1,10 +1,8 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +13,10 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.ComponentType;
-import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
-import com.oakonell.dndcharacter.model.spell.ApplySpellToCharacterVisitor;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
-import com.oakonell.dndcharacter.views.character.AbstractAddComponentDialogFragment;
+import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,21 +25,31 @@ import java.util.List;
 /**
  * Created by Rob on 1/3/2016.
  */
-public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<AbstractAddComponentDialogFragment.RowViewHolder> {
+public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFragment<AbstractSelectComponentDialogFragment.RowViewHolder> {
 
     public static final String CASTER_CLASSES = "casterClasses";
     public static final String CANTRIPS = "cantrips";
     private NoDefaultSpinner classNameSpinner;
     private TextView max_spell_level;
     private boolean cantrips;
+    private SpellSelectedListener listener;
+
+    public void setListener(SpellSelectedListener listener) {
+        this.listener = listener;
+    }
+
+    public interface SpellSelectedListener {
+        boolean spellSelected(long spellId, String className);
+    }
 
     @NonNull
-    public static AddSpellDialogFragment createDialog(@NonNull Collection<String> casterClasses, boolean cantrips) {
-        AddSpellDialogFragment dialog = new AddSpellDialogFragment();
+    public static SelectSpellDialogFragment createDialog(@NonNull Collection<String> casterClasses, boolean cantrips, SpellSelectedListener listener) {
+        SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(CASTER_CLASSES, new ArrayList<>(casterClasses));
         args.putBoolean(CANTRIPS, cantrips);
         dialog.setArguments(args);
+        dialog.setListener(listener);
         return dialog;
     }
 
@@ -157,9 +162,9 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
     @Override
     protected String getTitle() {
         if (cantrips) {
-            return getString(R.string.add_cantrip);
+            return getString(R.string.select_cantrip);
         }
-        return getString(R.string.add_spell);
+        return getString(R.string.select_spell);
     }
 
     @NonNull
@@ -170,35 +175,10 @@ public class AddSpellDialogFragment extends AbstractAddComponentDialogFragment<A
 
     @Override
     protected boolean applyAction(long id) {
-        Spell spell = Spell.load(Spell.class, id);
-
-        final List<CharacterSpell> existingSpells = getCharacter().getSpells(spell.getLevel());
-        for (CharacterSpell each : existingSpells) {
-            if (each.getName().equals(spell.getName())) {
-                new AlertDialog.Builder(getContext()).setTitle(R.string.add_spell).setMessage(getString(R.string.spell_already_known, each.getName(), each.getOriginString())).setNeutralButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(@NonNull DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
-                return false;
-            }
+        if (listener != null) {
+            final String className = (String) classNameSpinner.getSelectedItem();
+            return listener.spellSelected(id, className);
         }
-
-        final CharacterSpell characterSpell = ApplySpellToCharacterVisitor.createCharacterSpell(spell, getCharacter());
-        characterSpell.setSource(ComponentType.CLASS);
-        final String className = (String) classNameSpinner.getSelectedItem();
-        characterSpell.setCasterClass(className);
-
-        if (spell.getLevel() > 0) {
-            final Character.CastingClassInfo info = getCharacter().getCasterClassInfo().get(className);
-            if (info.usesPreparedSpells()) {
-                characterSpell.setPreparable(true);
-            }
-        }
-
-        getMainActivity().updateViews();
-        getMainActivity().saveCharacter();
-        return true;
+        throw new RuntimeException("No Listener!");
     }
 }

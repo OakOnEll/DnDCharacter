@@ -16,12 +16,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oakonell.dndcharacter.R;
@@ -29,7 +25,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractBaseActivity;
 import com.oakonell.dndcharacter.views.character.classes.AddClassLevelDialogFragment;
-import com.oakonell.dndcharacter.views.character.feature.AddEffectDialogFragment;
+import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeaturesFragment;
 import com.oakonell.dndcharacter.views.character.item.EquipmentFragment;
 import com.oakonell.dndcharacter.views.character.persona.NotesFragment;
@@ -54,6 +50,7 @@ import hugo.weaving.DebugLog;
 
 public class MainActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
+    public static final String ADD_EFFECT_DIALOG = "add_effect_frag";
     private final String MyPREFERENCES = "prefs";
     long id = -1;
     @Nullable
@@ -77,6 +74,15 @@ public class MainActivity extends AbstractBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            SelectEffectDialogFragment dpf = (SelectEffectDialogFragment) getSupportFragmentManager()
+                    .findFragmentByTag(ADD_EFFECT_DIALOG);
+            if (dpf != null) {
+                dpf.setListener(new SelectEffectDialogFragment.AddEffectToCharacterListener(this));
+            }
+        }
+
         configureCommon();
 
         // Create the adapter that will return a fragment for each of the three
@@ -109,6 +115,7 @@ public class MainActivity extends AbstractBaseActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
         loadCharacter(savedInstanceState);
+
     }
 
 //    @Override
@@ -149,8 +156,8 @@ public class MainActivity extends AbstractBaseActivity {
             return true;
         }
         if (id == R.id.action_add_effect) {
-            AddEffectDialogFragment dialog = AddEffectDialogFragment.createDialog();
-            dialog.show(getSupportFragmentManager(), "add_effect_frag");
+            SelectEffectDialogFragment dialog = SelectEffectDialogFragment.createDialog(new SelectEffectDialogFragment.AddEffectToCharacterListener(this));
+            dialog.show(getSupportFragmentManager(), ADD_EFFECT_DIALOG);
             return true;
         }
         if (id == R.id.action_short_rest) {
