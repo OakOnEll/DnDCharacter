@@ -175,6 +175,7 @@ public class MainActivity extends AbstractBaseActivity {
     @DebugLog
     public void updateViews() {
         // loop over fragments and check for character change listeners
+        if (getSupportFragmentManager().getFragments() == null) return;
         for (Fragment each : getSupportFragmentManager().getFragments()) {
             if (each instanceof CharacterChangedListener) {
                 ((CharacterChangedListener) each).onCharacterChanged(character);
