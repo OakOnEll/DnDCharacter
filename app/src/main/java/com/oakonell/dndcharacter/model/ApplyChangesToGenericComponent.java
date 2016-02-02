@@ -20,6 +20,7 @@ import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.model.components.UseType;
 import com.oakonell.dndcharacter.model.effect.AddEffectToCharacterVisitor;
+import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.CreateCharacterArmorVisitor;
 import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
@@ -70,6 +71,22 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
         ApplyChangesToGenericComponent<C> newMe = new ApplyChangesToGenericComponent<>(savedChoices, component, character);
         newMe.visitChildren(element);
+    }
+
+    private void addFeat(String name) {
+        Feat feat = new Select().from(Feat.class).where("upper(name) = ?", name.toUpperCase()).executeSingle();
+        if (feat == null) {
+            throw new RuntimeException("Error finding feat named '" + name + "'");
+        }
+
+        final Element root = XmlUtils.getDocument(feat.getXml()).getDocumentElement();
+        visitFeature(root);
+    }
+
+    @Override
+    protected void visitFeat(@NonNull Element element) {
+        String name = element.getTextContent().toUpperCase();
+        addFeat(name);
     }
 
     @Override
@@ -379,10 +396,14 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 case EQUIPMENT:
                     addItem(selection);
                     break;
+                case FEAT:
+                    addFeat(selection);
+                    break;
             }
         }
 
     }
+
 
     @Override
     protected void visitOr(@NonNull Element element) {

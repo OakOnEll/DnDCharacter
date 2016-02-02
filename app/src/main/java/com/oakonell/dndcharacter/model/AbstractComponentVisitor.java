@@ -65,6 +65,12 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
             case "increase":
                 visitIncrease(element);
                 break;
+            case "feats":
+                visitFeats(element);
+                break;
+            case "feat":
+                visitFeat(element);
+                break;
             default:
                 wasVisited = false;
                 break;
@@ -162,6 +168,17 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
         state = oldState;
     }
 
+    protected void visitFeats(@NonNull Element element) {
+        VisitState oldState = state;
+        state = VisitState.FEAT;
+        visitChildren(element);
+        state = oldState;
+    }
+
+    protected void visitFeat(@NonNull Element element) {
+        visitChildren(element);
+    }
+
     protected void visitLanguages(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.LANGUAGES;
@@ -185,6 +202,6 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
 
 
     public enum VisitState {
-        SAVING_THROWS, SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, WEAPONS, ARMOR, EQUIPMENT, SPECIALTIES
+        SAVING_THROWS, SKILLS, TOOLS, LANGUAGES, FEATURE, STATS, WEAPONS, ARMOR, EQUIPMENT, FEAT, SPECIALTIES
     }
 }

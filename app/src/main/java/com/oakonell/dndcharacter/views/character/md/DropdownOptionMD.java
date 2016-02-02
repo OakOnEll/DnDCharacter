@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Created by Rob on 11/18/2015.
  */
-public class DropdownOptionMD extends OptionMD<CategoryChoicesMD> {
+public class DropdownOptionMD extends CategoryOptionMD {
     private final Spinner spinner;
     private final TextView errorTextView;
 

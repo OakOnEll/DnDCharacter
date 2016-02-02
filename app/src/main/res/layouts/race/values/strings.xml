@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_feat">Select Feat</string>
+    <string name="search_for_feat">Search for a Feat</string>
+    <string name="ability_score_improvement_title">Ability Score Improvement</string>
+</resources>

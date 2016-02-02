@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.character;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,10 +21,12 @@ import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
+import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
+import com.oakonell.dndcharacter.views.character.feat.SelectFeatDialogFragment;
 import com.oakonell.dndcharacter.views.character.md.CategoryChoicesMD;
 import com.oakonell.dndcharacter.views.character.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMD;
@@ -29,6 +34,7 @@ import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;
 import com.oakonell.dndcharacter.views.character.md.DropdownOptionMD;
 import com.oakonell.dndcharacter.views.character.md.MultipleChoicesMD;
 import com.oakonell.dndcharacter.views.character.md.RootChoiceMDNode;
+import com.oakonell.dndcharacter.views.character.md.SearchOptionMD;
 
 import org.w3c.dom.Element;
 
@@ -39,12 +45,15 @@ import java.util.List;
  * Created by Rob on 11/18/2015.
  */
 public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor {
+    private static final String SELECT_FEAT_DIALOG = "select_feat_frag";
     SavedChoices choices;
     int uiIdCounter;
     ChooseMD<?> currentChooseMD;
 
     private ViewGroup parent;
     private ChooseMDTreeNode choicesMD = new RootChoiceMDNode();
+    private AppCompatActivity activity;
+    private int featSearchIndex;
 
     protected void setParent(ViewGroup parent) {
         this.parent = parent;
@@ -66,9 +75,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
 
-    public ChooseMDTreeNode appendToLayout(@NonNull Element element, ViewGroup parent, SavedChoices choices) {
+    public ChooseMDTreeNode appendToLayout(@NonNull Element element, AppCompatActivity activity, ViewGroup parent, SavedChoices choices) {
         this.parent = parent;
         this.choices = choices;
+        this.activity = activity;
         visitChildren(element);
         return choicesMD;
     }
@@ -233,8 +243,11 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             visitLanguageCategoryChoices(numChoices);
         } else if (state == VisitState.TOOLS || state == VisitState.EQUIPMENT) {
             visitToolCategoryChoices(element, numChoices);
+        } else if (state == VisitState.FEAT) {
+            visitFeatSearchChoices(element, numChoices);
         }
     }
+
 
     private void visitToolCategoryChoices(@NonNull Element element, int numChoices) {
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
@@ -280,6 +293,74 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         String languagePrompt = parent.getContext().getString(R.string.language);
         appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, languages, languagePrompt);
         ;
+    }
+
+    private void visitFeatSearchChoices(Element element, int numChoices) {
+        CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
+        List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
+
+        for (int i = 0; i < numChoices; i++) {
+
+            ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.component_search, parent);
+            final ImageView search = (ImageView) layout.findViewById(R.id.search);
+            final TextView text = (TextView) layout.findViewById(R.id.text);
+            final ImageView delete = (ImageView) layout.findViewById(R.id.delete);
+
+            final SearchOptionMD optionMD = new SearchOptionMD(categoryChoicesMD, search, text, delete);
+            categoryChoicesMD.addOption(optionMD);
+
+            text.setHint(parent.getResources().getString(R.string.search_for_feat));
+
+            final int index = i;
+            final View.OnClickListener onSearchClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SelectFeatDialogFragment dialog = SelectFeatDialogFragment.createDialog(new SelectFeatDialogFragment.FeatSelectedListener() {
+                        @Override
+                        public boolean featSelected(long id) {
+                            Feat feat = Feat.load(Feat.class, id);
+                            String name = feat.getName();
+                            // TODO verify if another feat onSearchClickListener same page is the same...
+                            text.setText(name);
+                            text.setError(null);
+                            search.setVisibility(View.INVISIBLE);
+                            text.setOnClickListener(null);
+                            delete.setVisibility(View.VISIBLE);
+                            return true;
+                        }
+                    });
+                    // TODO how to relate the current feat index, for the restart set listener
+                    featSearchIndex = index;
+                    dialog.show(activity.getSupportFragmentManager(), SELECT_FEAT_DIALOG);
+                }
+            };
+            if (selections.size() > i) {
+                String selected = selections.get(i);
+                text.setText(selected);
+                search.setVisibility(View.INVISIBLE);
+                delete.setVisibility(View.VISIBLE);
+                text.setOnClickListener(null);
+            } else {
+                text.setText("");
+                search.setVisibility(View.VISIBLE);
+                text.setOnClickListener(onSearchClickListener);
+                delete.setVisibility(View.GONE);
+            }
+
+            search.setOnClickListener(onSearchClickListener);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    text.setText("");
+                    text.setOnClickListener(onSearchClickListener);
+                    text.setError(null);
+                    search.setVisibility(View.VISIBLE);
+                    delete.setVisibility(View.GONE);
+                }
+            });
+
+        }
+
     }
 
     private void appendCategoryDropDowns(int numChoices, @NonNull CategoryChoicesMD categoryChoicesMD, @NonNull List<String> savedSelections, @NonNull List<String> choices, @NonNull String prompt) {

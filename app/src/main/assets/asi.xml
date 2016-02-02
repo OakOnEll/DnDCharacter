@@ -51,9 +51,9 @@
             </stat>
         </or>
         <or name="feat">
-            <feat>
-                <choose name="\feat\" />
-            </feat>
+            <feats>
+                <choose name="feat" />
+            </feats>
         </or>
     </choose>
 </root>

@@ -149,11 +149,11 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
                 AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
                 Element element = XmlUtils.getDocument(model.getXml()).getDocumentElement();
-                ChooseMDTreeNode chooseMDs = visitor.appendToLayout(element, dynamicView, savedChoices);
+                ChooseMDTreeNode chooseMDs = visitor.appendToLayout(element, getMainActivity(), dynamicView, savedChoices);
 
                 if (subrace != null) {
                     Element subRaceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
-                    subRaceChooseMDs = visitor.appendToLayout(subRaceElement, dynamicView, savedChoices);
+                    subRaceChooseMDs = visitor.appendToLayout(subRaceElement, getMainActivity(), dynamicView, savedChoices);
                 }
 
                 return chooseMDs;

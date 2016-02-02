@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 /**
  * Created by Rob on 12/16/2015.
  */
-public class CategoryChoicesMD extends ChooseMD<DropdownOptionMD> {
+public class CategoryChoicesMD extends ChooseMD<CategoryOptionMD> {
 
     public CategoryChoicesMD(String choiceName, int maxChoices) {
         super(choiceName, maxChoices);
@@ -15,7 +15,7 @@ public class CategoryChoicesMD extends ChooseMD<DropdownOptionMD> {
     @Override
     public boolean validate(@NonNull ViewGroup dynamicView) {
         int numInvalid = 0;
-        for (DropdownOptionMD each : getOptions()) {
+        for (CategoryOptionMD each : getOptions()) {
             if (!each.validate(dynamicView)) {
                 numInvalid++;
             }
@@ -25,7 +25,7 @@ public class CategoryChoicesMD extends ChooseMD<DropdownOptionMD> {
 
     @Override
     public void setEnabled(boolean enabled) {
-        for (DropdownOptionMD each : getOptions()) {
+        for (CategoryOptionMD each : getOptions()) {
             each.setEnabled(enabled);
         }
     }
