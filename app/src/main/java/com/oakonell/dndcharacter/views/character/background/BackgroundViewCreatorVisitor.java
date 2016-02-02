@@ -44,7 +44,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
 
     @NonNull
     private TextView createGroup(String title) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, null);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, parent, false);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layout.setLayoutParams(params);
         parent.addView(layout);

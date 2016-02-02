@@ -69,7 +69,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     protected void createGroup(String title) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, null);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, parent,false);
         parent.addView(layout);
         parent = layout;
 
@@ -471,7 +471,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void visitOr(@NonNull Element element) {
         ViewGroup oldParent = parent;
 
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.or_layout, null);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.or_layout, parent,false);
         parent.addView(layout);
 
 
