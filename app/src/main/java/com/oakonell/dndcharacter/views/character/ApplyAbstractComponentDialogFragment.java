@@ -29,6 +29,7 @@ import java.util.Map;
  */
 public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractComponentModel> extends AbstractCharacterDialogFragment {
 
+    private static final String PAGE_INDEX = "pageIndex";
     private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
     private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
     private int pageIndex = 0;
@@ -42,10 +43,15 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     private Button nextButton;
     private Spinner nameSpinner;
     private ViewGroup dynamicView;
+    private List<M> modelSelections;
 
     @Override
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.dynamic_apply_component_dialog, container);
+
+        if (savedInstanceState != null) {
+            pageIndex = savedInstanceState.getInt(PAGE_INDEX, 0);
+        }
 
         dynamicView = (ViewGroup) view.findViewById(R.id.dynamic_content);
         doneButton = (Button) view.findViewById(R.id.done);
@@ -58,8 +64,8 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         From nameSelect = new Select()
                 .from(getModelClass()).orderBy("name");
         nameSelect = filter(nameSelect);
-        final List<M> selections = nameSelect.execute();
-        for (M each : selections) {
+        modelSelections = nameSelect.execute();
+        for (M each : modelSelections) {
             list.add(each.getName());
         }
 
@@ -68,40 +74,6 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
         nameSpinner.setAdapter(dataAdapter);
 
-        nameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                M newModel = selections.get(position);
-                if (newModel == model) return;
-                model = newModel;
-                dynamicView.removeAllViews();
-
-                String name = model.getName();
-                SavedChoices savedChoices = savedChoicesByModel.get(name);
-                if (savedChoices == null) {
-                    savedChoices = new SavedChoices();
-                    savedChoicesByModel.put(name, savedChoices);
-                }
-                Map<String, String> customChoices = customChoicesByModel.get(name);
-                if (customChoices == null) {
-                    customChoices = new HashMap<>();
-                    customChoicesByModel.put(name, customChoices);
-                }
-
-                modelChanged();
-
-                recreatePages();
-
-                displayPage();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        recreatePages();
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +96,12 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         });
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(PAGE_INDEX, pageIndex);
     }
 
     protected void recreatePages() {
@@ -255,6 +233,39 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
         savedChoicesByModel.put(getCurrentName(), savedChoices);
         customChoicesByModel.put(getCurrentName(), customChoices);
+
+        nameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                M newModel = modelSelections.get(position);
+                if (newModel == model) return;
+                model = newModel;
+                dynamicView.removeAllViews();
+
+                String name = model.getName();
+                SavedChoices savedChoices = savedChoicesByModel.get(name);
+                if (savedChoices == null) {
+                    savedChoices = new SavedChoices();
+                    savedChoicesByModel.put(name, savedChoices);
+                }
+                Map<String, String> customChoices = customChoicesByModel.get(name);
+                if (customChoices == null) {
+                    customChoices = new HashMap<>();
+                    customChoicesByModel.put(name, customChoices);
+                }
+
+                modelChanged();
+
+                recreatePages();
+
+                displayPage();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         recreatePages();
         displayPage();
