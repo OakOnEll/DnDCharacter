@@ -29,6 +29,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
     public static final String CASTER_CLASSES = "casterClasses";
     public static final String CANTRIPS = "cantrips";
+    private static final String MAX_LEVEL = "maxLevel";
     private NoDefaultSpinner classNameSpinner;
     private TextView max_spell_level;
     private boolean cantrips;
@@ -40,6 +41,20 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
     public interface SpellSelectedListener {
         boolean spellSelected(long spellId, String className);
+    }
+
+    @NonNull
+    public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, SpellSelectedListener listener) {
+        SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
+        Bundle args = new Bundle();
+        ArrayList<String> casterClasses = new ArrayList<>();
+        casterClasses.add(casterClass);
+        args.putStringArrayList(CASTER_CLASSES, casterClasses);
+        args.putBoolean(CANTRIPS, false);
+        args.putInt(MAX_LEVEL, maxLevel);
+        dialog.setArguments(args);
+        dialog.setListener(listener);
+        return dialog;
     }
 
     @NonNull
@@ -68,6 +83,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
         final List<String> casterClasses = getArguments().getStringArrayList(CASTER_CLASSES);
         cantrips = getArguments().getBoolean(CANTRIPS);
+        int maxLevel = getArguments().getInt(MAX_LEVEL, -1);
 
         if (cantrips) {
             view.findViewById(R.id.max_spell_level_group).setVisibility(View.GONE);
@@ -81,11 +97,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         if (casterClasses.size() == 1) {
             classNameSpinner.setSelection(0);
             classNameSpinner.setEnabled(false);
-        }
-
-        classNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (maxLevel < 0) {
                 final String className = (String) classNameSpinner.getSelectedItem();
                 final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfo().get(className);
                 if (castingClassInfo != null) {
@@ -93,16 +105,30 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
                 } else {
                     max_spell_level.setText("?");
                 }
-
-                search();
+            } else {
+                max_spell_level.setText(NumberUtils.formatNumber(maxLevel));
             }
+        } else {
+            classNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    final String className = (String) classNameSpinner.getSelectedItem();
+                    final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfo().get(className);
+                    if (castingClassInfo != null) {
+                        max_spell_level.setText(NumberUtils.formatNumber(castingClassInfo.getMaxSpellLevel()));
+                    } else {
+                        max_spell_level.setText("?");
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                    search();
+                }
 
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
+                }
+            });
+        }
 //        final List<SpellClass> list = new Select()
 //                .from(SpellClass.class).orderBy("spell, aClass").execute();
 //        for (SpellClass each : list) {
@@ -117,7 +143,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 //        }
 
         //Toast.makeText(getContext(), "Found spell " + spell.getLevel(), Toast.LENGTH_SHORT).show();
-
+        search();
         return view;
     }
 
@@ -146,13 +172,14 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         if (cantrips) {
             return new String[]{className.toUpperCase()};
         }
-        int maxLevel = 9;
-        if (className == null) return null;
-        final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfo().get(className);
-        if (castingClassInfo != null) {
-            maxLevel = castingClassInfo.getMaxSpellLevel();
-        }
-        return new String[]{className.toUpperCase(), Integer.toString(maxLevel)};
+        String maxLevelString = max_spell_level.getText().toString();
+//        int maxLevel = 9;
+//        if (className == null) return null;
+//        final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfo().get(className);
+//        if (castingClassInfo != null) {
+//            maxLevel = castingClassInfo.getMaxSpellLevel();
+//        }
+        return new String[]{className.toUpperCase(), maxLevelString};
     }
 
     protected int getDialogResource() {

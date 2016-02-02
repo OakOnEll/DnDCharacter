@@ -199,8 +199,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
                         SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator();
 
-                        visitor.appendToLayout(dynamic, rootClassElement, spells, cantrips);
-                        return new RootChoiceMDNode();
+                        return visitor.appendToLayout(getMainActivity(), dynamic, rootClassElement, spells, cantrips, savedChoices);
                     }
                 };
                 pages.add(spellPage);

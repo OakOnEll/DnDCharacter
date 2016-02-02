@@ -23,6 +23,7 @@ import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
+import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
@@ -35,6 +36,7 @@ import com.oakonell.dndcharacter.views.character.md.DropdownOptionMD;
 import com.oakonell.dndcharacter.views.character.md.MultipleChoicesMD;
 import com.oakonell.dndcharacter.views.character.md.RootChoiceMDNode;
 import com.oakonell.dndcharacter.views.character.md.SearchOptionMD;
+import com.oakonell.dndcharacter.views.character.spell.SelectSpellDialogFragment;
 
 import org.w3c.dom.Element;
 
@@ -46,12 +48,15 @@ import java.util.List;
  */
 public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor {
     private static final String SELECT_FEAT_DIALOG = "select_feat_frag";
+    private static final String SELECT_SPELL_DIALOG = "select_spell_frag";
     SavedChoices choices;
     int uiIdCounter;
     ChooseMD<?> currentChooseMD;
 
     private ViewGroup parent;
     private ChooseMDTreeNode choicesMD = new RootChoiceMDNode();
+
+
     private AppCompatActivity activity;
     private int featSearchIndex;
 
@@ -72,6 +77,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         titleView.setTextAppearance(parent.getContext(), android.support.v7.appcompat.R.style.TextAppearance_AppCompat_Large);
         parent.addView(titleView);
         titleView.setText(title);
+    }
+
+    protected void setChoices(SavedChoices savedChoices) {
+        this.choices = savedChoices;
     }
 
 
@@ -208,16 +217,20 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         if (numChoicesString != null && numChoicesString.trim().length() > 0) {
             numChoices = Integer.parseInt(numChoicesString);
         }
-
+        int minChoices = numChoices;
+        String minNumChoicesString = element.getAttribute("minNumber");
+        if (minNumChoicesString != null && minNumChoicesString.trim().length() > 0) {
+            minChoices = Integer.parseInt(minNumChoicesString);
+        }
         List<Element> childOrElems = XmlUtils.getChildElements(element, "or");
         if (childOrElems.size() == 0) {
-            currentChooseMD = new CategoryChoicesMD(choiceName, numChoices);
+            currentChooseMD = new CategoryChoicesMD(choiceName, numChoices, minChoices);
             choicesMD.addChildChoice(currentChooseMD);
 
             // category, context sensitive choices ?
             categoryChoices(element, numChoices);
         } else {
-            ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.choose_layout, null);
+            ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.choose_layout, parent, false);
             parent.addView(layout);
             parent = (ViewGroup) layout.findViewById(R.id.choices_view);
 
@@ -244,7 +257,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         } else if (state == VisitState.TOOLS || state == VisitState.EQUIPMENT) {
             visitToolCategoryChoices(element, numChoices);
         } else if (state == VisitState.FEAT) {
-            visitFeatSearchChoices(element, numChoices);
+            visitFeatSearchChoices(numChoices);
         }
     }
 
@@ -295,13 +308,88 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         ;
     }
 
-    private void visitFeatSearchChoices(Element element, int numChoices) {
+    protected void visitFeatSearchChoices(int numChoices) {
+        final int searchResId = R.string.search_for_feat;
+        final String fragmentId = SELECT_FEAT_DIALOG;
+        final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
+            @Override
+            AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
+                SelectFeatDialogFragment dialog = SelectFeatDialogFragment.createDialog(new SelectFeatDialogFragment.FeatSelectedListener() {
+                    @Override
+                    public boolean featSelected(long id) {
+                        Feat feat = Feat.load(Feat.class, id);
+                        String name = feat.getName();
+                        // TODO verify if another feat onSearchClickListener same page is the same...
+                        optionMD.setSelected(name);
+                        return true;
+                    }
+                });
+                return dialog;
+            }
+        };
+
+        appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
+    }
+
+    public abstract static class SearchDialogCreator {
+        abstract AbstractSelectComponentDialogFragment createDialog(SearchOptionMD optionMD);
+    }
+
+    protected void visitCantripsSearchChoices(String casterClass, int numChoices) {
+        final int searchResId = R.string.search_for_cantrip;
+        final String fragmentId = SELECT_SPELL_DIALOG;
+        final List<String> casterClasses = new ArrayList<>();
+        casterClasses.add(casterClass);
+        final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
+            @Override
+            AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
+                return SelectSpellDialogFragment.createDialog(casterClasses, true, new SelectSpellDialogFragment.SpellSelectedListener() {
+                    @Override
+                    public boolean spellSelected(long id, String className) {
+                        Spell spell = Spell.load(Spell.class, id);
+                        String name = spell.getName();
+                        // TODO verify if another spell onSearchClickListener same page is the same...
+                        optionMD.setSelected(name);
+                        return true;
+                    }
+                });
+            }
+        };
+
+        appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
+    }
+
+    protected void visitSpellSearchChoices(final String casterClass, final int maxLevel, int numChoices) {
+        final int searchResId = R.string.search_for_spell;
+        final String fragmentId = SELECT_SPELL_DIALOG;
+        final List<String> casterClasses = new ArrayList<>();
+        casterClasses.add(casterClass);
+        final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
+            @Override
+            AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
+                return SelectSpellDialogFragment.createDialog(casterClass, maxLevel, new SelectSpellDialogFragment.SpellSelectedListener() {
+                    @Override
+                    public boolean spellSelected(long id, String className) {
+                        Spell spell = Spell.load(Spell.class, id);
+                        String name = spell.getName();
+                        // TODO verify if another spell onSearchClickListener same page is the same...
+                        optionMD.setSelected(name);
+                        return true;
+                    }
+                });
+            }
+        };
+
+        appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
+    }
+
+    private void appendSearches(int numChoices, int searchResId, final String fragmentId, final SearchDialogCreator dialogCreator) {
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
         for (int i = 0; i < numChoices; i++) {
-
-            ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.component_search, parent);
+            ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.component_search, parent, false);
+            parent.addView(layout);
             final ImageView search = (ImageView) layout.findViewById(R.id.search);
             final TextView text = (TextView) layout.findViewById(R.id.text);
             final ImageView delete = (ImageView) layout.findViewById(R.id.delete);
@@ -309,58 +397,33 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             final SearchOptionMD optionMD = new SearchOptionMD(categoryChoicesMD, search, text, delete);
             categoryChoicesMD.addOption(optionMD);
 
-            text.setHint(parent.getResources().getString(R.string.search_for_feat));
+            text.setHint(parent.getResources().getString(searchResId));
 
             final int index = i;
             final View.OnClickListener onSearchClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SelectFeatDialogFragment dialog = SelectFeatDialogFragment.createDialog(new SelectFeatDialogFragment.FeatSelectedListener() {
-                        @Override
-                        public boolean featSelected(long id) {
-                            Feat feat = Feat.load(Feat.class, id);
-                            String name = feat.getName();
-                            // TODO verify if another feat onSearchClickListener same page is the same...
-                            text.setText(name);
-                            text.setError(null);
-                            search.setVisibility(View.INVISIBLE);
-                            text.setOnClickListener(null);
-                            delete.setVisibility(View.VISIBLE);
-                            return true;
-                        }
-                    });
+                    AbstractSelectComponentDialogFragment dialog = dialogCreator.createDialog(optionMD);
                     // TODO how to relate the current feat index, for the restart set listener
                     featSearchIndex = index;
-                    dialog.show(activity.getSupportFragmentManager(), SELECT_FEAT_DIALOG);
+                    dialog.show(activity.getSupportFragmentManager(), fragmentId);
                 }
             };
             if (selections.size() > i) {
                 String selected = selections.get(i);
-                text.setText(selected);
-                search.setVisibility(View.INVISIBLE);
-                delete.setVisibility(View.VISIBLE);
-                text.setOnClickListener(null);
+                optionMD.setSelected(selected);
             } else {
-                text.setText("");
-                search.setVisibility(View.VISIBLE);
-                text.setOnClickListener(onSearchClickListener);
-                delete.setVisibility(View.GONE);
+                optionMD.resetSelection(onSearchClickListener);
             }
 
             search.setOnClickListener(onSearchClickListener);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    text.setText("");
-                    text.setOnClickListener(onSearchClickListener);
-                    text.setError(null);
-                    search.setVisibility(View.VISIBLE);
-                    delete.setVisibility(View.GONE);
+                    optionMD.resetSelection(onSearchClickListener);
                 }
             });
-
         }
-
     }
 
     private void appendCategoryDropDowns(int numChoices, @NonNull CategoryChoicesMD categoryChoicesMD, @NonNull List<String> savedSelections, @NonNull List<String> choices, @NonNull String prompt) {
@@ -369,7 +432,8 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     android.R.layout.simple_spinner_item, choices);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.drop_down_layout, parent);
+            ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.drop_down_layout, parent, false);
+            parent.addView(layout);
             Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
             TextView textView = (TextView) layout.findViewById(R.id.tvInvisibleError);
 
@@ -444,6 +508,25 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     private void setCheckedEnabledStates(@NonNull MultipleChoicesMD chooseMD) {
         chooseMD.getUiLabel().setError(null);
         chooseMD.setEnabled(true);
+    }
+
+    protected ChooseMD<?> pushChooseMD(ChooseMD<?> newChooseMD) {
+        ChooseMD<?> theCurrentChooseMD = currentChooseMD;
+        currentChooseMD = newChooseMD;
+        choicesMD.addChildChoice(currentChooseMD);
+        return theCurrentChooseMD;
+    }
+
+    protected void popChooseMD(ChooseMD<?> oldChooseMD) {
+        currentChooseMD = oldChooseMD;
+    }
+
+    protected void setActivity(AppCompatActivity activity) {
+        this.activity = activity;
+    }
+
+    public ChooseMDTreeNode getChoicesMD() {
+        return choicesMD;
     }
 
 }

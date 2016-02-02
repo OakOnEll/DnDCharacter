@@ -28,6 +28,7 @@ public class DropdownOptionMD extends CategoryOptionMD {
 
     @Override
     public void saveChoice(ViewGroup dynamicView, @NonNull List<String> list, Map<String, String> customChoices, SavedChoices savedChoices) {
+        if (!isPopulated()) return;
         String selection = (String) spinner.getSelectedItem();
         list.add(selection);
     }
@@ -37,14 +38,15 @@ public class DropdownOptionMD extends CategoryOptionMD {
     }
 
     @Override
-    public boolean validate(@NonNull ViewGroup dynamicView) {
-        if (spinner.getSelectedItemPosition() < 0) {
-            errorTextView.setError(dynamicView.getContext().getString(R.string.choose_one_error));
-            Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
-            spinner.startAnimation(shake);
-            return false;
-        }
-        return true;
+    public boolean isPopulated() {
+        return spinner.getSelectedItemPosition() >= 0;
+    }
+
+    @Override
+    public void showRequiredError(ViewGroup dynamicView) {
+        errorTextView.setError(dynamicView.getContext().getString(R.string.choose_one_error));
+        Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
+        spinner.startAnimation(shake);
     }
 
     public void setEnabled(boolean enabled) {

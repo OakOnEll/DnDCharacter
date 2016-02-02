@@ -23,7 +23,6 @@ public abstract class OptionMD<O extends ChooseMD> {
 
     public abstract void saveChoice(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices, SavedChoices savedChoices);
 
-    public abstract boolean validate(ViewGroup dynamicView);
 
     abstract void setEnabled(boolean enabled);
 }

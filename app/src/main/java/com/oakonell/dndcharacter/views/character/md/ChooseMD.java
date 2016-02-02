@@ -15,11 +15,14 @@ import java.util.Map;
 public abstract class ChooseMD<O extends OptionMD> {
     private final String choiceName;
     private final int maxChoices;
+    private final int minChoices;
+
     private final List<O> options = new ArrayList<>();
 
-    protected ChooseMD(String choiceName, int maxChoices) {
+    protected ChooseMD(String choiceName, int maxChoices, int minChoices) {
         this.choiceName = choiceName;
         this.maxChoices = maxChoices;
+        this.minChoices = minChoices;
     }
 
     public void saveChoice(ViewGroup dynamicView, @NonNull SavedChoices savedChoices, Map<String, String> customChoices) {
@@ -41,6 +44,10 @@ public abstract class ChooseMD<O extends OptionMD> {
 
     public int getMaxChoices() {
         return maxChoices;
+    }
+
+    public int getMinChoices() {
+        return minChoices;
     }
 
     public String getChoiceName() {

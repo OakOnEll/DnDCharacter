@@ -8,19 +8,30 @@ import android.view.ViewGroup;
  */
 public class CategoryChoicesMD extends ChooseMD<CategoryOptionMD> {
 
-    public CategoryChoicesMD(String choiceName, int maxChoices) {
-        super(choiceName, maxChoices);
+    public CategoryChoicesMD(String choiceName, int maxChoices, int minChoices) {
+        super(choiceName, maxChoices, minChoices);
     }
 
     @Override
     public boolean validate(@NonNull ViewGroup dynamicView) {
-        int numInvalid = 0;
+        int numPopulated = 0;
         for (CategoryOptionMD each : getOptions()) {
-            if (!each.validate(dynamicView)) {
-                numInvalid++;
+            if (each.isPopulated()) {
+                numPopulated++;
             }
         }
-        return numInvalid == 0;
+        if (numPopulated >= getMinChoices()) {
+            return true;
+        }
+        int numToShowError = getMinChoices() - numPopulated;
+        for (CategoryOptionMD each : getOptions()) {
+            if (numToShowError == 0) break;
+            if (each.isPopulated()) continue;
+
+            each.showRequiredError(dynamicView);
+            numToShowError--;
+        }
+        return false;
     }
 
     @Override

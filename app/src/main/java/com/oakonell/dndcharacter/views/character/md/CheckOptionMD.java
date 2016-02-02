@@ -34,7 +34,6 @@ public class CheckOptionMD extends OptionMD<MultipleChoicesMD> implements Choose
         }
     }
 
-    @Override
     public boolean validate(ViewGroup dynamicView) {
         boolean isValid = true;
         for (ChooseMD<?> each : childChoices) {

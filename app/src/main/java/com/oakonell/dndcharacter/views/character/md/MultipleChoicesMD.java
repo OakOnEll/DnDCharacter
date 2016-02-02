@@ -14,12 +14,11 @@ import com.oakonell.dndcharacter.R;
  */
 public class MultipleChoicesMD extends ChooseMD<CheckOptionMD> {
     private final TextView uiLabel;
-    private final int minSelections;
+    private int minChoices;
 
-    public MultipleChoicesMD(TextView uiLabel, String choiceName, int maxChoices, int minSelections) {
-        super(choiceName, maxChoices);
+    public MultipleChoicesMD(TextView uiLabel, String choiceName, int maxChoices, int minChoices) {
+        super(choiceName, maxChoices, minChoices);
         this.uiLabel = uiLabel;
-        this.minSelections = minSelections;
     }
 
     public TextView getUiLabel() {
@@ -37,8 +36,8 @@ public class MultipleChoicesMD extends ChooseMD<CheckOptionMD> {
                 isValid = each.validate(dynamicView) && isValid;
             }
         }
-        if (checked < minSelections) {
-            uiLabel.setError(dynamicView.getContext().getString(R.string.choose_n, minSelections));
+        if (checked < getMinChoices()) {
+            uiLabel.setError(dynamicView.getContext().getString(R.string.choose_n, getMinChoices()));
             Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
             uiLabel.startAnimation(shake);
             return false;

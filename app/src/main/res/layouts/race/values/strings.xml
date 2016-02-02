@@ -3,4 +3,6 @@
     <string name="select_feat">Select Feat</string>
     <string name="search_for_feat">Search for a Feat</string>
     <string name="ability_score_improvement_title">Ability Score Improvement</string>
+    <string name="search_for_spell">Search for Spell</string>
+    <string name="search_for_cantrip">Search for Cantrip</string>
 </resources>
