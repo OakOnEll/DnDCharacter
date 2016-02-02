@@ -7,13 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
 import java.util.List;
@@ -78,7 +77,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(MainActivity activity, RowWithSourceAdapter<Character.LanguageWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.LanguageWithSource>> adapter, Character.LanguageWithSource item) {
+        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.LanguageWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.LanguageWithSource>> adapter, Character.LanguageWithSource item) {
             super.bind(activity, adapter, item);
             String language = item.getLanguage();
 

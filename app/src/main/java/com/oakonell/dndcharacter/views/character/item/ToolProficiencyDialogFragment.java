@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
@@ -15,7 +14,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
 import java.util.List;
@@ -100,7 +99,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
         }
 
         @Override
-        public void bind(MainActivity activity, RowWithSourceAdapter<Character.ToolProficiencyWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ToolProficiencyWithSource>> adapter, Character.ToolProficiencyWithSource item) {
+        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.ToolProficiencyWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ToolProficiencyWithSource>> adapter, Character.ToolProficiencyWithSource item) {
             super.bind(activity, adapter, item);
             String category = item.getProficiency().getCategory();
             String text;

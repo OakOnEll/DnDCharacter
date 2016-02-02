@@ -11,7 +11,7 @@ import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.effect.AddEffectToCharacterVisitor;
 import com.oakonell.dndcharacter.model.effect.Effect;
 import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 /**
  * Created by Rob on 1/3/2016.
@@ -63,9 +63,9 @@ public class SelectEffectDialogFragment extends AbstractSelectComponentDialogFra
 
     public static class AddEffectToCharacterListener implements EffectSelectedListener {
 
-        private final MainActivity activity;
+        private final CharacterActivity activity;
 
-        public AddEffectToCharacterListener(MainActivity activity) {
+        public AddEffectToCharacterListener(CharacterActivity activity) {
             this.activity = activity;
         }
 

@@ -27,9 +27,9 @@ import java.util.Set;
 /**
  * Created by Rob on 1/4/2016.
  */
-public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter>> {
+public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, CharacterActivity,ContextualComponentAdapter>> {
     private static final int UNDO_DELAY = 5000;
-    private final MainActivity context;
+    private final CharacterActivity context;
     private final Set<FeatureContext> filter;
     private List<IContextualComponent> list;
     private final Map<String, Long> deletedEffects = new HashMap<>();
@@ -114,7 +114,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
 
     @NonNull
     @Override
-    public BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BindableComponentViewHolder<IContextualComponent, CharacterActivity,ContextualComponentAdapter> onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == 1) {
             View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
@@ -136,12 +136,12 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final BindableComponentViewHolder<IContextualComponent, MainActivity,ContextualComponentAdapter> viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull final BindableComponentViewHolder<IContextualComponent, CharacterActivity,ContextualComponentAdapter> viewHolder, final int position) {
         final IContextualComponent info = getItem(position);
         viewHolder.bind(context, this, info);
     }
 
-    private static class DeletedEffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity, ContextualComponentAdapter> {
+    private static class DeletedEffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, CharacterActivity, ContextualComponentAdapter> {
         @NonNull
         private final TextView name;
 
@@ -156,7 +156,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         }
 
         @Override
-        public void bind(final MainActivity context, @NonNull final ContextualComponentAdapter componentAdapter, @NonNull final CharacterEffect info) {
+        public void bind(final CharacterActivity context, @NonNull final ContextualComponentAdapter componentAdapter, @NonNull final CharacterEffect info) {
             final String nameString = info.getName();
             name.setText(nameString);
 
@@ -170,7 +170,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         }
     }
 
-    private static class EffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, MainActivity, ContextualComponentAdapter> {
+    private static class EffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, CharacterActivity, ContextualComponentAdapter> {
         @NonNull
         private final TextView name;
         @NonNull
@@ -189,7 +189,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         }
 
         @Override
-        public void bind(@NonNull final MainActivity context, @NonNull final ContextualComponentAdapter componentAdapter, @NonNull final CharacterEffect info) {
+        public void bind(@NonNull final CharacterActivity context, @NonNull final ContextualComponentAdapter componentAdapter, @NonNull final CharacterEffect info) {
             name.setText(info.getName());
             source.setText(info.getSource());
             short_description.setText(info.getDescription());

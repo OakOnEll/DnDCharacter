@@ -23,7 +23,7 @@ import com.oakonell.dndcharacter.BuildConfig;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.views.background.BackgroundsListActivity;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.characters.CharactersListActivity;
 import com.oakonell.dndcharacter.views.classes.ClassesListActivity;
 import com.oakonell.dndcharacter.views.effect.EffectsListActivity;
@@ -139,8 +139,8 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
     }
 
     public void openCharacter(long id) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.CHARACTER_ID, id);
+        Intent intent = new Intent(this, CharacterActivity.class);
+        intent.putExtra(CharacterActivity.CHARACTER_ID, id);
         startActivity(intent);
     }
 

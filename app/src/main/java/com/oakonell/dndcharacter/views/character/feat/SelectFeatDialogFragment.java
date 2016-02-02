@@ -6,7 +6,7 @@ import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 /**
  * Created by Rob on 2/1/2016.
@@ -60,9 +60,9 @@ public class SelectFeatDialogFragment extends AbstractSelectComponentDialogFragm
 
     public static class AddFeatToCharacterListener implements FeatSelectedListener {
 
-        private final MainActivity activity;
+        private final CharacterActivity activity;
 
-        public AddFeatToCharacterListener(MainActivity activity) {
+        public AddFeatToCharacterListener(CharacterActivity activity) {
             this.activity = activity;
         }
 

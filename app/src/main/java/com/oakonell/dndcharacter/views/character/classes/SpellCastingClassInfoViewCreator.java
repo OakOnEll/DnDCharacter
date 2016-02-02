@@ -8,11 +8,10 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.md.CategoryChoicesMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;
-import com.oakonell.dndcharacter.views.character.md.RootChoiceMDNode;
 
 import org.w3c.dom.Element;
 
@@ -23,10 +22,10 @@ import java.util.List;
  */
 public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreator {
 
-    public ChooseMDTreeNode appendToLayout(@NonNull MainActivity mainActivity, @NonNull ViewGroup parent, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices) {
+    public ChooseMDTreeNode appendToLayout(@NonNull CharacterActivity characterActivity, @NonNull ViewGroup parent, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices) {
         setParent(parent);
         setChoices(savedChoices);
-        setActivity(mainActivity);
+        setActivity(characterActivity);
 
         Element castingStatElem = XmlUtils.getElement(rootClassElement, "spellCastingStat");
         Element preparedSpellsFormulaElement = XmlUtils.getElement(rootClassElement, "preparedSpellsFormula");
@@ -58,7 +57,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
             text.setText("Cantrips known: " + known);
 
             if (casterClassName != null) {
-                int currentCantrips = mainActivity.getCharacter().getCantripsForClass(casterClassName);
+                int currentCantrips = characterActivity.getCharacter().getCantripsForClass(casterClassName);
                 int numCantripsCanAdd = Integer.parseInt(known) - currentCantrips;
 
                 ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedCantrips", numCantripsCanAdd, 0));
@@ -98,7 +97,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
                 text.setText("Spells known: " + known);
 
                 if (casterClassName != null) {
-                    int currentSpells = mainActivity.getCharacter().getSpellsKnownForClass(casterClassName);
+                    int currentSpells = characterActivity.getCharacter().getSpellsKnownForClass(casterClassName);
                     int numSpellsCanAdd = Integer.parseInt(known) - currentSpells;
 
                     ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpells", numSpellsCanAdd, 0));

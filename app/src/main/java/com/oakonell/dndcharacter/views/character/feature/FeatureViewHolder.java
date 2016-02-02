@@ -24,14 +24,14 @@ import com.oakonell.dndcharacter.model.components.UseType;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.ComponentLaunchHelper;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import java.util.List;
 
 /**
  * Created by Rob on 1/4/2016.
  */
-public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, MainActivity, RecyclerView.Adapter<?>> {
+public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, CharacterActivity, RecyclerView.Adapter<?>> {
     @NonNull
     public final TextView name;
     @NonNull
@@ -71,7 +71,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     }
 
     @Override
-    public void bind(@NonNull final MainActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info) {
+    public void bind(@NonNull final CharacterActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info) {
         final int position = getAdapterPosition();
 
         name.setText(info.getName());
@@ -112,7 +112,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         shortDescription.setText(info.getShortDescription());
     }
 
-    protected void bindLimitedUseViews(@NonNull final MainActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info, final int position) {
+    protected void bindLimitedUseViews(@NonNull final CharacterActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info, final int position) {
         int maxUses = info.evaluateMaxUses(context.getCharacter());
         final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
@@ -121,7 +121,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     }
 
 
-    private static class ActionViewHolder extends BindableComponentViewHolder<IFeatureAction, MainActivity, ActionAdapter> {
+    private static class ActionViewHolder extends BindableComponentViewHolder<IFeatureAction, CharacterActivity, ActionAdapter> {
         @NonNull
         public final ViewGroup use_group;
         @NonNull
@@ -155,7 +155,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             pool_cancel_button = (ImageButton) view.findViewById(R.id.pool_cancel_button);
         }
 
-        public void bind(@NonNull final MainActivity context, @NonNull final ActionAdapter adapter, @NonNull final IFeatureAction action) {
+        public void bind(@NonNull final CharacterActivity context, @NonNull final ActionAdapter adapter, @NonNull final IFeatureAction action) {
             pool_apply_group.setVisibility(View.GONE);
             final FeatureInfo info = adapter.info;
 
@@ -291,11 +291,11 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
 
     private static class ActionAdapter extends RecyclerView.Adapter<ActionViewHolder> {
-        private final MainActivity context;
+        private final CharacterActivity context;
         private FeatureInfo info;
         private List<IFeatureAction> list;
 
-        ActionAdapter(MainActivity context) {
+        ActionAdapter(CharacterActivity context) {
             this.context = context;
         }
 

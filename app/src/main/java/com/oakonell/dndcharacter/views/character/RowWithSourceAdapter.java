@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -20,12 +19,12 @@ import java.util.List;
  */
 public abstract class RowWithSourceAdapter<C extends Character.WithSource, V extends RowWithSourceAdapter.WithSourceViewHolder<C>> extends RecyclerView.Adapter<V> {
     @NonNull
-    private final MainActivity activity;
+    private final CharacterActivity activity;
     @NonNull
     private final ListRetriever<C> listRetriever;
     private List<C> list;
 
-    public RowWithSourceAdapter(@NonNull MainActivity activity, @NonNull ListRetriever<C> listRetriever) {
+    public RowWithSourceAdapter(@NonNull CharacterActivity activity, @NonNull ListRetriever<C> listRetriever) {
         this.listRetriever = listRetriever;
         this.list = listRetriever.getList(activity.getCharacter());
         this.activity = activity;
@@ -65,7 +64,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
         return R.layout.skill_prof_row;
     }
 
-    protected void launchNoSource(MainActivity activity, Character character) {
+    protected void launchNoSource(CharacterActivity activity, Character character) {
     }
 
     @NonNull
@@ -80,7 +79,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
         List<C> getList(Character character);
     }
 
-    public static class WithSourceViewHolder<C extends Character.WithSource> extends BindableComponentViewHolder<C, MainActivity, RowWithSourceAdapter<C, WithSourceViewHolder<C>>> {
+    public static class WithSourceViewHolder<C extends Character.WithSource> extends BindableComponentViewHolder<C, CharacterActivity, RowWithSourceAdapter<C, WithSourceViewHolder<C>>> {
         public TextView value;
         public TextView source;
 
@@ -91,7 +90,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
         }
 
         @Override
-        public void bind(final MainActivity activity, final RowWithSourceAdapter<C, WithSourceViewHolder<C>> adapter, C item) {
+        public void bind(final CharacterActivity activity, final RowWithSourceAdapter<C, WithSourceViewHolder<C>> adapter, C item) {
             final BaseCharacterComponent source = item.getSource();
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

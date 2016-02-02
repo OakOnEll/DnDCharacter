@@ -13,7 +13,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
 
-        adapter = new FeatureAdapter((MainActivity) this.getActivity());
+        adapter = new FeatureAdapter((CharacterActivity) this.getActivity());
         gridView.setAdapter(adapter);
         // decide on 1 or 2 columns based on screen size
         int numColumns = getResources().getInteger(R.integer.feature_columns);
@@ -64,16 +64,16 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
     public class FeatureAdapter extends RecyclerView.Adapter<FeatureViewHolder> {
         @NonNull
-        private final MainActivity context;
+        private final CharacterActivity context;
         private Set<FeatureContext> filter;
         private List<FeatureInfo> list;
 
-        public FeatureAdapter(@NonNull MainActivity context) {
+        public FeatureAdapter(@NonNull CharacterActivity context) {
             this.context = context;
             list = context.getCharacter().getFeatureInfos();
         }
 
-        public FeatureAdapter(@NonNull MainActivity context, Set<FeatureContext> filter) {
+        public FeatureAdapter(@NonNull CharacterActivity context, Set<FeatureContext> filter) {
             this.context = context;
             this.filter = filter;
             list = filterList(context.getCharacter());

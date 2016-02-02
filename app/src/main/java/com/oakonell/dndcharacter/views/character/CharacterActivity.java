@@ -48,7 +48,7 @@ import java.util.List;
 
 import hugo.weaving.DebugLog;
 
-public class MainActivity extends AbstractBaseActivity {
+public class CharacterActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
     public static final String ADD_EFFECT_DIALOG = "add_effect_frag";
     private final String MyPREFERENCES = "prefs";
@@ -245,7 +245,7 @@ public class MainActivity extends AbstractBaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(MainActivity.this, "Character '" + character.getName() + "' saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CharacterActivity.this, "Character '" + character.getName() + "' saved", Toast.LENGTH_SHORT).show();
             if (post != null) {
                 post.run();
             }
@@ -316,7 +316,7 @@ public class MainActivity extends AbstractBaseActivity {
                         input.close();
                     } catch (Exception e) {
                         publishProgress("Error loading a Character, making a new one for now: " + e.getMessage());
-                        Log.e(MainActivity.class.getName(), "Error loading character", e);
+                        Log.e(CharacterActivity.class.getName(), "Error loading character", e);
                         character = new Character(true);
                         //throw new RuntimeException("Error loading xml", e);
                     }
@@ -329,12 +329,12 @@ public class MainActivity extends AbstractBaseActivity {
 
         @Override
         protected void onProgressUpdate(String... values) {
-            Toast.makeText(MainActivity.this, values[0], Toast.LENGTH_SHORT).show();
+            Toast.makeText(CharacterActivity.this, values[0], Toast.LENGTH_SHORT).show();
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(MainActivity.this, "Character '" + character.getName() + "' loaded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CharacterActivity.this, "Character '" + character.getName() + "' loaded", Toast.LENGTH_SHORT).show();
             for (Iterator<OnCharacterLoaded> iter = onCharacterLoadListeners.iterator(); iter.hasNext(); ) {
                 OnCharacterLoaded listener = iter.next();
                 listener.onCharacterLoaded(character);
@@ -444,17 +444,17 @@ public class MainActivity extends AbstractBaseActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Main";
+                    return getString(R.string.main_tab_title);
                 case 1:
-                    return "Features";
+                    return getString(R.string.features_tab_title);
                 case 2:
-                    return "Equipment";
+                    return getString(R.string.equipment_tab_title);
                 case 3:
-                    return "Spells";
+                    return getString(R.string.spells_tab_title);
                 case 4:
-                    return "Persona";
+                    return getString(R.string.persona_tab_title);
                 case 5:
-                    return "Notes";
+                    return getString(R.string.notes_tab_title);
             }
             return null;
         }
@@ -465,7 +465,7 @@ public class MainActivity extends AbstractBaseActivity {
             @Override
             public void run() {
                 Intent intent = getIntent();
-                intent.putExtra(MainActivity.CHARACTER_ID, id);
+                intent.putExtra(CharacterActivity.CHARACTER_ID, id);
 
                 loadCharacter(id);
                 closeNavigationDrawer();

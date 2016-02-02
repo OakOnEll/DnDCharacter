@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -16,7 +15,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 
 import java.util.HashSet;
@@ -118,7 +117,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         }
 
         @Override
-        public void bind(MainActivity activity, RowWithSourceAdapter<Character.ModifierWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ModifierWithSource>> adapter, Character.ModifierWithSource item) {
+        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.ModifierWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ModifierWithSource>> adapter, Character.ModifierWithSource item) {
             super.bind(activity, adapter, item);
             final BaseCharacterComponent source = item.getSource();
             int value = item.getModifier();
@@ -150,7 +149,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         }
 
         @Override
-        protected void launchNoSource(@NonNull MainActivity activity, Character character) {
+        protected void launchNoSource(@NonNull CharacterActivity activity, Character character) {
             BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog();
             dialog.show(activity.getSupportFragmentManager(), "base_stats");
         }

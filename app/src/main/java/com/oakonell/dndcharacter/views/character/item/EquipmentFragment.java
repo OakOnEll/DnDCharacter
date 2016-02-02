@@ -39,7 +39,7 @@ import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
 import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -494,8 +494,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
                     ac.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            ((MainActivity) context.getActivity()).updateViews();
-                            ((MainActivity) context.getActivity()).saveCharacter();
+                            ((CharacterActivity) context.getActivity()).updateViews();
+                            ((CharacterActivity) context.getActivity()).saveCharacter();
                         }
                     }, 500);
                 }

@@ -68,8 +68,8 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     }
 
     @NonNull
-    public MainActivity getMainActivity() {
-        return (MainActivity) getActivity();
+    public CharacterActivity getMainActivity() {
+        return (CharacterActivity) getActivity();
     }
 
     @Nullable

@@ -238,4 +238,16 @@
     <string name="final_slots">Final Slots</string>
     <string name="spell_level">Spell Level</string>
 
+    <string name="select_feat">Select Feat</string>
+    <string name="search_for_feat">Search for a Feat</string>
+    <string name="ability_score_improvement_title">Ability Score Improvement</string>
+    <string name="search_for_spell">Search for Spell</string>
+    <string name="search_for_cantrip">Search for Cantrip</string>
+
+    <string name="main_tab_title">Main</string>
+    <string name="features_tab_title">Features</string>
+    <string name="equipment_tab_title">Equipment</string>
+    <string name="spells_tab_title">Spells</string>
+    <string name="persona_tab_title">Persona</string>
+    <string name="notes_tab_title">Notes</string>
 </resources>

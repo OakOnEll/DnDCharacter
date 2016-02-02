@@ -26,7 +26,7 @@ import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
 import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -235,15 +235,15 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
                 notifyItemRemoved(position);
                 if (context.getMainActivity() != null) {
                     context.updateView();
-                    ((MainActivity) context.getActivity()).updateViews();
-                    ((MainActivity) context.getActivity()).saveCharacter();
+                    ((CharacterActivity) context.getActivity()).updateViews();
+                    ((CharacterActivity) context.getActivity()).saveCharacter();
                 }
             }
 
             context.recordsBeingDeleted.put(item, System.currentTimeMillis());
             notifyItemChanged(position);
 
-            final MainActivity activity = ((MainActivity) context.getActivity());
+            final CharacterActivity activity = ((CharacterActivity) context.getActivity());
             context.list.postDelayed(new Runnable() {
                 public void run() {
                     // may have been deleted, undone, and then redeleted

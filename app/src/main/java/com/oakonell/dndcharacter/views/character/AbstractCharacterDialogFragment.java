@@ -104,8 +104,8 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
 
 
     @NonNull
-    public final MainActivity getMainActivity() {
-        return (MainActivity) getActivity();
+    public final CharacterActivity getMainActivity() {
+        return (CharacterActivity) getActivity();
     }
 
     @Nullable

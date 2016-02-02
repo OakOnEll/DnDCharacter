@@ -10,7 +10,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.utils.NumberUtils;
-import com.oakonell.dndcharacter.views.character.MainActivity;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class AmmunitionViewHelper {
         add_ammunition = (Button) view.findViewById(R.id.add_ammunition);
     }
 
-    public void bindView(@NonNull final MainActivity context, @NonNull CharacterWeapon item) {
+    public void bindView(@NonNull final CharacterActivity context, @NonNull CharacterWeapon item) {
         final String ammunitionName = item.getAmmunition();
         if (ammunitionName != null) {
             ammunition_layout.setVisibility(View.VISIBLE);
