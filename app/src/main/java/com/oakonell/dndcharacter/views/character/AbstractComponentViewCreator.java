@@ -69,7 +69,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     protected void createGroup(String title) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, parent,false);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_component_group, parent, false);
         parent.addView(layout);
         parent = layout;
 
@@ -190,7 +190,8 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void visitIncrease(@NonNull Element element) {
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
-        String string = parent.getResources().getString(R.string.increase_statname_by, element.getAttribute("name"), element.getTextContent());
+        int num = Integer.parseInt(element.getTextContent());
+        String string = parent.getResources().getString(R.string.increase_statname_by, element.getAttribute("name"), num);
         text.setText(" *  " + string);
     }
 
@@ -471,7 +472,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void visitOr(@NonNull Element element) {
         ViewGroup oldParent = parent;
 
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.or_layout, parent,false);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.or_layout, parent, false);
         parent.addView(layout);
 
 
