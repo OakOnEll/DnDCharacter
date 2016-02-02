@@ -44,7 +44,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private final com.oakonell.dndcharacter.model.character.Character character;
     private String currentChoiceName;
 
-    private ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, @Nullable Character character) {
+    protected ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, @Nullable Character character) {
         this.component = component;
         this.savedChoices = savedChoices;
         this.character = character;
@@ -414,5 +414,11 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
     }
 
+    public SavedChoices getSavedChoices() {
+        return savedChoices;
+    }
 
+    public C getComponent() {
+        return component;
+    }
 }

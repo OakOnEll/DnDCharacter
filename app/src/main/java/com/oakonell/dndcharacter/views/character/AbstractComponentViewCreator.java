@@ -236,7 +236,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
             TextView numChoicesTextView = (TextView) layout.findViewById(R.id.num_choices);
 
-            MultipleChoicesMD multipleChoicesMD = new MultipleChoicesMD(numChoicesTextView, choiceName, numChoices, numChoices);
+            MultipleChoicesMD multipleChoicesMD = new MultipleChoicesMD(numChoicesTextView, choiceName, numChoices, minChoices);
             currentChooseMD = multipleChoicesMD;
             choicesMD.addChildChoice(currentChooseMD);
 
@@ -479,19 +479,13 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         CheckBox checkbox = (CheckBox) layout.findViewById(R.id.checkBox);
 
         final MultipleChoicesMD chooseMD = (MultipleChoicesMD) currentChooseMD;
-        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setCheckedEnabledStates(chooseMD);
-            }
-        });
 
         // display saved selection state
         List<String> selections = choices.getChoicesFor(chooseMD.getChoiceName());
         checkbox.setChecked(selections.contains(name));
         checkbox.setId(++uiIdCounter);
 
-        CheckOptionMD optionMD = new CheckOptionMD(chooseMD, checkbox, name);
+        final CheckOptionMD optionMD = new CheckOptionMD(chooseMD, checkbox, name);
         chooseMD.addOption(optionMD);
 
         ChooseMDTreeNode oldCheck = choicesMD;
@@ -499,10 +493,23 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
         parent = (ViewGroup) layout.findViewById(R.id.or_view);
 
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setCheckedEnabledStates(chooseMD);
+                onOptionCheckChange(optionMD, isChecked);
+            }
+        });
+
+
         super.visitOr(element);
 
         choicesMD = oldCheck;
         parent = oldParent;
+    }
+
+    protected void onOptionCheckChange(CheckOptionMD optionMD, boolean isChecked) {
+
     }
 
     private void setCheckedEnabledStates(@NonNull MultipleChoicesMD chooseMD) {
@@ -519,6 +526,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     protected void popChooseMD(ChooseMD<?> oldChooseMD) {
         currentChooseMD = oldChooseMD;
+    }
+
+    protected ChooseMD<?> getCurrentChooseMD() {
+        return currentChooseMD;
     }
 
     protected void setActivity(AppCompatActivity activity) {

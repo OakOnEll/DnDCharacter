@@ -23,6 +23,9 @@ public abstract class OptionMD<O extends ChooseMD> {
 
     public abstract void saveChoice(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices, SavedChoices savedChoices);
 
+    public O getChooseMD() {
+        return chooseMD;
+    }
 
     abstract void setEnabled(boolean enabled);
 }

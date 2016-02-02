@@ -110,7 +110,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
                 throw new RuntimeException("Error parsing asi.xml in assets!", e);
             }
             final Element root = XmlUtils.getDocument(in).getDocumentElement();
-            ApplyChangesToGenericComponent.applyToCharacter(root, savedChoices, charClass, character, false);
+            ApplyAbilityScoreImprovement.applyASIToCharacter(root, savedChoices, charClass, character);
         }
 
         return charClass;
