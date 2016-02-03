@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -42,9 +43,11 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private final SavedChoices savedChoices;
     @Nullable
     private final com.oakonell.dndcharacter.model.character.Character character;
+    private final Context context;
     private String currentChoiceName;
 
-    protected ApplyChangesToGenericComponent(SavedChoices savedChoices, C component, @Nullable Character character) {
+    protected ApplyChangesToGenericComponent(Context context, SavedChoices savedChoices, C component, @Nullable Character character) {
+        this.context = context;
         this.component = component;
         this.savedChoices = savedChoices;
         this.character = character;
@@ -60,7 +63,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
     }
 
-    public static <C extends BaseCharacterComponent> void applyToCharacter(@NonNull Element element, SavedChoices savedChoices, @NonNull C component, @Nullable Character character, boolean deleteEquipment) {
+    public static <C extends BaseCharacterComponent> void applyToCharacter(@NonNull Context context, @NonNull Element element, SavedChoices savedChoices, @NonNull C component, @Nullable Character character, boolean deleteEquipment) {
         if (deleteEquipment && character != null) {
             // first clear any equipment from this type previous value
             ComponentType componentType = component.getType();
@@ -69,7 +72,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             deleteItems(character.getWeapons(), componentType);
         }
 
-        ApplyChangesToGenericComponent<C> newMe = new ApplyChangesToGenericComponent<>(savedChoices, component, character);
+        ApplyChangesToGenericComponent<C> newMe = new ApplyChangesToGenericComponent<>(context, savedChoices, component, character);
         newMe.visitChildren(element);
     }
 
@@ -148,7 +151,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             final List<Element> effectElements = XmlUtils.getChildElements(element, "effect");
             for (Element effectElement : effectElements) {
                 final Feature.FeatureCharacterEffect effect = new Feature.FeatureCharacterEffect();
-                AddEffectToCharacterVisitor.readEffect(effectElement, effect);
+                AddEffectToCharacterVisitor.readEffect(context,effectElement, effect);
                 int cost = readIntegerAttribute(effectElement, "uses", 1);
                 effect.setCost(cost);
                 String actionName = effectElement.getAttribute("actionName");
@@ -157,7 +160,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 }
                 effect.setAction(actionName);
                 feature.addEffect(effect);
-                effect.setSource(component.getSourceString() + "[" + feature.getSourceString() + "]");
+                effect.setSource(component.getSourceString(context.getResources()) + "[" + feature.getSourceString(context.getResources()) + "]");
                 hadAnyActionsOrEffects = true;
             }
 
@@ -318,7 +321,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             final Spell spell = spells.get(0);
             characterSpell = new CharacterSpell();
             final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
-            ApplyChangesToGenericComponent.applyToCharacter(root, null, characterSpell, null, false);
+            ApplyChangesToGenericComponent.applyToCharacter(context, root, null, characterSpell, null, false);
         } else {
             characterSpell = new CharacterSpell();
         }
@@ -350,12 +353,12 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             final ItemType itemType = itemRow.getItemType();
             switch (itemType) {
                 case ARMOR:
-                    CharacterArmor armor = CreateCharacterArmorVisitor.createArmor(itemRow, character);
+                    CharacterArmor armor = CreateCharacterArmorVisitor.createArmor(context,itemRow, character);
                     armor.setName(itemName);
                     armor.setSource(component.getType());
                     break;
                 case WEAPON:
-                    CharacterWeapon weapon = CreateCharacterWeaponVisitor.createWeapon(itemRow, character);
+                    CharacterWeapon weapon = CreateCharacterWeaponVisitor.createWeapon(context,itemRow, character);
                     weapon.setName(itemName);
                     weapon.setSource(component.getType());
                     break;
@@ -364,7 +367,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     item.setName(itemName);
                     item.setSource(component.getType());
 
-                    ApplyChangesToGenericComponent.applyToCharacter(XmlUtils.getDocument(itemRow.getXml()).getDocumentElement(), null, item, character, false);
+                    ApplyChangesToGenericComponent.applyToCharacter(context, XmlUtils.getDocument(itemRow.getXml()).getDocumentElement(), null, item, character, false);
 
                     character.addItem(item);
                     break;

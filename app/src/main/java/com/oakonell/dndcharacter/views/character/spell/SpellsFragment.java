@@ -139,7 +139,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
             }
         }
 
-        final CharacterSpell characterSpell = ApplySpellToCharacterVisitor.createCharacterSpell(spell, getCharacter());
+        final CharacterSpell characterSpell = ApplySpellToCharacterVisitor.createCharacterSpell(getActivity(),spell, getCharacter());
         characterSpell.setSource(ComponentType.CLASS);
         characterSpell.setCasterClass(className);
 

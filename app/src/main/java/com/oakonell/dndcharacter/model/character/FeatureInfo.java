@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.views.character.IContextualComponent;
@@ -21,8 +22,8 @@ public class FeatureInfo implements IContextualComponent {
         return feature.getName();
     }
 
-    public String getSourceString() {
-        return source.getSourceString();
+    public String getSourceString(Resources resources) {
+        return source.getSourceString(resources);
     }
 
     public String getShortDescription() {

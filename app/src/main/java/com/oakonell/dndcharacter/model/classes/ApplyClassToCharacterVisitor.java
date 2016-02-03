@@ -49,7 +49,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
         if (characterLevel == 1) {
             // this will not visit any level elements, but will apply top level stuff as the first class for a character
-            ApplyChangesToGenericComponent.applyToCharacter(rootClassElement, savedChoices, charClass, character, true);
+            ApplyChangesToGenericComponent.applyToCharacter(context, rootClassElement, savedChoices, charClass, character, true);
 
             // grab the first character level skills and such
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
@@ -66,7 +66,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
         Element levelElement = AClass.findLevelElement(rootClassElement, classLevel);
         if (levelElement != null) {
-            ApplyChangesToGenericComponent.applyToCharacter(levelElement, savedChoices, charClass, character, false);
+            ApplyChangesToGenericComponent.applyToCharacter(context, levelElement, savedChoices, charClass, character, false);
 
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
             newMe.visitChildren(levelElement);
@@ -93,7 +93,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             Element subClassRootElement = XmlUtils.getDocument(subClass.getXml()).getDocumentElement();
             Element subClassLevelElement = AClass.findLevelElement(subClassRootElement, classLevel);
             if (subClassLevelElement != null) {
-                ApplyChangesToGenericComponent.applyToCharacter(subClassLevelElement, subclassSavedChoices, charClass, character, false);
+                ApplyChangesToGenericComponent.applyToCharacter(context, subClassLevelElement, subclassSavedChoices, charClass, character, false);
                 ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(subclassSavedChoices, null, charClass);
                 newMe.visitChildren(subClassLevelElement);
                 charClass.setSubclassName(subClass.getName());
@@ -110,7 +110,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
                 throw new RuntimeException("Error parsing asi.xml in assets!", e);
             }
             final Element root = XmlUtils.getDocument(in).getDocumentElement();
-            ApplyAbilityScoreImprovement.applyASIToCharacter(root, savedChoices, charClass, character);
+            ApplyAbilityScoreImprovement.applyASIToCharacter(context, root, savedChoices, charClass, character);
         }
 
         return charClass;

@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.classes;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -17,12 +18,12 @@ import java.util.List;
  * Created by Rob on 2/2/2016.
  */
 public class ApplyAbilityScoreImprovement extends ApplyChangesToGenericComponent<CharacterClass> {
-    private ApplyAbilityScoreImprovement(SavedChoices savedChoices, CharacterClass component, @Nullable com.oakonell.dndcharacter.model.character.Character character) {
-        super(savedChoices, component, character);
+    private ApplyAbilityScoreImprovement(Context context, SavedChoices savedChoices, CharacterClass component, @Nullable com.oakonell.dndcharacter.model.character.Character character) {
+        super(context, savedChoices, component, character);
     }
 
-    public static <C extends BaseCharacterComponent> void applyASIToCharacter(@NonNull Element element, SavedChoices savedChoices, @NonNull CharacterClass component, @Nullable Character character) {
-        ApplyAbilityScoreImprovement newMe = new ApplyAbilityScoreImprovement(savedChoices, component, character);
+    public static <C extends BaseCharacterComponent> void applyASIToCharacter(@NonNull Context context, @NonNull Element element, SavedChoices savedChoices, @NonNull CharacterClass component, @Nullable Character character) {
+        ApplyAbilityScoreImprovement newMe = new ApplyAbilityScoreImprovement(context, savedChoices, component, character);
         newMe.visitChildren(element);
     }
 

@@ -126,7 +126,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
                 this.source.setText(R.string.base_stat);
                 this.value.setText(NumberUtils.formatNumber(value));
             } else {
-                this.source.setText(source.getSourceString());
+                this.source.setText(source.getSourceString(activity.getResources()));
                 this.value.setText("+" + value);
             }
         }

@@ -123,7 +123,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
         List<String> list = new ArrayList<>();
         for (DamageType each : DamageType.values()) {
-            list.add(each.toString());
+            list.add(getString(each.getStringResId()));
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, list);
@@ -373,9 +373,9 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         name.setText(weapon.getName());
 
         if (two_handed.isChecked()) {
-            damage_descr.setText(weapon.getVersatileDamageString());
+            damage_descr.setText(weapon.getVersatileDamageString(getResources()));
         } else {
-            damage_descr.setText(weapon.getDamageString());
+            damage_descr.setText(weapon.getDamageString(getResources()));
         }
         attack_roll_modifier.setText(NumberUtils.formatNumber(damageModifier));
 
@@ -534,7 +534,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         public void writeToParcel(@NonNull Parcel dest, int flags) {
             dest.writeInt(damages.size());
             for (Map.Entry<DamageType, Integer> entry : damages.entrySet()) {
-                dest.writeString(entry.getKey().toString());
+                dest.writeString(entry.getKey().name());
                 dest.writeInt(entry.getValue());
             }
         }

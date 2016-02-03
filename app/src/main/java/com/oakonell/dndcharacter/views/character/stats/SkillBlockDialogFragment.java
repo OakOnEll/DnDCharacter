@@ -153,13 +153,13 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.ProficientWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ProficientWithSource>> adapter, Character.ProficientWithSource item) {
             super.bind(activity, adapter, item);
             Proficient value = item.getProficient();
-            this.value.setText(value.toString());
+            this.value.setText(activity.getString(value.getStringResId()));
             final BaseCharacterComponent source = item.getSource();
             if (source == null) {
                 // a base stat
                 this.source.setText(R.string.base_stat);
             } else {
-                this.source.setText(source.getSourceString());
+                this.source.setText(source.getSourceString(activity.getResources()));
             }
         }
     }

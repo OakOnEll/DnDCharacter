@@ -173,7 +173,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
             subraceCustom = customChoicesByModel.get(subrace.getName());
         }
 
-        ApplyRaceToCharacterVisitor.applyToCharacter(getModel(), savedChoices, customChoices, subrace, subraceChoices, subraceCustom, getCharacter());
+        ApplyRaceToCharacterVisitor.applyToCharacter(getActivity(),getModel(), savedChoices, customChoices, subrace, subraceChoices, subraceCustom, getCharacter());
     }
 
 

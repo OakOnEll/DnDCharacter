@@ -75,7 +75,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         final int position = getAdapterPosition();
 
         name.setText(info.getName());
-        source.setText(info.getSourceString());
+        source.setText(info.getSourceString(context.getResources()));
         source.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

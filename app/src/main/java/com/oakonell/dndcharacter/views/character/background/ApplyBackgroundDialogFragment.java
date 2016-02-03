@@ -110,7 +110,7 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
 
     @Override
     protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices) {
-        ApplyBackgroundToCharacterVisitor.applyToCharacter(getModel(), savedChoices, customChoices, getCharacter());
+        ApplyBackgroundToCharacterVisitor.applyToCharacter(getActivity(),getModel(), savedChoices, customChoices, getCharacter());
     }
 
     @NonNull

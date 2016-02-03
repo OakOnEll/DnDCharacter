@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.spell;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
@@ -39,11 +40,11 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
 
 
     @NonNull
-    public static CharacterSpell createCharacterSpell(@NonNull Spell spell, @NonNull Character character) {
+    public static CharacterSpell createCharacterSpell(@NonNull Context context, @NonNull Spell spell, @NonNull Character character) {
         CharacterSpell charSpell = new CharacterSpell();
 
         final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
-        ApplyChangesToGenericComponent.applyToCharacter(root, null, charSpell, character, false);
+        ApplyChangesToGenericComponent.applyToCharacter(context, root, null, charSpell, character, false);
 
 
         ApplySpellToCharacterVisitor newMe = new ApplySpellToCharacterVisitor(charSpell);

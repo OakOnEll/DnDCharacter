@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.feat;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
@@ -25,19 +26,19 @@ public class AddFeatToCharacterVisitor extends AbstractEffectVisitor {
     }
 
     @NonNull
-    public static CharacterEffect applyToCharacter(@NonNull Effect race, @NonNull Character character) {
+    public static CharacterEffect applyToCharacter(@NonNull Context context, @NonNull Effect race, @NonNull Character character) {
         Element element = XmlUtils.getDocument(race.getXml()).getDocumentElement();
         CharacterEffect characterEffect = new CharacterEffect();
-        readEffect(element, characterEffect);
+        readEffect(context, element, characterEffect);
 
         character.addEffect(characterEffect);
         return characterEffect;
     }
 
-    public static void readEffect(@NonNull Element element, @NonNull CharacterEffect characterEffect) {
+    public static void readEffect(@NonNull Context context, @NonNull Element element, @NonNull CharacterEffect characterEffect) {
         characterEffect.setName(XmlUtils.getElementText(element, "name"));
         // apply common changes
-        ApplyChangesToGenericComponent.applyToCharacter(element, new SavedChoices(), characterEffect, null, false);
+        ApplyChangesToGenericComponent.applyToCharacter(context, element, new SavedChoices(), characterEffect, null, false);
 
         AddFeatToCharacterVisitor newMe = new AddFeatToCharacterVisitor(characterEffect);
         newMe.visit(element);
@@ -47,8 +48,8 @@ public class AddFeatToCharacterVisitor extends AbstractEffectVisitor {
             String[] contexts = contextsString.split(",");
             for (String each : contexts) {
                 String contextString = each.trim();
-                FeatureContext context = FeatureContext.valueOf(contextString.toUpperCase());
-                characterEffect.addContext(context);
+                FeatureContext featureContext = FeatureContext.valueOf(contextString.toUpperCase());
+                characterEffect.addContext(featureContext);
             }
         }
     }

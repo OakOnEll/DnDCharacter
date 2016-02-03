@@ -574,7 +574,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 }
                 damageModString += Math.abs(damageModifier);
             }
-            damage.setText(item.getDamageString() + damageModString);
+            damage.setText(item.getDamageString(context.getResources()) + damageModString);
             bonus.setText(NumberUtils.formatNumber(attackModifiers.getAttackBonus()));
 
             itemView.setOnClickListener(new View.OnClickListener() {

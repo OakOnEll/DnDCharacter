@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -113,8 +114,8 @@ public abstract class BaseCharacterComponent {
     }
 
     @NonNull
-    public String getSourceString() {
-        return getType().toString() + ": " + getName();
+    public String getSourceString(Resources resources) {
+        return resources.getString(getType().getStringResId()) + ": " + getName();
     }
 
     @NonNull

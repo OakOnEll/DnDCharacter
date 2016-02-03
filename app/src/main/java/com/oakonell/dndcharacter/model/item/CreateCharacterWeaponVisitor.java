@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.item;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
@@ -20,10 +21,10 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     }
 
     @NonNull
-    public static CharacterWeapon createWeapon(@NonNull ItemRow row, @NonNull com.oakonell.dndcharacter.model.character.Character character) {
+    public static CharacterWeapon createWeapon(@NonNull Context context, @NonNull ItemRow row, @NonNull com.oakonell.dndcharacter.model.character.Character character) {
         CharacterWeapon weapon = new CharacterWeapon();
 
-        ApplyChangesToGenericComponent.applyToCharacter(XmlUtils.getDocument(row.getXml()).getDocumentElement(), null, weapon, character, false);
+        ApplyChangesToGenericComponent.applyToCharacter(context, XmlUtils.getDocument(row.getXml()).getDocumentElement(), null, weapon, character, false);
 
         CreateCharacterWeaponVisitor newMe = new CreateCharacterWeaponVisitor(weapon);
         newMe.visit(row);

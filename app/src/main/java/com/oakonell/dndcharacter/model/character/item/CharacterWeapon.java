@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.character.item;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.*;
@@ -70,19 +71,19 @@ public class CharacterWeapon extends CharacterItem {
     }
 
     @NonNull
-    public String getDamageString() {
+    public String getDamageString(@NonNull Resources resources) {
         final List<DamageFormula> damageFormulas = this.damageFormulas;
-        return getDamagesString(damageFormulas);
+        return getDamagesString(damageFormulas, resources);
     }
 
     @NonNull
-    public String getVersatileDamageString() {
+    public String getVersatileDamageString(@NonNull Resources resources) {
         final List<DamageFormula> damageFormulas = this.versatileDamageFormulas;
-        return getDamagesString(damageFormulas);
+        return getDamagesString(damageFormulas, resources);
     }
 
     @NonNull
-    private String getDamagesString(@NonNull List<DamageFormula> damageFormulas) {
+    private String getDamagesString(@NonNull List<DamageFormula> damageFormulas, @NonNull Resources resources) {
         StringBuilder builder = new StringBuilder();
         boolean isFirst = true;
         for (DamageFormula each : damageFormulas) {
@@ -91,7 +92,7 @@ public class CharacterWeapon extends CharacterItem {
             }
             builder.append(each.damageFormula);
             builder.append(" ");
-            builder.append(each.type.toString());
+            builder.append(resources.getString(each.type.getStringResId()));
             isFirst = false;
         }
         return builder.toString();

@@ -108,7 +108,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
         List<String> list = new ArrayList<>();
         for (DamageType each : DamageType.values()) {
-            list.add(each.toString());
+            list.add(getString(each.getStringResId()));
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, list);
@@ -118,7 +118,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
         List<String> vulnerabilityList = new ArrayList<>();
         for (VulnerabilityType each : VulnerabilityType.values()) {
-            vulnerabilityList.add(each.toString());
+            vulnerabilityList.add(getString(each.getStringResId()));
         }
         ArrayAdapter<String> susceptibleListDataAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, vulnerabilityList);
@@ -558,12 +558,12 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
                 if (hpRow.damageType == null) {
                     type.setText(R.string.damage_label);
                 } else {
-                    type.setText(hpRow.damageType.toString());
+                    type.setText(context.getString(hpRow.damageType.getStringResId()));
                 }
                 if (hpRow.vulnerabilityType == null) {
                     vulnerableType.setText("");
                 } else {
-                    vulnerableType.setText(hpRow.vulnerabilityType.toString());
+                    vulnerableType.setText(context.getString(hpRow.vulnerabilityType.getStringResId()));
                 }
             } else if (hpRow.hpType == HpType.HEAL) {
                 type.setText(R.string.heal);

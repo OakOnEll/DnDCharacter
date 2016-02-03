@@ -81,14 +81,14 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         super.onSaveInstanceState(outState);
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
             if (each.isEquipped()) {
-                outState.putString(BASE_ARMOR, each.getSourceString());
+                outState.putString(BASE_ARMOR, each.getSourceString(getResources()));
                 break;
             }
         }
         ArrayList<String> equippedBonuses = new ArrayList<>();
         for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
             if (each.isEquipped()) {
-                equippedBonuses.add(each.getSourceString());
+                equippedBonuses.add(each.getSourceString(getResources()));
             }
         }
         outState.putStringArrayList(MODIFYING_ARMOR, equippedBonuses);
@@ -114,7 +114,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         rootAcAdapter = new RootAcAdapter(this, character);
         if (baseArmorSaved != null) {
             for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
-                if (each.getSourceString().equals(baseArmorSaved)) {
+                if (each.getSourceString(getResources()).equals(baseArmorSaved)) {
                     each.setIsEquipped(true);
                 } else {
                     each.setIsEquipped(false);
@@ -131,7 +131,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         modifyingAcAdapter = new ModifyingAcAdapter(this, character);
         if (modifyingArmorSaved != null) {
             for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
-                if (modifyingArmorSaved.contains(each.getSourceString())) {
+                if (modifyingArmorSaved.contains(each.getSourceString(getResources()))) {
                     each.setIsEquipped(true);
                 } else {
                     each.setIsEquipped(false);
@@ -238,7 +238,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
         @Override
         public void bind(@NonNull final ArmorClassDialogFragment context, @NonNull final RootAcAdapter adapter, @NonNull final Character.ArmorClassWithSource row) {
-            name.setText(row.getSourceString());
+            name.setText(row.getSourceString(context.getResources()));
             formula.setText(row.getFormula());
             final List<Character.ArmorClassWithSource> list = adapter.list;
             checkBox.setOnCheckedChangeListener(null);
@@ -355,7 +355,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         @Override
         public void onBindViewHolder(@NonNull AcViewHolder holder, final int position) {
             final Character.ArmorClassWithSource row = list.get(position);
-            holder.name.setText(row.getSourceString());
+            holder.name.setText(row.getSourceString(fragment.getResources()));
             holder.formula.setText(row.getFormula());
 
             holder.checkBox.setOnCheckedChangeListener(null);

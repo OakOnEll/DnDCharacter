@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.stats.StatType;
@@ -50,8 +51,8 @@ public class CharacterClass extends BaseCharacterComponent {
 
     @NonNull
     @Override
-    public String getSourceString() {
-        return getType().toString() + ": " + getName() + " " + level;
+    public String getSourceString(Resources resources) {
+        return resources.getString(getType().getStringResId()) + ": " + getName() + " " + level;
     }
 
     public int getLevel() {

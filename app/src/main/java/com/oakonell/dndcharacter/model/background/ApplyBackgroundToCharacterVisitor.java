@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.background;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
@@ -28,13 +29,13 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
         this.customChoices = customChoices;
     }
 
-    public static void applyToCharacter(@NonNull Background background, SavedChoices savedChoices, Map<String, String> customChoices, @NonNull Character character) {
+    public static void applyToCharacter(@NonNull Context context, @NonNull Background background, SavedChoices savedChoices, Map<String, String> customChoices, @NonNull Character character) {
         CharacterBackground charBackground = new CharacterBackground();
         charBackground.setSavedChoices(savedChoices);
         // apply common changes
         Element element = XmlUtils.getDocument(background.getXml()).getDocumentElement();
 
-        ApplyChangesToGenericComponent.applyToCharacter(element, savedChoices, charBackground, character, true);
+        ApplyChangesToGenericComponent.applyToCharacter(context, element, savedChoices, charBackground, character, true);
 
         ApplyBackgroundToCharacterVisitor newMe = new ApplyBackgroundToCharacterVisitor(savedChoices, customChoices, charBackground);
         newMe.visit(element);

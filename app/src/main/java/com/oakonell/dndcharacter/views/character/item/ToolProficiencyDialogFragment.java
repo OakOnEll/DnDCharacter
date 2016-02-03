@@ -118,7 +118,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
                 // a base stat
                 this.source.setText(R.string.base_stat);
             } else {
-                this.source.setText(source.getSourceString());
+                this.source.setText(source.getSourceString(activity.getResources()));
             }
         }
     }

@@ -1,9 +1,11 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
@@ -1346,11 +1348,11 @@ public class Character {
             return language;
         }
 
-        @NonNull
-        @Override
-        public String toString() {
-            return language + " (" + getSourceString() + ")";
-        }
+//        @NonNull
+//        @Override
+//        public String toString() {
+//            return language + " (" + getSourceString() + ")";
+//        }
 
 
     }
@@ -1367,11 +1369,11 @@ public class Character {
             return modifier;
         }
 
-        @NonNull
-        @Override
-        public String toString() {
-            return modifier + " (" + getSourceString() + ")";
-        }
+//        @NonNull
+//        @Override
+//        public String toString() {
+//            return modifier + " (" + getSourceString() + ")";
+//        }
     }
 
     public static class ProficientWithSource extends WithSource {
@@ -1386,11 +1388,11 @@ public class Character {
             return proficient;
         }
 
-        @NonNull
-        @Override
-        public String toString() {
-            return proficient + " (" + getSourceString() + ")";
-        }
+//        @NonNull
+//        @Override
+//        public String toString() {
+//            return proficient + " (" + getSourceString() + ")";
+//        }
 
     }
 
@@ -1417,14 +1419,14 @@ public class Character {
             return proficient;
         }
 
-        @NonNull
-        @Override
-        public String toString() {
-            if (proficient.getCategory() != null) {
-                return "[" + proficient.getCategory() + "] (" + getSourceString() + ")";
-            }
-            return proficient.getName() + " (" + getSourceString() + ")";
-        }
+//        @NonNull
+//        @Override
+//        public String toString() {
+//            if (proficient.getCategory() != null) {
+//                return "[" + proficient.getCategory() + "] (" + getSourceString() + ")";
+//            }
+//            return proficient.getName() + " (" + getSourceString() + ")";
+//        }
 
     }
 
@@ -1439,11 +1441,10 @@ public class Character {
             return source;
         }
 
-        public String getSourceString() {
-            if (source == null) return "No Source";
-            return source.getSourceString();
+        public String getSourceString(Resources resources) {
+            if (source == null) return resources.getString(R.string.no_component_source);
+            return source.getSourceString(resources);
         }
-
     }
 
     public void addExperience(int xp) {
