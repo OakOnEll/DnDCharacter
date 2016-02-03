@@ -123,10 +123,10 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
             proficiency.setText(NumberUtils.formatNumber(skillBlock.getCharacter().getProficiency()));
         }
 
-        statModLabel.setText(getString(R.string.statname_modifier_label, skillBlock.getType().getStatType().toString()));
+        statModLabel.setText(getString(R.string.statname_modifier_label, getString(skillBlock.getType().getStatType().getStringResId())));
         statMod.setText(NumberUtils.formatNumber(skillBlock.getStatModifier()));
-        statLabel.setText(skillBlock.getType().getStatType().toString());
-        getDialog().setTitle(skillBlock.getType().toString());
+        statLabel.setText(skillBlock.getType().getStatType().getStringResId());
+        getDialog().setTitle(skillBlock.getType().getStringResId());
         total.setText(NumberUtils.formatNumber(skillBlock.getBonus()));
     }
 

@@ -855,7 +855,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this, "stat " + type);
+        deriver.derive(this, "stat " + type.name());
 
         return result;
     }
@@ -872,7 +872,7 @@ public class Character {
                 value[0] += component.getStatModifier(type);
             }
         };
-        deriver.derive(this, "stat value " + type);
+        deriver.derive(this, "stat value " + type.name());
 
         return value[0];
     }
@@ -890,7 +890,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this, "skill profs " + type);
+        deriver.derive(this, "skill profs " + type.name());
 
         return result;
     }
@@ -908,7 +908,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this, "save throw prof " + type);
+        deriver.derive(this, "save throw prof " + type.name());
 
         return result;
     }
@@ -925,7 +925,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this, "skill prof " + type);
+        deriver.derive(this, "skill prof " + type.name());
 
         return proficient[0];
     }
@@ -954,7 +954,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this, "save prof " + type);
+        deriver.derive(this, "save prof " + type.name());
         return proficient[0];
     }
 
@@ -976,16 +976,7 @@ public class Character {
     public boolean evaluateBooleanFormula(@Nullable String formula, @Nullable SimpleVariableContext variableContext) {
         // TODO formula might reference stats and such
         if (formula == null || formula.length() == 0) return false;
-        if (variableContext == null) variableContext = new SimpleVariableContext();
-
-        // enumerate all the stat modifiers and values
-        for (StatType each : StatType.values()) {
-            StatBlock block = getStatBlock(each);
-            int mod = block.getModifier();
-            variableContext.setNumber(each.toString().toLowerCase() + "Mod", mod);
-            variableContext.setNumber(each.toString().toLowerCase() + "Value", block.getValue());
-        }
-        variableContext.setNumber("level", getClasses().size());
+        variableContext = getPopulatedVariableContext(variableContext);
 
         try {
             Expression<Boolean> expression = Expression.parse(formula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
@@ -996,20 +987,25 @@ public class Character {
         }
     }
 
-    public int evaluateFormula(@Nullable String formula, @Nullable SimpleVariableContext variableContext) {
-        // TODO formula might reference stats and such
-        if (formula == null || formula.length() == 0) return 0;
+    @NonNull
+    protected SimpleVariableContext getPopulatedVariableContext(@Nullable SimpleVariableContext variableContext) {
         if (variableContext == null) variableContext = new SimpleVariableContext();
 
         // enumerate all the stat modifiers and values
         for (StatType each : StatType.values()) {
             StatBlock block = getStatBlock(each);
             int mod = block.getModifier();
-            variableContext.setNumber(each.toString().toLowerCase() + "Mod", mod);
-            variableContext.setNumber(each.toString().toLowerCase() + "Value", block.getValue());
+            variableContext.setNumber(each.name().toLowerCase() + "Mod", mod);
+            variableContext.setNumber(each.name().toLowerCase() + "Value", block.getValue());
         }
         variableContext.setNumber("level", getClasses().size());
+        return variableContext;
+    }
 
+    public int evaluateFormula(@Nullable String formula, @Nullable SimpleVariableContext variableContext) {
+        // TODO formula might reference stats and such
+        if (formula == null || formula.length() == 0) return 0;
+        variableContext = getPopulatedVariableContext(variableContext);
 
         try {
             Expression<Integer> expression = Expression.parse(formula, ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
@@ -1270,7 +1266,7 @@ public class Character {
                 }
             }
         };
-        deriver.derive(this, "tools profs " + type);
+        deriver.derive(this, "tools profs " + type.name());
 
         return result;
     }

@@ -117,7 +117,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
         uses_remaining.setText(context.getString(R.string.fraction_d_slash_d, usesRemaining, maxUses));
-        refreshes_label.setText(context.getString(R.string.refreshes_on_s, info.getFeature().getRefreshesOn().toString()));
+        refreshes_label.setText(context.getString(R.string.refreshes_on_s, context.getString(info.getFeature().getRefreshesOn().getStringResId())));
     }
 
 

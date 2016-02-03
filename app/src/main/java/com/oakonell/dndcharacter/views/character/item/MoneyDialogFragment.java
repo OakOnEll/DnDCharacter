@@ -158,8 +158,13 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     enum CoinType {
-        COPPER, SILVER, ELECTRUM, GOLD, PLATINUM
-    }
+        COPPER, SILVER, ELECTRUM, GOLD, PLATINUM;
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
+        }
 
     class CoinInputWatcher implements TextWatcher {
         private final TextView result;

@@ -77,7 +77,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
     @NonNull
     private ProficiencyType updateView() {
         final ProficiencyType proficiencyType = getProficiencyType();
-        getDialog().setTitle(getString(R.string.proficiency_type_proficiencies, proficiencyType.toString()));
+        getDialog().setTitle(getString(R.string.proficiency_type_proficiencies, getString(proficiencyType.getStringResId())));
 
         return proficiencyType;
     }

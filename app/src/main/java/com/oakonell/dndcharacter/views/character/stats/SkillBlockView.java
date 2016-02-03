@@ -53,8 +53,8 @@ public class SkillBlockView extends LinearLayout {
         this.bonus.setText(NumberUtils.formatNumber(bonus));
     }
 
-    protected void setLabel(String label) {
-        skill_label.setText(label);
+    protected void setLabel(int resId) {
+        skill_label.setText(resId);
     }
 
     protected void setProficiency(@NonNull Proficient proficient) {
@@ -101,7 +101,7 @@ public class SkillBlockView extends LinearLayout {
             setProficiency(Proficient.NONE);
             setBonus(0);
         }
-        setLabel(this.type.name());
+        setLabel(this.type.getStringResId());
     }
 
 

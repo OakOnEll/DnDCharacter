@@ -1,31 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="acid_damage">Acid</string>
-    <string name="bludgeoning_damage">Bludgeoning</string>
-    <string name="cold_damage">Cold</string>
-    <string name="fire_damage">Fire</string>
-    <string name="force_damage">Force</string>
-    <string name="lightning_damage">Lightning</string>
-    <string name="necrotic_damage">Necrotic</string>
-    <string name="piercing_damage">Piercing</string>
-    <string name="poison_damage">Poison</string>
-    <string name="psychic_damage">Psychic</string>
-    <string name="radiant_damage">Radiant</string>
-    <string name="slashing_damage">Slashing</string>
-    <string name="thunder_damage">Thunder</string>
-    <string name="no_proficiency">None</string>
-    <string name="half_proficiency">Half Proficiency</string>
-    <string name="proficient">Proficient</string>
-    <string name="expert">Expert</string>
-    <string name="no_vulnerability">None</string>
-    <string name="vulnerable">Vulnerable</string>
-    <string name="resistant">Resistant</string>
-    <string name="race_component">Race</string>
-    <string name="background_component">Background</string>
-    <string name="class_component">Class</string>
-    <string name="item_component">Item</string>
-    <string name="effect_component">Effect</string>
-    <string name="feature_component">Feature</string>
-    <string name="spell_component">Spell</string>
-    <string name="no_component_source">No Source</string>
+    <string name="armor">Armor</string>
+    <string name="weapon">Weapon</string>
+    <string name="tool">Tool</string>
 </resources>

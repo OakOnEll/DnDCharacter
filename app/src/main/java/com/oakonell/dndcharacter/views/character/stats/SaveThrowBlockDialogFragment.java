@@ -111,9 +111,9 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
             proficiency.setText(NumberUtils.formatNumber(statBlock.getCharacter().getProficiency()));
         }
 
-        statModLabel.setText(getString(R.string.statname_modifier_label, statBlock.getType().toString()));
+        statModLabel.setText(getString(R.string.statname_modifier_label, getString(statBlock.getType().getStringResId())));
         statMod.setText(NumberUtils.formatNumber(statBlock.getModifier()));
-        getDialog().setTitle(getString(R.string.statname_saving_throw_title, statBlock.getType().toString()));
+        getDialog().setTitle(getString(R.string.statname_saving_throw_title, getString(statBlock.getType().getStringResId())));
         total.setText(NumberUtils.formatNumber(statBlock.getSaveModifier()));
     }
 

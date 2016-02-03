@@ -56,7 +56,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     // rolled stats
     private final Integer[] statRolls = new Integer[6];
     private Spinner roll_type;
-    private List<BaseStatsType> list;
+    private List<BaseStatsType> statsTypes;
 
     @NonNull
     public static BaseStatsDialogFragment createDialog() {
@@ -77,16 +77,20 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         roll_layout = (ViewGroup) view.findViewById(R.id.roll_layout);
 
 
-        list = new ArrayList<>(Arrays.asList(BaseStatsType.values()));
-        ArrayAdapter<BaseStatsType> dataAdapter = new ArrayAdapter<>(getContext(),
-                R.layout.large_spinner_text, list);
+        statsTypes = new ArrayList<>(Arrays.asList(BaseStatsType.values()));
+        List<String> statTypeStrings = new ArrayList<>();
+        for (BaseStatsType each : statsTypes) {
+            statTypeStrings.add(getString(each.getStringResId()));
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
+                R.layout.large_spinner_text, statTypeStrings);
         dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
         stat_type.setAdapter(dataAdapter);
 
         stat_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                statsType = list.get(position);
+                statsType = statsTypes.get(position);
 
                 switch (statsType) {
                     case CUSTOM:
@@ -179,8 +183,8 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     StatType tempType = other.type;
                     other.type = each.type;
                     each.type = tempType;
-                    other.typeView.setText(other.type.toString());
-                    each.typeView.setText(each.type.toString());
+                    other.typeView.setText(other.type.getStringResId());
+                    each.typeView.setText(each.type.getStringResId());
                 }
             });
             each.down.setOnClickListener(new View.OnClickListener() {
@@ -190,8 +194,8 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     StatType tempType = other.type;
                     other.type = each.type;
                     each.type = tempType;
-                    other.typeView.setText(other.type.toString());
-                    each.typeView.setText(each.type.toString());
+                    other.typeView.setText(other.type.getStringResId());
+                    each.typeView.setText(each.type.getStringResId());
                 }
             });
 
@@ -324,7 +328,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         super.onCharacterChanged(character);
         // pull current values from the character, and display
         statsType = character.getStatsType();
-        stat_type.setSelection(list.indexOf(statsType));
+        stat_type.setSelection(statsTypes.indexOf(statsType));
 
         Map<StatType, Integer> stats = character.getBaseStats();
 
@@ -371,7 +375,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     final BaseStatRow baseStatRow = baseStatRows.get(i);
                     baseStatRow.type = each.getKey();
                     baseStatRow.setValue(each.getValue());
-                    baseStatRow.typeView.setText(baseStatRow.type.toString());
+                    baseStatRow.typeView.setText(baseStatRow.type.getStringResId());
                     i++;
                 }
             }

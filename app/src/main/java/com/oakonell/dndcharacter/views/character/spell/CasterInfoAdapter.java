@@ -81,7 +81,7 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
         @Override
         public void bind(@NonNull SpellsFragment context, CasterInfoAdapter adapter, @NonNull Character.CastingClassInfo info) {
             class_name.setText(context.getString(R.string.class_and_level, info.getClassName(), info.getClassLevel()));
-            casting_stat.setText(context.getString(R.string.stat_and_mod, info.getCastingStat().toString(), context.getCharacter().getStatBlock(info.getCastingStat()).getModifier()));
+            casting_stat.setText(context.getString(R.string.stat_and_mod, context.getString(info.getCastingStat().getStringResId()), context.getCharacter().getStatBlock(info.getCastingStat()).getModifier()));
 
             int cantrips = context.getCharacter().getCantripsForClass(info.getClassName());
             int maxCantrips = context.getCharacter().evaluateFormula(info.getKnownCantrips(), null);

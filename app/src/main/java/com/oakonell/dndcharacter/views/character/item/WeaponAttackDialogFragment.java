@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.item;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -198,11 +199,11 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             updateRollTotal();
 
             if (attackDamageInfo != null) {
-                attack_roll1.setText(attackDamageInfo.getDescription());
+                attack_roll1.setText(attackDamageInfo.getDescription(getResources()));
 
                 //damages.put(first, damages.get(first) + damageModifier);
 
-                attack_roll_total.setText(attackDamageInfo.getDescription());
+                attack_roll_total.setText(attackDamageInfo.getDescription(getResources()));
             }
             if (attack_roll_total.getText().toString().trim().length() > 0) {
                 // restore state?
@@ -292,7 +293,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         }
         AttackDamageInfo info = new AttackDamageInfo();
         info.damages.putAll(sum);
-        attack_roll_final_total.setText(info.getDescription());
+        attack_roll_final_total.setText(info.getDescription(getResources()));
     }
 
     private void addAttackDamage(@NonNull Map<DamageType, Integer> sum, @NonNull AttackDamageInfo each) {
@@ -429,7 +430,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         }
 
         // TODO animate the roll, with sound fx
-        attack_roll1.setText(attackDamageInfo.getDescription());
+        attack_roll1.setText(attackDamageInfo.getDescription(getResources()));
 
         attack_roll_total.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -445,7 +446,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
         damages.put(first, damages.get(first) + damageModifier);
 
-        attack_roll_total.setText(attackDamageInfo.getDescription());
+        attack_roll_total.setText(attackDamageInfo.getDescription(getResources()));
         add_another.setEnabled(true);
 
         updateRollTotal();
@@ -463,7 +464,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
         @Override
         public void bind(WeaponAttackDialogFragment context, DamagesListAdapter adapter, @NonNull AttackDamageInfo row) {
-            damage.setText(row.getDescription());
+            damage.setText(row.getDescription(context.getResources()));
         }
     }
 
@@ -500,7 +501,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         };
 
         @NonNull
-        public String getDescription() {
+        public String getDescription(Resources resources) {
             StringBuilder builder = new StringBuilder();
             boolean isFirst = true;
             for (Map.Entry<DamageType, Integer> each : damages.entrySet()) {
@@ -511,7 +512,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
                 final Integer value = each.getValue();
                 builder.append(value);
                 builder.append(" ");
-                builder.append(type);
+                builder.append(resources.getString(type.getStringResId()));
                 isFirst = false;
             }
             return builder.toString();

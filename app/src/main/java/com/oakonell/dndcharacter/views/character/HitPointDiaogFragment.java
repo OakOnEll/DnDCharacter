@@ -406,7 +406,12 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     }
 
     public enum HpType {
-        DAMAGE, HEAL, TEMP_HP
+        DAMAGE, HEAL, TEMP_HP;
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
     public static class HpRow implements Parcelable {

@@ -93,7 +93,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     private void updateView(@NonNull StatBlock statBlock) {
-        getDialog().setTitle(statBlock.getType().toString());
+        getDialog().setTitle(statBlock.getType().getStringResId());
 
         setModifier(statBlock.getModifier());
         total.setText(NumberUtils.formatNumber(statBlock.getValue()));

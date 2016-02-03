@@ -47,8 +47,8 @@ public class StatBlockView extends LinearLayout {
         stat_mod = (TextView) findViewById(R.id.stat_mod);
     }
 
-    protected void setLabel(String label) {
-        stat_label.setText(label);
+    protected void setLabel(int resId) {
+        stat_label.setText(resId);
     }
 
     protected void setValue(int value) {
@@ -56,7 +56,7 @@ public class StatBlockView extends LinearLayout {
     }
 
     protected void setModifier(int mod) {
-        stat_mod.setText(NumberUtils.formatNumber(mod ));
+        stat_mod.setText(NumberUtils.formatNumber(mod));
     }
 
     public void setType(StatType type) {
@@ -82,6 +82,6 @@ public class StatBlockView extends LinearLayout {
             setValue(10);
             setModifier(0);
         }
-        setLabel(this.type.name());
+        setLabel(this.type.getStringResId());
     }
 }
