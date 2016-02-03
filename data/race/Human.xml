@@ -1,5 +1,8 @@
 <race>
     <name>Human</name>
+    <age>Humans reach adulthood in their late teens  and live less than a century.</age>
+    <height>Humans vary widely in height and build, from barely 5 feet to well over 6 feet tall.</height>
+    <weight></weight>
     <baseHeight>56</baseHeight>
     <baseWeight>110</baseWeight>
     <heightModifier>2d10</heightModifier>

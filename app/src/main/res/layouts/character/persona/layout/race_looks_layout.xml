@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/race"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="Dwarf" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shrinkColumns="2">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age_label" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:minEms="4" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/age_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="10"
+                    android:minLines="1"
+                    android:singleLine="false"
+                    tools:text="Dwarves mature at the same rate as humans, but they’re considered young until they reach the age of 50. On average, they live about 350 years." />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/height_label" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minEms="4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/average_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Between 4 and 5 feet tall" />
+
+                <LinearLayout
+                    android:id="@+id/random_height_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        style="?android:attr/buttonStyleSmall"                        android:id="@+id/height_roll_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/random_lbl" />
+
+                    <TextView
+                        android:id="@+id/base_height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="4' 8&quot;" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" + " />
+
+                    <EditText
+                        android:gravity="right"
+                        android:id="@+id/random_height_roll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="2d10"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&quot; = " />
+
+                    <TextView
+                        android:id="@+id/result_height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="4' 8&quot;" />
+
+                    <Button
+                        android:id="@+id/accept_height"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ok_button_label"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_label" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minEms="4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/average_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="About 150 pounds" />
+
+
+                <LinearLayout
+                    android:id="@+id/random_weight_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        style="?android:attr/buttonStyleSmall"
+                        android:id="@+id/weight_roll_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/random_lbl" />
+
+                    <TextView
+                        android:id="@+id/base_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="120" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" + " />
+
+                    <EditText
+                        android:gravity="right"
+                        android:id="@+id/random_weight_roll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:hint="2d10"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" X " />
+
+                    <TextView
+                        android:id="@+id/dup_height_roll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text = "0"
+                        tools:text="8" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" = " />
+
+                    <TextView
+                        android:id="@+id/result_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="150" />
+
+                    <Button
+                        android:id="@+id/accept_weight"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ok_button_label"
+                         />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </TableRow>
+        <!--    </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
+        -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/skin_label" />
+
+            <EditText
+                android:id="@+id/skin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="White" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eye_color_label" />
+
+            <EditText
+                android:id="@+id/eyes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Brown" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hair_label" />
+
+            <EditText
+                android:id="@+id/hair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="White" />
+        </TableRow>
+
+
+    </TableLayout>
+</LinearLayout>

@@ -1,5 +1,8 @@
 <race>
     <name>Halfling</name>
+    <age>A halfling reaches adulthood at the age of 20  and generally lives into the middle of his or her  second century.</age>
+    <height>Halflings average about 3 feet tall.</height>
+    <weight>Halflings weigh about 40 pounds</weight>
     <baseHeight>31</baseHeight>
     <baseWeight>35</baseWeight>
     <heightModifier>2d6</heightModifier>

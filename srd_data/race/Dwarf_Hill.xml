@@ -1,0 +1,16 @@
+<race>
+    <name>Hill Dwarf</name>
+    <parent>Dwarf</parent>
+    <baseHeight>46</baseHeight>
+    <baseWeight>115</baseWeight>
+    <heightModifier>2d4</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+    <feature>
+        <name>Dwarven Toughness</name>
+        <shortDescription>Your hit point maximum  increases by 1, and it increases by 1 every time you  gain a level.</shortDescription>
+        <context>HIT_POINTS</context>
+    </feature>
+    <stat>
+        <increase name="Wisdom">1</increase>
+    </stat>
+</race>

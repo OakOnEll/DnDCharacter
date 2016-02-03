@@ -133,6 +133,20 @@ public class Character {
     @ElementMap(entry = "spellSlotsUsed", key = "level", value = "used", required = false)
     private Map<Integer, Integer> spellSlotsUsed = new HashMap<>();
 
+    @Element(required = false)
+    private int age;
+    @Element(required = false)
+    private String height;
+    @Element(required = false)
+    private int weight;
+
+    @Element(required = false)
+    private String skin;
+    @Element(required = false)
+    private String hair;
+    @Element(required = false)
+    private String eyes;
+
 
     public Character(boolean defaults) {
         name = "Feng";
@@ -1827,4 +1841,52 @@ public class Character {
         }
     }
 
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
+    public String getHair() {
+        return hair;
+    }
+
+    public void setHair(String hair) {
+        this.hair = hair;
+    }
+
+    public String getEyes() {
+        return eyes;
+    }
+
+    public void setEyes(String eyes) {
+        this.eyes = eyes;
+    }
 }

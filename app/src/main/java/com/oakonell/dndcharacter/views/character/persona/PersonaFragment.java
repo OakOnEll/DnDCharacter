@@ -70,6 +70,20 @@ public class PersonaFragment extends AbstractSheetFragment {
         flaws = (EditText) rootView.findViewById(R.id.flaws);
         backstory = (EditText) rootView.findViewById(R.id.backstory);
 
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final RaceLooksDialogFragment dialog = RaceLooksDialogFragment.create();
+                dialog.show(getFragmentManager(), "race_looks_dialog");
+            }
+        };
+        rootView.findViewById(R.id.looks_group).setOnClickListener(onClickListener);
+//        age.setOnClickListener(onClickListener);
+//        height.setOnClickListener(onClickListener);
+//        weight.setOnClickListener(onClickListener);
+//        eyes.setOnClickListener(onClickListener);
+//        skin.setOnClickListener(onClickListener);
+//        hair.setOnClickListener(onClickListener);
 
         traits.addTextChangedListener(new AfterChangedWatcher() {
             @Override
@@ -168,6 +182,15 @@ public class PersonaFragment extends AbstractSheetFragment {
                 fragment.show(getFragmentManager(), "xp_dialog");
             }
         });
+
+
+        age.setText(NumberUtils.formatNumber(character.getAge()));
+        weight.setText(NumberUtils.formatNumber(character.getWeight()));
+        height.setText(character.getHeight());
+        hair.setText(character.getHair());
+        skin.setText(character.getSkin());
+        eyes.setText(character.getEyes());
+
     }
 
     private void nonUserUpdate(@NonNull EditText editText, String value) {
