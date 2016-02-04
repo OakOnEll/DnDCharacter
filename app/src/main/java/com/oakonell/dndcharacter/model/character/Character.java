@@ -242,7 +242,15 @@ public class Character {
             hp += conMod;
         }
         // TODO what about race, like dwarf, that effects hp
-        return hp;
+        final int value[] = new int[]{hp};
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+                value[0] += evaluateFormula(component.getHpFormula(), null);
+            }
+        };
+        deriver.derive(this, "hp mods");
+
+        return value[0];
     }
 
     @NonNull

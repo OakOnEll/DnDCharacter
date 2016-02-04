@@ -55,6 +55,8 @@ public abstract class BaseCharacterComponent {
     @NonNull
     @ElementList(required = false)
     private List<CharacterSpell> cantrips = new ArrayList<>();
+    @Element(required = false)
+    private String hpFormula;
 
 
     public String getName() {
@@ -179,6 +181,15 @@ public abstract class BaseCharacterComponent {
     public void setAcFormula(String acFormula) {
         this.acFormula = acFormula;
     }
+
+    public String getHpFormula() {
+        return hpFormula;
+    }
+
+    public void setHpFormula(String hpFormula) {
+        this.hpFormula = hpFormula;
+    }
+
 
     public boolean isBaseArmor() {
         String formula = getAcFormula();

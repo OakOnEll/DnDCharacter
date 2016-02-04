@@ -151,7 +151,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             final List<Element> effectElements = XmlUtils.getChildElements(element, "effect");
             for (Element effectElement : effectElements) {
                 final Feature.FeatureCharacterEffect effect = new Feature.FeatureCharacterEffect();
-                AddEffectToCharacterVisitor.readEffect(context,effectElement, effect);
+                AddEffectToCharacterVisitor.readEffect(context, effectElement, effect);
                 int cost = readIntegerAttribute(effectElement, "uses", 1);
                 effect.setCost(cost);
                 String actionName = effectElement.getAttribute("actionName");
@@ -189,6 +189,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
         final String ac = XmlUtils.getElementText(element, "ac");
         feature.setAcFormula(ac);
+
+        final String hp = XmlUtils.getElementText(element, "hp");
+        feature.setHpFormula(hp);
 
         final String condition = XmlUtils.getElementText(element, "condition");
         feature.setActiveFormula(condition);
@@ -353,12 +356,12 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             final ItemType itemType = itemRow.getItemType();
             switch (itemType) {
                 case ARMOR:
-                    CharacterArmor armor = CreateCharacterArmorVisitor.createArmor(context,itemRow, character);
+                    CharacterArmor armor = CreateCharacterArmorVisitor.createArmor(context, itemRow, character);
                     armor.setName(itemName);
                     armor.setSource(component.getType());
                     break;
                 case WEAPON:
-                    CharacterWeapon weapon = CreateCharacterWeaponVisitor.createWeapon(context,itemRow, character);
+                    CharacterWeapon weapon = CreateCharacterWeaponVisitor.createWeapon(context, itemRow, character);
                     weapon.setName(itemName);
                     weapon.setSource(component.getType());
                     break;

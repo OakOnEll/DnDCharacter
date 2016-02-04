@@ -8,6 +8,7 @@
     <feature>
         <name>Dwarven Toughness</name>
         <shortDescription>Maximum HP increases by 1 for each class level.</shortDescription>
+        <hp>level</hp>
         <context>HIT_POINTS</context>
     </feature>
     <stat>
