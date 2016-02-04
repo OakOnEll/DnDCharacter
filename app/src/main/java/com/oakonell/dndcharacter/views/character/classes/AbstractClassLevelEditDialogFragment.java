@@ -117,7 +117,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                 public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                     addClassLevelTextView(dynamic);
 
-                    AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
+                    AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(false);
                     Element element = XmlUtils.getDocument(aClass.getXml()).getDocumentElement();
                     return visitor.appendToLayout(element, getMainActivity(), dynamic, backgroundChoices);
                 }
@@ -159,7 +159,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         }
                     }
 
-                    AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
+                    AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(false);
                     final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, getMainActivity(),dynamic, backgroundChoices);
 
                     if (spellCastingStat != null) {
@@ -214,7 +214,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         @NonNull
                         @Override
                         public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
-                            AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
+                            AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(false);
 
                             subclassChooseMDs = visitor.appendToLayout(subclassLevelElement, getMainActivity(),dynamic, savedChoices);
                             return new RootChoiceMDNode();

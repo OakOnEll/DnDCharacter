@@ -217,16 +217,8 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
         ApplyRaceToCharacterVisitor.applyToCharacter(getActivity(), getModel(), savedChoices, customChoices, subrace, subraceChoices, subraceCustom, getCharacter());
 
-        String ageString = customChoices.get("age");
-        int age = 0;
-        if (ageString != null) {
-            age = Integer.parseInt(ageString);
-        }
-        String weightString = customChoices.get("weight");
-        int weight = 0;
-        if (weightString != null) {
-            weight = Integer.parseInt(weightString);
-        }
+        String age = customChoices.get("age");
+        String weight = customChoices.get("weight");
         String height = customChoices.get("height");
         String hair = customChoices.get("hair");
         String skin = customChoices.get("skin");
@@ -298,8 +290,8 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
     protected Map<String, String> getCustomChoicesFromCharacter(Character character) {
         Map<String, String> result = super.getCustomChoicesFromCharacter(character);
 
-        result.put("age", NumberUtils.formatNumber(character.getAge()));
-        result.put("weight", NumberUtils.formatNumber(character.getWeight()));
+        result.put("age", character.getAge());
+        result.put("weight", character.getWeight());
         result.put("height", character.getHeight());
         result.put("hair", character.getHair());
         result.put("skin", character.getSkin());

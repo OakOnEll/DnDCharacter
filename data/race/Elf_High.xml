@@ -12,8 +12,9 @@
         <proficiency>Shortbow</proficiency>
     </weapons>
     <!-- TODO know a wizard cantrip, using intelligence-->
+    <cantrips casterClass="wizard" stat="intelligence" />
     <languages>
-        <choose name="language" number="1"/>
+        <choose name="language" number="1" />
     </languages>
 
     <stat>

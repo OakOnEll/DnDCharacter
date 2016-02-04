@@ -22,6 +22,10 @@ import java.util.List;
  */
 public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreator {
 
+    SpellCastingClassInfoViewCreator() {
+        super(false);
+    }
+
     public ChooseMDTreeNode appendToLayout(@NonNull CharacterActivity characterActivity, @NonNull ViewGroup parent, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices) {
         setParent(parent);
         setChoices(savedChoices);

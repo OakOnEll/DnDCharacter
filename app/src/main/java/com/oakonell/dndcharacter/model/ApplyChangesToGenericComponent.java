@@ -301,6 +301,24 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
+    protected void visitCantrips(@NonNull Element element) {
+        final List<String> cantrips = savedChoices.getChoicesFor("cantrips");
+        if (cantrips != null && !cantrips.isEmpty()) {
+            String casterClass = element.getAttribute("casterClass");
+            String statString = element.getAttribute("stat");
+            StatType stat = null;
+            if (statString != null && statString.trim().length() > 0) {
+                statString = statString.toUpperCase();
+                stat = StatType.valueOf(StatType.class, statString);
+            }
+            for (String each : cantrips) {
+                addCantrip(each, stat);
+            }
+        }
+        super.visitCantrips(element);
+    }
+
+    @Override
     protected void visitCantrip(@NonNull Element element) {
         final String cantripName = element.getTextContent();
         String statString = element.getAttribute("stat");

@@ -134,11 +134,11 @@ public class Character {
     private Map<Integer, Integer> spellSlotsUsed = new HashMap<>();
 
     @Element(required = false)
-    private int age;
+    private String age;
     @Element(required = false)
     private String height;
     @Element(required = false)
-    private int weight;
+    private String weight;
 
     @Element(required = false)
     private String skin;
@@ -1850,11 +1850,11 @@ public class Character {
     }
 
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
@@ -1866,11 +1866,11 @@ public class Character {
         this.height = height;
     }
 
-    public int getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

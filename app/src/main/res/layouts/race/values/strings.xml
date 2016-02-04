@@ -7,4 +7,6 @@
     <string name="age">Age</string>
     <string name="looks">Looks</string>
     <string name="random_lbl">Random</string>
+    <string name="xp_label">xp</string>
+    <string name="party_size_hint">Party Size</string>
 </resources>

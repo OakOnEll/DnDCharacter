@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views.character;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
@@ -49,6 +48,7 @@ import java.util.List;
 public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor {
     private static final String SELECT_FEAT_DIALOG = "select_feat_frag";
     private static final String SELECT_SPELL_DIALOG = "select_spell_frag";
+    private final boolean handleCantrips;
     SavedChoices choices;
     int uiIdCounter;
     ChooseMD<?> currentChooseMD;
@@ -59,6 +59,14 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     private AppCompatActivity activity;
     private int featSearchIndex;
+
+    public AbstractComponentViewCreator(boolean handleCantrips) {
+        this.handleCantrips = handleCantrips;
+    }
+
+    public AbstractComponentViewCreator() {
+        this.handleCantrips = true;
+    }
 
     protected void setParent(ViewGroup parent) {
         this.parent = parent;
@@ -175,6 +183,37 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         } else {
             super.visitProficiency(element);
         }
+    }
+
+    @Override
+    protected void visitCantrips(@NonNull Element element) {
+        if (!handleCantrips) return;
+        ChooseMD oldChooseMD = currentChooseMD;
+        ViewGroup oldParent = parent;
+        createGroup(parent.getContext().getString(R.string.cantrips_title));
+        super.visitCantrips(element);
+
+        if (XmlUtils.getChildElements(element).isEmpty()) {
+
+            String casterClass = element.getAttribute("casterClass");
+            String numString = element.getAttribute("num");
+            int num = 1;
+            if (numString != null && numString.trim().length() > 0) {
+                num = Integer.parseInt(numString);
+            }
+            currentChooseMD = new CategoryChoicesMD("cantrips", num, num);
+            choicesMD.addChildChoice(currentChooseMD);
+
+            visitCantripsSearchChoices(casterClass, num);
+        }
+
+        parent = oldParent;
+        currentChooseMD = oldChooseMD;
+    }
+
+    @Override
+    protected void visitCantrip(@NonNull Element element) {
+        super.visitCantrip(element);
     }
 
     @Override

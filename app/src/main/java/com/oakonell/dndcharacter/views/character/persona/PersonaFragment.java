@@ -184,8 +184,8 @@ public class PersonaFragment extends AbstractSheetFragment {
         });
 
 
-        age.setText(NumberUtils.formatNumber(character.getAge()));
-        weight.setText(NumberUtils.formatNumber(character.getWeight()));
+        age.setText(character.getAge());
+        weight.setText(character.getWeight());
         height.setText(character.getHeight());
         hair.setText(character.getHair());
         skin.setText(character.getSkin());

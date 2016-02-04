@@ -1,9 +1,8 @@
 package com.oakonell.dndcharacter.views.character.persona;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,23 +12,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
-import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
-import org.solovyev.android.views.llm.LinearLayoutManager;
 import org.w3c.dom.Element;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,6 +61,8 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
     private Button acceptWeight;
 
     private Map<String, String> data = null;
+    private TextInputLayout random_height_roll_layout;
+    private TextInputLayout random_weight_roll_layout;
 
 
     @NonNull
@@ -121,6 +116,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         random_height_group.setVisibility(View.GONE);
 
         base_height = (TextView) view.findViewById(R.id.base_height);
+        random_height_roll_layout = (TextInputLayout) view.findViewById(R.id.random_height_roll_layout);
         random_height_roll = (EditText) view.findViewById(R.id.random_height_roll);
         height_roll_button = (Button) view.findViewById(R.id.height_roll_button);
         result_height = (TextView) view.findViewById(R.id.result_height);
@@ -131,6 +127,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         random_weight_group.setVisibility(View.GONE);
 
         base_weight = (TextView) view.findViewById(R.id.base_weight);
+        random_weight_roll_layout = (TextInputLayout) view.findViewById(R.id.random_weight_roll_layout);
         random_weight_roll = (EditText) view.findViewById(R.id.random_weight_roll);
         weight_roll_button = (Button) view.findViewById(R.id.weight_roll_button);
         dup_height_roll = (TextView) view.findViewById(R.id.dup_height_roll);
@@ -209,7 +206,8 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         if (baseHeight != null) {
             random_height_group.setVisibility(View.VISIBLE);
             base_height.setText(NumberUtils.formatLength(Integer.parseInt(baseHeight)));
-            random_height_roll.setHint(heightModifier);
+            //random_height_roll.setHint(heightModifier);
+            random_height_roll_layout.setHint(heightModifier);
 
             random_height_roll.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -260,7 +258,8 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         if (baseWeight != null) {
             random_weight_group.setVisibility(View.VISIBLE);
             base_weight.setText(NumberUtils.formatNumber(Integer.parseInt(baseWeight)));
-            random_weight_roll.setHint(weightModifier);
+            //random_weight_roll.setHint(weightModifier);
+            random_weight_roll_layout.setHint(weightModifier);
 
             random_weight_roll.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -337,8 +336,8 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
             skin = data.get("skin");
             eyes = data.get("eyes");
         } else {
-            age = NumberUtils.formatNumber(character.getAge());
-            weight = NumberUtils.formatNumber(character.getWeight());
+            age = character.getAge();
+            weight = character.getWeight();
             height = character.getHeight();
             hair = character.getHair();
             skin = character.getSkin();
@@ -368,8 +367,8 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
     @Override
     protected boolean onDone() {
         Character character = getCharacter();
-        character.setAge(Integer.parseInt(ageText.getText().toString()));
-        character.setWeight(Integer.parseInt(weightText.getText().toString()));
+        character.setAge(ageText.getText().toString());
+        character.setWeight(weightText.getText().toString());
         character.setHeight(heightText.getText().toString());
 
         character.setHair(hairText.getText().toString());

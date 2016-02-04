@@ -17,6 +17,9 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
             case "charLevel":
                 visitCharacterLevel(element);
                 break;
+            case "cantrips":
+                visitCantrips(element);
+                break;
             case "cantrip":
                 visitCantrip(element);
                 break;
@@ -81,6 +84,10 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
     }
 
     protected void visitCharacterLevel(@NonNull Element element) {
+        visitGroup(element);
+    }
+
+    protected void visitCantrips(@NonNull Element element) {
         visitGroup(element);
     }
 
