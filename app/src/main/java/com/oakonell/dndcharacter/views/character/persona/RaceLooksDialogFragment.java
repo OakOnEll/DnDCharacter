@@ -28,19 +28,24 @@ import org.solovyev.android.views.llm.LinearLayoutManager;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rob on 1/7/2016.
  */
 public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
-    private EditText age;
-    private EditText weight;
-    private EditText height;
+    public static final String RACE_NAME_ARG = "raceName";
+    public static final String SUBRACE_NAME_ARG = "subraceName";
+    public static final String DATA_ARG = "data";
+    private EditText ageText;
+    private EditText weightText;
+    private EditText heightText;
 
-    private EditText hair;
-    private EditText skin;
-    private EditText eyes;
+    private EditText hairText;
+    private EditText skinText;
+    private EditText eyesText;
 
     private TextView age_description;
 
@@ -62,6 +67,24 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
     private TextView dup_height_roll;
     private Button acceptWeight;
 
+    private Map<String, String> data = null;
+
+
+    @NonNull
+    public static RaceLooksDialogFragment create(String raceName, String subraceName, Map<String, String> data) {
+        RaceLooksDialogFragment dialog = new RaceLooksDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(RACE_NAME_ARG, raceName);
+        bundle.putString(SUBRACE_NAME_ARG, subraceName);
+        Bundle dataBundle = new Bundle();
+        for (Map.Entry<String, String> each : data.entrySet()) {
+            dataBundle.putString(each.getKey(), each.getValue());
+        }
+        bundle.putBundle(DATA_ARG, dataBundle);
+        dialog.setArguments(bundle);
+        return dialog;
+    }
+
     @NonNull
     public static RaceLooksDialogFragment create() {
         return new RaceLooksDialogFragment();
@@ -74,15 +97,20 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     protected View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.race_looks_dialog, container);
+        View view;
+        if (getArguments() != null) {
+            view = inflater.inflate(R.layout.race_looks_layout, container, false);
+        } else {
+            view = inflater.inflate(R.layout.race_looks_dialog, container, false);
+        }
 
-        age = (EditText) view.findViewById(R.id.age);
-        weight = (EditText) view.findViewById(R.id.weight);
-        height = (EditText) view.findViewById(R.id.height);
+        ageText = (EditText) view.findViewById(R.id.age);
+        weightText = (EditText) view.findViewById(R.id.weight);
+        heightText = (EditText) view.findViewById(R.id.height);
 
-        hair = (EditText) view.findViewById(R.id.hair);
-        skin = (EditText) view.findViewById(R.id.skin);
-        eyes = (EditText) view.findViewById(R.id.eyes);
+        hairText = (EditText) view.findViewById(R.id.hair);
+        skinText = (EditText) view.findViewById(R.id.skin);
+        eyesText = (EditText) view.findViewById(R.id.eyes);
 
         age_description = (TextView) view.findViewById(R.id.age_description);
 
@@ -109,6 +137,15 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         result_weight = (TextView) view.findViewById(R.id.result_weight);
         acceptWeight = (Button) view.findViewById(R.id.accept_weight);
 
+        if (getArguments() != null) {
+            Bundle dataBundle = getArguments().getBundle(DATA_ARG);
+            if (dataBundle != null) {
+                data = new HashMap<>();
+                for (String key : dataBundle.keySet()) {
+                    data.put(key, dataBundle.getString(key));
+                }
+            }
+        }
 
         return view;
     }
@@ -117,7 +154,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
     private String getRaceProperty(Element raceRoot, Element subraceRoot, String propertyName) {
         if (subraceRoot != null) {
             String text = XmlUtils.getElementText(subraceRoot, propertyName);
-            if (text != null && text.trim().length() >0) return text;
+            if (text != null && text.trim().length() > 0) return text;
         }
         String text = XmlUtils.getElementText(raceRoot, propertyName);
         if (text == null || text.trim().length() == 0) return null;
@@ -128,11 +165,18 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
         // TODO load the race, and get the height/weight/age descriptions
-        final String raceName = character.getRaceName();
+        String raceName = getArguments() != null ? getArguments().getString(RACE_NAME_ARG) : null;
+        String subraceName;
+        if (raceName != null) {
+            subraceName = getArguments().getString(SUBRACE_NAME_ARG);
+        } else {
+            raceName = character.getRaceName();
+            subraceName = character.getSubRaceName();
+        }
+
         final Race race = new Select().from(Race.class).where("upper(name) = upper(?)", raceName).executeSingle();
         final Element raceRoot = XmlUtils.getDocument(race.getXml()).getDocumentElement();
 
-        String subraceName = character.getSubRaceName();
         Race subrace = null;
         Element subraceRoot = null;
         if (subraceName != null) {
@@ -205,7 +249,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         acceptHeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                height.setText(result_height.getText());
+                heightText.setText(result_height.getText());
             }
         });
     }
@@ -264,7 +308,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         acceptWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               weight.setText(result_weight.getText());
+                weightText.setText(result_weight.getText());
             }
         });
 
@@ -278,26 +322,59 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
 
     protected void updateViews() {
         Character character = getCharacter();
-        age.setText(NumberUtils.formatNumber(character.getAge()));
-        weight.setText(NumberUtils.formatNumber(character.getWeight()));
-        height.setText(character.getHeight());
 
-        hair.setText(character.getHair());
-        skin.setText(character.getSkin());
-        eyes.setText(character.getEyes());
+        String age;
+        String weight;
+        String height;
+        String hair;
+        String skin;
+        String eyes;
+        if (data != null) {
+            age = data.get("age");
+            weight = data.get("weight");
+            height = data.get("height");
+            hair = data.get("hair");
+            skin = data.get("skin");
+            eyes = data.get("eyes");
+        } else {
+            age = NumberUtils.formatNumber(character.getAge());
+            weight = NumberUtils.formatNumber(character.getWeight());
+            height = character.getHeight();
+            hair = character.getHair();
+            skin = character.getSkin();
+            eyes = character.getEyes();
+        }
+        ageText.setText(age);
+        weightText.setText(weight);
+        heightText.setText(height);
 
+        hairText.setText(hair);
+        skinText.setText(skin);
+        eyesText.setText(eyes);
+    }
+
+    public Map<String, String> getData() {
+        data.put("age", ageText.getText().toString());
+        data.put("weight", weightText.getText().toString());
+        data.put("height", heightText.getText().toString());
+
+        data.put("hair", hairText.getText().toString());
+        data.put("skin", skinText.getText().toString());
+        data.put("eyes", eyesText.getText().toString());
+
+        return data;
     }
 
     @Override
     protected boolean onDone() {
         Character character = getCharacter();
-        character.setAge(Integer.parseInt(age.getText().toString()));
-        character.setWeight(Integer.parseInt(weight.getText().toString()));
-        character.setHeight(height.getText().toString());
+        character.setAge(Integer.parseInt(ageText.getText().toString()));
+        character.setWeight(Integer.parseInt(weightText.getText().toString()));
+        character.setHeight(heightText.getText().toString());
 
-        character.setHair(hair.getText().toString());
-        character.setSkin(skin.getText().toString());
-        character.setEyes(eyes.getText().toString());
+        character.setHair(hairText.getText().toString());
+        character.setSkin(skinText.getText().toString());
+        character.setEyes(eyesText.getText().toString());
 
         return super.onDone();
     }

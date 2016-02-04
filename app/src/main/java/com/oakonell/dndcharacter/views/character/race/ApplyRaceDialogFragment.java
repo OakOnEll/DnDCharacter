@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.character.race;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.activeandroid.query.From;
@@ -18,12 +20,15 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.race.ApplyRaceToCharacterVisitor;
 import com.oakonell.dndcharacter.model.race.Race;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.character.ApplyAbstractComponentDialogFragment;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.md.ChooseMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;
+import com.oakonell.dndcharacter.views.character.md.RootChoiceMDNode;
+import com.oakonell.dndcharacter.views.character.persona.RaceLooksDialogFragment;
 
 import org.w3c.dom.Element;
 
@@ -162,6 +167,43 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
 
         result.add(main);
+
+        Page<Race> raceLookPage = new Page<Race>() {
+
+            private RaceLooksDialogFragment frag;
+
+            @Override
+            public ChooseMDTreeNode appendToLayout(Race model, ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
+                //ViewGroup layout = (ViewGroup) LayoutInflater.from(dynamicView.getContext()).inflate(R.layout.race_looks_layout, dynamicView);
+
+                Element raceElement = XmlUtils.getDocument(model.getXml()).getDocumentElement();
+                if (subrace != null) {
+                    Element subRaceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
+                }
+                //dynamicView.setId(R.id.unique_frag_container);
+
+                String subraceName = null;
+                if (subrace != null) {
+                    subraceName = subrace.getName();
+                }
+                FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                frag = RaceLooksDialogFragment.create(getCurrentName(), subraceName, customChoices);
+                ft.add(R.id.dynamic_content, frag);
+                ft.commit();
+
+
+                return new RootChoiceMDNode();
+            }
+
+            @Override
+            public void saveChoices(Race model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
+                super.saveChoices(model, dynamic, savedChoices, customChoices);
+                customChoices.putAll(frag.getData());
+            }
+        };
+        result.add(raceLookPage);
+
+
         return result;
     }
 
@@ -173,7 +215,29 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
             subraceCustom = customChoicesByModel.get(subrace.getName());
         }
 
-        ApplyRaceToCharacterVisitor.applyToCharacter(getActivity(),getModel(), savedChoices, customChoices, subrace, subraceChoices, subraceCustom, getCharacter());
+        ApplyRaceToCharacterVisitor.applyToCharacter(getActivity(), getModel(), savedChoices, customChoices, subrace, subraceChoices, subraceCustom, getCharacter());
+
+        String ageString = customChoices.get("age");
+        int age = 0;
+        if (ageString != null) {
+            age = Integer.parseInt(ageString);
+        }
+        String weightString = customChoices.get("weight");
+        int weight = 0;
+        if (weightString != null) {
+            weight = Integer.parseInt(weightString);
+        }
+        String height = customChoices.get("height");
+        String hair = customChoices.get("hair");
+        String skin = customChoices.get("skin");
+        String eyes = customChoices.get("eyes");
+
+        getCharacter().setAge(age);
+        getCharacter().setWeight(weight);
+        getCharacter().setHeight(height);
+        getCharacter().setSkin(skin);
+        getCharacter().setHair(hair);
+        getCharacter().setEyes(eyes);
     }
 
 
@@ -221,11 +285,26 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         super.saveChoices(dynamicView);
         if (subrace == null) return;
         String name = subrace.getName();
-        SavedChoices savedChoices = savedChoicesByModel.get(name);
-        Map<String, String> customChoices = customChoicesByModel.get(name);
+        SavedChoices subSavedChoices = savedChoicesByModel.get(name);
+        Map<String, String> subCustomChoices = customChoicesByModel.get(name);
 
         for (ChooseMD each : subRaceChooseMDs.getChildChoiceMDs()) {
-            each.saveChoice(dynamicView, savedChoices, customChoices);
+            each.saveChoice(dynamicView, subSavedChoices, subCustomChoices);
         }
+    }
+
+    @NonNull
+    @Override
+    protected Map<String, String> getCustomChoicesFromCharacter(Character character) {
+        Map<String, String> result = super.getCustomChoicesFromCharacter(character);
+
+        result.put("age", NumberUtils.formatNumber(character.getAge()));
+        result.put("weight", NumberUtils.formatNumber(character.getWeight()));
+        result.put("height", character.getHeight());
+        result.put("hair", character.getHair());
+        result.put("skin", character.getSkin());
+        result.put("eyes", character.getEyes());
+
+        return result;
     }
 }

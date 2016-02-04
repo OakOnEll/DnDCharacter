@@ -73,7 +73,9 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
         setCancelable(isCancelable(cancel != null));
 
 
-        getDialog().setTitle(getTitle());
+        if (getDialog() != null) {
+            getDialog().setTitle(getTitle());
+        }
 
         getMainActivity().addCharacterLoadLister(this);
 

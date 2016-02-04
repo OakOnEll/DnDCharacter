@@ -79,8 +79,8 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
             @Override
             public void onClick(View v) {
                 if (!validate(dynamicView, pageIndex)) return;
-                pageIndex++;
                 saveChoices(dynamicView);
+                pageIndex++;
                 dynamicView.removeAllViews();
                 displayPage();
             }
@@ -88,8 +88,8 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pageIndex--;
                 saveChoices(dynamicView);
+                pageIndex--;
                 dynamicView.removeAllViews();
                 displayPage();
             }
@@ -147,6 +147,10 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         String name = model.getName();
         SavedChoices savedChoices = savedChoicesByModel.get(name);
         Map<String, String> customChoices = customChoicesByModel.get(name);
+
+        Page<M> page = pages.get(pageIndex);
+        page.saveChoices(model, dynamicView, savedChoices, customChoices);
+
 
         for (ChooseMD each : chooseMDs.getChildChoiceMDs()) {
             each.saveChoice(dynamicView, savedChoices, customChoices);
@@ -282,5 +286,9 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
     protected static abstract class Page<M extends AbstractComponentModel> {
         public abstract ChooseMDTreeNode appendToLayout(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices);
+
+        public void saveChoices(M model, ViewGroup dynamic,SavedChoices savedChoices, Map<String, String> customChoices) {
+            // can override
+        }
     }
 }
