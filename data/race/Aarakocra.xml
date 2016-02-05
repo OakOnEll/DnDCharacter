@@ -1,0 +1,39 @@
+<race>
+    <ref>EE p.5</ref>
+    <name>Aarakocra</name>
+    <age>Aarakocra reach maturity by age 3. Compared to humans, aarakocra don’t usually live longer than 30 years.</age>
+    <height>Aarakocra are about 5 feet tall.</height>
+    <weight>Aarakocra have thin, lightweight bodies that weigh between 80 and 100 pounds.</weight>
+
+<!-- TODO
+    <baseHeight>56</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+-->
+
+    <size>medium</size>
+    <speed>25</speed>
+    <feature>
+        <!-- TODO make speed have an attribute for type, make speed dialog and context -->
+        <name>Flight</name>
+        <shortDescription>You have a flying speed of 50 feet. To use this speed, you can’t be wearing medium or heavy armor.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Talons</name>
+        <shortDescription>You are proficient with your unarmed strikes, which deal 1d4 slashing damage on a hit.</shortDescription>
+        <description></description>
+    </feature>
+    <stat>
+        <increase name="Wisdom">1</increase>
+        <increase name="Dexterity">2</increase>
+    </stat>
+
+    <languages>
+        <language>Common</language>
+        <language>Aarakocra</language>
+        <language>Auran</language>
+    </languages>
+
+</race>

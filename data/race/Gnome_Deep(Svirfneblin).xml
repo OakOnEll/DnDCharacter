@@ -1,0 +1,26 @@
+<race>
+    <ref>EE p.7</ref>
+    <name>Svirfneblin (Deep Gnome)</name>
+    <parent>Gnome</parent>
+    <age>Deep gnomes are short-lived for gnomes. Theymature at the same rate humans do and are consideredfull-grown adults by 25. They live 200 to 250 years,although hard toil and the dangers of the Underdarkoften claim them before their time.</age>
+    <height>A typical svirfneblin stands about 3 to three and a half feet tall.</height>
+    <weight>A typical svirfneblin weighs 80 to 120 pounds.</weight>
+    <feature>
+        <name>Superior Darkvision</name>
+        <shortDescription>Within 120' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Stone Camouflage</name>
+        <shortDescription>You have advantage on Dexterity (stealth) checks to hide in rocky terrain.</shortDescription>
+        <description></description>
+        <context>SKILL_ROLL</context>
+    </feature>
+    <languages>
+        <language>Undercommon</language>
+    </languages>
+ 
+    <stat>
+        <increase name="Dexterity">1</increase>
+    </stat>
+</race>

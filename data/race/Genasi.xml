@@ -1,0 +1,25 @@
+<race>
+    <ref>EE p.9</ref>
+    <name>Genasi</name>
+
+
+    <age>Genasi mature at about the same rate as humans and reach adulthood in their late teens. They live somewhat longer than humans do, up to 120 years.</age>
+    <height>Genasi are as varied as their mortal parents but are generally built like humans, standing anywhere from 5 feet to over 6 feet tall. </height>
+    <weight></weight>
+
+    <baseHeight>56</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <size>medium</size>
+    <speed>30</speed>
+    <languages>
+        <language>Primordial</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Constitution">2</increase>
+    </stat>
+
+</race>

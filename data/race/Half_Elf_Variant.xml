@@ -1,0 +1,112 @@
+<race>
+    <ref>SCAG p.116</ref>
+    <name>Half-Elf Variant</name>
+    <size>medium</size>
+    <age>Half-elves mature at the same rate humans do and reach adulthood around the age of 20. They live much longer than humans, however, often exceeding 180 years.</age>
+    <height>Half-elves are about the same size as humans, ranging from 5 to 6 feet tall.</height>
+    <weight></weight>
+    <baseHeight>57</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d8</heightModifier>
+    <weightMultiplier>2s4</weightMultiplier>
+    <skills>
+        <choose name="skills" number="2"/>
+    </skills>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Thanks to your elf blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Fey Ancestry</name>
+        <shortDescription>You have advantage on saving throws against being charmed, and magic can’t put you to sleep.</shortDescription>
+        <context>SAVING_THROW</context>
+    </feature>
+    <feature>
+        <name>Trance</name>
+        <shortDescription>Elves don’t need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is “trance.”) While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep</shortDescription>
+        <description></description>
+        <context>LONG_REST</context>
+    </feature>
+    <languages>
+        <language>Elvish</language>
+        <language>Common</language>
+        <choose name="language" number="1"/>
+    </languages>
+    <choose name="variant">
+        <or name="keen sense">
+            <skills>
+                <proficiency>Perception</proficiency>
+            </skills>
+            <speed>30</speed>
+        </or>
+        <or name="wood">
+            <choose name="wood">
+                <or name="weapons">
+                    <weapons>
+                        <proficiency>Longsword</proficiency>
+                        <proficiency>Shortsword</proficiency>
+                        <proficiency>Longbow</proficiency>
+                        <proficiency>Shortbow</proficiency>
+                    </weapons>
+                </or>
+                <or name="mask">
+                    <feature>
+                        <name>Mask of the Wild</name>
+                        <shortDescription>Can attempt to hide in foliage, rain, snow, mist, and other natural phenomena.</shortDescription>
+                        <context>SKILL_ROLL</context>
+                    </feature>
+                </or>
+                <or name="fleet foot">
+                    <speed>35</speed>
+                </or>
+            </choose>
+        </or>
+        <or name="moon or sun">
+            <choose name="moon or sun">
+                <or name="weapons">
+                    <weapons>
+                        <proficiency>Longsword</proficiency>
+                        <proficiency>Shortsword</proficiency>
+                        <proficiency>Longbow</proficiency>
+                        <proficiency>Shortbow</proficiency>
+                    </weapons>
+                </or>
+                <or name="cantrips">
+                    <cantrips casterClass="wizard" stat="intelligence" />
+                </or>
+            </choose>
+            <speed>30</speed>
+        </or>
+        <or name="drow">
+            <cantrips>
+                <cantrip stat="Charisma">Dancing lights</cantrip>
+            </cantrips>
+            <feature applies="level>=3">
+                <name>Faerie Fire</name>
+                <shortDescription>Each object in a 20 foot cube within a 60 foot range is outlined in blue, green, or violet. Any creature failing a dexterity saving throw is also outlined. Any attack against creature has advantage if attacker sees the target. Lasts while concentrating, for up to 1 minute.</shortDescription>
+                <refreshes>longRest</refreshes>
+                <uses>1</uses>
+                <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+            </feature>
+            <feature applies="level>=5">
+                <name>Darkness</name>
+                <shortDescription>Magical darkness spreads from a point within a 60 feet range, to fill a 15 foot radius for up to ten minutes, while concentrating.</shortDescription>
+                <refreshes>longRest</refreshes>
+                <uses>1</uses>
+                <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+            </feature>
+            <speed>30</speed>
+        </or>
+        <or name="aquatic">
+            <feature>
+                <!-- TODO make speed have an attribute for type, make speed dialog and context -->
+                <name>Swim</name>
+                <shortDescription>You have a swimming speed of 30 feet.</shortDescription>
+                <context></context>
+            </feature>
+            <speed>30</speed>
+        </or>
+    </choose>
+
+</race>

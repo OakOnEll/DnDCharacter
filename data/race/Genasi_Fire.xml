@@ -1,0 +1,27 @@
+<race>
+    <ref>EE p.9</ref>
+    <name>Fire Genasi</name>
+    <parent>Genasi</parent>
+    <stat>
+        <increase name="Intelligence">1</increase>
+    </stat>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. Your ties to the Elemental Plane of Fire make your darkvision unusual: everything you see in darkness is in a shade of red.</shortDescription>
+    </feature>
+    <feature>
+        <name>Fire Resistance</name>
+        <shortDescription>You have resistance to fire damage.</shortDescription>
+        <context>HIT_POINTS</context>
+    </feature>
+    <cantrips>
+            <cantrip stat="Constitution">Produce Flame</cantrip>
+    </cantrips>
+    <feature applies="level>=3">
+        <name>Burning Hands</name>
+        <shortDescription>You can cast Burning Hands with constitution spellcasting ability once per long rest.
+As you hold your hands with thumbs touching and fingers spread, a thin sheet of flames shoots forth from your outstretched fingertips. Each creature in a 15-foot cone must make a Dexterity saving throw. A creature takes 3d6 fire damage on a failed save, or half as much damage on a successful one. The fire ignites any flammable objects in the area that aren’t being worn or carried.</shortDescription>
+        <refreshes>longRest</refreshes>
+        <uses>1</uses>
+    </feature>
+</race>

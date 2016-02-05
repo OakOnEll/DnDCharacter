@@ -1,0 +1,17 @@
+<race>
+    <ref>EE p.9</ref>
+    <name>Earth Genasi</name>
+    <parent>Genasi</parent>
+    <stat>
+        <increase name="Strength">1</increase>
+    </stat>
+    <feature>
+        <name>Earth Walk</name>
+        <shortDescription>You can move across difficult terrain made of earth or stone without expending extra movement.</shortDescription>
+    </feature>
+    <feature>
+        <name>Merge with Stone</name>
+        <shortDescription>You can cast the pass without trace spell once with this trait, requiring no material components, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.
+A veil of shadows and silence radiates from you, masking you and your companions from detection. For the duration, each creature you choose within 30 feet of you (including you) has a +10 bonus to Dexterity (Stealth) checks and can’t be tracked except by magical means. A creature that receives this bonus leaves behind no tracks or other traces of its passage.</shortDescription>
+    </feature>
+</race>

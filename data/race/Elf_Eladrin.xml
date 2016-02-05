@@ -1,0 +1,27 @@
+<race>
+    <ref>DMG p.286</ref>
+    <name>Eladrin</name>
+    <parent>Elf</parent>
+    <baseHeight>54</baseHeight>
+    <baseWeight>90</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>1d4</weightMultiplier>
+    <weapons>
+        <proficiency>Longsword</proficiency>
+        <proficiency>Shortsword</proficiency>
+        <proficiency>Longbow</proficiency>
+        <proficiency>Shortbow</proficiency>
+    </weapons>
+    <stat>
+        <increase name="Intelligence">1</increase>
+    </stat>
+    <feature >
+        <name>Fey Step</name>
+        <shortDescription>You can cast Misty Step once per rest with this trait.
+As a bonus action, Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space that you can see.</shortDescription>
+        <refreshes>shortRest</refreshes>
+        <uses>1</uses>
+        <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+    </feature>
+
+</race>

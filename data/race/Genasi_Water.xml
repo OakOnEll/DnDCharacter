@@ -1,0 +1,42 @@
+<race>
+    <ref>EE p.9</ref>
+    <name>Water Genasi</name>
+    <parent>Genasi</parent>
+    <stat>
+        <increase name="Wisdom">1</increase>
+    </stat>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. Your ties to the Elemental Plane of Fire make your darkvision unusual: everything you see in darkness is in a shade of red.</shortDescription>
+    </feature>
+    <feature>
+        <name>Acid Resistance</name>
+        <shortDescription>You have resistance to acid damage.</shortDescription>
+        <context>HIT_POINTS</context>
+    </feature>
+    <feature>
+        <name>Amphibious</name>
+        <shortDescription>You can breathe air and water.</shortDescription>
+        <context>HIT_POINTS,SAVING_THROW</context>
+    </feature>
+    <feature>
+        <!-- TODO make speed have an attribute for type, make speed dialog and context -->
+        <name>Swim</name>
+        <shortDescription>You have a swimming speed of 30 feet.</shortDescription>
+        <context></context>
+    </feature>
+    <cantrips>
+            <cantrip stat="Constitution">Shape Water</cantrip>
+    </cantrips>
+    <feature applies="level>=3">
+        <name>Call to the Wave</name>
+        <shortDescription>You can cast the create or destroy water spell as a 2nd-level spell once with this trait, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.
+You either create or destroy water.
+
+            Create Water. You create up to 20 gallons of clean water within range in an open container. Alternatively, the water falls as rain in a 35-foot cube within range, extinguishing exposed flames in the area.
+
+            Destroy Water. You destroy up to 20 gallons of water in an open container within range. Alternatively, you destroy fog in a 35-foot cube within range</shortDescription>
+        <refreshes>longRest</refreshes>
+        <uses>1</uses>
+    </feature>
+</race>

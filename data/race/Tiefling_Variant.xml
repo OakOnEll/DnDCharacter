@@ -1,0 +1,105 @@
+<race>
+    <ref>SCAG p.118</ref>
+    <name>Tiefling Variant</name>
+    <age>Tieflings mature at the same rate as humans but live a few years longer.</age>
+    <height>Tieflings are about the same size and build as humans. </height>
+    <weight></weight>
+    <baseHeight>57</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d8</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <size>medium</size>
+    <speed>30</speed>
+
+    <languages>
+        <language>Common</language>
+        <language>Infernal</language>
+    </languages>
+    <stat>
+        <increase name="Intelligence">1</increase>
+        <choose name="stat">
+            <or name="charisma"><increase name="Charisma">2</increase></or>
+            <or name="dexterity"><increase name="Dexterity">2</increase></or>
+        </choose>
+    </stat>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Thanks to your infernal heritage, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Hellish Resistance</name>
+        <shortDescription>You have resistance to fire damage.</shortDescription>
+        <description></description>
+        <context>HIT_POINTS</context>
+    </feature>
+
+    <choose name="spells">
+        <or name="original">
+            <cantrips>
+                <cantrip stat="Charisma">Thaumaturgy</cantrip>
+            </cantrips>
+            <feature applies="level>=3">
+                <name>Hellish Rebuke</name>
+                <shortDescription>You  can  cast  the  hellish  rebuke  spell  as  a  2nd-level  spell  once  with  this  trait  and  regain  the  ability  to  do  so  when  you  finish  a  long  rest.
+As a reaction in response to being damaged by a creature within 60 feet of you that you can see, you point your finger, and the creature that damaged you is momentarily surrounded by hellish flames. The creature must make a dexterity saving throw against your Charisma ability. It takes 3d10 fire damage on a failed save, and half that on a successful save.</shortDescription>
+                <refreshes>longRest</refreshes>
+                <uses>1</uses>
+                <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+            </feature>
+            <feature applies="level>=5">
+                <name>Darkness</name>
+                <shortDescription>Magical darkness spreads from a point within a 60 feet range, to fill a 15 foot radius for up to ten minutes, while concentrating.</shortDescription>
+                <refreshes>longRest</refreshes>
+                <uses>1</uses>
+                <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+            </feature>
+        </or>
+        <or name="devil's tongue">
+            <cantrips>
+                <cantrip stat="Charisma">Viscious Mockery</cantrip>
+            </cantrips>
+            <feature applies="level>=3">
+                <name>Charm Person</name>
+                <shortDescription>You can cast the Charm Person spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest.
+You attempt to charm a 2 humanoids you can see within range, and within 30 feet of each other. They must make a Wisdom saving throw, and do so with advantage if you or your companions are fighting it. For each that fails the saving throw, it is charmed by you until the spell ends within 1 hour or until you or your companions do anything harmful to it. The charmed creature regards you as a friendly acquaintance. When the spell ends, the creature knows it was charmed by you.</shortDescription>
+                <refreshes>longRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature applies="level>=5">
+                <name>Enthrall</name>
+                <shortDescription>You can cast the Enthrall spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest.
+You weave a distracting string of words, causing creatures of your choice that you can see within range and that can hear you to make a Wisdom saving throw. Any creature that can’t be charmed succeeds on this saving throw automatically, and if you or your companions are fighting a creature, it has advantage on the save. On a failed save, the target has disadvantage on Wisdom (Perception) checks made to perceive any creature other than you until the spell ends or until the target can no longer hear you. The spell ends if you are incapacitated or can no longer speak.
+                    </shortDescription>
+                <refreshes>longRest</refreshes>
+                <uses>1</uses>
+            </feature>
+        </or>
+        <or name="hellfire">
+            <cantrips>
+                <cantrip stat="Charisma">Thaumaturgy</cantrip>
+            </cantrips>
+            <feature applies="level>=3">
+                <name>Burning Hands</name>
+                <shortDescription>You can cast Burning Hands at second level with Charisma spellcasting ability once per long rest.
+As you hold your hands with thumbs touching and fingers spread, a thin sheet of flames shoots forth from your outstretched fingertips. Each creature in a 15-foot cone must make a Dexterity saving throw. A creature takes 4d6 fire damage on a failed save, or half as much damage on a successful one. The fire ignites any flammable objects in the area that aren’t being worn or carried.</shortDescription>
+                <refreshes>longRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature applies="level>=5">
+                <name>Darkness</name>
+                <shortDescription>Magical darkness spreads from a point within a 60 feet range, to fill a 15 foot radius for up to ten minutes, while concentrating.</shortDescription>
+                <refreshes>longRest</refreshes>
+                <uses>1</uses>
+            </feature>
+        </or>
+        <or name="winged">
+            <feature>
+                <!-- TODO make speed have an attribute for type, make speed dialog and context -->
+                <name>Winged</name>
+                <shortDescription>You have bat-like wings sprouting from your shoulder blades. You have a flying speed of 30 feet.</shortDescription>
+            </feature>
+        </or>
+    </choose>
+</race>

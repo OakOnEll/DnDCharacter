@@ -1,0 +1,53 @@
+<race>
+    <ref>DMG p.286</ref>
+    <name>Aasimar</name>
+    <age>Aasimar mature at the same rate as humans, but live a few years longer.</age>
+    <height>Aasimar are buildt like well-proportioned humans.</height>
+    <weight></weight>
+
+    <baseHeight>56</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <size>medium</size>
+    <speed>30</speed>
+
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Thanks to your celestial heritage, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Celestial Resistance</name>
+        <shortDescription>You have resistance to necrotic and radiant damage.</shortDescription>
+        <context>HIT_POINTS</context>
+    </feature>
+
+    <cantrips>
+            <cantrip stat="Charisma">Light</cantrip>
+    </cantrips>
+    <feature applies="level>=3">
+        <name>Lesser restoration</name>
+        <shortDescription>You can cast Lesser restoration with Charisma spellcasting ability once per long rest.
+You touch a creature and can end either one disease or one condition afflicting it. The condition can be blinded, deafened, paralyzed, or poisoned.</shortDescription>
+        <refreshes>longRest</refreshes>
+        <uses>1</uses>
+    </feature>
+    <feature applies="level>=5">
+        <name>Daylight</name>
+        <shortDescription>You can cast Daylight with Charisma spellcasting ability once per long rest.
+A 60-foot-radius sphere of light spreads out from a point you choose within range. The sphere is bright light and sheds dim light for an additional 60 feet. If you chose a point on an object you are holding or one that isn’t being worn or carried, the light shines from the object and moves with it. Completely covering the affected object with an opaque object, such as a bowl or a helm, blocks the light. If any of this spell’s area overlaps with an area of darkness created by a spell of 3rd level or lower, the spell that created the darkness is dispelled.</shortDescription>
+        <refreshes>longRest</refreshes>
+        <uses>1</uses>
+    </feature>
+    <languages>
+        <language>Common</language>
+        <language>Celestial</language>
+    </languages>
+    <stat>
+        <increase name="Wisdom">1</increase>
+        <increase name="Charisma">2</increase>
+    </stat>
+
+</race>
