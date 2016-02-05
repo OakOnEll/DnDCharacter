@@ -2,7 +2,7 @@
     <ref>PHB p.20</ref>
     <name>Hill Dwarf</name>
     <parent>Dwarf</parent>
-    <baseHeight>46</baseHeight>
+    <baseHeight>44</baseHeight>
     <baseWeight>115</baseWeight>
     <heightModifier>2d4</heightModifier>
     <weightMultiplier>2d6</weightMultiplier>

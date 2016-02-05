@@ -1,0 +1,54 @@
+<race>
+    <ref>PHB p.43</ref>
+    <name>Tiefling</name>
+    <age>Tieflings mature at the same rate as humans but live a few years longer.</age>
+    <height>Tieflings are about the same size and build as humans. </height>
+    <weight></weight>
+    <baseHeight>57</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d8</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <size>medium</size>
+    <speed>30</speed>
+
+    <languages>
+        <language>Common</language>
+        <language>Infernal</language>
+    </languages>
+    <stat>
+        <increase name="Charisma">2</increase>
+        <increase name="Intelligence">1</increase>
+    </stat>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Thanks to your infernal heritage, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Hellish Resistance</name>
+        <shortDescription>You have resistance to fire damage.</shortDescription>
+        <description></description>
+        <context>HIT_POINTS</context>
+    </feature>
+
+    <cantrips>
+        <cantrip stat="Charisma">Thaumaturgy</cantrip>
+    </cantrips>
+    <feature applies="level>=3">
+        <name>Hellish Rebuke</name>
+        <shortDescription>You  can  cast  the  hellish  rebuke  spell  as  a  2nd-level  spell  once  with  this  trait  and  regain  the  ability  to  do  so  when  you  finish  a  long  rest.
+As a reaction in response to being damaged by a creature within 60 feet of you that you can see, you point your finger, and the creature that damaged you is momentarily surrounded by hellish flames. The creature must make a dexterity saving throw against your Charisma ability. It takes 3d10 fire damage on a failed save, and half that on a successful save.</shortDescription>
+        <refreshes>longRest</refreshes>
+        <uses>1</uses>
+        <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+    </feature>
+    <feature applies="level>=5">
+        <name>Darkness</name>
+        <shortDescription>Magical darkness spreads from a point within a 60 feet range, to fill a 15 foot radius for up to ten minutes, while concentrating.</shortDescription>
+        <refreshes>longRest</refreshes>
+        <uses>1</uses>
+        <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+    </feature>
+
+</race>

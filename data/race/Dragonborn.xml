@@ -4,10 +4,10 @@
     <age>Young dragonborn grow quickly. They walk hours after hatching, attain the size and development of a 10-year-old human child by the age of 3, and reach adulthood by 15. They live to be around 80.</age>
     <height>Dragonborn are taller and heavier than humans, standing well over 6 feet tall.</height>
     <weight>Dragonborn average almost 250 pounds.</weight>
-    <baseHeight>56</baseHeight>
-    <baseWeight>110</baseWeight>
-    <heightModifier>2d10</heightModifier>
-    <weightMultiplier>2d4</weightMultiplier>
+    <baseHeight>66</baseHeight>
+    <baseWeight>175</baseWeight>
+    <heightModifier>2d8</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
     <size>medium</size>
     <speed>30</speed>
 

@@ -1,6 +1,7 @@
 <race>
+    <ref>PHB p.41</ref>
     <name>Half-Orc</name>
-    <age>Half-orcs mature a little faster than humans,  reaching adulthood around age 14. They age  noticeably faster and rarely live longer than 75 years</age>
+    <age>Half-orcs mature a little faster than humans, reaching adulthood around age 14. They age noticeably faster and rarely live longer than 75 years.</age>
     <height>Half-orcs are somewhat larger and bulkier than humans, and they range from 5 to well over 6 feet tall. </height>
     <weight></weight>
     <baseHeight>58</baseHeight>
@@ -21,18 +22,18 @@
     </stat>
     <feature>
         <name>Darkvision</name>
-        <shortDescription>Within 60' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <shortDescription>Thanks to your orc blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
         <description></description>
     </feature>
     <feature>
         <name>Savage Attacks</name>
-        <shortDescription>On a critical melee attack, additional damage dice.</shortDescription>
+        <shortDescription>When you score a critical hit with a melee weapon attack, you can roll one of the weapon’s damage dice one additional time and add it to the extra damage of the critical hit.</shortDescription>
         <description></description>
         <context>WEAPON_ATTACK</context>
     </feature>
     <feature>
         <name>Relentless Endurance</name>
-        <shortDescription>Once per long rest, when hit points reach 0, go to 1 hp.</shortDescription>
+        <shortDescription>When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can’t use this feature again until you finish a long rest.</shortDescription>
         <refreshes>longRest</refreshes>
         <uses>1</uses>
         <context>HIT_POINTS</context>

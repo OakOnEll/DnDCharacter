@@ -174,20 +174,12 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
             @Override
             public ChooseMDTreeNode appendToLayout(Race model, ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
-                //ViewGroup layout = (ViewGroup) LayoutInflater.from(dynamicView.getContext()).inflate(R.layout.race_looks_layout, dynamicView);
-
-                Element raceElement = XmlUtils.getDocument(model.getXml()).getDocumentElement();
-                if (subrace != null) {
-                    Element subRaceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
-                }
-                //dynamicView.setId(R.id.unique_frag_container);
-
                 String subraceName = null;
                 if (subrace != null) {
                     subraceName = subrace.getName();
                 }
                 FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                frag = RaceLooksDialogFragment.create(getCurrentName(), subraceName, customChoices);
+                frag = RaceLooksDialogFragment.create(model.getName(), subraceName, customChoices);
                 ft.add(R.id.dynamic_content, frag);
                 ft.commit();
 
