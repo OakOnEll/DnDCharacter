@@ -1,4 +1,5 @@
 <race>
+    <ref>PHB p.31</ref>
     <name>Human</name>
     <age>Humans reach adulthood in their late teens  and live less than a century.</age>
     <height>Humans vary widely in height and build, from barely 5 feet to well over 6 feet tall.</height>
@@ -12,7 +13,7 @@
 
     <languages>
         <language>Common</language>
-        <choose number="1"></choose>
+        <choose name="language"/>
     </languages>
     <stat>
         <increase name="Strength">1</increase>

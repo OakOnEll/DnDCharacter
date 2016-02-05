@@ -1,26 +1,27 @@
 <race>
+    <ref>PHB p.21</ref>
     <name>Elf</name>
     <size>medium</size>
     <speed>30</speed>
-    <age>Although elves reach physical maturity at  about the same age as humans, the elven  understanding of adulthood goes beyond physical  growth to encompass worldly experience. An elf  typically claims adulthood and an adult name  around the age of 100 and can live to be 750 years  old.</age>
+    <age>Although elves reach physical maturity at about the same age as humans, the elven understanding of adulthood goes beyond physical  growth to encompass worldly experience. An elf  typically claims adulthood and an adult name  around the age of 100 and can live to be 750 years  old.</age>
     <height>Elves range from under 5 to over 6 feet tall</height>
-    <weight>Elves have a slender build.</weight>
+    <weight>Elves have slender builds.</weight>
     <skills>
         <proficiency>Perception</proficiency>
     </skills>
     <feature>
         <name>Darkvision</name>
-        <shortDescription>Within 60' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <shortDescription>Accustomed to twilit forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
         <description></description>
     </feature>
     <feature>
         <name>Fey Ancestry</name>
-        <shortDescription>You have advantage on saving throws against being charmed. Can't be put to sleep via magic.</shortDescription>
+        <shortDescription>You have advantage on saving throws against being charmed, and magic can’t put you to sleep.</shortDescription>
         <context>SAVING_THROW</context>
     </feature>
     <feature>
         <name>Trance</name>
-        <shortDescription>Long rest with 4 hours meditation.</shortDescription>
+        <shortDescription>Elves don’t need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is “trance.”) While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep</shortDescription>
         <description></description>
         <context>LONG_REST</context>
     </feature>

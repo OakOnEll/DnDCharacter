@@ -1,6 +1,7 @@
 <race>
+    <ref>PHB p.28</ref>
     <name>Halfling</name>
-    <age>A halfling reaches adulthood at the age of 20  and generally lives into the middle of his or her  second century.</age>
+    <age>A halfling reaches adulthood at the age of 20 and generally lives into the middle of his or her second century.</age>
     <height>Halflings average about 3 feet tall.</height>
     <weight>Halflings weigh about 40 pounds</weight>
     <baseHeight>31</baseHeight>
@@ -11,8 +12,7 @@
     <speed>25</speed>
     <feature>
         <name>Lucky</name>
-        <shortDescription>When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll
-        </shortDescription>
+        <shortDescription>When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.</shortDescription>
         <context>SKILL_ROLL, WEAPON_ATTACK,SAVING_THROW</context>
     </feature>
     <feature>

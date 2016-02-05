@@ -1,0 +1,31 @@
+<race>
+    <ref>PHB p.36</ref>
+    <name>Gnome</name>
+    <age>Gnomes mature at the same rate humans do, and most are expected to settle down into an adult life by around age 40. They can live 350 to almost 500 years.</age>
+    <height>Gnomes are between 3 and 4 feet tall</height>
+    <weight>Gnomes average about 40 pounds</weight>
+    <baseHeight>35</baseHeight>
+    <baseWeight>35</baseWeight>
+    <heightModifier>2d4</heightModifier>
+    <weightMultiplier>1</weightMultiplier>
+    <size>small</size>
+    <speed>25</speed>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Gnome Cunning</name>
+        <shortDescription>You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.</shortDescription>
+        <description></description>
+        <context>SAVING_THROW</context>
+    </feature>
+    <languages>
+        <language>Common</language>
+        <language>Gnomish</language>
+    </languages>
+    <stat>
+        <increase name="Intelligence">2</increase>
+    </stat>
+</race>

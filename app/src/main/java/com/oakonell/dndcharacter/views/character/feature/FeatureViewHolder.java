@@ -163,14 +163,14 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
 
-            if (action.getCost() > 0) {
+            if (action.getCost() > 0 || maxUses == 0) {
                 // TODO get a short description? Possibly place the cost on the button?
                 if (action.getCost() != 1) {
                     useButton.setText(context.getString(R.string.action_with_cost, action.getAction(), action.getCost()));
                 } else {
                     useButton.setText(action.getAction());
                 }
-                useButton.setEnabled(usesRemaining >= action.getCost());
+                useButton.setEnabled(usesRemaining >= action.getCost() || maxUses == 0);
                 // simple use action
                 useButton.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -1,0 +1,15 @@
+<race>
+    <ref>PHB p.28</ref>
+    <name>Gnome, Forest</name>
+    <parent>Gnome</parent>
+    <feature>
+        <name>Speak with Small Beasts</name>
+        <shortDescription>Through sounds and gestures, you can communicate simple ideas with Small or smaller beasts. Forest gnomes love animals and often keep squirrels, badgers, rabbits, moles, woodpeckers, and other creatures as beloved pets.</shortDescription>
+    </feature>
+    <cantrips>
+        <cantrip stat="Intelligence">Minor Illusion</cantrip>
+    </cantrips>
+    <stat>
+        <increase name="Dexterity">1</increase>
+    </stat>
+</race>

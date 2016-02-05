@@ -1,0 +1,194 @@
+<race>
+    <ref>PHB p.34</ref>
+    <name>Dragonborn</name>
+    <age>Young dragonborn grow quickly. They walk hours after hatching, attain the size and development of a 10-year-old human child by the age of 3, and reach adulthood by 15. They live to be around 80.</age>
+    <height>Dragonborn are taller and heavier than humans, standing well over 6 feet tall.</height>
+    <weight>Dragonborn average almost 250 pounds.</weight>
+    <baseHeight>56</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+    <size>medium</size>
+    <speed>30</speed>
+
+    <languages>
+        <language>Common</language>
+        <language>Draconic</language>
+    </languages>
+    <stat>
+        <increase name="Strength">2</increase>
+        <increase name="Charisma">1</increase>
+    </stat>
+    <choose name="ancestery">
+        <or name="black">
+            <feature>
+                <name>Black Dragonic Ancestery</name>
+                <shortDescription>You have black draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Acid Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 acid damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Acid Resistance</name>
+                <shortDescription>You have resistance to acid damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+        <or name="blue">
+            <feature>
+                <name>Blue Dragonic Ancestery</name>
+                <shortDescription>You have blue draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Lightning Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 lightning damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Lightning Resistance</name>
+                <shortDescription>You have resistance to lightning damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+        <or name="brass">
+            <feature>
+                <name>Brass Dragonic Ancestery</name>
+                <shortDescription>You have brass draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Fire Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 fire damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Fire Resistance</name>
+                <shortDescription>You have resistance to fire damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+        <or name="bronze">
+            <feature>
+                <name>Bronze Dragonic Ancestery</name>
+                <shortDescription>You have bronze draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Lightning Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 lightning damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Lightning Resistance</name>
+                <shortDescription>You have resistance to lightning damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+        <or name="copper">
+            <feature>
+                <name>Copper Dragonic Ancestery</name>
+                <shortDescription>You have copper draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Acid Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 acid damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Acid Resistance</name>
+                <shortDescription>You have resistance to acid damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+        <or name="gold">
+            <feature>
+                <name>Gold Dragonic Ancestery</name>
+                <shortDescription>You have gold draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Fire Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 fire damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Fire Resistance</name>
+                <shortDescription>You have resistance to fire damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+        <or name="green">
+            <feature>
+                <name>Green Dragonic Ancestery</name>
+                <shortDescription>You have green draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Poison Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Constitution Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 poison damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Poison Resistance</name>
+                <shortDescription>You have resistance to poison damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+        <or name="red">
+            <feature>
+                <name>Red Dragonic Ancestery</name>
+                <shortDescription>You have red draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Fire Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 fire damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Fire Resistance</name>
+                <shortDescription>You have resistance to fire damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+        <or name="silver">
+            <feature>
+                <name>Silver Dragonic Ancestery</name>
+                <shortDescription>You have silver draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Cold Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Constitution Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 cold damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Cold Resistance</name>
+                <shortDescription>You have resistance to cold damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+        <or name="white">
+            <feature>
+                <name>White Dragonic Ancestery</name>
+                <shortDescription>You have white draconic ancestry.</shortDescription>
+            </feature>
+            <feature>
+                <name>Cold Breath Weapon</name>
+                <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Constitution Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 cold damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
+                <refreshes>shortRest</refreshes>
+                <uses>1</uses>
+            </feature>
+            <feature>
+                <name>Cold Resistance</name>
+                <shortDescription>You have resistance to cold damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </feature>
+        </or>
+    </choose>
+</race>

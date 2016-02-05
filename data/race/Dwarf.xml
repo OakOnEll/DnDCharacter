@@ -1,14 +1,16 @@
 <race>
+    <ref>PHB p.18</ref>
     <name>Dwarf</name>
     <size>medium</size>
     <speed>25</speed>
+    <!-- TODO speed not reduced by wearing heavy armor -->
     <age>Dwarves mature at the same rate as humans,  but they’re considered young until they reach the age of 50. On average, they live about 350 years.</age>
     <height>Dwarves stand between 4 and 5 feet tall.</height>
     <weight>Dwarves average about 150 pounds.</weight>
     <weapons>
         <proficiency>Battleaxe</proficiency>
         <proficiency>Handaxe</proficiency>
-        <proficiency>Throwing Hammer</proficiency>
+        <proficiency>Light Hammer</proficiency>
         <proficiency>Warhammer</proficiency>
     </weapons>
     <tools>
@@ -20,7 +22,7 @@
     </tools>
     <feature>
         <name>Darkvision</name>
-        <shortDescription>Within 60' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+        <shortDescription>Accustomed to life underground, you  have superior vision in dark and dim conditions. You  can see in dim light within 60 feet of you as if it were  bright light, and in darkness as if it were dim light.  You can’t discern color in darkness, only shades of gray.</shortDescription>
         <description></description>
     </feature>
     <feature>
@@ -30,7 +32,7 @@
     </feature>
     <feature>
         <name>Stonecunning</name>
-        <shortDescription>When you make intelligence check for the origin of stonework, add double proficiency bonus.</shortDescription>
+        <shortDescription>Whenever you make an Intelligence (History) check related to the origin of  stonework, you are considered proficient in the  History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus.</shortDescription>
         <context>SKILL_ROLL</context>
     </feature>
     <languages>

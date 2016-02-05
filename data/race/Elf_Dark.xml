@@ -1,4 +1,5 @@
 <race>
+    <ref>PHB p.24</ref>
     <name>Drow</name>
     <parent>Elf</parent>
 
@@ -24,6 +25,7 @@
     <cantrips>
         <cantrip stat="Charisma">Dancing lights</cantrip>
     </cantrips>
+    <!-- TODO know character levels within a race-->
     <charLevel value ="3">
         <!-- at 3rd level, can cast faerie fire 1x long rest, charisma-->
         <feature>

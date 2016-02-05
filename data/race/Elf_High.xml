@@ -1,4 +1,5 @@
 <race>
+    <ref>PHB p.23</ref>
     <name>High Elf</name>
     <parent>Elf</parent>
     <baseHeight>54</baseHeight>
@@ -11,12 +12,10 @@
         <proficiency>Longbow</proficiency>
         <proficiency>Shortbow</proficiency>
     </weapons>
-    <!-- TODO know a wizard cantrip, using intelligence-->
     <cantrips casterClass="wizard" stat="intelligence" />
     <languages>
-        <choose name="language" number="1" />
+        <choose name="language"/>
     </languages>
-
     <stat>
         <increase name="Intelligence">1</increase>
     </stat>

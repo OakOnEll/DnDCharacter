@@ -1,0 +1,31 @@
+<race>
+    <ref>PHB p.31</ref>
+    <name>Human Variant</name>
+    <age>Humans reach adulthood in their late teens  and live less than a century.</age>
+    <height>Humans vary widely in height and build, from barely 5 feet to well over 6 feet tall.</height>
+    <weight></weight>
+    <baseHeight>56</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+    <size>medium</size>
+    <speed>30</speed>
+
+    <languages>
+        <language>Common</language>
+        <choose name="language"/>
+    </languages>
+    <stat>
+        <choose name="stats" number="2">
+            <or name="strength"><increase name="Strength">1</increase></or>
+            <or name="dexterity"><increase name="Dexterity">1</increase></or>
+            <or name="constitution"><increase name="Constitution">1</increase></or>
+            <or name="wisdom"><increase name="Wisdom">1</increase></or>
+            <or name="intelligence"><increase name="Intelligence">1</increase></or>
+            <or name="charisma"><increase name="Charisma">1</increase></or>
+        </choose>
+    </stat>
+    <feats>
+        <choose name="feat" />
+    </feats>
+</race>

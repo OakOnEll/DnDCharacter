@@ -140,43 +140,43 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             useType = UseType.POOL;
             feature.setFormula(pool);
         }
+        boolean hadAnyActionsOrEffects = false;
+        final List<Element> effectElements = XmlUtils.getChildElements(element, "effect");
+        for (Element effectElement : effectElements) {
+            final Feature.FeatureCharacterEffect effect = new Feature.FeatureCharacterEffect();
+            AddEffectToCharacterVisitor.readEffect(context, effectElement, effect);
+            int cost = readIntegerAttribute(effectElement, "uses", 1);
+            effect.setCost(cost);
+            String actionName = effectElement.getAttribute("actionName");
+            if (actionName == null || actionName.trim().length() == 0) {
+                actionName = effect.getName();
+            }
+            effect.setAction(actionName);
+            feature.addEffect(effect);
+            effect.setSource(component.getSourceString(context.getResources()) + "[" + feature.getSourceString(context.getResources()) + "]");
+            hadAnyActionsOrEffects = true;
+        }
+
+        final List<Element> actionElements = XmlUtils.getChildElements(element, "action");
+        for (Element actionElement : actionElements) {
+            int cost = readIntegerAttribute(actionElement, "uses", -1);
+            String actionName = XmlUtils.getElementText(actionElement, "name");
+            String shortDescription = XmlUtils.getElementText(actionElement, "shortDescription");
+            Feature.FeatureAction action = new Feature.FeatureAction();
+
+            action.setName(actionName);
+            action.setCost(cost);
+            action.setDescription(shortDescription);
+            feature.addAction(action);
+            hadAnyActionsOrEffects = true;
+        }
+
         if (useType != null) {
             feature.setUseType(useType);
             if (refreshType == null) {
                 throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
             }
             feature.setRefreshesOn(refreshType);
-
-            boolean hadAnyActionsOrEffects = false;
-            final List<Element> effectElements = XmlUtils.getChildElements(element, "effect");
-            for (Element effectElement : effectElements) {
-                final Feature.FeatureCharacterEffect effect = new Feature.FeatureCharacterEffect();
-                AddEffectToCharacterVisitor.readEffect(context, effectElement, effect);
-                int cost = readIntegerAttribute(effectElement, "uses", 1);
-                effect.setCost(cost);
-                String actionName = effectElement.getAttribute("actionName");
-                if (actionName == null || actionName.trim().length() == 0) {
-                    actionName = effect.getName();
-                }
-                effect.setAction(actionName);
-                feature.addEffect(effect);
-                effect.setSource(component.getSourceString(context.getResources()) + "[" + feature.getSourceString(context.getResources()) + "]");
-                hadAnyActionsOrEffects = true;
-            }
-
-            final List<Element> actionElements = XmlUtils.getChildElements(element, "action");
-            for (Element actionElement : actionElements) {
-                int cost = readIntegerAttribute(actionElement, "uses", -1);
-                String actionName = XmlUtils.getElementText(actionElement, "name");
-                String shortDescription = XmlUtils.getElementText(actionElement, "shortDescription");
-                Feature.FeatureAction action = new Feature.FeatureAction();
-
-                action.setName(actionName);
-                action.setCost(cost);
-                action.setDescription(shortDescription);
-                feature.addAction(action);
-                hadAnyActionsOrEffects = true;
-            }
 
             if (!hadAnyActionsOrEffects) {
                 Feature.FeatureAction simpleAction = new Feature.FeatureAction();
@@ -185,7 +185,6 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 feature.addAction(simpleAction);
             }
         }
-
 
         final String ac = XmlUtils.getElementText(element, "ac");
         feature.setAcFormula(ac);
