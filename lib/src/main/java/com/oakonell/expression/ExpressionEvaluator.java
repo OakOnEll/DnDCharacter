@@ -195,7 +195,7 @@ class ExpressionEvaluator extends ExpressionBaseVisitor<ExpressionValue<?>> {
                 return comparison > 0 ? BooleanValue.TRUE : BooleanValue.FALSE;
             }
             if (ctx.K_GTE() != null) {
-                return comparison > 0 ? BooleanValue.TRUE : BooleanValue.FALSE;
+                return comparison >= 0 ? BooleanValue.TRUE : BooleanValue.FALSE;
             }
             if (ctx.K_LT() != null) {
                 return comparison < 0 ? BooleanValue.TRUE : BooleanValue.FALSE;

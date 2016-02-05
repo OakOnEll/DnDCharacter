@@ -186,6 +186,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             }
         }
 
+        final String appliesFormula = element.getAttribute("applies");
+        feature.setAppliesFormula(appliesFormula);
+
+
         final String ac = XmlUtils.getElementText(element, "ac");
         feature.setAcFormula(ac);
 

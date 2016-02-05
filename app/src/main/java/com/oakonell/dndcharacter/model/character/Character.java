@@ -587,7 +587,7 @@ public class Character {
 
         // multiple here will really just take the highest ?? at runtime
         for (CharacterClass eachClass : classes) {
-            for (FeatureInfo each : eachClass.getFeatures()) {
+            for (FeatureInfo each : eachClass.getFeatures(this)) {
                 if (!each.getFeature().isBaseArmor()) continue;
 
                 String acFormula = each.getFeature().getBaseAcFormula();
@@ -657,7 +657,7 @@ public class Character {
 
         // multiple here will really just take the highest ?? at runtime
         for (CharacterClass eachClass : classes) {
-            for (FeatureInfo each : eachClass.getFeatures()) {
+            for (FeatureInfo each : eachClass.getFeatures(this)) {
                 if (each.getFeature().isBaseArmor()) continue;
 
 
@@ -987,7 +987,7 @@ public class Character {
         // features shouldn't contain features, and any effects are not automatic, but applied on use
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver(true) {
             protected void visitComponent(@NonNull BaseCharacterComponent component) {
-                result.addAll(component.getFeatures());
+                result.addAll(component.getFeatures(Character.this));
             }
         };
         deriver.derive(this, "Feature infos");

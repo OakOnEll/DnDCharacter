@@ -4,6 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.expression.Expression;
+import com.oakonell.expression.ExpressionContext;
+import com.oakonell.expression.ExpressionType;
+import com.oakonell.expression.context.SimpleFunctionContext;
+import com.oakonell.expression.context.SimpleVariableContext;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -23,6 +28,9 @@ public class Feature extends AbstractContextualComponent {
     private RefreshType refreshType;
     @Element(required = false)
     private UseType useType;
+
+    @Element(required = false)
+    private String appliesFormula;
 
     @NonNull
     @ElementList(required = false)
@@ -95,6 +103,27 @@ public class Feature extends AbstractContextualComponent {
         result.addAll(getActions());
         result.addAll(getEffects());
         return result;
+    }
+
+    public boolean applies(Character character) {
+        if (appliesFormula == null || appliesFormula.trim().length() == 0) return true;
+
+        // TODO can't construct the normal context variables, as it looks on features!
+        //    possibly calculate variables without this feature, in some contextual way
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        variableContext.setNumber("level", character.getClasses().size());
+
+        try {
+            Expression<Boolean> expression = Expression.parse(appliesFormula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+            return expression.evaluate();
+        } catch (Exception e) {
+            // should be done at formula save time...
+            return false;
+        }
+    }
+
+    public void setAppliesFormula(String appliesFormula) {
+        this.appliesFormula = appliesFormula;
     }
 
 

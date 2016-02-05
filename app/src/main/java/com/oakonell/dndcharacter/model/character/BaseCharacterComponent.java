@@ -104,9 +104,10 @@ public abstract class BaseCharacterComponent {
     }
 
     @NonNull
-    public List<FeatureInfo> getFeatures() {
+    public List<FeatureInfo> getFeatures(Character character) {
         List<FeatureInfo> result = new ArrayList<>();
         for (Feature each : features) {
+            if (!each.applies(character)) continue;
             FeatureInfo info = new FeatureInfo();
             info.feature = each;
             info.source = this;
