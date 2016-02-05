@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.character;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
+import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.spell.Spell;
@@ -298,7 +300,41 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             visitToolCategoryChoices(element, numChoices);
         } else if (state == VisitState.FEAT) {
             visitFeatSearchChoices(numChoices);
+        } else if (state == VisitState.SKILLS) {
+            visitSkillCategoryChoices(element, numChoices);
         }
+    }
+
+    private void visitSkillCategoryChoices(@NonNull Element element, int numChoices) {
+        CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
+        List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
+
+
+        final List<SkillType> list = new ArrayList<>();
+        for (SkillType each : SkillType.values()) {
+            list.add(each);
+        }
+        SpinnerToString<SkillType> toString = new SpinnerToString<SkillType>() {
+            @Override
+            public String toString(SkillType object) {
+                return parent.getResources().getString(object.getStringResId());
+            }
+
+            @Override
+            public String toSaveString(SkillType selection, int index) {
+                return selection.name();
+            }
+
+            @Override
+            public SkillType fromSavedString(String skillName) {
+                skillName = skillName.replaceAll(" ", "_");
+                skillName = skillName.toUpperCase();
+                SkillType type = SkillType.valueOf(SkillType.class, skillName);
+                return type;
+            }
+        };
+
+        appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, list, toString, parent.getResources().getString(R.string.choose_skill));
     }
 
 
@@ -467,9 +503,58 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     private void appendCategoryDropDowns(int numChoices, @NonNull CategoryChoicesMD categoryChoicesMD, @NonNull List<String> savedSelections, @NonNull List<String> choices, @NonNull String prompt) {
+        appendCategoryDropDowns(numChoices, categoryChoicesMD, savedSelections, choices, null, prompt);
+    }
+
+    public static abstract class SpinnerToString<T> {
+        public abstract String toString(T object);
+
+        public abstract String toSaveString(T localizedString, int index);
+
+        public abstract T fromSavedString(String string);
+    }
+
+    private <T> void appendCategoryDropDowns(int numChoices, @NonNull CategoryChoicesMD categoryChoicesMD, @NonNull List<String> savedSelections, @NonNull List<T> choices, final SpinnerToString<T> toString, @NonNull String prompt) {
         for (int i = 0; i < numChoices; i++) {
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(parent.getContext(),
-                    android.R.layout.simple_spinner_item, choices);
+            ArrayAdapter<T> dataAdapter;
+            if (toString == null) {
+                dataAdapter = new ArrayAdapter<>(parent.getContext(),
+                        android.R.layout.simple_spinner_item, choices);
+            } else {
+                dataAdapter = new ArrayAdapter<T>(parent.getContext(),
+                        android.R.layout.simple_spinner_item, choices) {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_dropdown_item);
+                    }
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_item);
+                    }
+                    private View createViewFromResource(int position, View convertView,
+                                                        ViewGroup parent, int resource) {
+                        View view;
+                        TextView text;
+
+                        if (convertView == null) {
+                            view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
+                        } else {
+                            view = convertView;
+                        }
+
+                        try {
+                            text = (TextView) view;
+                        } catch (ClassCastException e) {
+                            Log.e("ArrayAdapter", "You must supply a resource ID for a TextView");
+                            throw new IllegalStateException(
+                                    "ArrayAdapter requires the resource ID to be a TextView", e);
+                        }
+
+                        T item = getItem(position);
+                        text.setText(toString.toString(item));
+
+                        return view;
+                    }
+                };
+            }
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             ViewGroup layout = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.drop_down_layout, parent, false);
@@ -483,14 +568,20 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (prompt.length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, spinner.getResources().getDisplayMetrics());
             spinner.setMinimumWidth((int) minWidth);
 
-            final DropdownOptionMD optionMD = new DropdownOptionMD(categoryChoicesMD, spinner, textView);
+            final DropdownOptionMD optionMD = new DropdownOptionMD(categoryChoicesMD, spinner, textView, toString);
             categoryChoicesMD.addOption(optionMD);
 
             // display saved selection
             int selectedIndex = -1;
             if (savedSelections.size() > i) {
                 String selected = savedSelections.get(i);
-                selectedIndex = choices.indexOf(selected);
+                T selectedObject;
+                if (toString != null) {
+                    selectedObject = toString.fromSavedString(selected);
+                } else {
+                    selectedObject = (T) selected;
+                }
+                selectedIndex = choices.indexOf(selectedObject);
             }
             spinner.setSelection(selectedIndex);
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

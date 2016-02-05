@@ -1,0 +1,58 @@
+<race>
+    <ref>PHB p.39</ref>
+    <name>Half-Elf</name>
+    <size>medium</size>
+    <speed>30</speed>
+    <age>Half-elves mature at the same rate humans do and reach adulthood around the age of 20. They live much longer than humans, however, often exceeding 180 years.</age>
+    <height>Half-elves are about the same size as humans, ranging from 5 to 6 feet tall.</height>
+    <weight></weight>
+    <skills>
+        <choose name="skills" number="2"/>
+    </skills>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Thanks to your elf blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Fey Ancestry</name>
+        <shortDescription>You have advantage on saving throws against being charmed, and magic can’t put you to sleep.</shortDescription>
+        <context>SAVING_THROW</context>
+    </feature>
+    <feature>
+        <name>Trance</name>
+        <shortDescription>Elves don’t need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is “trance.”) While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep</shortDescription>
+        <description></description>
+        <context>LONG_REST</context>
+    </feature>
+    <languages>
+        <language>Elvish</language>
+        <language>Common</language>
+        <choose name="language" number="1"/>
+    </languages>
+    <stat>
+        <increase name="Charisma">2</increase>
+        <choose name="statIncrease" number="2">
+            <or name="strength">
+                <increase name="Strength">1</increase>
+            </or>
+            <or name="dexterity">
+                <increase name="Dexterity">1</increase>
+            </or>
+            <or name="constitution">
+                <increase name="Constitution">1</increase>
+            </or>
+            <or name="intelligence">
+                <increase name="Intelligence">1</increase>
+            </or>
+            <or name="wisdom">
+                <increase name="Wisdom">1</increase>
+            </or>
+            <or name="charisma">
+                <increase name="Charisma">1</increase>
+            </or>
+        </choose>
+    </stat>
+
+
+</race>

@@ -425,6 +425,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     break;
                 case FEAT:
                     addFeat(selection);
+                case SKILLS:
+                    // TODO how to specify a different proficiency
+                    SkillType type = SkillType.valueOf(selection);
+                    component.addSkill(type, Proficient.PROFICIENT);
                     break;
             }
         }
