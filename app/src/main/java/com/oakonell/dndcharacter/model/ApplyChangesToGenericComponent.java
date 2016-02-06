@@ -10,6 +10,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
+import com.oakonell.dndcharacter.model.character.SpeedType;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
@@ -298,9 +299,15 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         currentChoiceName = oldChoiceName;
     }
 
-    protected void visitCharacterLevel(Element element) {
-        // TODO ...
-        //visitGroup(element);
+    @Override
+    protected void visitSpeed(@NonNull Element element) {
+        String speedTypString = element.getAttribute("type");
+        SpeedType speedType = SpeedType.WALK;
+        if (speedTypString != null && speedTypString.trim().length() > 0) {
+            speedType = SpeedType.valueOf(speedTypString.toUpperCase());
+        }
+        String valueString = element.getTextContent();
+        component.setSpeedFormula(speedType, valueString);
     }
 
     @Override

@@ -14,11 +14,13 @@
 
     <size>medium</size>
     <speed>25</speed>
+    <speed type="fly">50</speed>
     <feature>
         <!-- TODO make speed have an attribute for type, make speed dialog and context -->
         <name>Flight</name>
         <shortDescription>You have a flying speed of 50 feet. To use this speed, you can’t be wearing medium or heavy armor.</shortDescription>
         <description></description>
+        <context>SPEED</context>
     </feature>
     <feature>
         <name>Talons</name>

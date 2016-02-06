@@ -21,6 +21,7 @@ import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
+import com.oakonell.dndcharacter.model.character.SpeedType;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
@@ -216,6 +217,24 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Override
     protected void visitCantrip(@NonNull Element element) {
         super.visitCantrip(element);
+    }
+
+    protected void visitSpeed(@NonNull Element element) {
+        String speedTypString = element.getAttribute("type");
+        SpeedType speedType = SpeedType.WALK;
+        if (speedTypString != null && speedTypString.trim().length() > 0) {
+            speedType = SpeedType.valueOf(speedTypString.toUpperCase());
+        }
+        TextView text = new TextView(parent.getContext());
+        parent.addView(text);
+        String value = element.getTextContent();
+        String string ;
+        if (speedType != SpeedType.WALK) {
+            string = parent.getResources().getString(R.string.other_speed, getParent().getResources().getString(speedType.getStringResId()), value);
+        } else {
+            string = parent.getResources().getString(R.string.speed, value);
+        }
+        text.setText(" *  " + string);
     }
 
     @Override

@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.SpeedType;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
+import com.oakonell.dndcharacter.views.character.race.SpeedDialogFragment;
 import com.oakonell.dndcharacter.views.character.stats.SaveThrowBlockDialogFragment;
 import com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView;
 import com.oakonell.dndcharacter.views.character.stats.SkillBlockDialogFragment;
@@ -43,6 +45,7 @@ public class MainFragment extends AbstractSheetFragment {
     TextView hitDice;
     TextView proficiency;
     private TextView initiative;
+    private TextView speed_lbl;
 
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
@@ -57,6 +60,16 @@ public class MainFragment extends AbstractSheetFragment {
         proficiency = (TextView) rootView.findViewById(R.id.proficiency);
 
         speed = (TextView) rootView.findViewById(R.id.speed);
+        speed_lbl = (TextView) rootView.findViewById(R.id.speed_lbl);
+        rootView.findViewById(R.id.speed_group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO open a speed dialog, to select speed type to display, and to show sources of speed
+                SpeedDialogFragment dialog = SpeedDialogFragment.create();
+                dialog.show(getFragmentManager(), "speed");
+            }
+        });
+
         ac = (TextView) rootView.findViewById(R.id.ac);
 
         rootView.findViewById(R.id.ac_group).setOnClickListener(new View.OnClickListener() {
@@ -155,6 +168,13 @@ public class MainFragment extends AbstractSheetFragment {
             return;
         }
         ac.setText(acText);
+        SpeedType speedType = character.getSpeedType();
+        if (speedType != SpeedType.WALK) {
+            speed_lbl.setText(speedType.getStringResId());
+        } else {
+            speed_lbl.setText(R.string.speed_label);
+        }
+        speed.setText(NumberUtils.formatNumber(character.getSpeed(speedType)));
 
         initiative.setText(NumberUtils.formatNumber(character.getStatBlock(StatType.DEXTERITY).getModifier()));
 

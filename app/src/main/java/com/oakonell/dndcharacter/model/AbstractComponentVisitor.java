@@ -14,8 +14,8 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
         String name = element.getTagName();
         boolean wasVisited = true;
         switch (name) {
-            case "charLevel":
-                visitCharacterLevel(element);
+            case "speed":
+                visitSpeed(element);
                 break;
             case "cantrips":
                 visitCantrips(element);
@@ -83,8 +83,8 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
         }
     }
 
-    protected void visitCharacterLevel(@NonNull Element element) {
-        visitGroup(element);
+    protected void visitSpeed(@NonNull Element element) {
+        visitSimpleItem(element);
     }
 
     protected void visitCantrips(@NonNull Element element) {

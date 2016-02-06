@@ -35,6 +35,10 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
         notifyDataSetChanged();
     }
 
+    @NonNull
+    public ListRetriever<C> getListRetriever() {
+        return listRetriever;
+    }
 
     public C getItem(int position) {
         return list.get(position);

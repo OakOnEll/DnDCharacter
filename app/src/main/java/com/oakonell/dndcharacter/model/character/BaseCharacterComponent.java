@@ -35,6 +35,9 @@ public abstract class BaseCharacterComponent {
     @ElementMap(entry = "skill", key = "name", value = "proficiency", required = false)
     private Map<SkillType, Proficient> skillProficiencies = new HashMap<>();
     @NonNull
+    @ElementMap(entry = "speed", key = "type", value = "value", required = false)
+    Map<SpeedType, String> speeds = new HashMap<>();
+    @NonNull
     @ElementMap(entry = "saveMod", key = "name", value = "proficiency", required = false)
     private Map<StatType, Proficient> saveProficiencies = new HashMap<>();
     @NonNull
@@ -218,6 +221,17 @@ public abstract class BaseCharacterComponent {
     @NonNull
     public List<CharacterSpell> getCantrips() {
         return cantrips;
+    }
+
+
+    public void setSpeedFormula(SpeedType speedType, String valueString) {
+        speeds.put(speedType, valueString);
+    }
+
+    public int getSpeed(Character character, SpeedType type) {
+        final String val = speeds.get(type);
+        if (val== null || val.trim().length()==0) return 0;
+        return character.evaluateFormula(val, null);
     }
 
     // use a wrapper for SimpleXML serialization

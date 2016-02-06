@@ -28,6 +28,7 @@ android {
                             'src/main/res/layouts/character/item',
                             'src/main/res/layouts/character/main',
                             'src/main/res/layouts/character/persona',
+                            'src/main/res/layouts/character/speed',
                             'src/main/res/layouts/character/rest',
                             'src/main/res/layouts/character/spell',
                             'src/main/res/layouts/character/stats',

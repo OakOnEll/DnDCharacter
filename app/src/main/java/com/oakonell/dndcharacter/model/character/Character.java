@@ -147,6 +147,8 @@ public class Character {
     @Element(required = false)
     private String eyes;
 
+    @Element(required = false)
+    private SpeedType visibleSpeedType = SpeedType.WALK;
 
     public Character(boolean defaults) {
         name = "Feng";
@@ -925,7 +927,7 @@ public class Character {
             protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 Proficient proficient = component.getSaveProficient(type);
                 if (proficient != Proficient.NONE) {
-                    ProficientWithSource reason = new ProficientWithSource(proficient, background);
+                    ProficientWithSource reason = new ProficientWithSource(proficient, component);
                     result.add(reason);
                 }
             }
@@ -1448,6 +1450,29 @@ public class Character {
 
     }
 
+    public static class SpeedWithSource extends WithSource {
+        private final int speed;
+
+        SpeedWithSource(int speed, BaseCharacterComponent source) {
+            super(source);
+            this.speed = speed;
+        }
+
+        public int getspeed() {
+            return speed;
+        }
+
+//        @NonNull
+//        @Override
+//        public String toString() {
+//            if (proficient.getCategory() != null) {
+//                return "[" + proficient.getCategory() + "] (" + getSourceString() + ")";
+//            }
+//            return proficient.getName() + " (" + getSourceString() + ")";
+//        }
+
+    }
+
     public abstract static class WithSource {
         private final BaseCharacterComponent source;
 
@@ -1897,4 +1922,42 @@ public class Character {
     public void setEyes(String eyes) {
         this.eyes = eyes;
     }
+
+    public SpeedType getSpeedType() {
+        return visibleSpeedType;
+    }
+
+    public void setSpeedType(@NonNull SpeedType type) {
+        visibleSpeedType = type;
+    }
+
+    @NonNull
+    public List<SpeedWithSource> deriveSpeeds(final SpeedType type) {
+        final List<SpeedWithSource> result = new ArrayList<>();
+
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+                int speed = component.getSpeed(Character.this, type);
+                if (speed ==0) return;
+                SpeedWithSource speedWithSource = new SpeedWithSource(speed, component);
+                result.add(speedWithSource);
+            }
+        };
+        deriver.derive(this, "speed " + type.name());
+
+        return result;
+    }
+
+    public int getSpeed(final SpeedType type) {
+        final int result[] = new int[]{0};
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver(true) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+                result[0] += component.getSpeed(Character.this, type);
+            }
+        };
+        deriver.derive(this, "speed " + type.name());
+        return result[0];
+    }
+
+
 }
