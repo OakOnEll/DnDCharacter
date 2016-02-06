@@ -25,13 +25,13 @@ import java.util.Set;
 /**
  * Created by Rob on 11/30/2015.
  */
-public class InitativeDialogFragment extends AbstractCharacterDialogFragment {
+public class InitiativeDialogFragment extends AbstractCharacterDialogFragment {
     private RecyclerView listView;
     private InitiativeSourcesAdapter adapter;
 
     @NonNull
-    public static InitativeDialogFragment create() {
-        return new InitativeDialogFragment();
+    public static InitiativeDialogFragment create() {
+        return new InitiativeDialogFragment();
     }
 
 
@@ -106,7 +106,7 @@ public class InitativeDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     public static class InitiativeSourcesAdapter extends RowWithSourceAdapter<Character.InitiativeWithSource, InitiativeSourceViewHolder> {
-        InitiativeSourcesAdapter(@NonNull InitativeDialogFragment fragment, ListRetriever<Character.InitiativeWithSource> listRetriever) {
+        InitiativeSourcesAdapter(@NonNull InitiativeDialogFragment fragment, ListRetriever<Character.InitiativeWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
