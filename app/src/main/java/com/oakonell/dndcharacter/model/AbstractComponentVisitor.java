@@ -17,6 +17,9 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
             case "speed":
                 visitSpeed(element);
                 break;
+            case "initiative":
+                visitInitiative(element);
+                break;
             case "cantrips":
                 visitCantrips(element);
                 break;
@@ -84,6 +87,9 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
     }
 
     protected void visitSpeed(@NonNull Element element) {
+        visitSimpleItem(element);
+    }
+    protected void visitInitiative(@NonNull Element element) {
         visitSimpleItem(element);
     }
 

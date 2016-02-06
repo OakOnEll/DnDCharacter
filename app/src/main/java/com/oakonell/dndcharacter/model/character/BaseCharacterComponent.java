@@ -60,7 +60,8 @@ public abstract class BaseCharacterComponent {
     private List<CharacterSpell> cantrips = new ArrayList<>();
     @Element(required = false)
     private String hpFormula;
-
+    @Element(required = false)
+    private String initiativeModFormula;
 
     public String getName() {
         return name;
@@ -239,5 +240,13 @@ public abstract class BaseCharacterComponent {
         @NonNull
         @ElementList(required = false, type = Proficiency.class, inline = true)
         List<Proficiency> proficiencies = new ArrayList<>();
+    }
+
+    public int getInitiativeMod(Character character) {
+        return character.evaluateFormula(initiativeModFormula, null);
+    }
+
+    public void setInitiativeModFormula(String initiativeModFormula) {
+        this.initiativeModFormula = initiativeModFormula;
     }
 }

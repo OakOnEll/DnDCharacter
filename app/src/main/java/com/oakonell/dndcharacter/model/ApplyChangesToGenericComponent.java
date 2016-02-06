@@ -311,6 +311,12 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
+    protected void visitInitiative(@NonNull Element element) {
+        String valueString = element.getTextContent();
+        component.setInitiativeModFormula(valueString);
+    }
+
+    @Override
     protected void visitCantrips(@NonNull Element element) {
         final List<String> cantrips = savedChoices.getChoicesFor("cantrips");
         if (cantrips != null && !cantrips.isEmpty()) {
@@ -432,6 +438,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     break;
                 case FEAT:
                     addFeat(selection);
+                    break;
                 case SKILLS:
                     // TODO how to specify a different proficiency
                     SkillType type = SkillType.valueOf(selection);

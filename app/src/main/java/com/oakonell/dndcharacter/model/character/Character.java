@@ -1458,19 +1458,23 @@ public class Character {
             this.speed = speed;
         }
 
-        public int getspeed() {
+        public int getSpeed() {
             return speed;
         }
 
-//        @NonNull
-//        @Override
-//        public String toString() {
-//            if (proficient.getCategory() != null) {
-//                return "[" + proficient.getCategory() + "] (" + getSourceString() + ")";
-//            }
-//            return proficient.getName() + " (" + getSourceString() + ")";
-//        }
+    }
 
+    public static class InitiativeWithSource extends WithSource {
+        private final int initiative;
+
+        InitiativeWithSource(int initiative, BaseCharacterComponent source) {
+            super(source);
+            this.initiative = initiative;
+        }
+
+        public int getInitiative() {
+            return initiative;
+        }
     }
 
     public abstract static class WithSource {
@@ -1938,7 +1942,7 @@ public class Character {
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 int speed = component.getSpeed(Character.this, type);
-                if (speed ==0) return;
+                if (speed == 0) return;
                 SpeedWithSource speedWithSource = new SpeedWithSource(speed, component);
                 result.add(speedWithSource);
             }
@@ -1959,5 +1963,36 @@ public class Character {
         return result[0];
     }
 
+    public int getInitiative() {
+        final int result[] = new int[]{0};
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver(true) {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+                result[0] += component.getInitiativeMod(Character.this);
+            }
+        };
+        deriver.derive(this, "initiative");
+        return result[0] + getStatBlock(StatType.DEXTERITY).getModifier();
+    }
+
+    @NonNull
+    public List<InitiativeWithSource> deriveInitiative() {
+        final List<InitiativeWithSource> result = new ArrayList<>();
+
+        InitiativeWithSource baseSoure = new InitiativeWithSource(getStatBlock(StatType.DEXTERITY).getModifier(), null);
+        result.add(baseSoure);
+
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+                int initiative = component.getInitiativeMod(Character.this);
+                if (initiative == 0) return;
+                InitiativeWithSource initiativeWithSource = new InitiativeWithSource(initiative, component);
+                result.add(initiativeWithSource);
+            }
+        };
+        deriver.derive(this, "initiative");
+
+
+        return result;
+    }
 
 }

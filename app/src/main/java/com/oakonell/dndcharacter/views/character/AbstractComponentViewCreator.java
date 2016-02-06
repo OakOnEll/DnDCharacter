@@ -219,6 +219,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         super.visitCantrip(element);
     }
 
+    @Override
     protected void visitSpeed(@NonNull Element element) {
         String speedTypString = element.getAttribute("type");
         SpeedType speedType = SpeedType.WALK;
@@ -237,6 +238,14 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         text.setText(" *  " + string);
     }
 
+    @Override
+    protected void visitInitiative(@NonNull Element element) {
+        TextView text = new TextView(parent.getContext());
+        parent.addView(text);
+        String value = element.getTextContent();
+        String string = parent.getResources().getString(R.string.initiative, value);
+        text.setText(" *  " + string);
+    }
     @Override
     protected void visitStat(@NonNull Element element) {
         ViewGroup oldParent = parent;

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="initiative">Initiative %s</string>
+    <string name="dex_mod">Dexterity mod</string>
+    <string name="initiative_title">Initiative</string>
+</resources>

@@ -14,9 +14,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.SpeedType;
-import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
@@ -192,7 +190,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
         @Override
         public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.SpeedWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.SpeedWithSource>> adapter, Character.SpeedWithSource item) {
             super.bind(activity, adapter, item);
-            int speed = item.getspeed();
+            int speed = item.getSpeed();
 
             this.value.setText(NumberUtils.formatNumber(speed));
             final BaseCharacterComponent source = item.getSource();

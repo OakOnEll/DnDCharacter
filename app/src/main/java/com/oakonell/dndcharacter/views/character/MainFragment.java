@@ -15,6 +15,7 @@ import com.oakonell.dndcharacter.model.character.SpeedType;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.views.character.feat.InitativeDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.SpeedDialogFragment;
@@ -81,6 +82,14 @@ public class MainFragment extends AbstractSheetFragment {
         });
 
         initiative = (TextView) rootView.findViewById(R.id.initiative);
+        rootView.findViewById(R.id.initiative_group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InitativeDialogFragment dialog = InitativeDialogFragment.create();
+                dialog.show(getFragmentManager(), "initiative");
+            }
+        });
+
         final View.OnClickListener onClickHp = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,7 +185,7 @@ public class MainFragment extends AbstractSheetFragment {
         }
         speed.setText(NumberUtils.formatNumber(character.getSpeed(speedType)));
 
-        initiative.setText(NumberUtils.formatNumber(character.getStatBlock(StatType.DEXTERITY).getModifier()));
+        initiative.setText(NumberUtils.formatNumber(character.getInitiative()));
 
         hp.setText(getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP()));
         int tempHpVal = character.getTempHp();
