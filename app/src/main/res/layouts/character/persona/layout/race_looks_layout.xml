@@ -16,30 +16,24 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:shrinkColumns="2">
+        android:shrinkColumns="1">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/age_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <TextView
+                <EditText
+                    android:id="@+id/age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/age_label" />
-
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/age"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:minEms="4" />
+                    android:hint="@string/age_label"
+                    android:minEms="4" />
+            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -61,23 +55,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/height_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <TextView
+                <EditText
+                    android:id="@+id/height"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/height_label" />
-
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/height"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minEms="4" />
+                    android:hint="@string/height_label"
+                    android:minEms="4" />
+            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -119,13 +108,13 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:ems="3"
                             android:id="@+id/random_height_roll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:ems="3"
                             android:gravity="right"
-                            tools:hint="2d10"
-                            android:inputType="number" />
+                            android:inputType="number"
+                            tools:hint="2d10" />
                     </android.support.design.widget.TextInputLayout>
 
                     <TextView
@@ -155,23 +144,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/weight_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <TextView
+                <EditText
+                    android:id="@+id/weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/weight_label" />
-
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/weight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minEms="4" />
+                    android:hint="@string/weight_label"
+                    android:minEms="4" />
+            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -217,8 +201,8 @@
                             android:id="@+id/random_weight_roll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
                             android:ems="3"
+                            android:gravity="right"
                             android:inputType="number"
                             tools:hint="2d10" />
                     </android.support.design.widget.TextInputLayout>
@@ -268,48 +252,78 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/skin_label" />
 
-            <EditText
-                android:id="@+id/skin"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/skin_layout"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/skin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/skin_label"
+                    android:minEms="5"
+
+                    tools:text="White" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="White" />
+                android:layout_weight="1">
+
+            </LinearLayout>
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/eyes_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eye_color_label" />
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/eyes"
-                android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/eyes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/eye_color_label"
+                    android:minEms="5"
+
+                    tools:text="Brown" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="Brown" />
+                android:layout_weight="1" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/hair_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hair_label" />
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/hair"
-                android:layout_width="wrap_content"
+
+                <EditText
+                    android:id="@+id/hair"
+                    android:layout_width="wrap_content"
+                    android:minEms="5"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hair_label"
+                    tools:text="White" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="White" />
+                android:layout_weight="1" />
         </TableRow>
 
 
