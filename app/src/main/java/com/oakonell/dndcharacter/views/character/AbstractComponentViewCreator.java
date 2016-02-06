@@ -220,6 +220,15 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
+    protected void visitReference(@NonNull Element element) {
+        TextView text = new TextView(parent.getContext());
+        parent.addView(text);
+        String value = element.getTextContent();
+        String string = parent.getResources().getString(R.string.reference, value);
+        text.setText(" *  " + string);
+    }
+
+    @Override
     protected void visitSpeed(@NonNull Element element) {
         String speedTypString = element.getAttribute("type");
         SpeedType speedType = SpeedType.WALK;

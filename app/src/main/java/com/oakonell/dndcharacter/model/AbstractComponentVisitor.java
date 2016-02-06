@@ -14,6 +14,9 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
         String name = element.getTagName();
         boolean wasVisited = true;
         switch (name) {
+            case "ref":
+                visitReference(element);
+                break;
             case "speed":
                 visitSpeed(element);
                 break;
@@ -86,9 +89,14 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
         }
     }
 
+    protected void visitReference(@NonNull Element element) {
+        visitSimpleItem(element);
+    }
+
     protected void visitSpeed(@NonNull Element element) {
         visitSimpleItem(element);
     }
+
     protected void visitInitiative(@NonNull Element element) {
         visitSimpleItem(element);
     }

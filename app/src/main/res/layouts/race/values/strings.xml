@@ -3,4 +3,5 @@
     <string name="initiative">Initiative %s</string>
     <string name="dex_mod">Dexterity mod</string>
     <string name="initiative_title">Initiative</string>
+    <string name="reference">Reference: %s</string>
 </resources>
