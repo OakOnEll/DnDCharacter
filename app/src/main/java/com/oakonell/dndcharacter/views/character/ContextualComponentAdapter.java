@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -30,12 +31,12 @@ import java.util.Set;
 public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, CharacterActivity,ContextualComponentAdapter>> {
     private static final int UNDO_DELAY = 5000;
     private final CharacterActivity context;
-    private final Set<FeatureContext> filter;
+    private final Set<FeatureContextArgument> filter;
     private List<IContextualComponent> list;
     private final Map<String, Long> deletedEffects = new HashMap<>();
 
 
-    public ContextualComponentAdapter(@NonNull AbstractCharacterDialogFragment context, Set<FeatureContext> filter) {
+    public ContextualComponentAdapter(@NonNull AbstractCharacterDialogFragment context, Set<FeatureContextArgument> filter) {
         this.context = context.getMainActivity();
         this.filter = filter;
         list = filterList(context.getCharacter());

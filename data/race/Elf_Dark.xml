@@ -20,7 +20,7 @@
     <feature>
         <name>Sunlight Sensitivity</name>
         <shortDescription>Disadvantage on attack rolls and perception checks when you or target are in direct sunlight.</shortDescription>
-        <context>WEAPON_ATTACK,SKILL_ROLL</context>
+        <context>WEAPON_ATTACK,SKILL_ROLL(perception)</context>
     </feature>
     <cantrips>
         <cantrip stat="Charisma">Dancing lights</cantrip>

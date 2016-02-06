@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
@@ -74,10 +75,10 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContext> getContextFilter() {
-        Set<FeatureContext> filter = new HashSet<>();
-        filter.add(FeatureContext.SHORT_REST);
-        filter.add(FeatureContext.DICE_ROLL);
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.SHORT_REST));
+        filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
         return filter;
     }
 

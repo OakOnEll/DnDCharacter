@@ -5,7 +5,7 @@
     <feature>
         <name>Naturally Stealthy</name>
         <shortDescription>You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.</shortDescription>
-        <context>SKILL_ROLL</context>
+        <context>SKILL_ROLL(dexterity),SKILL_ROLL(stealth)</context>
     </feature>
     <stat>
         <increase name="Charisma">1</increase>

@@ -54,7 +54,7 @@
                     <feature>
                         <name>Mask of the Wild</name>
                         <shortDescription>Can attempt to hide in foliage, rain, snow, mist, and other natural phenomena.</shortDescription>
-                        <context>SKILL_ROLL</context>
+                        <context>SKILL_ROLL(dexterity),SKILL_ROLL(stealth)</context>
                     </feature>
                 </or>
                 <or name="fleet foot">

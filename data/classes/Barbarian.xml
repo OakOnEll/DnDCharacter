@@ -53,9 +53,9 @@
             <effect actionName="Rage">
                 <name>Raging</name>
                 <shortDescription>While raging you have advantage on strength checks, gain a bonus on melee attack damage, resistance to bludgeoning, piercing, and slashing damage.</shortDescription>
-                <context>WEAPON_ATTACK,SKILL_ROLL,HIT_POINTS</context>
+                <context>WEAPON_ATTACK,SKILL_ROLL(strength),HIT_POINTS</context>
             </effect>
-            <context>WEAPON_ATTACK,SKILL_ROLL,HIT_POINTS</context>
+            <context>WEAPON_ATTACK,HIT_POINTS</context>
         </feature>
         <feature>
             <name>Unarmored Defence</name>
@@ -80,7 +80,7 @@
         <feature>
             <name>Danger sense</name>
             <shortDescription>Advantage on Dexterity saving throws against effects you can see, such as traps and spells. Can't be blinded, deafened, or incapacitated.</shortDescription>
-            <context>SAVING_THROW</context>
+            <context>SAVING_THROW(dexterity)</context>
         </feature>
     </level>
 </class>

@@ -15,6 +15,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.SpeedType;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
@@ -68,11 +69,12 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContext> getContextFilter() {
-        Set<FeatureContext> filter = new HashSet<>();
-        filter.add(FeatureContext.SPEED);
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.SPEED));
         return filter;
     }
+
     @Override
     protected boolean onDone() {
         boolean isValid = super.onDone();
@@ -142,7 +144,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
                 speed_sources.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 speed_sources.setHasFixedSize(false);
             } else {
-                ((SpeedTypeListRetriever)sourceAdapter.getListRetriever()).setType(type);
+                ((SpeedTypeListRetriever) sourceAdapter.getListRetriever()).setType(type);
                 sourceAdapter.reloadList(activity.getCharacter());
             }
         }

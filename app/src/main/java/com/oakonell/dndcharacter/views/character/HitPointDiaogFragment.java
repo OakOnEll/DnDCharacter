@@ -22,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
@@ -293,10 +294,10 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContext> getContextFilter() {
-        Set<FeatureContext> filter = new HashSet<>();
-        filter.add(FeatureContext.DICE_ROLL);
-        filter.add(FeatureContext.HIT_POINTS);
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
+        filter.add(new FeatureContextArgument(FeatureContext.HIT_POINTS));
         return filter;
     }
 

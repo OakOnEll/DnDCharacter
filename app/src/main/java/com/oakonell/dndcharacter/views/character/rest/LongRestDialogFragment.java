@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
@@ -92,9 +93,9 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContext> getContextFilter() {
-        Set<FeatureContext> filter = new HashSet<>();
-        filter.add(FeatureContext.LONG_REST);
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.LONG_REST));
         return filter;
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
@@ -85,10 +86,10 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @NonNull
     @Override
-    protected Set<FeatureContext> getContextFilter() {
-        Set<FeatureContext> filter = new HashSet<>();
-        filter.add(FeatureContext.DICE_ROLL);
-        filter.add(FeatureContext.SKILL_ROLL);
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
+        filter.add(new FeatureContextArgument(FeatureContext.SKILL_ROLL));
         return filter;
     }
 

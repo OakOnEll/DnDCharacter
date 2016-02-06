@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
@@ -477,11 +478,12 @@ public class Character {
     }
 
     public boolean anyContextFeats(FeatureContext context) {
+        FeatureContextArgument withArg = new FeatureContextArgument(context);
         for (CharacterEffect each : getEffects()) {
-            if (each.isInContext(context)) return true;
+            if (each.isInContext(withArg)) return true;
         }
         for (FeatureInfo each : getFeatureInfos()) {
-            if (each.isInContext(context)) return true;
+            if (each.isInContext(withArg)) return true;
         }
         return false;
     }

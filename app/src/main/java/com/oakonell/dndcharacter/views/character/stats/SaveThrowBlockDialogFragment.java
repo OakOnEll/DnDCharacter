@@ -13,6 +13,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
@@ -92,10 +93,10 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @NonNull
     @Override
-    protected Set<FeatureContext> getContextFilter() {
-        Set<FeatureContext> filter = new HashSet<>();
-        filter.add(FeatureContext.DICE_ROLL);
-        filter.add(FeatureContext.SAVING_THROW);
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
+        filter.add(new FeatureContextArgument(FeatureContext.SAVING_THROW, getType().name()));
         return filter;
     }
 

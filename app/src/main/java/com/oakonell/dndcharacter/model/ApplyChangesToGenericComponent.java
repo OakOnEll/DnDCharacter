@@ -5,12 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
+import com.oakonell.dndcharacter.model.character.AbstractContextualComponent;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.character.SpeedType;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
@@ -29,12 +31,12 @@ import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.w3c.dom.Element;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Rob on 11/18/2015.
@@ -93,6 +95,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         addFeat(name);
     }
 
+
     @Override
     protected void visitFeature(@NonNull Element element) {
         Feature feature = new Feature();
@@ -107,8 +110,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             for (String each : contexts) {
                 String contextString = each.trim();
                 if (contextString.length() > 0) {
-                    FeatureContext context = FeatureContext.valueOf(contextString.toUpperCase());
-                    feature.addContext(context);
+                    final FeatureContextArgument featureContextArgument = AbstractContextualComponent.parseFeatureContext(contextString);
+                    feature.addContext(featureContextArgument);
                 }
             }
         }

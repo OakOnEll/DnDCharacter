@@ -13,6 +13,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.stats.SkillBlock;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
@@ -70,6 +71,9 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         total = (TextView) view.findViewById(R.id.total);
         listView = (RecyclerView) view.findViewById(R.id.list);
 
+        int typeIndex = getArguments().getInt(TYPE);
+        type = SkillType.values()[typeIndex];
+
         return view;
     }
 
@@ -82,8 +86,6 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     @Override
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
-        int typeIndex = getArguments().getInt(TYPE);
-        type = SkillType.values()[typeIndex];
         skillBlock = character.getSkillBlock(type);
 
         updateView(character);
@@ -104,10 +106,11 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContext> getContextFilter() {
-        Set<FeatureContext> filter = new HashSet<>();
-        filter.add(FeatureContext.DICE_ROLL);
-        filter.add(FeatureContext.SKILL_ROLL);
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
+        filter.add(new FeatureContextArgument(FeatureContext.SKILL_ROLL, type.name()));
+        filter.add(new FeatureContextArgument(FeatureContext.SKILL_ROLL, type.getStatType().name()));
         return filter;
     }
 

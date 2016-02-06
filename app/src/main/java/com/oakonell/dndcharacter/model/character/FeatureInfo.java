@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.model.character;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.UseType;
@@ -56,12 +57,12 @@ public class FeatureInfo implements IContextualComponent {
     }
 
     @Override
-    public boolean isInContext(FeatureContext context) {
+    public boolean isInContext(FeatureContextArgument context) {
         return feature.isInContext(context);
     }
 
     @Override
-    public boolean isInContext(Set<FeatureContext> filter) {
+    public boolean isInContext(Set<FeatureContextArgument> filter) {
         return feature.isInContext(filter);
     }
 }

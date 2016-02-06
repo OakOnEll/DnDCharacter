@@ -5,5 +5,5 @@
     <shortDescription>A stunned creature is incapacitated (see the condition), can’t move, and can speak only falteringly.
 The creature automatically fails Strength and Dexterity saving throws.
 Attack rolls against the creature have advantage.</shortDescription>
-    <context>WEAPON_ATTACK,TO_HIT,SPEED,SAVING_THROW</context>
+    <context>WEAPON_ATTACK,TO_HIT,SPEED,SAVING_THROW(strength),SAVING_THROW(dexterity)</context>
 </effect>

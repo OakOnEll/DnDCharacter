@@ -9,5 +9,5 @@ The creature automatically fails Strength and Dexterity saving throws.
 The creature has resistance to all damage.
 The creature is immune to poison and disease, although a poison or disease already in its system is suspended, not neutralized.
 </shortDescription>
-    <context>WEAPON_ATTACK,SKILL_ROLL,TO_HIT,SAVING_THROW,SPEED,HIT_POINTS</context>
+    <context>WEAPON_ATTACK,SKILL_ROLL,TO_HIT,SAVING_THROW(strength),SAVING_THROW(dexterity),SPEED,HIT_POINTS</context>
 </effect>

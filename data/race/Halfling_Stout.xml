@@ -6,7 +6,7 @@
     <feature>
         <name>Stout Resilience</name>
         <shortDescription>You have advantage on saving throws against poison, and you have resistance against poison damage.</shortDescription>
-        <context>SKILL_ROLL,HIT_POINTS</context>
+        <context>SAVING_THROW,SKILL_ROLL,HIT_POINTS</context>
     </feature>
     <stat>
         <increase name="Constitution">1</increase>

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
@@ -51,11 +52,12 @@ public class InitativeDialogFragment extends AbstractCharacterDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContext> getContextFilter() {
-        Set<FeatureContext> filter = new HashSet<>();
-        filter.add(FeatureContext.INITIATIVE);
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.INITIATIVE));
         return filter;
     }
+
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
@@ -90,7 +92,7 @@ public class InitativeDialogFragment extends AbstractCharacterDialogFragment {
         @Override
         public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.InitiativeWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.InitiativeWithSource>> adapter, Character.InitiativeWithSource item) {
             super.bind(activity, adapter, item);
-            int initiative= item.getInitiative();
+            int initiative = item.getInitiative();
 
             this.value.setText(NumberUtils.formatNumber(initiative));
             final BaseCharacterComponent source = item.getSource();

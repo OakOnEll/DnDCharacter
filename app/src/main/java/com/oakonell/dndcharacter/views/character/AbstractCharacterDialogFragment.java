@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.DndCharacterApp;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
@@ -145,7 +145,7 @@ public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFra
     }
 
     @NonNull
-    protected Set<FeatureContext> getContextFilter() {
+    protected Set<FeatureContextArgument> getContextFilter() {
         return Collections.emptySet();
     }
 

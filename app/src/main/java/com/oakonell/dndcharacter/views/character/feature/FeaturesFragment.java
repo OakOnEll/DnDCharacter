@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
@@ -65,7 +66,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
     public class FeatureAdapter extends RecyclerView.Adapter<FeatureViewHolder> {
         @NonNull
         private final CharacterActivity context;
-        private Set<FeatureContext> filter;
+        private Set<FeatureContextArgument> filter;
         private List<FeatureInfo> list;
 
         public FeatureAdapter(@NonNull CharacterActivity context) {
@@ -73,7 +74,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
             list = context.getCharacter().getFeatureInfos();
         }
 
-        public FeatureAdapter(@NonNull CharacterActivity context, Set<FeatureContext> filter) {
+        public FeatureAdapter(@NonNull CharacterActivity context, Set<FeatureContextArgument> filter) {
             this.context = context;
             this.filter = filter;
             list = filterList(context.getCharacter());

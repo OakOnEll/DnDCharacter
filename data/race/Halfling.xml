@@ -18,7 +18,7 @@
     <feature>
         <name>Brave</name>
         <shortDescription>You have advantage on saving throws against being frightened.</shortDescription>
-        <context>SKILL_ROLL</context>
+        <context>SKILL_ROLL,SAVING_THROW</context>
     </feature>
     <feature>
         <name>Halfling Nimbleness</name>

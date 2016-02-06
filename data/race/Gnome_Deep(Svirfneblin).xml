@@ -14,7 +14,7 @@
         <name>Stone Camouflage</name>
         <shortDescription>You have advantage on Dexterity (stealth) checks to hide in rocky terrain.</shortDescription>
         <description></description>
-        <context>SKILL_ROLL</context>
+        <context>SKILL_ROLL(dexterity),SKILL_ROLL(stealth)</context>
     </feature>
     <languages>
         <language>Undercommon</language>

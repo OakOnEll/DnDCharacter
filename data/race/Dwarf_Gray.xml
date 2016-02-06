@@ -11,7 +11,7 @@
     <feature>
         <name>Sunlight Sensitivity</name>
         <shortDescription>Disadvantage on attack rolls and perception checks when you or target are in direct sunlight.</shortDescription>
-        <context>WEAPON_ATTACK,SKILL_ROLL</context>
+        <context>WEAPON_ATTACK,SKILL_ROLL(perception)</context>
     </feature>
     <feature>
         <name>Duergar Resilience</name>
@@ -27,12 +27,12 @@ Everything you are wearing and carrying changes size with you. Any item dropped 
             <effect actionName="Enlarge">
                 <name>Enlarged</name>
                 <shortDescription>For 1 minute, your size doubles in all dimensions, and your weight is multiplied by eight. This growth increases your size by one category— from Medium to Large, for example. If there isn’t enough room for the target to double its size, you attain the maximum possible size in the space available. Until the spell ends, you also have advantage on Strength checks and Strength saving throws. Your weapons also grow to match your new size. While these weapons are enlarged, your attacks with them deal 1d4 extra damage. Everything you are wearing and carrying changes size with you. Any item dropped returns to normal size at once.</shortDescription>
-                <context>WEAPON_ATTACK,SKILL_ROLL,SAVING_THROWS</context>
+                <context>WEAPON_ATTACK,SKILL_ROLL(strength),SAVING_THROW(strength)</context>
             </effect>
             <effect actionName="Reduce">
                 <name>Reduced</name>
                 <shortDescription>For 1 minute, your size is halved in all dimensions, and your weight is reduced to one-eighth of normal. This reduction decreases your by one category—from Medium to Small, for example. Until the spell ends, you also has disadvantage on Strength checks and Strength saving throws. Your weapons also shrink to match your new size. While these weapons are reduced, your attacks with them deal 1d4 less damage (this can’t reduce the damage below 1). Everything you are wearing and carrying changes size with you. Any item dropped returns to normal size at once.</shortDescription>
-                <context>WEAPON_ATTACK,SKILL_ROLL,SAVING_THROWS</context>
+                <context>WEAPON_ATTACK,SKILL_ROLL(strength),SAVING_THROW(strength)</context>
             </effect>
         <uses>1</uses>
     </feature>
@@ -44,7 +44,7 @@ Everything you are wearing and carrying changes size with you. Any item dropped 
         <effect actionName="Cast">
             <name>Invisible</name>
             <shortDescription>You become invisible until the spell ends, up to an hour. Anything you are wearing or carrying is invisible as long as it is on the your person. The spell ends when you attack or cast a spell.</shortDescription>
-            <context>WEAPON_ATTACK,SKILL_ROLL,SAVING_THROWS</context>
+            <context>WEAPON_ATTACK,SKILL_ROLL,SAVING_THROW</context>
         </effect>
         <uses>1</uses>
     </feature>

@@ -4,11 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
+import com.oakonell.dndcharacter.model.character.AbstractContextualComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.w3c.dom.Element;
 
@@ -46,8 +47,8 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
             String[] contexts = contextsString.split(",");
             for (String each : contexts) {
                 String contextString = each.trim();
-                FeatureContext featureContext = FeatureContext.valueOf(contextString.toUpperCase());
-                characterEffect.addContext(featureContext);
+                final FeatureContextArgument featureContextArgument = AbstractContextualComponent.parseFeatureContext(contextString);
+                characterEffect.addContext(featureContextArgument);
             }
         }
     }
