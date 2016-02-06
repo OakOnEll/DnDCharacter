@@ -1,0 +1,9 @@
+<effect>
+    <ref>PHB, p. 292</ref>
+    <name>Stunned</name>
+    <speed>0</speed>
+    <shortDescription>A stunned creature is incapacitated (see the condition), can’t move, and can speak only falteringly.
+The creature automatically fails Strength and Dexterity saving throws.
+Attack rolls against the creature have advantage.</shortDescription>
+    <context>WEAPON_ATTACK,TO_HIT,SPEED,SAVING_THROW</context>
+</effect>

@@ -1,0 +1,7 @@
+<effect>
+    <ref>PHB, p. 290</ref>
+    <name>Charmed</name>
+    <shortDescription>A charmed creature can’t attack the charmer or target the charmer with harmful abilities or magical effects.
+The charmer has advantage on any ability check to interact socially with the creature.</shortDescription>
+    <context>WEAPON_ATTACK,SKILL_ROLL</context>
+</effect>

@@ -1,5 +1,8 @@
 <effect>
+    <ref>PHB, p. 292</ref>
     <name>Prone</name>
-    <shortDescription>Can only crawl to move, or stand up. You have disadvantage on attack rolls. Attacks within 5 feet are at advantage, otherwise at disadvantage.</shortDescription>
-    <context>WEAPON_ATTACK,TO_HIT</context>
+    <shortDescription>A prone creature’s only movement option is to crawl, unless it stands up and thereby ends the condition.
+        The creature has disadvantage on attack rolls.
+        An attack roll against the creature has advantage if the attacker is within 5 feet of the creature. Otherwise, the attack roll has disadvantage.</shortDescription>
+    <context>WEAPON_ATTACK,TO_HIT,SPEED</context>
 </effect>

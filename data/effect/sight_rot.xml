@@ -1,0 +1,8 @@
+<effect>
+    <ref>DMG, p. 257</ref>
+    <name>Sight Rot</name>
+    <shortDescription>This painful infection causes bleeding from the eyes and eventually blinds the victim.
+        A beast or humanoid that drinks water tainted by sight rot must succeed on a DC 15 Constitution saving throw or become infected. One day after infection, the creature’s vision starts to become blurry. The creature takes a −1 penalty to attack rolls and ability checks that rely on sight. At the end of each long rest after the symptoms appear, the penalty worsens by 1. When it reaches −5, the victim is blinded until its sight is restored by magic such as lesser restoration or heal.
+</shortDescription>
+    <context>WEAPON_ATTACK,SKILL_ROLL,SHORT_REST,LONG_REST</context>
+</effect>

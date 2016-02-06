@@ -1,5 +1,7 @@
 <effect>
+    <ref>PHB, p.290</ref>
     <name>Blinded</name>
-    <shortDescription>Can't see, and fails ability checks requiring sight. Attack rolls have disadvantage, while attacks against you are at advantage.</shortDescription>
+    <shortDescription>A blinded creature can’t see and automatically fails any ability check that requires sight.
+Attack rolls against the creature have advantage, and the creature’s attack rolls have disadvantage.</shortDescription>
     <context>WEAPON_ATTACK,SKILL_ROLL,TO_HIT</context>
 </effect>

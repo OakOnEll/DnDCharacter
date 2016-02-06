@@ -1,0 +1,7 @@
+<effect>
+    <ref>PHB, p. 290</ref>
+    <name>Incapacitated</name>
+    <speed>0</speed>
+    <shortDescription>An incapacitated creature can’t take actions or reactions.</shortDescription>
+    <context>WEAPON_ATTACK,SKILL_ROLL,SPEED</context>
+</effect>
