@@ -33,6 +33,7 @@
                     android:layout_gravity="center_horizontal"
 
                     android:layout_weight="1"
+                    tools:layout_height="100dp"
                     tools:listitem="@layout/skill_prof_row" />
 
 
