@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
@@ -30,6 +33,7 @@ import java.util.Map;
 public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractComponentModel> extends AbstractCharacterDialogFragment {
 
     private static final String PAGE_INDEX = "pageIndex";
+    private static final String DONE_LABEL = "doneLabel";
     private final Map<String, SavedChoices> savedChoicesByModel = new HashMap<>();
     private final Map<String, Map<String, String>> customChoicesByModel = new HashMap<>();
     private int pageIndex = 0;
@@ -42,8 +46,24 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     private Button previousButton;
     private Button nextButton;
     private Spinner nameSpinner;
+    private TextView nameError;
     private ViewGroup dynamicView;
     private List<M> modelSelections;
+
+    private DoneListener doneListener;
+    private String doneLabel;
+
+    public interface DoneListener {
+        void onDone();
+    }
+
+    public void setDoneLabel(String doneLabel) {
+        this.doneLabel = doneLabel;
+    }
+
+    public void setDoneListener(DoneListener listener) {
+        this.doneListener = listener;
+    }
 
     @Override
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +71,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
         if (savedInstanceState != null) {
             pageIndex = savedInstanceState.getInt(PAGE_INDEX, 0);
+            doneLabel = savedInstanceState.getString(DONE_LABEL);
         }
 
         dynamicView = (ViewGroup) view.findViewById(R.id.dynamic_content);
@@ -59,6 +80,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         nextButton = (Button) view.findViewById(R.id.next);
         nameSpinner = (Spinner) view.findViewById(R.id.name);
         nameSpinner.setPrompt(getModelSpinnerPrompt());
+        nameError = (TextView) view.findViewById(R.id.nameError);
 
         List<String> list = new ArrayList<>();
         From nameSelect = new Select()
@@ -102,6 +124,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(PAGE_INDEX, pageIndex);
+        outState.putString(DONE_LABEL, doneLabel);
     }
 
     protected void recreatePages() {
@@ -120,16 +143,28 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
         applyToCharacter(savedChoices, customChoices);
 
+        if (doneListener != null) {
+            doneListener.onDone();
+        }
+
         return super.onDone();
 
     }
 
     protected boolean validate(ViewGroup dynamicView, int pageIndex) {
         int invalid = 0;
+        if (model == null) {
+            nameError.setError(getString(R.string.choose_one_error));
+            Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
+            nameSpinner.startAnimation(shake);
+            invalid++;
+        }
 
-        for (ChooseMD each : chooseMDs.getChildChoiceMDs()) {
-            if (!each.validate(dynamicView)) {
-                invalid++;
+        if (chooseMDs != null) {
+            for (ChooseMD each : chooseMDs.getChildChoiceMDs()) {
+                if (!each.validate(dynamicView)) {
+                    invalid++;
+                }
             }
         }
         return invalid == 0;
@@ -179,6 +214,12 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         }
 
         if (isLast) {
+            if (doneLabel != null) {
+                doneButton.setText(doneLabel);
+                //doneButton.setText(R.string.next_button_label);
+            } else {
+                doneButton.setText(R.string.done_button_label);
+            }
             doneButton.setVisibility(View.VISIBLE);
             nextButton.setVisibility(View.GONE);
         } else {
@@ -235,12 +276,15 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         SavedChoices savedChoices = getSavedChoicesFromCharacter(character).copy();
         Map<String, String> customChoices = getCustomChoicesFromCharacter(character);
 
-        savedChoicesByModel.put(getCurrentName(), savedChoices);
-        customChoicesByModel.put(getCurrentName(), customChoices);
+        if (getCurrentName() != null) {
+            savedChoicesByModel.put(getCurrentName(), savedChoices);
+            customChoicesByModel.put(getCurrentName(), customChoices);
+        }
 
         nameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                nameError.setError(null);
                 M newModel = modelSelections.get(position);
                 if (newModel == model) return;
                 model = newModel;
@@ -287,7 +331,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     protected static abstract class Page<M extends AbstractComponentModel> {
         public abstract ChooseMDTreeNode appendToLayout(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices);
 
-        public void saveChoices(M model, ViewGroup dynamic,SavedChoices savedChoices, Map<String, String> customChoices) {
+        public void saveChoices(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
             // can override
         }
     }

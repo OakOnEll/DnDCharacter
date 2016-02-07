@@ -246,8 +246,12 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
     @Override
     public void onCharacterLoaded(@NonNull Character character) {
-        Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
-        setModel(race);
+        if (character.getRaceName() != null) {
+            Race race = new Select().from(Race.class).where("name = ?", character.getRaceName()).executeSingle();
+            setModel(race);
+        } else {
+            setModel(null);
+        }
 
 
         String subraceName = character.getSubRaceName();
@@ -291,4 +295,5 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
         return result;
     }
+
 }

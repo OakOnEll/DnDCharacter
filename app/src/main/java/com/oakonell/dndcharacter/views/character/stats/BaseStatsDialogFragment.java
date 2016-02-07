@@ -108,7 +108,9 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     case ROLL:
                         int i = 0;
                         for (Integer val : statRolls) {
-                            baseStatRows.get(i).setValue(val);
+                            if (val != null) {
+                                baseStatRows.get(i).setValue(val);
+                            }
                             i++;
                         }
                         break;
@@ -341,7 +343,9 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                     final Integer value = stats.get(type);
                     statRolls[i] = value;
                     EditText editText = entry.getValue();
-                    editText.setText(NumberUtils.formatNumber(value));
+                    if (value != null) {
+                        editText.setText(NumberUtils.formatNumber(value));
+                    }
                     i++;
                 }
             }

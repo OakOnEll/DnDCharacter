@@ -66,11 +66,16 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
         public final TextView name;
         @NonNull
         public final TextView classes;
+        @NonNull
+        private final TextView race;
+        private final TextView hp;
 
         public CharacterRowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             classes = (TextView) itemView.findViewById(R.id.classes);
+            race = (TextView) itemView.findViewById(R.id.race);
+            hp = (TextView) itemView.findViewById(R.id.hp);
         }
 
         @Override
@@ -78,10 +83,28 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
-            final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
-            final String classesString = cursor.getString(cursorIndexesByName.getIndex(cursor, "classesString"));
+            String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
+            String classesString = cursor.getString(cursorIndexesByName.getIndex(cursor, "classesString"));
+            String raceString = cursor.getString(cursorIndexesByName.getIndex(cursor, "race_display_name"));
+            String hpString = cursor.getString(cursorIndexesByName.getIndex(cursor, "hp"));
+            if (nameString == null || nameString.trim().length() == 0) {
+                nameString = context.getString(R.string.unnamed_character);
+            }
+            if (classesString == null || classesString.trim().length() == 0) {
+                classesString = context.getString(R.string.no_class);
+            }
+            if (raceString == null || raceString.trim().length() == 0) {
+                raceString = context.getString(R.string.no_race);
+            }
+            if (hpString != null) {
+                hp.setText(hpString);
+            } else {
+                hp.setText("");
+            }
+
             name.setText(nameString);
             classes.setText(classesString);
+            race.setText(raceString);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

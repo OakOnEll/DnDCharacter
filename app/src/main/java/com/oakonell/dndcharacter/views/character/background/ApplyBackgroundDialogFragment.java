@@ -30,6 +30,7 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
     public static ApplyBackgroundDialogFragment createDialog() {
         return new ApplyBackgroundDialogFragment();
     }
+
     @Override
     protected String getTitle() {
         return getString(R.string.choose_a_background);
@@ -38,8 +39,12 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
 
     @Override
     public void onCharacterLoaded(@NonNull Character character) {
-        Background background = new Select().from(Background.class).where("name = ?", character.getBackgroundName()).executeSingle();
-        setModel(background);
+        if (character.getBackgroundName() != null) {
+            Background background = new Select().from(Background.class).where("name = ?", character.getBackgroundName()).executeSingle();
+            setModel(background);
+        } else {
+            setModel(null);
+        }
 
         super.onCharacterLoaded(character);
     }
@@ -110,7 +115,7 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
 
     @Override
     protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices) {
-        ApplyBackgroundToCharacterVisitor.applyToCharacter(getActivity(),getModel(), savedChoices, customChoices, getCharacter());
+        ApplyBackgroundToCharacterVisitor.applyToCharacter(getActivity(), getModel(), savedChoices, customChoices, getCharacter());
     }
 
     @NonNull

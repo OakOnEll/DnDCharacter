@@ -5,4 +5,10 @@
     <string name="initiative_title">Initiative</string>
     <string name="reference">Reference: %s</string>
     <string name="crawl">Crawl</string>
+    <string name="add_character">Create a new Character</string>
+    <string name="no_background">[No Background]</string>
+    <string name="no_race">[No Race]</string>
+    <string name="no_class">[No Class]</string>
+    <string name="unnamed_character">[Unnamed]</string>
+    <string name="choose_base_stats">Choose Stats</string>
 </resources>

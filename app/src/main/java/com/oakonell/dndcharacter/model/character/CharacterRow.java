@@ -17,6 +17,11 @@ public class CharacterRow extends AbstractComponentModel {
     public String name;
     @Column
     public String classesString;
+    @Column
+    public String race_display_name;
+    @Column
+    public String hp;
+
     @Column()
     public String xml;
     @Column()

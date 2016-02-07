@@ -176,7 +176,9 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_characters) {
+        if (id == R.id.add_character) {
+            openNewCharacter();
+        } else if (id == R.id.nav_characters) {
             Intent intent = new Intent(this, CharactersListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -220,6 +222,13 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    protected void openNewCharacter() {
+        Intent intent = new Intent(this, CharacterActivity.class);
+        intent.putExtra(CharacterActivity.CREATE_CHARACTER, true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

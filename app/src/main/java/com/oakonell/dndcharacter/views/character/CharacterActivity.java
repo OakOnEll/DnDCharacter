@@ -24,15 +24,18 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.views.AbstractBaseActivity;
+import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.views.character.classes.AddClassLevelDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeaturesFragment;
 import com.oakonell.dndcharacter.views.character.item.EquipmentFragment;
 import com.oakonell.dndcharacter.views.character.persona.NotesFragment;
 import com.oakonell.dndcharacter.views.character.persona.PersonaFragment;
+import com.oakonell.dndcharacter.views.character.race.ApplyRaceDialogFragment;
 import com.oakonell.dndcharacter.views.character.rest.LongRestDialogFragment;
 import com.oakonell.dndcharacter.views.character.rest.ShortRestDialogFragment;
 import com.oakonell.dndcharacter.views.character.spell.SpellsFragment;
+import com.oakonell.dndcharacter.views.character.stats.BaseStatsDialogFragment;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -50,7 +53,14 @@ import hugo.weaving.DebugLog;
 
 public class CharacterActivity extends AbstractBaseActivity {
     public static final String CHARACTER_ID = "character_id";
+    public static final String CREATE_CHARACTER = "create";
+
     public static final String ADD_EFFECT_DIALOG = "add_effect_frag";
+    public static final String RACE_FRAG = "race";
+    public static final String BACKGROUND_FRAG = "background";
+    public static final String LEVEL_UP_FRAG = "level_up";
+    public static final String BASE_STATS_FRAG = "base_stats";
+
     private final String MyPREFERENCES = "prefs";
     long id = -1;
     @Nullable
@@ -76,10 +86,17 @@ public class CharacterActivity extends AbstractBaseActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState != null) {
-            SelectEffectDialogFragment dpf = (SelectEffectDialogFragment) getSupportFragmentManager()
-                    .findFragmentByTag(ADD_EFFECT_DIALOG);
+            SelectEffectDialogFragment dpf = (SelectEffectDialogFragment) getSupportFragmentManager().findFragmentByTag(ADD_EFFECT_DIALOG);
             if (dpf != null) {
                 dpf.setListener(new SelectEffectDialogFragment.AddEffectToCharacterListener(this));
+            }
+
+            String[] wizardFrags = new String[]{RACE_FRAG, LEVEL_UP_FRAG, BACKGROUND_FRAG, BASE_STATS_FRAG};
+            for (String eachFrag : wizardFrags) {
+                ApplyAbstractComponentDialogFragment<?> wizardDialog = (ApplyAbstractComponentDialogFragment<?>) getSupportFragmentManager().findFragmentByTag(eachFrag);
+                if (wizardDialog != null) {
+                    wizardDialog.setDoneListener(new CreationWizardDoneListener());
+                }
             }
         }
 
@@ -200,7 +217,7 @@ public class CharacterActivity extends AbstractBaseActivity {
         characterSaver.execute();
     }
 
-    public class BackgroundCharacterSaver extends AsyncTask<Void, Void, Void> {
+    public class BackgroundCharacterSaver extends AsyncTask<Void, Void, String> {
         private final Runnable post;
 
         public BackgroundCharacterSaver(Runnable post) {
@@ -209,7 +226,7 @@ public class CharacterActivity extends AbstractBaseActivity {
 
         @Nullable
         @Override
-        protected Void doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             Serializer serializer = new Persister();
             OutputStream out;
             try {
@@ -230,6 +247,8 @@ public class CharacterActivity extends AbstractBaseActivity {
                 action = "Added";
             }
             row.classesString = character.getClassesString();
+            row.race_display_name = character.getDisplayRaceName();
+            row.hp = getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP());
             row.name = character.getName();
             row.xml = xml;
             row.last_updated = new Date();
@@ -240,12 +259,13 @@ public class CharacterActivity extends AbstractBaseActivity {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putLong(CHARACTER_ID, id);
             editor.apply();
-            return null;
+            return action;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            Toast.makeText(CharacterActivity.this, "Character '" + character.getName() + "' saved", Toast.LENGTH_SHORT).show();
+        protected void onPostExecute(String action) {
+            Toast.makeText(CharacterActivity.this, "Character '" + character.getName() + "' " + action, Toast.LENGTH_SHORT).show();
+            populateRecentCharacters();
             if (post != null) {
                 post.run();
             }
@@ -263,20 +283,96 @@ public class CharacterActivity extends AbstractBaseActivity {
         }
         // 2.   the passed intent
         if (savedId == -1 && getIntent().getExtras() != null) {
-            savedId = getIntent().getExtras().getLong(CHARACTER_ID);
+            savedId = getIntent().getExtras().getLong(CHARACTER_ID, -1);
+            if (savedId == -1) {
+                if (getIntent().getExtras().getBoolean(CREATE_CHARACTER)) {
+                    createNewCharacter();
+                    return;
+                }
+            }
         }
-
-        loadCharacter(savedId);
-
-    }
-
-    private void loadCharacter(long savedId) {
         // 3.   find the last viewed character
         if (savedId == -1) {
             SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             savedId = sharedpreferences.getLong(CHARACTER_ID, -1);
         }
 
+        if (savedId == -1) {
+            createNewCharacter();
+            return;
+        }
+        loadCharacter(savedId);
+
+    }
+
+    private void createNewCharacter() {
+        id = -1;
+        character = new Character();
+        for (Iterator<OnCharacterLoaded> iter = onCharacterLoadListeners.iterator(); iter.hasNext(); ) {
+            OnCharacterLoaded listener = iter.next();
+            listener.onCharacterLoaded(character);
+            iter.remove();
+        }
+        updateViews();
+        launchCreationWizard();
+    }
+
+    private void launchCreationWizard() {
+        if (character.getRace() == null) {
+            ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog();
+            dialog.setDoneListener(new CreationWizardDoneListener());
+
+            String doneLabelId = null;
+            if (character.getClassLevels().isEmpty()) {
+                doneLabelId = getString(R.string.add_class_level);
+            } else if (character.getBackground() == null) {
+                doneLabelId = getString(R.string.choose_a_background);
+            } else if (character.getBaseStats().isEmpty()) {
+                doneLabelId = getString(R.string.choose_base_stats);
+            }
+            dialog.setDoneLabel(doneLabelId);
+            dialog.show(getSupportFragmentManager(), RACE_FRAG);
+            return;
+        }
+        if (character.getClassLevels().isEmpty()) {
+            AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog();
+            dialog.setDoneListener(new CreationWizardDoneListener());
+
+            String doneLabelId = null;
+            if (character.getBackground() == null) {
+                doneLabelId = getString(R.string.choose_a_background);
+            } else if (character.getBaseStats().isEmpty()) {
+                doneLabelId = getString(R.string.choose_base_stats);
+            }
+            dialog.setDoneLabel(doneLabelId);
+            dialog.show(getSupportFragmentManager(), LEVEL_UP_FRAG);
+            return;
+        }
+        if (character.getBackground() == null) {
+            ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog();
+            dialog.setDoneListener(new CreationWizardDoneListener());
+
+            String doneLabelId = null;
+            if (character.getBaseStats().isEmpty()) {
+                doneLabelId = getString(R.string.choose_base_stats);
+            }
+            dialog.setDoneLabel(doneLabelId);
+            dialog.show(getSupportFragmentManager(), BACKGROUND_FRAG);
+            return;
+        }
+        if (character.getBaseStats().isEmpty()) {
+            BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog();
+            dialog.show(getSupportFragmentManager(), BASE_STATS_FRAG);
+            return;
+        }
+    }
+
+    private void loadCharacter(long savedId) {
+        if (savedId == -1) {
+            Toast.makeText(CharacterActivity.this, "Invalid Character id requested to load", Toast.LENGTH_SHORT).show();
+            createNewCharacter();
+            return;
+        }
         BackgroundCharacterLoader characterLoader = new BackgroundCharacterLoader();
         characterLoader.execute(savedId);
     }
@@ -288,8 +384,8 @@ public class CharacterActivity extends AbstractBaseActivity {
             long savedId = savedIds[0];
             if (savedId == -1) {
                 // otherwise if no character, launch either wizard (no characters in list) or character list to choose
-                publishProgress("Making a new Character");
-                character = new Character(true);
+                publishProgress("Should not get here!!");
+                character = new Character();
             } else {
                 id = savedId;
                 //publishProgress("Loading an existing Character id=" + id);
@@ -304,7 +400,7 @@ public class CharacterActivity extends AbstractBaseActivity {
                 populateRecentCharacters();
 
                 if (characterRow.xml == null || characterRow.xml.trim().length() == 0) {
-                    character = new Character(true);
+                    character = new Character();
                 } else {
 
                     Serializer serializer = new Persister();
@@ -317,7 +413,7 @@ public class CharacterActivity extends AbstractBaseActivity {
                     } catch (Exception e) {
                         publishProgress("Error loading a Character, making a new one for now: " + e.getMessage());
                         Log.e(CharacterActivity.class.getName(), "Error loading character", e);
-                        character = new Character(true);
+                        character = new Character();
                         //throw new RuntimeException("Error loading xml", e);
                     }
                 }
@@ -341,6 +437,7 @@ public class CharacterActivity extends AbstractBaseActivity {
                 iter.remove();
             }
             updateViews();
+            launchCreationWizard();
         }
     }
 
@@ -357,44 +454,6 @@ public class CharacterActivity extends AbstractBaseActivity {
         }
         onCharacterLoadListeners.add(onCharacterLoad);
     }
-//
-//    /**
-//     * A placeholder fragment containing a simple view.
-//     */
-//    public static class PlaceholderFragment extends AbstractSheetFragment {
-//        /**
-//         * The fragment argument representing the section number for this
-//         * fragment.
-//         */
-//        private static final String ARG_SECTION_NUMBER = "section_number";
-//
-//        public PlaceholderFragment() {
-//        }
-//
-//        /**
-//         * Returns a new instance of this fragment for the given section
-//         * number.
-//         */
-//        @NonNull
-//        public static PlaceholderFragment newInstance(int sectionNumber) {
-//            PlaceholderFragment fragment = new PlaceholderFragment();
-//            Bundle args = new Bundle();
-//            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-//            fragment.setArguments(args);
-//            return fragment;
-//        }
-//
-//        @Override
-//        public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
-//                                    Bundle savedInstanceState) {
-//            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-//            superCreateViews(rootView);
-//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-//            return rootView;
-//        }
-//
-//    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -460,16 +519,40 @@ public class CharacterActivity extends AbstractBaseActivity {
         }
     }
 
-    public void openCharacter(final long id) {
+
+    protected void openNewCharacter() {
+        closeNavigationDrawer();
         saveCharacter(new Runnable() {
             @Override
             public void run() {
                 Intent intent = getIntent();
-                intent.putExtra(CharacterActivity.CHARACTER_ID, id);
+                intent.putExtra(CharacterActivity.CHARACTER_ID, -1);
+                intent.putExtra(CharacterActivity.CREATE_CHARACTER, true);
 
-                loadCharacter(id);
-                closeNavigationDrawer();
+                createNewCharacter();
             }
         });
+    }
+
+
+    public void openCharacter(final long newId) {
+        closeNavigationDrawer();
+        saveCharacter(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = getIntent();
+                intent.putExtra(CharacterActivity.CHARACTER_ID, newId);
+
+                loadCharacter(newId);
+            }
+        });
+    }
+
+    private class CreationWizardDoneListener implements ApplyAbstractComponentDialogFragment.DoneListener {
+        @Override
+        public void onDone() {
+            launchCreationWizard();
+        }
+
     }
 }

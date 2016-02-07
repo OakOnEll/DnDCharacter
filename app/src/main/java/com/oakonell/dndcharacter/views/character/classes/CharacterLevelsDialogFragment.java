@@ -140,7 +140,12 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     private void updateView() {
-        classesTextView.setText(getCharacter().getClassesString());
+        final String classesString = getCharacter().getClassesString();
+        if (classesString == null) {
+            classesTextView.setText(R.string.no_class);
+        } else {
+            classesTextView.setText(classesString);
+        }
     }
 
     public static class DeleteClassViewHolder extends AbstractCharacterClassViewHolder {

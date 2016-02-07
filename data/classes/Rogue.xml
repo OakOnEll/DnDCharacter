@@ -109,7 +109,7 @@
         <choose name="expertise">
             <or name="skills">
                 <skills>
-                    <choose name="skills" number="2">
+                    <choose name="expert_skills" number="2">
                         <!-- TODO handle referencing existing skills (eg, including background) -->
                         <!-- TODO support this to increase skill to expert -->
                     </choose>

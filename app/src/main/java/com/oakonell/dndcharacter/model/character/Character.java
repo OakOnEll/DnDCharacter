@@ -151,72 +151,7 @@ public class Character {
     @Element(required = false)
     private SpeedType visibleSpeedType = SpeedType.WALK;
 
-    public Character(boolean defaults) {
-        name = "Feng";
-
-        baseStats.put(StatType.STRENGTH, 12);
-        baseStats.put(StatType.DEXTERITY, 13);
-        baseStats.put(StatType.CONSTITUTION, 14);
-        baseStats.put(StatType.INTELLIGENCE, 8);
-        baseStats.put(StatType.WISDOM, 10);
-        baseStats.put(StatType.CHARISMA, 15);
-/*
-        race = new CharacterRace();
-        race.setName("Half-Orc");
-        race.addModifier(StatType.STRENGTH, 2);
-        race.addModifier(StatType.CONSTITUTION, 1);
-        race.addSkill(SkillType.INTIMIDATION, Proficient.PROFICIENT);
-
-        Feature darkVision = new Feature();
-        darkVision.setName("Dark Vision");
-        darkVision.setDescription("Within 60' can see in dim light as bright, in darkness as dim(greyscale).");
-        race.addFeature(darkVision);
-
-        Feature savageAttacks = new Feature();
-        savageAttacks.setName("Savage Attacks");
-        savageAttacks.setDescription("On a critical melee attack, additional damage dice.");
-        race.addFeature(savageAttacks);
-
-        Feature relentlessEndurance = new Feature();
-        relentlessEndurance.setName("Relentless Endurance");
-        relentlessEndurance.setDescription("Once per long rest, when hit points reach 0, go to 1 hp.");
-        relentlessEndurance.setFormula("1");
-        relentlessEndurance.setRefreshesOn(RefreshType.LONG_REST);
-        race.addFeature(relentlessEndurance);
-
-
-        background = new CharacterBackground();
-        background.setName("Urchin");
-        background.addSkill(SkillType.SLEIGHT_OF_HAND, Proficient.PROFICIENT);
-        background.addSkill(SkillType.STEALTH, Proficient.PROFICIENT);
-        Feature fastTravel = new Feature();
-        fastTravel.setName("City Secrets");
-        fastTravel.setDescription("Can travel quickly in cities");
-        background.addFeature(fastTravel);
-
-        CharacterClass sorcerer = new CharacterClass();
-        sorcerer.setName("Sorcerer");
-        sorcerer.setLevel(1);
-        sorcerer.addSaveThrow(StatType.CHARISMA, Proficient.PROFICIENT);
-        sorcerer.addSaveThrow(StatType.CONSTITUTION, Proficient.PROFICIENT);
-        sorcerer.addSkill(SkillType.DECEPTION, Proficient.PROFICIENT);
-        sorcerer.addSkill(SkillType.PERSUASION, Proficient.PROFICIENT);
-
-        Feature tides = new Feature();
-        tides.setDescription("Can gain advantage on a roll");
-        tides.setName("Tides of Chaos");
-        tides.setFormula("1");
-        tides.setRefreshesOn(RefreshType.LONG_REST);
-        sorcerer.addFeature(tides);
-        sorcerer.setHitDie(6);
-        sorcerer.setHpRoll(6);
-
-        classes.add(sorcerer);*/
-    }
-
     public Character() {
-
-
     }
 
     /**
@@ -266,18 +201,21 @@ public class Character {
         return new SkillBlock(this, type);
     }
 
+    @Nullable
     public String getBackgroundName() {
-        if (background == null) return "(no background)";
+        if (background == null) return null;
         return background.getName();
     }
 
+    @Nullable
     public String getRaceName() {
-        if (race == null) return "(no race)";
+        if (race == null) return null;
         return race.getName();
     }
 
+    @Nullable
     public String getSubRaceName() {
-        if (race == null) return "(no race)";
+        if (race == null) return null;
         return race.getSubraceName();
     }
 
@@ -289,7 +227,7 @@ public class Character {
     public String getClassesString() {
         Map<String, Integer> classLevels = getClassLevels();
         if (classLevels.isEmpty()) {
-            return "[no class]";
+            return null;
         }
         StringBuilder builder = new StringBuilder();
         boolean first = true;
@@ -751,8 +689,9 @@ public class Character {
         return race.getSubRaceChoices();
     }
 
+    @Nullable
     public String getDisplayRaceName() {
-        if (race == null) return "[None]";
+        if (race == null) return null;
 
         String displayName;
         String mainRaceName = race.getName();
@@ -890,7 +829,11 @@ public class Character {
         // start with base stats
         final int value[] = new int[]{0};
         if (baseStats != null) {
-            value[0] = baseStats.get(type);
+            final Integer stat = baseStats.get(type);
+            // support character creation
+            if (stat != null) {
+                value[0] = stat;
+            }
         }
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {

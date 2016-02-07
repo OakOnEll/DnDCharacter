@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -15,14 +16,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.oakonell.dndcharacter.views.NoDefaultSpinner
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:prompt="@string/choose_race">
+            android:gravity="center_horizontal">
 
-        </com.oakonell.dndcharacter.views.NoDefaultSpinner>
+            <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                tools:prompt="@string/choose_race" />
+
+            <TextView
+                android:id="@+id/nameError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <ScrollView
             android:id="@+id/scrollView"

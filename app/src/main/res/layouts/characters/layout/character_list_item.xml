@@ -8,27 +8,58 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/name"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="Character Name" />
+        <TextView
+            android:id="@+id/name"
 
-    <TextView
-        android:id="@+id/classes"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:ellipsize="end"
-        android:lines="1"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        tools:text="Classes" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="Character Name" />
 
+        <TextView
+            android:id="@+id/hp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:maxLines="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="15 / 20" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/race"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="Race" />
+
+        <TextView
+            android:id="@+id/classes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="Classes" />
+    </LinearLayout>
 
 </LinearLayout>

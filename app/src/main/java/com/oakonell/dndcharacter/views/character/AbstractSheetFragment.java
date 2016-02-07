@@ -91,17 +91,36 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
             classes.setText("");
             return;
         }
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(character.getName());
+        String name = character.getName();
+        if (name == null || name.trim().length() == 0) {
+            name = getString(R.string.unnamed_character);
+        }
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(name);
         if (character_name_read_only == null) {
             // odd case of the activity in a bad state..?
             return;
         }
-        character_name_read_only.setText(character.getName());
-        character_name.setText(character.getName());
+        character_name_read_only.setText(name);
+        character_name.setText(name);
 
-        race.setText(character.getDisplayRaceName());
-        background.setText(character.getBackgroundName());
-        classes.setText(character.getClassesString());
+        final String displayRaceName = character.getDisplayRaceName();
+        if (displayRaceName == null) {
+            race.setText(R.string.no_race);
+        } else {
+            race.setText(displayRaceName);
+        }
+        final String backgroundName = character.getBackgroundName();
+        if (backgroundName == null) {
+            background.setText(R.string.no_background);
+        } else {
+            background.setText(backgroundName);
+        }
+        final String classesString = character.getClassesString();
+        if (classesString == null) {
+            classes.setText(R.string.no_class);
+        } else {
+            classes.setText(classesString);
+        }
 
         if (effectListAdapter != null) {
             effectListAdapter.reloadList(character);
@@ -213,7 +232,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
             public void onClick(View v) {
                 try {
                     ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog();
-                    dialog.show(getFragmentManager(), "background");
+                    dialog.show(getFragmentManager(), CharacterActivity.BACKGROUND_FRAG);
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     throw new RuntimeException("Unable to build ui", e);
@@ -225,7 +244,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
             public void onClick(View v) {
                 try {
                     ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog();
-                    dialog.show(getFragmentManager(), "race");
+                    dialog.show(getFragmentManager(), CharacterActivity.RACE_FRAG);
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Unable to build ui: \n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     throw new RuntimeException("Unable to build ui", e);
