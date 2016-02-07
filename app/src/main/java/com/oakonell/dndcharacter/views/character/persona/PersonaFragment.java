@@ -70,21 +70,6 @@ public class PersonaFragment extends AbstractSheetFragment {
         flaws = (EditText) rootView.findViewById(R.id.flaws);
         backstory = (EditText) rootView.findViewById(R.id.backstory);
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final RaceLooksDialogFragment dialog = RaceLooksDialogFragment.create();
-                dialog.show(getFragmentManager(), "race_looks_dialog");
-            }
-        };
-        rootView.findViewById(R.id.looks_group).setOnClickListener(onClickListener);
-//        age.setOnClickListener(onClickListener);
-//        height.setOnClickListener(onClickListener);
-//        weight.setOnClickListener(onClickListener);
-//        eyes.setOnClickListener(onClickListener);
-//        skin.setOnClickListener(onClickListener);
-//        hair.setOnClickListener(onClickListener);
-
         traits.addTextChangedListener(new AfterChangedWatcher() {
             @Override
             void textChanged(String string) {
@@ -149,6 +134,22 @@ public class PersonaFragment extends AbstractSheetFragment {
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
         Character character = getCharacter();
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final RaceLooksDialogFragment dialog = RaceLooksDialogFragment.create();
+                dialog.show(getFragmentManager(), "race_looks_dialog");
+            }
+        };
+        if (character.getRaceName() != null) {
+            rootView.findViewById(R.id.looks_group).setOnClickListener(onClickListener);
+        } else {
+            // TODO perhaps should launch the choose a race dialog, or maybe just an alert that race should be chosen
+            rootView.findViewById(R.id.looks_group).setOnClickListener(null);
+        }
+
+
         backstory.setText(character.getBackstory());
 
         final String specialtyString = character.getSpecialty();
