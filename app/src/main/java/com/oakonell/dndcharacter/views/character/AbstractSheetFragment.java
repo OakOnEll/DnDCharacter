@@ -44,13 +44,11 @@ import hugo.weaving.DebugLog;
  */
 public abstract class AbstractSheetFragment extends Fragment implements OnCharacterLoaded, CharacterChangedListener {
     public static final String ADD_EFFECT_DIALOG = "add_effect_dialog";
-    private EditText character_name;
+    private static final String NAME_FRAG = "name_frag";
     private TextView classes;
     private TextView race;
     private TextView background;
     private TextView character_name_read_only;
-    private Button changeName;
-    private Button cancelName;
     private RecyclerView effectList;
 
     private EffectsBarAdapter effectListAdapter;
@@ -83,7 +81,6 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         if (character == null) {
             Toast.makeText(getActivity(), "Update views with a null character!?", Toast.LENGTH_SHORT).show();
 
-            character_name.setText("");
             character_name_read_only.setText("");
 
             race.setText("");
@@ -101,7 +98,6 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
             return;
         }
         character_name_read_only.setText(name);
-        character_name.setText(name);
 
         final String displayRaceName = character.getDisplayRaceName();
         if (displayRaceName == null) {
@@ -149,20 +145,9 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
 
     protected void superCreateViews(@NonNull View rootView) {
         character_name_read_only = (TextView) rootView.findViewById(R.id.character_name_read);
-        character_name = (EditText) rootView.findViewById(R.id.character_name);
         classes = (TextView) rootView.findViewById(R.id.classes);
         race = (TextView) rootView.findViewById(R.id.race);
         background = (TextView) rootView.findViewById(R.id.background);
-        changeName = (Button) rootView.findViewById(R.id.change_name);
-        cancelName = (Button) rootView.findViewById(R.id.cancel);
-
-        character_name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                changeName.callOnClick();
-                return false;
-            }
-        });
 
         effectList = (RecyclerView) rootView.findViewById(R.id.effect_list);
         effect_group = (ViewGroup) rootView.findViewById(R.id.effect_group);
@@ -170,31 +155,6 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
 
     }
 
-    private void allowNameEdit(boolean b) {
-        int editVis = b ? View.VISIBLE : View.GONE;
-        int readOnlyVis = b ? View.GONE : View.VISIBLE;
-
-
-        character_name.selectAll();
-
-        if (b) {
-            character_name.requestFocus();
-//            // show keyboard
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-        } else {
-            character_name.clearFocus();
-//            // close keyboard
-            InputMethodManager in = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            in.hideSoftInputFromWindow(character_name.getApplicationWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-        }
-
-        character_name.setVisibility(editVis);
-        changeName.setVisibility(editVis);
-        cancelName.setVisibility(editVis);
-
-        character_name_read_only.setVisibility(readOnlyVis);
-    }
 
     @DebugLog
     @Override
@@ -202,28 +162,8 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
         character_name_read_only.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allowNameEdit(true);
-                character_name.requestFocus();
-            }
-        });
-
-        changeName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getCharacter().setName(character_name.getText().toString());
-                allowNameEdit(false);
-                getMainActivity().saveCharacter();
-                updateViews();
-                // a name change should update recent characters
-                ((AbstractBaseActivity) getActivity()).populateRecentCharacters();
-            }
-        });
-        cancelName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                character_name.setText(getCharacter().getName());
-                allowNameEdit(false);
-                updateViews();
+                NameDialog dialog = NameDialog.create();
+                dialog.show(getFragmentManager(), NAME_FRAG);
             }
         });
 

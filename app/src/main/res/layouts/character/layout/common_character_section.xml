@@ -54,31 +54,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             tools:text="Feng" />
 
-        <com.oakonell.dndcharacter.views.MyEditText
-            android:id="@+id/character_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:imeOptions="actionNext|actionDone"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:visibility="gone"
-            tools:text="Feng" />
-
-        <Button
-            android:id="@+id/change_name"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ok_button_label"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/cancel"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="X"
-            android:visibility="gone" />
 
         <TextView
             android:id="@+id/race"

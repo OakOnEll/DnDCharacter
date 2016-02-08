@@ -24,6 +24,8 @@ import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
+import com.oakonell.dndcharacter.views.character.ApplyAbstractComponentDialogFragment;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +39,8 @@ import java.util.Map;
  * Created by Rob on 12/15/2015.
  */
 public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
+    private static final String DONE_LABEL = "doneLabel";
+
     private Spinner stat_type;
     private TextView race_bonuses;
     private ViewGroup customGroup;
@@ -67,6 +71,13 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.base_stats, container);
+
+        if (savedInstanceState != null) {
+            doneLabel = savedInstanceState.getString(DONE_LABEL);
+        }
+        if (doneLabel != null) {
+            ((Button) view.findViewById(R.id.done)).setText(doneLabel);
+        }
 
         stat_type = (Spinner) view.findViewById(R.id.stat_type);
         race_bonuses = (TextView) view.findViewById(R.id.race_bonuses);
@@ -260,6 +271,12 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(DONE_LABEL, doneLabel);
+    }
+
+    @Override
     protected boolean onDone() {
         // update dialog that opened this one...
         Map<StatType, Integer> baseStats = new HashMap<>();
@@ -321,6 +338,10 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         Character character = getCharacter();
         character.setBaseStats(baseStats);
         character.setStatsType(statsType);
+
+        if (doneListener != null) {
+            doneListener.onDone();
+        }
 
         return super.onDone();
     }
@@ -513,6 +534,19 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                 break;
         }
     }
+
+
+    private ApplyAbstractComponentDialogFragment.DoneListener doneListener;
+    private String doneLabel;
+
+    public void setDoneLabel(String doneLabel) {
+        this.doneLabel = doneLabel;
+    }
+
+    public void setDoneListener(ApplyAbstractComponentDialogFragment.DoneListener listener) {
+        this.doneListener = listener;
+    }
+
 
     private static class BaseStatPointBuy {
         final StatType type;

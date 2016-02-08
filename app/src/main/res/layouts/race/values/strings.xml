@@ -11,4 +11,6 @@
     <string name="no_class">[No Class]</string>
     <string name="unnamed_character">[Unnamed]</string>
     <string name="choose_base_stats">Choose Stats</string>
+    <string name="racial_names_title">Common Racial Names</string>
+    <string name="choose_name">Choose a Name</string>
 </resources>
