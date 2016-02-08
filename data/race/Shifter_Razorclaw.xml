@@ -1,0 +1,27 @@
+<race>
+    <ref>UA, http://media.wizards.com/2015/downloads/dnd/UA_Eberron_v1.1.pdf</ref>
+    <name>Razorclaw</name>
+    <parent>Shifter</parent>
+
+    <feature>
+        <name>Shifting</name>
+        <shortDescription>On your turn, you can shift as a bonus action. Shifting lasts for 1 minute or until you end it on your turn as a bonus action.
+            While shifting, you gain temporary hit points equal to your level + your Constitution bonus (minimum of 1).
+            While shifting, you can make an unarmed strike as a bonus action. You can use your Dexterity for its attack roll and damage bonus, and this attack deals slashing damage.
+            You must finish a short or long rest before you can shift again.</shortDescription>
+        <refreshes>shortRest</refreshes>
+        <uses>1</uses>
+        <effect actionName="Shift">
+            <name>Shifted</name>
+            <shortDescription>You are shifted for 1 minute or until you end it on your turn as a bonus action.
+                While shifting, you gain temporary hit points equal to your level + your Constitution bonus (minimum of 1).
+                While shifting, you can make an unarmed strike as a bonus action. You can use your Dexterity for its attack roll and damage bonus, and this attack deals slashing damage.</shortDescription>
+            <ac>+1</ac>
+            <context>WEAPON_ATTACK,HIT_POINTS</context>
+        </effect>
+    </feature>
+
+    <stat>
+        <increase name="Dexterity">1</increase>
+    </stat>
+</race>

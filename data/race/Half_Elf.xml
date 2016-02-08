@@ -9,7 +9,7 @@
     <baseHeight>57</baseHeight>
     <baseWeight>110</baseWeight>
     <heightModifier>2d8</heightModifier>
-    <weightMultiplier>2s4</weightMultiplier>
+    <weightMultiplier>2d4</weightMultiplier>
     <skills>
         <choose name="skills" number="2"/>
     </skills>

@@ -1,0 +1,34 @@
+<race>
+    <ref>UA, http://media.wizards.com/2015/downloads/dnd/UA_Eberron_v1.1.pdf</ref>
+    <name>Warforged</name>
+    <size>medium</size>
+    <speed>30</speed>
+    <age></age>
+    <height>Warforged are generally broader and heavier than humans.</height>
+    <weight></weight>
+
+    <feature>
+        <name>Composite Plating</name>
+        <shortDescription>Your construction incorporates wood and metal, granting you a +1 bonus to Armor Class.</shortDescription>
+        <ac>+1</ac>
+        <description></description>
+        <context>ARMOR_CLASS</context>
+    </feature>
+    <feature>
+        <name>Living Construct</name>
+        <shortDescription>Even though you were constructed, you are a living creature. You are immune to disease. You do not need to eat or breathe, but you can ingest food and drink if you wish. Instead of sleeping, you enter an inactive state for 4 hours each day. You do not dream in this state; you are fully aware of your surroundings and notice approaching enemies and other events as normal.</shortDescription>
+        <context>SAVING_THROW,LONG_REST</context>
+        <description></description>
+    </feature>
+
+    <!-- shifting feature is 'pushed down' to the subraces, to easily specify the special feature there -->
+    <stat>
+        <increase name="Strength">1</increase>
+        <increase name="Constitution">1</increase>
+    </stat>
+    <languages>
+        <choose name="language"/>
+        <language>Common</language>
+    </languages>
+
+</race>

@@ -42,6 +42,9 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
         AddEffectToCharacterVisitor newMe = new AddEffectToCharacterVisitor(characterEffect);
         newMe.visit(element);
 
+        final String ac = XmlUtils.getElementText(element, "ac");
+        characterEffect.setAcFormula(ac);
+
         final String contextsString = XmlUtils.getElementText(element, "context");
         if (contextsString != null) {
             String[] contexts = contextsString.split(",");

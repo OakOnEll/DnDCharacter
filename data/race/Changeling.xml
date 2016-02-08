@@ -1,0 +1,32 @@
+<race>
+    <ref>UA, http://media.wizards.com/2015/downloads/dnd/UA_Eberron_v1.1.pdf</ref>
+    <name>Changeling</name>
+    <size>medium</size>
+    <speed>30</speed>
+
+    <height>Changelings are built much like humans, but a little leaner.</height>
+    <weight></weight>
+    <baseHeight>57</baseHeight>
+    <baseWeight>100</baseWeight>
+    <heightModifier>2d8</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <skills>
+        <proficiency>Deception</proficiency>
+    </skills>
+    <stat>
+        <increase name="Dexterity">1</increase>
+        <increase name="Charisma">1</increase>
+    </stat>
+
+    <feature>
+        <name>Shapechanger</name>
+        <shortDescription>As an action, you can polymorph into any humanoid of your size that you have seen, or back into your true form. However, your equipment does not change with you. If you die, you revert to your natural appearance.</shortDescription>
+        <description></description>
+    </feature>
+    <languages>
+        <choose name="language" number="2"/>
+        <language>Common</language>
+    </languages>
+
+</race>

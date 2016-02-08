@@ -585,7 +585,7 @@ public class Character {
 
     @NonNull
     public List<ArmorClassWithSource> deriveModifyingAcs() {
-        List<ArmorClassWithSource> result = new ArrayList<>();
+        final List<ArmorClassWithSource> result = new ArrayList<>();
 
         boolean wearingArmor = false;
         for (CharacterArmor each : getArmor()) {
@@ -596,33 +596,64 @@ public class Character {
                 }
             }
         }
+        final boolean isWearingArmor = wearingArmor;
 
         // multiple here will really just take the highest ?? at runtime
-        for (CharacterClass eachClass : classes) {
-            for (FeatureInfo each : eachClass.getFeatures(this)) {
-                if (each.getFeature().isBaseArmor()) continue;
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            @Override
+            void visitComponent(BaseCharacterComponent component) {
+                if (component.isBaseArmor()) return;
 
-
-                String acFormula = each.getFeature().getModifyingAcFormula();
-                if (acFormula == null) continue;
-
+                String acFormula = component.getModifyingAcFormula();
+                if (acFormula == null) return;
 
                 SimpleVariableContext variableContext = new SimpleVariableContext();
-                variableContext.setBoolean("armor", wearingArmor);
-                each.getSource().addExtraFormulaVariables(variableContext);
+                variableContext.setBoolean("armor", isWearingArmor);
+                component.addExtraFormulaVariables(variableContext);
 
                 int value = evaluateFormula(acFormula, variableContext);
-                ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each.getFeature());
+                ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, component);
                 result.add(featureAc);
 
-                String activeFormula = each.getFeature().getActiveFormula();
+                String activeFormula = component.getActiveFormula();
                 if (activeFormula != null) {
                     boolean isActive = evaluateBooleanFormula(activeFormula, variableContext);
                     featureAc.setIsEquipped(isActive);
+                } else {
+                    featureAc.setIsEquipped(true);
                 }
                 featureAc.isDisabled = true;
+
+
+//
+//                for (FeatureInfo each : component.getFeatures(Character.this)) {
+//                    if (each.getFeature().isBaseArmor()) continue;
+//
+//
+//                    String acFormula = each.getFeature().getModifyingAcFormula();
+//                    if (acFormula == null) continue;
+//
+//
+//                    SimpleVariableContext variableContext = new SimpleVariableContext();
+//                    variableContext.setBoolean("armor", isWearingArmor);
+//                    each.getSource().addExtraFormulaVariables(variableContext);
+//
+//                    int value = evaluateFormula(acFormula, variableContext);
+//                    ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each.getFeature());
+//                    result.add(featureAc);
+//
+//                    String activeFormula = each.getFeature().getActiveFormula();
+//                    if (activeFormula != null) {
+//                        boolean isActive = evaluateBooleanFormula(activeFormula, variableContext);
+//                        featureAc.setIsEquipped(isActive);
+//                    }
+//                    featureAc.isDisabled = true;
+//                }
             }
-        }
+        };
+        deriver.derive(this, "AC modifiers");
+//        for (CharacterClass eachClass : classes) {
+//        }
         // go through items
         for (CharacterArmor each : getArmor()) {
             if (each.isBaseArmor()) continue;
@@ -1899,7 +1930,7 @@ public class Character {
 
     public int getSpeed(final SpeedType type) {
         final int result[] = new int[]{0};
-        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver(true) {
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 result[0] += component.getSpeed(Character.this, type);
             }
@@ -1910,7 +1941,7 @@ public class Character {
 
     public int getInitiative() {
         final int result[] = new int[]{0};
-        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver(true) {
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull BaseCharacterComponent component) {
                 result[0] += component.getInitiativeMod(Character.this);
             }

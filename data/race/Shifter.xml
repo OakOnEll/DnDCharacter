@@ -1,0 +1,27 @@
+<race>
+    <ref>UA, http://media.wizards.com/2015/downloads/dnd/UA_Eberron_v1.1.pdf</ref>
+    <name>Shifter</name>
+    <size>medium</size>
+    <speed>30</speed>
+    <age></age>
+    <height>Shifters are about the same size as humans.</height>
+    <weight></weight>
+    <skills>
+        <proficiency>Perception</proficiency>
+    </skills>
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Your lycanthropic heritage grants you the ability to see in dark conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+
+    <!-- shifting feature is 'pushed down' to the subraces, to easily specify the special feature there -->
+    <stat>
+        <increase name="Dexterity">2</increase>
+    </stat>
+    <languages>
+        <language>Sylvan</language>
+        <language>Common</language>
+    </languages>
+
+</race>
