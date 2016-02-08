@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,11 +40,12 @@ import java.util.List;
  */
 public class NameDialog extends AbstractCharacterDialogFragment {
 
-    private TextView name;
+    private EditText name;
     RecyclerView nameTypes;
     private NameTypeAdapter nameTypeAdapter;
     private View rootView;
     private View namesGroup;
+    private TextView common_names_title;
 
     @NonNull
     public static NameDialog create() {
@@ -59,9 +61,10 @@ public class NameDialog extends AbstractCharacterDialogFragment {
     protected View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.name_dialog, container);
 
-        name = (TextView) rootView.findViewById(R.id.name);
+        name = (EditText) rootView.findViewById(R.id.name);
         nameTypes = (RecyclerView) rootView.findViewById(R.id.race_name_types);
         namesGroup = rootView.findViewById(R.id.race_names_group);
+        common_names_title = (TextView) rootView.findViewById(R.id.common_names_title);
         return rootView;
     }
 
@@ -72,6 +75,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
 
         String raceName = character.getRaceName();
         String subraceName = character.getSubRaceName();
+        String raceTitle = subraceName;
 
         Race subrace = new Select().from(Race.class).where("name = ? ", subraceName).executeSingle();
         Element raceElem = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
@@ -80,6 +84,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             Race race = new Select().from(Race.class).where("name = ? ", raceName).executeSingle();
             raceElem = XmlUtils.getDocument(race.getXml()).getDocumentElement();
             nameElems = XmlUtils.getChildElements(raceElem, "names");
+            raceTitle = raceName;
         }
 
         List<NameType> nameTypesList = new ArrayList<>();
@@ -87,6 +92,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         if (nameTypesList.isEmpty()) {
             namesGroup.setVisibility(View.GONE);
         } else {
+            common_names_title.setText(getString(R.string.racial_names_title, raceTitle));
             namesGroup.setVisibility(View.VISIBLE);
         }
 
@@ -170,16 +176,22 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         public void bind(NameDialog context, NameAdapter adapter, final String info) {
             name.setText(info);
             // append this to the current name in the dialog...
-            final TextView dialogNameTextView = adapter.dialog.name;
+            final EditText dialogNameTextView = adapter.dialog.name;
             name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO be more sophisticated, and insert at cursor location (possibly overwriting selected text), leaving cursor at end of insertion
-                    String currentName = dialogNameTextView.getText().toString();
-                    if (currentName.trim().length() != 0) {
-                        currentName += " ";
+                    String nameToPaste = info;
+                    int start = Math.max(dialogNameTextView.getSelectionStart(), 0);
+                    int end = Math.max(dialogNameTextView.getSelectionEnd(), 0);
+                    if (end == start && start != 0) {
+                        // possibly prepend a space
+                        if (dialogNameTextView.getText().charAt(Math.min(start, end) - 1) != ' ') {
+                            nameToPaste = " " + info;
+                        }
                     }
-                    dialogNameTextView.setText(currentName + info);
+                    dialogNameTextView.getText().replace(Math.min(start, end), Math.max(start, end),
+                            nameToPaste, 0, nameToPaste.length());
+
                 }
             });
         }
