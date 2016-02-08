@@ -301,6 +301,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             display.getSize(size);
             int width = size.x;
 
+            // TODO find the correct way to calculate the best number of columns
             if (textPx == 0) {
                 textPx = new TextView(context.getActivity()).getTextSize();
             }
