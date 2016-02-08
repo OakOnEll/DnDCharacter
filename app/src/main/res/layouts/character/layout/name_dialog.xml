@@ -29,7 +29,6 @@
                 tools:hint="Name" />
         </android.support.design.widget.TextInputLayout>
 
-<!--
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
@@ -50,14 +49,14 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/race_names"
+                    android:id="@+id/race_name_types"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    tools:listitem="@layout/race_name_item" />
+                    tools:listitem="@layout/race_name_type" />
             </LinearLayout>
         </ScrollView>
--->
+
         <include layout="@layout/dialog_cancel_done" />
     </LinearLayout>
 </RelativeLayout>

@@ -7,6 +7,11 @@
     <age>Dwarves mature at the same rate as humans,  but they’re considered young until they reach the age of 50. On average, they live about 350 years.</age>
     <height>Dwarves stand between 4 and 5 feet tall.</height>
     <weight>Dwarves average about 150 pounds.</weight>
+    <names>
+        <list typeLabel="Male Names">Alberich,Adrik</list>
+        <list typeLabel="Female Names">Amber,Arten</list>
+        <list typeLabel="Clan Names">Battlehammer,Balderk</list>
+    </names>
     <weapons>
         <proficiency>Battleaxe</proficiency>
         <proficiency>Handaxe</proficiency>
