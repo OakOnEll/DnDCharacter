@@ -1,0 +1,75 @@
+<background>
+    <ref>PHB p.136</ref>
+    <name>Outlander</name>
+    <skills>
+        <proficiency>Athletics</proficiency>
+        <proficiency>Survival</proficiency>
+    </skills>
+    <tools>
+        <choose name="instrumentProf" category="instrument"></choose>
+    </tools>
+    <languages>
+        <choose name="language"/>
+    </languages>
+    <equipment>
+        <item>a staff</item>
+        <item>hunting trap</item>
+        <item>trophy from an animal you killed</item>
+        <item>traveler's clothes</item>
+        <item>belt pouch</item>
+        <money>10gp</money>
+    </equipment>
+    <feature>
+        <name>Wanderer</name>
+        <shortDescription>You have an excellent memory for maps and geography, and you can always recall the general layout of terrain, settlements, and other features around you. In addition, you can find food and fresh water for yourself and up to five other people each day, provided that the land offers berries, small game, water, and so forth.</shortDescription>
+        <description></description>
+    </feature>
+    <specialties name="Origin">
+        <choose name="specialty">
+            <or name="forrester"><specialty>Forrester</specialty></or>
+            <or name="trapper"><specialty>Trapper</specialty></or>
+            <or name="homesteader"><specialty>Homesteader</specialty></or>
+            <or name="guide"><specialty>Guide</specialty></or>
+            <or name="exile"><specialty>Exile or outcast</specialty></or>
+            <or name="bounty"><specialty>Bounty hunter</specialty></or>
+            <or name="pilgrim"><specialty>Pilgrim</specialty></or>
+            <or name="nomad"><specialty>Tribal nomad</specialty></or>
+            <or name="hunter"><specialty>Hunter-gatherer</specialty></or>
+            <or name="marauder"><specialty>Tribal marauder</specialty></or>
+        </choose>
+    </specialties>
+    <personalityTraits>
+        <trait>I'm driven by a wanderlust that led me away from home.</trait>
+        <trait>I watch over my friends as if they were a litter of newborn pups.</trait>
+        <trait>I once ran twenty-five miles without stopping to warn to my clan of an approaching orc horde. I'd do it again if I had to.</trait>
+        <trait>I have a lesson for every situation, drawn from observing nature.</trait>
+        <trait>I place no stock in wealthy or well-mannered folk. Money and manners won't save you from a hungry owlbear.</trait>
+        <trait>I'm always picking things up, absently fiddling with them, and sometimes accidentally breaking them.</trait>
+        <trait>I feel far more comfortable around animals than people.</trait>
+        <trait>I was, in fact, raised by wolves.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Change. Life is like the seasons, in constant change, and we must change with it. (Chaotic)</ideal>
+        <ideal>Greater Good. It is each person's responsibility to make the most happiness for the whole tribe. (Good)</ideal>
+        <ideal>Honor. If I dishonor myself, I dishonor my whole clan. (Lawful)</ideal>
+        <ideal>Might. The strongest are meant to rule. (Evil)</ideal>
+        <ideal>Nature. The natural world is more important than all the constructs of civilization. (Neutral)</ideal>
+        <ideal>Glory. I must earn glory in battle, for myself and my clas. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>My family, clan, or tribe is the most important thing in my life, even when they are far from me.</bond>
+        <bond>An injury to the unspoiled wilderness of my home is an injury to me.</bond>
+        <bond>I will bring terrible wrath down on the evildoers who destroyed my homeland.</bond>
+        <bond>I am the last of my tribe, and it is up to me to ensure their names enter legend.</bond>
+        <bond>I suffer awful visions of a coming disaster and wil anything to prevent it.</bond>
+        <bond>It is my duty to provide children to sustain my tribe.</bond>
+    </bonds>
+    <flaws>
+        <flaw>I am too enamored of ale, wine, and other intoxicants.</flaw>
+        <flaw>There's no room for caution in a life lived to the fullest.</flaw>
+        <flaw>I remember every insult I've received and nurse a silent resentment toward anyone who's ever wronged me.</flaw>
+        <flaw>I am slow to trust members of other races, tribes, and societies.</flaw>
+        <flaw>Violence is my answer to almost any challenge.</flaw>
+        <flaw>Don't expect me to save those who can't save themselves. It is nature's way that the strong thrive and the weak perish.</flaw>
+    </flaws>
+</background>

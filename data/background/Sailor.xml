@@ -1,0 +1,62 @@
+<background>
+    <ref>PHB p.139</ref>
+    <name>Sailor</name>
+    <skills>
+        <proficiency>Athletics</proficiency>
+        <proficiency>Perception</proficiency>
+    </skills>
+    <tools>
+        <proficiency>Vehicle's (water)</proficiency>
+        <proficiency>Navigator's tools</proficiency>
+    </tools>
+    <equipment>
+        <item>belaying pin (club)</item>
+        <item>50 feet of silk rope</item>
+        <item>a set of common clothes</item>
+        <choose name="charm">
+            <or name="rabbitfoot"><item>Rabbit foot lucky charm</item></or>
+            <or name="stone"><item>Small stone with a hole in the center, lucky charm</item></or>
+        </choose>
+        <item>belt pouch</item>
+        <money>10gp</money>
+    </equipment>
+    <feature>
+        <name>Ship's passage</name>
+        <shortDescription>When you need to, you can secure free passage on a sailing ship for yourself and your adventuring companions. You might sail on the ship you served on, or another ship you have good relations with (perhaps one captained by a former crewmate). Because you're calling in a favor, you can't be certain of a schedule or soute that will meet your every need. Your DM will determine how long it takes to get where you need to go. In return for your free passage, you and your companions are expected to assist the crew during the voyage.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>My friends know they can rely on my, no matter what.</trait>
+        <trait>I work hard so that I cna play hard when the work is done.</trait>
+        <trait>I enjoy sailing into new ports and making new friends over a flagon of ale.</trait>
+        <trait>I stretch the truth for the sake of a good story.</trait>
+        <trait>To me, a tavern is a nice way to get to know a new city.</trait>
+        <trait>I never pass up a friendly wager.</trait>
+        <trait>My language is as foul as an otynugh nest.</trait>
+        <trait>I like a job well done, especially if I can convince someone else to do it.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Respect. The thing that keeps a ship together is mutual respect between captain and crew. (Good)</ideal>
+        <ideal>Fairness. We all do the work, so we all share in the rewards. (Lawful)</ideal>
+        <ideal>Freedom. The sea is freedom-- the freedom to go anywhere and do anything. (Chaotic)</ideal>
+        <ideal>Mastery. I'm a predator, and other ships on the sea are my prey. (Evil)</ideal>
+        <ideal>People. I'm committed to my crewmates, not to ideals. (Neutral)</ideal>
+        <ideal>Aspiration. Someday, I'll own my own ship and chart my own destiny. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>I'm loyal to my captain first, everything else second.</bond>
+        <bond>The ship is most important--crewmates and captains come and go.</bond>
+        <bond>I'll always remember my first ship.</bond>
+        <bond>In a harbor town, I have a paramour whose eyes nearly stole me from the sea.</bond>
+        <bond>I was cheated out of my fair share of the profits, and I want to get my due.</bond>
+        <bond>Ruthless pirates murdered my captain and crewmates, plundered our ship, and left me to die. Vengeance will be mine.</bond>
+    </bonds>
+    <flaws>
+        <flaw>I follow orders, even if I think they're wrong.</flaw>
+        <flaw>I'll say anything to avoid having to do extra work.</flaw>
+        <flaw>Once someone questions my courage, I never back down no matter how dangerous the situation.</flaw>
+        <flaw>Once I start drinking, it's hard for me to stop.</flaw>
+        <flaw>I can't help but pocket loose coins and other trinkets I come across.</flaw>
+        <flaw>My pride will probably lead to my destruction.</flaw>
+    </flaws>
+</background>

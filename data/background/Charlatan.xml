@@ -1,4 +1,5 @@
 <background>
+    <ref>PHB p.128</ref>
     <name>Charlatan</name>
     <skills>
         <proficiency>Deception</proficiency>
@@ -32,7 +33,8 @@
     </specialties>
     <feature>
         <name>False Identity</name>
-        <shortDescription>You have a second identity, replete with documents. You can also forge documents if you have seen the original handwriting.</shortDescription>
+        <shortDescription>You have created a second identity, that includes documents, established acquaintances and disguises that allow you to assume that persona.
+            Additionally, you can also forge documents including official papers and personal letters, as long as you have seen an example of the kind of document or the the handwriting you are trying to copy.</shortDescription>
         <description></description>
     </feature>
     <personalityTraits>

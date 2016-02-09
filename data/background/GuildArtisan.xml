@@ -1,0 +1,86 @@
+<background>
+    <ref>PHB p.132</ref>
+    <name>Guild Artisan</name>
+    <skills>
+        <proficiency>Insight</proficiency>
+        <proficiency>Persuasion</proficiency>
+    </skills>
+    <tools>
+        <choose name="toolProf" category="artisan tool"/>
+    </tools>
+    <languages>
+        <choose name="language"/>
+    </languages>
+    <equipment>
+        <choose name="tool" category="artisan tool"/>
+        <item>letter of introduction from your guild</item>
+        <item>set of traveler's clothes</item>
+        <item>belt pouch</item>
+        <money>15gp</money>
+    </equipment>
+    <feature>
+        <name>Guild Membership</name>
+        <shortDescription>As an established and respected member of a guild, you can rely on certain benefits that membership provides. Your fellow guild members will profide you with lodging and food if necessary, and pay for your funeral if needed. In some cities and towns, a guildhall offers a central place to meet other members of your profession, which can be a good place to meet potential patrons, allies, or hirelings.
+        Guilds often wield tremendous political power. If you are accused of a crime, your guild will support you if a good case can be made for your innocence, or the crime is justifiable. You can also gain access to powerful political figures through the guild, if you are a member in good standing. Such connections might require the donation of money or magic items to the guild's coffers.
+        You must pay 5gp poer month to the guild. If you miss payments, you must make up back dues to remain in the guild's good graces.</shortDescription>
+        <description></description>
+    </feature>
+    <specialties name="Guild Business">
+        <choose name="specialty">
+            <or name="alchemist"><specialty>Alchemists and apothecaries</specialty></or>
+            <or name="finesmith"><specialty>Armorers, locksmiths, and finesmiths</specialty></or>
+            <or name="brewer"><specialty>Brewers, distillers, and vinters</specialty></or>
+            <or name="calligrapher"><specialty>Calligraphers, scribes, and scriveners</specialty></or>
+            <or name="carpenter"><specialty>Carpenters, roofers, and plasterers</specialty></or>
+            <or name="mapmaker"><specialty>Cartographers, surveyors, and chart-makers</specialty></or>
+            <or name="cobbler"><specialty>Cobblers and shoemakers</specialty></or>
+            <or name="cook"><specialty>Cooks and bakers</specialty></or>
+            <or name="glassblower"><specialty>Glassblowers and glaziers</specialty></or>
+            <or name="jeweler"><specialty>Jewelers and gemcutters</specialty></or>
+            <or name="leatherworker"><specialty>Leatherworkers, skinners, and tanners</specialty></or>
+            <or name="mason"><specialty>Masons and stonecutters</specialty></or>
+            <or name="painter"><specialty>Painters, limners, and sign-makers</specialty></or>
+            <or name="potter"><specialty>Potters and tile-makers</specialty></or>
+            <or name="shipwright"><specialty>Shipwrights and sailmakers</specialty></or>
+            <or name="smith"><specialty>Smiths and metal-forgers</specialty></or>
+            <or name="tinker"><specialty>Tinkers, pewterers, and casters</specialty></or>
+            <or name="wagonmaker"><specialty>Wagon-makers and wheelwrights</specialty></or>
+            <or name="weaver"><specialty>Weavers and dyers</specialty></or>
+            <or name="carver"><specialty>Woodcarvers, coopers, and bowyers</specialty></or>
+        </choose>
+    </specialties>
+    <personalityTraits>
+        <trait>I believe that anythings worth doing is worth doing right. I can't help it--I'm a perfectionist.</trait>
+        <trait>I'm a snob who looks down on those who can't appreciate fine art.</trait>
+        <trait>I always want to know how things work and what makes people tick.</trait>
+        <trait>I'm full of witty aphorisms and have a proverbs for every occasion.</trait>
+        <trait>I'm rude to people who lack my commitment to hard work and fair play.</trait>
+        <trait>I like to talk at length about my profession.</trait>
+        <trait>I don't part with my money easily and will haggle tirelessly to get the best possible deal.</trait>
+        <trait>I'm well known for my work, and I want to make sure everyone appreciates it. I'm always taken aback when people haven't heard of me.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Community. It is the duty of all civilized people to strengthen the bonds of community and the security of civilization. (Lawful)</ideal>
+        <ideal>Generosity. My talents were given to me so that I could use them to benefit the world. (Good)</ideal>
+        <ideal>Freedom. Everyone should be free to pursue his or her own livelihood. (Chaotic)</ideal>
+        <ideal>Greed. I'm only in if for the money. (Evil)</ideal>
+        <ideal>People. I'm committed to the people I care about, not to ideals. (Neutral)</ideal>
+        <ideal>Aspiration. I work hard to be the best there is at my craft.</ideal>
+    </ideals>
+    <bonds>
+        <bond>The workshop where I learned my trade is the most important palce in the world to me.</bond>
+        <bond>I created a great work for someone, and then found them unworthy to receive it. I'm still looking for someone worthy.</bond>
+        <bond>I owe my guild a great debt for forging me into the person I am today.</bond>
+        <bond>I pursue wealth to secure someone's love.</bond>
+        <bond>One day I will return to my guild and prove that I am the greatest artisan of them all.</bond>
+        <bond>I will get revenge on the evil forces that destroyed my place of business and ruined my livelihood.</bond>
+    </bonds>
+    <flaws>
+        <flaw>I'll do anything to get my hands on something rare or priceless.</flaw>
+        <flaw>I'm quick to assume that someone is trying to cheat me.</flaw>
+        <flaw>No one must ever learn that I once stole money from guild coffers.</flaw>
+        <flaw>I'm never satisfied with what I have-- I always want more.</flaw>
+        <flaw>I would kill to acquire a noble title.</flaw>
+        <flaw>I'm horribly jealous of anyone who can outshine my handiwork. Everywhere I go, I'm surrounded by rivals.</flaw>
+    </flaws>
+</background>

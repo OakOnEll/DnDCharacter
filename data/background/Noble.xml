@@ -1,0 +1,60 @@
+<background>
+    <ref>PHB p.135</ref>
+    <name>Noble</name>
+    <skills>
+        <proficiency>History</proficiency>
+        <proficiency>Persuasion</proficiency>
+    </skills>
+    <tools>
+        <choose name="gaming set" category="gaming set"></choose>
+    </tools>
+    <languages>
+        <choose name="language"/>
+    </languages>
+    <equipment>
+        <item>set of fine clothes</item>
+        <item>a signet ring</item>
+        <item>a scroll of pedigree</item>
+        <item>purse</item>
+        <money>25gp</money>
+    </equipment>
+    <feature>
+        <name>Position of Privilege</name>
+        <shortDescription>Thanks to your noble birth, people are inclined to think the best of you. You are welcome in high society, and people assume you have the right to be wherever you are. The common folk make every effort to accommodate you and avoid your displeasure, and other people of high birth treat you as a member of the same social sphere. You can secure an audience with a local noble if you need to.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>My eloquent flattery makes everyone I talk to feel like the most wonderful and important person in the world.</trait>
+        <trait>The common folk love me for my kindness and generosity.</trait>
+        <trait>No one could doubt by looking at my regal bearing that I am a cut above the unwashed masses.</trait>
+        <trait>I take great pains to always look my best and follow the latest fashions.</trait>
+        <trait>I don't like to get my hands dirty, and I won't be caught dead in unsuitable accommodations.</trait>
+        <trait>Despite my noble birth, I don not place myself above other folk. We all have the same blood.</trait>
+        <trait>My favor, once lost, is lost forever.</trait>
+        <trait>If you do me an injury, I will crush you, ruin your name, and salt your fields.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Respect. Respect is due to me because of my position, but all people regardless of station deserve to be treated with dignity. (Good)</ideal>
+        <ideal>Responsibility. It is my duty to respect the authority of those above me, just as those below me must respect mine. (Lawful)</ideal>
+        <ideal>Independence. I must prove that I can handle myself without the coddling of my family. (Chaotic)</ideal>
+        <ideal>Power. If I can attain more power, no one will tell me what to do. (Evil)</ideal>
+        <ideal>Family. Blood runs thicker than water. (Any)</ideal>
+        <ideal>Noble Obligation. It is my duty to protect and care for the people beneath me. (Good)</ideal>
+    </ideals>
+    <bonds>
+        <bond>I will face any challenge to win the approval of my family.</bond>
+        <bond>My house's alliance with another noble family must be sustained at all costs.</bond>
+        <bond>Nothing is more important than the other members of my family.</bond>
+        <bond>I am in love with the heir of a family that my family despises.</bond>
+        <bond>My loyalty to my sovereign is unwavering.</bond>
+        <bond>The common folk must see me as a hero of the people.</bond>
+    </bonds>
+    <flaws>
+        <flaw>I secretly believe that everyone is beneath me.</flaw>
+        <flaw>I hide a truly scandalous secret that could ruin my family forever.</flaw>
+        <flaw>I too often hear veiled insults and threats in every word addressed to me, and I'm quick to anger.</flaw>
+        <flaw>I have an insatiable desire for carnal pleasures.</flaw>
+        <flaw>In fact, the world does revolve around me.</flaw>
+        <flaw>By my words and actions, I often bring shame to my family.</flaw>
+    </flaws>
+</background>

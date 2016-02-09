@@ -1,4 +1,5 @@
 <background>
+    <ref>PHB p.130</ref>
     <name>Entertainer</name>
     <skills>
         <proficiency>Acrobatics</proficiency>
@@ -35,7 +36,7 @@
     </specialties>
     <feature>
         <name>By Popular Demand</name>
-        <shortDescription>Can perform in exchange for modest or comfortable lodging.</shortDescription>
+        <shortDescription>You can always find a place to perform, usually in an inn or tavern but possibly with a circus, at a theater, or even in a noble's court. At such a place, you receive free lodging and food of a modest or comfortable standard (depending on the quality of the establishment), as long as you perform each night. In addition, your performance makes you something of a local figure. When strangers recognize you in a town where you have performed, the typically take a liking to you.</shortDescription>
         <description></description>
     </feature>
     <personalityTraits>

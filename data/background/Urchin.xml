@@ -1,4 +1,5 @@
 <background>
+    <ref>PHB p.141</ref>
     <name>Urchin</name>
     <skills>
         <proficiency>Sleight of Hand</proficiency>
@@ -10,6 +11,7 @@
     </tools>
     <equipment>
         <item>small knife</item>
+        <item>pet mouse</item>
         <item>map of city I grew up in</item>
         <item>Token to remember parents by</item>
         <item>set of common clothes</item>
@@ -18,7 +20,7 @@
     </equipment>
     <feature>
         <name>City Secrets</name>
-        <shortDescription>When not in combat can travel with party between two locations in a city twice as fast as your speed would normally allow.</shortDescription>
+        <shortDescription>You know the secret patterns and flow to cities and can find passages through the urban sprawl that others would miss. When you are not in combat, you (and companions you lead) can travel between any two locations in the city twice as fast as your speed would normally allow.</shortDescription>
         <description></description>
     </feature>
     <personalityTraits>

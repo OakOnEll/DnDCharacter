@@ -1,4 +1,5 @@
-	<background>
+<background>
+    <ref>PHB p.129</ref>
 		<name>Criminal</name>
 		<skills>
 			<proficiency>Deception</proficiency>
@@ -10,13 +11,13 @@
 		</tools>
 		<equipment>
 			<item>crowbar</item>
-			<item>common clothes (dark)</item>
+			<item>common clothes including a hood(dark)</item>
 			<item>belt pouch</item>
 			<money>5gp</money>
 		</equipment>
 		<feature>
 			<name>Criminal contact</name>
-			<shortDescription>You have a reliable and trustworthy contact who acts as your liaison to a network of other criminals. </shortDescription>
+			<shortDescription>You have a reliable and trustworthy contact who acts as your liaison to a network of other criminals. You know how to get messages to and from your contact, even over great distances; specifically, you know the local messengers, corrupt caravan masters, and seedy sailors who can deliver messages for you.</shortDescription>
 		</feature>
 		<specialties name="Criminal Specialty">
 		    <choose name="specialty">
@@ -64,4 +65,4 @@
 			<flaw>I turn tail and run when things look bad.</flaw>
 			<flaw>An innocent person is in prison for a crime that I committed. I’m okay with that.</flaw>
 		</flaws>
-	</background>
+</background>

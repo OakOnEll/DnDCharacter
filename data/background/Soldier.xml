@@ -1,0 +1,66 @@
+<background>
+    <ref>PHB p.140</ref>
+    <name>Soldier</name>
+    <skills>
+        <proficiency>Athletics</proficiency>
+        <proficiency>Intimidation</proficiency>
+    </skills>
+    <tools>
+        <proficiency>Vehicle's (land)</proficiency>
+        <choose name="gaming set" category="gaming set"></choose>
+    </tools>
+    <equipment>
+        <item>insignia of rank</item>
+        <choose name="trophy">
+            <or name="dagger"><item>Dagger from a fallen enemy</item></or>
+            <or name="blade"><item>Broken blade from a fallen enemy</item></or>
+            <or name="banner"><item>Piece of banner from a fallen enemy</item></or>
+        </choose>
+        <choose name="game">
+            <or name="dice"><item>Set of bone dice</item></or>
+            <or name="cards"><item>Deck of cards</item></or>
+        </choose>
+        <item>a set of common clothes</item>
+        <item>belt pouch</item>
+        <money>10gp</money>
+    </equipment>
+    <feature>
+        <name>Military Rank</name>
+        <shortDescription>You have a military rank from your career as a soldier. Soldiers loyal to your former military organization still recognize your authority and influence, and they defer to you if they are of a lower rank. You can invoke your rank to exert influence over other soldiers and requisition simple equipment or horses for temporary use. You can also usually gain access to friendly military encampments and fortresses where your rank is recognized.</shortDescription>
+        <description></description>
+    </feature>
+    <personalityTraits>
+        <trait>I'm always polite and respectful.</trait>
+        <trait>I'm haunted by memories of war. I can't get the images of violence out of my mind.</trait>
+        <trait>I've lost too many friends, and I'm slow to make new ones.</trait>
+        <trait>I'm full of inspiring and cautionary tales from my military experience relevant to almost every combat situation.</trait>
+        <trait>I can stare down a hell hound without flinching.</trait>
+        <trait>I enjoy being strong and like breaking things.</trait>
+        <trait>I have a crude sense of humor.</trait>
+        <trait>I face problems head-on. A simple, direct solution is the best path to success.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Greater Good. Our lot is to lay down our lives in defense of others. (Good)</ideal>
+        <ideal>Responsibility. I do what I must and obey just authority. (Lawful)</ideal>
+        <ideal>Independence. When people folow orders blindly, they embrace a kind of tyranny. (Chaotic)</ideal>
+        <ideal>Might. In life as in war, the stronger force wins. (Evil)</ideal>
+        <ideal>Live and Let Live. Ideals aren't worth killing over or going to war for. (Neutral)</ideal>
+        <ideal>Nation. My city, nation, or people are all that matter. (Any)</ideal>
+    </ideals>
+    <bonds>
+        <bond>I would lay down my life for the people I served with.</bond>
+        <bond>Someone saved my life on the battlefield. To this day, I will never leave a friend behind.</bond>
+        <bond>My honor is my life.</bond>
+        <bond>I'll never forget the crushing defeat my company suffered or the enemies who dealt it.</bond>
+        <bond>Those who fight beside me are those worth dying for.</bond>
+        <bond>I fight for those who cannot fight for themselves.</bond>
+    </bonds>
+    <flaws>
+        <flaw>The monstrous enemy we face in battle still leaves me quivering with fear.</flaw>
+        <flaw>I have little respect for anyone who is not a proven warrior.</flaw>
+        <flaw>I made a terrible mistake in battle that cost many lives-- and I would anything to keep that mistake secret.</flaw>
+        <flaw>My hatred of my enemies is blind and unreasoning.</flaw>
+        <flaw>I obey the law, even if the law causes misery.</flaw>
+        <flaw>I'd rather eat my armor than admit when I'm wrong.</flaw>
+    </flaws>
+</background>

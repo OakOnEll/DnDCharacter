@@ -1,0 +1,75 @@
+<background>
+    <ref>PHB p.134</ref>
+    <name>Hermit</name>
+    <skills>
+        <proficiency>Medicine</proficiency>
+        <proficiency>Religion</proficiency>
+    </skills>
+    <tools>
+        <proficiency>Herbalism kit</proficiency>
+    </tools>
+    <languages>
+        <choose name="language"/>
+    </languages>
+    <equipment>
+        <item>Scroll case stuffed full of notes from your studiesor prayers</item>
+        <item>a winter blanket</item>
+        <item>set of common clothes</item>
+        <item>herbalism kit</item>
+        <item>belt pouch</item>
+        <money>5gp</money>
+    </equipment>
+    <feature>
+        <name>Guild Membership</name>
+        <shortDescription>As an established and respected member of a guild, you can rely on certain benefits that membership provides. Your fellow guild members will profide you with lodging and food if necessary, and pay for your funeral if needed. In some cities and towns, a guildhall offers a central place to meet other members of your profession, which can be a good place to meet potential patrons, allies, or hirelings.
+        Guilds often wield tremendous political power. If you are accused of a crime, your guild will support you if a good case can be made for your innocence, or the crime is justifiable. You can also gain access to powerful political figures through the guild, if you are a member in good standing. Such connections might require the donation of money or magic items to the guild's coffers.
+        You must pay 5gp poer month to the guild. If you miss payments, you must make up back dues to remain in the guild's good graces.</shortDescription>
+        <description></description>
+    </feature>
+    <specialties name="Life of Seclusion">
+        <choose name="specialty">
+            <or name="enlightenment"><specialty>I was searching for spiritual enlightenment.</specialty></or>
+            <or name="commune"><specialty>I was partaking of communal living in accordance with the dictates of a religious order.</specialty></or>
+            <or name="exile"><specialty>I was exiled for a crime I didn't commit.</specialty></or>
+            <or name="event"><specialty>I retreated from society after a life-altering event.</specialty></or>
+            <or name="quiet"><specialty>I needed a quiet place to work on my art, literature, music, or manifesto.</specialty></or>
+            <or name="nature"><specialty>I needed to commune with nature, far from civilization.</specialty></or>
+            <or name="caretaker"><specialty>I was the caretaker of an ancient ruin or relic.</specialty></or>
+            <or name="pilgrim"><specialty>I was a pilgrim in search of a person, place, or relic of spiritual significance.</specialty></or>
+        </choose>
+    </specialties>
+    <personalityTraits>
+        <trait>I've been isolated for so long that I rarely speak, preferring gestures and the occasional grunt.</trait>
+        <trait>I am utterly serene, even in the face of disaster.</trait>
+        <trait>The leader of my community had something wise to say on every topic, and I am eager to share that wisdom.</trait>
+        <trait>I feel tremendous empathy for all who suffer.</trait>
+        <trait>I'm oblivious to etiquette and social expectations.</trait>
+        <trait>I connect everything that happens to me to a grand, cosmic plan.</trait>
+        <trait>I often get lost in my own thoughts and contemplation, becoming oblivious to my surroundings.</trait>
+        <trait>I am working on a grand philosophical theory and love sharing my ideas.</trait>
+    </personalityTraits>
+    <ideals>
+        <ideal>Greater Good. My gifts are meant to be shared with all, not used for my own benefit. (Good)</ideal>
+        <ideal>Logic. Emotions must not cloud our sense of what is right and true, or our logical thinking. (Lawful)</ideal>
+        <ideal>Free Thinking. Inquiry and curiosity are the pillars of progress. (Chaotic)</ideal>
+        <ideal>Power. Solitude and contemplation are paths toward mystical or magical power. (Evil)</ideal>
+        <ideal>Live and Let Live. Meddling in the affairs of others only causes trouble. (Neutral)</ideal>
+        <ideal>Self Knowledge. If you know yourself, there's nothing left to know.</ideal>
+    </ideals>
+    <bonds>
+        <bond>Nothing is more important to me than the other members of my hermitage, order, or association.</bond>
+        <bond>I entered into seclusion to hide from the ones who might still be hunting me. I must someday confront them.</bond>
+        <bond>I'm still seeking the enlightenment I pursued in my seclusion, and it still eludes me.</bond>
+        <bond>I entered into seclusion because I loved someone I could not have.</bond>
+        <bond>Should my discovery come to light, it could bring ruin to the world.</bond>
+        <bond>My isolation gave me great insights into a great evil that only I can destroy.</bond>
+    </bonds>
+    <flaws>
+        <flaw>Now that I've returned to the world, I enjoy its delights a little too much.</flaw>
+        <flaw>I harbor dark, bloodthirsty thoughts that my isolation and meditation failed to quell.</flaw>
+        <flaw>I am dogmatic in my thoughts and philosophy.</flaw>
+        <flaw>I let my need to win arguments overshadow friendships and harmony.</flaw>
+        <flaw>I'd risk too much to uncover a lost bit of knowledge.</flaw>
+        <flaw>I like keeping secrets and won't share them with anyone.</flaw>
+    </flaws>
+</background>
