@@ -13,4 +13,6 @@
     <string name="choose_base_stats">Choose Stats</string>
     <string name="racial_names_title">Common %s Names</string>
     <string name="choose_name">Choose a Name</string>
+    <string name="nonproficient_armor_effect_name">Not proficient in Armor</string>
+    <string name="nonproficient_armor_effect_description">Anyone can put on a suit of armor or strap a shield to an arm. Only those proficient in the armor\'s use know how to wear it effectively, however. Your class gives you proficiency with certain types of armor. If you wear armor that you lack proficiency with, you have disadvantage on any ability check, saving throw, or attack roll that involves Strength or Dexterity, and you can\'t cast spells.</string>
 </resources>

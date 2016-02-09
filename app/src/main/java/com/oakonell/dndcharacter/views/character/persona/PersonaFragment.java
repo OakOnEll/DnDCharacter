@@ -142,6 +142,8 @@ public class PersonaFragment extends AbstractSheetFragment {
                 dialog.show(getFragmentManager(), "race_looks_dialog");
             }
         };
+        // weird state
+        if(rootView ==null) return;
         if (character.getRaceName() != null) {
             rootView.findViewById(R.id.looks_group).setOnClickListener(onClickListener);
         } else {

@@ -159,6 +159,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     @DebugLog
     @Override
     public void onCharacterLoaded(@NonNull Character character) {
+        if (getActivity() == null) return;
         character_name_read_only.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

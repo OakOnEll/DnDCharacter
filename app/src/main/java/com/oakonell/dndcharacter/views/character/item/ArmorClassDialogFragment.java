@@ -99,11 +99,11 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     protected boolean onDone() {
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
             if (!each.isArmor()) continue;
-            ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
+            ((CharacterArmor) each.getSource()).setEquipped(getResources(), getCharacter(), each.isEquipped());
         }
         for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
             if (!each.isArmor()) continue;
-            ((CharacterArmor) each.getSource()).setEquipped(each.isEquipped());
+            ((CharacterArmor) each.getSource()).setEquipped(getResources(),getCharacter(), each.isEquipped());
         }
         return super.onDone();
     }

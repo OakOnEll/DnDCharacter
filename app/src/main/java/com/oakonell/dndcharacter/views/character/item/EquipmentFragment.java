@@ -488,7 +488,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     // TODO unequip any contraindicated armor? Or just notify the user?
                     // eg an effect for non-proficient armor use
-                    item.setEquipped(isChecked);
+                    item.setEquipped(context.getResources(), context.getCharacter(), isChecked);
                     // TODO update only views of any AC related fields
                     // if the delay is too low, the check animation is laggy
                     ac.postDelayed(new Runnable() {

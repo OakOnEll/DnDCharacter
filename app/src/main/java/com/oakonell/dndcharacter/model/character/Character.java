@@ -355,10 +355,18 @@ public class Character {
         return languages;
     }
 
+    public boolean isProficientWith(@NonNull CharacterArmor armor) {
+        return isProficientWithItem(ProficiencyType.ARMOR, armor);
+    }
+
     public boolean isProficientWith(@NonNull CharacterWeapon weapon) {
-        List<ToolProficiencyWithSource> list = deriveToolProficiencies(ProficiencyType.WEAPON);
-        String name = weapon.getName().toUpperCase();
-        String category = weapon.getCategory();
+        return isProficientWithItem(ProficiencyType.WEAPON, weapon);
+    }
+
+    protected boolean isProficientWithItem(ProficiencyType type, CharacterItem item) {
+        List<ToolProficiencyWithSource> list = deriveToolProficiencies(type);
+        String name = item.getName().toUpperCase();
+        String category = item.getCategory();
         if (category == null) {
             category = "";
         } else {
