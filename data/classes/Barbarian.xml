@@ -44,6 +44,7 @@
         <item>explorer's pack</item>
         <item count="4">Javelins</item>
     </equipment>
+    <multiclassPrerequisite>strength>=13</multiclassPrerequisite>
     <level value="1">
         <feature>
             <name>Rage</name>

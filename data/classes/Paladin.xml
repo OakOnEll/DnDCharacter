@@ -52,6 +52,7 @@
     <preparedSpellsFormula>max(charismaMod + classLevel/2,1)</preparedSpellsFormula>
     <spellCastingStat>charisma</spellCastingStat>
     <multiclassCasterFactor>1/2</multiclassCasterFactor>
+    <multiclassPrerequisite>strength>=13 AND charisma>=13 </multiclassPrerequisite>
     <level value="1">
         <feature>
             <name>Divine Sense</name>

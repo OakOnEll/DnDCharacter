@@ -49,6 +49,7 @@
     </equipment>
     <spellCastingStat>charisma</spellCastingStat>
     <multiclassCasterFactor>-1</multiclassCasterFactor>
+    <multiclassPrerequisite>charisma>=13</multiclassPrerequisite>
     <level value="1">
         <cantrips>
             <known>2</known>

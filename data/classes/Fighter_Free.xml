@@ -75,6 +75,7 @@
             </or>
         </choose>
     </equipment>
+    <multiclassPrerequisite>strength>=13 OR dexterity >=13</multiclassPrerequisite>
     <level value="1">
         <feature>
             <name>Second Wind</name>

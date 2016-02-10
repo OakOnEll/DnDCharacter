@@ -66,6 +66,8 @@
         </choose>
     </equipment>
     <spellCastingStat>charisma</spellCastingStat>
+    <multiclassCasterFactor>1</multiclassCasterFactor>
+    <multiclassPrerequisite>charisma>=13</multiclassPrerequisite>
     <level value="1">
         <subclass label="Sorcerous Origin" />
         <cantrips>

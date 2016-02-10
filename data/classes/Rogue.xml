@@ -87,7 +87,7 @@
             </or>
         </choose>
     </equipment>
-
+    <multiclassPrerequisite>dexterity >=13</multiclassPrerequisite>
     <level value="1">
         <feature>
             <name>Sneak Attack</name>
@@ -102,9 +102,7 @@
             <proficiency category="light armor"></proficiency>
         </armor>
         <!-- one skill... TODO support conditional/multiclass properties -->
-        <tools>
-            <proficiency>thieves' tools</proficiency>
-        </tools>
+
 
         <choose name="expertise">
             <or name="skills">
@@ -114,7 +112,9 @@
                         <!-- TODO support this to increase skill to expert -->
                     </choose>
                 </skills>
-            </or>
+                <tools>
+                    <proficiency>thieves' tools</proficiency>
+                </tools>            </or>
             <or name="tools">
                 <skills>
                     <choose name="tools" number="1">

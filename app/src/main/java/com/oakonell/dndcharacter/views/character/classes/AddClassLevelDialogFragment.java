@@ -1,12 +1,17 @@
 package com.oakonell.dndcharacter.views.character.classes;
 
 import android.support.annotation.NonNull;
+import android.view.ViewGroup;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
+import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
+import com.oakonell.dndcharacter.utils.XmlUtils;
+
+import org.w3c.dom.Element;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +37,21 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
         Integer currentLevel = getCharacter().getClassLevels().get(getModel().getName());
         if (currentLevel == null) currentLevel = 0;
         classLevel = currentLevel + 1;
+
+        isValidClass = true;
+
+        if (classLevel == 1 && !getCharacter().getClassLevels().isEmpty()) {
+            // used to prevent choosing a new multiclass that fails the new class multiclass' prerequisite
+            MulticlassFailureInfo info = getMulticlassFailure();
+            if (info != null) {
+                setClassError(getString(R.string.cannot_multiclass_to, info.className, info.formula), true);
+                isValidClass = false;
+            } else {
+                setClassError(null, false);
+            }
+        } else {
+            setClassError(null, false);
+        }
     }
 
     @Override
@@ -71,6 +91,53 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
 
     protected boolean canModifySubclass() {
         return true;
+    }
+
+    boolean isValidClass = true;
+
+    @Override
+    protected boolean validate(@NonNull ViewGroup dynamicView, int pageIndex) {
+        if (!isValidClass) {
+            shakeClassError();
+        }
+        return super.validate(dynamicView, pageIndex) && isValidClass;
+    }
+
+    @Override
+    protected boolean allowMainComponentChange() {
+        List<CharacterClass> classes = getCharacter().getClasses();
+        if (classes.isEmpty()) return true;
+
+        // Used to prevent multiclassing FROM the current class, when current class's prerequisite not met
+        if (getModel() != null && getCurrentName().equals(getModel().getName())) {
+            MulticlassFailureInfo info = getMulticlassFailure();
+            if (info != null) {
+                setClassError(getString(R.string.cannot_multiclass_from, info.className, info.formula), false);
+                return false;
+            }
+        }
+        return super.allowMainComponentChange();
+    }
+
+    private MulticlassFailureInfo getMulticlassFailure() {
+        AClass model = getModel();
+        if (model == null) return null;
+        final Element root = XmlUtils.getDocument(model.getXml()).getDocumentElement();
+        String formula = XmlUtils.getElementText(root, "multiclassPrerequisite");
+        if (formula != null && formula.trim().length() > 0) {
+            if (!getCharacter().evaluateBooleanFormula(formula, null)) {
+                MulticlassFailureInfo failure = new MulticlassFailureInfo();
+                failure.className = model.getName();
+                failure.formula = formula;
+                return failure;
+            }
+        }
+        return null;
+    }
+
+    private static class MulticlassFailureInfo {
+        String formula;
+        String className;
     }
 
 }

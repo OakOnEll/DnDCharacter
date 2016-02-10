@@ -1004,7 +1004,7 @@ public class Character {
             StatBlock block = getStatBlock(each);
             int mod = block.getModifier();
             variableContext.setNumber(each.name().toLowerCase() + "Mod", mod);
-            variableContext.setNumber(each.name().toLowerCase() + "Value", block.getValue());
+            variableContext.setNumber(each.name().toLowerCase() , block.getValue());
         }
         variableContext.setNumber("level", getClasses().size());
         return variableContext;

@@ -60,6 +60,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
     @Nullable
     private EditText hpRoll;
     private int maxHp;
+    private TextView classErrorTextView;
 
     @Nullable
     protected AClass getSubClass() {
@@ -115,6 +116,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
             Page<AClass> main = new Page<AClass>() {
                 @Override
                 public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                    addClassErrorTextView(dynamic);
                     addClassLevelTextView(dynamic);
 
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(false);
@@ -140,6 +142,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
             Page<AClass> level = new Page<AClass>() {
                 @Override
                 public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                    addClassErrorTextView(dynamic);
                     addClassLevelTextView(dynamic);
 
                     Element subclassElement = XmlUtils.getElement(levelElement, "subclass");
@@ -160,7 +163,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     }
 
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(false);
-                    final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, getMainActivity(),dynamic, backgroundChoices);
+                    final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, getMainActivity(), dynamic, backgroundChoices);
 
                     if (spellCastingStat != null) {
 //                        TextView text = new TextView(parent.getContext());
@@ -216,7 +219,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
                             AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(false);
 
-                            subclassChooseMDs = visitor.appendToLayout(subclassLevelElement, getMainActivity(),dynamic, savedChoices);
+                            subclassChooseMDs = visitor.appendToLayout(subclassLevelElement, getMainActivity(), dynamic, savedChoices);
                             return new RootChoiceMDNode();
                         }
                     };
@@ -247,7 +250,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     }
                     final Element root = XmlUtils.getDocument(in).getDocumentElement();
                     AbstractComponentViewCreator visitor = new AbilityScoreImprovementViewCreator();
-                    return visitor.appendToLayout(root, getMainActivity(),dynamic, backgroundChoices);
+                    return visitor.appendToLayout(root, getMainActivity(), dynamic, backgroundChoices);
                 }
             };
             pages.add(asiOrFeat);
@@ -411,6 +414,40 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         TextView textView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.class_level_text, dynamic, false);
         textView.setText(getResources().getString(R.string.level_n, getClassLevel()));
         dynamic.addView(textView);
+    }
+
+    private void addClassErrorTextView(@NonNull ViewGroup dynamic) {
+        classErrorTextView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.class_error_text, dynamic, false);
+        dynamic.addView(classErrorTextView);
+        setClassError(classErrorText, classErrorError);
+    }
+
+    String classErrorText;
+    boolean classErrorError;
+
+    protected void setClassError(String text, boolean error) {
+        classErrorText = text;
+        classErrorError = error;
+        if (classErrorTextView == null) return;
+
+        if (text == null) {
+            classErrorTextView.setVisibility(View.GONE);
+            classErrorTextView.setText("");
+        } else {
+            classErrorTextView.setVisibility(View.VISIBLE);
+            if (error) {
+                classErrorTextView.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+            } else {
+                classErrorTextView.setTextColor(getResources().getColor(android.R.color.black));
+            }
+            classErrorTextView.setText(text);
+        }
+    }
+
+    protected void shakeClassError() {
+        if (classErrorTextView == null) return;
+        Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+        classErrorTextView.startAnimation(shake);
     }
 
     protected abstract int getCurrentHpRoll();
