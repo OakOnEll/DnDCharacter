@@ -32,6 +32,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -77,9 +78,13 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         String subraceName = character.getSubRaceName();
         String raceTitle = subraceName;
 
-        Race subrace = new Select().from(Race.class).where("name = ? ", subraceName).executeSingle();
-        Element raceElem = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
-        List<Element> nameElems = XmlUtils.getChildElements(raceElem, "names");
+        Element raceElem ;
+        List<Element> nameElems = Collections.emptyList();
+        if (subraceName != null) {
+            Race subrace = new Select().from(Race.class).where("name = ? ", subraceName).executeSingle();
+            raceElem = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
+            nameElems = XmlUtils.getChildElements(raceElem, "names");
+        }
         if (nameElems.isEmpty()) {
             Race race = new Select().from(Race.class).where("name = ? ", raceName).executeSingle();
             raceElem = XmlUtils.getDocument(race.getXml()).getDocumentElement();
