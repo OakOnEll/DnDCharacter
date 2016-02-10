@@ -23,9 +23,9 @@ genericExpression:
 
 // Boolean expressions
        | K_NOT genericExpression                                                                     #logicalNot
+       | genericExpression (K_EQUALS | K_NOT_EQUALS | K_GT | K_GTE | K_LT | K_LTE) genericExpression #logicalCompare
        | genericExpression K_AND genericExpression                                                   #logicalAnd
        | genericExpression K_OR genericExpression                                                    #logicalOr
-       | genericExpression (K_EQUALS | K_NOT_EQUALS | K_GT | K_GTE | K_LT | K_LTE) genericExpression #logicalCompare
        | boolean_literal                                                                             #logicalLiteral
 
 // low order precedence

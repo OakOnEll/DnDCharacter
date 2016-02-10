@@ -683,38 +683,38 @@ public class ExpressionParser extends Parser {
 
 					case 6:
 						{
-						_localctx = new LogicalAndContext(new GenericExpressionContext(_parentctx, _parentState, _p));
+						_localctx = new LogicalCompareContext(new GenericExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_genericExpression);
 						setState(46);
 						if (!(5 >= _localctx._p)) throw new FailedPredicateException(this, "5 >= $_p");
-						setState(47); match(K_AND);
+						setState(47);
+						_la = _input.LA(1);
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << K_NOT_EQUALS) | (1L << K_EQUALS) | (1L << K_LTE) | (1L << K_LT) | (1L << K_GTE) | (1L << K_GT))) != 0)) ) {
+						_errHandler.recoverInline(this);
+						}
+						consume();
 						setState(48); genericExpression(6);
 						}
 						break;
 
 					case 7:
 						{
-						_localctx = new LogicalOrContext(new GenericExpressionContext(_parentctx, _parentState, _p));
+						_localctx = new LogicalAndContext(new GenericExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_genericExpression);
 						setState(49);
 						if (!(4 >= _localctx._p)) throw new FailedPredicateException(this, "4 >= $_p");
-						setState(50); match(K_OR);
+						setState(50); match(K_AND);
 						setState(51); genericExpression(5);
 						}
 						break;
 
 					case 8:
 						{
-						_localctx = new LogicalCompareContext(new GenericExpressionContext(_parentctx, _parentState, _p));
+						_localctx = new LogicalOrContext(new GenericExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_genericExpression);
 						setState(52);
 						if (!(3 >= _localctx._p)) throw new FailedPredicateException(this, "3 >= $_p");
-						setState(53);
-						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << K_NOT_EQUALS) | (1L << K_EQUALS) | (1L << K_LTE) | (1L << K_LT) | (1L << K_GTE) | (1L << K_GT))) != 0)) ) {
-						_errHandler.recoverInline(this);
-						}
-						consume();
+						setState(53); match(K_OR);
 						setState(54); genericExpression(4);
 						}
 						break;
@@ -955,14 +955,14 @@ public class ExpressionParser extends Parser {
 		"\2\2\2\37\32\3\2\2\2\37\33\3\2\2\2\37\34\3\2\2\2\37\35\3\2\2\2\37\36\3"+
 		"\2\2\2 A\3\2\2\2!\"\6\3\2\3\"#\7\4\2\2#@\5\4\3\2$%\6\3\3\3%&\7\5\2\2&"+
 		"@\5\4\3\2\'(\6\3\4\3()\7\26\2\2)@\5\4\3\2*+\6\3\5\3+,\t\3\2\2,@\5\4\3"+
-		"\2-.\6\3\6\3./\t\4\2\2/@\5\4\3\2\60\61\6\3\7\3\61\62\7\17\2\2\62@\5\4"+
-		"\3\2\63\64\6\3\b\3\64\65\7\16\2\2\65@\5\4\3\2\66\67\6\3\t\3\678\t\5\2"+
-		"\28@\5\4\3\29:\6\3\n\3:;\7\7\2\2;<\5\4\3\2<=\7\6\2\2=>\5\4\3\2>@\3\2\2"+
-		"\2?!\3\2\2\2?$\3\2\2\2?\'\3\2\2\2?*\3\2\2\2?-\3\2\2\2?\60\3\2\2\2?\63"+
-		"\3\2\2\2?\66\3\2\2\2?9\3\2\2\2@C\3\2\2\2A?\3\2\2\2AB\3\2\2\2B\5\3\2\2"+
-		"\2CA\3\2\2\2DE\7\34\2\2EF\7\t\2\2FK\5\4\3\2GH\7\b\2\2HJ\5\4\3\2IG\3\2"+
-		"\2\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2\2LN\3\2\2\2MK\3\2\2\2NO\7\n\2\2O\7\3"+
-		"\2\2\2PQ\7\34\2\2Q\t\3\2\2\2RS\t\6\2\2S\13\3\2\2\2\6\37?AK";
+		"\2-.\6\3\6\3./\t\4\2\2/@\5\4\3\2\60\61\6\3\7\3\61\62\t\5\2\2\62@\5\4\3"+
+		"\2\63\64\6\3\b\3\64\65\7\17\2\2\65@\5\4\3\2\66\67\6\3\t\3\678\7\16\2\2"+
+		"8@\5\4\3\29:\6\3\n\3:;\7\7\2\2;<\5\4\3\2<=\7\6\2\2=>\5\4\3\2>@\3\2\2\2"+
+		"?!\3\2\2\2?$\3\2\2\2?\'\3\2\2\2?*\3\2\2\2?-\3\2\2\2?\60\3\2\2\2?\63\3"+
+		"\2\2\2?\66\3\2\2\2?9\3\2\2\2@C\3\2\2\2A?\3\2\2\2AB\3\2\2\2B\5\3\2\2\2"+
+		"CA\3\2\2\2DE\7\34\2\2EF\7\t\2\2FK\5\4\3\2GH\7\b\2\2HJ\5\4\3\2IG\3\2\2"+
+		"\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2\2LN\3\2\2\2MK\3\2\2\2NO\7\n\2\2O\7\3\2"+
+		"\2\2PQ\7\34\2\2Q\t\3\2\2\2RS\t\6\2\2S\13\3\2\2\2\6\37?AK";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -216,4 +217,40 @@ public class ExpressionTest {
         Expression<String> expression = Expression.parse(formula, ExpressionType.STRING_TYPE, emptyContext());
         return expression.evaluate();
     }
+
+    @Test
+    public void testInequalityAndLogical() {
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        variableContext.setNumber("strength", 13);
+        variableContext.setNumber("dexterity", 8);
+        Expression<Boolean> expression = Expression.parse("strength>=13 AND dexterity >=13", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertFalse(expression.evaluate());
+
+        variableContext.setNumber("strength", 8);
+        variableContext.setNumber("dexterity", 13);
+        assertFalse(expression.evaluate());
+
+        variableContext.setNumber("strength", 13);
+        variableContext.setNumber("dexterity", 13);
+        assertTrue(expression.evaluate());
+    }
+
+
+    @Test
+    public void testInequalityOrLogical() {
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        variableContext.setNumber("strength", 8);
+        variableContext.setNumber("dexterity", 8);
+        Expression<Boolean> expression = Expression.parse("strength>=13 OR dexterity >=13", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertFalse(expression.evaluate());
+
+        variableContext.setNumber("strength", 8);
+        variableContext.setNumber("dexterity", 13);
+        assertTrue(expression.evaluate());
+
+        variableContext.setNumber("strength", 13);
+        variableContext.setNumber("dexterity", 8);
+        assertTrue(expression.evaluate());
+    }
+
 }
