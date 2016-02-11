@@ -168,31 +168,33 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         String spellsKnown = XmlUtils.getElementText(element, "known");
         charClass.setSpellsKnownFormula(spellsKnown);
         Element slotsElem = XmlUtils.getElement(element, "slots");
-        List<Element> spellLevelElems = XmlUtils.getChildElements(slotsElem, "level");
-        Map<Integer, String> levelFormulas = new HashMap<>();
-        for (Element each : spellLevelElems) {
-            String levelString = each.getAttribute("value");
-            int level = Integer.parseInt(levelString);
-            levelFormulas.put(level, each.getTextContent());
-        }
-        charClass.setSpellLevelSlotFormulas(levelFormulas);
-        String refreshString = XmlUtils.getElementText(slotsElem, "refreshes");
-        RefreshType refreshType = null;
-        if (refreshString != null) {
-            refreshString = refreshString.toLowerCase();
-            refreshString = refreshString.replaceAll(" ", "");
-            switch (refreshString) {
-                case "rest": // fall through
-                case "shortrest":
-                    refreshType = RefreshType.SHORT_REST;
-                    break;
-                case "longrest":
-                    refreshType = RefreshType.LONG_REST;
-                    break;
-                default:
-                    throw new RuntimeException("Unknown refresh string '" + refreshString + "' on class " + charClass.getName() + ", spell slots");
+        if (slotsElem != null) {
+            List<Element> spellLevelElems = XmlUtils.getChildElements(slotsElem, "level");
+            Map<Integer, String> levelFormulas = new HashMap<>();
+            for (Element each : spellLevelElems) {
+                String levelString = each.getAttribute("value");
+                int level = Integer.parseInt(levelString);
+                levelFormulas.put(level, each.getTextContent());
             }
-            charClass.setSpellSlotRefresh(refreshType);
+            charClass.setSpellLevelSlotFormulas(levelFormulas);
+            String refreshString = XmlUtils.getElementText(slotsElem, "refreshes");
+            RefreshType refreshType = null;
+            if (refreshString != null) {
+                refreshString = refreshString.toLowerCase();
+                refreshString = refreshString.replaceAll(" ", "");
+                switch (refreshString) {
+                    case "rest": // fall through
+                    case "shortrest":
+                        refreshType = RefreshType.SHORT_REST;
+                        break;
+                    case "longrest":
+                        refreshType = RefreshType.LONG_REST;
+                        break;
+                    default:
+                        throw new RuntimeException("Unknown refresh string '" + refreshString + "' on class " + charClass.getName() + ", spell slots");
+                }
+                charClass.setSpellSlotRefresh(refreshType);
+            }
         }
 
 
