@@ -100,7 +100,7 @@
         </or>
         <or name="aquatic">
             <feature>
-                <!-- TODO make speed have an attribute for type, make speed dialog and context -->
+                <speed type="swim">30</speed>
                 <name>Swim</name>
                 <shortDescription>You have a swimming speed of 30 feet.</shortDescription>
                 <context></context>

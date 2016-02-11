@@ -2,6 +2,7 @@
     <ref>EE p.9</ref>
     <name>Water Genasi</name>
     <parent>Genasi</parent>
+    <speed type="swim">30</speed>
     <stat>
         <increase name="Wisdom">1</increase>
     </stat>
@@ -20,7 +21,6 @@
         <context>HIT_POINTS,SAVING_THROW</context>
     </feature>
     <feature>
-        <!-- TODO make speed have an attribute for type, make speed dialog and context -->
         <name>Swim</name>
         <shortDescription>You have a swimming speed of 30 feet.</shortDescription>
         <context></context>
