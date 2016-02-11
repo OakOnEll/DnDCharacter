@@ -155,6 +155,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             if (actionName == null || actionName.trim().length() == 0) {
                 actionName = effect.getName();
             }
+            String actionDescription = XmlUtils.getElementText(effectElement, "actionDescription");
+            effect.setActionDescription(actionDescription);
             effect.setAction(actionName);
             feature.addEffect(effect);
             effect.setSource(component.getSourceString(context.getResources()) + "[" + feature.getSourceString(context.getResources()) + "]");

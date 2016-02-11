@@ -149,6 +149,7 @@ public class Feature extends AbstractContextualComponent {
             this.name = name;
         }
 
+
         public String getDescription() {
             return description;
         }
@@ -167,6 +168,11 @@ public class Feature extends AbstractContextualComponent {
             // do nothing
         }
 
+        @Override
+        public String getActionDescription() {
+            return getDescription();
+        }
+
         public void setCost(int cost) {
             this.cost = cost;
         }
@@ -178,6 +184,7 @@ public class Feature extends AbstractContextualComponent {
 
         @Element(required = false)
         int cost;
+        private String actionDescription;
 
         public void setCost(int cost) {
             this.cost = cost;
@@ -198,6 +205,15 @@ public class Feature extends AbstractContextualComponent {
         @Override
         public void applyToCharacter(@NonNull Character character) {
             character.addEffect(this);
+        }
+
+        @Override
+        public String getActionDescription() {
+            return actionDescription;
+        }
+
+        public void setActionDescription(String actionDescription) {
+            this.actionDescription = actionDescription;
         }
     }
 }

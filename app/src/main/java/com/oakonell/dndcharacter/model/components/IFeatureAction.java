@@ -11,4 +11,6 @@ public interface IFeatureAction {
     int getCost();
 
     void applyToCharacter(Character character);
+
+    String getActionDescription();
 }
