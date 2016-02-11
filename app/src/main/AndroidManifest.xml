@@ -71,6 +71,10 @@
             android:authorities="com.oakonell.dndcharacter"
             android:exported="false" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="74ae3579d71c997859cbe007cec110297e81aa2a" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
