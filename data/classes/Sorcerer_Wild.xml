@@ -7,12 +7,13 @@
             <name>Tides of Chaos</name>
             <uses>1</uses>
             <refreshes>longRest</refreshes>
-            <shortDescription>...</shortDescription>
+            <shortDescription>Once per rest, you can manipulate the forces of chance and chaos to gain advantage on one attack roll, ability check, or saving throw. A Wild Magic Surge will result during some future spell casting. </shortDescription>
             <context>WEAPON_ATTACK,SKILL_ROLL,SAVING_THROW</context>
             <effect actionName="Use">
                 <name>Wild Magic Surge</name>
-                <shortDescription>Before regaining use of Tides of Chaos, roll on the Wild Magic Surge table.</shortDescription>
-                <context>LONG_REST</context>
+                <shortDescription>Any time before you regain the use of this feature, the DM can have you roll on the Wild Magic Surge Table immediately after you cast a sorcerer spell of 1st level or higher. You then regain the use of this feature.</shortDescription>
+                <!-- TODO refreshes on effect ending? -->
+                <context>LONG_REST,SPELL_CAST</context>
             </effect>
         </feature>
 
