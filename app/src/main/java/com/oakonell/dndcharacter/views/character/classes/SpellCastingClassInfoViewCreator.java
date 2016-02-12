@@ -5,7 +5,8 @@ import android.support.annotation.Nullable;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.model.character.SavedChoices;
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
@@ -22,8 +23,8 @@ import java.util.List;
  */
 public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreator {
 
-    SpellCastingClassInfoViewCreator() {
-        super(false);
+    SpellCastingClassInfoViewCreator(Character character) {
+        super(character, false);
     }
 
     public ChooseMDTreeNode appendToLayout(@NonNull CharacterActivity characterActivity, @NonNull ViewGroup parent, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices) {

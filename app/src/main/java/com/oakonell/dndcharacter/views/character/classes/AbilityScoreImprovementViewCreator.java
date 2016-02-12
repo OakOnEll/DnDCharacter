@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.character.md.CheckOptionMD;
@@ -21,6 +23,10 @@ import java.util.Map;
 public class AbilityScoreImprovementViewCreator extends AbstractComponentViewCreator {
 
     private Map<String, TextView> statTextViews = new HashMap<>();
+
+    public AbilityScoreImprovementViewCreator(Character character) {
+        super(character);
+    }
 
     @Override
     protected void onOptionCheckChange(CheckOptionMD optionMD, boolean isChecked) {

@@ -152,7 +152,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
                 }
 
 
-                AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
+                AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter());
                 Element element = XmlUtils.getDocument(model.getXml()).getDocumentElement();
                 ChooseMDTreeNode chooseMDs = visitor.appendToLayout(element, getMainActivity(), dynamicView, savedChoices);
 

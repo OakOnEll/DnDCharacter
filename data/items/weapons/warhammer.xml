@@ -1,0 +1,16 @@
+<item>
+    <name>Warhammer</name>
+    <itemType>WEAPON</itemType>
+    <category>Martial Weapons</category>
+    <damage>
+        <amount>d8</amount>
+        <damageType>bludgeoning</damageType>
+    </damage>
+    <versatileDamage>
+        <amount>d10</amount>
+        <damageType>bludgeoning</damageType>
+    </versatileDamage>
+    <properties>versatile</properties>
+    <weight>2</weight>
+    <cost>15gp</cost>
+</item>

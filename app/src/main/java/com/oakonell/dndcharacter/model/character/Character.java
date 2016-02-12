@@ -365,7 +365,6 @@ public class Character {
     }
 
     protected boolean isProficientWithItem(ProficiencyType type, CharacterItem item) {
-        List<ToolProficiencyWithSource> list = deriveToolProficiencies(type);
         String name = item.getName().toUpperCase();
         String category = item.getCategory();
         if (category == null) {
@@ -373,6 +372,11 @@ public class Character {
         } else {
             category = category.toUpperCase();
         }
+        return isProficientWithItem(type, name, category);
+    }
+
+    public boolean isProficientWithItem(ProficiencyType type, String name, String category) {
+        List<ToolProficiencyWithSource> list = deriveToolProficiencies(type);
         for (ToolProficiencyWithSource each : list) {
             final Proficiency proficiency = each.getProficiency();
             if (proficiency.getProficient().getMultiplier() < 1) continue;
@@ -389,7 +393,7 @@ public class Character {
                 eachCategory = eachCategory.toUpperCase();
             }
 
-            if (name.equals(eachName) || category.equals(eachCategory)) {
+            if (name.equalsIgnoreCase(eachName) || category.equalsIgnoreCase(eachCategory)) {
                 return true;
             }
         }

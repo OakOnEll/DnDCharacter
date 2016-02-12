@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character;
 
+import android.content.ClipData;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,13 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.activeandroid.Model;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
-import com.oakonell.dndcharacter.model.character.SavedChoices;
-import com.oakonell.dndcharacter.model.character.SpeedType;
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
+import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.spell.Spell;
@@ -62,13 +65,19 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     private AppCompatActivity activity;
     private int featSearchIndex;
+    private Character character;
 
-    public AbstractComponentViewCreator(boolean handleCantrips) {
+    public AbstractComponentViewCreator(Character character, boolean handleCantrips) {
         this.handleCantrips = handleCantrips;
+        this.character = character;
     }
 
-    public AbstractComponentViewCreator() {
-        this.handleCantrips = true;
+    public AbstractComponentViewCreator(Character character) {
+        this(character, true);
+    }
+
+    protected Character getCharacter() {
+        return character;
     }
 
     protected void setParent(ViewGroup parent) {
@@ -220,6 +229,41 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
+    protected void visitItem(@NonNull Element element) {
+        if ("true".equals(element.getAttribute("displayProficiency"))) {
+            TextView text = new TextView(parent.getContext());
+            parent.addView(text);
+            String name = element.getTextContent();
+            final String countString = element.getAttribute("count");
+            String display = name;
+            if (countString != null && countString.trim().length() > 0) {
+                display += " (" + countString + ")";
+            }
+
+            String proficientDisplay = parent.getResources().getString(R.string.not_proficient);
+            final ItemRow item = new Select().from(ItemRow.class).where("upper(name) = upper(?)", name).executeSingle();
+            if (item != null) {
+                ProficiencyType profType = ProficiencyType.TOOL;
+                switch (item.getItemType()) {
+                    case EQUIPMENT: profType = ProficiencyType.TOOL;break;
+                    case ARMOR: profType = ProficiencyType.ARMOR;break;
+                    case WEAPON: profType = ProficiencyType.WEAPON;break;
+                }
+
+                final boolean isProficient = getCharacter().isProficientWithItem(profType, name, item.getCategory());
+                if (isProficient) {
+                    proficientDisplay = "";
+                }
+
+            }
+
+            text.setText(" *  " + display + proficientDisplay);
+        } else {
+            super.visitItem(element);
+        }
+    }
+
+    @Override
     protected void visitReference(@NonNull Element element) {
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
@@ -238,7 +282,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
         String value = element.getTextContent();
-        String string ;
+        String string;
         if (speedType != SpeedType.WALK) {
             string = parent.getResources().getString(R.string.other_speed, getParent().getResources().getString(speedType.getStringResId()), value);
         } else {
@@ -255,6 +299,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         String string = parent.getResources().getString(R.string.initiative, value);
         text.setText(" *  " + string);
     }
+
     @Override
     protected void visitStat(@NonNull Element element) {
         ViewGroup oldParent = parent;
@@ -563,9 +608,11 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_dropdown_item);
                     }
+
                     public View getView(int position, View convertView, ViewGroup parent) {
                         return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_item);
                     }
+
                     private View createViewFromResource(int position, View convertView,
                                                         ViewGroup parent, int resource) {
                         View view;

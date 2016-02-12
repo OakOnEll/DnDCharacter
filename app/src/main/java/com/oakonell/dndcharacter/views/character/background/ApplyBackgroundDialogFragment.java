@@ -55,7 +55,7 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
         Page<Background> main = new Page<Background>() {
             @Override
             public ChooseMDTreeNode appendToLayout(@NonNull Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
-                AbstractComponentViewCreator visitor = new AbstractComponentViewCreator();
+                AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter());
                 Element element = XmlUtils.getDocument(background.getXml()).getDocumentElement();
                 return visitor.appendToLayout(element, getMainActivity(), dynamic, backgroundChoices);
             }

@@ -119,7 +119,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     addClassErrorTextView(dynamic);
                     addClassLevelTextView(dynamic);
 
-                    AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(false);
+                    AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), false);
                     Element element = XmlUtils.getDocument(aClass.getXml()).getDocumentElement();
                     return visitor.appendToLayout(element, getMainActivity(), dynamic, backgroundChoices);
                 }
@@ -162,7 +162,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         }
                     }
 
-                    AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(false);
+                    AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), false);
                     final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, getMainActivity(), dynamic, backgroundChoices);
 
                     if (spellCastingStat != null) {
@@ -200,7 +200,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     @NonNull
                     @Override
                     public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
-                        SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator();
+                        SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator(getCharacter());
 
                         return visitor.appendToLayout(getMainActivity(), dynamic, rootClassElement, spells, cantrips, savedChoices);
                     }
@@ -217,7 +217,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         @NonNull
                         @Override
                         public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
-                            AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(false);
+                            AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), false);
 
                             subclassChooseMDs = visitor.appendToLayout(subclassLevelElement, getMainActivity(), dynamic, savedChoices);
                             return new RootChoiceMDNode();
@@ -249,7 +249,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         throw new RuntimeException("Error parsing asi.xml in assets!", e);
                     }
                     final Element root = XmlUtils.getDocument(in).getDocumentElement();
-                    AbstractComponentViewCreator visitor = new AbilityScoreImprovementViewCreator();
+                    AbstractComponentViewCreator visitor = new AbilityScoreImprovementViewCreator(getCharacter());
                     return visitor.appendToLayout(root, getMainActivity(), dynamic, backgroundChoices);
                 }
             };
