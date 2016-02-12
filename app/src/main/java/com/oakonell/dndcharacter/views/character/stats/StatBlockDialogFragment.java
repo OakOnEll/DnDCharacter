@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.utils.NumberUtils;
@@ -120,7 +121,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         @Override
         public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.ModifierWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ModifierWithSource>> adapter, Character.ModifierWithSource item) {
             super.bind(activity, adapter, item);
-            final BaseCharacterComponent source = item.getSource();
+            final ComponentSource source = item.getSource();
             int value = item.getModifier();
             if (source == null) {
                 // a base stat

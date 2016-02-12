@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 
 import java.util.List;
@@ -95,7 +96,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
 
         @Override
         public void bind(final CharacterActivity activity, final RowWithSourceAdapter<C, WithSourceViewHolder<C>> adapter, C item) {
-            final BaseCharacterComponent source = item.getSource();
+            final ComponentSource source = item.getSource();
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

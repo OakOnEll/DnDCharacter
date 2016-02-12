@@ -9,6 +9,7 @@ import com.oakonell.dndcharacter.model.character.AbstractContextualComponent;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentType;
+import com.oakonell.dndcharacter.model.character.FeatureExtensionType;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.character.SpeedType;
@@ -115,6 +116,14 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 }
             }
         }
+
+        String extensionTypeString = element.getAttribute("extension");
+        if (extensionTypeString != null && extensionTypeString.trim().length()>0) {
+            extensionTypeString = extensionTypeString.toUpperCase();
+            final FeatureExtensionType extensionType = FeatureExtensionType.valueOf(extensionTypeString);
+            feature.setExtensionType(extensionType);
+        }
+
 
         String refreshString = XmlUtils.getElementText(element, "refreshes");
         RefreshType refreshType = null;

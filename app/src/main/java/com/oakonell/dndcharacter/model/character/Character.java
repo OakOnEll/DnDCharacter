@@ -38,6 +38,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -182,7 +183,7 @@ public class Character {
         // TODO what about race, like dwarf, that effects hp
         final int value[] = new int[]{hp};
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 value[0] += evaluateFormula(component.getHpFormula(), null);
             }
         };
@@ -344,7 +345,7 @@ public class Character {
     public List<LanguageWithSource> deriveLanguages() {
         final List<LanguageWithSource> languages = new ArrayList<>();
         CharacterAbilityDeriver languagesDeriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 for (String each : component.getLanguages()) {
                     LanguageWithSource row = new LanguageWithSource(each, component);
                     languages.add(row);
@@ -497,7 +498,7 @@ public class Character {
         private final int value;
         public boolean isDisabled;
 
-        ArmorClassWithSource(String formula, int value, BaseCharacterComponent source) {
+        ArmorClassWithSource(String formula, int value, ComponentSource source) {
             super(source);
             this.value = value;
             this.formula = formula;
@@ -538,14 +539,14 @@ public class Character {
         // multiple here will really just take the highest ?? at runtime
         for (CharacterClass eachClass : classes) {
             for (FeatureInfo each : eachClass.getFeatures(this)) {
-                if (!each.getFeature().isBaseArmor()) continue;
+                if (!each.isBaseArmor()) continue;
 
-                String acFormula = each.getFeature().getBaseAcFormula();
+                String acFormula = each.getBaseAcFormula();
                 if (acFormula != null) {
                     SimpleVariableContext variableContext = new SimpleVariableContext();
                     each.getSource().addExtraFormulaVariables(variableContext);
                     int value = evaluateFormula(acFormula, variableContext);
-                    ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each.getFeature());
+                    ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each);
                     result.add(featureAc);
                 }
             }
@@ -609,7 +610,7 @@ public class Character {
         // multiple here will really just take the highest ?? at runtime
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             @Override
-            void visitComponent(BaseCharacterComponent component) {
+            void visitComponent(ICharacterComponent component) {
                 if (component.isBaseArmor()) return;
 
                 String acFormula = component.getModifyingAcFormula();
@@ -851,7 +852,7 @@ public class Character {
         }
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 int value = component.getStatModifier(type);
                 if (value > 0) {
                     ModifierWithSource base = new ModifierWithSource(value, component);
@@ -876,7 +877,7 @@ public class Character {
         }
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 value[0] += component.getStatModifier(type);
             }
         };
@@ -890,7 +891,7 @@ public class Character {
         final List<ProficientWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 Proficient proficient = component.getSkillProficient(type);
                 if (proficient != Proficient.NONE) {
                     ProficientWithSource reason = new ProficientWithSource(proficient, component);
@@ -908,7 +909,7 @@ public class Character {
         final List<ProficientWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 Proficient proficient = component.getSaveProficient(type);
                 if (proficient != Proficient.NONE) {
                     ProficientWithSource reason = new ProficientWithSource(proficient, component);
@@ -926,7 +927,7 @@ public class Character {
         proficient[0] = Proficient.NONE;
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 Proficient compProficient = component.getSkillProficient(type);
                 if (compProficient.getMultiplier() > proficient[0].getMultiplier()) {
                     proficient[0] = compProficient;
@@ -955,7 +956,7 @@ public class Character {
         proficient[0] = Proficient.NONE;
         final List<LanguageWithSource> languages = new ArrayList<>();
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 Proficient compProficient = component.getSaveProficient(type);
                 if (compProficient.getMultiplier() > proficient[0].getMultiplier()) {
                     proficient[0] = compProficient;
@@ -967,18 +968,19 @@ public class Character {
     }
 
     @NonNull
-    public List<FeatureInfo> getFeatureInfos() {
-        final List<FeatureInfo> result = new ArrayList<>();
+    public Collection<FeatureInfo> getFeatureInfos() {
+        final Map<String, FeatureInfo> map= new HashMap<>();
 
         // features shouldn't contain features, and any effects are not automatic, but applied on use
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver(true) {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
-                result.addAll(component.getFeatures(Character.this));
+            protected void visitComponent(@NonNull ICharacterComponent component) {
+                // handle extend/replace features
+                component.addFeatureInfo(map, Character.this);
             }
         };
         deriver.derive(this, "Feature infos");
 
-        return result;
+        return map.values();
     }
 
     public boolean evaluateBooleanFormula(@Nullable String formula, @Nullable SimpleVariableContext variableContext) {
@@ -1024,24 +1026,24 @@ public class Character {
         }
     }
 
-    public int getUses(@NonNull Feature feature) {
-        Integer uses = usedFeatures.get(feature.getName());
+    public int getUses(@NonNull String featureName) {
+        Integer uses = usedFeatures.get(featureName);
         if (uses == null) return 0;
         return uses;
     }
 
     public int getUsesRemaining(@NonNull FeatureInfo feature) {
-        return feature.evaluateMaxUses(this) - getUses(feature.getFeature());
+        return feature.evaluateMaxUses(this) - getUses(feature.getName());
     }
 
-    public void useFeature(@NonNull Feature feature, int amount) {
+    public void useFeature(@NonNull FeatureInfo feature, int amount) {
         // TODO apply known effects from feature
-        int uses = getUses(feature);
+        int uses = getUses(feature.getName());
         uses = uses + amount;
         usedFeatures.put(feature.getName(), uses);
     }
 
-    public void useFeatureAction(@NonNull Feature feature, @NonNull IFeatureAction action) {
+    public void useFeatureAction(@NonNull FeatureInfo feature, @NonNull IFeatureAction action) {
         useFeature(feature, action.getCost());
         action.applyToCharacter(this);
     }
@@ -1094,7 +1096,7 @@ public class Character {
     }
 
     private void resetFeatures(@NonNull AbstractRestRequest request) {
-        List<FeatureInfo> featureInfos = getFeatureInfos();
+        Collection<FeatureInfo> featureInfos = getFeatureInfos();
         for (FeatureInfo each : featureInfos) {
             Integer resetRequest = request.getFeatureResets().get(each.getName());
             if (resetRequest == null || resetRequest == 0) continue;
@@ -1106,7 +1108,7 @@ public class Character {
             if (used <= 0) {
                 usedFeatures.remove(each.getName());
             } else {
-                usedFeatures.put(each.getFeature().getName(), used);
+                usedFeatures.put(each.getName(), used);
             }
         }
 
@@ -1266,7 +1268,7 @@ public class Character {
         final List<ToolProficiencyWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 List<Proficiency> profs = component.getToolProficiencies(type);
                 for (Proficiency each : profs) {
                     ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(each, component);
@@ -1343,7 +1345,7 @@ public class Character {
     public static class LanguageWithSource extends WithSource {
         private final String language;
 
-        LanguageWithSource(String language, BaseCharacterComponent source) {
+        LanguageWithSource(String language, ComponentSource source) {
             super(source);
             this.language = language;
         }
@@ -1364,7 +1366,7 @@ public class Character {
     public static class ModifierWithSource extends WithSource {
         private final int modifier;
 
-        ModifierWithSource(int modifier, BaseCharacterComponent source) {
+        ModifierWithSource(int modifier, ComponentSource source) {
             super(source);
             this.modifier = modifier;
         }
@@ -1383,7 +1385,7 @@ public class Character {
     public static class ProficientWithSource extends WithSource {
         private final Proficient proficient;
 
-        ProficientWithSource(Proficient proficient, BaseCharacterComponent source) {
+        ProficientWithSource(Proficient proficient, ComponentSource source) {
             super(source);
             this.proficient = proficient;
         }
@@ -1414,7 +1416,7 @@ public class Character {
     public static class ToolProficiencyWithSource extends WithSource {
         private final Proficiency proficient;
 
-        ToolProficiencyWithSource(Proficiency proficient, BaseCharacterComponent source) {
+        ToolProficiencyWithSource(Proficiency proficient, ComponentSource source) {
             super(source);
             this.proficient = proficient;
         }
@@ -1437,7 +1439,7 @@ public class Character {
     public static class SpeedWithSource extends WithSource {
         private final int speed;
 
-        SpeedWithSource(int speed, BaseCharacterComponent source) {
+        SpeedWithSource(int speed, ComponentSource source) {
             super(source);
             this.speed = speed;
         }
@@ -1451,7 +1453,7 @@ public class Character {
     public static class InitiativeWithSource extends WithSource {
         private final int initiative;
 
-        InitiativeWithSource(int initiative, BaseCharacterComponent source) {
+        InitiativeWithSource(int initiative, ComponentSource source) {
             super(source);
             this.initiative = initiative;
         }
@@ -1462,13 +1464,13 @@ public class Character {
     }
 
     public abstract static class WithSource {
-        private final BaseCharacterComponent source;
+        private final ComponentSource source;
 
-        WithSource(BaseCharacterComponent source) {
+        WithSource(ComponentSource source) {
             this.source = source;
         }
 
-        public BaseCharacterComponent getSource() {
+        public ComponentSource getSource() {
             return source;
         }
 
@@ -1509,7 +1511,7 @@ public class Character {
         final SpellLevelInfo cantrips = new SpellLevelInfo();
 
         CharacterAbilityDeriver spellDeriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 for (CharacterSpell each : component.getCantrips()) {
                     cantrips.getSpellInfos().add(each);
                 }
@@ -1924,7 +1926,7 @@ public class Character {
         final List<SpeedWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 int speed = component.getSpeed(Character.this, type);
                 if (speed == 0) return;
                 SpeedWithSource speedWithSource = new SpeedWithSource(speed, component);
@@ -1939,7 +1941,7 @@ public class Character {
     public int getSpeed(final SpeedType type) {
         final int result[] = new int[]{0};
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 result[0] += component.getSpeed(Character.this, type);
             }
         };
@@ -1950,7 +1952,7 @@ public class Character {
     public int getInitiative() {
         final int result[] = new int[]{0};
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 result[0] += component.getInitiativeMod(Character.this);
             }
         };
@@ -1966,7 +1968,7 @@ public class Character {
         result.add(baseSoure);
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull BaseCharacterComponent component) {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
                 int initiative = component.getInitiativeMod(Character.this);
                 if (initiative == 0) return;
                 InitiativeWithSource initiativeWithSource = new InitiativeWithSource(initiative, component);

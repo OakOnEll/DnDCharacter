@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
@@ -138,7 +139,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
             super.bind(activity, adapter, item);
             Proficient value = item.getProficient();
             this.value.setText(activity.getString(value.getStringResId()));
-            final BaseCharacterComponent source = item.getSource();
+            final ComponentSource source = item.getSource();
             if (source == null) {
                 // a base stat
                 this.source.setText(R.string.base_stat);

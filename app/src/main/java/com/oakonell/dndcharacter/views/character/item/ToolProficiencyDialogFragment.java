@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
@@ -113,7 +114,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
                 text += "[" + proficient + "]";
             }
             this.value.setText(text);
-            final BaseCharacterComponent source = item.getSource();
+            final ComponentSource source = item.getSource();
             if (source == null) {
                 // a base stat
                 this.source.setText(R.string.base_stat);

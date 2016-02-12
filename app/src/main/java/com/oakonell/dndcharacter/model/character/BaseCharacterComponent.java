@@ -17,6 +17,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.Map;
 /**
  * Created by Rob on 10/24/2015.
  */
-public abstract class BaseCharacterComponent {
+public abstract class BaseCharacterComponent implements ICharacterComponent {
     @Element(required = false)
     private SavedChoices savedChoices = new SavedChoices();
     @NonNull
@@ -63,6 +64,7 @@ public abstract class BaseCharacterComponent {
     @Element(required = false)
     private String initiativeModFormula;
 
+    @Override
     public String getName() {
         return name;
     }
@@ -71,6 +73,7 @@ public abstract class BaseCharacterComponent {
         this.name = name;
     }
 
+    @Override
     public int getStatModifier(StatType type) {
         Integer value = statModifiers.get(type);
         if (value == null) return 0;
@@ -89,12 +92,14 @@ public abstract class BaseCharacterComponent {
         saveProficiencies.put(type, proficient);
     }
 
+    @Override
     public Proficient getSkillProficient(SkillType type) {
         Proficient proficient = skillProficiencies.get(type);
         if (proficient == null) return Proficient.NONE;
         return proficient;
     }
 
+    @Override
     public Proficient getSaveProficient(StatType type) {
         Proficient proficient = saveProficiencies.get(type);
         if (proficient == null) return Proficient.NONE;
@@ -108,23 +113,40 @@ public abstract class BaseCharacterComponent {
     }
 
     @NonNull
-    public List<FeatureInfo> getFeatures(Character character) {
-        List<FeatureInfo> result = new ArrayList<>();
+    public Collection<FeatureInfo> getFeatures(Character character) {
+        Map<String, FeatureInfo> map = new HashMap<>();
+        addFeatureInfo(map, character);
+        return new ArrayList<>(map.values());
+    }
+
+    public void addFeatureInfo(Map<String, FeatureInfo> map, Character character) {
         for (Feature each : features) {
             if (!each.applies(character)) continue;
-            FeatureInfo info = new FeatureInfo();
-            info.feature = each;
-            info.source = this;
-            result.add(info);
+            FeatureExtensionType type = each.getExtensionType();
+            if (type == null) {
+                FeatureInfo info = new FeatureInfo(each, this);
+                FeatureInfo existing = map.put(each.getName(), info);
+//                if (existing != null) {
+//                    throw new RuntimeException("Found a pre-existing feature '" + each.getName() + "' from " + existing.getSource() + ", while trying to add it for " + toString());
+//                }
+            } else if (type == FeatureExtensionType.EXTEND){
+                FeatureInfo existing = map.get(each.getName());
+                FeatureInfo info = new FeatureInfo(each, this, existing);
+                map.put(each.getName(), info);
+            } else if (type == FeatureExtensionType.REPLACE) {
+                FeatureInfo info = new FeatureInfo(each, this);
+                map.put(each.getName(), info);
+            }
         }
-        return result;
     }
+
 
     @NonNull
     public String getSourceString(Resources resources) {
         return resources.getString(getType().getStringResId()) + ": " + getName();
     }
 
+    @Override
     @NonNull
     public List<String> getLanguages() {
         return languages;
@@ -158,6 +180,7 @@ public abstract class BaseCharacterComponent {
         wrappedList.proficiencies.add(proficiency);
     }
 
+    @Override
     @NonNull
     public List<Proficiency> getToolProficiencies(ProficiencyType type) {
         ToolProficiencies wrappedList = toolProficiencies.get(type);
@@ -179,6 +202,7 @@ public abstract class BaseCharacterComponent {
         this.activeFormula = activeFormula;
     }
 
+    @Override
     public String getAcFormula() {
         return acFormula;
     }
@@ -187,6 +211,7 @@ public abstract class BaseCharacterComponent {
         this.acFormula = acFormula;
     }
 
+    @Override
     public String getHpFormula() {
         return hpFormula;
     }
@@ -196,12 +221,14 @@ public abstract class BaseCharacterComponent {
     }
 
 
+    @Override
     public boolean isBaseArmor() {
         String formula = getAcFormula();
         if (formula == null) return false;
         return formula.startsWith("=");
     }
 
+    @Override
     @Nullable
     public String getBaseAcFormula() {
         if (!isBaseArmor()) return null;
@@ -210,6 +237,7 @@ public abstract class BaseCharacterComponent {
         return formula.substring(1);
     }
 
+    @Override
     @Nullable
     public String getModifyingAcFormula() {
         if (isBaseArmor()) return null;
@@ -219,6 +247,7 @@ public abstract class BaseCharacterComponent {
         return formula;
     }
 
+    @Override
     @NonNull
     public List<CharacterSpell> getCantrips() {
         return cantrips;
@@ -229,11 +258,13 @@ public abstract class BaseCharacterComponent {
         speeds.put(speedType, valueString);
     }
 
+    @Override
     public int getSpeed(Character character, SpeedType type) {
         final String val = speeds.get(type);
         if (val== null || val.trim().length()==0) return 0;
         return character.evaluateFormula(val, null);
     }
+
 
     // use a wrapper for SimpleXML serialization
     public static class ToolProficiencies {
@@ -242,6 +273,7 @@ public abstract class BaseCharacterComponent {
         List<Proficiency> proficiencies = new ArrayList<>();
     }
 
+    @Override
     public int getInitiativeMod(Character character) {
         return character.evaluateFormula(initiativeModFormula, null);
     }

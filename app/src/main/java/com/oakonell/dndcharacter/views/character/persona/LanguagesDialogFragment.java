@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
@@ -82,7 +83,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
             String language = item.getLanguage();
 
             this.value.setText(language);
-            final BaseCharacterComponent source = item.getSource();
+            final ComponentSource source = item.getSource();
             if (source == null) {
                 // a base stat
                 this.source.setText(R.string.base_stat);

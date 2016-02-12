@@ -39,6 +39,8 @@ public class Feature extends AbstractContextualComponent {
     @ElementList(required = false)
     private List<FeatureAction> actions = new ArrayList<>();
 
+    @Element(required = false)
+    private FeatureExtensionType extensionType;
 
     @NonNull
     @Override
@@ -126,6 +128,13 @@ public class Feature extends AbstractContextualComponent {
         this.appliesFormula = appliesFormula;
     }
 
+    public FeatureExtensionType getExtensionType() {
+        return extensionType;
+    }
+
+    public void setExtensionType(FeatureExtensionType extensionType) {
+        this.extensionType = extensionType;
+    }
 
     public static class FeatureAction implements IFeatureAction {
         @Element(required = false)

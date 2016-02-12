@@ -71,7 +71,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
         public FeatureAdapter(@NonNull CharacterActivity context) {
             this.context = context;
-            list = context.getCharacter().getFeatureInfos();
+            list = new ArrayList<>(context.getCharacter().getFeatureInfos());
         }
 
         public FeatureAdapter(@NonNull CharacterActivity context, Set<FeatureContextArgument> filter) {
@@ -82,7 +82,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
         public void reloadList(@NonNull Character character) {
             if (filter == null) {
-                list = context.getCharacter().getFeatureInfos();
+                list = new ArrayList<>(context.getCharacter().getFeatureInfos());
             } else {
                 list = filterList(character);
             }
@@ -91,10 +91,10 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
         @NonNull
         private List<FeatureInfo> filterList(@NonNull Character character) {
-            if (filter == null) return character.getFeatureInfos();
+            if (filter == null) return new ArrayList<>(character.getFeatureInfos());
             List<FeatureInfo> result = new ArrayList<>();
             for (FeatureInfo each : character.getFeatureInfos()) {
-                if (each.getFeature().isInContext(filter)) {
+                if (each.isInContext(filter)) {
                     result.add(each);
                 }
             }

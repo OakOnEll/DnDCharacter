@@ -6,6 +6,7 @@ import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -63,14 +64,14 @@ public abstract class CharacterAbilityDeriver {
             }
         }
         if (!skipFeatures) {
-            List<FeatureInfo> features = character.getFeatureInfos();
+            Collection<FeatureInfo> features = character.getFeatureInfos();
             if (features != null) {
                 for (FeatureInfo each : features) {
-                    visitComponent(each.feature);
+                    visitComponent(each);
                 }
             }
         }
     }
 
-    abstract void visitComponent(BaseCharacterComponent component);
+    abstract void visitComponent(ICharacterComponent component);
 }

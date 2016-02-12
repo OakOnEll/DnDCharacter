@@ -117,7 +117,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
         uses_remaining.setText(context.getString(R.string.fraction_d_slash_d, usesRemaining, maxUses));
-        refreshes_label.setText(context.getString(R.string.refreshes_on_s, context.getString(info.getFeature().getRefreshesOn().getStringResId())));
+        refreshes_label.setText(context.getString(R.string.refreshes_on_s, context.getString(info.getRefreshesOn().getStringResId())));
     }
 
 
@@ -176,7 +176,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                 useButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        adapter.context.getCharacter().useFeatureAction(info.getFeature(), action);
+                        adapter.context.getCharacter().useFeatureAction(info, action);
                         useButton.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -232,7 +232,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                             pool_value.setError(context.getString(R.string.enter_number_less_than_equal_n, usesRemaining));
                             return;
                         }
-                        context.getCharacter().useFeature(info.getFeature(), value);
+                        context.getCharacter().useFeature(info, value);
                         context.saveCharacter();
                         pool_apply_group.setVisibility(View.GONE);
                         pool_value.setText("");
@@ -319,7 +319,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         }
 
         public void setFeature(@NonNull FeatureInfo info) {
-            this.list = info.getFeature().getActionsAndEffects();
+            this.list = info.getActionsAndEffects();
             this.info = info;
             notifyDataSetChanged();
         }

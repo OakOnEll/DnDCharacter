@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
+import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.views.character.classes.EditClassLevelDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.ApplyRaceDialogFragment;
@@ -14,7 +15,7 @@ import com.oakonell.dndcharacter.views.character.race.ApplyRaceDialogFragment;
  * Created by Rob on 12/16/2015.
  */
 public final class ComponentLaunchHelper {
-    public static void editComponent(@NonNull CharacterActivity context, @NonNull BaseCharacterComponent source, boolean includeClassHP) {
+    public static void editComponent(@NonNull CharacterActivity context, @NonNull ComponentSource source, boolean includeClassHP) {
         switch (source.getType()) {
             case BACKGROUND:
                 ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog();

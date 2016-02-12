@@ -31,6 +31,7 @@ import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -117,10 +118,10 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
         startHp.setText(getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP()));
 
-        List<FeatureInfo> features = character.getFeatureInfos();
+        Collection<FeatureInfo> features = character.getFeatureInfos();
         List<FeatureResetInfo> featureResets = new ArrayList<>();
         for (FeatureInfo each : features) {
-            RefreshType refreshOn = each.getFeature().getRefreshesOn();
+            RefreshType refreshOn = each.getRefreshesOn();
             if (refreshOn == null) continue;
 
             FeatureResetInfo resetInfo = new FeatureResetInfo();

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
@@ -95,7 +96,7 @@ public class InitiativeDialogFragment extends AbstractCharacterDialogFragment {
             int initiative = item.getInitiative();
 
             this.value.setText(NumberUtils.formatNumber(initiative));
-            final BaseCharacterComponent source = item.getSource();
+            final ComponentSource source = item.getSource();
             if (source == null) {
                 // a base stat
                 this.source.setText(R.string.dex_mod);
