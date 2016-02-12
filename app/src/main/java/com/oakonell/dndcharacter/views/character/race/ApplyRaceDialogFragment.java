@@ -158,7 +158,8 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
                 if (subrace != null) {
                     Element subRaceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
-                    subRaceChooseMDs = visitor.appendToLayout(subRaceElement, getMainActivity(), dynamicView, savedChoices);
+                    SavedChoices subRaceSavedChoices = savedChoicesByModel.get(subrace.getName());
+                    subRaceChooseMDs = visitor.appendToLayout(subRaceElement, getMainActivity(), dynamicView, subRaceSavedChoices);
                 }
 
                 return chooseMDs;
@@ -272,6 +273,9 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
     protected void saveChoices(ViewGroup dynamicView) {
         super.saveChoices(dynamicView);
         if (subrace == null) return;
+
+        // TODO missing asking the page to saveChoices
+
         String name = subrace.getName();
         SavedChoices subSavedChoices = savedChoicesByModel.get(name);
         Map<String, String> subCustomChoices = customChoicesByModel.get(name);

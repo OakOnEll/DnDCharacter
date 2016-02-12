@@ -118,10 +118,43 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         String name = XmlUtils.getElementText(element, "name");
         String description = XmlUtils.getElementText(element, "shortDescription");
 
+        String extensionTypeString = element.getAttribute("extension");
+        FeatureExtensionType extensionType = null;
+        if (extensionTypeString != null && extensionTypeString.trim().length() > 0) {
+            extensionTypeString = extensionTypeString.toUpperCase();
+            extensionType = FeatureExtensionType.valueOf(extensionTypeString);
+        }
+
+        if (extensionType != null) {
+            name += "(" + parent.getResources().getString(extensionType.getStringResId()) + ")";
+        }
+
         createGroup("Feature: " + name);
         TextView featureText = new TextView(parent.getContext());
         parent.addView(featureText);
         featureText.setText(description);
+
+        final List<Element> effects = XmlUtils.getChildElements(element, "effect");
+        for (Element each : effects) {
+            String effectName = each.getAttribute("actionName");
+            if (effectName != null) {
+                String effectDescription = XmlUtils.getElementText(each, "actionDescription");
+                if (effectDescription != null) {
+                    TextView effectText = new TextView(parent.getContext());
+                    parent.addView(effectText);
+                    effectText.setText(effectName + ": " + effectDescription);
+                }
+            }
+        }
+        final List<Element> actions = XmlUtils.getChildElements(element, "action");
+        for (Element action : actions) {
+            String actionName = XmlUtils.getElementText(action, "name");
+            String actionDescription = XmlUtils.getElementText(action, "shortDescription");
+
+            TextView effectText = new TextView(parent.getContext());
+            parent.addView(effectText);
+            effectText.setText(actionName + ": " + actionDescription);
+        }
 
         parent = oldParent;
     }
@@ -245,9 +278,15 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             if (item != null) {
                 ProficiencyType profType = ProficiencyType.TOOL;
                 switch (item.getItemType()) {
-                    case EQUIPMENT: profType = ProficiencyType.TOOL;break;
-                    case ARMOR: profType = ProficiencyType.ARMOR;break;
-                    case WEAPON: profType = ProficiencyType.WEAPON;break;
+                    case EQUIPMENT:
+                        profType = ProficiencyType.TOOL;
+                        break;
+                    case ARMOR:
+                        profType = ProficiencyType.ARMOR;
+                        break;
+                    case WEAPON:
+                        profType = ProficiencyType.WEAPON;
+                        break;
                 }
 
                 final boolean isProficient = getCharacter().isProficientWithItem(profType, name, item.getCategory());
@@ -378,7 +417,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void categoryChoices(@NonNull Element element, int numChoices) {
         if (state == VisitState.LANGUAGES) {
             visitLanguageCategoryChoices(numChoices);
-        } else if (state == VisitState.TOOLS || state == VisitState.EQUIPMENT) {
+        } else if (state == VisitState.TOOLS || state == VisitState.EQUIPMENT || state == VisitState.ARMOR) {
             visitToolCategoryChoices(element, numChoices);
         } else if (state == VisitState.FEAT) {
             visitFeatSearchChoices(numChoices);

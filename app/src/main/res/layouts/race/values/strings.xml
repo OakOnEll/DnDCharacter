@@ -18,4 +18,6 @@
     <string name="cannot_multiclass_from">Cannot multiclass from %1$s, don\'t meet prerequisite:\n %2$s</string>
     <string name="cannot_multiclass_to">Cannot multiclass in %1$s, don\'t meet prerequisite:\n %2$s</string>
     <string name="not_proficient">(Not Proficient!)</string>
+    <string name="extend">extension</string>
+    <string name="replace">replacement</string>
 </resources>
