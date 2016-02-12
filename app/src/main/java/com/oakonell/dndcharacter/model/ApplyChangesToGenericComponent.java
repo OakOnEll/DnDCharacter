@@ -118,9 +118,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
 
         String extensionTypeString = element.getAttribute("extension");
-        if (extensionTypeString != null && extensionTypeString.trim().length()>0) {
+        FeatureExtensionType extensionType = null;
+        if (extensionTypeString != null && extensionTypeString.trim().length() > 0) {
             extensionTypeString = extensionTypeString.toUpperCase();
-            final FeatureExtensionType extensionType = FeatureExtensionType.valueOf(extensionTypeString);
+            extensionType = FeatureExtensionType.valueOf(extensionTypeString);
             feature.setExtensionType(extensionType);
         }
 
@@ -189,15 +190,18 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         if (useType != null) {
             feature.setUseType(useType);
             if (refreshType == null) {
-                throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
-            }
-            feature.setRefreshesOn(refreshType);
+                if (extensionType == null) {
+                    throw new RuntimeException("Missing refreshes element on feature " + component.getName() + "." + name);
+                }
+            } else {
+                feature.setRefreshesOn(refreshType);
 
-            if (!hadAnyActionsOrEffects) {
-                Feature.FeatureAction simpleAction = new Feature.FeatureAction();
-                simpleAction.setCost(1);
-                simpleAction.setName("Use");
-                feature.addAction(simpleAction);
+                if (!hadAnyActionsOrEffects) {
+                    Feature.FeatureAction simpleAction = new Feature.FeatureAction();
+                    simpleAction.setCost(1);
+                    simpleAction.setName("Use");
+                    feature.addAction(simpleAction);
+                }
             }
         }
 

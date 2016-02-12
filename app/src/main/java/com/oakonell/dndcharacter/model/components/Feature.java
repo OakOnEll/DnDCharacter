@@ -193,6 +193,7 @@ public class Feature extends AbstractContextualComponent {
 
         @Element(required = false)
         int cost;
+        @Element(required = false)
         private String actionDescription;
 
         public void setCost(int cost) {
