@@ -1,0 +1,39 @@
+<class>
+    <name>War Cleric</name>
+    <parent>Cleric</parent>
+
+    <level value="1">
+        <weapons>
+            <proficiency category="simple weapons"></proficiency>
+            <proficiency category="martial weapons"></proficiency>
+        </weapons>
+        <armor>
+            <proficiency category="heavy armor"></proficiency>
+        </armor>
+        <feature>
+            <name>War Priest</name>
+            <refreshes>longrest</refreshes>
+            <uses>max(wisdomMod, 1)</uses>
+            <shortDescription>When you use the Attack action, you can make one weapon attack as a bonus action.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>divine favor</spell>
+            <spell>shield of faith</spell>
+        </spells>
+    </level>
+
+    <level value="2">
+        <!-- TODO feature extension/replacement-->
+        <feature extension="extend">
+            <name>Channel Divinity</name>
+            <action>
+                <name>Guided Strike</name>
+                <shortDescription>You can strike with supernatural accuracy. WHen you make an attack roll, you can use your channel divinity to gain a +10 bonus to the roll. You make this choice after you see the roll, but before the DM says whether the attack hits or misses.</shortDescription>
+            </action>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+</class>

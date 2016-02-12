@@ -335,6 +335,60 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
+    protected void visitSpells(@NonNull Element element) {
+        final List<String> cantrips = savedChoices.getChoicesFor("spells");
+        if (cantrips != null && !cantrips.isEmpty()) {
+            String casterClass = element.getAttribute("casterClass");
+            String statString = element.getAttribute("stat");
+            StatType stat = null;
+            if (statString != null && statString.trim().length() > 0) {
+                statString = statString.toUpperCase();
+                stat = StatType.valueOf(StatType.class, statString);
+            }
+            for (String each : cantrips) {
+                addSpell(each, stat);
+            }
+        }
+        super.visitSpells(element);
+    }
+
+    @Override
+    protected void visitSpell(@NonNull Element element) {
+        final String spellName = element.getTextContent();
+        String statString = element.getAttribute("stat");
+
+        StatType stat = null;
+        if (statString != null && statString.trim().length() > 0) {
+            statString = statString.toUpperCase();
+            stat = StatType.valueOf(StatType.class, statString);
+        }
+        addSpell(spellName, stat);
+    }
+
+    private void addSpell(@NonNull String spellName, StatType stat) {
+        List<Spell> spells = new Select()
+                .from(Spell.class).where("UPPER(name) = ?", spellName.toUpperCase()).execute();
+        CharacterSpell characterSpell = null;
+        if (!spells.isEmpty()) {
+            if (spells.size() > 1) {
+                throw new RuntimeException("Too many spells named " + spellName);
+            }
+            final Spell spell = spells.get(0);
+            characterSpell = new CharacterSpell();
+            final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
+            ApplyChangesToGenericComponent.applyToCharacter(context, root, null, characterSpell, null, false);
+        } else {
+            characterSpell = new CharacterSpell();
+        }
+        characterSpell.setLevel(0);
+        characterSpell.setName(spellName);
+        characterSpell.setCasterClass(component.getName());
+        characterSpell.setCastingStat(stat);
+        characterSpell.setSource(component.getType());
+        component.getSpells().add(characterSpell);
+    }
+
+    @Override
     protected void visitCantrips(@NonNull Element element) {
         final List<String> cantrips = savedChoices.getChoicesFor("cantrips");
         if (cantrips != null && !cantrips.isEmpty()) {
@@ -382,6 +436,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
         characterSpell.setLevel(0);
         characterSpell.setName(cantripName);
+        characterSpell.setCasterClass(component.getName());
         characterSpell.setCastingStat(stat);
         characterSpell.setSource(component.getType());
         component.getCantrips().add(characterSpell);

@@ -63,6 +63,8 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     private String hpFormula;
     @Element(required = false)
     private String initiativeModFormula;
+    @ElementList(required = false)
+    private List<CharacterSpell> spells = new ArrayList<>();
 
     @Override
     public String getName() {
@@ -129,7 +131,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
 //                if (existing != null) {
 //                    throw new RuntimeException("Found a pre-existing feature '" + each.getName() + "' from " + existing.getSource() + ", while trying to add it for " + toString());
 //                }
-            } else if (type == FeatureExtensionType.EXTEND){
+            } else if (type == FeatureExtensionType.EXTEND) {
                 FeatureInfo existing = map.get(each.getName());
                 FeatureInfo info = new FeatureInfo(each, this, existing);
                 map.put(each.getName(), info);
@@ -261,8 +263,12 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     @Override
     public int getSpeed(Character character, SpeedType type) {
         final String val = speeds.get(type);
-        if (val== null || val.trim().length()==0) return 0;
+        if (val == null || val.trim().length() == 0) return 0;
         return character.evaluateFormula(val, null);
+    }
+
+    public List<CharacterSpell> getSpells() {
+        return spells;
     }
 
 

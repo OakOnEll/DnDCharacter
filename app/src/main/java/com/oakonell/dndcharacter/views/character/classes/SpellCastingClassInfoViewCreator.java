@@ -122,6 +122,21 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
                 text.setText("Level " + level + " slots: " + slots);
             }
 
+            List<Element> spellList = XmlUtils.getChildElements(spells, "spell");
+            if (spellList.size() > 0) {
+                TextView text = new TextView(spellGroup.getContext());
+                spellGroup.addView(text);
+                text.setText("Spells: ");
+
+                for (Element each : spellList) {
+                    TextView spellText = new TextView(spellGroup.getContext());
+                    spellGroup.addView(spellText);
+
+                    spellText.setText(" * " + each.getTextContent());
+
+                }
+            }
+
             setParent(mainGroup);
         }
         return getChoicesMD();

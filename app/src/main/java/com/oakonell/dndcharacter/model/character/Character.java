@@ -1514,21 +1514,21 @@ public class Character {
         final List<SpellLevelInfo> spellsLevels = new ArrayList<>();
         final SpellLevelInfo cantrips = new SpellLevelInfo();
 
-        CharacterAbilityDeriver spellDeriver = new CharacterAbilityDeriver() {
+        CharacterAbilityDeriver cantripDeriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
                 for (CharacterSpell each : component.getCantrips()) {
                     cantrips.getSpellInfos().add(each);
                 }
             }
         };
-        spellDeriver.derive(this, "spell infos");
+        cantripDeriver.derive(this, "cantrip infos");
 
 
         for (CharacterSpell each : this.cantrips) {
             cantrips.spellInfos.add(each);
         }
 
-        List<SpellLevelInfo> result = new ArrayList<>();
+        final List<SpellLevelInfo> result = new ArrayList<>();
         result.add(cantrips);
 
         // go through class levels for usable spell levels?
@@ -1595,6 +1595,21 @@ public class Character {
                 spells.add(each);
             }
         }
+
+        CharacterAbilityDeriver spellDeriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
+                for (CharacterSpell each : component.getSpells()) {
+                    int level = each.getLevel();
+                    if (level ==0) {
+                        // the level was unknown at creation time... assume 1st level?
+                        level = 1;
+                    }
+                    SpellLevelInfo levelInfo = result.get(level);
+                    levelInfo.getSpellInfos().add(each);
+                }
+            }
+        };
+        spellDeriver.derive(this, "spell infos");
 
 //
 //        // spell levels / slots

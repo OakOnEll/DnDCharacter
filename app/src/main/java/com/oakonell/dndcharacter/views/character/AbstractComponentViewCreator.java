@@ -231,6 +231,31 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
+    protected void visitSpells(@NonNull Element element) {
+        if (!handleCantrips) return;
+        ChooseMD oldChooseMD = currentChooseMD;
+        ViewGroup oldParent = parent;
+        createGroup(parent.getContext().getString(R.string.spells_title));
+        super.visitSpells(element);
+
+        if (XmlUtils.getChildElements(element).isEmpty()) {
+            String casterClass = element.getAttribute("casterClass");
+            String numString = element.getAttribute("num");
+            int num = 1;
+            if (numString != null && numString.trim().length() > 0) {
+                num = Integer.parseInt(numString);
+            }
+            currentChooseMD = new CategoryChoicesMD("spells", num, num);
+            choicesMD.addChildChoice(currentChooseMD);
+
+            visitCantripsSearchChoices(casterClass, num);
+        }
+
+        parent = oldParent;
+        currentChooseMD = oldChooseMD;
+    }
+
+    @Override
     protected void visitCantrips(@NonNull Element element) {
         if (!handleCantrips) return;
         ChooseMD oldChooseMD = currentChooseMD;
@@ -254,6 +279,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
         parent = oldParent;
         currentChooseMD = oldChooseMD;
+    }
+
+    protected void visitSpell(@NonNull Element element) {
+        visitSimpleItem(element);
     }
 
     @Override

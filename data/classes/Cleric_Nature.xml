@@ -1,0 +1,102 @@
+<class>
+    <name>Nature Cleric</name>
+    <parent>Cleric</parent>
+
+    <level value="1">
+        <!-- TODO prefer to use a choose <choose stat="Wisdom" casterClass="druid"/> -->
+        <cantrips casterClass="druid" stat="Wisdom"/>
+        <armor>
+            <proficiency category="heavy armor"></proficiency>
+        </armor>
+        <skills>
+            <choose name="skills">
+                <or name="animal_handling"><proficiency >Animal Handling</proficiency></or>
+                <or name="nature"><proficiency >Nature</proficiency></or>
+                <or name="survival"><proficiency >Survival</proficiency></or>
+            </choose>
+        </skills>
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Animal Friendship</spell>
+            <spell>Speak with Animals</spell>
+        </spells>
+    </level>
+
+    <level value="2">
+        <feature extension="extend">
+            <name>Channel Divinity</name>
+            <effect actionName="Charm Animals and Plants">
+                <name>Charm Animals and Plants</name>
+                <actionDescription>As an action, you can charm plants and animals within 30 feet for 1 minute.</actionDescription>
+                <shortDescription>As an action, you present your holy symbol and invoke the name of your deity. Each beast or plant creature that can see you within 30 feet of you must make a Wisdom saving throw. If the creature fails its saving throw, it is charmed by you for 1 minute or until it takes damage.
+                    While it is charmed by you, it is friendly to you an other creatures you designate.</shortDescription>
+            </effect>
+            <context></context>
+        </feature>
+    </level>
+
+    <level value="3">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Barkskin</spell>
+            <spell>Spike Growth</spell>
+        </spells>
+    </level>
+
+    <level value="5">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Plant Growth</spell>
+            <spell>Wind Wall</spell>
+        </spells>
+    </level>
+
+    <level value="6">
+        <feature >
+            <name>Dampen Elements</name>
+            <shortDescription>When you or a creature within 30 feet of you that takes acid, cold, fire, lightning, or thunder damage, you can use your reaction to grant resistance to the creature against that instance of the damage.</shortDescription>
+            <context>HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="7">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Dominate Beast</spell>
+            <spell>Grasping Vine</spell>
+        </spells>
+    </level>
+
+    <level value="8">
+        <feature >
+            <name>Divine Strike</name>
+            <shortDescription>You gain the ability to infuse your weapon strikes with divine energy. One on each of your turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 1d8 cold, fire, or lightning damage (your choice) to the target.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Insect Plague</spell>
+            <spell>Tree Stride</spell>
+        </spells>
+    </level>
+
+    <level value="14">
+        <feature extension="extend">
+            <name>Divine Strike</name>
+            <shortDescription>You gain the ability to infuse your weapon strikes with divine energy. One on each of your turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 2d8 cold, fire, or lightning damage (your choice) to the target.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature >
+            <name>Master of Nature</name>
+            <shortDescription>You gain the ability to command animals and plant creatures. While creatures are charmed by your Charm Animals and Plants feature, you can take a bonus action on your turn to verbally command what each of those creatures will do on its next turn.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+</class>

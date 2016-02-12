@@ -26,6 +26,12 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
             case "cantrips":
                 visitCantrips(element);
                 break;
+            case "spells":
+                visitSpells(element);
+                break;
+            case "spell":
+                visitSpell(element);
+                break;
             case "cantrip":
                 visitCantrip(element);
                 break;
@@ -101,8 +107,16 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
         visitSimpleItem(element);
     }
 
+    protected void visitSpells(@NonNull Element element) {
+        visitGroup(element);
+    }
+
     protected void visitCantrips(@NonNull Element element) {
         visitGroup(element);
+    }
+
+    protected void visitSpell(@NonNull Element element) {
+        visitSimpleItem(element);
     }
 
     protected void visitCantrip(@NonNull Element element) {

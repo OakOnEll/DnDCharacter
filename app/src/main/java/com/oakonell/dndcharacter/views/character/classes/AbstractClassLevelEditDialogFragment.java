@@ -221,7 +221,8 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         @Override
                         public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
                             addSubclassTextView(dynamic);
-                            AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), false);
+                            AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), true);
+
 
                             subclassChooseMDs = visitor.appendToLayout(subclassLevelElement, getMainActivity(), dynamic, getSubClassChoices());
                             return new RootChoiceMDNode();

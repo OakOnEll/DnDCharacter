@@ -1,0 +1,116 @@
+<class>
+    <name>Knowledge Cleric</name>
+    <parent>Cleric</parent>
+
+    <level value="1">
+        <languages>
+            <choose name="language" number="2"/>
+        </languages>
+        <skills>
+            <choose name="skills" number="2">
+                <or name="arcana"><proficiency level="expert">Arcana</proficiency></or>
+                <or name="history"><proficiency level="expert">History</proficiency></or>
+                <or name="insight"><proficiency level="expert">Insight</proficiency></or>
+                <or name="nature"><proficiency level="expert">Nature</proficiency></or>
+                <or name="religion"><proficiency level="expert">Religion</proficiency></or>
+            </choose>
+        </skills>
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>command</spell>
+            <spell>identify</spell>
+        </spells>
+    </level>
+
+    <level value="2">
+        <feature extension="extend">
+            <name>Channel Divinity</name>
+            <effect actionName="Knowledge of the Ages">
+                <name>Knowledge of the Ages</name>
+                <actionDescription>As an action, become proficient in a skill/tool for 10 minutes</actionDescription>
+                <!-- TODO allow runtime choices, maybe a $prompt("prompt", choices) -->
+                <shortDescription>You tap into a divine well of knowledge. As an action, you choose one skill or tool. For 10 minutes, you have proficiency with the chosen skill or tool.</shortDescription>
+                <context>SKILL_ROLL</context>
+            </effect>
+            <context></context>
+        </feature>
+    </level>
+
+    <level value="3">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>augury</spell>
+            <spell>suggestion</spell>
+        </spells>
+    </level>
+
+    <level value="5">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Nondetection</spell>
+            <spell>Speak with the Dead</spell>
+        </spells>
+    </level>
+
+    <level value="6">
+        <feature extension="extend">
+            <name>Channel Divinity</name>
+            <effect actionName="Read Thoughts">
+                <name>Read Thoughts</name>
+                <actionDescription>As an action, you can read a creature's thoughts. You can then use your access to the creature's mind to command it.</actionDescription>
+                <!-- TODO allow runtime choices, maybe a $prompt("prompt", choices) -->
+                <shortDescription>As an action, choose one creature that you can see within 60 feet of you. That creature must make a Wisdom saving throw. If the creature succeeds on the saving throw, you can't use this feature again until you finish a long rest.
+                    If the creature fails its save, you can read its surface thoughts (those foremost in it s mid, reflecting its current emotions and what it is actively thinking about) when it is within 60 feet of you. This effect lasts for 1 minute.
+                    During that time, you can use your action to end this effect and cast the suggestion spell on the creature without expending a spell slot. The target automatically fails its saving throw against the spell.</shortDescription>
+            </effect>
+            <context></context>
+        </feature>
+    </level>
+
+    <level value="7">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Arcane Eye</spell>
+            <spell>Confusion</spell>
+        </spells>
+    </level>
+
+    <level value="8">
+        <feature >
+            <name>Potent Spellcasting</name>
+            <shortDescription>You add your Wisdom Modifier to the damage you deal with any cleric cantrip.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Legend of Lore</spell>
+            <spell>Scrying</spell>
+        </spells>
+    </level>
+
+    <level value="17">
+        <feature >
+            <name>Visions of the Past</name>
+            <refreshes>rest</refreshes>
+            <uses>1</uses>
+            <shortDescription>You can call up visions of the past that relate to an object you hold or your immediate surroundings.
+            You spend at least 1 minute in meditation and prayer, then receive dreamlike, shadowy glimpses of recent events. You can meditate in this way for a number of minutes equal to your Wisdom score, and must maintain concentration during that time, as if you were casting a spell.</shortDescription>
+            <effect actionName="Read Object">
+                <name>Object Reading</name>
+                <actionDescription>You can see visions of the object's previous owners.</actionDescription>
+                <shortDescription>Holding an object as you meditate, you can see visions of the object's previous ownder. After meditating for 1 minute, you learn how the owner acquired and lost the object, as well as the most recent significant event involving the object and that owner.
+                If the object was owned by another creature in the recent past (within a number of days equal to your wisdom score), you can spend 1 additional minute for each owner to learn the same information about that creature.</shortDescription>
+            </effect>
+
+            <effect actionName="Read Area">
+                <name>Area Reading</name>
+                <actionDescription>You can see visions of of recent events in your immediate vicinity (up to a 50 foot cube).</actionDescription>
+                <shortDescription>As you meditate, you see visions of recent events in your immediate visinity (a room, street, tunnel, clearing, or the like, up to a 50-foot cube), going back a number of days equal to your Wisdom score. For each minute you meditate, you lean of one significant event, beginning with the most recent. Significant events typically involve powerful emotions, such as battles and betrayals, marriages and murders, births and funerals. However, they might also include more mundane events that are nevertheless important in your current situation.</shortDescription>
+            </effect>
+        </feature>
+    </level>
+
+</class>

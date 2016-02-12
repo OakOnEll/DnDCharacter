@@ -48,6 +48,10 @@ public interface ICharacterComponent extends ComponentSource {
     @NonNull
     List<CharacterSpell> getCantrips();
 
+    @NonNull
+    List<CharacterSpell> getSpells();
+
+
     int getSpeed(Character character, SpeedType type);
 
     int getInitiativeMod(Character character);

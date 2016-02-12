@@ -281,6 +281,17 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return cantrips;
     }
 
+    @NonNull
+    @Override
+    public List<CharacterSpell> getSpells() {
+        List<CharacterSpell> cantrips = new ArrayList<>();
+        cantrips.addAll(feature.getSpells());
+        if (extendedFeature != null) {
+            cantrips.addAll(extendedFeature.getSpells());
+        }
+        return cantrips;
+    }
+
     @Override
     public void addFeatureInfo(Map<String, FeatureInfo> map, Character character) {
         throw new RuntimeException("SHouldn't get here?");
