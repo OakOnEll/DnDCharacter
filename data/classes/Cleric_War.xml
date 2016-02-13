@@ -4,7 +4,6 @@
 
     <level value="1">
         <weapons>
-            <proficiency category="simple weapons"></proficiency>
             <proficiency category="martial weapons"></proficiency>
         </weapons>
         <armor>

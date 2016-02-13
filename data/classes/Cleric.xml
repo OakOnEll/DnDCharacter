@@ -61,6 +61,9 @@
         <item>Shield</item>
         <item>Holy Symbol</item>
     </equipment>
+    <weapons>
+        <proficiency category="simple weapons"></proficiency>
+    </weapons>
     <preparedSpellsFormula>max(wisdomMod + classLevel, 1)</preparedSpellsFormula>
     <spellCastingStat>wisdom</spellCastingStat>
     <multiclassCasterFactor>1</multiclassCasterFactor>

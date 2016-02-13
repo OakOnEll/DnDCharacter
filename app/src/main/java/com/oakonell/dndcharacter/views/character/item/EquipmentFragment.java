@@ -378,6 +378,11 @@ public class EquipmentFragment extends AbstractSheetFragment {
             ac = (TextView) view.findViewById(R.id.ac);
         }
 
+        protected String getNameString(@NonNull CharacterArmor item, EquipmentFragment context) {
+            boolean isProficient = context.getCharacter().isProficientWith(item);
+            return item.getName() + (isProficient ? "" : context.getString(R.string.not_proficient));
+        }
+
         @Override
         public void bind(@NonNull final EquipmentFragment context, final SubAdapter<CharacterArmor> adapter, @NonNull final CharacterArmor item) {
             super.bind(context, adapter, item);
@@ -465,11 +470,20 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 hasExtra = true;
             }
 
+
+            boolean isProficient = context.getCharacter().isProficientWith(item);
+            if (!isProficient) {
+                if (hasExtra) {
+                    builder.append(", ");
+                }
+                builder.append(context.getString(R.string.not_proficient));
+                hasExtra = true;
+            }
+
             if (hasExtra) {
                 builder.append("]");
                 return base + builder.toString();
             }
-
             return base;
         }
 
