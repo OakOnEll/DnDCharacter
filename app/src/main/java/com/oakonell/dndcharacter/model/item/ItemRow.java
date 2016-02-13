@@ -23,6 +23,8 @@ public class ItemRow extends AbstractComponentModel {
     private String xml;
     @Column
     private ItemType itemType;
+    @Column
+    private String cost;
 
     @Override
     public String getName() {
@@ -65,18 +67,22 @@ public class ItemRow extends AbstractComponentModel {
         super.setDocument(doc);
         String category;
         ItemType type;
+        String cost;
         if (doc == null) {
             category = "XmlParseError";
             type = null;
+            cost = "?";
         } else {
             category = XmlUtils.getElementText(doc, "category");
             String itemTypeString = XmlUtils.getElementText(doc, "itemType");
             if (itemTypeString == null) {
                 throw new RuntimeException("Item has no itemType set!");
             }
+            cost = XmlUtils.getElementText(doc, "cost");
             type = ItemType.valueOf(itemTypeString.toUpperCase());
         }
         setCategory(category);
         setItemType(type);
+        this.cost  = cost;
     }
 }

@@ -21,4 +21,6 @@
     <string name="extend">extension</string>
     <string name="replace">replacement</string>
     <string name="cast_spell">Cast Spell</string>
+    <string name="select_item">Select Item</string>
+    <string name="item_type_prompt">[Item Type]</string>
 </resources>

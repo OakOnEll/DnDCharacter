@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.views.character.item;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -9,11 +8,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +28,7 @@ import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
@@ -51,6 +48,7 @@ import java.util.Map;
  */
 public class EquipmentFragment extends AbstractSheetFragment {
     private static final int UNDO_DELAY = 5000;
+    private static final String EQUIPMENT_FRAG = "equipment_frag";
     private TextView armor_proficiency;
     private TextView weapon_proficiency;
     private TextView tools_proficiency;
@@ -257,102 +255,18 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     private void addWeapon() {
-        // TODO simple add for now
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Weapon");
-
-// Set up the input
-        final EditText input = new EditText(getActivity());
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-// Set up the buttons
-        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(@NonNull DialogInterface dialog, int which) {
-                String name = input.getText().toString();
-                CharacterWeapon item = new CharacterWeapon();
-                item.setName(name);
-                getCharacter().addWeapon(item);
-                weaponsAdapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(@NonNull DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
+        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.WEAPON);
+        dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 
     private void addArmor() {
-        // TODO simple add for now
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Armor");
-
-// Set up the input
-        final EditText input = new EditText(getActivity());
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-// Set up the buttons
-        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(@NonNull DialogInterface dialog, int which) {
-                String name = input.getText().toString();
-                CharacterArmor item = new CharacterArmor();
-                item.setName(name);
-                getCharacter().addArmor(item);
-                armorAdapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(@NonNull DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
+        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.ARMOR);
+        dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 
     private void addEquipment() {
-        // TODO simple add for now
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Equipment");
-
-// Set up the input
-        final EditText input = new EditText(getActivity());
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-// Set up the buttons
-        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(@NonNull DialogInterface dialog, int which) {
-                String name = input.getText().toString();
-                CharacterItem item = new CharacterItem();
-                item.setName(name);
-                getCharacter().addItem(item);
-                equipmentAdapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(@NonNull DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
+        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), null);
+        dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 
     @Override
