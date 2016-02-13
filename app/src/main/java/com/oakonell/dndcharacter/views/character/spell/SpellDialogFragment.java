@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character.item;
+package com.oakonell.dndcharacter.views.character.spell;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -16,23 +16,22 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
-import com.oakonell.dndcharacter.utils.NumberUtils;
-import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.item.CharacterItem;
-import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.character.DamageType;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
+import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
+import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
-import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -46,8 +45,8 @@ import java.util.Set;
 /**
  * Created by Rob on 12/8/2015.
  */
-public class WeaponAttackDialogFragment extends RollableDialogFragment {
-    public static final String WEAPON = "weapon";
+public class SpellDialogFragment extends RollableDialogFragment {
+    public static final String SPELL = "spell";
 
     public static final String ATTACK_DAMAGE_INFO = "attackDamageInfo";
     public static final String DAMAGE_LIST = "damageList";
@@ -63,18 +62,14 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     private TextView name;
     private TextView attack_bonus;
     private TextView damage_descr;
-    private CheckBox two_handed;
-    private CheckBox use_dexterity;
-    private AmmunitionViewHelper ammunitionViewHelper;
 
     private Button add_another;
     private RecyclerView damagesRecyclerView;
     private ViewGroup total_group;
     private TextView attack_roll_final_total;
 
-
-    // these are persistence safe due to being initialized onCharacterLoad()
-    private CharacterWeapon weapon;
+    // these are persistence safe do to being initialized onCharacterLoad()
+    private CharacterSpell spell;
     private int damageModifier = 2;
 
     // these need to be persistence enabled
@@ -84,12 +79,12 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
     @NonNull
-    public static WeaponAttackDialogFragment create(@NonNull CharacterItem item) {
-        WeaponAttackDialogFragment newMe = new WeaponAttackDialogFragment();
-        String name = item.getName();
+    public static SpellDialogFragment create(@NonNull CharacterSpell spell) {
+        SpellDialogFragment newMe = new SpellDialogFragment();
+        String name = spell.getName();
 
         Bundle args = new Bundle();
-        args.putString(WEAPON, name);
+        args.putString(SPELL, name);
         newMe.setArguments(args);
 
         return newMe;
@@ -99,18 +94,13 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     @Override
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.weapon_attack_dialog, container);
+        View view = inflater.inflate(R.layout.spell_dialog, container);
         superCreateView(view, savedInstanceState);
 
         description = (TextView) view.findViewById(R.id.description);
         name = (TextView) view.findViewById(R.id.weapon_label);
         attack_bonus = (TextView) view.findViewById(R.id.attack_bonus);
         damage_descr = (TextView) view.findViewById(R.id.damage_descr);
-        two_handed = (CheckBox) view.findViewById(R.id.two_handed);
-        use_dexterity = (CheckBox) view.findViewById(R.id.use_dexterity);
-
-        ammunitionViewHelper = new AmmunitionViewHelper();
-        ammunitionViewHelper.createView(view);
 
         Button attack_roll_button = (Button) view.findViewById(R.id.attack_roll_button);
         attack_roll1 = (TextView) view.findViewById(R.id.attack_roll1);
@@ -239,7 +229,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
     @Override
     protected String getTitle() {
-        return getString(R.string.weapon_attack);
+        return getString(R.string.cast_spell);
     }
 
     protected boolean isCancelable(boolean hasCancelButton) {
@@ -312,7 +302,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
-        loadWeapon(character);
+        loadSpell(character);
         updateViews();
     }
 
@@ -320,7 +310,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
 
-        loadWeapon(character);
+        loadSpell(character);
         updateViews();
     }
 
@@ -329,79 +319,52 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     protected Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
-        filter.add(new FeatureContextArgument(FeatureContext.WEAPON_ATTACK));
+        filter.add(new FeatureContextArgument(FeatureContext.SPELL_CAST));
         return filter;
     }
 
     private void updateViews() {
         Character character = getCharacter();
-        final CharacterWeapon.AttackModifiers attackModifiers = weapon.getAttackModifiers(character, use_dexterity.isChecked());
-        damageModifier = attackModifiers.getDamageModifier();
-        setModifier(attackModifiers.getAttackBonus());
-
+        StatType stat = spell.getCastingStat();
+        int modifier = 0;
+        if (stat != null) {
+            modifier = character.getStatBlock(stat).getModifier();
+            setModifier(modifier);
+        }
 
         // updateViews
 
-        if (weapon.isVersatile()) {
-            two_handed.setVisibility(View.VISIBLE);
-            two_handed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    updateViews();
-                }
-            });
-        } else {
-            two_handed.setOnCheckedChangeListener(null);
-            two_handed.setVisibility(View.GONE);
-        }
 
-        if (weapon.isFinesse()) {
-            use_dexterity.setVisibility(View.VISIBLE);
-            use_dexterity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    updateViews();
-                }
-            });
-        } else {
-            use_dexterity.setOnCheckedChangeListener(null);
-            use_dexterity.setVisibility(View.GONE);
-        }
+        description.setText(spell.getDescription());
+        attack_bonus.setText(NumberUtils.formatNumber(modifier));
 
+        name.setText(spell.getName());
 
-        description.setText(weapon.getDescriptionString());
-        attack_bonus.setText(NumberUtils.formatNumber(attackModifiers.getAttackBonus()));
-
-        name.setText(weapon.getName());
-
-        if (two_handed.isChecked()) {
-            damage_descr.setText(weapon.getVersatileDamageString(getResources()));
-        } else {
-            damage_descr.setText(weapon.getDamageString(getResources()));
-        }
         attack_roll_modifier.setText(NumberUtils.formatNumber(damageModifier));
 
-        ammunitionViewHelper.bindView(getMainActivity(), weapon);
     }
 
-    private void loadWeapon(@NonNull Character character) {
-        String name = getArguments().getString(WEAPON);
+    private void loadSpell(@NonNull Character character) {
+        String name = getArguments().getString(SPELL);
 
-        List<CharacterWeapon> weapons = new ArrayList<>();
-        for (CharacterWeapon each : character.getWeapons()) {
-            if (each.getName().equals(name)) {
-                weapons.add(each);
+        List<CharacterSpell> spells = new ArrayList<>();
+        for (Character.SpellLevelInfo eachSpellLevel : character.getSpellInfos()) {
+            for (CharacterSpell each : eachSpellLevel.getSpellInfos()) {
+                if (each.getName().equals(name)) {
+                    spells.add(each);
+                }
+
             }
         }
-        if (weapons.isEmpty()) {
+        if (spells.isEmpty()) {
             // TODO deal with weapon having been deleted
-            throw new RuntimeException("No weapon named '" + name + "' in inventory");
+            throw new RuntimeException("No spell named '" + name + "' in spell list");
         }
-        if (weapons.size() > 1) {
+        if (spells.size() > 1) {
             // TODO compare damages?
 
         }
-        weapon = weapons.get(0);
+        spell = spells.get(0);
     }
 
 
@@ -411,24 +374,21 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         // this need to come before the creation/assignment below
         attack_roll_input.setText("");
 
-
-        List<CharacterWeapon.DamageFormula> weaponDamages = weapon.getDamages();
-        if (two_handed.isChecked()) {
-            weaponDamages = weapon.getVersatileDamages();
-        }
+// TODO handle spell damages
+//        List<CharacterWeapon.DamageFormula> weaponDamages = spell.getDamages();
         attackDamageInfo = new AttackDamageInfo();
         final Map<DamageType, Integer> damages = attackDamageInfo.damages;
         DamageType first = null;
-        for (CharacterWeapon.DamageFormula each : weaponDamages) {
-            int value = getCharacter().evaluateFormula(each.getDamageFormula(), null);
-            Integer damage = damages.get(each.getType());
-            if (first == null) {
-                first = each.getType();
-            }
-            if (damage == null) damage = 0;
-            damage += value;
-            damages.put(each.getType(), damage);
-        }
+//        for (CharacterWeapon.DamageFormula each : weaponDamages) {
+//            int value = getCharacter().evaluateFormula(each.getDamageFormula(), null);
+//            Integer damage = damages.get(each.getType());
+//            if (first == null) {
+//                first = each.getType();
+//            }
+//            if (damage == null) damage = 0;
+//            damage += value;
+//            damages.put(each.getType(), damage);
+//        }
 
         // TODO animate the roll, with sound fx
         attack_roll1.setText(attackDamageInfo.getDescription(getResources()));
@@ -454,7 +414,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
 
-    static class DamageViewHolder extends BindableComponentViewHolder<AttackDamageInfo, WeaponAttackDialogFragment, DamagesListAdapter> {
+    static class DamageViewHolder extends BindableComponentViewHolder<AttackDamageInfo, SpellDialogFragment, DamagesListAdapter> {
         @NonNull
         final TextView damage;
 
@@ -464,7 +424,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         }
 
         @Override
-        public void bind(WeaponAttackDialogFragment context, DamagesListAdapter adapter, @NonNull AttackDamageInfo row) {
+        public void bind(SpellDialogFragment context, DamagesListAdapter adapter, @NonNull AttackDamageInfo row) {
             damage.setText(row.getDescription(context.getResources()));
         }
     }
@@ -543,10 +503,10 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     static class DamagesListAdapter extends RecyclerView.Adapter<DamageViewHolder> {
-        private final WeaponAttackDialogFragment context;
+        private final SpellDialogFragment context;
         private final ArrayList<AttackDamageInfo> damages;
 
-        DamagesListAdapter(WeaponAttackDialogFragment context, ArrayList<AttackDamageInfo> damages) {
+        DamagesListAdapter(SpellDialogFragment context, ArrayList<AttackDamageInfo> damages) {
             this.damages = damages;
             this.context = context;
         }

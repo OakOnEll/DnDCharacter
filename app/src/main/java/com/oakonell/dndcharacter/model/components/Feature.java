@@ -21,8 +21,6 @@ import java.util.List;
  */
 public class Feature extends AbstractContextualComponent {
     @Element(required = false)
-    private String description;
-    @Element(required = false)
     private String usesFormula;
     @Element(required = false)
     private RefreshType refreshType;
@@ -46,14 +44,6 @@ public class Feature extends AbstractContextualComponent {
     @Override
     public ComponentType getType() {
         return ComponentType.FEATURE;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public UseType getUseType() {

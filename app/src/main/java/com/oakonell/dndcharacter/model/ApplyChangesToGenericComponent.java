@@ -80,6 +80,11 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         newMe.visitChildren(element);
     }
 
+    @Override
+    protected void visitShortDescription(@NonNull Element element) {
+        component.setDescription(element.getTextContent());
+    }
+
     private void addFeat(String name) {
         Feat feat = new Select().from(Feat.class).where("upper(name) = ?", name.toUpperCase()).executeSingle();
         if (feat == null) {

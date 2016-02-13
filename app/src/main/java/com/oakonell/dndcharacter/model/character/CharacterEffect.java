@@ -8,8 +8,6 @@ import org.simpleframework.xml.Element;
  * Created by Rob on 1/3/2016.
  */
 public class CharacterEffect extends AbstractContextualComponent {
-    @Element(required = false)
-    private String description;
 
     @Element(required = false)
     private String origin;
@@ -23,14 +21,6 @@ public class CharacterEffect extends AbstractContextualComponent {
     @NonNull
     public String toString() {
         return "Effect: " + getName();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getSource() {

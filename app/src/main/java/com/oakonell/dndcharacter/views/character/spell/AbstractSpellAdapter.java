@@ -69,6 +69,8 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
                 @Override
                 public void onClick(View v) {
                     // launch spell cast dialog
+                    SpellDialogFragment dialog = SpellDialogFragment.create(info);
+                    dialog.show(context.getFragmentManager(), "spell");
                 }
             });
             if (info.getSource() == ComponentType.CLASS || info.getSource() == null) {

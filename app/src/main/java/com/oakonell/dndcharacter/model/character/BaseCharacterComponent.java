@@ -28,6 +28,8 @@ import java.util.Map;
  */
 public abstract class BaseCharacterComponent implements ICharacterComponent {
     @Element(required = false)
+    private String description;
+    @Element(required = false)
     private SavedChoices savedChoices = new SavedChoices();
     @NonNull
     @ElementMap(entry = "statMod", key = "name", value = "mod", required = false)
@@ -74,6 +76,15 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     @Override
     public int getStatModifier(StatType type) {

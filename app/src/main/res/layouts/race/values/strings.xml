@@ -20,4 +20,5 @@
     <string name="not_proficient">(Not Proficient!)</string>
     <string name="extend">extension</string>
     <string name="replace">replacement</string>
+    <string name="cast_spell">Cast Spell</string>
 </resources>
