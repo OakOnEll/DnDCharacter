@@ -26,6 +26,7 @@ import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -319,7 +320,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         }
 
         public void setFeature(@NonNull FeatureInfo info) {
-            this.list = info.getActionsAndEffects();
+            this.list = new ArrayList<>(info.getActionsAndEffects());
             this.info = info;
             notifyDataSetChanged();
         }

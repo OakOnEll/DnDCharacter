@@ -27,7 +27,7 @@
         <!-- TODO feature extension/replacement-->
         <feature extension="extend">
             <name>Channel Divinity</name>
-            <action>
+            <action uses="1">
                 <name>Guided Strike</name>
                 <shortDescription>You can strike with supernatural accuracy. WHen you make an attack roll, you can use your channel divinity to gain a +10 bonus to the roll. You make this choice after you see the roll, but before the DM says whether the attack hits or misses.</shortDescription>
             </action>

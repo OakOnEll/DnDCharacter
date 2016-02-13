@@ -24,7 +24,7 @@
     <level value="2">
         <feature extension="extend">
             <name>Channel Divinity</name>
-            <action>
+            <action uses="1">
                 <name>Radiance of the Dawn</name>
                 <shortDescription>As an action, you can harness sunlight, banishing darkness and dealing radiant damage to your foes.
                 As an action, you present your holy symbol and any magical darkness within 30 feet of you is dispelled. Additionally, each hostile creature within 30 feet of you must make a constitution saving throw. A create takes radiant damage equal to 2d10 + your cleric level on a failed saving throw, and half as much damage on a successful one.

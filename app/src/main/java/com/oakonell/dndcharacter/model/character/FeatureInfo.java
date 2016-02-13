@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.model.character;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
@@ -15,10 +16,11 @@ import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.UseType;
-import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.expression.context.SimpleVariableContext;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -213,13 +215,27 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
 
-    public List<IFeatureAction> getActionsAndEffects() {
-        List<IFeatureAction> actionAndEffects = new ArrayList<>();
-        actionAndEffects.addAll(feature.getActionsAndEffects());
-        if (extendedFeature != null) {
-            actionAndEffects.addAll(extendedFeature.getActionsAndEffects());
+    public Collection<IFeatureAction> getActionsAndEffects() {
+        Map<String, IFeatureAction> resultActionsAndEffects = new HashMap<>();
+        for (IFeatureAction each : feature.getActionsAndEffects()) {
+            resultActionsAndEffects.put(each.getName(), each);
         }
-        return actionAndEffects;
+        if (extendedFeature != null) {
+            final Collection<IFeatureAction> actionsAndEffects = extendedFeature.getActionsAndEffects();
+            for (IFeatureAction each : actionsAndEffects) {
+                IFeatureAction existing = resultActionsAndEffects.get(each.getName());
+                if (existing != null) {
+                    if (!existing.replacesPrevious()) {
+                        // TODO report the error better
+                        Log.e("Feature error", "Found a feature '" + feature.getName() + "' action '" + each.getName() + "', that doesn't specify replace");
+                    }
+                    continue;
+                }
+                resultActionsAndEffects.put(each.getName(), each);
+            }
+
+        }
+        return resultActionsAndEffects.values();
     }
 
     @NonNull

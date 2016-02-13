@@ -170,6 +170,15 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             if (actionName == null || actionName.trim().length() == 0) {
                 actionName = effect.getName();
             }
+
+            String actionExtensionTypeString = element.getAttribute("extension");
+            FeatureExtensionType actionExtensionType = null;
+            if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
+                actionExtensionTypeString = actionExtensionTypeString.toUpperCase();
+                actionExtensionType = FeatureExtensionType.valueOf(actionExtensionTypeString);
+                effect.setExtensionType(actionExtensionType);
+            }
+
             String actionDescription = XmlUtils.getElementText(effectElement, "actionDescription");
             effect.setActionDescription(actionDescription);
             effect.setAction(actionName);
@@ -180,10 +189,21 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
         final List<Element> actionElements = XmlUtils.getChildElements(element, "action");
         for (Element actionElement : actionElements) {
+
+
             int cost = readIntegerAttribute(actionElement, "uses", -1);
             String actionName = XmlUtils.getElementText(actionElement, "name");
             String shortDescription = XmlUtils.getElementText(actionElement, "shortDescription");
             Feature.FeatureAction action = new Feature.FeatureAction();
+
+            String actionExtensionTypeString = element.getAttribute("extension");
+            FeatureExtensionType actionExtensionType = null;
+            if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
+                actionExtensionTypeString = actionExtensionTypeString.toUpperCase();
+                actionExtensionType = FeatureExtensionType.valueOf(actionExtensionTypeString);
+                action.setExtensionType(actionExtensionType);
+            }
+
 
             action.setName(actionName);
             action.setCost(cost);

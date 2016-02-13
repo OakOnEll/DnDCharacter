@@ -21,7 +21,7 @@
     <level value="2">
         <feature extension="extend">
             <name>Channel Divinity</name>
-            <action>
+            <action  uses="1">
                 <name>Preserve Life</name>
                 <shortDescription>As an action, you can evoke healing energy to restore 5*Cleric Level hit points. Choose any creatures within 30 feet of you, and divide the hit points among them.
                 This feature can can a creature to no more than half of its hit point maximum. You can't use this feature on an undead or a construct.</shortDescription>

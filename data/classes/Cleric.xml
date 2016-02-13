@@ -92,7 +92,7 @@
             <uses>1</uses>
             <shortDescription>You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.
                 You must then finish a short or long rest to use your Channel Divinity again.</shortDescription>
-            <action >
+            <action uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, it is turned for 1 minute or until it takes any damage.
                 A turned creature must spend its turns trying to move as far away from you as it can, and can't willingly move to a space within 30 feet of you. It also can't take any reactions. For its action, it can only use the Dash action or try to escape from an effect that prevents it from moving. If there's no where to move, the creature can take the Dodge action.</shortDescription>
@@ -138,7 +138,7 @@
     <level value="5">
         <feature extension="extend">
             <name>Channel Divinity</name>
-            <action extension="extend">
+            <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 1/2 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
                     A turned creature must spend its turns trying to move as far away from you as it can, and can't willingly move to a space within 30 feet of you. It also can't take any reactions. For its action, it can only use the Dash action or try to escape from an effect that prevents it from moving. If there's no where to move, the creature can take the Dodge action.</shortDescription>
@@ -192,7 +192,7 @@
     <level value="8">
         <feature extension="extend">
             <name>Channel Divinity</name>
-            <action extension="extend">
+            <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 1 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
                     A turned creature must spend its turns trying to move as far away from you as it can, and can't willingly move to a space within 30 feet of you. It also can't take any reactions. For its action, it can only use the Dash action or try to escape from an effect that prevents it from moving. If there's no where to move, the creature can take the Dodge action.</shortDescription>
@@ -254,7 +254,7 @@
     <level value="11">
         <feature extension="extend">
             <name>Channel Divinity</name>
-            <action extension="extend">
+            <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 2 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
                     A turned creature must spend its turns trying to move as far away from you as it can, and can't willingly move to a space within 30 feet of you. It also can't take any reactions. For its action, it can only use the Dash action or try to escape from an effect that prevents it from moving. If there's no where to move, the creature can take the Dodge action.</shortDescription>
@@ -312,7 +312,7 @@
     <level value="14">
         <feature extension="extend">
             <name>Channel Divinity</name>
-            <action extension="extend">
+            <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 3 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
                     A turned creature must spend its turns trying to move as far away from you as it can, and can't willingly move to a space within 30 feet of you. It also can't take any reactions. For its action, it can only use the Dash action or try to escape from an effect that prevents it from moving. If there's no where to move, the creature can take the Dodge action.</shortDescription>
@@ -377,7 +377,7 @@
     <level value="17">
         <feature extension="extend">
             <name>Channel Divinity</name>
-            <action extension="extend">
+            <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 4 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
                     A turned creature must spend its turns trying to move as far away from you as it can, and can't willingly move to a space within 30 feet of you. It also can't take any reactions. For its action, it can only use the Dash action or try to escape from an effect that prevents it from moving. If there's no where to move, the creature can take the Dodge action.</shortDescription>

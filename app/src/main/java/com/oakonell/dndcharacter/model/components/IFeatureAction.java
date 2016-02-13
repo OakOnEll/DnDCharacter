@@ -13,4 +13,8 @@ public interface IFeatureAction {
     void applyToCharacter(Character character);
 
     String getActionDescription();
+
+    boolean replacesPrevious();
+
+    String getName();
 }

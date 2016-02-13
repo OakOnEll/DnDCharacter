@@ -134,6 +134,8 @@ public class Feature extends AbstractContextualComponent {
 
         @Element(required = false)
         int cost;
+        @Element(required = false)
+        private FeatureExtensionType extensionType;
 
         @Override
         public String getAction() {
@@ -172,8 +174,17 @@ public class Feature extends AbstractContextualComponent {
             return getDescription();
         }
 
+
         public void setCost(int cost) {
             this.cost = cost;
+        }
+
+        public void setExtensionType(FeatureExtensionType extensionType) {
+            this.extensionType = extensionType;
+        }
+        @Override
+        public boolean replacesPrevious() {
+            return extensionType == FeatureExtensionType.REPLACE;
         }
     }
 
@@ -185,6 +196,8 @@ public class Feature extends AbstractContextualComponent {
         int cost;
         @Element(required = false)
         private String actionDescription;
+        @Element(required = false)
+        private FeatureExtensionType extensionType;
 
         public void setCost(int cost) {
             this.cost = cost;
@@ -214,6 +227,13 @@ public class Feature extends AbstractContextualComponent {
 
         public void setActionDescription(String actionDescription) {
             this.actionDescription = actionDescription;
+        }
+        public void setExtensionType(FeatureExtensionType extensionType) {
+            this.extensionType = extensionType;
+        }
+        @Override
+        public boolean replacesPrevious() {
+            return extensionType == FeatureExtensionType.REPLACE;
         }
     }
 }
