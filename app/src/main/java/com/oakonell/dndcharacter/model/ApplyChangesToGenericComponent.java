@@ -360,6 +360,12 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     @Override
+    protected void visitPassivePerception(@NonNull Element element) {
+        String valueString = element.getTextContent();
+        component.setPassivePerceptionModFormula(valueString);
+    }
+
+    @Override
     protected void visitSpells(@NonNull Element element) {
         if (savedChoices != null) {
             final List<String> cantrips = savedChoices.getChoicesFor("spells");

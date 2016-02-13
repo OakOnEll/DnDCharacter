@@ -56,5 +56,7 @@ public interface ICharacterComponent extends ComponentSource {
 
     int getInitiativeMod(Character character);
 
+    int getPassivePerceptionMod(Character character);
+
     void addFeatureInfo(Map<String, FeatureInfo> map, Character character);
 }

@@ -23,4 +23,8 @@
     <string name="cast_spell">Cast Spell</string>
     <string name="select_item">Select Item</string>
     <string name="item_type_prompt">[Item Type]</string>
+    <string name="passive_perception_title">Passive Perception</string>
+    <string name="passive_base">Start Base</string>
+    <string name="proficiency_bonus">Proficiency Bonus</string>
+    <string name="wisdom_mod">Wisdom Mod</string>
 </resources>

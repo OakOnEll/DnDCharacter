@@ -20,7 +20,6 @@ import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.classes.AClass;
-import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
@@ -973,7 +972,7 @@ public class Character {
 
     @NonNull
     public Collection<FeatureInfo> getFeatureInfos() {
-        final Map<String, FeatureInfo> map= new HashMap<>();
+        final Map<String, FeatureInfo> map = new HashMap<>();
 
         // features shouldn't contain features, and any effects are not automatic, but applied on use
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver(true) {
@@ -1010,7 +1009,7 @@ public class Character {
             StatBlock block = getStatBlock(each);
             int mod = block.getModifier();
             variableContext.setNumber(each.name().toLowerCase() + "Mod", mod);
-            variableContext.setNumber(each.name().toLowerCase() , block.getValue());
+            variableContext.setNumber(each.name().toLowerCase(), block.getValue());
         }
         variableContext.setNumber("level", getClasses().size());
         return variableContext;
@@ -1467,6 +1466,19 @@ public class Character {
         }
     }
 
+    public static class PassivePerceptionWithSource extends WithSource {
+        private final int passivePerception;
+
+        PassivePerceptionWithSource(int initiative, ComponentSource source) {
+            super(source);
+            this.passivePerception = initiative;
+        }
+
+        public int getPassivePerception() {
+            return passivePerception;
+        }
+    }
+
     public abstract static class WithSource {
         private final ComponentSource source;
 
@@ -1600,7 +1612,7 @@ public class Character {
             protected void visitComponent(@NonNull ICharacterComponent component) {
                 for (CharacterSpell each : component.getSpells()) {
                     int level = each.getLevel();
-                    if (level ==0) {
+                    if (level == 0) {
                         // the level was unknown at creation time... assume 1st level?
                         level = 1;
                     }
@@ -1968,6 +1980,46 @@ public class Character {
         return result[0];
     }
 
+    public int getPassivePerception() {
+        final int result[] = new int[]{0};
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
+                result[0] += component.getPassivePerceptionMod(Character.this);
+            }
+        };
+        deriver.derive(this, "passivePerception");
+        return 10 + result[0] + getSkillBlock(SkillType.PERCEPTION).getBonus();
+    }
+
+    @NonNull
+    public List<PassivePerceptionWithSource> derivePassivePerception() {
+        final List<PassivePerceptionWithSource> result = new ArrayList<>();
+
+        PassivePerceptionWithSource baseSource = new PassivePerceptionWithSource(10, new CheatComponentSource(R.string.passive_base));
+        result.add(baseSource);
+        PassivePerceptionWithSource dexSource = new PassivePerceptionWithSource(getStatBlock(StatType.WISDOM).getModifier(), new CheatComponentSource(R.string.wisdom_mod));
+        result.add(dexSource);
+        final Proficient proficiency = getSkillBlock(SkillType.PERCEPTION).getProficiency();
+        if (proficiency.getMultiplier() > 0) {
+            CheatComponentSource source = new CheatComponentSource(R.string.proficiency_bonus);
+            PassivePerceptionWithSource proficiencySource = new PassivePerceptionWithSource((int) proficiency.getMultiplier() * getProficiency(), source);
+            result.add(proficiencySource);
+        }
+
+        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
+            protected void visitComponent(@NonNull ICharacterComponent component) {
+                int initiative = component.getPassivePerceptionMod(Character.this);
+                if (initiative == 0) return;
+                PassivePerceptionWithSource passivePerceptionWithSource = new PassivePerceptionWithSource(initiative, component);
+                result.add(passivePerceptionWithSource);
+            }
+        };
+        deriver.derive(this, "passivePerception");
+
+        return result;
+    }
+
+
     public int getInitiative() {
         final int result[] = new int[]{0};
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
@@ -1975,7 +2027,7 @@ public class Character {
                 result[0] += component.getInitiativeMod(Character.this);
             }
         };
-        deriver.derive(this, "initiative");
+        deriver.derive(this, "passivePerception");
         return result[0] + getStatBlock(StatType.DEXTERITY).getModifier();
     }
 
@@ -1994,10 +2046,33 @@ public class Character {
                 result.add(initiativeWithSource);
             }
         };
-        deriver.derive(this, "initiative");
+        deriver.derive(this, "passivePerception");
 
 
         return result;
     }
 
+
+    private class CheatComponentSource implements ComponentSource {
+        private final int stringResId;
+
+        CheatComponentSource(int stringResId) {
+            this.stringResId = stringResId;
+        }
+
+        @Override
+        public String getSourceString(Resources resources) {
+            return resources.getString(stringResId);
+        }
+
+        @Override
+        public ComponentType getType() {
+            return null;
+        }
+
+        @Override
+        public String getActiveFormula() {
+            return null;
+        }
+    }
 }

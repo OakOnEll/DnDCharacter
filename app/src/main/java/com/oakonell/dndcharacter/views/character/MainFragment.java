@@ -16,6 +16,7 @@ import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.feat.InitiativeDialogFragment;
+import com.oakonell.dndcharacter.views.character.feat.PassivePerceptionDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.SpeedDialogFragment;
@@ -46,6 +47,7 @@ public class MainFragment extends AbstractSheetFragment {
     TextView hitDice;
     TextView proficiency;
     private TextView initiative;
+    private TextView passivePerception;
     private TextView speed_lbl;
 
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -89,6 +91,16 @@ public class MainFragment extends AbstractSheetFragment {
                 dialog.show(getFragmentManager(), "initiative");
             }
         });
+
+        passivePerception = (TextView) rootView.findViewById(R.id.passive_perception);
+        rootView.findViewById(R.id.passive_perception_group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PassivePerceptionDialogFragment dialog = PassivePerceptionDialogFragment.create();
+                dialog.show(getFragmentManager(), "passive_perception");
+            }
+        });
+
 
         final View.OnClickListener onClickHp = new View.OnClickListener() {
             @Override
@@ -186,6 +198,8 @@ public class MainFragment extends AbstractSheetFragment {
         speed.setText(NumberUtils.formatNumber(character.getSpeed(speedType)));
 
         initiative.setText(NumberUtils.formatNumber(character.getInitiative()));
+
+        passivePerception.setText(NumberUtils.formatNumber(character.getPassivePerception()));
 
         hp.setText(getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP()));
         int tempHpVal = character.getTempHp();

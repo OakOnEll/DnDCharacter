@@ -16,6 +16,9 @@ import com.oakonell.dndcharacter.views.character.race.ApplyRaceDialogFragment;
  */
 public final class ComponentLaunchHelper {
     public static void editComponent(@NonNull CharacterActivity context, @NonNull ComponentSource source, boolean includeClassHP) {
+        if (source.getType()==null) {
+            return;
+        }
         switch (source.getType()) {
             case BACKGROUND:
                 ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog();

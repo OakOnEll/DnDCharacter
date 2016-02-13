@@ -20,6 +20,9 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
             case "speed":
                 visitSpeed(element);
                 break;
+            case "passivePerception":
+                visitPassivePerception(element);
+                break;
             case "initiative":
                 visitInitiative(element);
                 break;
@@ -104,6 +107,10 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
     }
 
     protected void visitInitiative(@NonNull Element element) {
+        visitSimpleItem(element);
+    }
+
+    protected void visitPassivePerception(@NonNull Element element) {
         visitSimpleItem(element);
     }
 

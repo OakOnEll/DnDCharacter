@@ -179,13 +179,21 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
 
     @Override
     public int getInitiativeMod(Character character) {
-        if (getFeature().getModifyingAcFormula() != null) {
+        if (getFeature().getInitiativeModFormula() != null) {
             return getFeature().getInitiativeMod(character);
         }
         if (extendedFeature != null) return extendedFeature.getInitiativeMod(character);
         return 0;
     }
 
+    @Override
+    public int getPassivePerceptionMod(Character character) {
+        if (getFeature().getPassivePerceptionModFormula() != null) {
+            return getFeature().getPassivePerceptionMod(character);
+        }
+        if (extendedFeature != null) return extendedFeature.getPassivePerceptionMod(character);
+        return 0;
+    }
 
     @Override
     public int getStatModifier(StatType type) {

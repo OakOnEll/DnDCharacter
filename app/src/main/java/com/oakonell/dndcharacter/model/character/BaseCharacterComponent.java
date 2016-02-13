@@ -67,6 +67,8 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     private String initiativeModFormula;
     @ElementList(required = false)
     private List<CharacterSpell> spells = new ArrayList<>();
+    @Element(required = false)
+    private String passivePerceptionModFormula;
 
     @Override
     public String getName() {
@@ -290,6 +292,9 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
         List<Proficiency> proficiencies = new ArrayList<>();
     }
 
+    public String getInitiativeModFormula() {
+        return initiativeModFormula;
+    }
     @Override
     public int getInitiativeMod(Character character) {
         return character.evaluateFormula(initiativeModFormula, null);
@@ -297,5 +302,17 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
 
     public void setInitiativeModFormula(String initiativeModFormula) {
         this.initiativeModFormula = initiativeModFormula;
+    }
+    public String getPassivePerceptionModFormula() {
+        return passivePerceptionModFormula;
+    }
+
+    @Override
+    public int getPassivePerceptionMod(Character character) {
+        return character.evaluateFormula(passivePerceptionModFormula, null);
+    }
+
+    public void setPassivePerceptionModFormula(String passivePerceptionModFormula) {
+        this.passivePerceptionModFormula = passivePerceptionModFormula;
     }
 }
