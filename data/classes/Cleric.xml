@@ -27,7 +27,7 @@
 
         <choose name="armor">
             <or name="scale">
-                <item>scale armor</item>
+                <item>Scale Mail Armor</item>
             </or>
             <or name="leather">
                 <item>leather armor</item>
