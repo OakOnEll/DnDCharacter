@@ -1,0 +1,15 @@
+<item>
+    <name>Hand Crossbow</name>
+    <itemType>WEAPON</itemType>
+    <category>Martial Weapons</category>
+    <damage>
+        <amount>d6</amount>
+        <damageType>piercing</damageType>
+    </damage>
+    <ranged>true</ranged>
+    <properties>ammunition, loading, light</properties>
+    <ammunition>bolt</ammunition>
+    <range>30/120</range>
+    <weight>3</weight>
+    <cost>75gp</cost>
+</item>

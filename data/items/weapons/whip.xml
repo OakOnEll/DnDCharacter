@@ -1,16 +1,16 @@
 <item>
-    <name>Longsword</name>
+    <name>Whip</name>
     <itemType>WEAPON</itemType>
     <category>Martial Weapons</category>
     <damage>
-        <amount>d8</amount>
+        <amount>d4</amount>
         <damageType>slashing</damageType>
     </damage>
     <versatileDamage>
         <amount>d10</amount>
-        <damageType>slashing</damageType>
+        <damageType>bludgeoning</damageType>
     </versatileDamage>
-    <properties>versatile</properties>
+    <properties>finesse,reach</properties>
     <weight>3</weight>
-    <cost>15gp</cost>
+    <cost>2gp</cost>
 </item>

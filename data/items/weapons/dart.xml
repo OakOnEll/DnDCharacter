@@ -1,0 +1,15 @@
+<item>
+    <name>Dart</name>
+    <itemType>WEAPON</itemType>
+    <category>Simple Weapons</category>
+    <damage>
+        <amount>d4</amount>
+        <damageType>piercing</damageType>
+    </damage>
+    <ranged>true</ranged>
+    <properties>finesse, thrown</properties>
+    <ammunition>bolt</ammunition>
+    <range>20/60</range>
+    <weight>1/4</weight>
+    <cost>5cp</cost>
+</item>

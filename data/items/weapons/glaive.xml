@@ -1,0 +1,12 @@
+<item>
+    <name>Glaive</name>
+    <itemType>WEAPON</itemType>
+    <category>Martial Weapons</category>
+    <damage>
+        <amount>d10</amount>
+        <damageType>slashing</damageType>
+    </damage>
+    <properties>heavy, reach, two-handed</properties>
+    <weight>6</weight>
+    <cost>20gp</cost>
+</item>

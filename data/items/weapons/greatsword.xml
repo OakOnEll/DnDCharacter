@@ -1,0 +1,12 @@
+<item>
+    <name>Greatsword</name>
+    <itemType>WEAPON</itemType>
+    <category>Martial Weapons</category>
+    <damage>
+        <amount>2d6</amount>
+        <damageType>slashing</damageType>
+    </damage>
+    <properties>heavy, two-handed</properties>
+    <weight>6</weight>
+    <cost>50gp</cost>
+</item>

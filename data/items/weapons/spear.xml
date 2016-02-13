@@ -1,0 +1,17 @@
+<item>
+    <name>Spear</name>
+    <itemType>WEAPON</itemType>
+    <category>Simple Weapons</category>
+    <damage>
+        <amount>d6</amount>
+        <damageType>piercing</damageType>
+    </damage>
+    <versatileDamage>
+        <amount>d8</amount>
+        <damageType>piercing</damageType>
+    </versatileDamage>
+    <properties>thrown,versatile</properties>
+    <range>20/60</range>
+    <weight>3</weight>
+    <cost>1gp</cost>
+</item>

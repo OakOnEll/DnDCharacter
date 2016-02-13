@@ -1,0 +1,12 @@
+<item>
+    <name>Greataxe</name>
+    <itemType>WEAPON</itemType>
+    <category>Martial Weapons</category>
+    <damage>
+        <amount>d12</amount>
+        <damageType>slashing</damageType>
+    </damage>
+    <properties>heavy, two-handed</properties>
+    <weight>7</weight>
+    <cost>30gp</cost>
+</item>

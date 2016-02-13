@@ -1,0 +1,15 @@
+<item>
+    <name>Sling</name>
+    <itemType>WEAPON</itemType>
+    <category>Simple Weapons</category>
+    <damage>
+        <amount>d4</amount>
+        <damageType>bludgeoning</damageType>
+    </damage>
+    <ranged>true</ranged>
+    <properties>ammunition, two-handed</properties>
+    <ammunition>stone</ammunition>
+    <range>30/120</range>
+    <weight></weight>
+    <cost>1sp</cost>
+</item>

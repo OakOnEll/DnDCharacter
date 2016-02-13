@@ -1,0 +1,11 @@
+<item>
+    <name>Club</name>
+    <itemType>WEAPON</itemType>
+    <category>Simple Weapons</category>
+    <damage>
+        <amount>d4</amount>
+        <damageType>bludgeoning</damageType>
+    </damage>
+    <weight>2</weight>
+    <cost>1sp</cost>
+</item>

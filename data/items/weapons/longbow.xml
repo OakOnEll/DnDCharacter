@@ -1,0 +1,15 @@
+<item>
+    <name>Longbow</name>
+    <itemType>WEAPON</itemType>
+    <category>Martial Weapons</category>
+    <damage>
+        <amount>d8</amount>
+        <damageType>piercing</damageType>
+    </damage>
+    <ranged>true</ranged>
+    <properties>ammunition, heavy,two-handed</properties>
+    <ammunition>arrow</ammunition>
+    <range>150/600</range>
+    <weight>2</weight>
+    <cost>50gp</cost>
+</item>

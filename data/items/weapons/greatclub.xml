@@ -1,0 +1,12 @@
+<item>
+    <name>Greatclub</name>
+    <itemType>WEAPON</itemType>
+    <category>Simple Weapons</category>
+    <damage>
+        <amount>d8</amount>
+        <damageType>bludgeoning</damageType>
+    </damage>
+    <properties>two-handed</properties>
+    <weight>10</weight>
+    <cost>2sp</cost>
+</item>

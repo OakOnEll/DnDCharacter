@@ -1,12 +1,11 @@
 <item>
-    <name>Shortsword</name>
+    <name>Flail</name>
     <itemType>WEAPON</itemType>
     <category>Martial Weapons</category>
     <damage>
-        <amount>d6</amount>
-        <damageType>piercing</damageType>
+        <amount>d8</amount>
+        <damageType>bludgeoning</damageType>
     </damage>
-    <properties>finesse,light</properties>
     <weight>2</weight>
     <cost>10gp</cost>
 </item>

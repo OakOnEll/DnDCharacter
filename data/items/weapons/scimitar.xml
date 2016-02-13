@@ -1,12 +1,12 @@
 <item>
-    <name>Shortsword</name>
+    <name>Scimitar</name>
     <itemType>WEAPON</itemType>
     <category>Martial Weapons</category>
     <damage>
         <amount>d6</amount>
-        <damageType>piercing</damageType>
+        <damageType>slashing</damageType>
     </damage>
     <properties>finesse,light</properties>
-    <weight>2</weight>
-    <cost>10gp</cost>
+    <weight>3</weight>
+    <cost>25gp</cost>
 </item>

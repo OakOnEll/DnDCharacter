@@ -1,0 +1,11 @@
+<item>
+    <name>Mace</name>
+    <itemType>WEAPON</itemType>
+    <category>Simple Weapons</category>
+    <damage>
+        <amount>d6</amount>
+        <damageType>bludgeoning</damageType>
+    </damage>
+    <weight>4</weight>
+    <cost>5gp</cost>
+</item>

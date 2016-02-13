@@ -1,12 +1,11 @@
 <item>
-    <name>Shortsword</name>
+    <name>War Pick</name>
     <itemType>WEAPON</itemType>
     <category>Martial Weapons</category>
     <damage>
-        <amount>d6</amount>
+        <amount>d8</amount>
         <damageType>piercing</damageType>
     </damage>
-    <properties>finesse,light</properties>
     <weight>2</weight>
-    <cost>10gp</cost>
+    <cost>5gp</cost>
 </item>

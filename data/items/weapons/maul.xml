@@ -1,0 +1,12 @@
+<item>
+    <name>Maul</name>
+    <itemType>WEAPON</itemType>
+    <category>Martial Weapons</category>
+    <damage>
+        <amount>2d6</amount>
+        <damageType>bludgeoning</damageType>
+    </damage>
+    <properties>heavy, two-handed</properties>
+    <weight>10</weight>
+    <cost>10gp</cost>
+</item>

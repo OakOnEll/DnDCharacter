@@ -1,12 +1,13 @@
 <item>
-    <name>Shortsword</name>
+    <name>Javelin</name>
     <itemType>WEAPON</itemType>
-    <category>Martial Weapons</category>
+    <category>Simple Weapons</category>
     <damage>
         <amount>d6</amount>
         <damageType>piercing</damageType>
     </damage>
-    <properties>finesse,light</properties>
+    <properties>thrown</properties>
+    <range>30/120</range>
     <weight>2</weight>
-    <cost>10gp</cost>
+    <cost>5sp</cost>
 </item>

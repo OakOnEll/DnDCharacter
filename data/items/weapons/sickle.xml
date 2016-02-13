@@ -1,0 +1,12 @@
+<item>
+    <name>Sickle</name>
+    <itemType>WEAPON</itemType>
+    <category>Simple Weapons</category>
+    <damage>
+        <amount>d4</amount>
+        <damageType>slashing</damageType>
+    </damage>
+    <properties>light</properties>
+    <weight>2</weight>
+    <cost>1gp</cost>
+</item>

@@ -1,16 +1,17 @@
 <item>
-    <name>Longsword</name>
+    <name>Trident</name>
     <itemType>WEAPON</itemType>
     <category>Martial Weapons</category>
     <damage>
-        <amount>d8</amount>
+        <amount>d6</amount>
         <damageType>slashing</damageType>
     </damage>
     <versatileDamage>
-        <amount>d10</amount>
+        <amount>d8</amount>
         <damageType>slashing</damageType>
     </versatileDamage>
-    <properties>versatile</properties>
-    <weight>3</weight>
-    <cost>15gp</cost>
+    <properties>versatile,thrown</properties>
+    <range>20/60</range>
+    <weight>4</weight>
+    <cost>5gp</cost>
 </item>

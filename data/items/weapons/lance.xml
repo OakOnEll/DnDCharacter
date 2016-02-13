@@ -1,0 +1,13 @@
+<item>
+    <name>Lance</name>
+    <shortDescription>You have disadvantage when you use a lance to attack a target within 5 fet of you. Also, a lance requires two hands to wield when you aren't mounted.</shortDescription>
+    <itemType>WEAPON</itemType>
+    <category>Martial Weapons</category>
+    <damage>
+        <amount>d12</amount>
+        <damageType>piercing</damageType>
+    </damage>
+    <properties>reach, special</properties>
+    <weight>6</weight>
+    <cost>10gp</cost>
+</item>
