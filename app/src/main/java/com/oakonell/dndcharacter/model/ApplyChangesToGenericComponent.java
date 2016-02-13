@@ -341,17 +341,19 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
     @Override
     protected void visitSpells(@NonNull Element element) {
-        final List<String> cantrips = savedChoices.getChoicesFor("spells");
-        if (cantrips != null && !cantrips.isEmpty()) {
-            String casterClass = element.getAttribute("casterClass");
-            String statString = element.getAttribute("stat");
-            StatType stat = null;
-            if (statString != null && statString.trim().length() > 0) {
-                statString = statString.toUpperCase();
-                stat = StatType.valueOf(StatType.class, statString);
-            }
-            for (String each : cantrips) {
-                addSpell(each, stat);
+        if (savedChoices != null) {
+            final List<String> cantrips = savedChoices.getChoicesFor("spells");
+            if (cantrips != null && !cantrips.isEmpty()) {
+                String casterClass = element.getAttribute("casterClass");
+                String statString = element.getAttribute("stat");
+                StatType stat = null;
+                if (statString != null && statString.trim().length() > 0) {
+                    statString = statString.toUpperCase();
+                    stat = StatType.valueOf(StatType.class, statString);
+                }
+                for (String each : cantrips) {
+                    addSpell(each, stat);
+                }
             }
         }
         super.visitSpells(element);
@@ -395,17 +397,19 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
     @Override
     protected void visitCantrips(@NonNull Element element) {
-        final List<String> cantrips = savedChoices.getChoicesFor("cantrips");
-        if (cantrips != null && !cantrips.isEmpty()) {
-            String casterClass = element.getAttribute("casterClass");
-            String statString = element.getAttribute("stat");
-            StatType stat = null;
-            if (statString != null && statString.trim().length() > 0) {
-                statString = statString.toUpperCase();
-                stat = StatType.valueOf(StatType.class, statString);
-            }
-            for (String each : cantrips) {
-                addCantrip(each, stat);
+        if (savedChoices != null) {
+            final List<String> cantrips = savedChoices.getChoicesFor("cantrips");
+            if (cantrips != null && !cantrips.isEmpty()) {
+                String casterClass = element.getAttribute("casterClass");
+                String statString = element.getAttribute("stat");
+                StatType stat = null;
+                if (statString != null && statString.trim().length() > 0) {
+                    statString = statString.toUpperCase();
+                    stat = StatType.valueOf(StatType.class, statString);
+                }
+                for (String each : cantrips) {
+                    addCantrip(each, stat);
+                }
             }
         }
         super.visitCantrips(element);
