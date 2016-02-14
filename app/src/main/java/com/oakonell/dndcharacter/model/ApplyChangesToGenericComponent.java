@@ -189,7 +189,14 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 String varName = variableElement.getAttribute("name");
                 String promptString = variableElement.getAttribute("prompt");
                 String valuesString = variableElement.getTextContent();
-                String[] values = valuesString.split(", *");
+                String[] values;
+                if (valuesString == null || valuesString.trim().length() == 0) {
+                    values = new String[]{};
+                } else {
+                    values = valuesString.split("\\\\s*,\\\\s*");
+                }
+                // clean up empty strings..
+
                 Feature.FeatureEffectVariable variable = new Feature.FeatureEffectVariable(varName, promptString, values);
                 effect.addVariable(variable);
             }

@@ -28,7 +28,6 @@
             <effect actionName="Knowledge of the Ages">
                 <name>Knowledge of the Ages: $skill</name>
                 <actionDescription>As an action, become proficient in a skill/tool for 10 minutes</actionDescription>
-                <!-- TODO allow runtime choices, maybe a $prompt("prompt", choices) -->
                 <variable name="skill" prompt="Choose skill or tool to gain proficiency in">acrobatics, athletics </variable>
                 <shortDescription>You tap into a divine well of knowledge. As an action, you choose one skill or tool. For 10 minutes, you have proficiency with $skill.</shortDescription>
                 <context>SKILL_ROLL</context>
@@ -57,12 +56,14 @@
         <feature extension="extend">
             <name>Channel Divinity</name>
             <effect actionName="Read Thoughts">
-                <name>Read Thoughts</name>
+                <name>Read Thoughts of $subject</name>
                 <actionDescription>As an action, you can read a creature's thoughts. You can then use your access to the creature's mind to command it.</actionDescription>
-                <!-- TODO allow runtime choices, maybe a $prompt("prompt", choices) -->
+                <variable name="subject" prompt="Choose subject to read thoughts from"/>
                 <shortDescription>As an action, choose one creature that you can see within 60 feet of you. That creature must make a Wisdom saving throw. If the creature succeeds on the saving throw, you can't use this feature again until you finish a long rest.
-                    If the creature fails its save, you can read its surface thoughts (those foremost in it s mid, reflecting its current emotions and what it is actively thinking about) when it is within 60 feet of you. This effect lasts for 1 minute.
-                    During that time, you can use your action to end this effect and cast the suggestion spell on the creature without expending a spell slot. The target automatically fails its saving throw against the spell.</shortDescription>
+                    If the creature fails its save, you can read its surface thoughts (those foremost in its mind, reflecting its current emotions and what it is actively thinking about) when it is within 60 feet of you. This effect lasts for 1 minute.
+                    During that time, you can use your action to end this effect and cast the suggestion spell on the creature without expending a spell slot. The target automatically fails its saving throw against the spell.
+
+                You are reading the thoughts of $subject.</shortDescription>
             </effect>
             <context></context>
         </feature>

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -320,20 +321,38 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             b.setTitle(variable.getPrompt());
 
             final String[] choices = variable.getValues();
-            b.setItems(choices, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    values.put(variable, choices[which]);
-                    int next = index + 1;
-                    if (next < variables.size()) {
-                        prompt(variables, values, next, context, continuation);
-                    } else {
-                        continuation.run();
+            if (choices.length ==0) {
+                final EditText input = new EditText(context);
+                b.setView(input);
+                b.setPositiveButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        values.put(variable, input.getText().toString());
+                        int next = index + 1;
+                        if (next < variables.size()) {
+                            prompt(variables, values, next, context, continuation);
+                        } else {
+                            continuation.run();
+                        }
                     }
-                }
+                });
+            } else {
+                b.setItems(choices, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        values.put(variable, choices[which]);
+                        int next = index + 1;
+                        if (next < variables.size()) {
+                            prompt(variables, values, next, context, continuation);
+                        } else {
+                            continuation.run();
+                        }
+                    }
 
-            });
+                });
+            }
             b.show();
         }
     }
