@@ -37,7 +37,6 @@ import org.w3c.dom.Element;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by Rob on 11/18/2015.
@@ -183,6 +182,19 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             effect.setActionDescription(actionDescription);
             effect.setAction(actionName);
             feature.addEffect(effect);
+
+            // look for any variable/prompts
+            List<Element> variables = XmlUtils.getChildElements(effectElement, "variable");
+            for (Element variableElement : variables) {
+                String varName = variableElement.getAttribute("name");
+                String promptString = variableElement.getAttribute("prompt");
+                String valuesString = variableElement.getTextContent();
+                String[] values = valuesString.split(", *");
+                Feature.FeatureEffectVariable variable = new Feature.FeatureEffectVariable(varName, promptString, values);
+                effect.addVariable(variable);
+            }
+
+
             effect.setSource(component.getSourceString(context.getResources()) + "[" + feature.getSourceString(context.getResources()) + "]");
             hadAnyActionsOrEffects = true;
         }

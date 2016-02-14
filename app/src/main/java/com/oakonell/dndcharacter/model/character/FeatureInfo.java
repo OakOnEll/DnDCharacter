@@ -109,8 +109,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
             return character.evaluateFormula(feature.getUsesFormula(), variableContext);
         }
         if (extendedFeature != null) return extendedFeature.evaluateMaxUses(character);
-        throw new RuntimeException("No max uses found for feature '" + getName() + "'");
-        //return 0;
+        return 0;
     }
 
 

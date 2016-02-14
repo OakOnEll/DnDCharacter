@@ -26,10 +26,11 @@
         <feature extension="extend">
             <name>Channel Divinity</name>
             <effect actionName="Knowledge of the Ages">
-                <name>Knowledge of the Ages</name>
+                <name>Knowledge of the Ages: $skill</name>
                 <actionDescription>As an action, become proficient in a skill/tool for 10 minutes</actionDescription>
                 <!-- TODO allow runtime choices, maybe a $prompt("prompt", choices) -->
-                <shortDescription>You tap into a divine well of knowledge. As an action, you choose one skill or tool. For 10 minutes, you have proficiency with the chosen skill or tool.</shortDescription>
+                <variable name="skill" prompt="Choose skill or tool to gain proficiency in">acrobatics, athletics </variable>
+                <shortDescription>You tap into a divine well of knowledge. As an action, you choose one skill or tool. For 10 minutes, you have proficiency with $skill.</shortDescription>
                 <context>SKILL_ROLL</context>
             </effect>
             <context></context>

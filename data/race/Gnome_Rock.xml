@@ -14,8 +14,9 @@
         <name>Tinker</name>
         <shortDescription>You have proficiency with artisan’s tools (tinker’s tools). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.</shortDescription>
         <effect actionName="Create a Clockwork Toy">
-            <name>Clockwork Toy</name>
-            <shortDescription>This toy is a clockwork animal, monster, or person, such as a frog, mouse, bird, dragon, or soldier. When placed on the ground, the toy moves 5 feet across the ground on each of your turns in a random direction. It makes noises as appropriate to the creature it represents.
+            <name>Clockwork $toy</name>
+            <variable name="toy" prompt="Choose toy shape">animal, monster, person, frog, mouse, bird, dragon, soldier</variable>
+            <shortDescription>This is a clockwork $toy. When placed on the ground, the toy moves 5 feet across the ground on each of your turns in a random direction. It makes noises as appropriate to a $toy it represents.
 
 (AC 5, 1 hp)
 The toy ceases to function after 24 hours, unless you spend an hour repairing it.</shortDescription>

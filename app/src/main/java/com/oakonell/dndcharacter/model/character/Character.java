@@ -20,6 +20,7 @@ import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.classes.AClass;
+import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
@@ -1046,9 +1047,9 @@ public class Character {
         usedFeatures.put(feature.getName(), uses);
     }
 
-    public void useFeatureAction(@NonNull FeatureInfo feature, @NonNull IFeatureAction action) {
+    public void useFeatureAction(@NonNull FeatureInfo feature, @NonNull IFeatureAction action, Map<Feature.FeatureEffectVariable, String> variableValues) {
         useFeature(feature, action.getCost());
-        action.applyToCharacter(this);
+        action.applyToCharacter(this, variableValues);
     }
 
     public String getNotes() {

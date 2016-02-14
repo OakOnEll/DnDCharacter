@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.character.feature;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
+import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.UseType;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
@@ -27,7 +30,9 @@ import com.oakonell.dndcharacter.views.character.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rob on 1/4/2016.
@@ -177,15 +182,33 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                 useButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        adapter.context.getCharacter().useFeatureAction(info, action);
-                        useButton.postDelayed(new Runnable() {
+                        // TODO ask for possible prompts for action
+                        final Map<Feature.FeatureEffectVariable, String> values = new HashMap<Feature.FeatureEffectVariable, String>();
+                        Runnable continuation = new Runnable() {
                             @Override
                             public void run() {
-                                context.updateViews();
-                                context.saveCharacter();
+                                adapter.context.getCharacter().useFeatureAction(info, action, values);
+                                useButton.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        context.updateViews();
+                                        context.saveCharacter();
+                                    }
+                                }, 10);
                             }
-                        }, 10);
+                        };
+                        if (!action.hasVariables()) {
+                            continuation.run();
+                            return;
+                        }
+
+                        // prompt
+                        final List<Feature.FeatureEffectVariable> variables = action.getVariables();
+
+                        prompt(variables, values, 0, context, continuation);
                     }
+
+
                 });
             } else {
                 useButton.setText(action.getAction());
@@ -288,6 +311,30 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                     }
                 });
             }
+        }
+
+        protected void prompt(final List<Feature.FeatureEffectVariable> variables, final Map<Feature.FeatureEffectVariable, String> values, final int index, @NonNull final CharacterActivity context, final Runnable continuation) {
+// TODO  how to deal with rotation/save state/restore with the continuation?
+            final Feature.FeatureEffectVariable variable = variables.get(index);
+            AlertDialog.Builder b = new AlertDialog.Builder(context);
+            b.setTitle(variable.getPrompt());
+
+            final String[] choices = variable.getValues();
+            b.setItems(choices, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    values.put(variable, choices[which]);
+                    int next = index + 1;
+                    if (next < variables.size()) {
+                        prompt(variables, values, next, context, continuation);
+                    } else {
+                        continuation.run();
+                    }
+                }
+
+            });
+            b.show();
         }
     }
 
