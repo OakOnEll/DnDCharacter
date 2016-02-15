@@ -1,0 +1,208 @@
+<class>
+    <ref>PHB p.52</ref>
+    <name>Bard</name>
+    <hitDice>1d8</hitDice>
+    <savingThrows>
+        <proficiency>Dexterity</proficiency>
+        <proficiency>Charisma</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2" />
+    </skills>
+    <tools>
+        <choose number="2" name="instrumentProfs" category="Musical Instrument"/>
+    </tools>
+
+    <equipment>
+        <choose name="weapon">
+            <or name="rapier">
+                <item>Rapier</item>
+            </or>
+            <or name="longsword">
+                <item>Longsword</item>
+            </or>
+            <or name="simple">
+                <choose name="otherWeapon_weapon" category="simple weapons" />
+            </or>
+        </choose>
+
+        <choose name="instrument">
+            <or name="lute">
+                <item>Lute</item>
+            </or>
+            <or name="other">
+                <choose name="other_instrument" category="Musical Instrument" />
+            </or>
+        </choose>
+
+
+        <choose name="pack">
+            <or name="diplomat">
+                <item>Diplomat's pack</item>
+            </or>
+            <or name="entertainer">
+                <item>Entertainer's pack</item>
+            </or>
+        </choose>
+
+        <item>Leather Armor</item>
+        <item>Dagger</item>
+    </equipment>
+    <weapons>
+        <proficiency category="simple weapons"/>
+        <proficiency>Hand Crossbow</proficiency>
+        <proficiency>Longsword</proficiency>
+        <proficiency>Rapier</proficiency>
+        <proficiency>Shortsword</proficiency>
+    </weapons>
+    <spellCastingStat>charisma</spellCastingStat>
+    <multiclassCasterFactor>1</multiclassCasterFactor>
+    <multiclassPrerequisite>charisma>=13</multiclassPrerequisite>
+    <level value="1">
+        <skills>
+            <choose name="moreSkills" filters="skills"/>
+        </skills>
+        <tools>
+            <choose  name="moreInstrumentProfs" category="Musical Instrument" filters="instrumentProfs"/>
+        </tools>
+
+        <cantrips>
+            <known>2</known>
+        </cantrips>
+        <spells>
+            <known>4</known>
+            <slots>
+                <level value="1">2</level>
+            </slots>
+        </spells>
+
+        <feature>
+            <name>Bardic Inspiration</name>
+            <refreshes>longrest</refreshes>
+            <uses>max(charismaMod, 1)</uses>
+            <shortDescription>As a bonus action, you can inspire another creature within 60 feet of you that can hear you. They gain a Badric Inspiration die, a d6.
+            Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait till after it rolls the d20 before deciding to use the Inspiration die, but must decide before the DM says whether the roll succeeds or fails. A creature can have only one Bardic Inspriation die at a time.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="2">
+        <feature>
+            <name>Song of Rest</name>
+            <shortDescription>You can use soothing music or oration to help revitalize your wounded allies during a short rest.
+            If you or any friendly creatures who can hear your performance regain hit points at the end of a short rest, each of those creatures regains an extra 1d6 hit points.</shortDescription>
+            <context>SHORT_REST</context>
+        </feature>
+
+        <feature>
+            <name>Jack of all Trades</name>
+            <shortDescription>You can add half your proficiency bonus, rounded down, to any ability check you make that doesn't already include your proficiency bonus.</shortDescription>
+            <context>SKILL_ROLL</context>
+        </feature>
+    </level>
+
+    <level value="3">
+        <subclass label="Bard College" />
+        <skills>
+            <choose name="skills" number="2" level="expert" filters="$existing"/>
+        </skills>
+
+    </level>
+
+    <level value="5">
+        <feature extension="extend">
+            <name>Bardic Inspiration</name>
+            <refreshes>rest</refreshes>
+            <extensionDescription>The Bardic Inspiration die changes to a d8.</extensionDescription>
+            <shortDescription>As a bonus action, you can inspire another creature within 60 feet of you that can hear you. They gain a Bardic Inspiration die, a d8.
+                Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait till after it rolls the d20 before deciding to use the Inspiration die, but must decide before the DM says whether the roll succeeds or fails. A creature can have only one Bardic Inspriation die at a time.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="6">
+        <feature >
+            <name>Countercharm</name>
+            <shortDescription>You have the ability to use musical notes or words of power to disrupt mind-influencing effects.
+            As an action, you can start a performance that lasts until the end of your next turn. During that time, you and any friendly creatures within 30 feet of you have advantage on saving throws against being frightened or charmed. A creature must be able to hear you to gain this benefit. The performance ends early if you are incapacitated or silenced or if you voluntarily ent it (no action required).</shortDescription>
+        </feature>
+    </level>
+
+    <level value="9">
+        <feature extension="extend">
+            <name>Song of Rest</name>
+            <extensionDescription>The healing increases to a d8.</extensionDescription>
+            <shortDescription>You can use soothing music or oration to help revitalize your wounded allies during a short rest.
+                If you or any friendly creatures who can hear your performance regain hit points at the end of a short rest, each of those creatures regains an extra 1d8 hit points.</shortDescription>
+            <context>SHORT_REST</context>
+        </feature>
+    </level>
+
+
+    <level value="10">
+        <feature extension="extend">
+            <name>Bardic Inspiration</name>
+            <extensionDescription>The Bardic Inspiration die changes to a d10.</extensionDescription>
+            <shortDescription>As a bonus action, you can inspire another creature within 60 feet of you that can hear you. They gain a Bardic Inspiration die, a d10.
+                Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait till after it rolls the d20 before deciding to use the Inspiration die, but must decide before the DM says whether the roll succeeds or fails. A creature can have only one Bardic Inspriation die at a time.</shortDescription>
+        </feature>
+        <skills>
+            <choose name="skills" number="2" level="expert" filters="$existing"/>
+        </skills>
+        <spells>
+            <!-- TODO learn 2 spells/cantrips from any class. Count as bard spells (eg, casting ability?) and count as known bard spells -->
+        </spells>
+    </level>
+
+    <level value="13">
+        <feature extension="extend">
+            <name>Song of Rest</name>
+            <extensionDescription>The healing increases to a d10.</extensionDescription>
+            <shortDescription>You can use soothing music or oration to help revitalize your wounded allies during a short rest.
+                If you or any friendly creatures who can hear your performance regain hit points at the end of a short rest, each of those creatures regains an extra 1d10 hit points.</shortDescription>
+            <context>SHORT_REST</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <spells>
+            <!-- TODO learn 2 spells/cantrips from any class. Count as bard spells (eg, casting ability?) and count as known bard spells -->
+        </spells>
+    </level>
+
+    <level value="15">
+        <feature extension="extend">
+            <name>Bardic Inspiration</name>
+            <extensionDescription>The Bardic Inspiration die changes to a d12.</extensionDescription>
+            <shortDescription>As a bonus action, you can inspire another creature within 60 feet of you that can hear you. They gain a Bardic Inspiration die, a d12.
+                Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait till after it rolls the d20 before deciding to use the Inspiration die, but must decide before the DM says whether the roll succeeds or fails. A creature can have only one Bardic Inspriation die at a time.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Song of Rest</name>
+            <extensionDescription>The healing increases to a d12.</extensionDescription>
+            <shortDescription>You can use soothing music or oration to help revitalize your wounded allies during a short rest.
+                If you or any friendly creatures who can hear your performance regain hit points at the end of a short rest, each of those creatures regains an extra 1d12 hit points.</shortDescription>
+            <context>SHORT_REST</context>
+        </feature>
+    </level>
+
+    <level value="18">
+        <spells>
+            <!-- TODO learn 2 spells/cantrips from any class. Count as bard spells (eg, casting ability?) and count as known bard spells -->
+        </spells>
+    </level>
+
+    <level value="20">
+        <feature extension="extend">
+            <name>Bardic Inspiration</name>
+            <extensionDescription>When you roll initiative and have no Bardic Inspiration uses left, you regain one use.</extensionDescription>
+            <shortDescription>As a bonus action, you can inspire another creature within 60 feet of you that can hear you. They gain a Bardic Inspiration die, a d12.
+                Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait till after it rolls the d20 before deciding to use the Inspiration die, but must decide before the DM says whether the roll succeeds or fails. A creature can have only one Bardic Inspiration die at a time.
+                When you roll initiative and have no Bardic Inspiration uses left, you regain one use.
+            </shortDescription>
+            <context>INITIATIVE</context>
+        </feature>
+    </level>
+
+</class>

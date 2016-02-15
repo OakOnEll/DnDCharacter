@@ -46,7 +46,10 @@ import com.oakonell.dndcharacter.views.character.spell.SelectSpellDialogFragment
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rob on 11/18/2015.
@@ -120,7 +123,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         String name = XmlUtils.getElementText(element, "name");
         String extensionDescription = XmlUtils.getElementText(element, "extensionDescription");
         String description;
-        if (extensionDescription == null || extensionDescription.trim().length()==0) {
+        if (extensionDescription == null || extensionDescription.trim().length() == 0) {
             description = XmlUtils.getElementText(element, "shortDescription");
         } else {
             description = extensionDescription;
@@ -467,11 +470,49 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
+        String level = element.getAttribute("level");
+        Proficient proficient = Proficient.PROFICIENT;
+        if (level != null && level.trim().length() > 0) {
+            proficient = Proficient.valueOf(level.toUpperCase());
+        }
 
         final List<SkillType> list = new ArrayList<>();
-        for (SkillType each : SkillType.values()) {
-            list.add(each);
+
+        String filtersString = element.getAttribute("filters");
+        Set<String> filters = new HashSet<>();
+        boolean filterExisting = false;
+        if (filtersString != null && filtersString.trim().length() > 0) {
+            String[] filtersArray = filtersString.split("\\s*,\\s*");
+            for (String each : filtersArray) {
+                if (each.equals("$existing")) {
+                    filterExisting = true;
+                    continue;
+                }
+                List<String> choicesFor = choices.getChoicesFor(each);
+                for (String eachChoice : choicesFor) {
+                    // TODO convert the choice string to the SkillType name
+                    filters.add(eachChoice.toUpperCase());
+                }
+            }
         }
+
+        for (SkillType each : SkillType.values()) {
+            // TODO existence check should only include up to the class level before this one, if this is a class
+            boolean exists = character.getSkillBlock(each).getProficiency().getMultiplier() > 0 || filters.contains(each.name().toUpperCase());
+            if (selections.contains(each.name())) {
+                list.add(each);
+                continue;
+            }
+            // if referencing an existing proficient skill, only add if exists
+            if (filterExisting) {
+                if (exists) {
+                    list.add(each);
+                }
+            } else if (!exists) {
+                list.add(each);
+            }
+        }
+
         SpinnerToString<SkillType> toString = new SpinnerToString<SkillType>() {
             @Override
             public String toString(SkillType object) {
@@ -506,8 +547,22 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         nameSelect = nameSelect.where("UPPER(category)= ?", category.toUpperCase());
         List<ItemRow> toolRows = nameSelect.execute();
 
+        String filtersString = element.getAttribute("filters");
+        Set<String> filters = new HashSet<>();
+        if (filtersString != null && filtersString.trim().length() > 0) {
+            String[] filtersArray = filtersString.split("\\s*,\\s*");
+            for (String each : filtersArray) {
+                List<String> choicesFor = choices.getChoicesFor(each);
+                for (String eachChoice : choicesFor) {
+                    // TODO convert the choice string to the item name
+                    filters.add(eachChoice.toUpperCase());
+                }
+            }
+        }
+
         List<String> tools = new ArrayList<>();
         for (ItemRow each : toolRows) {
+            if (filters.contains(each.getName().toUpperCase())) continue;
             tools.add(each.getName());
         }
 

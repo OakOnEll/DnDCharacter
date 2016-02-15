@@ -10,30 +10,14 @@
     </savingThrows>
     <skills>
         <choose name="skills" number="2">
-            <or name="acrobatics">
-                <proficiency>Acrobatics</proficiency>
-            </or>
-            <or name="animal">
-                <proficiency>Animal Handling</proficiency>
-            </or>
-            <or name="athletics">
-                <proficiency>Athletics</proficiency>
-            </or>
-            <or name="history">
-                <proficiency>History</proficiency>
-            </or>
-            <or name="insight">
-                <proficiency>Insight</proficiency>
-            </or>
-            <or name="intimidation">
-                <proficiency>Intimidation</proficiency>
-            </or>
-            <or name="perception">
-                <proficiency>Perception</proficiency>
-            </or>
-            <or name="survival">
-                <proficiency>Survival</proficiency>
-            </or>
+            <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
+            <or name="animal"><proficiency>Animal Handling</proficiency></or>
+            <or name="athletics"><proficiency>Athletics</proficiency></or>
+            <or name="history"><proficiency>History</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="perception"><proficiency>Perception</proficiency></or>
+            <or name="survival"><proficiency>Survival</proficiency></or>
         </choose>
     </skills>
     <equipment>

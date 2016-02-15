@@ -1,0 +1,9 @@
+<effect>
+    <ref>PHB, p. 53</ref>
+    <name>Bardic Inspiration</name>
+    <variable name="die" prompt="Choose Die Size">d6,d8,d10,d12</variable>
+    <shortDescription>Within 10 minutes of your receipt of the Bardic Inspiration $die, you can roll the die and add the number rolled to one ability check, attack roll, or saving throw.
+    You can wait until after you roll the d20 before deciding to use this die, but must decide before the DM says whether the roll succeeds or fails.
+    Once the die is rolled, it is lost. You may only have one Bardic Inspiration die at a time.</shortDescription>
+    <context>SKILL_ROLL,WEAPON_ATTACK,SAVING_THROW</context>
+</effect>

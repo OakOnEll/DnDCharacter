@@ -7,39 +7,17 @@
     </savingThrows>
     <skills>
         <choose name="skills" number="4">
-            <or name="acrobatics">
-                <proficiency>Acrobatics</proficiency>
-            </or>
-            <or name="athletics">
-                <proficiency>Athletics</proficiency>
-            </or>
-            <or name="deception">
-                <proficiency>Deception</proficiency>
-            </or>
-            <or name="insight">
-                <proficiency>Insight</proficiency>
-            </or>
-            <or name="intimidation">
-                <proficiency>Intimidation</proficiency>
-            </or>
-            <or name="investigation">
-                <proficiency>Investigation</proficiency>
-            </or>
-            <or name="perception">
-                <proficiency>Perception</proficiency>
-            </or>
-            <or name="performance">
-                <proficiency>Performance</proficiency>
-            </or>
-            <or name="persuasion">
-                <proficiency>Persuasion</proficiency>
-            </or>
-            <or name="sleight_of_hand">
-                <proficiency>Sleight of Hand</proficiency>
-            </or>
-            <or name="stealth">
-                <proficiency>Stealth</proficiency>
-            </or>
+            <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
+            <or name="athletics"><proficiency>Athletics</proficiency></or>
+            <or name="deception"><proficiency>Deception</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="investigation"><proficiency>Investigation</proficiency></or>
+            <or name="perception"><proficiency>Perception</proficiency></or>
+            <or name="performance"><proficiency>Performance</proficiency></or>
+            <or name="persuasion"><proficiency>Persuasion</proficiency></or>
+            <or name="sleight_of_hand"><proficiency>Sleight of Hand</proficiency></or>
+            <or name="stealth"><proficiency>Stealth</proficiency></or>
         </choose>
     </skills>
 

@@ -88,9 +88,14 @@ public class SelectEffectDialogFragment extends AbstractSelectComponentDialogFra
                 return false;
             }
 
-            CharacterEffect charEffect = AddEffectToCharacterVisitor.applyToCharacter(activity, effect, activity.getCharacter());
-            activity.updateViews();
-            activity.saveCharacter();
+            Runnable continuation = new Runnable() {
+                @Override
+                public void run() {
+                    activity.updateViews();
+                    activity.saveCharacter();
+                }
+            };
+            AddEffectToCharacterVisitor.applyToCharacter(activity, effect, activity.getCharacter(), continuation);
 
             return true;
         }

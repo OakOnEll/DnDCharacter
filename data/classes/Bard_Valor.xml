@@ -1,0 +1,43 @@
+<class>
+    <ref>PHB p.55</ref>
+    <name>Valor Bard</name>
+    <parent>Bard</parent>
+
+    <level value="3">
+        <armor>
+            <proficiency category="medium armor"/>
+            <proficiency>shield</proficiency>
+        </armor>
+        <weapons>
+            <proficiency category="martial weapons"/>
+        </weapons>
+        <feature extension="extend">
+            <name>Bardic Inspiration</name>
+            <action uses="1">
+                <name>Combat Inspiration</name>
+                <shortDescription>You can inspire others in battle.
+                A creature that has a Bardic Inspiration die from you can roll that die and add the number rolled to a weapon damage roll it just made. Alternatively, when an attack roll is made against the creature, it can use its reaction to roll the Bardic Inspiration die and add the number rolled to its AC against that attack, after seeing the roll but before knowing whether it hits or misses.</shortDescription>
+            </action>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <feature>
+            <name>Extra Attack</name>
+            <shortDescription>You can attack twice, instead of once, whenever you take the attack action on your turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature >
+            <name>Battle Magic</name>
+            <shortDescription>You have mastered the art of weaving spellcasting and weapon use into a single harmonious act.
+            When you use your action to cast a bard spell, you can make one weapon attack as a bonus action.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+
+</class>

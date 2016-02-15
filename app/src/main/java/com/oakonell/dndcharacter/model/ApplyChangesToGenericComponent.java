@@ -353,7 +353,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         List<Element> childOrElems = XmlUtils.getChildElements(element, "or");
         if (childOrElems.size() == 0) {
             // category, context sensitive choices ?
-            categoryChoices();
+            categoryChoices(element);
         } else {
             super.visitChoose(element);
         }
@@ -544,7 +544,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
     }
 
-    private void categoryChoices() {
+    private void categoryChoices(Element element) {
         List<String> selections = savedChoices.getChoicesFor(currentChoiceName);
         for (String selection : selections) {
             switch (state) {
@@ -567,9 +567,15 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     addFeat(selection);
                     break;
                 case SKILLS:
+                    String level = element.getAttribute("level");
+                    Proficient proficient = Proficient.PROFICIENT;
+                    if (level != null && level.trim().length() > 0) {
+                        proficient = Proficient.valueOf(level.toUpperCase());
+                    }
+
                     // TODO how to specify a different proficiency
                     SkillType type = SkillType.valueOf(selection);
-                    component.addSkill(type, Proficient.PROFICIENT);
+                    component.addSkill(type, proficient);
                     break;
             }
         }

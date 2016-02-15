@@ -1,0 +1,9 @@
+<effect>
+    <ref>PHB, p. 125</ref>
+    <name>DM Inspiration</name>
+    <shortDescription>You role played your character in a way that impressed the DM. You have been given Inspiration.
+        You can spend your Inspiration and gain advantage on an attack roll, saving throw, or ability check.
+        Additionally, you can reward another player by giving that player your inspiration for good role playing, clever thinking, or simply doing something exciting in the game.
+    </shortDescription>
+    <context>SKILL_ROLL,WEAPON_ATTACK,SAVING_THROW</context>
+</effect>

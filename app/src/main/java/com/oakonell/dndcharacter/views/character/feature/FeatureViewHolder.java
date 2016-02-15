@@ -314,47 +314,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             }
         }
 
-        protected void prompt(final List<Feature.FeatureEffectVariable> variables, final Map<Feature.FeatureEffectVariable, String> values, final int index, @NonNull final CharacterActivity context, final Runnable continuation) {
-// TODO  how to deal with rotation/save state/restore with the continuation?
-            final Feature.FeatureEffectVariable variable = variables.get(index);
-            AlertDialog.Builder b = new AlertDialog.Builder(context);
-            b.setTitle(variable.getPrompt());
 
-            final String[] choices = variable.getValues();
-            if (choices.length ==0) {
-                final EditText input = new EditText(context);
-                b.setView(input);
-                b.setPositiveButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        values.put(variable, input.getText().toString());
-                        int next = index + 1;
-                        if (next < variables.size()) {
-                            prompt(variables, values, next, context, continuation);
-                        } else {
-                            continuation.run();
-                        }
-                    }
-                });
-            } else {
-                b.setItems(choices, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        values.put(variable, choices[which]);
-                        int next = index + 1;
-                        if (next < variables.size()) {
-                            prompt(variables, values, next, context, continuation);
-                        } else {
-                            continuation.run();
-                        }
-                    }
-
-                });
-            }
-            b.show();
-        }
     }
 
 
@@ -390,6 +350,49 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             this.info = info;
             notifyDataSetChanged();
         }
+    }
+
+
+    public static void prompt(final List<Feature.FeatureEffectVariable> variables, final Map<Feature.FeatureEffectVariable, String> values, final int index, @NonNull final CharacterActivity context, final Runnable continuation) {
+// TODO  how to deal with rotation/save state/restore with the continuation?
+        final Feature.FeatureEffectVariable variable = variables.get(index);
+        AlertDialog.Builder b = new AlertDialog.Builder(context);
+        b.setTitle(variable.getPrompt());
+
+        final String[] choices = variable.getValues();
+        if (choices.length == 0) {
+            final EditText input = new EditText(context);
+            b.setView(input);
+            b.setPositiveButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    values.put(variable, input.getText().toString());
+                    int next = index + 1;
+                    if (next < variables.size()) {
+                        prompt(variables, values, next, context, continuation);
+                    } else {
+                        continuation.run();
+                    }
+                }
+            });
+        } else {
+            b.setItems(choices, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    values.put(variable, choices[which]);
+                    int next = index + 1;
+                    if (next < variables.size()) {
+                        prompt(variables, values, next, context, continuation);
+                    } else {
+                        continuation.run();
+                    }
+                }
+
+            });
+        }
+        b.show();
     }
 }
 

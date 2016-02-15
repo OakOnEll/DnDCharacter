@@ -1,0 +1,40 @@
+<class>
+    <ref>PHB p.54</ref>
+    <name>Lore Bard</name>
+    <parent>Bard</parent>
+
+    <level value="3">
+        <skills>
+            <choose name="skills" number="3" />
+        </skills>
+        <feature extension="extend">
+            <name>Bardic Inspiration</name>
+            <action uses="1">
+                <name>Cutting Words</name>
+                <shortDescription>You can use your wit to distract, confuse, and otherwise sap the confidence and competence of others.
+                When a creature that you can see within 60 feet of you makes an attack roll, an ability check, or a damage roll, you can use your reaction to expend one of your uses of Bardic Inspiration, rolling a Bardic Inspiration die, and subtracting the number rolled from the creature's roll.
+                You can choose to use this feature after the creature makes its roll, but before the DM determines whether the attack roll or ability check succeeds or fails, or before the creature deals its damage.</shortDescription>
+            </action>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <spells>
+            <!-- TODO learn 2 spells/cantrips from any class. Count as bard spells (eg, casting ability?) but not known bard spells -->
+        </spells>
+    </level>
+
+    <level value="14">
+        <feature extension="extend">
+            <name>Bardic Inspiration</name>
+            <action uses="1">
+                <name>Peerless Skill</name>
+                <shortDescription>You can use a Bardic Inspiration die for your own rolls.
+                When you make an ability check, you can expend one use of Bardic Inspiration. Roll a Bardic Inspiration die and add the number rolled to your ability check. You can choose to do so after you roll the die for the ability check, but before the DM tells you whether you succeed or fail.</shortDescription>
+            </action>
+        </feature>
+    </level>
+
+
+</class>

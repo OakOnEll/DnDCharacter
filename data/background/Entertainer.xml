@@ -7,10 +7,10 @@
     </skills>
     <tools>
         <proficiency>Disguise kit</proficiency>
-        <choose name="instrumentProf" category="instrument"></choose>
+        <choose name="instrumentProf" category="Musical Instrument"></choose>
     </tools>
     <equipment>
-        <choose name="instrument" category="instrument"/>
+        <choose name="instrument" category="Musical Instrument"/>
         <choose name="favor">
             <or name="loveLetter"><item>love letter</item></or>
             <or name="hair"><item>lock of hair</item></or>
