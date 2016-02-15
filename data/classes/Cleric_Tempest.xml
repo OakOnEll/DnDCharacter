@@ -1,5 +1,5 @@
 <class>
-    <name>War Cleric</name>
+    <name>Tempest Cleric</name>
     <parent>Cleric</parent>
 
     <level value="1">
@@ -10,16 +10,16 @@
             <proficiency category="heavy armor"></proficiency>
         </armor>
         <feature>
-            <name>War Priest</name>
+            <name>Wrath of the Storm</name>
             <refreshes>longrest</refreshes>
             <uses>max(wisdomMod, 1)</uses>
-            <shortDescription>When you use the Attack action, you can make one weapon attack as a bonus action.</shortDescription>
-            <context>WEAPON_ATTACK</context>
+            <shortDescription>When a creature within 5 feet of you that you can see hits you with an attack, you can use your reaction to cause the creature to make a Dexterity saving throw. The creature takes 2d8 lightning or thunder damage (your choice) on a failed save, and hals as much damage on a successful one.</shortDescription>
+            <context>HIT_POINTS</context>
         </feature>
         <spells>
             <!-- TODO always prepared domain spells -->
-            <spell>Divine Favor</spell>
-            <spell>Shield of Faith</spell>
+            <spell>Fog Cloud</spell>
+            <spell>Thunderwave</spell>
         </spells>
     </level>
 
@@ -27,45 +27,43 @@
         <feature extension="extend">
             <name>Channel Divinity</name>
             <action uses="1">
-                <name>Guided Strike</name>
-                <shortDescription>You can strike with supernatural accuracy. When you make an attack roll, you can use your channel divinity to gain a +10 bonus to the roll. You make this choice after you see the roll, but before the DM says whether the attack hits or misses.</shortDescription>
+                <name>Destructive Wrath</name>
+                <shortDescription>You can wield the power of the storm with unchecked ferocity.
+                When you roll lightning or thunder damage, you can use your Channel Divinity to deal maximum damage, instead of rolling.</shortDescription>
             </action>
-            <context>WEAPON_ATTACK</context>
+            <context>WEAPON_ATTACK,HIT_POINTS,SPELL_CAST</context>
         </feature>
     </level>
 
     <level value="3">
         <spells>
             <!-- TODO always prepared domain spells -->
-            <spell>Magic Weapon</spell>
-            <spell>Spiritual Weapon</spell>
+            <spell>Gust of Wind</spell>
+            <spell>Shatter</spell>
         </spells>
     </level>
 
     <level value="5">
         <spells>
             <!-- TODO always prepared domain spells -->
-            <spell>Crusader's Mantle</spell>
-            <spell>Spirit Guardians</spell>
+            <spell>Call Lightning</spell>
+            <spell>Sleet Storm</spell>
         </spells>
     </level>
 
     <level value="6">
-        <feature extension="extend">
-            <name>Channel Divinity</name>
-            <action uses = "1">
-                <name>War God's Blessing</name>
-                <shortDescription>When a creature within 30 feet of you makes an attack roll, you can use your reaction to grant that creature an additional +10 bonus to the roll, using Channel Divinity. You make this choice after you see the roll, but before the DM says whether the attack hits or misses.</shortDescription>
-            </action>
-            <context/>
+        <feature>
+            <name>Thunderbolt Strike</name>
+            <shortDescription>When you deal lightning damage to a Large or smaller creature, you can also push it up to 10 feet away from you.</shortDescription>
+            <context>WEAPON_ATTACK, HIT_POINTS,SPELL_CAST</context>
         </feature>
     </level>
 
     <level value="7">
         <spells>
             <!-- TODO always prepared domain spells -->
-            <spell>Freedom of Movement</spell>
-            <spell>Stoneskin</spell>
+            <spell>Control Water</spell>
+            <spell>Ice Storm</spell>
         </spells>
     </level>
 
@@ -80,8 +78,8 @@
     <level value="9">
         <spells>
             <!-- TODO always prepared domain spells -->
-            <spell>Flame Strike</spell>
-            <spell>Hold Monster</spell>
+            <spell>Destructive Wave</spell>
+            <spell>Insect Plague</spell>
         </spells>
     </level>
 
@@ -96,9 +94,11 @@
 
     <level value="17">
         <feature >
-            <name>Avatar of Battle</name>
-            <shortDescription>You have resistance to bludgeoning, piercing, and slashing damage from nonmagical weapons.</shortDescription>
-            <context>HIT_POINTS</context>
+            <name>Storm Born</name>
+            <shortDescription>You have a flying speed equal to your current walking speed whenever you are not underground or indoors.</shortDescription>
+            <!-- TODO set speed equal to another one -->
+            <speed type="fly">10</speed>
+            <context>SPEED</context>
         </feature>
     </level>
 

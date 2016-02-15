@@ -86,6 +86,7 @@
     <level value="14">
         <feature extension="extend">
             <name>Divine Strike</name>
+            <extensionDescription>Divine Strike now deals 2d8.</extensionDescription>
             <shortDescription>You gain the ability to infuse your weapon strikes with divine energy. One on each of your turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 2d8 cold, fire, or lightning damage (your choice) to the target.</shortDescription>
             <context>WEAPON_ATTACK</context>
         </feature>

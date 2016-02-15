@@ -101,6 +101,7 @@
                 <feature >
                     <name>Totemic Attunement to the Eagle</name>
                     <shortDescription>While raging, you have a flying speed equal to your current walking speed. This benefit works only in short bursts; you fall if you end your turn in the air and nothing else is holding you aloft.</shortDescription>
+                    <!-- TODO set speed equal to another one -->
                     <speed type="fly">10</speed>
                     <context>SPEED,EFFECT(Raging)</context>
                 </feature>

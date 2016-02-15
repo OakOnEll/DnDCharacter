@@ -53,6 +53,7 @@
     <level value="6">
         <feature extension="extend">
             <name>Warding Flare</name>
+            <extensionDescription>You can now use Warding Flare when a creature other than is attacked.</extensionDescription>
             <shortDescription>You can interpose divine light between an attacking enemy and yourself or another creature that you can see within 30 feet of you..
                 When you or another creature are attacked by a creature within 30 feet of you that you can see, you can use your reaction to impose a disadvantage on the attack roll, causing light to flare before the attacker before it hits or misses. An attacker that can't be blinded is immune to this feature.
                 You can use this feature a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses after a long rest.</shortDescription>

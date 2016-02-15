@@ -1,0 +1,106 @@
+<class>
+    <name>Trickster Cleric</name>
+    <parent>Cleric</parent>
+
+    <level value="1">
+        <feature>
+            <name>Blessing of the Trickster</name>
+            <shortDescription>You can use your action to touch a willing creature other than yourself to give it advantage on Dexterity(Stealth) checks. This blessing lasts for 1 hour or until you use this feature again.</shortDescription>
+            <context/>
+        </feature>
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Charm Person</spell>
+            <spell>Disguise Self</spell>
+        </spells>
+    </level>
+
+    <level value="2">
+        <feature extension="extend">
+            <name>Channel Divinity</name>
+            <effect actionName="Invoke Duplicity" uses="1">
+                <name>Illusory Duplicate</name>
+                <actionDescription>As an action, you can create an illusory duplicate of yourself that lasts for 1 minute.</actionDescription>
+                <shortDescription>You create an illusory duplicate of yourself that lasts for 1 minute, while concentrating. This illusion appears in an unoccupied space that you can see within 30 feet of you. As a bonus action on your turn, you can move the illusion up to 30 feet to a space you can see, but must remain within 120 feet of you.
+                For the duration, you can cast spells as though you were in the illusion's space, but you must use your own senses. Additionally, when both you and your illusion are within 5 feet of a creature that can see the illusion, you have advantage on attack rolls against that creature, given how distracting the illusion is to the target.</shortDescription>
+            </effect>
+            <context>WEAPON_ATTACK,SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="3">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Mirror Image</spell>
+            <spell>Pass Without Trace</spell>
+        </spells>
+    </level>
+
+    <level value="5">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Blink</spell>
+            <spell>Dispel Magic</spell>
+        </spells>
+    </level>
+
+    <level value="6">
+        <feature extension="extend">
+            <name>Channel Divinity</name>
+            <effect actionName="Cloak of Shadows">
+                <name>Invisible</name>
+                <actionDescription>As an action, you can become invisible until the end of your next turn.</actionDescription>
+                <shortDescription>You are invisible until the end of your next turn. You become visible if you attack or cast a spell.</shortDescription>
+            </effect>
+            <context>WEAPON_ATTACK, SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="7">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Dimension Door</spell>
+            <spell>Polymorph</spell>
+        </spells>
+    </level>
+
+    <level value="8">
+        <feature >
+            <name>Divine Strike</name>
+            <shortDescription>You gain the ability to infuse your weapon strikes with divine energy. One on each of your turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 1d8 radiant damage to the target.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Dominate Person</spell>
+            <spell>Modify Memory</spell>
+        </spells>
+    </level>
+
+    <level value="14">
+        <feature extension="extend">
+            <name>Divine Strike</name>
+            <extensionDescription>Divine Strike now deals 2d8.</extensionDescription>
+            <shortDescription>You gain the ability to infuse your weapon strikes with divine energy. One on each of your turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 2d8 radiant damage to the target.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Channel Divinity</name>
+            <extensionDescription>Invoke Duplicity now invokes up to 4 copies of yourself</extensionDescription>
+            <effect actionName="Invoke Duplicity" uses="1" extension="replace">
+                <name>Illusory Duplicate</name>
+                <actionDescription>As an action, you can create up to 4 illusory duplicates of yourself that lasts for 1 minute.</actionDescription>
+                <shortDescription>You create up to 4 illusory duplicates of yourself that lasts for 1 minute, while concentrating. These illusions appear in unoccupied spaces that you can see within 30 feet of you. As a bonus action on your turn, you can move any number of these illusions up to 30 feet to a space you can see, but must remain within 120 feet of you.
+                    For the duration, you can cast spells as though you were in one of the illusion's space, but you must use your own senses. Additionally, when both you and an illusion are within 5 feet of a creature that can see the illusion, you have advantage on attack rolls against that creature, given how distracting the illusion is to the target.</shortDescription>
+            </effect>
+            <context>WEAPON_ATTACK,SPELL_CAST</context>
+        </feature>
+    </level>
+
+</class>
