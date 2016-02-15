@@ -1,9 +1,10 @@
 <class>
+    <ref>PHB p.47</ref>
     <name>Barbarian</name>
     <hitDice>1d12</hitDice>
     <armor>
-        <proficiency category="light armor"></proficiency>
-        <proficiency category="medium armor"></proficiency>
+        <proficiency category="light armor"/>
+        <proficiency category="medium armor"/>
     </armor>
     <savingThrows>
         <proficiency>Strength</proficiency>
@@ -19,8 +20,6 @@
             <or name="survival"><proficiency>Survival</proficiency></or>
         </choose>
     </skills>
-
-
 
 
     <equipment>
@@ -53,35 +52,205 @@
             <shortDescription>On your turn, you can use a bonus action to rage.</shortDescription>
             <effect actionName="Rage">
                 <name>Raging</name>
-                <shortDescription>While raging you have advantage on strength checks, gain a bonus on melee attack damage, resistance to bludgeoning, piercing, and slashing damage.</shortDescription>
-                <context>WEAPON_ATTACK,SKILL_ROLL(strength),HIT_POINTS</context>
+                <shortDescription>While raging, you gain the following benefits if you aren’t wearing heavy armor:
+                    • You have advantage on Strength checks and Strength saving throws.
+                    • When you make a melee weapon attack using Strength, you gain a +2 bonus to the damage roll.
+                    • You have resistance to bludgeoning, piercing, and slashing damage.
+                    If you are able to cast spells, you can’t cast them or concentrate on them while raging.
+                    Your rage lasts for 1 minute. It ends early if you are knocked unconscious or if your turn ends and you haven’t attacked a hostile creature since your last turn or taken damage since then. You can also end your rage on your turn as a bonus action.
+                </shortDescription>
+                <context>WEAPON_ATTACK,SKILL_ROLL(strength),HIT_POINTS,SPELL_CAST</context>
             </effect>
             <context>WEAPON_ATTACK,HIT_POINTS</context>
         </feature>
         <feature>
             <name>Unarmored Defence</name>
+            <condition>!armor</condition>
             <ac>=10 + dexterityMod + constitutionMod</ac>
-            <shortDescription>While not wearing armor, your AC equals 10 + dex + con modifiers. Can still use a shield.</shortDescription>
+            <shortDescription>While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.</shortDescription>
             <context>ARMOR_CLASS</context>
         </feature>
         <armor>
             <proficiency>shield</proficiency>
         </armor>
         <weapons>
-            <proficiency category="simple weapons"></proficiency>
-            <proficiency category="martial weapons"></proficiency>
+            <proficiency category="simple weapons"/>
+            <proficiency category="martial weapons"/>
         </weapons>
     </level>
     <level value="2">
         <feature>
             <name>Reckless Attack</name>
-            <shortDescription>Can decide to attack recklessly, which gives advantage on Strength melee attack rolls, but rolls against you have advantage until next turn.</shortDescription>
+            <shortDescription>You can throw aside all concern for defense to attack with fierce desperation. When you make your first attack on your turn, you can decide to attack recklessly. Doing so gives you advantage on melee weapon attack rolls using Strength during this turn, but attack rolls against you have advantage until your next turn.</shortDescription>
+            <effect >
+                <name>Reckless attack</name>
+                <shortDescription>Attack rolls against you have advantage until your next turn</shortDescription>
+                <context>TO_HIT,WEAPON_ATTACK</context>
+            </effect>
             <context>WEAPON_ATTACK</context>
         </feature>
         <feature>
             <name>Danger sense</name>
-            <shortDescription>Advantage on Dexterity saving throws against effects you can see, such as traps and spells. Can't be blinded, deafened, or incapacitated.</shortDescription>
+            <shortDescription>You gain an uncanny sense of when things nearby aren’t as they should be, giving you an edge when you dodge away from danger.
+                You have advantage on Dexterity saving throws against effects that you can see, such as traps and spells. To gain this benefit, you can’t be blinded, deafened, or incapacitated.</shortDescription>
             <context>SAVING_THROW(dexterity)</context>
+        </feature>
+    </level>
+
+    <level value="3">
+        <subclass label="Primal Path" />
+        <feature extension="extend">
+            <name>Rage</name>
+            <uses>3</uses>
+            <extensionDescription>You gain an additional use of Rage per rest, now up to three per rest.</extensionDescription>
+        </feature>
+    </level>
+
+    <level value="5">
+        <feature>
+            <name>Extra Attack</name>
+            <shortDescription>You can attack twice, instead of once, whenever you take the Attack action on your turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <feature>
+            <name>Extra Movement</name>
+            <shortDescription>Your speed increases by 10 feet while you aren’t wearing heavy armor.</shortDescription>
+            <speed>+10</speed>
+            <context>SPEED</context>
+        </feature>
+    </level>
+
+    <level value="6">
+        <feature extension="extend">
+            <extensionDescription>You gain an additional use of Rage per rest, now up to four per rest.</extensionDescription>
+            <name>Rage</name>
+            <uses>4</uses>
+        </feature>
+    </level>
+
+    <level value="7">
+        <feature>
+            <name>Feral Instinct</name>
+            <shortDescription>Your instincts are so honed that you have advantage on initiative rolls.
+                Additionally, if you are surprised at the beginning of combat and aren’t incapacitated, you can act normally on your first turn, but only if you enter your rage before doing anything else on that turn.</shortDescription>
+            <context>INITIATIVE</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <feature>
+            <name>Brutal Critical</name>
+            <shortDescription>You can roll one additional weapon damage die when determining the extra damage for a critical hit with a melee attack.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <!-- Add attack damage HP-->
+        <feature extension="extend">
+            <name>Rage</name>
+            <extensionDescription>You gain an additional point bonus to the damage roll, to +3 HP now.</extensionDescription>
+            <effect actionName="Rage" extension="replace">
+                <name>Raging</name>
+                <shortDescription>While raging, you gain the following benefits if you aren’t wearing heavy armor:
+                    • You have advantage on Strength checks and Strength saving throws.
+                    • When you make a melee weapon attack using Strength, you gain a +3 bonus to the damage roll.
+                    • You have resistance to bludgeoning, piercing, and slashing damage.
+                    If you are able to cast spells, you can’t cast them or concentrate on them while raging.
+                    Your rage lasts for 1 minute. It ends early if you are knocked unconscious or if your turn ends and you haven’t attacked a hostile creature since your last turn or taken damage since then. You can also end your rage on your turn as a bonus action.
+                </shortDescription>
+                <context>WEAPON_ATTACK,SKILL_ROLL(strength),HIT_POINTS,SPELL_CAST</context>
+            </effect>
+        </feature>
+    </level>
+
+    <level value="11">
+        <feature>
+            <name>Relentless Rage</name>
+            <shortDescription>Your rage can keep you fighting despite grievous wounds. If you drop to 0 hit points while you’re raging and don’t die outright, you can make a DC 10 Constitution saving throw. If you succeed, you drop to 1 hit point instead.
+                Each time you use this feature after the first, the DC increases by 5. When you finish a short or long rest, the DC resets to 10.</shortDescription>
+            <context>HIT_POINTS,SHORT_REST,LONG_REST,EFFECT(Raging)</context>
+        </feature>
+    </level>
+
+    <level value="12">
+        <feature extension="extend">
+            <name>Rage</name>
+            <uses>5</uses>
+            <extensionDescription>You gain an additional use of Rage per rest, now up to five per rest.</extensionDescription>
+        </feature>
+    </level>
+
+    <level value="13">
+        <feature extension="extend">
+            <name>Brutal Critical</name>
+            <extensionDescription>You gain an additional die to use for weapon damage on a critical hit, it is now 2 dice.</extensionDescription>
+            <shortDescription>You can roll two additional weapon damage dice when determining the extra damage for a critical hit with a melee attack.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="15">
+        <feature>
+            <name>Persistent Rage</name>
+            <shortDescription>Your rage is so fierce that it ends early only if you fall unconscious or if you choose to end it.</shortDescription>
+            <context>HIT_POINTS,SHORT_REST,LONG_REST,EFFECT(Raging)</context>
+        </feature>
+    </level>
+
+    <level value="16">
+        <!-- Add attack damage bonus HP -->
+        <feature extension="extend">
+            <name>Rage</name>
+            <extensionDescription>You gain an additional point bonus to the damage roll, to +4 HP now.</extensionDescription>
+            <effect actionName="Rage" extension="replace">
+                <name>Raging</name>
+                <shortDescription>While raging, you gain the following benefits if you aren’t wearing heavy armor:
+                    • You have advantage on Strength checks and Strength saving throws.
+                    • When you make a melee weapon attack using Strength, you gain a +4 bonus to the damage roll.
+                    • You have resistance to bludgeoning, piercing, and slashing damage.
+                    If you are able to cast spells, you can’t cast them or concentrate on them while raging.
+                    Your rage lasts for 1 minute. It ends early if you are knocked unconscious or if your turn ends and you haven’t attacked a hostile creature since your last turn or taken damage since then. You can also end your rage on your turn as a bonus action.
+                </shortDescription>
+                <context>WEAPON_ATTACK,SKILL_ROLL(strength),HIT_POINTS,SPELL_CAST</context>
+            </effect>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Brutal Critical</name>
+            <extensionDescription>You gain another additional die to use for weapon damage on a critical hit, it is now 3 dice.</extensionDescription>
+            <shortDescription>You can roll three additional weapon damage dice when determining the extra damage for a critical hit with a melee attack.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <feature extension="extend">
+            <name>Rage</name>
+            <uses>6</uses>
+            <extensionDescription>You gain an additional use of Rage per rest, now up to six per rest.</extensionDescription>
+        </feature>
+    </level>
+
+    <level value="18">
+        <feature>
+            <name>Indomitable Might</name>
+            <shortDescription>If your total for a Strength check is less than your Strength score, you can use that score in place of the total.</shortDescription>
+            <context>SKILL_ROLL(strength),SAVING_THROW(strength)</context>
+        </feature>
+    </level>
+
+    <level value="20">
+        <feature>
+            <name>Primal Champion</name>
+            <shortDescription>You embody the power of the wilds. Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24.</shortDescription>
+            <!-- TODO allow max/cap on increases -->
+            <stat>
+                <increase name="Strength">4</increase>
+                <increase name="Constitution">4</increase>
+            </stat>
+            <context/>
+        </feature>
+        <feature extension="extend">
+            <name>Rage</name>
+            <uses>0</uses>
+            <extensionDescription>You have NO limits to the number of times you can rage now.</extensionDescription>
         </feature>
     </level>
 </class>

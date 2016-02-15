@@ -170,7 +170,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 actionName = effect.getName();
             }
 
-            String actionExtensionTypeString = element.getAttribute("extension");
+            String actionExtensionTypeString = effectElement.getAttribute("extension");
             FeatureExtensionType actionExtensionType = null;
             if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
                 actionExtensionTypeString = actionExtensionTypeString.toUpperCase();

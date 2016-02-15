@@ -24,7 +24,6 @@
     </level>
 
     <level value="2">
-        <!-- TODO feature extension/replacement-->
         <feature extension="extend">
             <name>Channel Divinity</name>
             <action uses="1">

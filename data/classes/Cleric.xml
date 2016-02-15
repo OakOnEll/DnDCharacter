@@ -1,4 +1,5 @@
 <class>
+    <ref>PHB p.57</ref>
     <name>Cleric</name>
     <hitDice>1d8</hitDice>
     <savingThrows>
@@ -138,6 +139,7 @@
     <level value="5">
         <feature extension="extend">
             <name>Channel Divinity</name>
+            <extensionDescription>Turn undead will now destroy undead creatures of CR 1/2 or lower.</extensionDescription>
             <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 1/2 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
@@ -159,6 +161,7 @@
     <level value="6">
         <feature extension="extend">>
             <name>Channel Divinity</name>
+            <extensionDescription>You gain an additional use of channel divinity, up to twice per rest now.</extensionDescription>
             <shortDescription>You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.
                 You can use your Channel Divinity twice between rests.</shortDescription>
             <uses>2</uses>
@@ -192,6 +195,7 @@
     <level value="8">
         <feature extension="extend">
             <name>Channel Divinity</name>
+            <extensionDescription>Turn undead will now destroy undead creatures of CR 1 or lower.</extensionDescription>
             <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 1 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
@@ -254,6 +258,7 @@
     <level value="11">
         <feature extension="extend">
             <name>Channel Divinity</name>
+            <extensionDescription>Turn undead will now destroy undead creatures of CR 2 or lower.</extensionDescription>
             <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 2 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
@@ -312,6 +317,7 @@
     <level value="14">
         <feature extension="extend">
             <name>Channel Divinity</name>
+            <extensionDescription>Turn undead will now destroy undead creatures of CR 3 or lower.</extensionDescription>
             <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 3 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
@@ -377,6 +383,7 @@
     <level value="17">
         <feature extension="extend">
             <name>Channel Divinity</name>
+            <extensionDescription>Turn undead will now destroy undead creatures of CR 4 or lower.</extensionDescription>
             <action extension="replace" uses="1">
                 <name>Turn Undead</name>
                 <shortDescription>As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet of you must make a wisdom saving throw. If the creature fails it saving throw, if its CR rating is 4 or lower it is instantly destroyed. Otherwise, if it fails its saving throw it is turned for 1 minute or until it takes any damage.
@@ -405,6 +412,7 @@
     <level value="18">
         <feature extension="extend">
             <name>Channel Divinity</name>
+            <extensionDescription>You gain an additional use of channel divinity, up to three per rest now.</extensionDescription>
             <shortDescription>You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.
                 You can use your Channel Divinity three times between rests.</shortDescription>
             <uses>3</uses>

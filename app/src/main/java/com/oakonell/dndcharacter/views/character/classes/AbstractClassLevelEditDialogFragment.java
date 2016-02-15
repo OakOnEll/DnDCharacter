@@ -211,11 +211,23 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                 pages.add(spellPage);
 
             }
+        }
 
-            if (subclass != null) {
-                Element subclassRoot = XmlUtils.getDocument(subclass.getXml()).getDocumentElement();
-                final Element subclassLevelElement = AClass.findLevelElement(subclassRoot, getClassLevel());
-                if (subclassLevelElement != null) {
+        if (subclass != null) {
+            Element subclassRoot = XmlUtils.getDocument(subclass.getXml()).getDocumentElement();
+            final Element subclassLevelElement = AClass.findLevelElement(subclassRoot, getClassLevel());
+            if (subclassLevelElement != null) {
+                // check if there are any elements to display
+                List<Element> childElements = XmlUtils.getChildElements(subclassLevelElement);
+                boolean display = false;
+                for (Element each : childElements) {
+                    String displayChild = each.getAttribute("display");
+                    if (displayChild == null || !displayChild.equals("false")) {
+                        display = true;
+                        break;
+                    }
+                }
+                if (display) {
                     Page<AClass> subclassPage = new Page<AClass>() {
                         @NonNull
                         @Override
@@ -231,8 +243,8 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     pages.add(subclassPage);
                 }
             }
-
         }
+
 
         if (getCharacter().canChooseAbilityScoreImprovement(getModel(), getClassLevel())) {
             Page<AClass> asiOrFeat = new Page<AClass>() {

@@ -1,0 +1,119 @@
+<class>
+    <ref>PHB p.50</ref>
+    <name>Totem Warrior</name>
+    <parent>Barbarian</parent>
+
+    <level value="3">
+        <feature>
+            <name>Spirit Seeker</name>
+            <shortDescription>Your path seeking attunement with the natural world gives you a kinship with beasts. You gain the ability to cast beast sense and speak with animals as rituals.</shortDescription>
+            <effect actionName="Beast Sense" >
+                <name>Beast Sense</name>
+                <actionDescription>As a ritual casting, touch a willing beast, and gain the ability to perceive through its senses for up to an hour.</actionDescription>
+                <shortDescription>For the duration of the spell, you can use your action to see through the beast's eyes and hear what it hears, and continue to do so until you use your action to return to your normal senses.
+                While perceiving through the beast's senses, you gain the benefits of any special senses possessed by that creature, although you are blinded and deafened to your own surroundings.</shortDescription>
+            </effect>
+            <effect actionName="Speak with animals" >
+                <name>Speak with Animals</name>
+                <actionDescription>As a ritual, you can cast this spell and gain the ability to comprehend and verbally communicate with beasts for up to 10 minutes.</actionDescription>
+                <shortDescription>You have the ability to comprehend and verbally communicate with beasts for the up to 10 minutes. The knowledge and awareness of many beasts is limited by their intelligence, but at a minimum, beasts can give you information about nearby locations and monsters, including whatever they can perceive or have perceived within the past day. You might be able to persuade a beast to perform a small favor for you.</shortDescription>
+            </effect>
+        </feature>
+
+        <choose name="totemSpirit">
+            <or name="bear">
+                <feature >
+                    <name>Bear Totem Spirit</name>
+                    <shortDescription>While raging you have resistance to all damage except psychic damage. The spirit of the bear makes you tough enough to stand up to any punishment.</shortDescription>
+                    <context>HIT_POINTS,EFFECT(Raging)</context>
+                </feature>
+            </or>
+            <or name="eagle">
+                <feature >
+                    <name>Eagle Totem Spirit</name>
+                    <shortDescription>While raging and not wearing heavy armor, other creatures have disadvantage on opportunity attacks against you, and you can use the Dash action as a bonus action on your turn. The spirit of the eagle makes you into a predator who can weave through the fray with ease.</shortDescription>
+                    <context>TO_HIT,EFFECT(Raging)</context>
+                </feature>
+            </or>
+            <or name="wolf">
+                <feature >
+                    <name>Wolf Totem Spirit</name>
+                    <shortDescription>While raging, your friends have advantage on melee attack rolls against any creature within 5 feet of you that is hostile to you. The spirit of the wolf makes you a leader of hunters. </shortDescription>
+                    <context>EFFECT(Raging)</context>
+                </feature>
+            </or>
+        </choose>
+
+    </level>
+
+    <level value="6">
+        <choose name="aspect">
+            <or name="bear">
+                <feature >
+                    <name>Aspect of the Bear</name>
+                    <shortDescription>You gain the might of a bear. Your carrying capacity is doubled, and you have advantage on Strength checks made to push, pull, lift, or break objects.</shortDescription>
+                    <context>SKILL_ROLL(strength)</context>
+                </feature>
+            </or>
+            <or name="eagle">
+                <feature >
+                    <name>Aspect of the Eagle</name>
+                    <shortDescription>You have the eye sight of an eagle. You can see up to 1 mile away with no difficulty, able to discern even fine details as though looking at something no more than 100 feet away from you. Additionally, dim light doesn't impose disadvantage on your Wisdom(Perception) checks.</shortDescription>
+                    <context>SKILL_ROLL(perception)</context>
+                </feature>
+            </or>
+            <or name="wolf">
+                <feature >
+                    <name>Aspect of the Wolf</name>
+                    <shortDescription>You have the hunting sensibilities of a wolf. You can track other creatures while traveling at a fast pace, and you can move stealthily while traveling at a normal pace.</shortDescription>
+                    <context>SKILL_ROLL(stealth),SKILL_ROLL(survival)</context>
+                </feature>
+            </or>
+        </choose>
+    </level>
+
+    <level value="10">
+        <feature>
+            <name>Spirit Walker</name>
+            <shortDescription>You can cast commune with nature as a ritual. The information is conveyed to you through a spiritual version of one of the animals chosen as your Totem Spirit or Beast Aspect.
+            You briefly become one with nature and gain knowledge of the surrounding territory. In the outdoors, this gives you knowledge of the land within 3 miles of you. In caves and other natural underground settings, the radius is limited to 300 feet. The spell doesn't function where nature has been replaced by construction, such as dungeons and towns.
+            You instantly gain knowledge of up to three facts of your choice about any of the following subjects as they relate to the area:
+            •terrain and bodies of water
+            •prevalent plants, minerals, animals, or peoples
+            •powerful celestials, fey, fiends, elementals, or undead
+            •influence from other planes of existence
+            •buildings
+            For example, you could determine the location of powerful undead in the area, the location of major sources of safe drinking water, and the location of any nearby towns.
+            </shortDescription>
+        </feature>
+    </level>
+
+    <level value="14">
+        <choose name="attunement">
+            <or name="bear">
+                <feature >
+                    <name>Totemic Attunement to the Bear</name>
+                    <shortDescription>While raging, any creature within 5 feet of you that's hostile to you has disadvantage on attack rolls against targets other than you or another character with this feature. An enemy is immune to this effect if it can't see or hear you or if it can't be frightened.</shortDescription>
+                    <context>EFFECT(Raging)</context>
+                </feature>
+            </or>
+            <or name="eagle">
+                <feature >
+                    <name>Totemic Attunement to the Eagle</name>
+                    <shortDescription>While raging, you have a flying speed equal to your current walking speed. This benefit works only in short bursts; you fall if you end your turn in the air and nothing else is holding you aloft.</shortDescription>
+                    <speed type="fly">10</speed>
+                    <context>SPEED,EFFECT(Raging)</context>
+                </feature>
+            </or>
+            <or name="wolf">
+                <feature >
+                    <name>Totemic Attunement to the Wolf</name>
+                    <shortDescription>While raging, you can use a bonus action on your turn to knock a Large or smaller creature prone when you hit it with a melee weapon attack.</shortDescription>
+                    <context>WEAPON_ATTACK,EFFECT(Raging)</context>
+                </feature>
+            </or>
+        </choose>
+
+    </level>
+
+</class>

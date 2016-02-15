@@ -230,9 +230,9 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         if (extendedFeature != null) {
             final Collection<IFeatureAction> actionsAndEffects = extendedFeature.getActionsAndEffects();
             for (IFeatureAction each : actionsAndEffects) {
-                IFeatureAction existing = resultActionsAndEffects.get(each.getName());
-                if (existing != null) {
-                    if (!existing.replacesPrevious()) {
+                IFeatureAction latest = resultActionsAndEffects.get(each.getName());
+                if (latest != null) {
+                    if (!latest.replacesPrevious()) {
                         // TODO report the error better
                         Log.e("Feature error", "Found a feature '" + feature.getName() + "' action '" + each.getName() + "', that doesn't specify replace");
                     }

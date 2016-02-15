@@ -32,6 +32,9 @@
                     android:layout_height="wrap_content"
                     tools:text="New Text" />
 
+                <include layout="@layout/feature_context" />
+
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

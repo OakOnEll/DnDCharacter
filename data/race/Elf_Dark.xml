@@ -30,6 +30,11 @@
         <shortDescription>Each object in a 20 foot cube within a 60 foot range is outlined in blue, green, or violet. Any creature failing a dexterity saving throw is also outlined. Any attack against creature has advantage if attacker sees the target. Lasts while concentrating, for up to 1 minute.</shortDescription>
         <refreshes>longRest</refreshes>
         <uses>1</uses>
+        <effect uses="1">
+            <name>Faerie Fire</name>
+            <shortDescription>Any attack against an effected creature has advantage if attacker sees the target.
+            Lasts a minute, while concentrating.</shortDescription>
+        </effect>
         <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
     </feature>
     <feature applies="level>=5">
@@ -37,6 +42,10 @@
         <shortDescription>Magical darkness spreads from a point within a 60 feet range, to fill a 15 foot radius for up to ten minutes, while concentrating.</shortDescription>
         <refreshes>longRest</refreshes>
         <uses>1</uses>
+        <effect uses="1">
+            <name>Darkness</name>
+            <shortDescription>Darkness spreads from a point to fill a 15 foot radius. This effect lasts up to 10 minutes, while concentrating.</shortDescription>
+        </effect>
         <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
     </feature>
     <stat>

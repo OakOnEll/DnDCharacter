@@ -12,7 +12,11 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Rob on 1/4/2016.
@@ -89,4 +93,14 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     protected String getTitle() {
         return getNameArgument();
     }
+
+    @NonNull
+    @Override
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.EFFECT, getNameArgument()));
+        return filter;
+    }
+
+
 }

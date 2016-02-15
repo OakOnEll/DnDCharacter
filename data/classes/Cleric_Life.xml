@@ -49,7 +49,7 @@
     <level value="6">
         <feature >
             <name>Blessed Healer</name>
-            <shortDescription>The healing spells you cast on others heal you as well. When you cast a spell of 1st level or higher that restores hit points to a creatue other than you, you regain hit points equal to 2 + the spell's level.</shortDescription>
+            <shortDescription>The healing spells you cast on others heal you as well. When you cast a spell of 1st level or higher that restores hit points to a creature other than you, you regain hit points equal to 2 + the spell's level.</shortDescription>
             <context>SPELL_CAST</context>
         </feature>
     </level>

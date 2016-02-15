@@ -114,9 +114,17 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     @Override
     protected void visitFeature(@NonNull Element element) {
+        if ("false".equals(element.getAttribute("display"))) return;
+
         ViewGroup oldParent = parent;
         String name = XmlUtils.getElementText(element, "name");
-        String description = XmlUtils.getElementText(element, "shortDescription");
+        String extensionDescription = XmlUtils.getElementText(element, "extensionDescription");
+        String description;
+        if (extensionDescription == null || extensionDescription.trim().length()==0) {
+            description = XmlUtils.getElementText(element, "shortDescription");
+        } else {
+            description = extensionDescription;
+        }
 
         String extensionTypeString = element.getAttribute("extension");
         FeatureExtensionType extensionType = null;

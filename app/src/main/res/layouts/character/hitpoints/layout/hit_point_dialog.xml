@@ -11,183 +11,185 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <LinearLayout
+    <include
+        android:id="@+id/action_group"
+        layout="@layout/dialog_cancel_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true" />
 
-        <android.support.v4.widget.NestedScrollView
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_above="@id/action_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/type_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+
                 <LinearLayout
-                    android:id="@+id/type_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical">
 
+                    <RadioButton
+                        android:id="@+id/damage_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/damage_radio_button_label" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-
-                        <RadioButton
-                            android:id="@+id/damage_radio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/damage_radio_button_label" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.oakonell.dndcharacter.views.NoDefaultSpinner
-                                android:id="@+id/damage_type"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:prompt="@string/damage_type"
-                                android:spinnerMode="dropdown" />
-
-                            <com.oakonell.dndcharacter.views.NoDefaultSpinner
-                                android:id="@+id/vulnerability_type"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:prompt="@string/vulnerability_type"
-                                android:spinnerMode="dropdown" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <RadioButton
-                        android:id="@+id/heal_radio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/heal_radio_button_lbl" />
-
-                    <RadioButton
-                        android:id="@+id/temp_hp_radio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/temp_hp_radio_lbl" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/hp_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <com.oakonell.dndcharacter.views.MyEditText
-                        android:id="@+id/hp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="16dp"
-                        android:ems="5"
-                        android:enabled="true"
-                        android:gravity="right"
-                        android:hint="@string/hp_hint"
-                        android:inputType="number" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="16dp"
                         android:orientation="vertical">
 
-                        <Button
-                            android:id="@+id/add"
-                            style="?android:attr/buttonStyleSmall"
+                        <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                            android:id="@+id/damage_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:text="+" />
+                            android:layout_marginLeft="16dp"
+                            android:prompt="@string/damage_type"
+                            android:spinnerMode="dropdown" />
 
-                        <Button
-                            android:id="@+id/subtract"
-                            style="?android:attr/buttonStyleSmall"
+                        <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                            android:id="@+id/vulnerability_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:text="-" />
+                            android:layout_marginLeft="16dp"
+                            android:prompt="@string/vulnerability_type"
+                            android:spinnerMode="dropdown" />
                     </LinearLayout>
+                </LinearLayout>
+
+                <RadioButton
+                    android:id="@+id/heal_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heal_radio_button_lbl" />
+
+                <RadioButton
+                    android:id="@+id/temp_hp_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/temp_hp_radio_lbl" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hp_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <com.oakonell.dndcharacter.views.MyEditText
+                    android:id="@+id/hp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:ems="5"
+                    android:enabled="true"
+                    android:gravity="right"
+                    android:hint="@string/hp_hint"
+                    android:inputType="number" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/add_another"
+                        android:id="@+id/add"
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/add_another_button_label" />
+                        android:layout_gravity="right"
+                        android:text="+" />
+
+                    <Button
+                        android:id="@+id/subtract"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="-" />
                 </LinearLayout>
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/add_another"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/starting_hp" />
-
-                    <TextView
-                        android:id="@+id/start_hp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        tools:text="8" />
-                </LinearLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/hp_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    tools:layout_height="20dp"
-                    tools:listitem="@layout/hp_row" />
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/final_hp" />
-
-                    <TextView
-                        android:id="@+id/final_hp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        tools:text="8" />
-                </LinearLayout>
-
-                <include layout="@layout/feature_context" />
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/add_another_button_label" />
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
 
-        <include layout="@layout/dialog_cancel_done" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/starting_hp" />
+
+                <TextView
+                    android:id="@+id/start_hp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    tools:text="8" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/hp_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                tools:layout_height="20dp"
+                tools:listitem="@layout/hp_row" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/final_hp" />
+
+                <TextView
+                    android:id="@+id/final_hp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    tools:text="8" />
+            </LinearLayout>
+
+            <include layout="@layout/feature_context" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
 </RelativeLayout>
 
 
