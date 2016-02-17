@@ -23,6 +23,7 @@ import java.util.Set;
  */
 public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     public static final String NAME = "name";
+    private static final String ID = "id";
     private TextView description;
     private Button endEffectButton;
 
@@ -30,8 +31,10 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     public static ViewEffectDialogFragment createDialog(@NonNull CharacterEffect effect) {
         ViewEffectDialogFragment frag = new ViewEffectDialogFragment();
         String name = effect.getName();
+        String id = effect.getId();
         Bundle args = new Bundle();
         args.putString(NAME, name);
+        args.putString(ID, id);
         frag.setArguments(args);
 
         return frag;
@@ -52,6 +55,11 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     @Nullable
     private String getNameArgument() {
         return getArguments().getString(NAME);
+    }
+
+    @Nullable
+    private String getIdArgument() {
+        return getArguments().getString(ID);
     }
 
 
@@ -98,7 +106,7 @@ public class ViewEffectDialogFragment extends AbstractCharacterDialogFragment {
     @Override
     protected Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
-        filter.add(new FeatureContextArgument(FeatureContext.EFFECT, getNameArgument()));
+        filter.add(new FeatureContextArgument(FeatureContext.EFFECT, getIdArgument()));
         return filter;
     }
 

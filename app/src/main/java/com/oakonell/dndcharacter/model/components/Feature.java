@@ -290,6 +290,7 @@ public class Feature extends AbstractContextualComponent {
                         // TODO look through the contexts to replace any prompt variables
                     }
                     newEffect.setName(theName);
+                    newEffect.setId(getId());
                     newEffect.setDescription(theDescription);
                     character.addEffect(newEffect);
                 } catch (CloneNotSupportedException e) {

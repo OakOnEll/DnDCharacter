@@ -102,6 +102,12 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
         final String ac = XmlUtils.getElementText(element, "ac");
         characterEffect.setAcFormula(ac);
 
+        // this needs to come after setName, which give the id the same as the name by default
+        final String id = XmlUtils.getElementText(element, "id");
+        if (id != null && id.trim().length() >0) {
+            characterEffect.setId(id);
+        }
+
         final String contextsString = XmlUtils.getElementText(element, "context");
         if (contextsString != null) {
             String[] contexts = contextsString.split(",");

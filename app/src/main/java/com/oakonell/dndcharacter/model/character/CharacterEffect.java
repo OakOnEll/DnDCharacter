@@ -8,9 +8,10 @@ import org.simpleframework.xml.Element;
  * Created by Rob on 1/3/2016.
  */
 public class CharacterEffect extends AbstractContextualComponent {
-
     @Element(required = false)
     private String origin;
+    @Element(required = false)
+    private String id;
 
     @NonNull
     @Override
@@ -32,4 +33,17 @@ public class CharacterEffect extends AbstractContextualComponent {
     }
 
 
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+        id = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
