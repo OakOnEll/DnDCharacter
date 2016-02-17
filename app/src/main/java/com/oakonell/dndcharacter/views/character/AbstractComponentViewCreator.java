@@ -232,6 +232,30 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     @Override
+    protected void visitLanguage(@NonNull Element element) {
+        String language = element.getTextContent();
+        List<Character.LanguageWithSource> languageWithSources = getCharacter().deriveLanguages();
+        StringBuilder knownBy = new StringBuilder();
+        for (Character.LanguageWithSource each : languageWithSources) {
+            if (!each.getLanguage().equals(language)) continue;
+            if (each.getSource().equals(currentComponent)) continue;
+
+            if (knownBy.length()>0) {
+                knownBy.append(",");
+            }
+            knownBy.append(each.getSourceString(parent.getResources()));
+        }
+        if (knownBy.length()>0) {
+            TextView text = new TextView(parent.getContext());
+            parent.addView(text);
+            text.setText(" *  " + language + " (" + parent.getResources().getString(R.string.already_known_from, knownBy) + ")");
+            return;
+        }
+
+        super.visitLanguage(element);
+    }
+
+    @Override
     protected void visitProficiency(@NonNull Element element) {
         String category = element.getAttribute("category");
         if (category != null && category.trim().length() > 0) {
@@ -614,30 +638,39 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     private void visitLanguageCategoryChoices(int numChoices) {
         // TODO get the list of languages...
-        List<String> languages = new ArrayList<>();
-        languages.add("Common");
-        languages.add("Dwarvish");
-        languages.add("Elvish");
-        languages.add("Giant");
-        languages.add("Gnomish");
-        languages.add("Goblin");
-        languages.add("Halfling");
-        languages.add("Orc");
+        List<String> allLanguages = new ArrayList<>();
+        allLanguages.add("Common");
+        allLanguages.add("Dwarvish");
+        allLanguages.add("Elvish");
+        allLanguages.add("Giant");
+        allLanguages.add("Gnomish");
+        allLanguages.add("Goblin");
+        allLanguages.add("Halfling");
+        allLanguages.add("Orc");
 
-        languages.add("Abyssal");
-        languages.add("Celestial");
-        languages.add("Draconic");
-        languages.add("Deep speech");
-        languages.add("Infernal");
-        languages.add("Primordial");
-        languages.add("Sylvan");
-        languages.add("Undercommon");
+        allLanguages.add("Abyssal");
+        allLanguages.add("Celestial");
+        allLanguages.add("Draconic");
+        allLanguages.add("Deep speech");
+        allLanguages.add("Infernal");
+        allLanguages.add("Primordial");
+        allLanguages.add("Sylvan");
+        allLanguages.add("Undercommon");
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
+        List<String> dropdownLanguages = new ArrayList<>();
+
+        Set<String> characterLanguages = character.getLanguages();
+        for (String each : allLanguages) {
+            if (selections.contains(each) || !characterLanguages.contains(each)) {
+                dropdownLanguages.add(each);
+            }
+        }
+
         String languagePrompt = parent.getContext().getString(R.string.language);
-        appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, languages, languagePrompt);
-        ;
+        appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, dropdownLanguages, languagePrompt);
+
     }
 
     protected void visitFeatSearchChoices(int numChoices) {
