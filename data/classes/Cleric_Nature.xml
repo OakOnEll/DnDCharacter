@@ -6,7 +6,7 @@
         <!-- TODO prefer to use a choose <choose stat="Wisdom" casterClass="druid"/> -->
         <cantrips casterClass="druid" stat="Wisdom"/>
         <armor>
-            <proficiency category="heavy armor"></proficiency>
+            <proficiency category="heavy armor"/>
         </armor>
         <skills>
             <choose name="skills">

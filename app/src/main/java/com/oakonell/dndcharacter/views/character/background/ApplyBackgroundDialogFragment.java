@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterBackground;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.background.ApplyBackgroundToCharacterVisitor;
 import com.oakonell.dndcharacter.model.background.Background;
@@ -57,7 +58,11 @@ public class ApplyBackgroundDialogFragment extends ApplyAbstractComponentDialogF
             public ChooseMDTreeNode appendToLayout(@NonNull Background background, ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
                 AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter());
                 Element element = XmlUtils.getDocument(background.getXml()).getDocumentElement();
-                return visitor.appendToLayout(element, getMainActivity(), dynamic, backgroundChoices);
+                CharacterBackground characterBackground = getCharacter().getBackground();
+//                if (characterBackground != null && !background.getName().equals(characterBackground.getName())) {
+//                    characterBackground = null;
+//                }
+                return visitor.appendToLayout(element, getMainActivity(), dynamic, backgroundChoices, characterBackground);
             }
         };
 

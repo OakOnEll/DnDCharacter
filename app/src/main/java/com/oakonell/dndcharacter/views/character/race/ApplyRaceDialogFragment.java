@@ -17,6 +17,7 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterRace;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.race.ApplyRaceToCharacterVisitor;
 import com.oakonell.dndcharacter.model.race.Race;
@@ -152,14 +153,23 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
                 }
 
 
+                CharacterRace currentRace = getCharacter().getRace();
                 AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter());
                 Element element = XmlUtils.getDocument(model.getXml()).getDocumentElement();
-                ChooseMDTreeNode chooseMDs = visitor.appendToLayout(element, getMainActivity(), dynamicView, savedChoices);
+                CharacterRace mainRace = currentRace;
+//                if (mainRace!= null && !race.getName().equals(mainRace.getName())) {
+//                    mainRace = null;
+//                }
+                ChooseMDTreeNode chooseMDs = visitor.appendToLayout(element, getMainActivity(), dynamicView, savedChoices,mainRace);
 
                 if (subrace != null) {
+                    CharacterRace characterSubrace = currentRace;
+//                    if (characterSubrace!= null && !subrace.getName().equals(characterSubrace.getName())) {
+//                        characterSubrace = null;
+//                    }
                     Element subRaceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
                     SavedChoices subRaceSavedChoices = savedChoicesByModel.get(subrace.getName());
-                    subRaceChooseMDs = visitor.appendToLayout(subRaceElement, getMainActivity(), dynamicView, subRaceSavedChoices);
+                    subRaceChooseMDs = visitor.appendToLayout(subRaceElement, getMainActivity(), dynamicView, subRaceSavedChoices,characterSubrace);
                 }
 
                 return chooseMDs;

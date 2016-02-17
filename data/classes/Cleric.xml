@@ -159,7 +159,7 @@
     </level>
 
     <level value="6">
-        <feature extension="extend">>
+        <feature extension="extend">
             <name>Channel Divinity</name>
             <extensionDescription>You gain an additional use of channel divinity, up to twice per rest now.</extensionDescription>
             <shortDescription>You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.

@@ -1,0 +1,263 @@
+<class>
+    <ref>PHB p.68</ref>
+    <name>Circle of the Land</name>
+    <parent>Druid</parent>
+
+
+    <level value="2">
+        <feature >
+            <name>Natural Recover</name>
+            <shortDescription>You can regain some of your magical energy by sitting in meditation and communing with nature.
+            During a short rest, you choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your druid level (rounded up), and none of the slots can be 6th level or higher. You can't use this feature again until a long rest.</shortDescription>
+            <refreshes>longrest</refreshes>
+            <uses>1</uses>
+            <context>SHORT_REST</context>
+        </feature>
+        <cantrips casterClass="druid" />
+    </level>
+
+    <level value="3">
+        <choose name="land" title="Choose the land where you became a Druid">
+            <!-- TODO always prepared domain spells -->
+            <or name="arctic" title="Arctic">
+                <spells>
+                    <spell>Hold Person</spell>
+                    <spell>Spike Growth</spell>
+                </spells>
+            </or>
+            <or name="coast" title="Coast">
+                <spells>
+                    <spell>Mirror Image</spell>
+                    <spell>Misty Step</spell>
+                </spells>
+            </or>
+            <or name="desert" title="Desert">
+                <spells>
+                    <spell>Blur</spell>
+                    <spell>Silence</spell>
+                </spells>
+            </or>
+            <or name="forest" title="Forest">
+                <spells>
+                    <spell>Barkskin</spell>
+                    <spell>Spider Climb</spell>
+                </spells>
+            </or>
+            <or name="grassland" title="Grassland">
+                <spells>
+                    <spell>Invisibility</spell>
+                    <spell>Pass Without Trace</spell>
+                </spells>
+            </or>
+            <or name="mountain" title="Mountain">
+                <spells>
+                    <spell>Spider Climb</spell>
+                    <spell>Spike Growth</spell>
+                </spells>
+            </or>
+            <or name="swamp" title="Swamp">
+                <spells>
+                    <spell>Darkness</spell>
+                    <spell>Melf's Acid Arrow</spell>
+                </spells>
+            </or>
+            <or name="underdark" title="Underdark">
+                <spells>
+                    <spell>Spider Climb</spell>
+                    <spell>Web</spell>
+                </spells>
+            </or>
+        </choose>
+    </level>
+
+    <level value="5">
+        <choose name="land" title="Choose the land where you became a Druid (Should be the same as 3rd level choice)">
+            <!-- TODO always prepared domain spells -->
+            <or name="arctic" title="Arctic">
+                <spells>
+                    <spell>Sleet Storm</spell>
+                    <spell>Slow</spell>
+                </spells>
+            </or>
+            <or name="coast" title="Coast">
+                <spells>
+                    <spell>Water Breathing</spell>
+                    <spell>Water Walk</spell>
+                </spells>
+            </or>
+            <or name="desert" title="Desert">
+                <spells>
+                    <spell>Create Food and Water</spell>
+                    <spell>Protection from Energy</spell>
+                </spells>
+            </or>
+            <or name="forest" title="Forest">
+                <spells>
+                    <spell>Call Lightning</spell>
+                    <spell>Plant Growth</spell>
+                </spells>
+            </or>
+            <or name="grassland" title="Grassland">
+                <spells>
+                    <spell>Daylight</spell>
+                    <spell>Haste</spell>
+                </spells>
+            </or>
+            <or name="mountain" title="Mountain">
+                <spells>
+                    <spell>Lightning Bolt</spell>
+                    <spell>Meld into Stone</spell>
+                </spells>
+            </or>
+            <or name="swamp" title="Swamp">
+                <spells>
+                    <spell>Water Walk</spell>
+                    <spell>Stinking Cloud</spell>
+                </spells>
+            </or>
+            <or name="underdark" title="Underdark">
+                <spells>
+                    <spell>Gaseous Form</spell>
+                    <spell>Stinking Cloud</spell>
+                </spells>
+            </or>
+        </choose>
+    </level>
+
+    <level value="6">
+        <feature>
+            <name>Land's Stride</name>
+            <shortDescription>Moving through nonmagical difficult terrain costs you no extra movement. You can also pass through nonmagical plants without being slowed by them and without taking damage from them if they have thorns, spines, or a similar hazard.
+            In addition, you have advantage on saving throws against plants that are magically created or manipulated to impede movement, such as those created by the entangle spell.</shortDescription>
+            <context>SAVING_THROW,SPEED</context>
+        </feature>
+    </level>
+
+    <level value="7">
+        <choose name="land" title="Choose the land where you became a Druid (Should be the same as 3rd level choice)">
+            <!-- TODO always prepared domain spells -->
+            <or name="arctic" title="Arctic">
+                <spells>
+                    <spell>Freedom of Movement</spell>
+                    <spell>Ice Storm</spell>
+                </spells>
+            </or>
+            <or name="coast" title="Coast">
+                <spells>
+                    <spell>Control Water</spell>
+                    <spell>Freedom of Movement</spell>
+                </spells>
+            </or>
+            <or name="desert" title="Desert">
+                <spells>
+                    <spell>Blight</spell>
+                    <spell>Hallucinatory Terrain</spell>
+                </spells>
+            </or>
+            <or name="forest" title="Forest">
+                <spells>
+                    <spell>Divination</spell>
+                    <spell>Freedom of Movement</spell>
+                </spells>
+            </or>
+            <or name="grassland" title="Grassland">
+                <spells>
+                    <spell>Divination</spell>
+                    <spell>Freedom of Movement</spell>
+                </spells>
+            </or>
+            <or name="mountain" title="Mountain">
+                <spells>
+                    <spell>Stone Shape</spell>
+                    <spell>Stoneskin</spell>
+                </spells>
+            </or>
+            <or name="swamp" title="Swamp">
+                <spells>
+                    <spell>Freedom of Movement</spell>
+                    <spell>Locate Creature</spell>
+                </spells>
+            </or>
+            <or name="underdark" title="Underdark">
+                <spells>
+                    <spell>Greater Invisbility</spell>
+                    <spell>Stone Shape</spell>
+                </spells>
+            </or>
+        </choose>
+    </level>
+
+
+    <level value="9">
+        <choose name="land" title="Choose the land where you became a Druid (Should be the same as 3rd level choice)">
+            <!-- TODO always prepared domain spells -->
+            <or name="arctic" title="Arctic">
+                <spells>
+                    <spell>Commune with Nature</spell>
+                    <spell>Cone of Cold</spell>
+                </spells>
+            </or>
+            <or name="coast" title="Coast">
+                <spells>
+                    <spell>Conjure Elemental</spell>
+                    <spell>Scrying</spell>
+                </spells>
+            </or>
+            <or name="desert" title="Desert">
+                <spells>
+                    <spell>Insect Plague</spell>
+                    <spell>Wall of Stone</spell>
+                </spells>
+            </or>
+            <or name="forest" title="Forest">
+                <spells>
+                    <spell>Commune with Nature</spell>
+                    <spell>Tree Stride</spell>
+                </spells>
+            </or>
+            <or name="grassland" title="Grassland">
+                <spells>
+                    <spell>Dream</spell>
+                    <spell>Insect Plague</spell>
+                </spells>
+            </or>
+            <or name="mountain" title="Mountain">
+                <spells>
+                    <spell>Passwall</spell>
+                    <spell>Wall of Stone</spell>
+                </spells>
+            </or>
+            <or name="swamp" title="Swamp">
+                <spells>
+                    <spell>Insect Plague</spell>
+                    <spell>Scrying</spell>
+                </spells>
+            </or>
+            <or name="underdark" title="Underdark">
+                <spells>
+                    <spell>Cloudkill</spell>
+                    <spell>Insect Plague</spell>
+                </spells>
+            </or>
+        </choose>
+    </level>
+
+    <level value="10">
+        <feature>
+            <name>Nature's Ward</name>
+            <shortDescription>You can't be charmed or frightened by elementals or fey, and you are immune to poison and disease.</shortDescription>
+            <context>SAVING_THROW,HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature>
+            <name>Nature's Sanctuary</name>
+            <shortDescription>Creatures of the natural world sense your connection to nature and become hesitant to attack you. When a beast or plant creature attacks, that creature must make a Wisdom Saving throw against your druid spell save DC. On a failed save, the creature must choose a different target, or the attack automatically misses. On a successful save, the creature is immune to the effect for 24 hours.
+            The creature is aware of this effect before it makes its attack against you.</shortDescription>
+            <context>SAVING_THROW,HIT_POINTS</context>
+        </feature>
+    </level>
+
+
+</class>

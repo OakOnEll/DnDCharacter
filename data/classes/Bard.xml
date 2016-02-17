@@ -103,7 +103,7 @@
     <level value="3">
         <subclass label="Bard College" />
         <skills>
-            <choose name="skills" number="2" level="expert" filters="$existing"/>
+            <choose name="skills" number="2" level="expert" filters="$existing" title="Choose 2 existing skills to be expert in"/>
         </skills>
 
     </level>
@@ -145,7 +145,7 @@
                 Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait till after it rolls the d20 before deciding to use the Inspiration die, but must decide before the DM says whether the roll succeeds or fails. A creature can have only one Bardic Inspriation die at a time.</shortDescription>
         </feature>
         <skills>
-            <choose name="skills" number="2" level="expert" filters="$existing"/>
+            <choose name="skills" number="2" level="expert" filters="$existing" title="Choose 2 existing skills to be expert in"/>
         </skills>
         <spells>
             <!-- TODO learn 2 spells/cantrips from any class. Count as bard spells (eg, casting ability?) and count as known bard spells -->

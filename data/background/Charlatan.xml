@@ -12,7 +12,7 @@
     <equipment>
         <item>A Set of fine clothes</item>
         <item>Disguise kit</item>
-        <choose name="toolsOfCon">
+        <choose name="toolsOfCon" title="Choose a Tool of the Con">
             <or name="bottles"><item number="10">stoppered bottles filled with colored liquid</item></or>
             <or name="dice"><item>weighted dice</item></or>
             <or name="cards"><item>deck of marked cards</item></or>

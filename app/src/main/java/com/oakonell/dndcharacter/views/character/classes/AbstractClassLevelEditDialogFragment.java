@@ -22,7 +22,6 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.classes.AClass;
-import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
@@ -41,9 +40,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Created by Rob on 12/17/2015.
@@ -125,7 +121,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), false);
                     Element element = XmlUtils.getDocument(aClass.getXml()).getDocumentElement();
-                    return visitor.appendToLayout(element, getMainActivity(), dynamic, backgroundChoices);
+                    return visitor.appendToLayout(element, getMainActivity(), dynamic, backgroundChoices, getCharacterClass());
                 }
             };
             pages.add(main);
@@ -168,7 +164,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     }
 
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), false);
-                    final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, getMainActivity(), dynamic, savedChoices);
+                    final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, getMainActivity(), dynamic, savedChoices, getCharacterClass());
 
                     if (spellCastingStat != null) {
 //                        TextView text = new TextView(parent.getContext());
@@ -238,7 +234,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                             AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), true);
 
 
-                            subclassChooseMDs = visitor.appendToLayout(subclassLevelElement, getMainActivity(), dynamic, getSubClassChoices());
+                            subclassChooseMDs = visitor.appendToLayout(subclassLevelElement, getMainActivity(), dynamic, getSubClassChoices(), getCharacterClass());
                             return new RootChoiceMDNode();
                         }
                     };
@@ -269,7 +265,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     }
                     final Element root = XmlUtils.getDocument(in).getDocumentElement();
                     AbstractComponentViewCreator visitor = new AbilityScoreImprovementViewCreator(getCharacter());
-                    return visitor.appendToLayout(root, getMainActivity(), dynamic, backgroundChoices);
+                    return visitor.appendToLayout(root, getMainActivity(), dynamic, backgroundChoices, getCharacterClass());
                 }
             };
             pages.add(asiOrFeat);
@@ -349,6 +345,8 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
         return pages;
     }
+
+    protected abstract CharacterClass getCharacterClass();
 
     @Override
     protected void displayPage() {

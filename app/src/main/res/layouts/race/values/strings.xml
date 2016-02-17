@@ -27,4 +27,5 @@
     <string name="passive_base">Start Base</string>
     <string name="proficiency_bonus">Proficiency Bonus</string>
     <string name="wisdom_mod">Wisdom Mod</string>
+    <string name="already_proficient_from">Already %1$s, from %2$s.</string>
 </resources>

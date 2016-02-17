@@ -22,6 +22,7 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
+import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
@@ -69,6 +70,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     private AppCompatActivity activity;
     private int featSearchIndex;
     private Character character;
+    private ComponentSource currentComponent;
 
     public AbstractComponentViewCreator(Character character, boolean handleCantrips) {
         this.handleCantrips = handleCantrips;
@@ -107,10 +109,11 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
 
-    public ChooseMDTreeNode appendToLayout(@NonNull Element element, AppCompatActivity activity, ViewGroup parent, SavedChoices choices) {
+    public ChooseMDTreeNode appendToLayout(@NonNull Element element, AppCompatActivity activity, ViewGroup parent, SavedChoices choices, ComponentSource currentComponent) {
         this.parent = parent;
         this.choices = choices;
         this.activity = activity;
+        this.currentComponent = currentComponent;
         visitChildren(element);
         return choicesMD;
     }
@@ -237,7 +240,40 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             text.setText(" *  [" + category + "]");
 
         } else {
-            super.visitProficiency(element);
+            if (state == AbstractComponentVisitor.VisitState.SKILLS) {
+                String skillName = element.getTextContent();
+                skillName = skillName.replaceAll(" ", "_");
+                skillName = skillName.toUpperCase();
+                SkillType type = SkillType.valueOf(SkillType.class, skillName);
+
+                List<Character.ProficientWithSource> proficientWithSources = getCharacter().deriveSkillProciencies(type);
+                if (proficientWithSources.isEmpty()) {
+                    super.visitProficiency(element);
+
+                } else {
+                    TextView text = new TextView(parent.getContext());
+                    parent.addView(text);
+                    String name = element.getTextContent();
+
+                    String alreadyProficientString = null;
+                    double maxProfMult = 0;
+                    for (Character.ProficientWithSource each : proficientWithSources) {
+                        if (each.getSource().equals(currentComponent)) continue;
+                        // TODO what about when the current component was actually changed
+                        if (each.getProficient().getMultiplier() > maxProfMult) {
+                            alreadyProficientString = parent.getResources().getString(R.string.already_proficient_from, parent.getResources().getString(each.getProficient().getStringResId()), each.getSourceString(parent.getResources()));
+                            maxProfMult = each.getProficient().getMultiplier();
+                        }
+                    }
+                    if (alreadyProficientString != null) {
+                        name += " (" + alreadyProficientString + ")";
+                    }
+                    text.setText(" *  " + name);
+                }
+
+            } else {
+                super.visitProficiency(element);
+            }
         }
     }
 

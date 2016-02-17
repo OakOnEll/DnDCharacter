@@ -20,22 +20,22 @@
             </effect>
         </feature>
 
-        <choose name="totemSpirit">
-            <or name="bear">
+        <choose name="totemSpirit" title="Totem Spirit">
+            <or name="bear" title="Bear">
                 <feature >
                     <name>Bear Totem Spirit</name>
                     <shortDescription>While raging you have resistance to all damage except psychic damage. The spirit of the bear makes you tough enough to stand up to any punishment.</shortDescription>
                     <context>HIT_POINTS,EFFECT(Raging)</context>
                 </feature>
             </or>
-            <or name="eagle">
+            <or name="eagle" title="Eagle">
                 <feature >
                     <name>Eagle Totem Spirit</name>
                     <shortDescription>While raging and not wearing heavy armor, other creatures have disadvantage on opportunity attacks against you, and you can use the Dash action as a bonus action on your turn. The spirit of the eagle makes you into a predator who can weave through the fray with ease.</shortDescription>
                     <context>TO_HIT,EFFECT(Raging)</context>
                 </feature>
             </or>
-            <or name="wolf">
+            <or name="wolf" title="Wolf">
                 <feature >
                     <name>Wolf Totem Spirit</name>
                     <shortDescription>While raging, your friends have advantage on melee attack rolls against any creature within 5 feet of you that is hostile to you. The spirit of the wolf makes you a leader of hunters. </shortDescription>
@@ -47,22 +47,22 @@
     </level>
 
     <level value="6">
-        <choose name="aspect">
-            <or name="bear">
+        <choose name="aspect" title="Aspect of the Beast (need not be same as at 3rd level)">
+            <or name="bear" title="Bear">
                 <feature >
                     <name>Aspect of the Bear</name>
                     <shortDescription>You gain the might of a bear. Your carrying capacity is doubled, and you have advantage on Strength checks made to push, pull, lift, or break objects.</shortDescription>
                     <context>SKILL_ROLL(strength)</context>
                 </feature>
             </or>
-            <or name="eagle">
+            <or name="eagle" title="Eagle">
                 <feature >
                     <name>Aspect of the Eagle</name>
                     <shortDescription>You have the eye sight of an eagle. You can see up to 1 mile away with no difficulty, able to discern even fine details as though looking at something no more than 100 feet away from you. Additionally, dim light doesn't impose disadvantage on your Wisdom(Perception) checks.</shortDescription>
                     <context>SKILL_ROLL(perception)</context>
                 </feature>
             </or>
-            <or name="wolf">
+            <or name="wolf" title="Wolf">
                 <feature >
                     <name>Aspect of the Wolf</name>
                     <shortDescription>You have the hunting sensibilities of a wolf. You can track other creatures while traveling at a fast pace, and you can move stealthily while traveling at a normal pace.</shortDescription>
@@ -89,15 +89,15 @@
     </level>
 
     <level value="14">
-        <choose name="attunement">
-            <or name="bear">
+        <choose name="attunement" title="Aspect of the Beast (need not be same as at 3rd or 6th level)">>
+            <or name="bear" title="Bear">
                 <feature >
                     <name>Totemic Attunement to the Bear</name>
                     <shortDescription>While raging, any creature within 5 feet of you that's hostile to you has disadvantage on attack rolls against targets other than you or another character with this feature. An enemy is immune to this effect if it can't see or hear you or if it can't be frightened.</shortDescription>
                     <context>EFFECT(Raging)</context>
                 </feature>
             </or>
-            <or name="eagle">
+            <or name="eagle" title="Eagle">
                 <feature >
                     <name>Totemic Attunement to the Eagle</name>
                     <shortDescription>While raging, you have a flying speed equal to your current walking speed. This benefit works only in short bursts; you fall if you end your turn in the air and nothing else is holding you aloft.</shortDescription>
@@ -106,7 +106,7 @@
                     <context>SPEED,EFFECT(Raging)</context>
                 </feature>
             </or>
-            <or name="wolf">
+            <or name="wolf" title="Wolf">
                 <feature >
                     <name>Totemic Attunement to the Wolf</name>
                     <shortDescription>While raging, you can use a bonus action on your turn to knock a Large or smaller creature prone when you hit it with a melee weapon attack.</shortDescription>

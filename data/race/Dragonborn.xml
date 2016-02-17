@@ -19,8 +19,8 @@
         <increase name="Strength">2</increase>
         <increase name="Charisma">1</increase>
     </stat>
-    <choose name="ancestery">
-        <or name="black">
+    <choose name="ancestery" title="Dragon Ancestery">
+        <or name="black" title="Black Dragon">
             <feature>
                 <name>Black Dragonic Ancestery</name>
                 <shortDescription>You have black draconic ancestry.</shortDescription>
@@ -38,7 +38,7 @@
                 <context>HIT_POINTS</context>
             </feature>
         </or>
-        <or name="blue">
+        <or name="blue" title="Blue Dragon">
             <feature>
                 <name>Blue Dragonic Ancestery</name>
                 <shortDescription>You have blue draconic ancestry.</shortDescription>
@@ -55,7 +55,7 @@
                 <context>HIT_POINTS</context>
             </feature>
         </or>
-        <or name="brass">
+        <or name="brass" title="Brass Dragon">
             <feature>
                 <name>Brass Dragonic Ancestery</name>
                 <shortDescription>You have brass draconic ancestry.</shortDescription>
@@ -72,7 +72,7 @@
                 <context>HIT_POINTS</context>
             </feature>
         </or>
-        <or name="bronze">
+        <or name="bronze" title="Bronze Dragon">
             <feature>
                 <name>Bronze Dragonic Ancestery</name>
                 <shortDescription>You have bronze draconic ancestry.</shortDescription>
@@ -89,7 +89,7 @@
                 <context>HIT_POINTS</context>
             </feature>
         </or>
-        <or name="copper">
+        <or name="copper" title="Copper Dragon">
             <feature>
                 <name>Copper Dragonic Ancestery</name>
                 <shortDescription>You have copper draconic ancestry.</shortDescription>
@@ -106,7 +106,7 @@
                 <context>HIT_POINTS</context>
             </feature>
         </or>
-        <or name="gold">
+        <or name="gold" title="Gold Dragon">
             <feature>
                 <name>Gold Dragonic Ancestery</name>
                 <shortDescription>You have gold draconic ancestry.</shortDescription>
@@ -123,7 +123,7 @@
                 <context>HIT_POINTS</context>
             </feature>
         </or>
-        <or name="green">
+        <or name="green" title="Green Dragon">
             <feature>
                 <name>Green Dragonic Ancestery</name>
                 <shortDescription>You have green draconic ancestry.</shortDescription>
@@ -140,7 +140,7 @@
                 <context>HIT_POINTS</context>
             </feature>
         </or>
-        <or name="red">
+        <or name="red" title="Red Dragon">
             <feature>
                 <name>Red Dragonic Ancestery</name>
                 <shortDescription>You have red draconic ancestry.</shortDescription>
@@ -157,7 +157,7 @@
                 <context>HIT_POINTS</context>
             </feature>
         </or>
-        <or name="silver">
+        <or name="silver" title="Silver Dragon">
             <feature>
                 <name>Silver Dragonic Ancestery</name>
                 <shortDescription>You have silver draconic ancestry.</shortDescription>
@@ -174,7 +174,7 @@
                 <context>HIT_POINTS</context>
             </feature>
         </or>
-        <or name="white">
+        <or name="white" title="White Dragon">
             <feature>
                 <name>White Dragonic Ancestery</name>
                 <shortDescription>You have white draconic ancestry.</shortDescription>

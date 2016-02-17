@@ -35,8 +35,8 @@
         <context>HIT_POINTS</context>
     </feature>
 
-    <choose name="spells">
-        <or name="original">
+    <choose name="spells" title="Variant">
+        <or name="original" title="Original">
             <cantrips>
                 <cantrip stat="Charisma">Thaumaturgy</cantrip>
             </cantrips>
@@ -56,7 +56,7 @@ As a reaction in response to being damaged by a creature within 60 feet of you t
                 <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
             </feature>
         </or>
-        <or name="devil's tongue">
+        <or name="devil's tongue" title="Devil's Tongue">
             <cantrips>
                 <cantrip stat="Charisma">Viscious Mockery</cantrip>
             </cantrips>
@@ -76,7 +76,7 @@ You weave a distracting string of words, causing creatures of your choice that y
                 <uses>1</uses>
             </feature>
         </or>
-        <or name="hellfire">
+        <or name="hellfire" title="Hellfire">
             <cantrips>
                 <cantrip stat="Charisma">Thaumaturgy</cantrip>
             </cantrips>
@@ -94,7 +94,7 @@ As you hold your hands with thumbs touching and fingers spread, a thin sheet of 
                 <uses>1</uses>
             </feature>
         </or>
-        <or name="winged">
+        <or name="winged" title="Winged">
             <speed type="fly">30</speed>
             <feature>
                 <name>Winged</name>

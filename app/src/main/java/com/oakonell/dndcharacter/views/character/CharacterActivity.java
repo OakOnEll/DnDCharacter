@@ -323,6 +323,24 @@ public class CharacterActivity extends AbstractBaseActivity {
     }
 
     private void launchCreationWizard() {
+        if (character.getBackground() == null) {
+            ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog();
+            dialog.setDoneListener(new CreationWizardDoneListener());
+
+            String doneLabelId = null;
+            if (character.getRace() == null) {
+                doneLabelId = getString(R.string.choose_a_race);
+            } else if (character.getClassLevels().isEmpty()) {
+                doneLabelId = getString(R.string.add_class_level);
+            } else if (character.getBaseStats().isEmpty()) {
+                doneLabelId = getString(R.string.choose_base_stats);
+            } else if (character.getName() == null || character.getName().trim().length() == 0) {
+                doneLabelId = getString(R.string.choose_name);
+            }
+            dialog.setDoneLabel(doneLabelId);
+            dialog.show(getSupportFragmentManager(), BACKGROUND_FRAG);
+            return;
+        }
         if (character.getRace() == null) {
             ApplyRaceDialogFragment dialog = ApplyRaceDialogFragment.createDialog();
             dialog.setDoneListener(new CreationWizardDoneListener());
@@ -330,8 +348,6 @@ public class CharacterActivity extends AbstractBaseActivity {
             String doneLabelId = null;
             if (character.getClassLevels().isEmpty()) {
                 doneLabelId = getString(R.string.add_class_level);
-            } else if (character.getBackground() == null) {
-                doneLabelId = getString(R.string.choose_a_background);
             } else if (character.getBaseStats().isEmpty()) {
                 doneLabelId = getString(R.string.choose_base_stats);
             } else if (character.getName() == null || character.getName().trim().length() == 0) {
@@ -341,24 +357,9 @@ public class CharacterActivity extends AbstractBaseActivity {
             dialog.show(getSupportFragmentManager(), RACE_FRAG);
             return;
         }
+
         if (character.getClassLevels().isEmpty()) {
             AddClassLevelDialogFragment dialog = AddClassLevelDialogFragment.createDialog();
-            dialog.setDoneListener(new CreationWizardDoneListener());
-
-            String doneLabelId = null;
-            if (character.getBackground() == null) {
-                doneLabelId = getString(R.string.choose_a_background);
-            } else if (character.getBaseStats().isEmpty()) {
-                doneLabelId = getString(R.string.choose_base_stats);
-            } else if (character.getName() == null || character.getName().trim().length() == 0) {
-                doneLabelId = getString(R.string.choose_name);
-            }
-            dialog.setDoneLabel(doneLabelId);
-            dialog.show(getSupportFragmentManager(), LEVEL_UP_FRAG);
-            return;
-        }
-        if (character.getBackground() == null) {
-            ApplyBackgroundDialogFragment dialog = ApplyBackgroundDialogFragment.createDialog();
             dialog.setDoneListener(new CreationWizardDoneListener());
 
             String doneLabelId = null;
@@ -368,9 +369,10 @@ public class CharacterActivity extends AbstractBaseActivity {
                 doneLabelId = getString(R.string.choose_name);
             }
             dialog.setDoneLabel(doneLabelId);
-            dialog.show(getSupportFragmentManager(), BACKGROUND_FRAG);
+            dialog.show(getSupportFragmentManager(), LEVEL_UP_FRAG);
             return;
         }
+
         if (character.getBaseStats().isEmpty()) {
             BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog();
             dialog.setDoneListener(new CreationWizardDoneListener());

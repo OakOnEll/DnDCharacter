@@ -1,0 +1,7 @@
+<item>
+    <name>Wooden Shield</name>
+    <itemType>ARMOR</itemType>
+    <ac>+2</ac>
+    <weight>6</weight>
+    <cost>10gp</cost>
+</item>

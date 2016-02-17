@@ -7,11 +7,11 @@
     </skills>
     <tools>
         <proficiency>Vehicle's (land)</proficiency>
-        <choose name="gaming set" category="gaming set"></choose>
+        <choose name="gaming set" category="gaming set"/>
     </tools>
     <equipment>
         <item>insignia of rank</item>
-        <choose name="trophy">
+        <choose name="trophy" title="Choose a Trophy">
             <or name="dagger"><item>Dagger from a fallen enemy</item></or>
             <or name="blade"><item>Broken blade from a fallen enemy</item></or>
             <or name="banner"><item>Piece of banner from a fallen enemy</item></or>

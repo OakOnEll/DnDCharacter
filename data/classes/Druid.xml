@@ -1,0 +1,417 @@
+<class>
+    <ref>PHB p.65</ref>
+    <name>Druid</name>
+    <hitDice>1d8</hitDice>
+    <savingThrows>
+        <proficiency>Wisdom</proficiency>
+        <proficiency>Intelligence</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="arcana"><proficiency>Arcana</proficiency></or>
+            <or name="animal_handling"><proficiency>Animal Handling</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="medicine"><proficiency>Medicine</proficiency></or>
+            <or name="nature"><proficiency>Nature</proficiency></or>
+            <or name="perception"><proficiency>Perception</proficiency></or>
+            <or name="religion"><proficiency>Religion</proficiency></or>
+            <or name="survival"><proficiency>Survival</proficiency></or>
+        </choose>
+    </skills>
+
+    <equipment>
+        <choose name="shield">
+            <or name="shield">
+                <item>Wooden Shield</item>
+            </or>
+            <or name="simpleweapon">
+                <choose name="weapon_weapon" category="simple weapons" />
+            </or>
+        </choose>
+
+        <choose name="weapon">
+            <or name="scimitar">
+                <item>Scimitar</item>
+            </or>
+            <or name="simpleweapon">
+                <!-- TODO weapons have multiple categories? This should be category="simple melee weapons"-->
+                <choose name="weapon_weapon" category="simple weapons" />
+            </or>
+        </choose>
+
+        <item>explorer's pack</item>
+        <item>Leather Armor</item>
+        <item>Druidic Focus</item>
+    </equipment>
+    <weapons>
+        <proficiency>Club</proficiency>
+        <proficiency>Dagger</proficiency>
+        <proficiency>Dart</proficiency>
+        <proficiency>Javelin</proficiency>
+        <proficiency>Mace</proficiency>
+        <proficiency>Quarterstaff</proficiency>
+        <proficiency>Scimitar</proficiency>
+        <proficiency>Sickle</proficiency>
+        <proficiency>Sling</proficiency>
+        <proficiency>Spear</proficiency>
+    </weapons>
+    <tools>
+        <proficiency>Herbalism kit</proficiency>
+    </tools>
+    <preparedSpellsFormula>max(wisdomMod + classLevel, 1)</preparedSpellsFormula>
+    <spellCastingStat>wisdom</spellCastingStat>
+    <multiclassCasterFactor>1</multiclassCasterFactor>
+    <multiclassPrerequisite>wisdom>=13</multiclassPrerequisite>
+    <level value="1">
+        <languages>
+            <language>Druidic</language>
+        </languages>
+        <armor>
+            <proficiency category="light armor"/>
+            <proficiency category="medium armor"/>
+            <proficiency>Shield</proficiency>
+        </armor>
+        <cantrips>
+            <known>2</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="2">
+        <subclass label="Druid Circle" />
+        <feature>
+            <name>Wild Shape</name>
+            <refreshes>rest</refreshes>
+            <uses>2</uses>
+            <shortDescription>You can use your action to magically assume the shape of a CR &lt;= 1/4, non-flying, non-swimming beast you have seen before.</shortDescription>
+            <effect actionName="Wild Shape">
+                <id>Wild Shape</id>
+                <name>Wild Shape: $shape</name>
+                <variable name="shape" prompt="Choose CR max 1/4, non-flying, non-swimming beast"/>
+                <shortDescription>You can stay in a beast shape for a number of hours equal to half your druid level (rounded down). You then revert to your normal form unless you expend another use of this feature. You can revert to your normal form earlier by using a bonus action on your turn. You automatically revert if you fall unconscious, drop to 0 hit points, or die. While you are transformed, the following rules apply:
+                    • Your game statistics are replaced by the statistics of the beast, but you retain your alignment, personality, and Intelligence, Wisdom, and Charisma scores. You also retain all of your skill and saving throw proficiencies, in addition to gaining those of the creature. If the creature has the same proficiency as you and the bonus in its stat block is higher than yours, use the creature’s bonus instead of yours. If the creature has any legendary or lair actions, you can’t use them.
+                    • When you transform, you assume the beast’s hit points and Hit Dice. When you revert to your normal form, you return to the number of hit points you had before you transformed. However, if you revert as a result of dropping to 0 hit points, any excess damage carries over to your normal form. For example, if you take 10 damage in animal form and have only 1 hit point left, you revert and take 9 damage. As long as the excess damage doesn’t reduce your normal form to 0 hit points, you aren’t knocked unconscious.
+                    • You can’t cast spells, and your ability to speak or take any action that requires hands is limited to the capabilities of your beast form. Transforming doesn’t break your concentration on a spell you’ve already cast, however, or prevent you from taking actions that are part of a spell, such as call lightning, that you’ve already cast.
+                    • You retain the benefit of any features from your class, race, or other source and can use them if the new form is physically capable of doing so. However, you can’t use any of your special senses, such as darkvision, unless your new form also has that sense.
+                    • You choose whether your equipment falls to the ground in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it is practical for the new form to wear a piece of equipment, based on the creature’s shape and size. Your equipment doesn’t change size or shape to match the new form, and any equipment that the new form can’t wear must either fall to the ground or merge with it. Equipment that merges with the form has no effect until you leave the form
+                </shortDescription>
+            </effect>
+            <context/>
+        </feature>
+
+        <cantrips>
+            <known>2</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">3</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="3">
+        <cantrips>
+            <known>2</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="4">
+        <cantrips>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+            </slots>
+        </spells>
+
+        <feature extension="extend">
+            <name>Wild Shape</name>
+            <extensionDescription>The wild shape creature can swim, and can be CR &lt;= 1/2</extensionDescription>
+            <shortDescription>You can use your action to magically assume the shape of a CR &lt;= 1/2, non-flying beast you have seen before.</shortDescription>
+            <effect actionName="Wild Shape" extension="replace">
+                <id>Wild Shape</id>
+                <name>Wild Shape: $shape</name>
+                <variable name="shape" prompt="Choose CR max 1/2, non-flying beast"/>
+                <shortDescription>You can stay in a beast shape for a number of hours equal to half your druid level (rounded down). You then revert to your normal form unless you expend another use of this feature. You can revert to your normal form earlier by using a bonus action on your turn. You automatically revert if you fall unconscious, drop to 0 hit points, or die. While you are transformed, the following rules apply:
+                    • Your game statistics are replaced by the statistics of the beast, but you retain your alignment, personality, and Intelligence, Wisdom, and Charisma scores. You also retain all of your skill and saving throw proficiencies, in addition to gaining those of the creature. If the creature has the same proficiency as you and the bonus in its stat block is higher than yours, use the creature’s bonus instead of yours. If the creature has any legendary or lair actions, you can’t use them.
+                    • When you transform, you assume the beast’s hit points and Hit Dice. When you revert to your normal form, you return to the number of hit points you had before you transformed. However, if you revert as a result of dropping to 0 hit points, any excess damage carries over to your normal form. For example, if you take 10 damage in animal form and have only 1 hit point left, you revert and take 9 damage. As long as the excess damage doesn’t reduce your normal form to 0 hit points, you aren’t knocked unconscious.
+                    • You can’t cast spells, and your ability to speak or take any action that requires hands is limited to the capabilities of your beast form. Transforming doesn’t break your concentration on a spell you’ve already cast, however, or prevent you from taking actions that are part of a spell, such as call lightning, that you’ve already cast.
+                    • You retain the benefit of any features from your class, race, or other source and can use them if the new form is physically capable of doing so. However, you can’t use any of your special senses, such as darkvision, unless your new form also has that sense.
+                    • You choose whether your equipment falls to the ground in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it is practical for the new form to wear a piece of equipment, based on the creature’s shape and size. Your equipment doesn’t change size or shape to match the new form, and any equipment that the new form can’t wear must either fall to the ground or merge with it. Equipment that merges with the form has no effect until you leave the form
+                </shortDescription>
+            </effect>
+            <context/>
+        </feature>
+    </level>
+
+    <level value="5">
+        <cantrips>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="6">
+        <cantrips>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="7">
+        <cantrips>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="8">
+        <feature extension="extend">
+            <name>Wild Shape</name>
+            <extensionDescription>The wild shape creature can swim or fly, and can be CR &lt;= 1</extensionDescription>
+            <shortDescription>You can use your action to magically assume the shape of a CR &lt;= 1 beast you have seen before.</shortDescription>
+            <effect actionName="Wild Shape" extension="replace">
+                <id>Wild Shape</id>
+                <name>Wild Shape: $shape</name>
+                <variable name="shape" prompt="Choose CR max 1 beast"/>
+                <shortDescription>You can stay in a beast shape for a number of hours equal to half your druid level (rounded down). You then revert to your normal form unless you expend another use of this feature. You can revert to your normal form earlier by using a bonus action on your turn. You automatically revert if you fall unconscious, drop to 0 hit points, or die. While you are transformed, the following rules apply:
+                    • Your game statistics are replaced by the statistics of the beast, but you retain your alignment, personality, and Intelligence, Wisdom, and Charisma scores. You also retain all of your skill and saving throw proficiencies, in addition to gaining those of the creature. If the creature has the same proficiency as you and the bonus in its stat block is higher than yours, use the creature’s bonus instead of yours. If the creature has any legendary or lair actions, you can’t use them.
+                    • When you transform, you assume the beast’s hit points and Hit Dice. When you revert to your normal form, you return to the number of hit points you had before you transformed. However, if you revert as a result of dropping to 0 hit points, any excess damage carries over to your normal form. For example, if you take 10 damage in animal form and have only 1 hit point left, you revert and take 9 damage. As long as the excess damage doesn’t reduce your normal form to 0 hit points, you aren’t knocked unconscious.
+                    • You can’t cast spells, and your ability to speak or take any action that requires hands is limited to the capabilities of your beast form. Transforming doesn’t break your concentration on a spell you’ve already cast, however, or prevent you from taking actions that are part of a spell, such as call lightning, that you’ve already cast.
+                    • You retain the benefit of any features from your class, race, or other source and can use them if the new form is physically capable of doing so. However, you can’t use any of your special senses, such as darkvision, unless your new form also has that sense.
+                    • You choose whether your equipment falls to the ground in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it is practical for the new form to wear a piece of equipment, based on the creature’s shape and size. Your equipment doesn’t change size or shape to match the new form, and any equipment that the new form can’t wear must either fall to the ground or merge with it. Equipment that merges with the form has no effect until you leave the form
+                </shortDescription>
+            </effect>
+            <context/>
+        </feature>
+        <cantrips>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="9">
+        <cantrips>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="10">
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="11">
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="13">
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="15">
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="17">
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="18">
+        <feature >
+            <name>Timeless Body</name>
+            <shortDescription>You age more slowly. For every 10 years that pass, your body only ages 1 year.</shortDescription>
+        </feature>
+        <feature >
+            <name>Beast Spells</name>
+            <shortDescription>You can cast many of your druid spells in any shape you assume using Wild Shape.
+            You can perform the somatic and verbal components of a druid spell while in a beast shape, but you aren't able to provide material components.</shortDescription>
+           <context>SPELL_CAST,EFFECT(Wild Shape)</context>
+        </feature>
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">3</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="19">
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">3</level>
+                <level value="6">2</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="20">
+        <feature extension="extend">
+            <name>Wild Shape</name>
+            <extensionDescription>You are an archdruid and can use your wild shape an unlimited number of times.</extensionDescription>
+            <refreshes>rest</refreshes>
+            <uses>0</uses>
+            <context/>
+        </feature>
+
+        <feature >
+            <name>Archdruid</name>
+            <shortDescription>You can ignore the verbal and somatic components of your druid spells, as well as any material components that lack a cost and aren't consumed by a spell. You gain this benefit in both your normal shape and your beast shape from Wild Shape.</shortDescription>
+            <context>SPELL_CAST,EFFECT(Wild Shape)</context>
+        </feature>
+
+
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">3</level>
+                <level value="6">2</level>
+                <level value="7">2</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
+</class>
