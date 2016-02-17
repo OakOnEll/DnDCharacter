@@ -438,6 +438,13 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             parent = (ViewGroup) layout.findViewById(R.id.choices_view);
 
             TextView numChoicesTextView = (TextView) layout.findViewById(R.id.num_choices);
+            TextView chooseLabelView = (TextView) layout.findViewById(R.id.choose_label);
+
+            String title = element.getAttribute("title");
+            if (title != null && title.trim().length() > 0) {
+                chooseLabelView.setText(title);
+                numChoicesTextView.setVisibility(View.GONE);
+            }
 
             MultipleChoicesMD multipleChoicesMD = new MultipleChoicesMD(numChoicesTextView, choiceName, numChoices, minChoices);
             currentChooseMD = multipleChoicesMD;
@@ -823,6 +830,11 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
         String name = element.getAttribute("name");
         CheckBox checkbox = (CheckBox) layout.findViewById(R.id.checkBox);
+
+        String title = element.getAttribute("title");
+        if (title != null && title.trim().length() > 0) {
+            checkbox.setText(title);
+        }
 
         final MultipleChoicesMD chooseMD = (MultipleChoicesMD) currentChooseMD;
 

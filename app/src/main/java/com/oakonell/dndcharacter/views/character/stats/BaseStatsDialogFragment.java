@@ -355,7 +355,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
         Map<StatType, Integer> stats = character.getBaseStats();
 
-        if (statsType == null) statsType = BaseStatsType.CUSTOM;
+        if (statsType == null) statsType = BaseStatsType.SIMPLE;
         switch (statsType) {
             case CUSTOM: {
                 int i = 0;

@@ -69,10 +69,12 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         return subclass;
     }
 
-    @Nullable
+    @NonNull
     protected SavedChoices getSubClassChoices() {
         if (subclass == null) return null;
-        return savedChoicesByModel.get(subclass.getName());
+        SavedChoices result = savedChoicesByModel.get(subclass.getName());
+        if (result == null) return new SavedChoices();
+        return result;
     }
 
     protected void setSubClassName(@Nullable String name, SavedChoices choices) {
@@ -152,7 +154,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         if (levelElement != null) {
             Page<AClass> level = new Page<AClass>() {
                 @Override
-                public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices backgroundChoices, Map<String, String> customChoices) {
+                public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
                     addClassErrorTextView(dynamic);
                     addClassLevelTextView(dynamic);
 
@@ -162,11 +164,11 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         if (label == null) {
                             label = getString(R.string.archtype_hint);
                         }
-                        addSubclassSpinner(label, aClass, dynamic, backgroundChoices);
+                        addSubclassSpinner(label, aClass, dynamic, savedChoices);
                     }
 
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), false);
-                    final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, getMainActivity(), dynamic, backgroundChoices);
+                    final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, getMainActivity(), dynamic, savedChoices);
 
                     if (spellCastingStat != null) {
 //                        TextView text = new TextView(parent.getContext());

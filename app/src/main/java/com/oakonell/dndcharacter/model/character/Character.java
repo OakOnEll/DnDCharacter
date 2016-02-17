@@ -848,11 +848,10 @@ public class Character {
         final List<ModifierWithSource> result = new ArrayList<>();
 
         if (baseStats != null) {
-            int value = baseStats.get(type);
-            if (value > 0) {
-                ModifierWithSource base = new ModifierWithSource(value, null);
-                result.add(base);
-            }
+            Integer value = baseStats.get(type);
+            if (value == null) value = 0;
+            ModifierWithSource base = new ModifierWithSource(value, null);
+            result.add(base);
         }
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {

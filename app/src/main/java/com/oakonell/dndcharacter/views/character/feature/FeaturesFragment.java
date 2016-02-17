@@ -52,6 +52,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
+        if (getActivity() == null) return;
 
         adapter = new FeatureAdapter((CharacterActivity) this.getActivity());
         gridView.setAdapter(adapter);
