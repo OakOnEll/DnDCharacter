@@ -6,7 +6,7 @@
         <proficiency>Survival</proficiency>
     </skills>
     <tools>
-        <choose name="instrumentProf" category="instrument"></choose>
+        <choose name="instrumentProf" category="instrument"/>
     </tools>
     <languages>
         <choose name="language"/>

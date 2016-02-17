@@ -6,7 +6,7 @@
         <proficiency>Persuasion</proficiency>
     </skills>
     <tools>
-        <choose name="gaming set" category="gaming set"></choose>
+        <choose name="gaming set" category="gaming set"/>
     </tools>
     <languages>
         <choose name="language"/>

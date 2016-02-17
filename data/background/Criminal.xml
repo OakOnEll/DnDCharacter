@@ -7,7 +7,7 @@
 		</skills>
 		<tools>
 			<proficiency>thieves' tools</proficiency>
-			<choose name="gaming set" category="gaming set"></choose>
+			<choose name="gaming set" category="gaming set"/>
 		</tools>
 		<equipment>
 			<item>crowbar</item>
