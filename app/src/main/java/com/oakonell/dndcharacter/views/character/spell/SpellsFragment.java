@@ -97,14 +97,14 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
         add_cantrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(getCharacter().getCasterClassInfo().keySet(), true, SpellsFragment.this);
+                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(true, SpellsFragment.this);
                 frag.show(getFragmentManager(), ADD_CANTRIP_DIALOG);
             }
         });
         add_spell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(getCharacter().getCasterClassInfo().keySet(), false, SpellsFragment.this);
+                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(false, SpellsFragment.this);
                 frag.show(getFragmentManager(), ADD_SPELL_DIALOG);
             }
         });
@@ -119,7 +119,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
     }
 
     @Override
-    public boolean spellSelected(long id, String className) {
+    public boolean spellSelected(long id, String owningClassName) {
         Spell spell = Spell.load(Spell.class, id);
 
         final List<CharacterSpell> existingSpells = getCharacter().getSpells(spell.getLevel());
@@ -139,12 +139,13 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
             }
         }
 
-        final CharacterSpell characterSpell = ApplySpellToCharacterVisitor.createCharacterSpell(getActivity(),spell, getCharacter());
+        final CharacterSpell characterSpell = ApplySpellToCharacterVisitor.createCharacterSpell(getActivity(), spell, getCharacter());
         characterSpell.setSource(ComponentType.CLASS);
-        characterSpell.setCasterClass(className);
+
+        final Character.CastingClassInfo info = getCharacter().getCasterClassInfoFor(owningClassName);
+        characterSpell.setOwnerName(owningClassName);
 
         if (spell.getLevel() > 0) {
-            final Character.CastingClassInfo info = getCharacter().getCasterClassInfo().get(className);
             if (info.usesPreparedSpells()) {
                 characterSpell.setPreparable(true);
             }

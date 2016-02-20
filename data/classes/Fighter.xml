@@ -1,0 +1,202 @@
+<class>
+    <ref>PHB p.71</ref>
+    <name>Fighter</name>
+    <hitDice>1d10</hitDice>
+    <armor>
+        <proficiency category="heavy armor"/>
+    </armor>
+    <savingThrows>
+        <proficiency>Strength</proficiency>
+        <proficiency>Constitution</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
+            <or name="animal"><proficiency>Animal Handling</proficiency></or>
+            <or name="athletics"><proficiency>Athletics</proficiency></or>
+            <or name="history"><proficiency>History</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="perception"><proficiency>Perception</proficiency></or>
+            <or name="survival"><proficiency>Survival</proficiency></or>
+        </choose>
+    </skills>
+    <equipment>
+        <choose name="armor">
+            <or name="chain">
+                <item>Chain Mail Armor</item>
+            </or>
+            <or name="leather">
+                <item>Leather Armor</item>
+                <item>Longbow</item>
+                <item count="20">Arrow</item>
+            </or>
+        </choose>
+        <choose name="weapon">
+            <or name="shield">
+                <choose name="shield_weapon" category="martial weapons"/>
+                <item>shield</item>
+            </or>
+            <or name="weapon">
+                <choose name="weapon1" category="martial weapons"/>
+                <choose name="weapon2" category="martial weapons"/>
+            </or>
+        </choose>
+        <choose name="ranged">
+            <or name="crossbow">
+                <item>Light Crossbow</item>
+                <item count="20">Bolt</item>
+            </or>
+            <or name="handaxe">
+                <item count="2">Handaxe</item>
+            </or>
+        </choose>
+        <choose name="pack">
+            <or name="dungeoneers">
+                <item>Dungeoneer's pack</item>
+            </or>
+            <or name="explorers">
+                <item>Explorer's pack</item>
+            </or>
+        </choose>
+    </equipment>
+    <multiclassPrerequisite>strength>=13 OR dexterity >=13</multiclassPrerequisite>
+    <level value="1">
+        <feature>
+            <name>Second Wind</name>
+            <refreshes>rest</refreshes>
+            <uses>1</uses>
+            <!-- <action>hp += 1d10 + classLevel</action> -->
+            <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.</shortDescription>
+            <context>HIT_POINTS</context>
+        </feature>
+        <armor>
+            <proficiency category="light armor"/>
+            <proficiency category="medium armor"/>
+            <proficiency>shield</proficiency>
+        </armor>
+        <weapons>
+            <proficiency category="simple weapons"/>
+            <proficiency category="martial weapons"/>
+        </weapons>
+        <choose name="fighting_style" title="Choose a Fighting Style">
+            <or name="archery">
+                <feature>
+                    <name>Archery</name>
+                    <shortDescription>You gain a +2 bonus to attack rolls you make with ranged weapons.</shortDescription>
+                    <!-- TODO Support ranged bonus -->
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or name="defense">
+                <feature>
+                    <name>Defense</name>
+                    <ac>+1</ac>
+                    <condition>armor</condition>
+                    <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.</shortDescription>
+                    <context>ARMOR_CLASS</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Dueling</name>
+                    <shortDescription>When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Great Weapon Fighting</name>
+                    <shortDescription>When you roll a 1 or a 2 on a damage die for an attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll, even if the new roll is a 1 or a 2. The weapon must have the two-handed or versatile property for you to gain this benefit.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Protection</name>
+                    <shortDescription>When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your reaction to impose a disadvantage on the attack roll. You must be wielding a shield.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Two-Weapon Fighting</name>
+                    <shortDescription>When you engage in two-weapon fighting, you can add you ability modifier to the damage of the second attack.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+        </choose>
+    </level>
+    <level value="2">
+        <feature>
+            <name>Action Surge</name>
+            <refreshes>rest</refreshes>
+            <uses>1</uses>
+            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="3">
+        <subclass label="Martial Archetype" />
+    </level>
+
+    <level value="5">
+        <feature>
+            <name>Extra Attack</name>
+            <shortDescription>You can attack twice, instead of once, whenever you take the Attack action on your turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <feature>
+            <name>Indomitable</name>
+            <uses>1</uses>
+            <refreshes>longrest</refreshes>
+            <shortDescription>You can reroll a saving throw that you fail. If you do so, you must use the new roll.</shortDescription>
+            <context>SAVING_THROW</context>
+        </feature>
+    </level>
+
+    <level value="11">
+        <feature extension="extend">
+            <name>Extra Attack</name>
+            <extensionDescription>You gain an additional attack per action, up to three now.</extensionDescription>
+            <shortDescription>You can attack three times, instead of once, whenever you take the Attack action on your turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="13">
+        <feature extension="extend">
+            <name>Indomitable</name>
+            <extensionDescription>You gain an additional use of Indomitable, up to 2 per long rest now.</extensionDescription>
+            <uses>2</uses>
+        </feature>
+    </level>
+
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Indomitable</name>
+            <extensionDescription>You gain an additional use of Indomitable, up to 3 per long rest now.</extensionDescription>
+            <uses>3</uses>
+        </feature>
+        <feature extension="extend">
+            <name>Action Surge</name>
+            <uses>2</uses>
+            <extensionDescription>You gain an additional use of Action Surge.</extensionDescription>
+        </feature>
+    </level>
+
+    <level value="20">
+        <feature extension="extend">
+            <name>Extra Attack</name>
+            <extensionDescription>You gain yet an additional attack per action, up to four now.</extensionDescription>
+            <shortDescription>You can attack four times, instead of once, whenever you take the Attack action on your turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+</class>

@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class CharacterSpell extends BaseCharacterComponent {
     @Element(required = false)
-    private String casterClass;
+    private String ownerName;
     @Element(required = false)
     private StatType castingStat;
     @Element(required = false)
@@ -247,12 +247,12 @@ public class CharacterSpell extends BaseCharacterComponent {
         this.attackType = attackType;
     }
 
-    public String getCasterClass() {
-        return casterClass;
+    public String getOwnerName() {
+        return ownerName;
     }
 
-    public void setCasterClass(String casterClass) {
-        this.casterClass = casterClass;
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public StatType getCastingStat() {
@@ -274,7 +274,7 @@ public class CharacterSpell extends BaseCharacterComponent {
     public String getOriginString() {
         ComponentType type = getSource();
         if (type == ComponentType.CLASS) {
-            return getCasterClass();
+            return ownerName;
         }
         if (type == null) {
             return "";

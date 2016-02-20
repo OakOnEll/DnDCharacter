@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.stats.StatBlock;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.expression.context.SimpleVariableContext;
@@ -25,7 +27,7 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
 
     CasterInfoAdapter(SpellsFragment context, @NonNull Character character) {
         this.context = context;
-        this.list = new ArrayList<>(character.getCasterClassInfo().values());
+        this.list = new ArrayList<>(character.getCasterClassInfo());
     }
 
     @NonNull
@@ -48,7 +50,7 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
     }
 
     public void reloadList(@NonNull Character character) {
-        this.list = new ArrayList<>(character.getCasterClassInfo().values());
+        this.list = new ArrayList<>(character.getCasterClassInfo());
         notifyDataSetChanged();
     }
 
@@ -80,10 +82,15 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
 
         @Override
         public void bind(@NonNull SpellsFragment context, CasterInfoAdapter adapter, @NonNull Character.CastingClassInfo info) {
-            class_name.setText(context.getString(R.string.class_and_level, info.getClassName(), info.getClassLevel()));
-            casting_stat.setText(context.getString(R.string.stat_and_mod, context.getString(info.getCastingStat().getStringResId()), context.getCharacter().getStatBlock(info.getCastingStat()).getModifier()));
+            final String owningClassName = info.getOwningClassName();
+            class_name.setText(context.getString(R.string.class_and_level, owningClassName, info.getClassLevel()));
 
-            int cantrips = context.getCharacter().getCantripsForClass(info.getClassName());
+            StatType castingStat = info.getCastingStat();
+            String castingStatString = context.getString(castingStat.getStringResId());
+            StatBlock castingStatBlock = context.getCharacter().getStatBlock(castingStat);
+            casting_stat.setText(context.getString(R.string.stat_and_mod, castingStatString, castingStatBlock.getModifier()));
+
+            int cantrips = context.getCharacter().getCantripsForClass(owningClassName);
             int maxCantrips = context.getCharacter().evaluateFormula(info.getKnownCantrips(), null);
             if (maxCantrips > 0) {
                 cantrips_known.setText(context.getString(R.string.fraction_d_slash_d, cantrips, maxCantrips));
@@ -91,18 +98,18 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
                 cantrips_known.setText(NumberUtils.formatNumber(cantrips));
             }
             if (cantrips > maxCantrips) {
-                cantrips_known.setError(context.getString(R.string.too_many_cantrips_for_class, info.getClassName()));
+                cantrips_known.setError(context.getString(R.string.too_many_cantrips_for_class, owningClassName));
             } else {
                 cantrips_known.setError(null);
             }
 
-            int spellsKnown = context.getCharacter().getSpellsKnownForClass(info.getClassName());
+            int spellsKnown = context.getCharacter().getSpellsKnownForClass(owningClassName);
             final String maxKnownSpellsFormula = info.getKnownSpells();
             if (maxKnownSpellsFormula != null && maxKnownSpellsFormula.length() > 0) {
                 int maxKnown = context.getCharacter().evaluateFormula(maxKnownSpellsFormula, null);
                 spells_known.setText(context.getString(R.string.fraction_d_slash_d, spellsKnown, maxKnown));
                 if (spellsKnown > maxKnown) {
-                    spells_known.setError(context.getString(R.string.too_many_known_spells_for_class, info.getClassName()));
+                    spells_known.setError(context.getString(R.string.too_many_known_spells_for_class, owningClassName));
                 } else {
                     spells_known.setError(null);
                 }
@@ -114,14 +121,14 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
             final String maxPreparedSpellsFormula = info.getPreparedSpells();
             if (maxPreparedSpellsFormula != null && maxPreparedSpellsFormula.length() > 0) {
                 spells_prepared.setVisibility(View.VISIBLE);
-                int spellsPrepared = context.getCharacter().getSpellsPreparedForClass(info.getClassName());
+                int spellsPrepared = context.getCharacter().getSpellsPreparedForClass(owningClassName);
                 SimpleVariableContext variableContext = new SimpleVariableContext();
                 variableContext.setNumber("classLevel", info.getClassLevel());
                 int maxPrepared = context.getCharacter().evaluateFormula(maxPreparedSpellsFormula, variableContext);
                 spells_prepared.setText(context.getString(R.string.fraction_d_slash_d, spellsPrepared, maxPrepared));
 
                 if (spellsPrepared > maxPrepared) {
-                    spells_prepared.setError(context.getString(R.string.too_many_prepared_spells_for_class, info.getClassName()));
+                    spells_prepared.setError(context.getString(R.string.too_many_prepared_spells_for_class, owningClassName));
                 } else {
                     spells_prepared.setError(null);
                 }

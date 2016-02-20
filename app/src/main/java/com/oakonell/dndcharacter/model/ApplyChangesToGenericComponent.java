@@ -434,8 +434,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
         characterSpell.setLevel(0);
         characterSpell.setName(spellName);
-        characterSpell.setCasterClass(component.getName());
         characterSpell.setCastingStat(stat);
+        // TODO need to store the caster class, if different from owner name?
+        characterSpell.setOwnerName(component.getName());
         characterSpell.setSource(component.getType());
         component.getSpells().add(characterSpell);
     }
@@ -490,8 +491,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
         characterSpell.setLevel(0);
         characterSpell.setName(cantripName);
-        characterSpell.setCasterClass(component.getName());
         characterSpell.setCastingStat(stat);
+        // TODO need to store the caster class, if different from owner name?
+        characterSpell.setOwnerName(component.getName());
         characterSpell.setSource(component.getType());
         component.getCantrips().add(characterSpell);
     }

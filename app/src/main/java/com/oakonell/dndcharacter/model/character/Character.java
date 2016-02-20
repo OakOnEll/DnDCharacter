@@ -442,7 +442,7 @@ public class Character {
     public int getCantripsForClass(@NonNull String className) {
         int count = 0;
         for (CharacterSpell each : cantrips) {
-            if (className.equals(each.getCasterClass())) {
+            if (each.getType() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
                 count++;
             }
         }
@@ -454,7 +454,7 @@ public class Character {
         for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
             List<CharacterSpell> spells = entry.getValue().spells;
             for (CharacterSpell each : spells) {
-                if (className.equals(each.getCasterClass())) {
+                if (each.getType() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
                     known++;
                 }
             }
@@ -467,7 +467,7 @@ public class Character {
         for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
             List<CharacterSpell> spells = entry.getValue().spells;
             for (CharacterSpell each : spells) {
-                if (className.equals(each.getCasterClass())) {
+                if (each.getType() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
                     if (each.isPrepared()) prepared++;
                 }
             }
@@ -1545,7 +1545,7 @@ public class Character {
 
         // go through class levels for usable spell levels?
 
-        final Map<String, CastingClassInfo> casterClassInfo = getCasterClassInfo();
+        final Collection<CastingClassInfo> casterClassInfo = getCasterClassInfo();
         if (casterClassInfo.size() == 0) {
             return result;
         }
@@ -1555,7 +1555,7 @@ public class Character {
             // multiclass
             Map<String, Integer> multiclassCasterSlots = new HashMap<>();
             List<CastingClassInfo> specialSlotClasses = new ArrayList<>();
-            for (CastingClassInfo each : casterClassInfo.values()) {
+            for (CastingClassInfo each : casterClassInfo) {
                 String factor = each.getMulticlassCastorFactor();
                 if (factor.equals("-1")) {
                     specialSlotClasses.add(each);
@@ -1563,7 +1563,7 @@ public class Character {
                 }
                 Integer factorLevel = multiclassCasterSlots.get(factor);
                 if (factorLevel == null) factorLevel = 0;
-                factorLevel += classLevels.get(each.getClassName());
+                factorLevel += classLevels.get(each.getOwningClassName());
                 multiclassCasterSlots.put(factor, factorLevel);
             }
             int effectiveCasterLevel = 0;
@@ -1577,7 +1577,7 @@ public class Character {
             addMulticlassSpellSlotLevels(result, effectiveCasterLevel, specialSlotClasses);
             maxSlotLevel = result.size() - 1;
         } else {
-            final CastingClassInfo casterInfo = casterClassInfo.values().iterator().next();
+            final CastingClassInfo casterInfo = casterClassInfo.iterator().next();
             maxSlotLevel = casterInfo.getMaxSpellLevel();
             for (int i = 1; i <= maxSlotLevel; i++) {
                 SpellLevelInfo level = new SpellLevelInfo();
@@ -1747,7 +1747,9 @@ public class Character {
     }
 
     public static class CastingClassInfo {
-        String className;
+        // TODO might be multiple, eg EldritchKnight/ArcaneTrickter combo!
+        String owningClassName;
+        String casterClassName;
 
         StatType castingStat;
         String multiclassCastorFactor = "1";
@@ -1762,8 +1764,13 @@ public class Character {
 
         public RefreshType spellSlotRefresh;
 
-        public String getClassName() {
-            return className;
+        public String getOwningClassName() {
+            return owningClassName;
+        }
+
+        public String getCasterClassName() {
+            if (casterClassName == null) return owningClassName;
+            return casterClassName;
         }
 
         public StatType getCastingStat() {
@@ -1811,8 +1818,20 @@ public class Character {
         }
     }
 
+    public CastingClassInfo getCasterClassInfoFor(String owningClassName) {
+        // TODO optimize this
+        Map<String, CastingClassInfo> classInfoMap = getCastingClassInfoMap();
+        return classInfoMap.get(owningClassName);
+    }
+
     @NonNull
-    public Map<String, CastingClassInfo> getCasterClassInfo() {
+    public Collection<CastingClassInfo> getCasterClassInfo() {
+        Map<String, CastingClassInfo> classInfoMap = getCastingClassInfoMap();
+        return classInfoMap.values();
+    }
+
+    @NonNull
+    protected Map<String, CastingClassInfo> getCastingClassInfoMap() {
         Map<String, CastingClassInfo> classInfoMap = new HashMap<>();
 
         for (CharacterClass each : classes) {
@@ -1825,8 +1844,9 @@ public class Character {
 
                 if (info == null) {
                     info = new CastingClassInfo();
-                    info.className = each.getName();
-                    classInfoMap.put(info.className, info);
+                    info.owningClassName = each.getName();
+                    info.casterClassName = each.getSpellClassFilter();
+                    classInfoMap.put(info.owningClassName, info);
                 }
                 info.castingStat = castingStat;
                 if (prepared != null) info.preparedSpells = prepared;
@@ -1838,8 +1858,8 @@ public class Character {
             if (cantripsKnown != null && cantripsKnown.trim().length() > 0) {
                 if (info == null) {
                     info = new CastingClassInfo();
-                    info.className = each.getName();
-                    classInfoMap.put(info.className, info);
+                    info.owningClassName = each.getName();
+                    classInfoMap.put(info.owningClassName, info);
                 }
                 info.knownCantrips = cantripsKnown;
             }
@@ -1848,8 +1868,8 @@ public class Character {
             if (spellsKnown != null && spellsKnown.trim().length() > 0) {
                 if (info == null) {
                     info = new CastingClassInfo();
-                    info.className = each.getName();
-                    classInfoMap.put(info.className, info);
+                    info.owningClassName = each.getName();
+                    classInfoMap.put(info.owningClassName, info);
                 }
                 info.knownSpells = spellsKnown;
             }

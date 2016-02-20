@@ -71,26 +71,53 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
             newMe.visitChildren(levelElement);
         }
+
+        Element subClassRootElement = null;
+        if (subClass != null) {
+            subClassRootElement = XmlUtils.getDocument(subClass.getXml()).getDocumentElement();
+        }
+        Element baseSpellInfoElement = null;
+
         if (classLevel == 1 && characterLevel != 1) {
+            Element spellCastingStat = XmlUtils.getElement(rootClassElement, "spellCastingStat");
+            if (spellCastingStat != null) {
+                baseSpellInfoElement = rootClassElement;
+            }
+        }
+        if (subClass != null) {
+            Element subclassElement = XmlUtils.getElement(levelElement, "subclass");
+            if (subclassElement != null) {
+                Element spellCastingStat = XmlUtils.getElement(subClassRootElement, "spellCastingStat");
+                if (spellCastingStat != null) {
+                    baseSpellInfoElement = subClassRootElement;
+                }
+            }
+        }
+
+        // grab the base spell info from either the root class, or the subclass
+        if (baseSpellInfoElement != null) {
             // apply the root level spell related things
             // TODO maybe better to move these elements to level 1, directly
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
-            Element prepared = XmlUtils.getElement(rootClassElement, "preparedSpellsFormula");
+            Element prepared = XmlUtils.getElement(baseSpellInfoElement, "preparedSpellsFormula");
             if (prepared != null) {
                 newMe.visitPreparedSpells(prepared);
             }
-            Element spellCastingStat = XmlUtils.getElement(rootClassElement, "spellCastingStat");
+            Element spellCastingStat = XmlUtils.getElement(baseSpellInfoElement, "spellCastingStat");
             if (spellCastingStat != null) {
                 newMe.visitSpellCastingStat(spellCastingStat);
             }
-            Element multiclassCasterFactor = XmlUtils.getElement(rootClassElement, "multiclassCasterFactor");
+            Element spellCastingSpellClass = XmlUtils.getElement(baseSpellInfoElement, "spellCastingSpellClass");
+            if (spellCastingSpellClass != null) {
+                newMe.visitSpellCastingSpellClass(spellCastingSpellClass);
+            }
+            Element multiclassCasterFactor = XmlUtils.getElement(baseSpellInfoElement, "multiclassCasterFactor");
             if (multiclassCasterFactor != null) {
                 newMe.visitMulticlassCasterFactor(multiclassCasterFactor);
             }
         }
 
         if (subClass != null) {
-            Element subClassRootElement = XmlUtils.getDocument(subClass.getXml()).getDocumentElement();
             Element subClassLevelElement = AClass.findLevelElement(subClassRootElement, classLevel);
             if (subClassLevelElement != null) {
                 ApplyChangesToGenericComponent.applyToCharacter(context, subClassLevelElement, subclassSavedChoices, charClass, character, false);
@@ -147,6 +174,13 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         StatType stat = StatType.valueOf(StatType.class, statName);
         // TODO handle error
         charClass.setCasterStat(stat);
+    }
+
+    @Override
+    protected void visitSpellCastingSpellClass(@NonNull Element element) {
+        String className = element.getTextContent();
+        charClass.setSpellClassFilter(className);
+
     }
 
     @Override

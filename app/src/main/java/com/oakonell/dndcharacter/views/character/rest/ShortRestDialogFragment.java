@@ -416,7 +416,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
     protected int getSlotsToRestore(Character.SpellLevelInfo info) {
         int value = 0;
-        for (Character.CastingClassInfo each : getCharacter().getCasterClassInfo().values()) {
+        for (Character.CastingClassInfo each : getCharacter().getCasterClassInfo()) {
             final RefreshType refreshType = each.getSpellSlotRefresh();
             if (refreshType != RefreshType.SHORT_REST) continue;
             final String slotFormula = each.getSlotMap().get(info.getLevel());

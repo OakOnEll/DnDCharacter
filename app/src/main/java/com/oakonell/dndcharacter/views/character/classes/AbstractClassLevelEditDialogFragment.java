@@ -146,8 +146,8 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
         // next page, show level specific stuff (if first, show hit die, or just show again)
         // TODO show when proficiency is increased!
-        final Element spellCastingStat = XmlUtils.getElement(rootClassElement, "spellCastingStat");
         if (levelElement != null) {
+            final Element spellCastingStat = XmlUtils.getElement(rootClassElement, "spellCastingStat");
             Page<AClass> level = new Page<AClass>() {
                 @Override
                 public ChooseMDTreeNode appendToLayout(@NonNull AClass aClass, @NonNull ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
@@ -166,49 +166,12 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), false);
                     final ChooseMDTreeNode chooseMDTreeNode = visitor.appendToLayout(levelElement, getMainActivity(), dynamic, savedChoices, getCharacterClass());
 
-                    if (spellCastingStat != null) {
-//                        TextView text = new TextView(parent.getContext());
-//                        parent.addView(text);
-//                        String name = element.getTextContent();
-//                        final String countString = element.getAttribute("count");
-//                        if (countString != null && countString.trim().length() > 0) {
-//                            name += " (" + countString + ")";
-//                        }
-//                        text.setText(" *  " + name);
-                    }
-
-
                     return chooseMDTreeNode;
                 }
             };
             pages.add(level);
 
-            final Element spells = XmlUtils.getElement(levelElement, "spells");
-            final Element cantrips = XmlUtils.getElement(levelElement, "cantrips");
-            if (spellCastingStat != null && (spells != null || cantrips != null)) {
-/*
-                        <cantrips>
-            <known>4</known>
-        </cantrips>
-        <spells>
-            <known>3</known>
-            <slots>
-                <level value="1">3</level>
-            </slots>
-        </spells>
-                 */
-                Page<AClass> spellPage = new Page<AClass>() {
-                    @NonNull
-                    @Override
-                    public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
-                        SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator(getCharacter());
-
-                        return visitor.appendToLayout(getMainActivity(), dynamic, rootClassElement, spells, cantrips, savedChoices);
-                    }
-                };
-                pages.add(spellPage);
-
-            }
+            possiblyAddSpellsAndCantripsPage(pages, rootClassElement, levelElement, spellCastingStat, null);
         }
 
         if (subclass != null) {
@@ -225,13 +188,15 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         break;
                     }
                 }
+                final Element subclassSpellCastingStat = XmlUtils.getElement(subclassRoot, "spellCastingStat");
+                final boolean subclassCaster = subclassSpellCastingStat != null;
                 if (display) {
                     Page<AClass> subclassPage = new Page<AClass>() {
                         @NonNull
                         @Override
                         public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
                             addSubclassTextView(dynamic);
-                            AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), true);
+                            AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), !subclassCaster);
 
 
                             subclassChooseMDs = visitor.appendToLayout(subclassLevelElement, getMainActivity(), dynamic, getSubClassChoices(), getCharacterClass());
@@ -239,6 +204,9 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         }
                     };
                     pages.add(subclassPage);
+                }
+                if (subclassCaster) {
+                    possiblyAddSpellsAndCantripsPage(pages, subclassRoot, subclassLevelElement, subclassSpellCastingStat, getSubClassChoices());
                 }
             }
         }
@@ -344,6 +312,39 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         }
 
         return pages;
+    }
+
+    private void possiblyAddSpellsAndCantripsPage(List<Page<AClass>> pages, final Element rootClassElement, Element levelElement, Element spellCastingStat, final SavedChoices overrideChoices) {
+        final Element spells = XmlUtils.getElement(levelElement, "spells");
+        final Element cantrips = XmlUtils.getElement(levelElement, "cantrips");
+
+        if (spellCastingStat != null && (spells != null || cantrips != null)) {
+/*
+                    <cantrips>
+        <known>4</known>
+    </cantrips>
+    <spells>
+        <known>3</known>
+        <slots>
+            <level value="1">3</level>
+        </slots>
+    </spells>
+             */
+            Page<AClass> spellPage = new Page<AClass>() {
+                @NonNull
+                @Override
+                public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
+                    SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator(getCharacter());
+                    if (overrideChoices != null) {
+                        addSubclassTextView(dynamic);
+                    }
+
+                    return visitor.appendToLayout(getMainActivity(), dynamic, rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices);
+                }
+            };
+            pages.add(spellPage);
+
+        }
     }
 
     protected abstract CharacterClass getCharacterClass();

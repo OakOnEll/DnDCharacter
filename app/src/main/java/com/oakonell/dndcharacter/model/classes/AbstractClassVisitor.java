@@ -27,6 +27,9 @@ public abstract class AbstractClassVisitor extends AbstractChoiceComponentVisito
             case "class":
                 visitClass(element);
                 break;
+            case "spellCastingSpellClass":
+                visitSpellCastingSpellClass(element);
+                break;
             case "spellCastingStat":
                 visitSpellCastingStat(element);
                 break;
@@ -84,6 +87,10 @@ public abstract class AbstractClassVisitor extends AbstractChoiceComponentVisito
     }
 
     protected void visitSpellCastingStat(Element element) {
+        visitSimpleItem(element);
+    }
+
+    protected void visitSpellCastingSpellClass(Element element) {
         visitSimpleItem(element);
     }
 

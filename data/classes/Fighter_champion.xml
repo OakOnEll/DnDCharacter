@@ -1,0 +1,96 @@
+<class>
+    <ref>PHB p.72</ref>
+    <name>Champion</name>
+    <parent>Fighter</parent>
+
+    <level value="3">
+        <feature>
+            <name>Improved Critical</name>
+            <shortDescription>Your weapon attacks score a critical hit on a roll of 19 or 20.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+
+    <level value="7">
+        <feature>
+            <name>Remarkable Athlete</name>
+            <shortDescription>You can add half your proficiency bonus (round up) to any Strength, Dexterity, or Constitution check you make that doesn't already use your proficiency bonus.
+            In addition, when you make a running long jump, the distance you can cover increases by a number of feet equal to your Strength modifier.</shortDescription>
+            <context>SKILL_ROLL(strength),SAVING_THROW(strength),SKILL_ROLL(dexterity),SAVING_THROW(dexterity),SKILL_ROLL(constitution),SAVING_THROW(constitution)</context>
+        </feature>
+    </level>
+
+    <level value="10">
+        <choose name="fighting_style" title="Choose an additional different Fighting Style">
+            <or name="archery">
+                <feature>
+                    <name>Archery</name>
+                    <shortDescription>You gain a +2 bonus to attack rolls you make with ranged weapons.</shortDescription>
+                    <!-- TODO Support ranged bonus -->
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or name="defense">
+                <feature>
+                    <name>Defense</name>
+                    <ac>+1</ac>
+                    <condition>armor</condition>
+                    <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.</shortDescription>
+                    <context>ARMOR_CLASS</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Dueling</name>
+                    <shortDescription>When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Great Weapon Fighting</name>
+                    <shortDescription>When you roll a 1 or a 2 on a damage die for an attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll, even if the new roll is a 1 or a 2. The weapon must have the two-handed or versatile property for you to gain this benefit.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Protection</name>
+                    <shortDescription>When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your reaction to impose a disadvantage on the attack roll. You must be wielding a shield.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Two-Weapon Fighting</name>
+                    <shortDescription>When you engage in two-weapon fighting, you can add you ability modifier to the damage of the second attack.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+        </choose>
+    </level>
+
+    <level value="15">
+        <feature extension="extend">
+            <name>Improved Critical</name>
+            <extensionDescription>You critical on an 18, 19, or a 20 now.</extensionDescription>
+            <shortDescription>Your weapon attacks score a critical hit on a roll of 18, 19, or 20.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="18">
+        <feature>
+            <name>Survivor</name>
+            <shortDescription>You attain the pinnacle of resilience in battle. At the start of each of your turns, you regain hit points equal to 5 + your constitution modifier if you have no more than half your hit points left. You don't gain this benefit if you have 0 hit points.</shortDescription>
+<!--    TODO apply modifications on action/effect
+            <uses>0</uses>
+            <condition>hp &lt;= 0.5*maxHp AND hp != 0 </condition>
+            -->
+            <context>HIT_POINTS</context>
+        </feature>
+    </level>
+
+
+</class>

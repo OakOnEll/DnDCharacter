@@ -43,6 +43,18 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         boolean spellSelected(long spellId, String className);
     }
 
+    // Will use the current character's classes/caster classes to filter
+    @NonNull
+    public static SelectSpellDialogFragment createDialog(boolean cantrips, SpellSelectedListener listener) {
+        SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(CANTRIPS, cantrips);
+        dialog.setArguments(args);
+        dialog.setListener(listener);
+        return dialog;
+    }
+
+
     @NonNull
     public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, SpellSelectedListener listener) {
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
@@ -85,21 +97,36 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         cantrips = getArguments().getBoolean(CANTRIPS);
         int maxLevel = getArguments().getInt(MAX_LEVEL, -1);
 
+
         if (cantrips) {
             view.findViewById(R.id.max_spell_level_group).setVisibility(View.GONE);
         }
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
-                R.layout.large_spinner_text, casterClasses);
+        List<ClassChoice> classChoices = new ArrayList<>();
+        if (casterClasses == null) {
+            Collection<Character.CastingClassInfo> casterClassInfos = getCharacter().getCasterClassInfo();
+            for (Character.CastingClassInfo each : casterClassInfos) {
+                String owningClassName = each.getOwningClassName();
+                String casterClassName = each.getCasterClassName();
+                classChoices.add(new ClassChoice(owningClassName, casterClassName));
+            }
+        } else {
+            for (String each : casterClasses) {
+                classChoices.add(new ClassChoice(each, each));
+            }
+        }
+
+        ArrayAdapter<ClassChoice> dataAdapter = new ArrayAdapter<>(getContext(),
+                R.layout.large_spinner_text, classChoices);
         dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
         classNameSpinner.setAdapter(dataAdapter);
 
-        if (casterClasses.size() == 1) {
+        if (classChoices.size() == 1) {
             classNameSpinner.setSelection(0);
             classNameSpinner.setEnabled(false);
             if (maxLevel < 0) {
-                final String className = (String) classNameSpinner.getSelectedItem();
-                final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfo().get(className);
+                final String className = ((ClassChoice) classNameSpinner.getSelectedItem()).ownerClass;
+                final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfoFor(className);
                 if (castingClassInfo != null) {
                     max_spell_level.setText(NumberUtils.formatNumber(castingClassInfo.getMaxSpellLevel()));
                 } else {
@@ -112,8 +139,8 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             classNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    final String className = (String) classNameSpinner.getSelectedItem();
-                    final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfo().get(className);
+                    final String className = ((ClassChoice) classNameSpinner.getSelectedItem()).ownerClass;
+                    final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfoFor(className);
                     if (castingClassInfo != null) {
                         max_spell_level.setText(NumberUtils.formatNumber(castingClassInfo.getMaxSpellLevel()));
                     } else {
@@ -168,7 +195,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     @Override
     protected String[] getSelectionArgs() {
         if (classNameSpinner == null) return null;
-        final String className = (String) classNameSpinner.getSelectedItem();
+        final String className = ((ClassChoice) classNameSpinner.getSelectedItem()).casterClass;
         if (cantrips) {
             return new String[]{className.toUpperCase()};
         }
@@ -203,9 +230,25 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     @Override
     protected boolean applyAction(long id) {
         if (listener != null) {
-            final String className = (String) classNameSpinner.getSelectedItem();
+            final String className = ((ClassChoice) classNameSpinner.getSelectedItem()).ownerClass;
             return listener.spellSelected(id, className);
         }
         throw new RuntimeException("No Listener!");
+    }
+
+    static class ClassChoice {
+        final String ownerClass;
+        final String casterClass;
+
+        public ClassChoice(String owningClassName, String casterClassName) {
+            this.ownerClass = owningClassName;
+            this.casterClass = casterClassName;
+        }
+
+        @Override
+        public String toString() {
+            if (casterClass == null || casterClass.equals(ownerClass)) return ownerClass;
+            return ownerClass + "(" + casterClass + ")";
+        }
     }
 }

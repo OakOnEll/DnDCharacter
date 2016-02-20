@@ -41,6 +41,8 @@ public class CharacterClass extends BaseCharacterComponent {
     private Map<Integer, String> spellLevelSlotFormulas;
     @Element(required = false)
     private RefreshType spellSlotRefresh;
+    @Element(required = false)
+    private String spellClassFilter;
 
 
     @NonNull
@@ -155,5 +157,14 @@ public class CharacterClass extends BaseCharacterComponent {
 
     public RefreshType getSpellSlotRefresh() {
         return spellSlotRefresh;
+    }
+
+    // Choose good name
+    public void setSpellClassFilter(String classFilter) {
+        this.spellClassFilter = classFilter;
+    }
+
+    public String getSpellClassFilter() {
+        return spellClassFilter;
     }
 }
