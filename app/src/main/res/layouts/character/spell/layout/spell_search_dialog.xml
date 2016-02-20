@@ -22,6 +22,25 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
+                android:id="@+id/schools_group"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/schools_label"
+                    android:id="@+id/schools_lbl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Abjuration, Evocation"
+                    android:id="@+id/schools" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/max_spell_level_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -29,4 +29,13 @@
     <string name="wisdom_mod">Wisdom Mod</string>
     <string name="already_proficient_from">Already %1$s, from %2$s.</string>
     <string name="already_known_from">Already known from %s</string>
+    <string name="abjuration">Abjuration</string>
+    <string name="evocation">Evocation</string>
+    <string name="conjuration">Conjuration</string>
+    <string name="divination">Divination</string>
+    <string name="enchantment">Enchantment</string>
+    <string name="illusion">Illusion</string>
+    <string name="necromancy">Necromancy</string>
+    <string name="transmutation">Transmutation</string>
+    <string name="schools_label">Schools</string>
 </resources>

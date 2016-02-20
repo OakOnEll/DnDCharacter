@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
@@ -16,6 +17,7 @@ import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;
 
 import org.w3c.dom.Element;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,7 +55,16 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
             text.setText("Prepared Spells: " + prepared);
         }
 
-        String casterClassName = XmlUtils.getElementText(rootClassElement, "name");
+        // TODO this is not quite right??
+        String ownerClassName = XmlUtils.getElementText(rootClassElement, "name");
+        String parentClass = XmlUtils.getElementText(rootClassElement, "parent");
+        if (parentClass != null && parentClass.trim().length() > 0) {
+            ownerClassName = parentClass;
+        }
+        String casterClassName = XmlUtils.getElementText(rootClassElement, "spellCastingSpellClass");
+        if (casterClassName == null) {
+            casterClassName = ownerClassName;
+        }
         if (cantrips != null) {
             String known = XmlUtils.getElementText(cantrips, "known");
 
@@ -62,7 +73,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
             text.setText("Cantrips known: " + known);
 
             if (casterClassName != null) {
-                int currentCantrips = characterActivity.getCharacter().getCantripsForClass(casterClassName);
+                int currentCantrips = characterActivity.getCharacter().getCantripsForClass(ownerClassName);
                 int numCantripsCanAdd = Integer.parseInt(known) - currentCantrips;
 
                 ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedCantrips", numCantripsCanAdd, 0));
@@ -94,6 +105,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
             }
 
             Element spellsKnownElem = XmlUtils.getElement(spells, "known");
+            List<Element> spellList = XmlUtils.getChildElements(spells, "spell");
             if (spellsKnownElem != null) {
                 String known = spellsKnownElem.getTextContent();
 
@@ -101,12 +113,12 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
                 spellGroup.addView(text);
                 text.setText("Spells known: " + known);
 
-                if (casterClassName != null) {
-                    int currentSpells = characterActivity.getCharacter().getSpellsKnownForClass(casterClassName);
+                if (casterClassName != null && spellList.isEmpty()) {
+                    int currentSpells = characterActivity.getCharacter().getSpellsKnownForClass(ownerClassName);
                     int numSpellsCanAdd = Integer.parseInt(known) - currentSpells;
 
                     ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpells", numSpellsCanAdd, 0));
-                    visitSpellSearchChoices(casterClassName, maxLevel, numSpellsCanAdd);
+                    visitSpellSearchChoices(casterClassName, maxLevel, numSpellsCanAdd, null);
                     popChooseMD(oldChooseMD);
                 }
 
@@ -122,18 +134,34 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
                 text.setText("Level " + level + " slots: " + slots);
             }
 
-            List<Element> spellList = XmlUtils.getChildElements(spells, "spell");
             if (spellList.size() > 0) {
                 TextView text = new TextView(spellGroup.getContext());
                 spellGroup.addView(text);
                 text.setText("Spells: ");
 
+                int i = 0;
                 for (Element each : spellList) {
-                    TextView spellText = new TextView(spellGroup.getContext());
-                    spellGroup.addView(spellText);
-
-                    spellText.setText(" * " + each.getTextContent());
-
+                    if (each.getTextContent() == null || each.getTextContent().trim().length() == 0) {
+                        ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpell" + i, 1, 1));
+                        String schoolsString = each.getAttribute("schools");
+                        List<SpellSchool> schools = null;
+                        if (schoolsString != null && schoolsString.trim().length() > 0) {
+                            String[] schoolsStrings = schoolsString.split(",");
+                            for (String schoolString : schoolsStrings) {
+                                if (schoolsString.trim().length() == 0) continue;
+                                if (schools == null) schools = new ArrayList<>();
+                                schools.add(SpellSchool.valueOf(schoolString.toUpperCase()));
+                            }
+                        }
+                        visitSpellSearchChoices(casterClassName, maxLevel, 1, schools);
+                        popChooseMD(oldChooseMD);
+                    } else {
+                        visitSpell(each);
+//                        TextView spellText = new TextView(spellGroup.getContext());
+//                        spellGroup.addView(spellText);
+//                        spellText.setText(" * " + each.getTextContent());
+                    }
+                    i++;
                 }
             }
 

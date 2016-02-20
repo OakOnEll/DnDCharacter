@@ -9,12 +9,15 @@
     <multiclassCasterFactor>1/3</multiclassCasterFactor>
 
     <level value="3">
-        <!-- TODO limit these to only certain schools -->
         <cantrips>
             <known>2</known>
         </cantrips>
         <spells>
+            <!-- TODO limit 2 of these to only abjuration,evocation schools -->
             <known>3</known>
+            <spell schools="evocation,abjuration" />
+            <spell schools="evocation,abjuration"/>
+            <spell />
             <slots>
                 <level value="1">2</level>
             </slots>
@@ -34,6 +37,7 @@
             <known>2</known>
         </cantrips>
         <spells>
+            <!-- TODO limit these to only abjuration,evocation schools -->
             <known>4</known>
             <slots>
                 <level value="1">3</level>
@@ -51,6 +55,7 @@
             <known>2</known>
         </cantrips>
         <spells>
+            <!-- TODO limit these to only abjuration,evocation schools -->
             <known>5</known>
             <slots>
                 <level value="1">4</level>
@@ -64,6 +69,7 @@
             <known>2</known>
         </cantrips>
         <spells>
+            <!-- This new one can be from any school -->
             <known>6</known>
             <slots>
                 <level value="1">4</level>
@@ -82,6 +88,7 @@
             <known>3</known>
         </cantrips>
         <spells>
+            <!-- TODO limit these to only abjuration,evocation schools -->
             <known>7</known>
             <slots>
                 <level value="1">4</level>
@@ -95,6 +102,7 @@
             <known>3</known>
         </cantrips>
         <spells>
+            <!-- TODO limit these to only abjuration,evocation schools -->
             <known>8</known>
             <slots>
                 <level value="1">4</level>
@@ -108,6 +116,7 @@
             <known>3</known>
         </cantrips>
         <spells>
+            <!-- TODO limit these to only abjuration,evocation schools -->
             <known>9</known>
             <slots>
                 <level value="1">4</level>
@@ -122,6 +131,7 @@
             <known>3</known>
         </cantrips>
         <spells>
+            <!-- This new one can be from any school -->
             <known>10</known>
             <slots>
                 <level value="1">4</level>
@@ -146,6 +156,7 @@
             <known>3</known>
         </cantrips>
         <spells>
+            <!-- TODO limit these to only abjuration,evocation schools -->
             <known>11</known>
             <slots>
                 <level value="1">4</level>
@@ -169,6 +180,7 @@
             <known>3</known>
         </cantrips>
         <spells>
+            <!-- TODO limit these to only abjuration,evocation schools -->
             <known>12</known>
             <slots>
                 <level value="1">4</level>
@@ -181,6 +193,7 @@
 
     <level value="20">
         <cantrips>
+            <!-- this new one can be from any school -->
             <known>3</known>
         </cantrips>
         <spells>

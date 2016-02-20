@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.spell.Spell;
+import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
 
@@ -60,10 +61,12 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
     protected static class SpellRowViewHolderCursor extends RowViewHolderCursor {
         @NonNull
         private final TextView levelTextView;
+        private final TextView schoolTextView;
 
         public SpellRowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             levelTextView = (TextView) itemView.findViewById(R.id.level);
+            schoolTextView = (TextView) itemView.findViewById(R.id.school);
         }
 
         @Override
@@ -77,6 +80,10 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
                 levelString = level + "";
             }
             levelTextView.setText(levelString);
+
+            final String schoolString = cursor.getString(cursorIndexesByName.getIndex(cursor, "school"));
+            SpellSchool school = SpellSchool.valueOf(schoolString);
+            schoolTextView.setText(school.getStringResId());
 
         }
     }

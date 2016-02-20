@@ -34,7 +34,7 @@ public class Spell extends AbstractComponentModel {
     @Column
     private boolean ritual;
     @Column
-    private String school;
+    private SpellSchool school;
 
 
     @Override
@@ -101,11 +101,11 @@ public class Spell extends AbstractComponentModel {
         this.ritual = ritual;
     }
 
-    public String getSchool() {
+    public SpellSchool getSchool() {
         return school;
     }
 
-    public void setSchool(String school) {
+    public void setSchool(SpellSchool school) {
         this.school = school;
     }
 
@@ -116,7 +116,11 @@ public class Spell extends AbstractComponentModel {
 
         if (doc != null) {
 
-            setSchool(XmlUtils.getElementText(doc, "school"));
+            String schoolName = XmlUtils.getElementText(doc, "school");
+            schoolName = schoolName.toUpperCase();
+            SpellSchool school = SpellSchool.valueOf(schoolName);
+            setSchool(school);
+
             setConcentration("true".equals(XmlUtils.getElementText(doc, "concentration")));
             setRitual("true".equals(XmlUtils.getElementText(doc, "ritual")));
 
@@ -128,7 +132,7 @@ public class Spell extends AbstractComponentModel {
                 setLevel(-1);
             }
         } else {
-            setSchool("");
+            setSchool(null);
             setConcentration(false);
             setRitual(false);
             setLevel(-1);

@@ -30,6 +30,7 @@ import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.spell.Spell;
+import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
@@ -240,12 +241,12 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             if (!each.getLanguage().equals(language)) continue;
             if (each.getSource().equals(currentComponent)) continue;
 
-            if (knownBy.length()>0) {
+            if (knownBy.length() > 0) {
                 knownBy.append(",");
             }
             knownBy.append(each.getSourceString(parent.getResources()));
         }
-        if (knownBy.length()>0) {
+        if (knownBy.length() > 0) {
             TextView text = new TextView(parent.getContext());
             parent.addView(text);
             text.setText(" *  " + language + " (" + parent.getResources().getString(R.string.already_known_from, knownBy) + ")");
@@ -724,7 +725,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
     }
 
-    protected void visitSpellSearchChoices(final String casterClass, final int maxLevel, int numChoices) {
+    protected void visitSpellSearchChoices(final String casterClass, final int maxLevel, int numChoices, final List<SpellSchool> schoolNames) {
         final int searchResId = R.string.search_for_spell;
         final String fragmentId = SELECT_SPELL_DIALOG;
         final List<String> casterClasses = new ArrayList<>();
@@ -732,7 +733,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @Override
             AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
-                return SelectSpellDialogFragment.createDialog(casterClass, maxLevel, new SelectSpellDialogFragment.SpellSelectedListener() {
+                return SelectSpellDialogFragment.createDialog(casterClass, maxLevel, schoolNames, new SelectSpellDialogFragment.SpellSelectedListener() {
                     @Override
                     public boolean spellSelected(long id, String className) {
                         Spell spell = Spell.load(Spell.class, id);

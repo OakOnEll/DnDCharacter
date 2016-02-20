@@ -1,8 +1,10 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +16,9 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.spell.Spell;
+import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
 
@@ -30,10 +34,14 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     public static final String CASTER_CLASSES = "casterClasses";
     public static final String CANTRIPS = "cantrips";
     private static final String MAX_LEVEL = "maxLevel";
+    private static final String SCHOOLS = "schools";
+
     private NoDefaultSpinner classNameSpinner;
     private TextView max_spell_level;
     private boolean cantrips;
     private SpellSelectedListener listener;
+
+    private List<SpellSchool> schoolsFilter = null;
 
     public void setListener(SpellSelectedListener listener) {
         this.listener = listener;
@@ -56,12 +64,19 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
 
     @NonNull
-    public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, SpellSelectedListener listener) {
+    public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, List<SpellSchool> schools, SpellSelectedListener listener) {
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
         ArrayList<String> casterClasses = new ArrayList<>();
         casterClasses.add(casterClass);
         args.putStringArrayList(CASTER_CLASSES, casterClasses);
+        if (schools != null && !schools.isEmpty()) {
+            ArrayList<String> schoolNames = new ArrayList<>();
+            for (SpellSchool each : schools) {
+                schoolNames.add(each.name());
+            }
+            args.putStringArrayList(SCHOOLS, schoolNames);
+        }
         args.putBoolean(CANTRIPS, false);
         args.putInt(MAX_LEVEL, maxLevel);
         dialog.setArguments(args);
@@ -97,6 +112,27 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         cantrips = getArguments().getBoolean(CANTRIPS);
         int maxLevel = getArguments().getInt(MAX_LEVEL, -1);
 
+        final List<String> schoolNames = getArguments().getStringArrayList(SCHOOLS);
+        if (schoolNames != null) {
+            schoolsFilter = new ArrayList<SpellSchool>();
+            StringBuilder namesList = new StringBuilder();
+            boolean isFirst = true;
+            for (String each : schoolNames) {
+                SpellSchool spellSchool = SpellSchool.valueOf(each);
+                schoolsFilter.add(spellSchool);
+                if (!isFirst) {
+                    namesList.append(", ");
+                }
+                isFirst = false;
+                namesList.append(getString(spellSchool.getStringResId()));
+            }
+
+            TextView schoolsTextView = (TextView) view.findViewById(R.id.schools);
+            schoolsTextView.setText(namesList);
+
+        } else {
+            view.findViewById(R.id.schools_group).setVisibility(View.GONE);
+        }
 
         if (cantrips) {
             view.findViewById(R.id.max_spell_level_group).setVisibility(View.GONE);
@@ -184,10 +220,29 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     protected String getSelection() {
         if (classNameSpinner == null) return null;
         if (classNameSpinner.getSelectedItem() == null) return null;
+
+        String schoolsFilterString = "";
+        if (schoolsFilter != null) {
+            // TODO cache this filter string
+            StringBuilder builder = new StringBuilder(" and school in (");
+            boolean isFirst = true;
+            for (SpellSchool each : schoolsFilter) {
+                if (!isFirst) {
+                    builder.append(", ");
+                }
+                builder.append("'");
+                builder.append(each.name());
+                builder.append("'");
+                isFirst = false;
+            }
+            builder.append(")");
+            schoolsFilterString = builder.toString();
+        }
+
         if (cantrips) {
-            return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level = 0";
+            return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level = 0" + schoolsFilterString;
         } else {
-            return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level > 0 and level <= ? ";
+            return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level > 0 and level <= ? " + schoolsFilterString;
         }
     }
 
@@ -249,6 +304,46 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         public String toString() {
             if (casterClass == null || casterClass.equals(ownerClass)) return ownerClass;
             return ownerClass + "(" + casterClass + ")";
+        }
+    }
+
+
+    protected int getListItemResource() {
+        return R.layout.spell_list_item;
+    }
+
+    @NonNull
+    @Override
+    public RowViewHolder newRowViewHolder(@NonNull View newView) {
+        return new SpellRowViewHolder(newView);
+    }
+
+    public static class SpellRowViewHolder extends RowViewHolder {
+
+        private final TextView schoolTextView;
+        private final TextView levelTextView;
+
+        public SpellRowViewHolder(@NonNull View itemView) {
+            super(itemView);
+            schoolTextView = (TextView) itemView.findViewById(R.id.school);
+            levelTextView = (TextView) itemView.findViewById(R.id.level);
+        }
+
+        @Override
+        public void bindTo(@NonNull Cursor cursor, @NonNull AbstractSelectComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+            super.bindTo(cursor, context, adapter, cursorIndexesByName);
+            final int level = cursor.getInt(cursorIndexesByName.getIndex(cursor, "level"));
+            String levelString;
+            if (level == 0) {
+                levelString = context.getString(R.string.cantrip_label);
+            } else {
+                levelString = level + "";
+            }
+            levelTextView.setText(levelString);
+
+            final String schoolString = cursor.getString(cursorIndexesByName.getIndex(cursor, "school"));
+            SpellSchool school = SpellSchool.valueOf(schoolString);
+            schoolTextView.setText(school.getStringResId());
         }
     }
 }
