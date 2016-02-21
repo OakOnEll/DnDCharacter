@@ -9,7 +9,7 @@
             <name>Natural Recover</name>
             <shortDescription>You can regain some of your magical energy by sitting in meditation and communing with nature.
             During a short rest, you choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your druid level (rounded up), and none of the slots can be 6th level or higher. You can't use this feature again until a long rest.</shortDescription>
-            <refreshes>longrest</refreshes>
+            <refreshes>long rest</refreshes>
             <uses>1</uses>
             <context>SHORT_REST</context>
         </feature>

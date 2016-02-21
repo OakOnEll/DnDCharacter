@@ -124,8 +124,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String extensionTypeString = element.getAttribute("extension");
         FeatureExtensionType extensionType = null;
         if (extensionTypeString != null && extensionTypeString.trim().length() > 0) {
-            extensionTypeString = extensionTypeString.toUpperCase();
-            extensionType = FeatureExtensionType.valueOf(extensionTypeString);
+            extensionType = EnumHelper.stringToEnum(extensionTypeString, FeatureExtensionType.class);
             feature.setExtensionType(extensionType);
         }
 
@@ -133,19 +132,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String refreshString = XmlUtils.getElementText(element, "refreshes");
         RefreshType refreshType = null;
         if (refreshString != null) {
-            refreshString = refreshString.toLowerCase();
-            refreshString = refreshString.replaceAll(" ", "");
-            switch (refreshString) {
-                case "rest": // fall through
-                case "shortrest":
-                    refreshType = RefreshType.SHORT_REST;
-                    break;
-                case "longrest":
-                    refreshType = RefreshType.LONG_REST;
-                    break;
-                default:
-                    throw new RuntimeException("Unknown refresh string '" + refreshString + "' on feature " + component.getName() + "." + name);
-            }
+            refreshType = EnumHelper.stringToEnum(refreshString, RefreshType.class);
         }
         final String uses = XmlUtils.getElementText(element, "uses");
         final String pool = XmlUtils.getElementText(element, "pool");
@@ -173,8 +160,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             String actionExtensionTypeString = effectElement.getAttribute("extension");
             FeatureExtensionType actionExtensionType = null;
             if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
-                actionExtensionTypeString = actionExtensionTypeString.toUpperCase();
-                actionExtensionType = FeatureExtensionType.valueOf(actionExtensionTypeString);
+                actionExtensionType = EnumHelper.stringToEnum(actionExtensionTypeString, FeatureExtensionType.class);
                 effect.setExtensionType(actionExtensionType);
             }
 
@@ -218,8 +204,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             String actionExtensionTypeString = element.getAttribute("extension");
             FeatureExtensionType actionExtensionType = null;
             if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
-                actionExtensionTypeString = actionExtensionTypeString.toUpperCase();
-                actionExtensionType = FeatureExtensionType.valueOf(actionExtensionTypeString);
+                actionExtensionType = EnumHelper.stringToEnum(actionExtensionTypeString, FeatureExtensionType.class);
                 action.setExtensionType(actionExtensionType);
             }
 
@@ -283,14 +268,12 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String level = element.getAttribute("level");
         Proficient proficient = Proficient.PROFICIENT;
         if (level != null && level.trim().length() > 0) {
-            proficient = Proficient.valueOf(level.toUpperCase());
+            proficient = EnumHelper.stringToEnum(level, Proficient.class);
         }
 
 
         if (state == AbstractComponentVisitor.VisitState.SKILLS) {
-            skillName = skillName.replaceAll(" ", "_");
-            skillName = skillName.toUpperCase();
-            SkillType type = SkillType.valueOf(SkillType.class, skillName);
+            SkillType type = EnumHelper.stringToEnum(skillName, SkillType.class);
             // TODO handle error
             component.addSkill(type, proficient);
         } else if (state == VisitState.TOOLS || state == VisitState.ARMOR || state == VisitState.WEAPONS) {
@@ -312,9 +295,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 component.addToolProficiency(type, skillName, proficient);
             }
         } else if (state == VisitState.SAVING_THROWS) {
-            skillName = skillName.replaceAll(" ", "_");
-            skillName = skillName.toUpperCase();
-            StatType type = StatType.valueOf(StatType.class, skillName);
+            StatType type = EnumHelper.stringToEnum(skillName, StatType.class);
             // TODO handle error
             component.addSaveThrow(type, proficient);
 
@@ -327,9 +308,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String statName = element.getAttribute("name");
         String amountStr = element.getTextContent();
 
-        statName = statName.replaceAll(" ", "_");
-        statName = statName.toUpperCase();
-        StatType type = StatType.valueOf(StatType.class, statName);
+        StatType type = EnumHelper.stringToEnum(statName, StatType.class);
 
         int amount = Integer.parseInt(amountStr);
 
@@ -366,7 +345,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String speedTypString = element.getAttribute("type");
         SpeedType speedType = SpeedType.WALK;
         if (speedTypString != null && speedTypString.trim().length() > 0) {
-            speedType = SpeedType.valueOf(speedTypString.toUpperCase());
+            speedType = EnumHelper.stringToEnum(speedTypString, SpeedType.class);
         }
         String valueString = element.getTextContent();
         component.setSpeedFormula(speedType, valueString);
@@ -393,8 +372,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 String statString = element.getAttribute("stat");
                 StatType stat = null;
                 if (statString != null && statString.trim().length() > 0) {
-                    statString = statString.toUpperCase();
-                    stat = StatType.valueOf(StatType.class, statString);
+                    stat = EnumHelper.stringToEnum(statString, StatType.class);
                 }
                 for (String each : cantrips) {
                     addSpell(each, stat);
@@ -411,8 +389,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
         StatType stat = null;
         if (statString != null && statString.trim().length() > 0) {
-            statString = statString.toUpperCase();
-            stat = StatType.valueOf(StatType.class, statString);
+            stat = EnumHelper.stringToEnum(statString, StatType.class);
         }
         addSpell(spellName, stat);
     }
@@ -450,8 +427,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 String statString = element.getAttribute("stat");
                 StatType stat = null;
                 if (statString != null && statString.trim().length() > 0) {
-                    statString = statString.toUpperCase();
-                    stat = StatType.valueOf(StatType.class, statString);
+                    stat = EnumHelper.stringToEnum(statString, StatType.class);
                 }
                 for (String each : cantrips) {
                     addCantrip(each, stat);
@@ -468,8 +444,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
         StatType stat = null;
         if (statString != null && statString.trim().length() > 0) {
-            statString = statString.toUpperCase();
-            stat = StatType.valueOf(StatType.class, statString);
+            stat = EnumHelper.stringToEnum(statString, StatType.class);
         }
         addCantrip(cantripName, stat);
     }
@@ -572,11 +547,11 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     String level = element.getAttribute("level");
                     Proficient proficient = Proficient.PROFICIENT;
                     if (level != null && level.trim().length() > 0) {
-                        proficient = Proficient.valueOf(level.toUpperCase());
+                        proficient = EnumHelper.stringToEnum(level, Proficient.class);
                     }
 
                     // TODO how to specify a different proficiency
-                    SkillType type = SkillType.valueOf(selection);
+                    SkillType type = EnumHelper.stringToEnum(selection, SkillType.class);
                     component.addSkill(type, proficient);
                     break;
             }

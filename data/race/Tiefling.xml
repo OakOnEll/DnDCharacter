@@ -39,14 +39,14 @@
         <name>Hellish Rebuke</name>
         <shortDescription>You  can  cast  the  hellish  rebuke  spell  as  a  2nd-level  spell  once  with  this  trait  and  regain  the  ability  to  do  so  when  you  finish  a  long  rest.
 As a reaction in response to being damaged by a creature within 60 feet of you that you can see, you point your finger, and the creature that damaged you is momentarily surrounded by hellish flames. The creature must make a dexterity saving throw against your Charisma ability. It takes 3d10 fire damage on a failed save, and half that on a successful save.</shortDescription>
-        <refreshes>longRest</refreshes>
+        <refreshes>long rest</refreshes>
         <uses>1</uses>
         <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
     </feature>
     <feature applies="level>=5">
         <name>Darkness</name>
         <shortDescription>Magical darkness spreads from a point within a 60 feet range, to fill a 15 foot radius for up to ten minutes, while concentrating.</shortDescription>
-        <refreshes>longRest</refreshes>
+        <refreshes>long rest</refreshes>
         <uses>1</uses>
         <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
     </feature>

@@ -9,6 +9,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -118,7 +119,7 @@ public class Spell extends AbstractComponentModel {
 
             String schoolName = XmlUtils.getElementText(doc, "school");
             schoolName = schoolName.toUpperCase();
-            SpellSchool school = SpellSchool.valueOf(schoolName);
+            SpellSchool school = EnumHelper.stringToEnum(schoolName, SpellSchool.class);
             setSchool(school);
 
             setConcentration("true".equals(XmlUtils.getElementText(doc, "concentration")));

@@ -89,7 +89,7 @@
     <level value="2">
         <feature>
             <name>Channel Divinity</name>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <uses>1</uses>
             <shortDescription>You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.
                 You must then finish a short or long rest to use your Channel Divinity again.</shortDescription>
@@ -233,7 +233,7 @@
     <level value="10">
         <feature>
             <name>Divine Interventions</name>
-            <refreshes>longrest</refreshes>
+            <refreshes>long rest</refreshes>
             <pool>1</pool>
             <shortDescription>You can call on your deity to intervene on your behalf when your need is great.
                 Imploring your deity’s aid requires you to use your action. Describe the assistance you seek, and roll percentile dice. If you roll a number equal to or lower than your cleric level, your deity intervenes. The GM chooses the nature of the intervention; the effect of any cleric spell or cleric domain spell would be appropriate.

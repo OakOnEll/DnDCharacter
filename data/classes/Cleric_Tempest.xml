@@ -11,7 +11,7 @@
         </armor>
         <feature>
             <name>Wrath of the Storm</name>
-            <refreshes>longrest</refreshes>
+            <refreshes>long rest</refreshes>
             <uses>max(wisdomMod, 1)</uses>
             <shortDescription>When a creature within 5 feet of you that you can see hits you with an attack, you can use your reaction to cause the creature to make a Dexterity saving throw. The creature takes 2d8 lightning or thunder damage (your choice) on a failed save, and hals as much damage on a successful one.</shortDescription>
             <context>HIT_POINTS</context>

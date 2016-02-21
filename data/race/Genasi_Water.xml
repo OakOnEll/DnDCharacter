@@ -36,7 +36,7 @@ You either create or destroy water.
             Create Water. You create up to 20 gallons of clean water within range in an open container. Alternatively, the water falls as rain in a 35-foot cube within range, extinguishing exposed flames in the area.
 
             Destroy Water. You destroy up to 20 gallons of water in an open container within range. Alternatively, you destroy fog in a 35-foot cube within range</shortDescription>
-        <refreshes>longRest</refreshes>
+        <refreshes>long rest</refreshes>
         <uses>1</uses>
     </feature>
 </race>

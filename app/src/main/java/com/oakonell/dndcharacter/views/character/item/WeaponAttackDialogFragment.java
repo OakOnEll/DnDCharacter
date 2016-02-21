@@ -21,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
@@ -482,7 +483,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
             for (int i = 0; i < size; i++) {
                 String typeString = in.readString();
                 int value = in.readInt();
-                final DamageType damageType = DamageType.valueOf(typeString);
+                final DamageType damageType = EnumHelper.stringToEnum(typeString, DamageType.class);
                 damages.put(damageType, value);
             }
         }

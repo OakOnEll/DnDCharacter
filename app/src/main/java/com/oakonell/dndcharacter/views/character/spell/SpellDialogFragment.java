@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
@@ -442,7 +443,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
             for (int i = 0; i < size; i++) {
                 String typeString = in.readString();
                 int value = in.readInt();
-                final DamageType damageType = DamageType.valueOf(typeString);
+                final DamageType damageType = EnumHelper.stringToEnum(typeString, DamageType.class);
                 damages.put(damageType, value);
             }
         }

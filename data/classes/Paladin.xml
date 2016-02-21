@@ -121,7 +121,7 @@
         </choose>
         <feature>
             <name>Action Surge</name>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <uses>1</uses>
             <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.            </shortDescription>
             <context>WEAPON_ATTACK</context>

@@ -85,7 +85,7 @@
         <subclass label="Druid Circle" />
         <feature>
             <name>Wild Shape</name>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <uses>2</uses>
             <shortDescription>You can use your action to magically assume the shape of a CR &lt;= 1/4, non-flying, non-swimming beast you have seen before.</shortDescription>
             <effect actionName="Wild Shape">
@@ -384,7 +384,7 @@
         <feature extension="extend">
             <name>Wild Shape</name>
             <extensionDescription>You are an archdruid and can use your wild shape an unlimited number of times.</extensionDescription>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <uses>0</uses>
             <context/>
         </feature>

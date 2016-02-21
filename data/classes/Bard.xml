@@ -78,7 +78,7 @@
 
         <feature>
             <name>Bardic Inspiration</name>
-            <refreshes>longrest</refreshes>
+            <refreshes>long rest</refreshes>
             <uses>max(charismaMod, 1)</uses>
             <shortDescription>As a bonus action, you can inspire another creature within 60 feet of you that can hear you. They gain a Badric Inspiration die, a d6.
             Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait till after it rolls the d20 before deciding to use the Inspiration die, but must decide before the DM says whether the roll succeeds or fails. A creature can have only one Bardic Inspriation die at a time.</shortDescription>
@@ -111,7 +111,7 @@
     <level value="5">
         <feature extension="extend">
             <name>Bardic Inspiration</name>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <extensionDescription>The Bardic Inspiration die changes to a d8.</extensionDescription>
             <shortDescription>As a bonus action, you can inspire another creature within 60 feet of you that can hear you. They gain a Bardic Inspiration die, a d8.
                 Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait till after it rolls the d20 before deciding to use the Inspiration die, but must decide before the DM says whether the roll succeeds or fails. A creature can have only one Bardic Inspriation die at a time.</shortDescription>

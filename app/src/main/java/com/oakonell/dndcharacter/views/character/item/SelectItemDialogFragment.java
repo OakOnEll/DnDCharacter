@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
@@ -75,7 +76,7 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
         if (getArguments() != null) {
             String itemTypeString = getArguments().getString(ITEM_TYPE);
             if (itemTypeString != null && itemTypeString.trim().length() > 0) {
-                itemType = ItemType.valueOf(itemTypeString);
+                itemType = EnumHelper.stringToEnum(itemTypeString, ItemType.class);
             }
         }
 
@@ -190,7 +191,7 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
             final String rawItemTypeString = cursor.getString(cursorIndexesByName.getIndex(cursor, "itemType"));
             final String category = cursor.getString(cursorIndexesByName.getIndex(cursor, "category"));
             final String cost = cursor.getString(cursorIndexesByName.getIndex(cursor, "cost"));
-            ItemType type = ItemType.valueOf(rawItemTypeString);
+            ItemType type = EnumHelper.stringToEnum(rawItemTypeString, ItemType.class);
             String typeString = context.getString(type.getStringResId());
 
             if (SelectItemDialogFragment.this.itemType != null) {
@@ -210,6 +211,7 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
         DefaultAddItemListener(CharacterActivity activity) {
             this.activity = activity;
         }
+
         @Override
         public boolean itemSelected(long id) {
             ItemRow itemRow = ItemRow.load(ItemRow.class, id);

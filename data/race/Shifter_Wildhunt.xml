@@ -9,7 +9,7 @@
             While shifting, you gain temporary hit points equal to your level + your Constitution bonus (minimum of 1).
             While shifting, you gain advantage on all Wisdom-based checks and saving throws.
             You must finish a short or long rest before you can shift again.</shortDescription>
-        <refreshes>shortRest</refreshes>
+        <refreshes>short rest</refreshes>
         <uses>1</uses>
         <effect actionName="Shift">
             <name>Shifted</name>

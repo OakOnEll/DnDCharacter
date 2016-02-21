@@ -6,7 +6,7 @@
         <feature>
             <name>Tides of Chaos</name>
             <uses>1</uses>
-            <refreshes>longRest</refreshes>
+            <refreshes>long rest</refreshes>
             <shortDescription>Once per rest, you can manipulate the forces of chance and chaos to gain advantage on one attack roll, ability check, or saving throw. A Wild Magic Surge will result during some future spell casting. </shortDescription>
             <context>WEAPON_ATTACK,SKILL_ROLL,SAVING_THROW</context>
             <effect actionName="Use">

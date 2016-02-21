@@ -7,7 +7,7 @@
         <feature>
             <name>Combat Superiority</name>
             <uses>4</uses>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <shortDescription>You have learned a set of special maneuvers that can be used to enhance an attack in some way. You have a set of d8 superiority dice to apply towards maneuvers.</shortDescription>
             <choose name="maneuvers" num="3" title="Choose 3 Maneuvers">
                 <or name="commander_strike">

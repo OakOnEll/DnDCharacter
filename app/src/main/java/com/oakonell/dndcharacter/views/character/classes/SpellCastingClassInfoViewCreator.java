@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
@@ -144,15 +146,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
                     if (each.getTextContent() == null || each.getTextContent().trim().length() == 0) {
                         ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpell" + i, 1, 1));
                         String schoolsString = each.getAttribute("schools");
-                        List<SpellSchool> schools = null;
-                        if (schoolsString != null && schoolsString.trim().length() > 0) {
-                            String[] schoolsStrings = schoolsString.split(",");
-                            for (String schoolString : schoolsStrings) {
-                                if (schoolsString.trim().length() == 0) continue;
-                                if (schools == null) schools = new ArrayList<>();
-                                schools.add(SpellSchool.valueOf(schoolString.toUpperCase()));
-                            }
-                        }
+                        List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
                         visitSpellSearchChoices(casterClassName, maxLevel, 1, schools);
                         popChooseMD(oldChooseMD);
                     } else {

@@ -34,7 +34,7 @@
     <feature>
         <name>Relentless Endurance</name>
         <shortDescription>When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can’t use this feature again until you finish a long rest.</shortDescription>
-        <refreshes>longRest</refreshes>
+        <refreshes>long rest</refreshes>
         <uses>1</uses>
         <context>HIT_POINTS</context>
         <description></description>

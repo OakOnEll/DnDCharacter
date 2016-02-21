@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
@@ -169,9 +170,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
     @Override
     protected void visitSpellCastingStat(@NonNull Element element) {
         String statName = element.getTextContent();
-        statName = statName.replaceAll(" ", "_");
-        statName = statName.toUpperCase();
-        StatType stat = StatType.valueOf(StatType.class, statName);
+        StatType stat = EnumHelper.stringToEnum(statName, StatType.class);
         // TODO handle error
         charClass.setCasterStat(stat);
     }
@@ -214,19 +213,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             String refreshString = XmlUtils.getElementText(slotsElem, "refreshes");
             RefreshType refreshType = null;
             if (refreshString != null) {
-                refreshString = refreshString.toLowerCase();
-                refreshString = refreshString.replaceAll(" ", "");
-                switch (refreshString) {
-                    case "rest": // fall through
-                    case "shortrest":
-                        refreshType = RefreshType.SHORT_REST;
-                        break;
-                    case "longrest":
-                        refreshType = RefreshType.LONG_REST;
-                        break;
-                    default:
-                        throw new RuntimeException("Unknown refresh string '" + refreshString + "' on class " + charClass.getName() + ", spell slots");
-                }
+                refreshType = EnumHelper.stringToEnum(refreshString, RefreshType.class);
                 charClass.setSpellSlotRefresh(refreshType);
             }
         }

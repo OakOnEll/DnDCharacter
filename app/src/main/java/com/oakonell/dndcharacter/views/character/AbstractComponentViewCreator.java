@@ -23,6 +23,7 @@ import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
 import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
@@ -136,8 +137,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         String extensionTypeString = element.getAttribute("extension");
         FeatureExtensionType extensionType = null;
         if (extensionTypeString != null && extensionTypeString.trim().length() > 0) {
-            extensionTypeString = extensionTypeString.toUpperCase();
-            extensionType = FeatureExtensionType.valueOf(extensionTypeString);
+            extensionType = EnumHelper.stringToEnum(extensionTypeString, FeatureExtensionType.class);
         }
 
         if (extensionType != null) {
@@ -267,9 +267,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         } else {
             if (state == AbstractComponentVisitor.VisitState.SKILLS) {
                 String skillName = element.getTextContent();
-                skillName = skillName.replaceAll(" ", "_");
-                skillName = skillName.toUpperCase();
-                SkillType type = SkillType.valueOf(SkillType.class, skillName);
+                SkillType type = EnumHelper.stringToEnum(skillName, SkillType.class);
 
                 List<Character.ProficientWithSource> proficientWithSources = getCharacter().deriveSkillProciencies(type);
                 if (proficientWithSources.isEmpty()) {
@@ -417,7 +415,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         String speedTypString = element.getAttribute("type");
         SpeedType speedType = SpeedType.WALK;
         if (speedTypString != null && speedTypString.trim().length() > 0) {
-            speedType = SpeedType.valueOf(speedTypString.toUpperCase());
+            speedType = EnumHelper.stringToEnum(speedTypString, SpeedType.class);
         }
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
@@ -541,7 +539,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         String level = element.getAttribute("level");
         Proficient proficient = Proficient.PROFICIENT;
         if (level != null && level.trim().length() > 0) {
-            proficient = Proficient.valueOf(level.toUpperCase());
+            proficient = EnumHelper.stringToEnum(level, Proficient.class);
         }
 
         final List<SkillType> list = new ArrayList<>();
@@ -594,9 +592,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
             @Override
             public SkillType fromSavedString(String skillName) {
-                skillName = skillName.replaceAll(" ", "_");
-                skillName = skillName.toUpperCase();
-                SkillType type = SkillType.valueOf(SkillType.class, skillName);
+                SkillType type = EnumHelper.stringToEnum(skillName, SkillType.class);
                 return type;
             }
         };

@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
@@ -114,11 +115,11 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
         final List<String> schoolNames = getArguments().getStringArrayList(SCHOOLS);
         if (schoolNames != null) {
-            schoolsFilter = new ArrayList<SpellSchool>();
+            schoolsFilter = new ArrayList<>();
             StringBuilder namesList = new StringBuilder();
             boolean isFirst = true;
             for (String each : schoolNames) {
-                SpellSchool spellSchool = SpellSchool.valueOf(each);
+                SpellSchool spellSchool = EnumHelper.stringToEnum(each, SpellSchool.class);
                 schoolsFilter.add(spellSchool);
                 if (!isFirst) {
                     namesList.append(", ");
@@ -342,7 +343,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             levelTextView.setText(levelString);
 
             final String schoolString = cursor.getString(cursorIndexesByName.getIndex(cursor, "school"));
-            SpellSchool school = SpellSchool.valueOf(schoolString);
+            SpellSchool school = EnumHelper.stringToEnum(schoolString, SpellSchool.class);
             schoolTextView.setText(school.getStringResId());
         }
     }

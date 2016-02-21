@@ -21,7 +21,7 @@
 
     <feature applies="level>=3">
         <name>Enlarge/Reduce</name>
-        <refreshes>longRest</refreshes>
+        <refreshes>long rest</refreshes>
         <shortDescription>You can cast Enlarge/Reduce on yourself with the intelligence spellcasting ability once per long rest.
 Everything you are wearing and carrying changes size with you. Any item dropped returns to normal size at once.</shortDescription>
             <effect actionName="Enlarge">
@@ -39,7 +39,7 @@ Everything you are wearing and carrying changes size with you. Any item dropped 
 
     <feature applies="level>=5">
         <name>Invisibility</name>
-        <refreshes>longRest</refreshes>
+        <refreshes>long rest</refreshes>
         <shortDescription>You can cast Invisibility on yourself with the intelligence spellcasting ability once per long rest.</shortDescription>
         <effect actionName="Cast">
             <name>Invisible</name>

@@ -21,7 +21,7 @@
         <shortDescription>You can focus yourself to occasionally shrug off injury. When you take damage, you can use your reaction to roll a d12. Add your Constitution modifier to the number rolled, and reduce the damage by that total. After you use this trait, you can’t use it again until you finish a short or long rest.</shortDescription>
         <description></description>
         <uses>1</uses>
-        <refreshes>longRest</refreshes>
+        <refreshes>long rest</refreshes>
         <context>HIT_POINTS</context>
     </feature>
     <feature>

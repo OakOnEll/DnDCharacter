@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
@@ -82,7 +83,7 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
             levelTextView.setText(levelString);
 
             final String schoolString = cursor.getString(cursorIndexesByName.getIndex(cursor, "school"));
-            SpellSchool school = SpellSchool.valueOf(schoolString);
+            SpellSchool school = EnumHelper.stringToEnum(schoolString, SpellSchool.class);
             schoolTextView.setText(school.getStringResId());
 
         }

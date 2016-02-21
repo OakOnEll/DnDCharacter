@@ -351,11 +351,11 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         super.onCharacterChanged(character);
         // pull current values from the character, and display
         statsType = character.getStatsType();
+        if (statsType == null) statsType = BaseStatsType.SIMPLE;
         stat_type.setSelection(statsTypes.indexOf(statsType));
 
         Map<StatType, Integer> stats = character.getBaseStats();
 
-        if (statsType == null) statsType = BaseStatsType.SIMPLE;
         switch (statsType) {
             case CUSTOM: {
                 int i = 0;

@@ -11,7 +11,7 @@
         </armor>
         <feature>
             <name>War Priest</name>
-            <refreshes>longrest</refreshes>
+            <refreshes>long rest</refreshes>
             <uses>max(wisdomMod, 1)</uses>
             <shortDescription>When you use the Attack action, you can make one weapon attack as a bonus action.</shortDescription>
             <context>WEAPON_ATTACK</context>

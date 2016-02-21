@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -79,10 +80,10 @@ public class ItemRow extends AbstractComponentModel {
                 throw new RuntimeException("Item has no itemType set!");
             }
             cost = XmlUtils.getElementText(doc, "cost");
-            type = ItemType.valueOf(itemTypeString.toUpperCase());
+            type = EnumHelper.stringToEnum(itemTypeString, ItemType.class);
         }
         setCategory(category);
         setItemType(type);
-        this.cost  = cost;
+        this.cost = cost;
     }
 }

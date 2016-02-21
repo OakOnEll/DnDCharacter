@@ -47,7 +47,7 @@
     <level value="1">
         <feature>
             <name>Rage</name>
-            <refreshes>longRest</refreshes>
+            <refreshes>long rest</refreshes>
             <uses>2</uses>
             <shortDescription>On your turn, you can use a bonus action to rage.</shortDescription>
             <effect actionName="Rage">

@@ -92,7 +92,7 @@
         </spells>
         <feature>
             <name>Font of Magic</name>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <pool>2</pool>
             <shortDescription>You have sorcery points representing a deep wellspring of magic within yourself.</shortDescription>
             <context></context>
@@ -111,7 +111,7 @@
         </spells>
         <feature>
             <name>Metamagic</name>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <pool>2</pool>
             <shortDescription>You can choose a metamagic option to apply to spells cast.</shortDescription>
             <context></context>

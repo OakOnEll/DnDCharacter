@@ -10,7 +10,7 @@
             While shifting, you can make a bite attack as an action. This is a melee weapon attack that uses Strength for its attack roll and damage bonus and deals 1d6 piercing damage.
             If this attack hits a target that is your size or smaller, the target is also grappled.
             You must finish a short or long rest before you can shift again.</shortDescription>
-        <refreshes>shortRest</refreshes>
+        <refreshes>short rest</refreshes>
         <uses>1</uses>
         <effect actionName="Shift">
             <name>Shifted</name>

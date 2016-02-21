@@ -29,7 +29,7 @@
                 <!-- TODO suport damage on features -->
                 <name>Acid Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 acid damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>
@@ -46,7 +46,7 @@
             <feature>
                 <name>Lightning Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 lightning damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>
@@ -63,7 +63,7 @@
             <feature>
                 <name>Fire Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 fire damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>
@@ -80,7 +80,7 @@
             <feature>
                 <name>Lightning Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 lightning damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>
@@ -97,7 +97,7 @@
             <feature>
                 <name>Acid Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 5 by 30 ft. line must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 acid damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>
@@ -114,7 +114,7 @@
             <feature>
                 <name>Fire Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 fire damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>
@@ -131,7 +131,7 @@
             <feature>
                 <name>Poison Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Constitution Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 poison damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>
@@ -148,7 +148,7 @@
             <feature>
                 <name>Fire Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Dexterity Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 fire damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>
@@ -165,7 +165,7 @@
             <feature>
                 <name>Cold Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Constitution Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 cold damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>
@@ -182,7 +182,7 @@
             <feature>
                 <name>Cold Breath Weapon</name>
                 <shortDescription>You can use your action to exhale destructive energy. When you use your breath weapon, each creature in 15 ft. cone must make a Constitution Saving throw of 8 + constitution modifier + proficiency. A creature takes 2d6 cold damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level</shortDescription>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature>

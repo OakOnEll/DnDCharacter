@@ -57,15 +57,15 @@
         <spells>
             <known>2</known>
             <slots>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <level value="1">1</level>
             </slots>
         </spells>
         <armor>
-            <proficiency category="light armor"></proficiency>
+            <proficiency category="light armor"/>
         </armor>
         <weapons>
-            <proficiency category="simple weapons"></proficiency>
+            <proficiency category="simple weapons"/>
         </weapons>
     </level>
     <level value="2">
@@ -75,7 +75,7 @@
         <spells>
             <known>3</known>
             <slots>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <level value="1">2</level>
             </slots>
         </spells>
@@ -87,7 +87,7 @@
         <spells>
             <known>4</known>
             <slots>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <level value="2">2</level>
             </slots>
         </spells>
@@ -99,7 +99,7 @@
         <spells>
             <known>5</known>
             <slots>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <level value="2">2</level>
             </slots>
         </spells>
@@ -111,7 +111,7 @@
         <spells>
             <known>6</known>
             <slots>
-                <refreshes>shortRest</refreshes>
+                <refreshes>short rest</refreshes>
                 <level value="3">2</level>
             </slots>
         </spells>

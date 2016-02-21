@@ -19,7 +19,7 @@
         <name>Fey Step</name>
         <shortDescription>You can cast Misty Step once per rest with this trait.
 As a bonus action, Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space that you can see.</shortDescription>
-        <refreshes>shortRest</refreshes>
+        <refreshes>short rest</refreshes>
         <uses>1</uses>
         <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
     </feature>

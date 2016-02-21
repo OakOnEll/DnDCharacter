@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
@@ -40,9 +41,7 @@ public class ApplyAbilityScoreImprovement extends ApplyChangesToGenericComponent
                 increase = 1;
             }
             for (String statName : statNames) {
-                statName = statName.replaceAll(" ", "_");
-                statName = statName.toUpperCase();
-                StatType type = StatType.valueOf(StatType.class, statName);
+                StatType type = EnumHelper.stringToEnum(statName, StatType.class);
 
                 getComponent().addModifier(type, increase);
             }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.utils.XmlUtils;
@@ -47,7 +48,7 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
         if (typeString == null) {
             throw new RuntimeException("Weapon damage has no damage type!");
         }
-        DamageType type = DamageType.valueOf(typeString.substring(0, 1).toUpperCase() + typeString.substring(1).toLowerCase());
+        DamageType type = EnumHelper.stringToEnum(typeString, DamageType.class);
         weapon.addDamage(amount, type);
     }
 
@@ -58,7 +59,7 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
         if (typeString == null) {
             throw new RuntimeException("Weapon versatile damage has no damage type!");
         }
-        DamageType type = DamageType.valueOf(typeString.substring(0, 1).toUpperCase() + typeString.substring(1).toLowerCase());
+        DamageType type = EnumHelper.stringToEnum(typeString, DamageType.class);
         weapon.addVersatileDamage(amount, type);
     }
 

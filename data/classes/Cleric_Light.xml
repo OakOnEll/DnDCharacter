@@ -8,7 +8,7 @@
         </cantrips>
         <feature >
             <name>Warding Flare</name>
-            <refreshes>longrest</refreshes>
+            <refreshes>long rest</refreshes>
             <uses>max(1, wisdomMod)</uses>
             <shortDescription>You can interpose divine light between yourself and an attacking enemy.
                 When you are attacked by a creature within 30 feet of you that you can see, you can use your reaction to impose a disadvantage on the attack roll, causing light to flare before the attacker before it hits or misses. An attacker that can't be blinded is immune to this feature.

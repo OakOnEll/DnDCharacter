@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.model.character;
 
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
@@ -53,7 +54,7 @@ public abstract class AbstractContextualComponent extends BaseCharacterComponent
         String contextName = argMatcher.group(1);
         String argument = argMatcher.group(3);
 
-        FeatureContext context = FeatureContext.valueOf(contextName.toUpperCase());
+        FeatureContext context = EnumHelper.stringToEnum(contextName, FeatureContext.class);
         return new FeatureContextArgument(context, argument);
     }
 }

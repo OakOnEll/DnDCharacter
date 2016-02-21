@@ -63,7 +63,7 @@
     <level value="1">
         <feature>
             <name>Second Wind</name>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <uses>1</uses>
             <!-- <action>hp += 1d10 + classLevel</action> -->
             <shortDescription>On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.</shortDescription>
@@ -100,7 +100,7 @@
     <level value="2">
         <feature>
             <name>Action Surge</name>
-            <refreshes>rest</refreshes>
+            <refreshes>short rest</refreshes>
             <uses>1</uses>
             <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.</shortDescription>
             <context>WEAPON_ATTACK</context>

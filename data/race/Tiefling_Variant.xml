@@ -44,14 +44,14 @@
                 <name>Hellish Rebuke</name>
                 <shortDescription>You  can  cast  the  hellish  rebuke  spell  as  a  2nd-level  spell  once  with  this  trait  and  regain  the  ability  to  do  so  when  you  finish  a  long  rest.
 As a reaction in response to being damaged by a creature within 60 feet of you that you can see, you point your finger, and the creature that damaged you is momentarily surrounded by hellish flames. The creature must make a dexterity saving throw against your Charisma ability. It takes 3d10 fire damage on a failed save, and half that on a successful save.</shortDescription>
-                <refreshes>longRest</refreshes>
+                <refreshes>long rest</refreshes>
                 <uses>1</uses>
                 <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
             </feature>
             <feature applies="level>=5">
                 <name>Darkness</name>
                 <shortDescription>Magical darkness spreads from a point within a 60 feet range, to fill a 15 foot radius for up to ten minutes, while concentrating.</shortDescription>
-                <refreshes>longRest</refreshes>
+                <refreshes>long rest</refreshes>
                 <uses>1</uses>
                 <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
             </feature>
@@ -64,7 +64,7 @@ As a reaction in response to being damaged by a creature within 60 feet of you t
                 <name>Charm Person</name>
                 <shortDescription>You can cast the Charm Person spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest.
 You attempt to charm a 2 humanoids you can see within range, and within 30 feet of each other. They must make a Wisdom saving throw, and do so with advantage if you or your companions are fighting it. For each that fails the saving throw, it is charmed by you until the spell ends within 1 hour or until you or your companions do anything harmful to it. The charmed creature regards you as a friendly acquaintance. When the spell ends, the creature knows it was charmed by you.</shortDescription>
-                <refreshes>longRest</refreshes>
+                <refreshes>long rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature applies="level>=5">
@@ -72,7 +72,7 @@ You attempt to charm a 2 humanoids you can see within range, and within 30 feet 
                 <shortDescription>You can cast the Enthrall spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest.
 You weave a distracting string of words, causing creatures of your choice that you can see within range and that can hear you to make a Wisdom saving throw. Any creature that can’t be charmed succeeds on this saving throw automatically, and if you or your companions are fighting a creature, it has advantage on the save. On a failed save, the target has disadvantage on Wisdom (Perception) checks made to perceive any creature other than you until the spell ends or until the target can no longer hear you. The spell ends if you are incapacitated or can no longer speak.
                     </shortDescription>
-                <refreshes>longRest</refreshes>
+                <refreshes>long rest</refreshes>
                 <uses>1</uses>
             </feature>
         </or>
@@ -84,13 +84,13 @@ You weave a distracting string of words, causing creatures of your choice that y
                 <name>Burning Hands</name>
                 <shortDescription>You can cast Burning Hands at second level with Charisma spellcasting ability once per long rest.
 As you hold your hands with thumbs touching and fingers spread, a thin sheet of flames shoots forth from your outstretched fingertips. Each creature in a 15-foot cone must make a Dexterity saving throw. A creature takes 4d6 fire damage on a failed save, or half as much damage on a successful one. The fire ignites any flammable objects in the area that aren’t being worn or carried.</shortDescription>
-                <refreshes>longRest</refreshes>
+                <refreshes>long rest</refreshes>
                 <uses>1</uses>
             </feature>
             <feature applies="level>=5">
                 <name>Darkness</name>
                 <shortDescription>Magical darkness spreads from a point within a 60 feet range, to fill a 15 foot radius for up to ten minutes, while concentrating.</shortDescription>
-                <refreshes>longRest</refreshes>
+                <refreshes>long rest</refreshes>
                 <uses>1</uses>
             </feature>
         </or>
