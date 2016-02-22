@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character.spell;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +36,6 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
     public static final String CASTER_CLASSES = "casterClasses";
     public static final String CANTRIPS = "cantrips";
-    private static final String MAX_LEVEL = "maxLevel";
     private static final String SCHOOLS = "schools";
 
     private NoDefaultSpinner classNameSpinner;
@@ -54,10 +55,20 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
     // Will use the current character's classes/caster classes to filter
     @NonNull
-    public static SelectSpellDialogFragment createDialog(boolean cantrips, SpellSelectedListener listener) {
+    public static SelectSpellDialogFragment createDialog(Character character, boolean cantrips, SpellSelectedListener listener) {
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
         args.putBoolean(CANTRIPS, cantrips);
+
+        ArrayList<ClassChoice> classChoices = new ArrayList<>();
+        Collection<Character.CastingClassInfo> casterClassInfos = character.getCasterClassInfo();
+        for (Character.CastingClassInfo each : casterClassInfos) {
+            String owningClassName = each.getOwningClassName();
+            String casterClassName = each.getCasterClassName();
+            classChoices.add(new ClassChoice(owningClassName, casterClassName, each.getMaxSpellLevel()));
+        }
+        args.putParcelableArrayList(CASTER_CLASSES, classChoices);
+
         dialog.setArguments(args);
         dialog.setListener(listener);
         return dialog;
@@ -68,9 +79,9 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, List<SpellSchool> schools, SpellSelectedListener listener) {
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
-        ArrayList<String> casterClasses = new ArrayList<>();
-        casterClasses.add(casterClass);
-        args.putStringArrayList(CASTER_CLASSES, casterClasses);
+        ArrayList<ClassChoice> classChoices = new ArrayList<>();
+        classChoices.add(new ClassChoice(casterClass, casterClass, maxLevel));
+        args.putParcelableArrayList(CASTER_CLASSES, classChoices);
         if (schools != null && !schools.isEmpty()) {
             ArrayList<String> schoolNames = new ArrayList<>();
             for (SpellSchool each : schools) {
@@ -78,23 +89,33 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             }
             args.putStringArrayList(SCHOOLS, schoolNames);
         }
-        args.putBoolean(CANTRIPS, false);
-        args.putInt(MAX_LEVEL, maxLevel);
+        args.putBoolean(CANTRIPS, maxLevel == 0);
+
         dialog.setArguments(args);
         dialog.setListener(listener);
         return dialog;
     }
 
-    @NonNull
-    public static SelectSpellDialogFragment createDialog(@NonNull Collection<String> casterClasses, boolean cantrips, SpellSelectedListener listener) {
-        SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
-        Bundle args = new Bundle();
-        args.putStringArrayList(CASTER_CLASSES, new ArrayList<>(casterClasses));
-        args.putBoolean(CANTRIPS, cantrips);
-        dialog.setArguments(args);
-        dialog.setListener(listener);
-        return dialog;
-    }
+//    @NonNull
+//    public static SelectSpellDialogFragment createDialog(@NonNull Character character, @NonNull Collection<String> casterClasses, boolean cantrips, SpellSelectedListener listener) {
+//        SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
+//        Bundle args = new Bundle();
+//        ArrayList<ClassChoice> classChoices = new ArrayList<>();
+//        Collection<Character.CastingClassInfo> casterClassInfos = character.getCasterClassInfo();
+//        // will this get the correct up-to-date info?
+//        for (Character.CastingClassInfo each : casterClassInfos) {
+//            if (casterClasses.contains(each.getCasterClassName())) {
+//                classChoices.add(new ClassChoice(each.getOwningClassName(), each., maxLevel));
+//            }
+//        }
+//        args.putParcelableArrayList(CASTER_CLASSES, classChoices);
+//
+//
+//        args.putBoolean(CANTRIPS, cantrips);
+//        dialog.setArguments(args);
+//        dialog.setListener(listener);
+//        return dialog;
+//    }
 
     @Override
     public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,9 +130,9 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         classNameSpinner.setMinimumWidth((int) minWidth);
 
 
-        final List<String> casterClasses = getArguments().getStringArrayList(CASTER_CLASSES);
+        List<ClassChoice> classChoices = getArguments().getParcelableArrayList(CASTER_CLASSES);
         cantrips = getArguments().getBoolean(CANTRIPS);
-        int maxLevel = getArguments().getInt(MAX_LEVEL, -1);
+
 
         final List<String> schoolNames = getArguments().getStringArrayList(SCHOOLS);
         if (schoolNames != null) {
@@ -139,20 +160,6 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             view.findViewById(R.id.max_spell_level_group).setVisibility(View.GONE);
         }
 
-        List<ClassChoice> classChoices = new ArrayList<>();
-        if (casterClasses == null) {
-            Collection<Character.CastingClassInfo> casterClassInfos = getCharacter().getCasterClassInfo();
-            for (Character.CastingClassInfo each : casterClassInfos) {
-                String owningClassName = each.getOwningClassName();
-                String casterClassName = each.getCasterClassName();
-                classChoices.add(new ClassChoice(owningClassName, casterClassName));
-            }
-        } else {
-            for (String each : casterClasses) {
-                classChoices.add(new ClassChoice(each, each));
-            }
-        }
-
         ArrayAdapter<ClassChoice> dataAdapter = new ArrayAdapter<>(getContext(),
                 R.layout.large_spinner_text, classChoices);
         dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
@@ -161,29 +168,14 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         if (classChoices.size() == 1) {
             classNameSpinner.setSelection(0);
             classNameSpinner.setEnabled(false);
-            if (maxLevel < 0) {
-                final String className = ((ClassChoice) classNameSpinner.getSelectedItem()).ownerClass;
-                final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfoFor(className);
-                if (castingClassInfo != null) {
-                    max_spell_level.setText(NumberUtils.formatNumber(castingClassInfo.getMaxSpellLevel()));
-                } else {
-                    max_spell_level.setText("?");
-                }
-            } else {
-                max_spell_level.setText(NumberUtils.formatNumber(maxLevel));
-            }
+            ClassChoice selectedItem = (ClassChoice) classNameSpinner.getSelectedItem();
+            max_spell_level.setText(NumberUtils.formatNumber(selectedItem.maxLevel));
         } else {
             classNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    final String className = ((ClassChoice) classNameSpinner.getSelectedItem()).ownerClass;
-                    final Character.CastingClassInfo castingClassInfo = getCharacter().getCasterClassInfoFor(className);
-                    if (castingClassInfo != null) {
-                        max_spell_level.setText(NumberUtils.formatNumber(castingClassInfo.getMaxSpellLevel()));
-                    } else {
-                        max_spell_level.setText("?");
-                    }
-
+                    final ClassChoice selectedItem = (ClassChoice) classNameSpinner.getSelectedItem();
+                    max_spell_level.setText(NumberUtils.formatNumber(selectedItem.maxLevel));
                     search();
                 }
 
@@ -193,20 +185,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
                 }
             });
         }
-//        final List<SpellClass> list = new Select()
-//                .from(SpellClass.class).orderBy("spell, aClass").execute();
-//        for (SpellClass each : list) {
-//            Spell spell = each.getSpell();
-//            String name = spell == null ? "null" : spell.getName();
-//            Log.i("SpellDialog", "'" + name + "': '" + each.getAClass() + "'");
-//        }
-//
-//        final List<Spell> list1 = new Select().from(Spell.class).where("exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?)", "WARLOCK").execute();
-//        for (Spell each : list1) {
-//            Log.i("SpellDialog", each.getName());
-//        }
 
-        //Toast.makeText(getContext(), "Found spell " + spell.getLevel(), Toast.LENGTH_SHORT).show();
         search();
         return view;
     }
@@ -292,19 +271,54 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         throw new RuntimeException("No Listener!");
     }
 
-    static class ClassChoice {
+    static class ClassChoice implements Parcelable {
         final String ownerClass;
         final String casterClass;
+        final int maxLevel;
 
-        public ClassChoice(String owningClassName, String casterClassName) {
+
+        public static final Creator<ClassChoice> CREATOR = new Creator<ClassChoice>() {
+            @NonNull
+            @Override
+            public ClassChoice createFromParcel(@NonNull Parcel in) {
+                return new ClassChoice(in);
+            }
+
+            @NonNull
+            @Override
+            public ClassChoice[] newArray(int size) {
+                return new ClassChoice[size];
+            }
+        };
+
+        public ClassChoice(String owningClassName, String casterClassName, int maxLevel) {
             this.ownerClass = owningClassName;
             this.casterClass = casterClassName;
+            this.maxLevel = maxLevel;
+        }
+
+        public ClassChoice(Parcel in) {
+            ownerClass = in.readString();
+            casterClass = in.readString();
+            maxLevel = in.readInt();
         }
 
         @Override
         public String toString() {
             if (casterClass == null || casterClass.equals(ownerClass)) return ownerClass;
             return ownerClass + "(" + casterClass + ")";
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(ownerClass);
+            dest.writeString(casterClass);
+            dest.writeInt(maxLevel);
         }
     }
 

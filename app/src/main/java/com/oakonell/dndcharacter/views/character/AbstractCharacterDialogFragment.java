@@ -29,80 +29,24 @@ import hugo.weaving.DebugLog;
 /**
  * Created by Rob on 12/24/2015.
  */
-public abstract class AbstractCharacterDialogFragment extends AppCompatDialogFragment implements OnCharacterLoaded, CharacterChangedListener {
+public abstract class AbstractCharacterDialogFragment extends AbstractDialogFragment implements OnCharacterLoaded, CharacterChangedListener {
     private RecyclerView context_list;
 
-    private Button done;
     private ContextualComponentAdapter contextualComponentAdapter;
     private ViewGroup context_group;
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = onCreateTheView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         context_list = (RecyclerView) view.findViewById(R.id.context_list);
         context_group = (ViewGroup) view.findViewById(R.id.context_group);
 
-        done = (Button) view.findViewById(R.id.done);
-        if (done != null) {
-            done.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    boolean valid = onDone();
-                    if (!valid) return;
-
-                    if (contextualComponentAdapter != null) {
-                        contextualComponentAdapter.deletePendingEffects(getCharacter());
-                    }
-
-                    getMainActivity().updateViews();
-                    getMainActivity().saveCharacter();
-                    dismiss();
-                }
-            });
-        }
-        Button cancel = (Button) view.findViewById(R.id.cancel);
-        if (cancel != null) {
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getDialog().dismiss();
-                }
-            });
-        }
-        setCancelable(isCancelable(cancel != null));
-
-
-        if (getDialog() != null) {
-            getDialog().setTitle(getTitle());
-        }
 
         getMainActivity().addCharacterLoadLister(this);
 
         return view;
     }
-
-    @Nullable
-    protected abstract String getTitle();
-
-    protected void hideKeyboardFrom(@NonNull TextView v) {
-        InputMethodManager in = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        in.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    protected boolean isCancelable(boolean hasCancelButton) {
-        return !hasCancelButton;
-    }
-
-    protected void enableDone(boolean enabled) {
-        if (done != null) {
-            done.setEnabled(enabled);
-        }
-    }
-
-
-    @Nullable
-    protected abstract View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
 
     @NonNull

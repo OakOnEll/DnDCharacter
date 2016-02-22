@@ -97,14 +97,14 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
         add_cantrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(true, SpellsFragment.this);
+                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(getCharacter(), true, SpellsFragment.this);
                 frag.show(getFragmentManager(), ADD_CANTRIP_DIALOG);
             }
         });
         add_spell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(false, SpellsFragment.this);
+                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(getCharacter(), false, SpellsFragment.this);
                 frag.show(getFragmentManager(), ADD_SPELL_DIALOG);
             }
         });

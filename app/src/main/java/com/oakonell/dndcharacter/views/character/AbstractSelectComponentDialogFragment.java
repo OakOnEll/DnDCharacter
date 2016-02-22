@@ -30,28 +30,29 @@ import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Rob on 1/24/2016.
  */
-public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSelectComponentDialogFragment.RowViewHolder> extends AbstractCharacterDialogFragment {
+public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSelectComponentDialogFragment.RowViewHolder> extends AbstractDialogFragment {
     private RecyclerView listView;
     private ComponentListAdapter<V> adapter;
     private int loaderId;
     @Nullable
     private LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks;
-    private boolean searchWhenCharacterAvailable;
 
 
     @Override
     protected abstract String getTitle();
 
-    @Override
-    public void onCharacterLoaded(com.oakonell.dndcharacter.model.character.Character character) {
-        super.onCharacterLoaded(character);
-        if (searchWhenCharacterAvailable) {
-            search();
-        }
-    }
+//    @Override
+//    public void onCharacterLoaded(com.oakonell.dndcharacter.model.character.Character character) {
+//        super.onCharacterLoaded(character);
+//        if (searchWhenCharacterAvailable) {
+//            search();
+//        }
+//    }
 
     @Override
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -72,11 +73,14 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
         final EditText searchTerms = (EditText) view.findViewById(R.id.search_terms);
 
         loaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
+            long start;
+
             @NonNull
             @Override
             public Loader<Cursor> onCreateLoader(int theLoaderId, @Nullable Bundle cursor) {
                 loaderId = theLoaderId;
                 Toast.makeText(getActivity(), "Loader created- cursor " + (cursor == null ? "is null!" : " bundled"), Toast.LENGTH_SHORT).show();
+                start = System.nanoTime();
 
                 String searchTermString = searchTerms.getText().toString().trim();
                 if (searchTermString.length() == 0) {
@@ -109,7 +113,9 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
 
             @Override
             public void onLoadFinished(Loader<Cursor> arg0, @Nullable Cursor cursor) {
-                Toast.makeText(getActivity(), "Load finished- cursor " + (cursor == null ? "is null!" : cursor.getCount()), Toast.LENGTH_SHORT).show();
+                long totalTime = System.nanoTime() - start;
+                start = 0;
+                Toast.makeText(getActivity(), "Load finished- cursor " + (cursor == null ? "is null!" : " with " + cursor.getCount() + " rows") + " in " + TimeUnit.NANOSECONDS.toMillis(totalTime) + " milliseconds", Toast.LENGTH_SHORT).show();
                 adapter.swapCursor(cursor);
             }
 
@@ -150,10 +156,6 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
     }
 
     protected void search() {
-        if (getCharacter() == null) {
-            searchWhenCharacterAvailable = true;
-            return;
-        }
         if (!canSearch()) return;
         if (loaderId > 0) {
             getLoaderManager().getLoader(loaderId).forceLoad();

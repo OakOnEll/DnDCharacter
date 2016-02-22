@@ -697,15 +697,13 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         abstract AbstractSelectComponentDialogFragment createDialog(SearchOptionMD optionMD);
     }
 
-    protected void visitCantripsSearchChoices(String casterClass, int numChoices) {
+    protected void visitCantripsSearchChoices(final String casterClass, int numChoices) {
         final int searchResId = R.string.search_for_cantrip;
         final String fragmentId = SELECT_SPELL_DIALOG;
-        final List<String> casterClasses = new ArrayList<>();
-        casterClasses.add(casterClass);
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @Override
             AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
-                return SelectSpellDialogFragment.createDialog(casterClasses, true, new SelectSpellDialogFragment.SpellSelectedListener() {
+                return SelectSpellDialogFragment.createDialog(casterClass, 0, null, new SelectSpellDialogFragment.SpellSelectedListener() {
                     @Override
                     public boolean spellSelected(long id, String className) {
                         Spell spell = Spell.load(Spell.class, id);
