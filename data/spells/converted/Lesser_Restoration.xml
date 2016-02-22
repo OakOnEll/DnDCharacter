@@ -1,0 +1,18 @@
+<spell>
+    <name>Lesser Restoration</name>
+    <school>Abjuration</school>
+    <level>2</level>
+    <classes>
+        <class>Bard</class>
+        <class>Cleric</class>
+        <class>Druid</class>
+        <class>Paladin</class>
+        <class>Ranger</class>
+    </classes>
+    <duration>Instantaneous</duration>
+    <range>Touch</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S</components>
+    <shortDescription>You touch a creature and can end either one disease or one condition afflicting it. The condition can be blinded, deafened, paralyzed, or poisoned.
+-</shortDescription>
+</spell>

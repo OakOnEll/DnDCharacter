@@ -1,0 +1,14 @@
+<spell>
+    <name>Beacon of Hope</name>
+    <school>Abjuration</school>
+    <level>3</level>
+    <classes>
+        <class>Cleric</class>
+    </classes>
+    <duration>Concentration, up to 1 minute</duration>
+    <range>30 feet</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S</components>
+    <shortDescription>This spell bestows hope and vitality. Choose any number of creatures within range. For the duration, each target has advantage on Wisdom saving throws and death saving throws, and regains the maximum number of hit points possible from any healing.
+-</shortDescription>
+</spell>

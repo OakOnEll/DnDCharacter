@@ -1,0 +1,20 @@
+<spell>
+    <name>Detect Magic (Ritual)</name>
+    <school>Divination</school>
+    <level>1</level>
+    <classes>
+        <class>Bard</class>
+        <class>Cleric</class>
+        <class>Druid</class>
+        <class>Paladin</class>
+        <class>Ranger</class>
+        <class>Sorcerer</class>
+        <class>Wizard</class>
+    </classes>
+    <duration>Concentration, up to 10 minutes</duration>
+    <range>Self</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S</components>
+    <shortDescription>For the duration, you sense the presence of magic within 30 feet of you. If you sense magic in this way, you can use your action to see a faint aura around any visible creature or object in the area that bears magic, and you learn its school of magic, if any. &lt;br>The spell can penetrate most barriers, but is blocked by 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt.
+-</shortDescription>
+</spell>

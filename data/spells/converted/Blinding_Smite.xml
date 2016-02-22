@@ -1,0 +1,14 @@
+<spell>
+    <name>Blinding Smite</name>
+    <school>Evocation</school>
+    <level>3</level>
+    <classes>
+        <class>Paladin</class>
+    </classes>
+    <duration>Concentration, up to 1 minute</duration>
+    <range>Self</range>
+    <castingTime>1 bonus action</castingTime>
+    <components>V</components>
+    <shortDescription>The next time you hit a creature with a melee weapon attack during this spell's duration, you weapon flares with a bright light, and the attack deals an extra 3d8 radiant damage to the target. Additionally, the target must succeed on a Constitution saving throw or be blinded until the spell ends.&lt;br>A creature blinded by this spell makes another Constitution saving throw at the end of each of its turns. On a successful save, it is no longer blinded.
+-</shortDescription>
+</spell>

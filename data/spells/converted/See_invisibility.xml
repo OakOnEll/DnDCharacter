@@ -1,0 +1,16 @@
+<spell>
+    <name>See invisibility</name>
+    <school>Divination</school>
+    <level>2</level>
+    <classes>
+        <class>Bard</class>
+        <class>Sorcerer</class>
+        <class>Wizard</class>
+    </classes>
+    <duration>1 hour</duration>
+    <range>Self</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S, M (A pinch of Talc and a small sprinkling of powdered silver)</components>
+    <shortDescription>For the duration you see invisible creatures and objects as if they were visible and you can see into the Ethereal Plane. Ethereal creatures and objects appear ghostly and translucent.
+-</shortDescription>
+</spell>

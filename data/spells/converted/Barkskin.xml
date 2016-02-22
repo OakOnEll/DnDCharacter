@@ -1,0 +1,15 @@
+<spell>
+    <name>Barkskin</name>
+    <school>Transmutation</school>
+    <level>2</level>
+    <classes>
+        <class>Druid</class>
+        <class>Ranger</class>
+    </classes>
+    <duration>Concentration, up to 1 hour</duration>
+    <range>Touch</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S, M (a handful of oak bark)</components>
+    <shortDescription>You touch a willing creature. Until the spell ends, the target's skin has a rough, bark-like appearance, and the target's AC can't be less than 16, regardless of what kind of armor it is wearing.
+-</shortDescription>
+</spell>

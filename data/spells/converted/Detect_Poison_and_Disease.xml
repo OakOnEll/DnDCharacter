@@ -1,0 +1,17 @@
+<spell>
+    <name>Detect Poison and Disease</name>
+    <school>Divination</school>
+    <level>1</level>
+    <classes>
+        <class>Cleric</class>
+        <class>Druid</class>
+        <class>Paladin</class>
+        <class>Ranger</class>
+    </classes>
+    <duration>Concentration, up to 10 minutes</duration>
+    <range>Self</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S, M (a yew leaf)</components>
+    <shortDescription>For the duration, you can sense the presence and location of poisons, poisonous creatures, and diseases within 30 feet of you. You also identify the kind of poison, poisonous creature, or disease in each case. &lt;br>The spell can penetrate most barriers, but is blocked by 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt.
+-</shortDescription>
+</spell>

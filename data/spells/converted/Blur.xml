@@ -1,0 +1,15 @@
+<spell>
+    <name>Blur</name>
+    <school>Illusion</school>
+    <level>2</level>
+    <classes>
+        <class>Sorcerer</class>
+        <class>Wizard</class>
+    </classes>
+    <duration>Concentration, up to 1 minute</duration>
+    <range>Self</range>
+    <castingTime>1 action</castingTime>
+    <components>V</components>
+    <shortDescription>Your body becomes blurred, shifting and wavering to all who can see you. For the duration, any creature has disadvantage on attack rolls against you. An attacker is immune to this effect if it doesn't rely on sight, as with blindsight, or can see through illusions, as with truesight.
+-</shortDescription>
+</spell>

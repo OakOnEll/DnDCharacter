@@ -1,0 +1,15 @@
+<spell>
+    <name>Shield of Faith</name>
+    <school>Abjuration</school>
+    <level>1</level>
+    <classes>
+        <class>Cleric</class>
+        <class>Paladin</class>
+    </classes>
+    <duration>Concentration, up to 10 minutes</duration>
+    <range>60 feet</range>
+    <castingTime>1 bonus action</castingTime>
+    <components>V, S, M (a small parchment with a bit of holy text written on it)</components>
+    <shortDescription>A shimmering field appears and surrounds a creature of your choice within range, granting it a +2 bonus to AC for the duration.
+-</shortDescription>
+</spell>

@@ -1,0 +1,16 @@
+<spell>
+    <name>Locate Animals or Plants (Ritual)</name>
+    <school>Divination</school>
+    <level>2</level>
+    <classes>
+        <class>Bard</class>
+        <class>Druid</class>
+        <class>Ranger</class>
+    </classes>
+    <duration>Instantaneous</duration>
+    <range>Self</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S, M (a bit of fur from a bloodhound)</components>
+    <shortDescription>Describe or name a specific kind of beast or plant. Concentrating on the voice of nature in your surroundings you learn the direction and distance to the closest creature or plant of that kind within 5 miles if any are present.
+-</shortDescription>
+</spell>

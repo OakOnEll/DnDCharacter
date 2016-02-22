@@ -1,0 +1,14 @@
+<spell>
+    <name>Destructive Wave</name>
+    <school>Evocation</school>
+    <level>5</level>
+    <classes>
+        <class>Paladin</class>
+    </classes>
+    <duration>Instantaneous</duration>
+    <range>Self (30-foot radius)</range>
+    <castingTime>1 action</castingTime>
+    <components>V</components>
+    <shortDescription>You strike the ground, creating a burst of divine energy that ripples outward from you. Each creature you choose within 30 feet of you must succeed on a Constitution saving throw or take 5d6 thunder damage, as well as 5d6 radiant or necrotic damage (your choice), and be knocked prone. A creature that succeeds on its saving throw takes half as much damage and isn't knocked prone.
+-</shortDescription>
+</spell>

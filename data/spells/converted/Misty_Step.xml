@@ -1,0 +1,16 @@
+<spell>
+    <name>Misty Step</name>
+    <school>Conjuration</school>
+    <level>2</level>
+    <classes>
+        <class>Sorcerer</class>
+        <class>Warlock</class>
+        <class>Wizard</class>
+    </classes>
+    <duration>Instantaneous</duration>
+    <range>Self</range>
+    <castingTime>1 bonus action</castingTime>
+    <components>V</components>
+    <shortDescription>Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space that you can see.
+-</shortDescription>
+</spell>

@@ -1,0 +1,14 @@
+<spell>
+    <name>Swift Quiver</name>
+    <school>Transmutation</school>
+    <level>5</level>
+    <classes>
+        <class>Ranger</class>
+    </classes>
+    <duration>Concentration up to 1 minute</duration>
+    <range>Touch</range>
+    <castingTime>1 bonus action</castingTime>
+    <components>V, S, M (a quiver containing at least one piece of ammunition)</components>
+    <shortDescription>You transmute your quiver so it produces an endless supply of nonmagical ammunition which seems to leap into your hand when you reach for it. On each of your turns until the spell ends you can use a bonus action to make two attacks with a weapon that uses ammunition from the quiver. Each time you make such a ranged attack
+-</shortDescription>
+</spell>

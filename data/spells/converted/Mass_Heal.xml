@@ -1,0 +1,14 @@
+<spell>
+    <name>Mass Heal</name>
+    <school>Evocation</school>
+    <level>9</level>
+    <classes>
+        <class>Cleric</class>
+    </classes>
+    <duration>Instantaneous</duration>
+    <range>60 feet</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S</components>
+    <shortDescription>A flood of healing energy flows from you into injured creatures around you. You restore up to 700 hit points, divided as you choose among any number of creatures that you can see within range. Creatures healed by this spell are also cured of all diseases and any effect making them blinded or deafened. This spell has no effect on undead or constructs. 
+-</shortDescription>
+</spell>

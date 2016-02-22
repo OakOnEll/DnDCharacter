@@ -1,0 +1,14 @@
+<spell>
+    <name>Power Word Heal</name>
+    <school>Evocation</school>
+    <level>9</level>
+    <classes>
+        <class>Bard</class>
+    </classes>
+    <duration>Instantaneous</duration>
+    <range>Touch</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S</components>
+    <shortDescription>A wave of healing energy washes over the creature you touch. The target regains all its hit points. If the creature is charmed frightened paralyzed or stunned the condition ends. If the creature is prone it can use its reaction to stand up. This spell has no effect on undead or constructs.
+-</shortDescription>
+</spell>

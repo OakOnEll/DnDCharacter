@@ -1,0 +1,17 @@
+<spell>
+    <name>True Strike</name>
+    <school>Divination</school>
+    <level>0</level>
+    <classes>
+        <class>Bard</class>
+        <class>Sorcerer</class>
+        <class>Warlock</class>
+        <class>Wizard</class>
+    </classes>
+    <duration>Concentration up to 1 round</duration>
+    <range>30 feet</range>
+    <castingTime>1 action</castingTime>
+    <components>S</components>
+    <shortDescription>You extend your hand and point a finger at a target in range. Your magic grants you a brief insight into the target's defenses. On your next turn you gain advantage on your first attack roll against the target provided that this spell hasn't ended.
+-</shortDescription>
+</spell>

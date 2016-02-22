@@ -1,0 +1,15 @@
+<spell>
+    <name>Shield</name>
+    <school>Abjuration</school>
+    <level>1</level>
+    <classes>
+        <class>Sorcerer</class>
+        <class>Wizard</class>
+    </classes>
+    <duration>1 round</duration>
+    <range>Self</range>
+    <castingTime>1 reaction</castingTime>
+    <components>V, S</components>
+    <shortDescription>Reaction trigger: You are hit by an attack or targeted by the magic missile spell An invisible barrier of magical force appears and protects you. Until the start of your next turn, you have a +5 bonus to AC, including against the triggering attack, and you take no damage from magic missile.
+-</shortDescription>
+</spell>

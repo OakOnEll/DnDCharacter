@@ -1,0 +1,16 @@
+<spell>
+    <name>Silence (Ritual)</name>
+    <school>Illusion</school>
+    <level>2</level>
+    <classes>
+        <class>Bard</class>
+        <class>Cleric</class>
+        <class>Ranger</class>
+    </classes>
+    <duration>Concentration, up to 10 minutes</duration>
+    <range>120 feet</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S</components>
+    <shortDescription>For the duration, no sound can be created within or pass through a 20-foot-radius sphere centered on a point you choose within range. Any creature or object entirely inside the sphere is immune to thunder damage, and creatures are deafened while entirely inside it. Casting a spell that includes a verbal component is impossible there.
+-</shortDescription>
+</spell>

@@ -1,0 +1,18 @@
+<spell>
+    <name>Cure Wounds</name>
+    <school>Evocation</school>
+    <level>1</level>
+    <classes>
+        <class>Bard</class>
+        <class>Cleric</class>
+        <class>Druid</class>
+        <class>Paladin</class>
+        <class>Ranger</class>
+    </classes>
+    <duration>Instantaneous</duration>
+    <range>Touch</range>
+    <castingTime>1 action</castingTime>
+    <components>V, S</components>
+    <shortDescription>A creature you touch regains a number of hit points equal to 1d8 + your spellcasting ability modifier. This spell has no effect on undead or constructs. 
+When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d8 for each slot level above 1st.</shortDescription>
+</spell>

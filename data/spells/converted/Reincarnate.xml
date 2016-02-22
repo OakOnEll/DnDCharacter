@@ -1,0 +1,14 @@
+<spell>
+    <name>Reincarnate</name>
+    <school>Transmutation</school>
+    <level>5</level>
+    <classes>
+        <class>Druid</class>
+    </classes>
+    <duration>Instantaneous</duration>
+    <range>Touch</range>
+    <castingTime>1 hour</castingTime>
+    <components>V, S, M (rare oils and unguents worth at least 1,000 gp, which the spell consumes)</components>
+    <shortDescription>You touch a dead humanoid or a piece of a dead humanoid. Provided that the creature has been dead no longer than 10 days, the spell forms a new adult body for it and then calls the soul to enter that body. If the target's soul isn't free or willing to do so, the spell fails. The magic fashions a new body for the creature to inhabit, which likely causes the creature's race to change. The DM rolls a d 100 and consults the following table to determine what form the creature takes when restored to life, or the DM chooses a form. &lt;br>&lt;table>&lt;tr>&lt;td>&lt;b>d100&lt;/td>&lt;td>&lt;b>Race&lt;/td>&lt;/tr>&lt;tr>&lt;td>01-04&lt;/td>&lt;td>Dragonborn&lt;/td>&lt;/tr>&lt;tr>&lt;td>05-13&lt;/td>&lt;td>Dwarf, hill&lt;/td>&lt;/tr>&lt;tr>&lt;td>14-21&lt;/td>&lt;td>Dwarf, mountain&lt;/td>&lt;/tr>&lt;tr>&lt;td>22-25&lt;/td>&lt;td>Elf, dark&lt;/td>&lt;/tr>&lt;tr>&lt;td>26-34&lt;/td>&lt;td>Elf, high&lt;/td>&lt;/tr>&lt;tr>&lt;td>35-42&lt;/td>&lt;td>Elf, wood&lt;/td>&lt;/tr>&lt;tr>&lt;td>43-46&lt;/td>&lt;td>Gnome, forest&lt;/td>&lt;/tr>&lt;tr>&lt;td>47-52&lt;/td>&lt;td>Gnome, rock&lt;/td>&lt;/tr>&lt;tr>&lt;td>53-56&lt;/td>&lt;td>Half-elf&lt;/td>&lt;/tr>&lt;tr>&lt;td>57-60&lt;/td>&lt;td>Half-orc&lt;/td>&lt;/tr>&lt;tr>&lt;td>61-68&lt;/td>&lt;td>Halfling, lightfoot&lt;/td>&lt;/tr>&lt;tr>&lt;td>69-76&lt;/td>&lt;td>Halfling, stout&lt;/td>&lt;/tr>&lt;tr>&lt;td>77-96&lt;/td>&lt;td>Human&lt;/td>&lt;/tr>&lt;tr>&lt;td>97-00&lt;/td>&lt;td>Tiefling&lt;/td>&lt;/tr>&lt;/table>&lt;br>The reincarnated creature recalls its former life and experiences. It retains the capabilities it had in its original form, except it exchanges its original race for the new one and changes its racial traits accordingly. 
+-</shortDescription>
+</spell>
