@@ -85,7 +85,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
                 baseSpellInfoElement = rootClassElement;
             }
         }
-        if (subClass != null) {
+        if (subClass != null && levelElement != null) {
             Element subclassElement = XmlUtils.getElement(levelElement, "subclass");
             if (subclassElement != null) {
                 Element spellCastingStat = XmlUtils.getElement(subClassRootElement, "spellCastingStat");

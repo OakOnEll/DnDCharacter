@@ -172,6 +172,9 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         Collections.reverse(classes);
         for (CharacterClass each : classes) {
             if (each.getName().equals(className) && each.getLevel() < classLevel) {
+                if (each.getCantripsKnownFormula() == null || each.getCantripsKnownFormula().trim().length() == 0) {
+                    continue;
+                }
                 return character.evaluateFormula(each.getCantripsKnownFormula(), null);
             }
         }
@@ -183,6 +186,9 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         Collections.reverse(classes);
         for (CharacterClass each : classes) {
             if (each.getName().equals(className) && each.getLevel() < classLevel) {
+                if (each.getSpellsKnownFormula() == null || each.getSpellsKnownFormula().trim().length() == 0) {
+                    continue;
+                }
                 return character.evaluateFormula(each.getSpellsKnownFormula(), null);
             }
         }
