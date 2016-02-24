@@ -401,6 +401,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                             boolean countsAsKnown = true;
                             addSpell(eachSavedSpell, stat, countsAsKnown);
                         }
+                        addedSpellIndex++;
                     }
                 }
             }

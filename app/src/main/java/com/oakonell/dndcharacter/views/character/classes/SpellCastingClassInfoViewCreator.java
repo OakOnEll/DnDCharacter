@@ -149,8 +149,9 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
                     if (each.getTextContent() == null || each.getTextContent().trim().length() == 0) {
                         ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpell" + i, 1, 1));
                         String schoolsString = each.getAttribute("schools");
+                        String overrideCastClassName = each.getAttribute("casterClass");
                         List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
-                        visitSpellSearchChoices(casterClassName, maxLevel, 1, schools);
+                        visitSpellSearchChoices(overrideCastClassName != null ? overrideCastClassName : casterClassName, maxLevel, 1, schools);
                         popChooseMD(oldChooseMD);
                     } else {
                         visitSpell(each);
