@@ -69,7 +69,10 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
     protected SavedChoices getSubClassChoices() {
         if (subclass == null) return null;
         SavedChoices result = savedChoicesByModel.get(subclass.getName());
-        if (result == null) return new SavedChoices();
+        if (result == null) {
+            result = new SavedChoices();
+            savedChoicesByModel.put(subclass.getName(), result);
+        }
         return result;
     }
 
@@ -338,8 +341,13 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     if (overrideChoices != null) {
                         addSubclassTextView(dynamic);
                     }
+                    final ChooseMDTreeNode treeNode = visitor.appendToLayout(getMainActivity(), dynamic, getClassLevel(), rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices);
+                    if (overrideChoices != null) {
+                        subclassChooseMDs = treeNode;
+                        return new RootChoiceMDNode();
+                    }
 
-                    return visitor.appendToLayout(getMainActivity(), dynamic, getClassLevel(),rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices);
+                    return treeNode;
                 }
             };
             pages.add(spellPage);
