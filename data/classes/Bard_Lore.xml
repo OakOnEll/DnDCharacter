@@ -20,7 +20,7 @@
 
 
     <level value="6">
-        <spells>
+        <spells casterClass="*" num="2" known="false">
             <!-- TODO learn 2 spells/cantrips from any class. Count as bard spells (eg, casting ability?) but not known bard spells -->
         </spells>
     </level>

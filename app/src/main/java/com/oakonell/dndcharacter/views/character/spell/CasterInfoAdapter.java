@@ -90,7 +90,7 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
             StatBlock castingStatBlock = context.getCharacter().getStatBlock(castingStat);
             casting_stat.setText(context.getString(R.string.stat_and_mod, castingStatString, castingStatBlock.getModifier()));
 
-            int cantrips = context.getCharacter().getCantripsForClass(owningClassName);
+            int cantrips = context.getCharacter().getCantripsKnownForClass(owningClassName);
             int maxCantrips = context.getCharacter().evaluateFormula(info.getKnownCantrips(), null);
             if (maxCantrips > 0) {
                 cantrips_known.setText(context.getString(R.string.fraction_d_slash_d, cantrips, maxCantrips));

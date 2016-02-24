@@ -439,27 +439,51 @@ public class Character {
         return false;
     }
 
-    public int getCantripsForClass(@NonNull String className) {
-        int count = 0;
+    public int getCantripsKnownForClass(@NonNull final String className) {
+        final int[] count = new int[]{0};
         for (CharacterSpell each : cantrips) {
-            if (each.getType() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
-                count++;
+            if (each.getSource() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
+                count[0]++;
             }
         }
-        return count;
+        for (CharacterClass eachClass : classes) {
+            if (!eachClass.getName().equals(className)) continue;
+            for (CharacterSpell each : eachClass.getCantrips()) {
+                if (each.getSource() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
+                    count[0]++;
+                }
+            }
+
+        }
+        return count[0];
     }
 
     public int getSpellsKnownForClass(@NonNull String className) {
-        int known = 0;
+        final int[] known = new int[]{0};
+
         for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
             List<CharacterSpell> spells = entry.getValue().spells;
             for (CharacterSpell each : spells) {
-                if (each.getType() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
-                    known++;
+                if (!each.countsAsKnown()) continue;
+                if (each.getSource() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
+                    known[0]++;
                 }
             }
         }
-        return known;
+
+        for (CharacterClass eachClass : classes) {
+            if (!eachClass.getName().equals(className)) continue;
+            List<CharacterSpell> spells = eachClass.getSpells();
+            for (CharacterSpell each : spells) {
+                if (!each.countsAsKnown()) continue;
+                if (each.getSource() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
+                    known[0]++;
+                }
+            }
+
+        }
+
+        return known[0];
     }
 
     public int getSpellsPreparedForClass(@NonNull String className) {

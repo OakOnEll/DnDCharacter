@@ -22,6 +22,10 @@ import com.squareup.leakcanary.RefWatcher;
 public abstract class AbstractDialogFragment extends AppCompatDialogFragment {
     private Button done;
 
+    protected void extraDoneActions() {
+
+    }
+
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,6 +37,8 @@ public abstract class AbstractDialogFragment extends AppCompatDialogFragment {
                 public void onClick(View v) {
                     boolean valid = onDone();
                     if (!valid) return;
+
+                    extraDoneActions();
 
                     dismiss();
                 }

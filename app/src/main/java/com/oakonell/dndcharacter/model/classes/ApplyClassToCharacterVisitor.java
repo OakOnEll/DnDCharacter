@@ -199,7 +199,9 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         * </spells>
         */
         String spellsKnown = XmlUtils.getElementText(element, "known");
-        charClass.setSpellsKnownFormula(spellsKnown);
+        if (spellsKnown != null && spellsKnown.trim().length() > 0) {
+            charClass.setSpellsKnownFormula(spellsKnown);
+        }
         Element slotsElem = XmlUtils.getElement(element, "slots");
         if (slotsElem != null) {
             List<Element> spellLevelElems = XmlUtils.getChildElements(slotsElem, "level");

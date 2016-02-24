@@ -339,7 +339,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                         addSubclassTextView(dynamic);
                     }
 
-                    return visitor.appendToLayout(getMainActivity(), dynamic, rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices);
+                    return visitor.appendToLayout(getMainActivity(), dynamic, getClassLevel(),rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices);
                 }
             };
             pages.add(spellPage);

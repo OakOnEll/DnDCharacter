@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views.character;
 
-import android.content.ClipData;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
@@ -49,7 +47,6 @@ import com.oakonell.dndcharacter.views.character.spell.SelectSpellDialogFragment
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,7 +57,7 @@ import java.util.Set;
 public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor {
     private static final String SELECT_FEAT_DIALOG = "select_feat_frag";
     private static final String SELECT_SPELL_DIALOG = "select_spell_frag";
-    private final boolean handleCantrips;
+    private final boolean handleSpells;
     SavedChoices choices;
     int uiIdCounter;
     ChooseMD<?> currentChooseMD;
@@ -74,8 +71,8 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     private Character character;
     private ComponentSource currentComponent;
 
-    public AbstractComponentViewCreator(Character character, boolean handleCantrips) {
-        this.handleCantrips = handleCantrips;
+    public AbstractComponentViewCreator(Character character, boolean handleSpells) {
+        this.handleSpells = handleSpells;
         this.character = character;
     }
 
@@ -300,12 +297,14 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         }
     }
 
+    int spellIndex;
     @Override
     protected void visitSpells(@NonNull Element element) {
-        if (!handleCantrips) return;
+        if (!handleSpells) return;
         ChooseMD oldChooseMD = currentChooseMD;
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.spells_title));
+        spellIndex = 0;
         super.visitSpells(element);
 
         if (XmlUtils.getChildElements(element).isEmpty()) {
@@ -318,7 +317,9 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             currentChooseMD = new CategoryChoicesMD("spells", num, num);
             choicesMD.addChildChoice(currentChooseMD);
 
-            visitCantripsSearchChoices(casterClass, num);
+            //TODO find max level...
+            int maxlevel=1;
+            visitSpellSearchChoices(casterClass, maxlevel, num,null );
         }
 
         parent = oldParent;
@@ -327,7 +328,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     @Override
     protected void visitCantrips(@NonNull Element element) {
-        if (!handleCantrips) return;
+        if (!handleSpells) return;
         ChooseMD oldChooseMD = currentChooseMD;
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.cantrips_title));
@@ -352,7 +353,16 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     protected void visitSpell(@NonNull Element element) {
-        visitSimpleItem(element);
+//        if (element.getTextContent() == null || element.getTextContent().trim().length() == 0) {
+//            ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpell" + spellIndex, 1, 1));
+//            String schoolsString = element.getAttribute("schools");
+//            List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
+//            visitSpellSearchChoices(casterClassName, maxLevel, 1, schools);
+//            popChooseMD(oldChooseMD);
+//            spellIndex++;
+//        } else {
+            visitSimpleItem(element);
+//        }
     }
 
     @Override

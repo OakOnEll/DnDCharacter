@@ -64,6 +64,9 @@ public class CharacterSpell extends BaseCharacterComponent {
     @Element(required = false)
     private boolean ritual;
 
+    @Element(required = false)
+    private boolean countsAsKnown;
+
 
     @Element(required = false)
     private SpellAttackType attackType;
@@ -280,5 +283,13 @@ public class CharacterSpell extends BaseCharacterComponent {
             return "";
         }
         return type.toString();
+    }
+
+    public void countsAsKnown(boolean countsAsKnown) {
+        this.countsAsKnown = countsAsKnown;
+    }
+
+    public boolean countsAsKnown() {
+        return countsAsKnown;
     }
 }

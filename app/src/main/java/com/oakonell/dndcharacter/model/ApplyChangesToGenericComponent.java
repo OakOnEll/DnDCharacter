@@ -32,6 +32,8 @@ import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.utils.XmlUtils;
+import com.oakonell.dndcharacter.views.character.md.CategoryChoicesMD;
+import com.oakonell.dndcharacter.views.character.md.ChooseMD;
 
 import org.w3c.dom.Element;
 
@@ -366,35 +368,64 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     @Override
     protected void visitSpells(@NonNull Element element) {
         if (savedChoices != null) {
-            final List<String> cantrips = savedChoices.getChoicesFor("spells");
-            if (cantrips != null && !cantrips.isEmpty()) {
-                String casterClass = element.getAttribute("casterClass");
+            final List<String> spells = savedChoices.getChoicesFor("spells");
+            final List<String> addedSpells = savedChoices.getChoicesFor("addedSpells");
+            if (spells != null && (!spells.isEmpty() || !addedSpells.isEmpty())) {
                 String statString = element.getAttribute("stat");
+                String casterClass = element.getAttribute("casterClass");
+                String knownString = element.getAttribute("known");
+                boolean countsAsKnown = true;
+                if (knownString != null && knownString.trim().length() > 0) {
+                    countsAsKnown = "true".equals(knownString);
+                }
                 StatType stat = null;
                 if (statString != null && statString.trim().length() > 0) {
                     stat = EnumHelper.stringToEnum(statString, StatType.class);
                 }
-                for (String each : cantrips) {
-                    addSpell(each, stat);
+                for (String each : spells) {
+                    addSpell(each, stat, countsAsKnown);
+                }
+                for (String each : addedSpells) {
+                    addSpell(each, stat, countsAsKnown);
+                }
+            }
+            List<Element> spellList = XmlUtils.getChildElements(element, "spell");
+            int addedSpellIndex = 0;
+            if (spellList.size() > 0) {
+                for (Element spellElement : spellList) {
+                    final String spellName = spellElement.getTextContent();
+                    if (spellName == null || spellName.trim().length() == 0) {
+                        List<String> specificAddedSpell = savedChoices.getChoicesFor("addedSpell" + addedSpellIndex);
+                        StatType stat = null;
+                        for (String eachSavedSpell : specificAddedSpell) {
+                            boolean countsAsKnown = true;
+                            addSpell(eachSavedSpell, stat, countsAsKnown);
+                        }
+                    }
                 }
             }
         }
+
         super.visitSpells(element);
     }
 
     @Override
     protected void visitSpell(@NonNull Element element) {
         final String spellName = element.getTextContent();
+        // if spell name is empty, presume it was a specificAddSpell in visitSpells above
+        if (spellName == null || spellName.trim().length() == 0) return;
+
         String statString = element.getAttribute("stat");
 
         StatType stat = null;
         if (statString != null && statString.trim().length() > 0) {
             stat = EnumHelper.stringToEnum(statString, StatType.class);
         }
-        addSpell(spellName, stat);
+        boolean countsAsKnown = true;
+        addSpell(spellName, stat, countsAsKnown);
     }
 
-    private void addSpell(@NonNull String spellName, StatType stat) {
+    private void addSpell(@NonNull String spellName, StatType stat, boolean countsAsKnown) {
         List<Spell> spells = new Select()
                 .from(Spell.class).where("UPPER(name) = ?", spellName.toUpperCase()).execute();
         CharacterSpell characterSpell = null;
@@ -406,10 +437,12 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             characterSpell = new CharacterSpell();
             final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
             ApplyChangesToGenericComponent.applyToCharacter(context, root, null, characterSpell, null, false);
+            characterSpell.setLevel(spell.getLevel());
         } else {
             characterSpell = new CharacterSpell();
+            characterSpell.setLevel(1);
         }
-        characterSpell.setLevel(0);
+        characterSpell.countsAsKnown(countsAsKnown);
         characterSpell.setName(spellName);
         characterSpell.setCastingStat(stat);
         // TODO need to store the caster class, if different from owner name?
@@ -422,7 +455,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     protected void visitCantrips(@NonNull Element element) {
         if (savedChoices != null) {
             final List<String> cantrips = savedChoices.getChoicesFor("cantrips");
-            if (cantrips != null && !cantrips.isEmpty()) {
+            final List<String> addedCantrips = savedChoices.getChoicesFor("addedCantrips");
+            if (cantrips != null && (!cantrips.isEmpty() || !addedCantrips.isEmpty())) {
                 String casterClass = element.getAttribute("casterClass");
                 String statString = element.getAttribute("stat");
                 StatType stat = null;
@@ -430,6 +464,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     stat = EnumHelper.stringToEnum(statString, StatType.class);
                 }
                 for (String each : cantrips) {
+                    addCantrip(each, stat);
+                }
+                for (String each : addedCantrips) {
                     addCantrip(each, stat);
                 }
             }

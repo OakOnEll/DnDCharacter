@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
@@ -20,6 +19,7 @@ import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,7 +31,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         super(character, false);
     }
 
-    public ChooseMDTreeNode appendToLayout(@NonNull CharacterActivity characterActivity, @NonNull ViewGroup parent, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices) {
+    public ChooseMDTreeNode appendToLayout(@NonNull CharacterActivity characterActivity, @NonNull ViewGroup parent, int classLevel, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices) {
         setParent(parent);
         setChoices(savedChoices);
         setActivity(characterActivity);
@@ -75,10 +75,12 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
             text.setText("Cantrips known: " + known);
 
             if (casterClassName != null) {
-                int currentCantrips = characterActivity.getCharacter().getCantripsForClass(ownerClassName);
-                int numCantripsCanAdd = Integer.parseInt(known) - currentCantrips;
+                List<String> savedAddedCantrips = savedChoices.getChoicesFor("addedCantrips");
+                // be real fancy, and find actual difference from latest level specifying known cantrips?
+                int lastLevelCantripsKnown = findLastCantripsKnown(characterActivity.getCharacter(), ownerClassName, classLevel);
+                int numCantripsCanAdd = Integer.parseInt(known) - lastLevelCantripsKnown;
 
-                ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedCantrips", numCantripsCanAdd, 0));
+                ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedCantrips", numCantripsCanAdd, numCantripsCanAdd));
                 visitCantripsSearchChoices(casterClassName, numCantripsCanAdd);
                 popChooseMD(oldChooseMD);
             }
@@ -116,10 +118,11 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
                 text.setText("Spells known: " + known);
 
                 if (casterClassName != null && spellList.isEmpty()) {
-                    int currentSpells = characterActivity.getCharacter().getSpellsKnownForClass(ownerClassName);
-                    int numSpellsCanAdd = Integer.parseInt(known) - currentSpells;
+                    // be real fancy, and find actual difference from latest level specifying known spells?
+                    int lastLevelSpellsKnown = findLastSpellsKnown(characterActivity.getCharacter(), ownerClassName, classLevel);
+                    int numSpellsCanAdd = Integer.parseInt(known) - lastLevelSpellsKnown;
 
-                    ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpells", numSpellsCanAdd, 0));
+                    ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpells", numSpellsCanAdd, numSpellsCanAdd));
                     visitSpellSearchChoices(casterClassName, maxLevel, numSpellsCanAdd, null);
                     popChooseMD(oldChooseMD);
                 }
@@ -164,5 +167,26 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         return getChoicesMD();
     }
 
+    private int findLastCantripsKnown(Character character, String className, int classLevel) {
+        final List<CharacterClass> classes = new ArrayList<>(character.getClasses());
+        Collections.reverse(classes);
+        for (CharacterClass each : classes) {
+            if (each.getName().equals(className) && each.getLevel() < classLevel) {
+                return character.evaluateFormula(each.getCantripsKnownFormula(), null);
+            }
+        }
+        return 0;
+    }
+
+    private int findLastSpellsKnown(Character character, String className, int classLevel) {
+        final List<CharacterClass> classes = new ArrayList<>(character.getClasses());
+        Collections.reverse(classes);
+        for (CharacterClass each : classes) {
+            if (each.getName().equals(className) && each.getLevel() < classLevel) {
+                return character.evaluateFormula(each.getSpellsKnownFormula(), null);
+            }
+        }
+        return 0;
+    }
 
 }

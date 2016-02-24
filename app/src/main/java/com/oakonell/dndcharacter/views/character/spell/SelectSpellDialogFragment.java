@@ -80,7 +80,19 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
         ArrayList<ClassChoice> classChoices = new ArrayList<>();
-        classChoices.add(new ClassChoice(casterClass, casterClass, maxLevel));
+        if (casterClass.equals("*")) {
+            // TODO better way to find these? SQL to find all distinct spell_class entries
+            classChoices.add(new ClassChoice("Bard", "Bard", maxLevel));
+            classChoices.add(new ClassChoice("Cleric", "Cleric", maxLevel));
+            classChoices.add(new ClassChoice("Druid", "Druid", maxLevel));
+            classChoices.add(new ClassChoice("Paladin", "Paladin", maxLevel));
+            classChoices.add(new ClassChoice("Ranger", "Ranger", maxLevel));
+            classChoices.add(new ClassChoice("Sorcerer", "Sorcerer", maxLevel));
+            classChoices.add(new ClassChoice("Warlock", "Warlock", maxLevel));
+            classChoices.add(new ClassChoice("Wizard", "Wizard", maxLevel));
+        } else {
+            classChoices.add(new ClassChoice(casterClass, casterClass, maxLevel));
+        }
         args.putParcelableArrayList(CASTER_CLASSES, classChoices);
         if (schools != null && !schools.isEmpty()) {
             ArrayList<String> schoolNames = new ArrayList<>();

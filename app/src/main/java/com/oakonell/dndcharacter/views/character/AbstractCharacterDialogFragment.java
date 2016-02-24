@@ -48,6 +48,15 @@ public abstract class AbstractCharacterDialogFragment extends AbstractDialogFrag
         return view;
     }
 
+    protected void extraDoneActions() {
+        if (contextualComponentAdapter != null) {
+            contextualComponentAdapter.deletePendingEffects(getCharacter());
+        }
+
+        getMainActivity().updateViews();
+        getMainActivity().saveCharacter();
+    }
+
 
     @NonNull
     public final CharacterActivity getMainActivity() {
