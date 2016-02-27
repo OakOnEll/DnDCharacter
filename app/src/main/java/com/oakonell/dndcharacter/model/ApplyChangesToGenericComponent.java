@@ -51,6 +51,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private final Context context;
     private String currentChoiceName;
 
+    private Feature feature;
+
     protected ApplyChangesToGenericComponent(Context context, SavedChoices savedChoices, C component, @Nullable Character character) {
         this.context = context;
         this.component = component;
@@ -104,8 +106,73 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
 
     @Override
+    protected void visitEffect(@NonNull Element effectElement) {
+        final Feature.FeatureCharacterEffect effect = new Feature.FeatureCharacterEffect();
+        AddEffectToCharacterVisitor.readEffect(context, effectElement, effect);
+        int cost = readIntegerAttribute(effectElement, "uses", 1);
+        effect.setCost(cost);
+        String actionName = effectElement.getAttribute("actionName");
+        if (actionName == null || actionName.trim().length() == 0) {
+            actionName = effect.getName();
+        }
+
+        String actionExtensionTypeString = effectElement.getAttribute("extension");
+        FeatureExtensionType actionExtensionType = null;
+        if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
+            actionExtensionType = EnumHelper.stringToEnum(actionExtensionTypeString, FeatureExtensionType.class);
+            effect.setExtensionType(actionExtensionType);
+        }
+
+        String actionDescription = XmlUtils.getElementText(effectElement, "actionDescription");
+        effect.setActionDescription(actionDescription);
+        effect.setAction(actionName);
+        feature.addEffect(effect);
+
+        // look for any variable/prompts
+        List<Element> variables = XmlUtils.getChildElements(effectElement, "variable");
+        for (Element variableElement : variables) {
+            String varName = variableElement.getAttribute("name");
+            String promptString = variableElement.getAttribute("prompt");
+            String valuesString = variableElement.getTextContent();
+            String[] values;
+            if (valuesString == null || valuesString.trim().length() == 0) {
+                values = new String[]{};
+            } else {
+                values = valuesString.split("\\\\s*,\\\\s*");
+            }
+            // clean up empty strings..
+
+            Feature.FeatureEffectVariable variable = new Feature.FeatureEffectVariable(varName, promptString, values);
+            effect.addVariable(variable);
+        }
+
+
+        effect.setSource(component.getSourceString(context.getResources()) + "[" + feature.getSourceString(context.getResources()) + "]");
+    }
+
+    @Override
+    protected void visitAction(@NonNull Element actionElement) {
+        int cost = readIntegerAttribute(actionElement, "uses", -1);
+        String actionName = XmlUtils.getElementText(actionElement, "name");
+        String shortDescription = XmlUtils.getElementText(actionElement, "shortDescription");
+        Feature.FeatureAction action = new Feature.FeatureAction();
+
+        String actionExtensionTypeString = actionElement.getAttribute("extension");
+        FeatureExtensionType actionExtensionType = null;
+        if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
+            actionExtensionType = EnumHelper.stringToEnum(actionExtensionTypeString, FeatureExtensionType.class);
+            action.setExtensionType(actionExtensionType);
+        }
+
+        action.setName(actionName);
+        action.setCost(cost);
+        action.setDescription(shortDescription);
+        feature.addAction(action);
+    }
+
+    @Override
     protected void visitFeature(@NonNull Element element) {
-        Feature feature = new Feature();
+        feature = new Feature();
         String name = XmlUtils.getElementText(element, "name");
         feature.setName(name);
         feature.setDescription(XmlUtils.getElementText(element, "shortDescription"));
@@ -147,76 +214,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             useType = UseType.POOL;
             feature.setFormula(pool);
         }
-        boolean hadAnyActionsOrEffects = false;
-        final List<Element> effectElements = XmlUtils.getChildElements(element, "effect");
-        for (Element effectElement : effectElements) {
-            final Feature.FeatureCharacterEffect effect = new Feature.FeatureCharacterEffect();
-            AddEffectToCharacterVisitor.readEffect(context, effectElement, effect);
-            int cost = readIntegerAttribute(effectElement, "uses", 1);
-            effect.setCost(cost);
-            String actionName = effectElement.getAttribute("actionName");
-            if (actionName == null || actionName.trim().length() == 0) {
-                actionName = effect.getName();
-            }
 
-            String actionExtensionTypeString = effectElement.getAttribute("extension");
-            FeatureExtensionType actionExtensionType = null;
-            if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
-                actionExtensionType = EnumHelper.stringToEnum(actionExtensionTypeString, FeatureExtensionType.class);
-                effect.setExtensionType(actionExtensionType);
-            }
-
-            String actionDescription = XmlUtils.getElementText(effectElement, "actionDescription");
-            effect.setActionDescription(actionDescription);
-            effect.setAction(actionName);
-            feature.addEffect(effect);
-
-            // look for any variable/prompts
-            List<Element> variables = XmlUtils.getChildElements(effectElement, "variable");
-            for (Element variableElement : variables) {
-                String varName = variableElement.getAttribute("name");
-                String promptString = variableElement.getAttribute("prompt");
-                String valuesString = variableElement.getTextContent();
-                String[] values;
-                if (valuesString == null || valuesString.trim().length() == 0) {
-                    values = new String[]{};
-                } else {
-                    values = valuesString.split("\\\\s*,\\\\s*");
-                }
-                // clean up empty strings..
-
-                Feature.FeatureEffectVariable variable = new Feature.FeatureEffectVariable(varName, promptString, values);
-                effect.addVariable(variable);
-            }
-
-
-            effect.setSource(component.getSourceString(context.getResources()) + "[" + feature.getSourceString(context.getResources()) + "]");
-            hadAnyActionsOrEffects = true;
-        }
-
-        final List<Element> actionElements = XmlUtils.getChildElements(element, "action");
-        for (Element actionElement : actionElements) {
-
-
-            int cost = readIntegerAttribute(actionElement, "uses", -1);
-            String actionName = XmlUtils.getElementText(actionElement, "name");
-            String shortDescription = XmlUtils.getElementText(actionElement, "shortDescription");
-            Feature.FeatureAction action = new Feature.FeatureAction();
-
-            String actionExtensionTypeString = element.getAttribute("extension");
-            FeatureExtensionType actionExtensionType = null;
-            if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
-                actionExtensionType = EnumHelper.stringToEnum(actionExtensionTypeString, FeatureExtensionType.class);
-                action.setExtensionType(actionExtensionType);
-            }
-
-
-            action.setName(actionName);
-            action.setCost(cost);
-            action.setDescription(shortDescription);
-            feature.addAction(action);
-            hadAnyActionsOrEffects = true;
-        }
+        super.visitFeature(element);
 
         if (useType != null) {
             feature.setUseType(useType);
@@ -227,7 +226,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             } else {
                 feature.setRefreshesOn(refreshType);
 
-                if (!hadAnyActionsOrEffects) {
+                if (feature.getEffects().isEmpty() && feature.getActions().isEmpty()) {
                     Feature.FeatureAction simpleAction = new Feature.FeatureAction();
                     simpleAction.setCost(1);
                     simpleAction.setName("Use");

@@ -146,29 +146,32 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         parent.addView(featureText);
         featureText.setText(description);
 
-        final List<Element> effects = XmlUtils.getChildElements(element, "effect");
-        for (Element each : effects) {
-            String effectName = each.getAttribute("actionName");
-            if (effectName != null) {
-                String effectDescription = XmlUtils.getElementText(each, "actionDescription");
-                if (effectDescription != null) {
-                    TextView effectText = new TextView(parent.getContext());
-                    parent.addView(effectText);
-                    effectText.setText(effectName + ": " + effectDescription);
-                }
-            }
-        }
-        final List<Element> actions = XmlUtils.getChildElements(element, "action");
-        for (Element action : actions) {
-            String actionName = XmlUtils.getElementText(action, "name");
-            String actionDescription = XmlUtils.getElementText(action, "shortDescription");
-
-            TextView effectText = new TextView(parent.getContext());
-            parent.addView(effectText);
-            effectText.setText(actionName + ": " + actionDescription);
-        }
+        super.visitFeature(element);
 
         parent = oldParent;
+    }
+
+    @Override
+    protected void visitAction(@NonNull Element element) {
+        String actionName = XmlUtils.getElementText(element, "name");
+        String actionDescription = XmlUtils.getElementText(element, "shortDescription");
+
+        TextView effectText = new TextView(parent.getContext());
+        parent.addView(effectText);
+        effectText.setText(actionName + ": " + actionDescription);
+    }
+
+    @Override
+    protected void visitEffect(@NonNull Element element) {
+        String effectName = element.getAttribute("actionName");
+        if (effectName != null) {
+            String effectDescription = XmlUtils.getElementText(element, "actionDescription");
+            if (effectDescription != null) {
+                TextView effectText = new TextView(parent.getContext());
+                parent.addView(effectText);
+                effectText.setText(effectName + ": " + effectDescription);
+            }
+        }
     }
 
     @Override
@@ -298,6 +301,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     int spellIndex;
+
     @Override
     protected void visitSpells(@NonNull Element element) {
         if (!handleSpells) return;
@@ -309,7 +313,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
         if (XmlUtils.getChildElements(element).isEmpty()) {
             String casterClass = element.getAttribute("casterClass");
-            String numString = element.getAttribute("num");
+            String numString = element.getAttribute("number");
             int num = 1;
             if (numString != null && numString.trim().length() > 0) {
                 num = Integer.parseInt(numString);
@@ -318,8 +322,8 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             choicesMD.addChildChoice(currentChooseMD);
 
             //TODO find max level...
-            int maxlevel=1;
-            visitSpellSearchChoices(casterClass, maxlevel, num,null );
+            int maxlevel = 1;
+            visitSpellSearchChoices(casterClass, maxlevel, num, null);
         }
 
         parent = oldParent;
@@ -337,7 +341,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         if (XmlUtils.getChildElements(element).isEmpty()) {
 
             String casterClass = element.getAttribute("casterClass");
-            String numString = element.getAttribute("num");
+            String numString = element.getAttribute("number");
             int num = 1;
             if (numString != null && numString.trim().length() > 0) {
                 num = Integer.parseInt(numString);
@@ -361,7 +365,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 //            popChooseMD(oldChooseMD);
 //            spellIndex++;
 //        } else {
-            visitSimpleItem(element);
+        visitSimpleItem(element);
 //        }
     }
 
