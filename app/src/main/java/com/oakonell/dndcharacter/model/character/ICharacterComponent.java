@@ -17,7 +17,7 @@ import java.util.Map;
  * Created by Rob on 2/11/2016.
  */
 public interface ICharacterComponent extends ComponentSource {
-    void addExtraFormulaVariables(SimpleVariableContext extraVariables);
+    void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull Character character);
 
     String getName();
 

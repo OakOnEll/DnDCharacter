@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.UseType;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Rob on 1/4/2016.
@@ -59,6 +61,9 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
     @NonNull
     public final RecyclerView action_list;
+
+    private Set<FeatureContextArgument> filter;
+
     private ActionAdapter actionsAdapter;
 
 
@@ -74,7 +79,11 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         uses_remaining = (TextView) view.findViewById(R.id.remaining);
         shortDescription = (TextView) view.findViewById(R.id.short_description);
         refreshes_label = (TextView) view.findViewById(R.id.refreshes_label);
+    }
 
+    public FeatureViewHolder(View view, Set<FeatureContextArgument> filter) {
+        this(view);
+        this.filter = filter;
     }
 
     @Override
@@ -100,7 +109,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             DividerItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
             action_list.addItemDecoration(itemDecoration);
         }
-        actionsAdapter.setFeature(info);
+        actionsAdapter.setFeature(info, filter);
 
 
         boolean hasLimitedUses = info.hasLimitedUses();
@@ -345,11 +354,20 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             return list.size();
         }
 
-        public void setFeature(@NonNull FeatureInfo info) {
+        public void setFeature(@NonNull FeatureInfo info, Set<FeatureContextArgument> filter) {
+            list = new ArrayList<>();
+            for (IFeatureAction each : info.getActionsAndEffects()) {
+                if (filter == null || (!each.hasActionContext() || each.isActionInContext(filter))) {
+                    list.add(each);
+                }
+            }
+
             this.list = new ArrayList<>(info.getActionsAndEffects());
             this.info = info;
+
             notifyDataSetChanged();
         }
+
     }
 
 

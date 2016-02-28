@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
+import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.expression.Expression;
 import com.oakonell.expression.ExpressionContext;
 import com.oakonell.expression.ExpressionType;
@@ -16,8 +18,10 @@ import org.simpleframework.xml.ElementList;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Rob on 10/24/2015.
@@ -92,6 +96,25 @@ public class Feature extends AbstractContextualComponent {
         return actions;
     }
 
+    @Override
+    public boolean isInContext(FeatureContextArgument context) {
+        if (super.isInContext(context)) return true;
+        for (IFeatureAction each : getActionsAndEffects()) {
+            if (each.isActionInContext(context)) return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean isInContext(@NonNull Set<FeatureContextArgument> filter) {
+        if (super.isInContext(filter)) return true;
+        for (IFeatureAction each : getActionsAndEffects()) {
+            if (each.isActionInContext(filter)) return true;
+        }
+        return false;
+    }
+
     @NonNull
     public List<IFeatureAction> getActionsAndEffects() {
         List<IFeatureAction> result = new ArrayList<>();
@@ -139,6 +162,36 @@ public class Feature extends AbstractContextualComponent {
         int cost;
         @Element(required = false)
         private FeatureExtensionType extensionType;
+
+        @ElementList(required = false)
+        private Set<FeatureContextArgument> contexts = new HashSet<>();
+
+        public void addContext(FeatureContextArgument featureContextArgument) {
+            contexts.add(featureContextArgument);
+        }
+
+        public boolean hasActionContext() {
+            return !contexts.isEmpty();
+        }
+
+        @Override
+        public boolean isActionInContext(FeatureContextArgument context) {
+            for (FeatureContextArgument each : contexts) {
+                if (each.getContext() != context.getContext()) continue;
+                if (each.getArgument() == null) return true;
+                if (each.getArgument().equals(context.getArgument())) return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean isActionInContext(@NonNull Set<FeatureContextArgument> filter) {
+            for (FeatureContextArgument eachFilter : filter) {
+                if (isActionInContext(eachFilter)) return true;
+            }
+            return false;
+        }
+
 
         @Override
         public String getAction() {
@@ -246,6 +299,33 @@ public class Feature extends AbstractContextualComponent {
 
         @ElementList(required = false)
         private List<FeatureEffectVariable> variables = new ArrayList<>();
+
+        @ElementList(required = false)
+        private Set<FeatureContextArgument> actionsContexts = new HashSet<>();
+
+        public void addActionContext(FeatureContextArgument featureContextArgument) {
+            actionsContexts.add(featureContextArgument);
+        }
+
+        public boolean hasActionContext() {
+            return !actionsContexts.isEmpty();
+        }
+
+        public boolean isActionInContext(FeatureContextArgument context) {
+            for (FeatureContextArgument each : actionsContexts) {
+                if (each.getContext() != context.getContext()) continue;
+                if (each.getArgument() == null) return true;
+                if (each.getArgument().equals(context.getArgument())) return true;
+            }
+            return false;
+        }
+
+        public boolean isActionInContext(@NonNull Set<FeatureContextArgument> filter) {
+            for (FeatureContextArgument eachFilter : filter) {
+                if (isInContext(eachFilter)) return true;
+            }
+            return false;
+        }
 
         public void addVariable(FeatureEffectVariable variable) {
             variables.add(variable);

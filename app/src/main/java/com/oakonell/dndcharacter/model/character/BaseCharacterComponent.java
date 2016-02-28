@@ -205,7 +205,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
         return wrappedList.proficiencies;
     }
 
-    public void addExtraFormulaVariables(SimpleVariableContext extraVariables) {
+    public void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull Character character) {
         // do nothing, let subclasses override
     }
 
@@ -295,6 +295,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     public String getInitiativeModFormula() {
         return initiativeModFormula;
     }
+
     @Override
     public int getInitiativeMod(Character character) {
         return character.evaluateFormula(initiativeModFormula, null);
@@ -303,6 +304,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     public void setInitiativeModFormula(String initiativeModFormula) {
         this.initiativeModFormula = initiativeModFormula;
     }
+
     public String getPassivePerceptionModFormula() {
         return passivePerceptionModFormula;
     }

@@ -105,7 +105,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     public int evaluateMaxUses(@NonNull Character character) {
         if (feature.getUsesFormula() != null) {
             SimpleVariableContext variableContext = new SimpleVariableContext();
-            source.addExtraFormulaVariables(variableContext);
+            source.addExtraFormulaVariables(variableContext, character);
             return character.evaluateFormula(feature.getUsesFormula(), variableContext);
         }
         if (extendedFeature != null) return extendedFeature.evaluateMaxUses(character);
@@ -287,9 +287,9 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public void addExtraFormulaVariables(SimpleVariableContext extraVariables) {
-        getFeature().addExtraFormulaVariables(extraVariables);
-        if (extendedFeature != null) extendedFeature.addExtraFormulaVariables(extraVariables);
+    public void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull Character character) {
+        getFeature().addExtraFormulaVariables(extraVariables, character);
+        if (extendedFeature != null) extendedFeature.addExtraFormulaVariables(extraVariables, character);
     }
 
 

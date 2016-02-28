@@ -123,6 +123,18 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             effect.setExtensionType(actionExtensionType);
         }
 
+        final String contextsString = XmlUtils.getElementText(effectElement, "actionContext");
+        if (contextsString != null) {
+            String[] contexts = contextsString.split(",");
+            for (String each : contexts) {
+                String contextString = each.trim();
+                if (contextString.length() > 0) {
+                    final FeatureContextArgument featureContextArgument = AbstractContextualComponent.parseFeatureContext(contextString);
+                    effect.addActionContext(featureContextArgument);
+                }
+            }
+        }
+
         String actionDescription = XmlUtils.getElementText(effectElement, "actionDescription");
         effect.setActionDescription(actionDescription);
         effect.setAction(actionName);
@@ -162,6 +174,18 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         if (actionExtensionTypeString != null && actionExtensionTypeString.trim().length() > 0) {
             actionExtensionType = EnumHelper.stringToEnum(actionExtensionTypeString, FeatureExtensionType.class);
             action.setExtensionType(actionExtensionType);
+        }
+
+        final String contextsString = XmlUtils.getElementText(actionElement, "context");
+        if (contextsString != null) {
+            String[] contexts = contextsString.split(",");
+            for (String each : contexts) {
+                String contextString = each.trim();
+                if (contextString.length() > 0) {
+                    final FeatureContextArgument featureContextArgument = AbstractContextualComponent.parseFeatureContext(contextString);
+                    action.addContext(featureContextArgument);
+                }
+            }
         }
 
         action.setName(actionName);

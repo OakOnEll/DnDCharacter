@@ -572,7 +572,7 @@ public class Character {
                 String acFormula = each.getBaseAcFormula();
                 if (acFormula != null) {
                     SimpleVariableContext variableContext = new SimpleVariableContext();
-                    each.getSource().addExtraFormulaVariables(variableContext);
+                    each.getSource().addExtraFormulaVariables(variableContext, this);
                     int value = evaluateFormula(acFormula, variableContext);
                     ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each);
                     result.add(featureAc);
@@ -646,7 +646,7 @@ public class Character {
 
                 SimpleVariableContext variableContext = new SimpleVariableContext();
                 variableContext.setBoolean("armor", isWearingArmor);
-                component.addExtraFormulaVariables(variableContext);
+                component.addExtraFormulaVariables(variableContext, Character.this);
 
                 int value = evaluateFormula(acFormula, variableContext);
                 ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, component);

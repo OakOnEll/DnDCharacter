@@ -119,7 +119,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
 
         if (viewType == 1) {
             View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
-            BindableComponentViewHolder holder = new FeatureViewHolder(view);
+            BindableComponentViewHolder holder = new FeatureViewHolder(view, filter);
             return holder;
         }
         if (viewType == 0) {
