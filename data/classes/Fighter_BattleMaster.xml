@@ -9,7 +9,7 @@
             <uses>4</uses>
             <refreshes>short rest</refreshes>
             <shortDescription>You have learned a set of special maneuvers that can be used to enhance an attack in some way. You have a set of d8 superiority dice to apply towards maneuvers.</shortDescription>
-            <choose name="maneuvers" num="3" title="Choose 3 Maneuvers">
+            <choose name="maneuvers" number="3" title="Choose 3 Maneuvers">
                 <or name="commander_strike">
                     <action uses="1">
                         <name>Commander's Strike</name>
@@ -135,7 +135,7 @@
             <uses>5</uses>
             <extensionDescription>You gain an additional superiority die, up to 5 now, and can choose two more maneuvers.</extensionDescription>
             <name>Combat Superiority</name>
-            <choose name="maneuvers" num="2" title="Choose 2 Additional Maneuvers">
+            <choose name="maneuvers" number="2" title="Choose 2 Additional Maneuvers">
                 <or name="commander_strike">
                     <action uses="1">
                         <name>Commander's Strike</name>
@@ -243,7 +243,7 @@
             <extensionDescription>Your superiority dice are now d10s. You can also choose two more maneuvers.</extensionDescription>
             <shortDescription>You have learned a set of special maneuvers that can be used to enhance an attack in some way. You have a set of d10 superiority dice to apply towards maneuvers.</shortDescription>
             <name>Combat Superiority</name>
-            <choose name="maneuvers" num="2" title="Choose 2 Additional Maneuvers">
+            <choose name="maneuvers" number="2" title="Choose 2 Additional Maneuvers">
                 <or name="commander_strike">
                     <action uses="1">
                         <name>Commander's Strike</name>
@@ -357,7 +357,7 @@
             <extensionDescription>You gain an additional superiority die, up to 6 now, and can choose two more maneuvers.</extensionDescription>
             <uses>6</uses>
             <name>Combat Superiority</name>
-            <choose name="maneuvers" num="2" title="Choose 2 Additional Maneuvers">
+            <choose name="maneuvers" number="2" title="Choose 2 Additional Maneuvers">
                 <or name="commander_strike">
                     <action uses="1">
                         <name>Commander's Strike</name>
