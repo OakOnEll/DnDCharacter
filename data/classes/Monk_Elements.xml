@@ -1,0 +1,430 @@
+<class>
+    <ref>PHB p.80</ref>
+    <name>Way of the Four Elements</name>
+    <parent>Monk</parent>
+
+    <level value="3">
+        <feature extension="extend">
+            <name>Ki</name>
+            <extensionDescription>You learn Elemental Attunement and one other elemental discipline.</extensionDescription>
+            <action uses="0">
+                <name>Elemental Attunement</name>
+                <shortDescription>You can use your action to briefly control elemental forces nearby, causing one of the following effects of your choice:
+                    * Create a harmless, instantaneous sensory effect related to air, earth, fire, or water, such as a shower of sparks, a puff of wind, a spray of light mist, or a gentle rumbling of stone.
+                    * Instantaneously light or snuff out a candle, a torch, or a small campfire.
+                    * Chill or warm up to 1 pound of nonliving material for up to 1 hour.
+                    * Cause earth, fire, water, or mist that can fit within a 1-foot cube to shape itself inot a crude form you designate for 1 minute.</shortDescription>
+            </action>
+            <choose name="discipline">
+                <or name="Fangs">
+                    <action uses="1">
+                        <name>Fangs of the Fire Snake</name>
+                        <shortDescription>When you use the Attack action on your  turn, you can spend 1 Ki point to cause tendrils of flame to stretch out from your fists and feet. Your reach with your unarmed strikes increases by 10 feet for that action, as well as the rest of the turn. A hit with such an attack deals fire damage instead of bludgeoning damage, and if you spend 1 ki point when the attack hits, it also deals an extra 1d10 fire damage.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="thunders">
+                    <action>
+                        <name>Fist of Four Thunders</name>
+                        <shortDescription>Use 2 Ki points to cast Thunderwave- a wave of thunderous force sweeps out from you. Each creature in a 15-foot cube originating from you must make a Constitution saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, a creature takes 2d8 thunder damage and is pushed 10 feet away from you. On a successful save, the creature takes half as much damage and isn’t pushed.
+                            In addition, unsecured objects that are completely within the area of effect are automatically pushed 10 feet away from you by the spell’s effect, and the spell emits a thunderous boom audible out to 300 feet.
+                            When you cast this spell using extra Ki points, the damage increases by 1d8 for each Ki point.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="unbroken">
+                    <action uses="1">
+                        <name>Fist of Unbroken Air</name>
+                        <shortDescription>You can create a blast of compressed air that strikes like a mighty fist. As an action, you can spend 2 Ki points and choose a creature within 30 feet of you. That creature must make a Strength saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, the creature takes 3d10 bludgeoning damage, plus an extra 1d10 bludgeoning damage for each additional Ki point you spend, and you can push the creature up to 20 feet away from you and knock it prone. On a successful save, the creature takes half as much damage, and you don't push it or knock it prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="gale">
+                    <effect actionName="Rush of the Gale Spirits">
+                        <name>Rush of the Gale Spirits</name>
+                        <actionDescription>As an action, you can spend 2 Ki points and cast Gust of Wind- creating a line of strong wind 60 feet long and 10 feet wide for up to 1 minute.</actionDescription>
+                        <shortDescription>For 1 minute, a line of strong wind 60 feet long and 10 feet wide blasts from you in a direction you choose for the spell’s duration. Each creature that starts its turn in the line must succeed on a Strength saving throw or be pushed 15 feet away from you in a direction following the line. Any creature in the line must spend 2 feet of movement for every 1 foot it moves when moving closer to you.
+                            The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in the area. It causes protected flames, such as those of lanterns, to dance wildly and has a 50 percent chance to extinguish them.
+                            As a bonus action on each of your turns before the spell ends, you can change the direction in which the line blasts from you.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </effect>
+                </or>
+                <or name="flowing">
+                    <action uses="1">
+                        <name>Shape the Flowing River</name>
+                        <shortDescription>As an action, you can spend 1 ki point to choose an area of ice or water no larger than 30 feet on a side within 120 feet of you. You can change water to ice with the area, and vice versa, and you can reshape ice in the area in any manner you choose. You can raise or lower the ice's elevation, create or fill in a trench, erect or flatten a wall, or form a pillar. The extent of any such changes can't exceed half the area's largest dimension. For example, if you affect a 30 foot square, you can create a pillar up to 15 feet high, raise or lower the square's elevetaion by up to 15 feet, dig a trench up to 15 feet deep, and so on. You can't share the ice to trap or injure a creature in the area.</shortDescription>
+                    </action>
+                </or>
+                <or name="sweeping">
+                    <action uses="1">
+                        <name>Sweeping Cinder Strike</name>
+                        <shortDescription>As an action, you can spend 2 Ki points, and cast Burning Hands- hold your hands with thumbs touching and fingers spread, a thin sheet of flames shoots forth from your outstretched fingertips. Each creature in a 15-foot cone must make a Dexterity saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). A creature takes 3d6 fire damage on a failed save, or half as much damage on a successful one. The fire ignites any flammable objects in the area that aren’t being worn or carried.
+                            You can expend additional ki points to increase the damage by 1d6.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="whip">
+                    <action uses="1">
+                        <name>Water Whip</name>
+                        <shortDescription>As a bonus action, you can spend 2 Ki points to create a whip of water that shoves and pulls a create to unbalance it. A creature that you can see that is witihn 30 feet of you must make a Dexterity save against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, the creature takes 3d10 bludgeoning damage, plus an extra 1d10 bludgeoning damage for each additional Ki point you spend, and you can either knock it prone or pull it up to 25 feet closer to you. On a successful save, the creature takes half as much damage, and you don't pull it or knock it prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+            </choose>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <feature extension="extend">
+            <name>Ki</name>
+            <extensionDescription>You learn an additional elemental discipline.</extensionDescription>
+            <choose name="discipline">
+                <or name="Clench">
+                    <action uses="3">
+                        <name>Clench of the North Wind</name>
+                        <shortDescription>You can spend 3 Ki points to attempt to cast hold person.
+                        Choose a humanoid that you can see within 60 feet. The target must succeed on a Wisdom Saving throw against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier) or be paralyzed for up to 1 minute. At the end of each of its turns, the target can make another Wisdom saving throw. On a success, the effect ends on the target.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="Fangs">
+                    <action uses="1">
+                        <name>Fangs of the Fire Snake</name>
+                        <shortDescription>When you use the Attack action on your  turn, you can spend 1 Ki point to cause tendrils of flame to stretch out from your fists and feet. Your reach with your unarmed strikes increases by 10 feet for that action, as well as the rest of the turn. A hit with such an attack deals fire damage instead of bludgeoning damage, and if you spend 1 ki point when the attack hits, it also deals an extra 1d10 fire damage.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="thunders">
+                    <action>
+                        <name>Fist of Four Thunders</name>
+                        <shortDescription>Use 2 Ki points to cast Thunderwave- a wave of thunderous force sweeps out from you. Each creature in a 15-foot cube originating from you must make a Constitution saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, a creature takes 2d8 thunder damage and is pushed 10 feet away from you. On a successful save, the creature takes half as much damage and isn’t pushed.
+                            In addition, unsecured objects that are completely within the area of effect are automatically pushed 10 feet away from you by the spell’s effect, and the spell emits a thunderous boom audible out to 300 feet.
+                            When you cast this spell using extra Ki points, the damage increases by 1d8 for each Ki point.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="unbroken">
+                    <action uses="1">
+                        <name>Fist of Unbroken Air</name>
+                        <shortDescription>You can create a blast of compressed air that strikes like a mighty fist. As an action, you can spend 2 Ki points and choose a creature within 30 feet of you. That creature must make a Strength saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, the creature takes 3d10 bludgeoning damage, plus an extra 1d10 bludgeoning damage for each additional Ki point you spend, and you can push the creature up to 20 feet away from you and knock it prone. On a successful save, the creature takes half as much damage, and you don't push it or knock it prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="gong">
+                    <action uses="3">
+                        <name>Gong of the Summit</name>
+                        <shortDescription>You can spend 3 Ki points to cast shatter.
+                        A sudden loud ringing noise, painfully intense, erupts from a point of your choice within 60 feet. Each creature in a 10 foot radius sphere centered on that point must make a Constitution saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). A creature takes 3d8 thunder damage on a failed save, or half as much damage on a successful one. A creature made of inorganic material, such as stone, crystal, or metal has disadvantage on this saving throw.
+                        A nonmagical object that isn't being worn or carried also takes the damage if it's in the spell area.
+                        For each additional Ki point, the damage increases by 1d8.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="gale">
+                    <effect actionName="Rush of the Gale Spirits">
+                        <name>Rush of the Gale Spirits</name>
+                        <actionDescription>As an action, you can spend 2 Ki points and cast Gust of Wind- creating a line of strong wind 60 feet long and 10 feet wide for up to 1 minute.</actionDescription>
+                        <shortDescription>For 1 minute, a line of strong wind 60 feet long and 10 feet wide blasts from you in a direction you choose for the spell’s duration. Each creature that starts its turn in the line must succeed on a Strength saving throw or be pushed 15 feet away from you in a direction following the line. Any creature in the line must spend 2 feet of movement for every 1 foot it moves when moving closer to you.
+                            The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in the area. It causes protected flames, such as those of lanterns, to dance wildly and has a 50 percent chance to extinguish them.
+                            As a bonus action on each of your turns before the spell ends, you can change the direction in which the line blasts from you.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </effect>
+                </or>
+                <or name="flowing">
+                    <action uses="1">
+                        <name>Shape the Flowing River</name>
+                        <shortDescription>As an action, you can spend 1 ki point to choose an area of ice or water no larger than 30 feet on a side within 120 feet of you. You can change water to ice with the area, and vice versa, and you can reshape ice in the area in any manner you choose. You can raise or lower the ice's elevation, create or fill in a trench, erect or flatten a wall, or form a pillar. The extent of any such changes can't exceed half the area's largest dimension. For example, if you affect a 30 foot square, you can create a pillar up to 15 feet high, raise or lower the square's elevetaion by up to 15 feet, dig a trench up to 15 feet deep, and so on. You can't share the ice to trap or injure a creature in the area.</shortDescription>
+                    </action>
+                </or>
+                <or name="sweeping">
+                    <action uses="1">
+                        <name>Sweeping Cinder Strike</name>
+                        <shortDescription>As an action, you can spend 2 Ki points, and cast Burning Hands- hold your hands with thumbs touching and fingers spread, a thin sheet of flames shoots forth from your outstretched fingertips. Each creature in a 15-foot cone must make a Dexterity saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). A creature takes 3d6 fire damage on a failed save, or half as much damage on a successful one. The fire ignites any flammable objects in the area that aren’t being worn or carried.
+                            You can expend additional ki points to increase the damage by 1d6.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="whip">
+                    <action uses="1">
+                        <name>Water Whip</name>
+                        <shortDescription>As a bonus action, you can spend 2 Ki points to create a whip of water that shoves and pulls a create to unbalance it. A creature that you can see that is witihn 30 feet of you must make a Dexterity save against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, the creature takes 3d10 bludgeoning damage, plus an extra 1d10 bludgeoning damage for each additional Ki point you spend, and you can either knock it prone or pull it up to 25 feet closer to you. On a successful save, the creature takes half as much damage, and you don't pull it or knock it prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+            </choose>
+        </feature>
+    </level>
+
+    <level value="11">
+        <feature extension="extend">
+            <name>Ki</name>
+            <extensionDescription>You learn an additional elemental discipline.</extensionDescription>
+            <choose name="discipline">
+                <or name="clench">
+                    <action uses="3">
+                        <name>Clench of the North Wind</name>
+                        <shortDescription>You can spend 3 Ki points to attempt to cast hold person.
+                            Choose a humanoid that you can see within 60 feet. The target must succeed on a Wisdom Saving throw against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier) or be paralyzed for up to 1 minute. At the end of each of its turns, the target can make another Wisdom saving throw. On a success, the effect ends on the target.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="mountain">
+                    <effect actionName="Eternal Mountain Defense" uses="3">
+                        <name>Eternal Mountain Defense</name>
+                        <actionDescription>You can spend 5 Ki points to cast stoneskin for up to an hour, giving yourself resistance to nonmagical bludgeoning, piercing, and slashing damage.</actionDescription>
+                        <description>For up to an hour, while concentrating, you have resistance to nonmagical bludgeoning, piercing, and slashing damage.</description>
+                        <context>HIT_POINTS</context>
+                    </effect>
+                </or>
+                <or name="Fangs">
+                    <action uses="1">
+                        <name>Fangs of the Fire Snake</name>
+                        <shortDescription>When you use the Attack action on your  turn, you can spend 1 Ki point to cause tendrils of flame to stretch out from your fists and feet. Your reach with your unarmed strikes increases by 10 feet for that action, as well as the rest of the turn. A hit with such an attack deals fire damage instead of bludgeoning damage, and if you spend 1 ki point when the attack hits, it also deals an extra 1d10 fire damage.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="thunders">
+                    <action>
+                        <name>Fist of Four Thunders</name>
+                        <shortDescription>Use 2 Ki points to cast Thunderwave- a wave of thunderous force sweeps out from you. Each creature in a 15-foot cube originating from you must make a Constitution saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, a creature takes 2d8 thunder damage and is pushed 10 feet away from you. On a successful save, the creature takes half as much damage and isn’t pushed.
+                            In addition, unsecured objects that are completely within the area of effect are automatically pushed 10 feet away from you by the spell’s effect, and the spell emits a thunderous boom audible out to 300 feet.
+                            When you cast this spell using extra Ki points, the damage increases by 1d8 for each Ki point.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="unbroken">
+                    <action uses="1">
+                        <name>Fist of Unbroken Air</name>
+                        <shortDescription>You can create a blast of compressed air that strikes like a mighty fist. As an action, you can spend 2 Ki points and choose a creature within 30 feet of you. That creature must make a Strength saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, the creature takes 3d10 bludgeoning damage, plus an extra 1d10 bludgeoning damage for each additional Ki point you spend, and you can push the creature up to 20 feet away from you and knock it prone. On a successful save, the creature takes half as much damage, and you don't push it or knock it prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="phoenix">
+                    <action uses="4">
+                        <name>Flames of the Phoenix</name>
+                        <shortDescription>You can spend 4 Ki points to cast Fireball. A bright streak flashes from you rfinger to a point you choose within 150 feet of you, and blossoms with a low roar into an explosion of flame. Each creature in a 20 feet radius spehere cetnered on that point must make a dexterity saving throw against your Ki saving DC (8 + your proficiency bonus + your Wisdom modifier). A target takes 8d6 fire damage on a failed save, or half as much on a successful one.
+                        The fire spreads around corners. It ignites flammable objects in the area that aren't being worn or carried.
+                        For each additional Ki point spent, the damage increases by 1d6 points.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="gong">
+                    <action uses="3">
+                        <name>Gong of the Summit</name>
+                        <shortDescription>You can spend 3 Ki points to cast shatter.
+                            A sudden loud ringing noise, painfully intense, erupts from a point of your choice within 60 feet. Each creature in a 10 foot radius sphere centered on that point must make a Constitution saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). A creature takes 3d8 thunder damage on a failed save, or half as much damage on a successful one. A creature made of inorganic material, such as stone, crystal, or metal has disadvantage on this saving throw.
+                            A nonmagical object that isn't being worn or carried also takes the damage if it's in the spell area.
+                            For each additional Ki point, the damage increases by 1d8.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="mist">
+                    <effect actionName="Mist Stance" uses="4">
+                        <name>Gaseous Form</name>
+                        <actionDescription>You can spend 4 Ki points to cast Gaseous Form on yourself, turning into a misty cloud for up to an hour.</actionDescription>
+                        <shortDescription>You transform, along with everything your wearing and carrying, into a misty cloud for an hour. The spell ends if you drop to 0 hit points.
+                            While in this form, your only method of movement is flying at a speed of 10 feet. You can enter and occupy the space of another creature. You have resistance to nonmagical damage, and have advantage on Strength, Dexterity, and Constitution saving throws. You can pass through small holes, narrow openings, and even mere cracks, though you treat liquids as though they were solid surfaces. You can't fall, and remain hovering in the air even when stunned or otherwise incapacitated.
+                            While in this form, you can't talk or manipulate objects, and any objects you were carrying or holding can't be dropped, used, or otherwise interacted with. You can't attack or cast spells.
+                        </shortDescription>
+                        <speed type="fly">10</speed>
+                        <context>WEAPON_ATTACK,SPELL_CAST,HIT_POINTS,SPEED,SAVING_THROW(strength),SAVING_THROW(dexterity),SAVING_THROW(constitution)</context>
+                    </effect>
+                </or>
+                <or name="wind">
+                    <effect actionName="Ride the Wind" uses="4">
+                        <name>Ride the Wind</name>
+                        <actionDescription>You can spend 4 Ki points to cast Fly on yourself, gaining a flying speed of 60 feet for up to an hour.</actionDescription>
+                        <shortDescription>You gain a flying speed of 60 feet for up to an hour. When the spell ends, you will fall if still aloft, unless you can stop the fall.</shortDescription>
+                        <speed type="fly">60</speed>
+                        <context>SPEED</context>
+                    </effect>
+                </or>                <or name="gale">
+                    <effect actionName="Rush of the Gale Spirits">
+                        <name>Rush of the Gale Spirits</name>
+                        <actionDescription>As an action, you can spend 2 Ki points and cast Gust of Wind- creating a line of strong wind 60 feet long and 10 feet wide for up to 1 minute.</actionDescription>
+                        <shortDescription>For 1 minute, a line of strong wind 60 feet long and 10 feet wide blasts from you in a direction you choose for the spell’s duration. Each creature that starts its turn in the line must succeed on a Strength saving throw or be pushed 15 feet away from you in a direction following the line. Any creature in the line must spend 2 feet of movement for every 1 foot it moves when moving closer to you.
+                            The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in the area. It causes protected flames, such as those of lanterns, to dance wildly and has a 50 percent chance to extinguish them.
+                            As a bonus action on each of your turns before the spell ends, you can change the direction in which the line blasts from you.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </effect>
+                </or>
+                <or name="flowing">
+                    <action uses="1">
+                        <name>Shape the Flowing River</name>
+                        <shortDescription>As an action, you can spend 1 ki point to choose an area of ice or water no larger than 30 feet on a side within 120 feet of you. You can change water to ice with the area, and vice versa, and you can reshape ice in the area in any manner you choose. You can raise or lower the ice's elevation, create or fill in a trench, erect or flatten a wall, or form a pillar. The extent of any such changes can't exceed half the area's largest dimension. For example, if you affect a 30 foot square, you can create a pillar up to 15 feet high, raise or lower the square's elevetaion by up to 15 feet, dig a trench up to 15 feet deep, and so on. You can't share the ice to trap or injure a creature in the area.</shortDescription>
+                    </action>
+                </or>
+                <or name="sweeping">
+                    <action uses="1">
+                        <name>Sweeping Cinder Strike</name>
+                        <shortDescription>As an action, you can spend 2 Ki points, and cast Burning Hands- hold your hands with thumbs touching and fingers spread, a thin sheet of flames shoots forth from your outstretched fingertips. Each creature in a 15-foot cone must make a Dexterity saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). A creature takes 3d6 fire damage on a failed save, or half as much damage on a successful one. The fire ignites any flammable objects in the area that aren’t being worn or carried.
+                            You can expend additional ki points to increase the damage by 1d6.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="whip">
+                    <action uses="1">
+                        <name>Water Whip</name>
+                        <shortDescription>As a bonus action, you can spend 2 Ki points to create a whip of water that shoves and pulls a create to unbalance it. A creature that you can see that is witihn 30 feet of you must make a Dexterity save against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, the creature takes 3d10 bludgeoning damage, plus an extra 1d10 bludgeoning damage for each additional Ki point you spend, and you can either knock it prone or pull it up to 25 feet closer to you. On a successful save, the creature takes half as much damage, and you don't pull it or knock it prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+            </choose>
+        </feature>
+
+    </level>
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Ki</name>
+            <extensionDescription>You learn an additional elemental discipline.</extensionDescription>
+            <choose name="discipline">
+                <or name="winter">
+                    <action uses="6">
+                        <name>Breath of Winter</name>
+                        <shortDescription>You can spend 6 Ki points to cast cone of cold.
+                            A blast of cold air erupts from your hands. Each creature in a 60 foot cone must make a Constitution saving throw against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier). A creature takes 8d8 cold damage on a failed save, or half as much damage on a successful one.
+                            A creature killed by this spell becomes a frozen statue until it thaws.
+                            For each additional Ki point expended, the damage increases by 1d8 damage.
+                        </shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="clench">
+                    <action uses="3">
+                        <name>Clench of the North Wind</name>
+                        <shortDescription>You can spend 3 Ki points to attempt to cast hold person.
+                            Choose a humanoid that you can see within 60 feet. The target must succeed on a Wisdom Saving throw against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier) or be paralyzed for up to 1 minute. At the end of each of its turns, the target can make another Wisdom saving throw. On a success, the effect ends on the target.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="mountain">
+                    <effect actionName="Eternal Mountain Defense" uses="3">
+                        <name>Eternal Mountain Defense</name>
+                        <actionDescription>You can spend 5 Ki points to cast stoneskin for up to an hour, giving yourself resistance to nonmagical bludgeoning, piercing, and slashing damage.</actionDescription>
+                        <description>For up to an hour, while concentrating, you have resistance to nonmagical bludgeoning, piercing, and slashing damage.</description>
+                        <context>HIT_POINTS</context>
+                    </effect>
+                </or>
+                <or name="Fangs">
+                    <action uses="1">
+                        <name>Fangs of the Fire Snake</name>
+                        <shortDescription>When you use the Attack action on your  turn, you can spend 1 Ki point to cause tendrils of flame to stretch out from your fists and feet. Your reach with your unarmed strikes increases by 10 feet for that action, as well as the rest of the turn. A hit with such an attack deals fire damage instead of bludgeoning damage, and if you spend 1 ki point when the attack hits, it also deals an extra 1d10 fire damage.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="thunders">
+                    <action>
+                        <name>Fist of Four Thunders</name>
+                        <shortDescription>Use 2 Ki points to cast Thunderwave- a wave of thunderous force sweeps out from you. Each creature in a 15-foot cube originating from you must make a Constitution saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, a creature takes 2d8 thunder damage and is pushed 10 feet away from you. On a successful save, the creature takes half as much damage and isn’t pushed.
+                            In addition, unsecured objects that are completely within the area of effect are automatically pushed 10 feet away from you by the spell’s effect, and the spell emits a thunderous boom audible out to 300 feet.
+                            When you cast this spell using extra Ki points, the damage increases by 1d8 for each Ki point.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="unbroken">
+                    <action uses="1">
+                        <name>Fist of Unbroken Air</name>
+                        <shortDescription>You can create a blast of compressed air that strikes like a mighty fist. As an action, you can spend 2 Ki points and choose a creature within 30 feet of you. That creature must make a Strength saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, the creature takes 3d10 bludgeoning damage, plus an extra 1d10 bludgeoning damage for each additional Ki point you spend, and you can push the creature up to 20 feet away from you and knock it prone. On a successful save, the creature takes half as much damage, and you don't push it or knock it prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="phoenix">
+                    <action uses="4">
+                        <name>Flames of the Phoenix</name>
+                        <shortDescription>You can spend 4 Ki points to cast Fireball. A bright streak flashes from your finger to a point you choose within 150 feet of you, and blossoms with a low roar into an explosion of flame. Each creature in a 20 feet radius spehere cetnered on that point must make a dexterity saving throw against your Ki saving DC (8 + your proficiency bonus + your Wisdom modifier). A target takes 8d6 fire damage on a failed save, or half as much on a successful one.
+                            The fire spreads around corners. It ignites flammable objects in the area that aren't being worn or carried.
+                            For each additional Ki point spent, the damage increases by 1d6 points.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="gong">
+                    <action uses="3">
+                        <name>Gong of the Summit</name>
+                        <shortDescription>You can spend 3 Ki points to cast shatter.
+                            A sudden loud ringing noise, painfully intense, erupts from a point of your choice within 60 feet. Each creature in a 10 foot radius sphere centered on that point must make a Constitution saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). A creature takes 3d8 thunder damage on a failed save, or half as much damage on a successful one. A creature made of inorganic material, such as stone, crystal, or metal has disadvantage on this saving throw.
+                            A nonmagical object that isn't being worn or carried also takes the damage if it's in the spell area.
+                            For each additional Ki point, the damage increases by 1d8.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="mist">
+                    <effect actionName="Mist Stance" uses="4">
+                        <name>Gaseous Form</name>
+                        <actionDescription>You can spend 4 Ki points to cast Gaseous Form on yourself, turning into a misty cloud for up to an hour.</actionDescription>
+                        <shortDescription>You transform, along with everything your wearing and carrying, into a misty cloud for an hour. The spell ends if you drop to 0 hit points.
+                            While in this form, your only method of movement is flying at a speed of 10 feet. You can enter and occupy the space of another creature. You have resistance to nonmagical damage, and have advantage on Strength, Dexterity, and Constitution saving throws. You can pass through small holes, narrow openings, and even mere cracks, though you treat liquids as though they were solid surfaces. You can't fall, and remain hovering in the air even when stunned or otherwise incapacitated.
+                            While in this form, you can't talk or manipulate objects, and any objects you were carrying or holding can't be dropped, used, or otherwise interacted with. You can't attack or cast spells.
+                        </shortDescription>
+                        <speed type="fly">10</speed>
+                        <context>WEAPON_ATTACK,SPELL_CAST,HIT_POINTS,SPEED,SAVING_THROW(strength),SAVING_THROW(dexterity),SAVING_THROW(constitution)</context>
+                    </effect>
+                </or>
+                <or name="wind">
+                    <effect actionName="Ride the Wind" uses="4">
+                        <name>Ride the Wind</name>
+                        <actionDescription>You can spend 4 Ki points to cast Fly on yourself, gaining a flying speed of 60 feet for up to an hour.</actionDescription>
+                        <shortDescription>You gain a flying speed of 60 feet for up to an hour. When the spell ends, you will fall if still aloft, unless you can stop the fall.</shortDescription>
+                        <speed type="fly">60</speed>
+                        <context>SPEED</context>
+                    </effect>
+                </or>
+                <or name="flame">
+                    <effect actionName="River of Hungry Flame" uses="5">
+                        <name>River of Hungry Flame</name>
+                        <actionDescription>As an action, you can spend 5 Ki points and cast Wall of Fire- you create a wall of fire on a solid surface within 120 feet of you for up to 1 minute. You make a wall up to 60 feet long, 20 feet high, and 1 foot thick.</actionDescription>
+                        <shortDescription>For 1 minute a wall of fire will persist. When it appears, each creature within its area must make a Dexterity saving throw against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, a creature takes 5d8 fire damage, or half as much damage on a successful one.
+                        One side of the wall, selected by you when you cast this spell, deals 5d8 fire damage to each creature that ends its turn within 10 feet of that side or inside the wall. A creature takes the same damage when it enters the wall for the first time on a turn or ends its turn there. The other side of the wall deals no damage.
+                        For each additional Ki point expended, the damage increases by 1d8.</shortDescription>
+                        <context/>
+                    </effect>
+                </or>
+                <or name="gale">
+                    <effect actionName="Rush of the Gale Spirits">
+                        <name>Rush of the Gale Spirits</name>
+                        <actionDescription>As an action, you can spend 2 Ki points and cast Gust of Wind- creating a line of strong wind 60 feet long and 10 feet wide for up to 1 minute.</actionDescription>
+                        <shortDescription>For 1 minute, a line of strong wind 60 feet long and 10 feet wide blasts from you in a direction you choose for the spell’s duration. Each creature that starts its turn in the line must succeed on a Strength saving throw or be pushed 15 feet away from you in a direction following the line. Any creature in the line must spend 2 feet of movement for every 1 foot it moves when moving closer to you.
+                            The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in the area. It causes protected flames, such as those of lanterns, to dance wildly and has a 50 percent chance to extinguish them.
+                            As a bonus action on each of your turns before the spell ends, you can change the direction in which the line blasts from you.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </effect>
+                </or>
+                <or name="flowing">
+                    <action uses="1">
+                        <name>Shape the Flowing River</name>
+                        <shortDescription>As an action, you can spend 1 ki point to choose an area of ice or water no larger than 30 feet on a side within 120 feet of you. You can change water to ice with the area, and vice versa, and you can reshape ice in the area in any manner you choose. You can raise or lower the ice's elevation, create or fill in a trench, erect or flatten a wall, or form a pillar. The extent of any such changes can't exceed half the area's largest dimension. For example, if you affect a 30 foot square, you can create a pillar up to 15 feet high, raise or lower the square's elevetaion by up to 15 feet, dig a trench up to 15 feet deep, and so on. You can't share the ice to trap or injure a creature in the area.</shortDescription>
+                    </action>
+                </or>
+                <or name="sweeping">
+                    <action uses="1">
+                        <name>Sweeping Cinder Strike</name>
+                        <shortDescription>As an action, you can spend 2 Ki points, and cast Burning Hands- hold your hands with thumbs touching and fingers spread, a thin sheet of flames shoots forth from your outstretched fingertips. Each creature in a 15-foot cone must make a Dexterity saving throw against your Ki Save DC (8 + your proficiency bonus + your Wisdom modifier). A creature takes 3d6 fire damage on a failed save, or half as much damage on a successful one. The fire ignites any flammable objects in the area that aren’t being worn or carried.
+                            You can expend additional ki points to increase the damage by 1d6.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="whip">
+                    <action uses="1">
+                        <name>Water Whip</name>
+                        <shortDescription>As a bonus action, you can spend 2 Ki points to create a whip of water that shoves and pulls a create to unbalance it. A creature that you can see that is witihn 30 feet of you must make a Dexterity save against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier). On a failed save, the creature takes 3d10 bludgeoning damage, plus an extra 1d10 bludgeoning damage for each additional Ki point you spend, and you can either knock it prone or pull it up to 25 feet closer to you. On a successful save, the creature takes half as much damage, and you don't pull it or knock it prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
+                    </action>
+                </or>
+                <or name="earth">
+                    <effect actionName="Wave of Rolling Earth" uses="5">
+                        <name>Wave of Rolling Earth</name>
+                        <actionDescription>As an action, you can spend 6 Ki points and cast Wall of Stone- you create a wall of stone within 120 feet of you for up to 1 minute. You make a wall up to 6 inches thick, composed of ten 10-foot-by-10-foot panels. Alternatively, you can create 10-foot-by-20-foot panels that are only 3 inches thick.</actionDescription>
+                        <shortDescription>For 1 minute a wall of stone will persist. If the wall cuts through a creature’s space when it appears, the creature is pushed to one side of the wall (your choice). If a creature would be surrounded on all sides by the wall (or the wall and another solid surface), that creature can make a Dexterity saving throw. On a success, it can use its reaction to move up to its speed so that it is no longer enclosed by the wall.
+                            The wall can have any shape you desire, though it can’t occupy the same space as a creature or object. The wall doesn’t need to be vertical or rest on any firm foundation. It must, however, merge with and be solidly supported by existing stone. Thus, you can use this spell to bridge a chasm or create a ramp.
+                            If you create a span greater than 20 feet in length, you must halve the size of each panel to create supports. You can crudely shape the wall to create crenellations, battlements, and so on.
+                            The wall is an object made of stone that can be damaged and thus breached. Each panel has AC 15 and 30 hit points per inch of thickness. Reducing a panel to 0 hit points destroys it and might cause connected panels to collapse at the GM’s discretion.
+                            If you maintain your concentration on this spell for its whole duration, the wall becomes permanent and can’t be dispelled. Otherwise, the wall disappears when the spell ends.</shortDescription>
+                        <context/>
+                    </effect>
+                </or>
+            </choose>
+        </feature>
+    </level>
+
+</class>

@@ -1,0 +1,267 @@
+<class>
+    <ref>PHB p.77</ref>
+    <name>Monk</name>
+    <hitDice>1d8</hitDice>
+
+    <armor/>
+    <savingThrows>
+        <proficiency>Strength</proficiency>
+        <proficiency>Dexterity</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
+            <or name="athletics"><proficiency>Athletics</proficiency></or>
+            <or name="history"><proficiency>History</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="religion"><proficiency>Religion</proficiency></or>
+            <or name="stealth"><proficiency>Stealth</proficiency></or>
+        </choose>
+    </skills>
+    <multiclassPrerequisite>dexterity>=13 AND dexterity >=13</multiclassPrerequisite>
+
+    <tools>
+        <choose name="toolProf">
+            <or name="artisan"><choose name="artisan" category="artisan tool"/></or>
+            <or name="musical"><choose name="musical" category="Musical Instrument"/></or>
+        </choose>
+    </tools>
+
+
+    <equipment>
+        <choose name="weapon">
+            <or name="sword">
+                <item>Shortsword</item>
+            </or>
+            <or name="weapon">
+                <choose name="weapon2" category="simple weapons"/>
+            </or>
+        </choose>
+        <choose name="pack">
+            <or name="dungeoneers">
+                <item>Dungeoneer's pack</item>
+            </or>
+            <or name="explorers">
+                <item>Explorer's pack</item>
+            </or>
+        </choose>
+        <item count="10">Dart</item>
+    </equipment>
+    <level value="1">
+        <feature>
+            <name>Unarmored Defense</name>
+            <!-- TODO introduce shield variable as well -->
+            <condition>!armor</condition>
+            <ac>=10 + dexterityMod + wisdomMod</ac>
+            <shortDescription>While you are wearing no armor and not wielding a shield, your Armor Class equals 10 + your Dexterity modifier + your Wisdom modifier.</shortDescription>
+            <context>ARMOR_CLASS</context>
+        </feature>
+        <feature>
+            <name>Martial Arts</name>
+            <shortDescription>Your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don’t have the twohanded or heavy property. You gain the following benefits while you are unarmed or wielding only monk weapons and you aren’t wearing armor or wielding a shield:
+                • You can use Dexterity instead of Strength for the attack and damage rolls of your unarmed strikes and monk weapons.
+                • You can roll a 1d4 in place of the normal damage of your unarmed strike or monk weapon.
+                • When you use the Attack action with an unarmed strike or a monk weapon on your turn, you can make one unarmed strike as a bonus action. For example, if you take the Attack action and attack with a quarterstaff, you can also make an unarmed strike as a bonus action, assuming you haven’t already taken a bonus action this turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <weapons>
+            <proficiency category="simple weapons"/>
+            <proficiency >Shortsword</proficiency>
+        </weapons>
+    </level>
+
+    <level value="2">
+        <feature>
+            <name>Ki</name>
+            <pool>classLevel</pool>
+            <refreshes>short_rest</refreshes>
+            <action uses="1">
+                <name>Flurry Of Blows</name>
+                <shortDescription>Immediately after you take the Attack action on your turn, you can spend 1 ki point to make two unarmed strikes as a bonus action.</shortDescription>
+                <context>WEAPON_ATTACK</context>
+            </action>
+            <action uses="1">
+                <name>Patient Defense</name>
+                <shortDescription>You can spend 1 ki point to take the Dodge action as a bonus action on your turn.</shortDescription>
+            </action>
+            <action uses="1">
+                <name>Step of the Wind</name>
+                <shortDescription>You can spend 1 ki point to take the Disengage or Dash action as a bonus action on your turn, and your jump distance is doubled for the turn.</shortDescription>
+            </action>
+        </feature>
+
+        <feature>
+            <name>Unarmored Movement</name>
+            <shortDescription>Your speed increases by 10 feet while you are not wearing armor or wielding a shield.</shortDescription>
+            <!-- TODO handle incremental -->
+            <speed>+10</speed>
+            <!-- TODO introduce shield variable as well -->
+            <condition>!armor</condition>
+            <context>SPEED</context>
+        </feature>
+    </level>
+
+    <level value="3">
+        <subclass label="Monastic Tradition" />
+        <feature>
+            <name>Deflect Missiles</name>
+            <shortDescription>You can use your reaction to deflect or catch the missile when you are hit by a ranged weapon attack. When you do so, the damage you take from the attack is reduced by 1d10 + your Dexterity modifier + your monk level.
+            If you reduce the damage to 0, you can catch the missile if it is small enough for you to hold in one hand and you have at least one hand free. If you catch a missile in this way, you can spend 1 ki point to make a ranged attack with the weapon or piece of ammunition you just caught, as part of the same reaction. See the action under Ki Points.</shortDescription>
+            <context>HIT_POINTS</context>
+        </feature>
+        <feature extension="extend">
+            <name>Ki</name>
+            <action uses="1">
+                <name>Deflect Missiles</name>
+                <shortDescription>If you reduce the damage of a missile attack against you (See Deflect Missiles) to 0, you can catch the missile if it is small enough for you to hold in one hand and you have at least one hand free. If you catch a missile in this way, you can spend 1 ki point to make a ranged attack with the weapon or piece of ammunition you just caught, as part of the same reaction. You make this attack with proficiency, regardless of your weapon proficiencies, and the missile counts as a monk weapon for the attack, which has a normal range of 20 feet and a long range of 60 feet.</shortDescription>
+                <context>WEAPON_ATTACK</context>
+            </action>
+        </feature>
+    </level>
+
+    <level value="4">
+        <feature>
+            <name>Slow Fall</name>
+            <shortDescription>You can use your reaction when you fall to reduce any falling damage you take by an amount equal to five times your monk level.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="5">
+        <feature>
+            <name>Extra Attack</name>
+            <shortDescription>You can attack twice, instead of once, whenever you take the Attack action on your turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <feature extension="extend">
+            <name>Ki</name>
+            <action uses="1">
+                <name>Stunning Strike</name>
+                <shortDescription>You can interfere with the flow of ki in an opponent’s body. When you hit another creature with a melee weapon attack, you can spend 1 ki point to attempt a stunning strike. The target must succeed on a Constitution saving throw against your Ki save DC (8 + your proficiency bonus + your Wisdom modifier) or be stunned until the end of your next turn.</shortDescription>
+                <context>WEAPON_ATTACK</context>
+            </action>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <feature>
+            <name>Ki-Empowered Strikes</name>
+            <shortDescription>Your unarmed strikes count as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <feature extension="extend">
+            <name>Unarmored Movement</name>
+            <extensionDescription>Your speed increases by 15 feet.</extensionDescription>
+            <shortDescription>Your speed increases by 15 feet while you are not wearing armor or wielding a shield.</shortDescription>
+            <!-- TODO handle incremental -->
+            <speed>+15</speed>
+        </feature>
+    </level>
+
+    <level value="7">
+        <feature>
+            <name>Evasion</name>
+            <shortDescription>Your instinctive agility lets you dodge out of the way of certain area effects, such as a blue dragon’s lightning breath or a fireball spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.</shortDescription>
+            <context>SAVING_THROW</context>
+        </feature>
+        <feature>
+            <name>Stillness of Mind</name>
+            <shortDescription>You can use your action to end one effect on yourself that is causing you to be charmed or frightened.</shortDescription>
+            <context>SAVING_THROW</context>
+        </feature>
+    </level>
+
+    <level value="10">
+        <feature>
+            <name>Purity of Body</name>
+            <shortDescription>Your mastery of the ki flowing through you makes you immune to disease and poison.</shortDescription>
+            <context>SAVING_THROW</context>
+        </feature>
+        <feature extension="extend">
+            <name>Unarmored Movement</name>
+            <extensionDescription>Your speed increases by 20 feet.</extensionDescription>
+            <shortDescription>Your speed increases by 20 feet while you are not wearing armor or wielding a shield.</shortDescription>
+            <!-- TODO handle incremental -->
+            <speed>+20</speed>
+        </feature>
+    </level>
+
+    <level value="13">
+        <feature>
+            <name>Tongue of the Sun and Moon</name>
+            <shortDescription>You learn to touch the ki of other minds so that you understand all spoken languages. Moreover, any creature that can understand a language can understand what you say.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature >
+            <name>Diamond Soul</name>
+            <shortDescription>Your mastery of ki grants you proficiency in all saving throws. Additionally, whenever you make a saving throw and fail, you can spend 1 ki point to reroll it and take the second result (see Ki action).</shortDescription>
+            <context>SAVING_THROW</context>
+            <savingThrows>
+                <proficiency>Constitution</proficiency>
+                <proficiency>Charisma</proficiency>
+                <proficiency>Wisdom</proficiency>
+                <proficiency>Intelligence</proficiency>
+            </savingThrows>
+        </feature>
+        <feature extension="extend">
+            <name>Ki</name>
+            <action uses="1">
+                <name>Diamond Soul</name>
+                <shortDescription>Whenever you make a saving throw and fail, you can spend 1 ki point to reroll it and take the second result (see Diamond Soul feature).</shortDescription>
+                <context>SAVING_THROW</context>
+            </action>
+        </feature>
+        <feature extension="extend">
+            <name>Unarmored Movement</name>
+            <extensionDescription>Your speed increases by 25 feet.</extensionDescription>
+            <shortDescription>Your speed increases by 25 feet while you are not wearing armor or wielding a shield.</shortDescription>
+            <!-- TODO handle incremental -->
+            <speed>+25</speed>
+        </feature>
+    </level>
+
+    <level value="15">
+        <feature>
+            <name>Timeless Body</name>
+            <shortDescription>Your ki sustains you so that you suffer none of the frailty of old age, and you can’t be aged magically. You can still die of old age, however. In addition, you no longer need food or water.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="18">
+        <feature extension="extend">
+            <name>Ki</name>
+            <effect actionName="Empty Body- Invisibility" uses="4">
+                <name>Empty Body- Invisibility</name>
+                <actionDescription>As an action, you can spend 4 Ki points to become invisible and resistant to all but force damage for 1 minute.</actionDescription>
+                <shortDescription>You are invisible for 1 minute. During that time, you also have resistance to all damage but force damage.</shortDescription>
+                <context>HIT_POINTS</context>
+            </effect>
+            <effect actionName="Empty Body- Astral Project" uses="8">
+                <name>Astral Projection</name>
+                <actionDescription>You can spend 8 Ki points and spend an hour to astral project </actionDescription>
+                <shortDescription>You project your astral bodies into the Astral Plane (the spell fails and the casting is wasted if you are already on that plane). The material body you leave behind is unconscious and in a state of suspended animation; it doesn’t need food or air and doesn’t age.
+                    Your astral body resembles your mortal form in almost every way, replicating your game statistics and possessions. The principal difference is the addition of a silvery cord that extends from between your shoulder blades and trails behind you, fading to invisibility after 1 foot. This cord is your tether to your material body. As long as the tether remains intact, you can find your way home. If the cord is cut—something that can happen only when an effect specifically states that it does—your soul and body are separated, killing you instantly.
+                    Your astral form can freely travel through the Astral Plane and can pass through portals there leading to any other plane. If you enter a new plane or return to the plane you were on when casting this spell, your body and possessions are transported along the silver cord, allowing you to re-enter your body as you enter the new plane. Your astral form is a separate incarnation. Any damage or other effects that apply to it have no effect on your physical body, nor do they persist when you return to it. The spell ends for you when you use your action to dismiss it. When the spell ends, the affected creature returns to its physical body, and it awakens.
+                    The spell might also end early for you. A successful dispel magic spell used against an astral or physical body ends the spell for that creature. If a creature’s original body or its astral form drops to 0 hit points, the spell ends for that creature. If the spell ends and the silver cord is intact, the cord pulls the creature’s astral form back to its body, ending its state of suspended animation.</shortDescription>
+            </effect>
+        </feature>
+        <feature extension="extend">
+            <name>Unarmored Movement</name>
+            <extensionDescription>Your speed increases by 30 feet.</extensionDescription>
+            <shortDescription>Your speed increases by 30 feet while you are not wearing armor or wielding a shield.</shortDescription>
+            <!-- TODO handle incremental -->
+            <speed>+30</speed>
+        </feature>
+    </level>
+
+    <level value="20">
+        <feature>
+            <name>Perfect Self</name>
+            <!-- TODO apply feature refresh..  -->
+            <shortDescription>When you roll for initiative and have no ki points remaining, you regain 4 ki points.</shortDescription>
+            <context>INITIATIVE</context>
+        </feature>
+    </level>
+</class>

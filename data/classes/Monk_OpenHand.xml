@@ -1,0 +1,59 @@
+<class>
+    <ref>PHB p.79</ref>
+    <name>Way of the Open Hand</name>
+    <parent>Monk</parent>
+
+    <level value="3">
+        <feature extension="extend">
+            <name>Ki</name>
+            <extensionDescription>You can manipulate your enemy’s ki when you harness your own. Whenever you hit a creature with one of the attacks granted by your Flurry of Blows, you can impose an effect on that target.</extensionDescription>
+            <action uses="1" extension="replace">
+                <name>Flurry Of Blows</name>
+                <shortDescription>Immediately after you take the Attack action on your turn, you can spend 1 ki point to make two unarmed strikes as a bonus action.
+                    Whenever you hit a creature with one of the attacks granted by your Flurry of Blows, you can impose one of the following effects on that target:
+                    • It must succeed on a Dexterity saving throw or be knocked prone.
+                    • It must make a Strength saving throw. If it fails, you can push it up to 15 feet away from you.
+                    • It can’t take reactions until the end of your next turn.</shortDescription>
+                <context>WEAPON_ATTACK</context>
+            </action>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <feature>
+            <name>Wholeness of Body</name>
+            <uses>1</uses>
+            <refreshes>long_rest</refreshes>
+            <shortDescription>You gain the ability to heal yourself. As an action, you can regain hit points equal to three times your monk level. You must finish a long rest before you can use this feature again.</shortDescription>
+            <context>HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="11">
+        <feature>
+            <name>Tranquility</name>
+            <effect uses="1">
+                <name>Tranquility (Sanctuary)</name>
+                <actionDescription>At the end of a long rest, you gain the effect of a sanctuary spell that lasts until the start of your next long rest</actionDescription>
+                <shortDescription>Until the spell ends, any creature who targets you with an attack or a harmful spell must first make a Wisdom saving throw against your monk Ki save DC (8 + your Wisdom modifier + your proficiency bonus). On a failed save, the creature must choose a new target or lose the attack or spell. This spell doesn’t protect you from area effects, such as the explosion of a fireball.
+                    If you make an attack or cast a spell that affects an enemy creature, this effect ends.</shortDescription>
+            </effect>
+            <context>LONG_REST</context>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Ki</name>
+            <effect uses="3">
+                <name>Quivering Palm</name>
+                <actionDescription>When you hit a creature with an unarmed strike, you can spend 3 ki points to start these imperceptible vibrations, which last for a number of days equal to your monk level. When they are ended, they may deal damage. You can have only one creature under the effect of this feature at a time. </actionDescription>
+                <shortDescription>These vibrations are harmless unless you use your action to end them. To do so, you and the target must be on the same plane of existence. When you use this action, the creature must make a Constitution saving throw against your monk Ki save DC (8 + your Wisdom modifier + your proficiency bonus). If it fails, it is reduced to 0 hit points. If it succeeds, it takes 10d10 necrotic damage.
+                    You can have only one creature under the effect of this feature at a time. You can choose to end the vibrations harmlessly without using an action.</shortDescription>
+                <context>WEAPON_ATTACK</context>
+            </effect>
+        </feature>
+    </level>
+
+</class>
