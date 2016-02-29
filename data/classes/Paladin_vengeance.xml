@@ -1,0 +1,97 @@
+<class>
+    <ref>PHB p.87</ref>
+    <name>Oath of Vengeance</name>
+    <parent>Paladin</parent>
+
+    <level value="3">
+        <feature>
+            <name>Tenets of Devotion</name>
+            <shortDescription>Fight the Greater Evil. Face with a choice of fighting my sworn foes or combating a lesser evil, I choose the greater evil.
+                No Mercy for the Wicked. Ordinary foes might win my mercy, but my sworn enemies do not.
+                By Any Means Necessary. My qualms can't get in the way of exterminating my foes.
+                Restitution. If my foes wreak ruin on the worl, it is because I failed to stop them. I must help those harmed by their misdeeds.</shortDescription>
+        </feature>
+        <spells>
+            <spell>Bane</spell>
+            <spell>Hunter's Mark</spell>
+        </spells>
+        <feature>
+            <name>Channel Divinity</name>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+            <action  uses="1">
+                <name>Abjure the Enemy</name>
+                <shortDescription>As an action, you present your holy symbol and speak a prayer of denunciation, choosing on creature within 60 feet that you can see. That creature must make a Wisdom saving throw against your Paladin spellcasting save DC (8 + proficiency bonus + charisma modifier), unless it is immune to being frightened. Fiends and undead have disadvantage on this saving throw.
+                On a failed save, the creature is frightened for 1 minute, or until it takes any damage. While frightened, the creature's speed is 0, and it can't benefit from any bonus to its speed.
+                On a successful save, the creature's speed is halved for a minute or until the creature takes any damage.</shortDescription>
+            </action>
+            <action  uses="1">
+                <name>Vow of Enmity</name>
+                <shortDescription>As a bonus action, you can utter a vow of enmity against a creature you can see within 10 feet of you. You gain advantage on attack rolls against the creature for 1 minute or until it drops to 0 hit points or falls unconscious.</shortDescription>
+            </action>
+        </feature>
+    </level>
+
+    <level value="5">
+        <spells>
+            <spell>Hold Person</spell>
+            <spell>Misty Step</spell>
+        </spells>
+    </level>
+
+    <level value="7">
+        <feature>
+            <name>Relentless Avenger</name>
+            <shortDescription>When you hit a foe with an opportunity attack, you can move up to half your speed immediately after the attack and as part of the same reaction. This movement doesn't provoke opportunity attacks.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="9">
+        <spells>
+            <spell>Haste</spell>
+            <spell>Protection from Energy</spell>
+        </spells>
+    </level>
+
+    <level value="13">
+        <spells>
+            <spell>Banishment</spell>
+            <spell>Dimension Door</spell>
+        </spells>
+    </level>
+
+    <level value="15">
+        <feature>
+            <name>Soul of Vengeance</name>
+            <shortDescription>When a creature under the effect of your Vow of Enmity makes an attack, you can use your reaction to make a melee weapon attack against the creature if it is within range.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="17">
+        <spells>
+            <spell>Hold Monster</spell>
+            <spell>Scrying</spell>
+        </spells>
+    </level>
+
+
+    <level value="20">
+        <feature>
+            <name>Avenging Angel</name>
+            <shortDescription>As an action, you can undergo a transformation for 1 hour, gaining wings and an aura of menace that frightens enemies.</shortDescription>
+            <refreshes>long_rest</refreshes>
+            <uses>1</uses>
+            <effect uses="1">
+                <name>Avenging Angel</name>
+                <shortDescription>For 1 hour, you gain the following benefits:
+                    * Wings sprout from your back and grant you a flying speed of 60 feet.
+                    * You emanate an aura of menace in a 30 foot radius. The first time any enemy creature enters the aura or starts its turn there during a battle, the creature must succeed on a Wisdom saving throw against your Paladin spellcasting save DC (8 + proficiency bonus + charisma modifier) or become frightened of you for 1 minute or until it takes any damage. Attack rolls against the frightened creature have advantage.
+                    Once you use this feature, you can’t use it again until you finish a long rest.</shortDescription>
+                <speed type="fly">60</speed>
+            </effect>
+        </feature>
+    </level>
+
+
+
+</class>

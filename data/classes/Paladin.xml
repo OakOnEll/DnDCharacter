@@ -2,7 +2,7 @@
     <name>Paladin</name>
     <hitDice>1d10</hitDice>
     <armor>
-        <proficiency category="heavy armor"></proficiency>
+        <proficiency category="heavy armor"/>
     </armor>
     <savingThrows>
         <proficiency>Wisdom</proficiency>
@@ -13,14 +13,13 @@
             <or name="athletics"><proficiency>Athletics</proficiency></or>
             <or name="insight"><proficiency>Insight</proficiency></or>
             <or name="intimidation"><proficiency>Intimidation</proficiency></or>
-            <or name="perception"><proficiency>Perception</proficiency></or>
             <or name="medicine"><proficiency>Medicine</proficiency></or>
             <or name="persuasion"><proficiency>Persuasion</proficiency></or>
             <or name="religion"><proficiency>Religion</proficiency></or>
         </choose>
     </skills>
     <equipment>
-        <item>Chain mail armor</item>
+        <item>Chain Mail armor</item>
         <item>Holy Symbol</item>
         <choose name="weapon">
             <or name="shield">
@@ -58,30 +57,32 @@
             <name>Divine Sense</name>
             <refreshes>long rest</refreshes>
             <uses>1 + charismaMod</uses>
-            <shortDescription>On your turn, you know the location of any celestial, fiend, or undead within 60 feet.</shortDescription>
+            <shortDescription>As an action, you can open your awareness to detect such forces. Until the end of your next turn, you know the location of any celestial, fiend, or undead within 60 feet of you that is not behind total cover. You know the type (celestial, fiend, or undead) of any being whose presence you sense, but not its identity (the vampire Count Strahd von Zarovich, for instance). Within the same radius, you also detect the presence of any place or object that has been consecrated or desecrated, as with the hallow spell.
+                You can use this feature a number of times equal to 1 + your Charisma modifier. When you finish a long rest, you regain all expended uses.
+                This feature has no effect on undead and constructs.</shortDescription>
         </feature>
         <feature>
             <name>Lay on Hands</name>
             <refreshes>long rest</refreshes>
             <pool>5*classLevel</pool>
-            <shortDescription>A pool of hit points to heal, cure diseases or neutralize poisons.</shortDescription>
+            <shortDescription>Your blessed touch can heal wounds. You have a pool of healing power that replenishes when you take a long rest. With that pool, you can restore a total number of hit points equal to your paladin level × 5.</shortDescription>
             <action >
                 <name>Heal</name>
-                <shortDescription>Use some of the pool of hit points to heal someone.</shortDescription>
+                <shortDescription>As an action, you can touch a creature and draw power from the pool to restore a number of hit points to that creature, up to the maximum amount remaining in your pool.</shortDescription>
             </action>
             <action uses="5">
                 <name>Cure</name>
-                <shortDescription>Expend 5 HP to cure on disease or neutralize one poison.</shortDescription>
+                <shortDescription>You can expend 5 hit points from your pool of healing to cure the target of one disease or neutralize one poison affecting it. You can cure multiple diseases and neutralize multiple poisons with a single use of Lay on Hands, expending hit points separately for each one.</shortDescription>
             </action>
         </feature>
         <armor>
-            <proficiency category="light armor"></proficiency>
-            <proficiency category="medium armor"></proficiency>
+            <proficiency category="light armor"/>
+            <proficiency category="medium armor"/>
             <proficiency>shield</proficiency>
         </armor>
         <weapons>
-            <proficiency category="simple weapons"></proficiency>
-            <proficiency category="martial weapons"></proficiency>
+            <proficiency category="simple weapons"/>
+            <proficiency category="martial weapons"/>
         </weapons>
     </level>
     <level value="2">
@@ -101,33 +102,34 @@
             <or name="dueling">
                 <feature>
                     <name>Dueling</name>
-                    <shortDescription>With one hand melee weapon, you gain +2 to damage rolls with that weapon.</shortDescription>
+                    <shortDescription>When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.</shortDescription>
                     <context>WEAPON_ATTACK</context>
                 </feature>
             </or>
             <or name="great_weapon">
                 <feature>
                     <name>Great Weapon Fighting</name>
-                    <shortDescription>When you roll a 1 or 2 for a two handed melee weapon attack, you can reroll.</shortDescription>
+                    <shortDescription>When you roll a 1 or 2 on a damage die for an attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll. The weapon must have the two-handed or versatile property for you to gain this benefit.</shortDescription>
                     <context>WEAPON_ATTACK</context>
                 </feature>
             </or>
             <or name="protection">
                 <feature>
                     <name>Protection</name>
-                    <shortDescription>While wielding a shield, you can impose disadvantage on attacks against others within 5 feet.</shortDescription>
+                    <shortDescription>When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your reaction to impose disadvantage on the attack roll. You must be wielding a shield.</shortDescription>
                 </feature>
             </or>
         </choose>
         <feature>
-            <name>Action Surge</name>
-            <refreshes>short rest</refreshes>
-            <uses>1</uses>
-            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.            </shortDescription>
+            <name>Divine Smite</name>
+            <shortDescription>When you hit a creature with a melee weapon attack, you can expend one spell slot to deal radiant damage to the target, in addition to the weapon’s damage. The extra damage is 2d8 for a 1st-level spell slot, plus 1d8 for each spell level higher than 1st, to a maximum of 5d8. The damage increases by 1d8 if the target is an undead or a fiend.</shortDescription>
+            <!-- TODO allow "use" of a spell slot from a feature -->
             <context>WEAPON_ATTACK</context>
         </feature>
     </level>
+
     <level value="3">
+        <subclass label="Sacred Oath" />
         <spells>
             <slots>
                 <level value="1">3</level>
@@ -138,5 +140,143 @@
             <shortDescription>You are immune to disease.</shortDescription>
             <context>SAVING_THROW, HIT_POINTS</context>
         </feature>
+    </level>
+
+    <level value="5">
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">2</level>
+            </slots>
+        </spells>
+        <feature>
+            <name>Extra Attack</name>
+            <shortDescription>You can attack twice, instead of once, whenever you take the Attack action on your turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="6">
+        <feature>
+            <name>Aura of Protection</name>
+            <shortDescription>Whenever you or a friendly creature within 10 feet of you must make a saving throw, the creature gains a bonus to the saving throw equal to your Charisma modifier (with a minimum bonus of +1). You must be conscious to grant this bonus.</shortDescription>
+            <context>SAVING_THROW</context>
+        </feature>
+    </level>
+
+    <level value="7">
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="9">
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="10">
+        <feature>
+            <name>Aura of Courage</name>
+            <shortDescription>You and friendly creatures within 10 feet of you can’t be frightened while you are conscious.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="11">
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+            </slots>
+        </spells>
+        <feature extension="extends">
+            <name>Divine Smite</name>
+            <extensionDescription>Whenever you hit a creature with a melee weapon, the creature takes an extra 1d8 radiant damage.</extensionDescription>
+            <shortDescription>You are so suffused with righteous might that all your melee weapon strikes carry divine power with them. Whenever you hit a creature with a melee weapon, the creature takes an extra 1d8 radiant damage.
+                You can also expend one spell slot to deal more radiant damage to the target, in addition to the weapon’s damage. The extra damage is 2d8 for a 1st-level spell slot, plus 1d8 for each spell level higher than 1st, to a maximum of 5d8. The damage increases by 1d8 if the target is an undead or a fiend.</shortDescription>
+            <!-- TODO allow "use" of a spell slot from a feature -->
+            <context>WEAPON_ATTACK</context>
+        </feature>
+
+    </level>
+
+
+    <level value="13">
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="14">
+        <feature>
+            <name>Cleansing Touch</name>
+            <refreshes>long_rest</refreshes>
+            <uses>max(1,charismaMod)</uses>
+            <shortDescription>You can use your action to end one spell on yourself or on one willing creature that you touch.
+                You can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain expended uses when you finish a long rest.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="15">
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="17">
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="18">
+        <feature extension="extend">
+            <extensionDescription>The range of your aura of protection increases to 30 feet.</extensionDescription>
+            <name>Aura of Protection</name>
+            <shortDescription>Whenever you or a friendly creature within 30 feet of you must make a saving throw, the creature gains a bonus to the saving throw equal to your Charisma modifier (with a minimum bonus of +1). You must be conscious to grant this bonus.</shortDescription>
+        </feature>
+
+        <feature extension="extend">
+            <extensionDescription>The range of your aura of courage increases to 30 feet.</extensionDescription>
+            <name>Aura of Courage</name>
+            <shortDescription>You and friendly creatures within 10 feet of you can’t be frightened while you are conscious.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="19">
+        <spells>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+            </slots>
+        </spells>
     </level>
 </class>

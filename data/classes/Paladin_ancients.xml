@@ -1,0 +1,110 @@
+<class>
+    <ref>PHB p.86</ref>
+    <name>Oath of the Ancients</name>
+    <parent>Paladin</parent>
+
+    <level value="3">
+        <feature>
+            <name>Tenets of Ancients</name>
+            <shortDescription>Kindle the Light. Through your acts of mercy, kindness, and forgiveness, kindle the light of hope in the world, beating back despair.
+            Shelter the Light. Where there is good, beauty, love, and laughter in the world, stand against the wickedness that would swallow it. Where life flourishes, stand against the forces that would render it barren.
+            Preserve Your Own Light. Delight in song and laughter, in beauty and art. If you allow the light to die in your heart, you can't preserve it in the world.
+            Be the Light. Be a glorious beacon for all who live in despair. Let the light of your joy and courage shine forst in all your deeds.</shortDescription>
+        </feature>
+        <spells>
+            <spell>Ensnaring Strike</spell>
+            <spell>Speak with Animals</spell>
+        </spells>
+        <feature>
+            <name>Channel Divinity</name>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+            <action  uses="1">
+                <name>Nature's Wrath</name>
+                <shortDescription>You can invoke primeval forces to ensnare a foe. As an action, you can cause spectral vines to spring up and reach for a creature within 10 feet of you that you can see. The creature must succeed on a Strength or Dexterity saving throw (it's choice) against your Paladin spellcasting save DC (8 + proficiency bonus + charisma modifier) or be restrained. While restrained by the vines, the creature repeats the saving throw at the end of each of its turns. On a success, it frees itself and the vines vanish.</shortDescription>
+            </action>
+            <action  uses="1">
+                <name>Turn the Faithless</name>
+                <shortDescription>As an action, you present your holy symbol, and each fey or fiend within 30 feet of you that can hear you must make a Wisdom saving throw against your Paladin spellcasting DC (8 + proficiency bonus + charisma modifier). On a failed save, the creature is turned for 1 minute or until it takes damage.
+                A turned creature must spend its turns trying to move as far away from you as it can, and it can't willingly move to a space within 30 feet of you. It also can't take reactions. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If there's nowhere to move, the creature can use the Dodge action.
+                If the creature's true form is concealed by an illusion, shapeshifting, or other effect, that form is revealed while it is turned.</shortDescription>
+            </action>
+        </feature>
+    </level>
+
+    <level value="5">
+        <spells>
+            <spell>Moonbeam</spell>
+            <spell>Misty Step</spell>
+        </spells>
+    </level>
+
+    <level value="7">
+        <feature>
+            <name>Aura of Warding</name>
+            <shortDescription>You and friendly creatures within 10 feet of you have resistance to damage from spells.</shortDescription>
+            <context>HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <spells>
+            <spell>Plant Growth</spell>
+            <spell>Protection from Energy</spell>
+        </spells>
+    </level>
+
+    <level value="13">
+        <spells>
+            <spell>Ice Storm</spell>
+            <spell>Stoneskin</spell>
+        </spells>
+    </level>
+
+    <level value="15">
+        <feature>
+            <name>Undying Sentinel</name>
+            <uses>1</uses>
+            <refreshes>long_rest</refreshes>
+            <shortDescription>When you are reduced to 0 hit points and not killed outright, you can choose to drop to 1 hit point instead. Once you use this ability, you can't use it again until you finish a long rest.
+            Additionally, you suffer none of the drawbacks of old age, and you can't be aged magically.</shortDescription>
+            <context>HIT_POINTS,SAVING_THROW</context>
+        </feature>
+    </level>
+
+    <level value="17">
+        <spells>
+            <spell>Commune with Nature</spell>
+            <spell>Tree Stride</spell>
+        </spells>
+    </level>
+
+    <level value="18">
+        <feature extension="extend">
+            <name>Aura of Warding</name>
+            <extensionDescription>The range of Aura of Warding increases to 30 feet.</extensionDescription>
+            <shortDescription>You and friendly creatures within 30 feet of you have resistance to damage from spells.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="20">
+        <feature>
+            <name>Elder Champion</name>
+            <shortDescription>As an action, you can can assume the form of an ancient force of nature for 1 minute, and regain hit points each turn, cast paladin spells as a bonus action, and cause enemies to have disadvantage against saving throws from your spells and channel divinity actions.</shortDescription>
+            <refreshes>long_rest</refreshes>
+            <uses>1</uses>
+            <effect uses="1">
+                <name>Elder Champion</name>
+                <shortDescription>You assume the form of an ancient force of nature, taking an appearance you choose. For example, your skin might turn green or take on a bark-like texture, your hair might become leafy or moss-like, or you might sprout antlers or a lion-like mane.
+                    For 1 minute, you gain the following benefits:
+                    * At the start of each of your turns, you regain 10 hit points.
+                    * Whenever you cast a Paladin spell that has a casting time of 1 action, you can cast it using a bonus action instead.
+                    * Enemy creatures within 10 feet of you have disadvantage on saving throws against your paladin spells and channel divinity options.
+                    Once you use this feature, you can’t use it again until you finish a long rest.</shortDescription>
+            </effect>
+        </feature>
+    </level>
+
+
+
+</class>

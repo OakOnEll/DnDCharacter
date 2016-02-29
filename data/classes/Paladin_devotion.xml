@@ -1,0 +1,106 @@
+<class>
+    <ref>PHB p.86</ref>
+    <name>Oath of Devotion</name>
+    <parent>Paladin</parent>
+
+    <level value="3">
+        <feature>
+            <name>Tenets of Devotion</name>
+            <shortDescription>Honesty. Don’t lie or cheat. Let your word be your promise.
+                Courage. Never fear to act, though caution is wise.
+                Compassion. Aid others, protect the weak, and punish those who threaten them. Show mercy to your foes, but temper it with wisdom.
+                Honor. Treat others with fairness, and let your honorable deeds be an example to them. Do as much good as possible while causing the least amount of harm.
+                Duty. Be responsible for your actions and their consequences, protect those entrusted to your care, and obey those who have just authority over you.</shortDescription>
+        </feature>
+        <spells>
+            <spell>Protection from Evil and Good</spell>
+            <spell>Sanctuary</spell>
+        </spells>
+        <feature>
+            <name>Channel Divinity</name>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+            <effect actionName="Sacred Weapon" uses="1">
+                <name>Sacred Weapon</name>
+                <actionDescription>As an action, you imbue one weapon you are holding with positive energy, adding your charisma modifier to its damage, and emitting bright light in a 20 foot radius.</actionDescription>
+                <shortDescription>As an action, you can imbue one weapon that you are holding with positive energy, using your Channel Divinity. For 1 minute, you add your Charisma modifier to attack rolls made with that weapon (with a minimum bonus of +1). The weapon also emits bright light in a 20-foot radius and dim light 20 feet beyond that. If the weapon is not already magical, it becomes magical for the duration.
+                    You can end this effect on your turn as part of any other action. If you are no longer holding or carrying this weapon, or if you fall unconscious, this effect ends.</shortDescription>
+            </effect>
+            <action  uses="1">
+                <name>Turn the Unholy</name>
+                <shortDescription>As an action, you present your holy symbol and speak a prayer censuring fiends and undead, using your Channel Divinity. Each fiend or undead that can see or hear you within 30 feet of you must make a Wisdom saving throw against your Paladin spellcasting DC (8 + proficiency bonus + charisma modifier). If the creature fails its saving throw, it is turned for 1 minute or until it takes damage.
+                    A turned creature must spend its turns trying to move as far away from you as it can, and it can’t willingly move to a space within 30 feet of you. It also can’t take reactions. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If there’s nowhere to move, the creature can use the Dodge action.</shortDescription>
+            </action>
+        </feature>
+    </level>
+
+    <level value="5">
+        <spells>
+            <spell>Lesser Restoration</spell>
+            <spell>Zone of Truth</spell>
+        </spells>
+    </level>
+
+    <level value="7">
+        <feature>
+            <name>Aura of Devotion</name>
+            <shortDescription>You and friendly creatures within 10 feet of you can’t be charmed while you are conscious.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="9">
+        <spells>
+            <spell>Beacon of Hope</spell>
+            <spell>Dispel Magic</spell>
+        </spells>
+    </level>
+
+    <level value="13">
+        <spells>
+            <spell>Freedom of Movement</spell>
+            <spell>Guardian of Faith</spell>
+        </spells>
+    </level>
+
+    <level value="15">
+        <feature>
+            <name>Purity of Spirit</name>
+            <shortDescription>You are always under the effects of a protection from evil and good spell.
+                You are protected against certain types of creatures: aberrations, celestials, elementals, fey, fiends, and undead.
+                The protection grants several benefits. Creatures of those types have disadvantage on attack rolls against you. You also can’t be charmed, frightened, or possessed by them. If you are already charmed, frightened, or possessed by such a creature, you have advantage on any new saving throw against the relevant effect.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="17">
+        <spells>
+            <spell>Commune</spell>
+            <spell>Flame Strike</spell>
+        </spells>
+    </level>
+
+    <level value="18">
+        <feature extension="extend">
+            <name>Aura of Devotion</name>
+            <extensionDescription>The range of Aura of Devotion increases to 30 feet.</extensionDescription>
+            <shortDescription>You and friendly creatures within 30 feet of you can’t be charmed while you are conscious.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="20">
+        <feature>
+            <name>Holy Nimbus</name>
+            <shortDescription>As an action, you can emanate an aura of sunlight. For 1 minute, bright light shines from you in a 30-foot radius, and dim light shines 30 feet beyond that, and can damage creatures in the light.</shortDescription>
+            <refreshes>long_rest</refreshes>
+            <uses>1</uses>
+            <effect uses="1">
+                <name>Holy Nimbus</name>
+                <shortDescription>You emanate an aura of sunlight. For 1 minute, bright light shines from you in a 30-foot radius, and dim light shines 30 feet beyond that.
+                    Whenever an enemy creature starts its turn in the bright light, the creature takes 10 radiant damage. In addition, for the duration, you have advantage on saving throws against spells cast by fiends or undead.
+                    Once you use this feature, you can’t use it again until you finish a long rest.</shortDescription>
+            </effect>
+        </feature>
+    </level>
+
+
+
+</class>
