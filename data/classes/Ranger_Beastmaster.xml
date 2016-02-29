@@ -1,0 +1,45 @@
+<class>
+    <ref>PHB p.93</ref>
+    <name>Beast Master</name>
+    <parent>Ranger</parent>
+
+    <level value="3">
+        <feature>
+            <!-- TODO record the type of beast..  and keep track of its HP, AC, etc...-->
+            <name>Ranger's Companion</name>
+            <shortDescription>You gain a beast companion that accompanies you on you adventures and is trained to fight alongside you. Choose a beast that is no larger than Medium and that has a challenge rating of 1/4 or lower. Add your proficiency bonus to the beast's AC, attack rolls, and damage rolls, as well as to any saving throws and skills it is proficient in. Its hit point maximum equals its normal maximum or four times your ranger level, whichever is higher.
+                The beast obeys your commands as best as it can. It takes its turn on your initiative, though it doesn't an action unless you command it to. On your turn, you can verbally command the beast where to move (no action required by you). You can use your action to verbally command it to take the Attack, Dash, Disengage, Dodge,, or Help action. Once you have the Extra Attack feature, you can make one attack yourself when you command the beast to take the Attack action.
+                While traveling through your favored terrain with only the beast, you can move stealthily at a normal pace.
+                If the beast dies, you can obtain another one by spending 8 hours magically bonding with another beast that isn't hostile to you, either the same type of beast as before or a different one.
+            </shortDescription>
+        </feature>
+    </level>
+
+
+    <level value="7">
+        <feature>
+            <name>Exceptional Training</name>
+            <shortDescription>On any of your turns when your beast companion doesn't attack, you can use a bonus action to command the beast to take the Dash, Disengage, Dodge, or Help action on its turn.</shortDescription>
+            <context>TO_HIT</context>
+        </feature>
+    </level>
+
+
+    <level value="11">
+        <feature>
+            <name>Bestial Fury</name>
+            <shortDescription>Your Beast companion can make two attacks when you command it to use the Attack action.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="15">
+        <feature>
+            <name>Share Spells</name>
+            <shortDescription>When you cast a spell targeting yourself, you can also affect your beast companion with the spell if the beast is within 30 feet of you.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+
+</class>

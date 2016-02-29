@@ -1,0 +1,1268 @@
+<class>
+    <ref>PHB p.90</ref>
+    <name>Ranger</name>
+    <hitDice>1d10</hitDice>
+
+    <savingThrows>
+        <proficiency>Strength</proficiency>
+        <proficiency>Dexterity</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="animal"><proficiency>Animal Handling</proficiency></or>
+            <or name="athletics"><proficiency>Athletics</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="investigation"><proficiency>Investigation</proficiency></or>
+            <or name="nature"><proficiency>Nature</proficiency></or>
+            <or name="perception"><proficiency>Perception</proficiency></or>
+            <or name="stealth"><proficiency>Stealth</proficiency></or>
+            <or name="survival"><proficiency>Survival</proficiency></or>
+        </choose>
+    </skills>
+    <equipment>
+        <choose name="armor">
+            <or name="chain">
+                <item>Scale Mail Armor</item>
+            </or>
+            <or name="leather">
+                <item>Leather Armor</item>
+            </or>
+        </choose>
+        <choose name="weapon">
+            <or name="swords">
+                <item count="2">Shortsword</item>
+            </or>
+            <or name="weapon">
+                <choose name="weapon1" category="simple weapons"/>
+                <choose name="weapon2" category="simple weapons"/>
+            </or>
+        </choose>
+        <choose name="pack">
+            <or name="dungeoneers">
+                <item>Dungeoneer's pack</item>
+            </or>
+            <or name="explorers">
+                <item>Explorer's pack</item>
+            </or>
+        </choose>
+        <item>Longbow</item>
+        <item>Quiver</item>
+        <item count="20">Arrow</item>
+    </equipment>
+    <spellCastingStat>wisdom</spellCastingStat>
+    <multiclassCasterFactor>1/2</multiclassCasterFactor>
+    <multiclassPrerequisite>wisdom>=13 AND dexterity >=13</multiclassPrerequisite>
+    <level value="1">
+        <armor>
+            <proficiency category="light armor"/>
+            <proficiency category="medium armor"/>
+            <proficiency>shield</proficiency>
+        </armor>
+        <weapons>
+            <proficiency category="simple weapons"/>
+            <proficiency category="martial weapons"/>
+        </weapons>
+        <skills>
+            <choose name="skills2" >
+                <or name="animal"><proficiency>Animal Handling</proficiency></or>
+                <or name="athletics"><proficiency>Athletics</proficiency></or>
+                <or name="insight"><proficiency>Insight</proficiency></or>
+                <or name="investigation"><proficiency>Investigation</proficiency></or>
+                <or name="nature"><proficiency>Nature</proficiency></or>
+                <or name="perception"><proficiency>Perception</proficiency></or>
+                <or name="stealth"><proficiency>Stealth</proficiency></or>
+                <or name="survival"><proficiency>Survival</proficiency></or>
+            </choose>
+        </skills>
+
+
+            <choose name="terrain" title="Choose favored Terrain">
+                <or name="arctic">
+                    <feature>
+                        <name>Natural Explorer: Arctic</name>
+                        <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                            When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                            While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                            • Difficult terrain doesn’t slow your group’s travel.
+                            • Your group can’t become lost except by magical means.
+                            • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                            • If you are traveling alone, you can move stealthily at a normal pace.
+                            • When you forage, you find twice as much food as you normally would.
+                            • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                        <context>SPEED</context>
+                    </feature>
+                </or>
+                <or name="coast">
+                    <feature>
+                        <name>Natural Explorer: Coast</name>
+                        <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                            When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                            While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                            • Difficult terrain doesn’t slow your group’s travel.
+                            • Your group can’t become lost except by magical means.
+                            • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                            • If you are traveling alone, you can move stealthily at a normal pace.
+                            • When you forage, you find twice as much food as you normally would.
+                            • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                        <context>SPEED</context>
+                    </feature>
+                </or>
+                <or name="desert">
+                    <feature>
+                        <name>Natural Explorer: Desert</name>
+                        <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                            When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                            While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                            • Difficult terrain doesn’t slow your group’s travel.
+                            • Your group can’t become lost except by magical means.
+                            • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                            • If you are traveling alone, you can move stealthily at a normal pace.
+                            • When you forage, you find twice as much food as you normally would.
+                            • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                        <context>SPEED</context>
+                    </feature>
+                </or>
+                <or name="forest">
+                    <feature>
+                        <name>Natural Explorer: Forest</name>
+                        <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                            When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                            While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                            • Difficult terrain doesn’t slow your group’s travel.
+                            • Your group can’t become lost except by magical means.
+                            • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                            • If you are traveling alone, you can move stealthily at a normal pace.
+                            • When you forage, you find twice as much food as you normally would.
+                            • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                        <context>SPEED</context>
+                    </feature>
+                </or>
+                <or name="grassland">
+                    <feature>
+                        <name>Natural Explorer: Grassland</name>
+                        <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                            When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                            While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                            • Difficult terrain doesn’t slow your group’s travel.
+                            • Your group can’t become lost except by magical means.
+                            • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                            • If you are traveling alone, you can move stealthily at a normal pace.
+                            • When you forage, you find twice as much food as you normally would.
+                            • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                        <context>SPEED</context>
+                    </feature>
+                </or>
+                <or name="mountain">
+                    <feature>
+                        <name>Natural Explorer: Mountain</name>
+                        <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                            When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                            While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                            • Difficult terrain doesn’t slow your group’s travel.
+                            • Your group can’t become lost except by magical means.
+                            • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                            • If you are traveling alone, you can move stealthily at a normal pace.
+                            • When you forage, you find twice as much food as you normally would.
+                            • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                        <context>SPEED</context>
+                    </feature>
+                </or>
+                <or name="swamp">
+                    <feature>
+                        <name>Natural Explorer: Swamp</name>
+                        <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                            When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                            While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                            • Difficult terrain doesn’t slow your group’s travel.
+                            • Your group can’t become lost except by magical means.
+                            • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                            • If you are traveling alone, you can move stealthily at a normal pace.
+                            • When you forage, you find twice as much food as you normally would.
+                            • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                        <context>SPEED</context>
+                    </feature>
+                </or>
+            </choose>
+
+            <choose name="enemy" title="Choose a Monster or two Humanoid races">
+                <or name="monster" >
+                        <choose name="monster">
+                            <or name="aberrations">
+                                <feature>
+                                <name>Favored Enemy: Aberrations</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="beasts">
+                                <feature>
+                                    <name>Favored Enemy: Beasts</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="celestials">
+                                <feature>
+                                    <name>Favored Enemy: Celestials</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="constructs">
+                                <feature>
+                                    <name>Favored Enemy: Constructs</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="dragons">
+                                <feature>
+                                    <name>Favored Enemy: Dragons</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="elementals">
+                                <feature>
+                                    <name>Favored Enemy: Elementals</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="fey">
+                                <feature>
+                                    <name>Favored Enemy: Fey</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="fiends">
+                                <feature>
+                                    <name>Favored Enemy: Fiends</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="giant">
+                                <feature>
+                                    <name>Favored Enemy: Giants</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="monstrosities">
+                                <feature>
+                                    <name>Favored Enemy: Monstrosities</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="oozes">
+                                <feature>
+                                    <name>Favored Enemy: Oozes</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="plants">
+                                <feature>
+                                    <name>Favored Enemy: Plants</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                            <or name="undead">
+                                <feature>
+                                    <name>Favored Enemy: Undead</name>
+                                    <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                        You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                        When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                    </shortDescription>
+                                    <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                                </feature>
+                            </or>
+                        </choose>
+
+                </or>
+                <or name="humanoid">
+                    <choose number="2" name="humanoids" title="Choose two" >
+                        <or name="bugbear">
+                            <feature>
+                                <name>Favored Enemy: Bugbear</name>
+                                <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                    You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                    When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                </shortDescription>
+                                <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                            </feature>
+                        </or>
+                        <or name="gnoll">
+                            <feature>
+                                <name>Favored Enemy: Gnoll</name>
+                                <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                    You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                    When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                </shortDescription>
+                                <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                            </feature>
+                        </or>
+                        <or name="goblin">
+                            <feature>
+                                <name>Favored Enemy: Goblin</name>
+                                <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                    You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                    When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                </shortDescription>
+                                <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                            </feature>
+                        </or>
+                        <or name="Hobgoblin">
+                            <feature>
+                                <name>Favored Enemy: Hobgoblin</name>
+                                <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                    You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                    When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                </shortDescription>
+                                <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                            </feature>
+                        </or>
+                        <or name="Kobold">
+                            <feature>
+                                <name>Favored Enemy: Kobold</name>
+                                <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                    You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                    When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                </shortDescription>
+                                <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                            </feature>
+                        </or>
+                        <or name="Lizardfolk">
+                            <feature>
+                                <name>Favored Enemy: Lizardfolk</name>
+                                <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                    You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                    When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                </shortDescription>
+                                <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                            </feature>
+                        </or>
+                        <or name="orc">
+                            <feature>
+                                <name>Favored Enemy: Orc</name>
+                                <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                    You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                    When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                </shortDescription>
+                                <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                            </feature>
+                        </or>
+                        <or name="vampire">
+                            <feature>
+                                <name>Favored Enemy: Vampire</name>
+                                <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                    You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                    When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                                </shortDescription>
+                                <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                            </feature>
+                        </or>
+                    </choose>
+                </or>
+            </choose>
+    </level>
+
+    <level value="2">
+        <spells>
+            <known>2</known>
+            <slots>
+                <level value="1">2</level>
+            </slots>
+        </spells>
+        <choose name="fighting_style" title="Choose a Fighting Style">
+            <or name="archery">
+                <feature>
+                    <name>Archery</name>
+                    <shortDescription>You gain a +2 bonus to attack rolls you make with ranged weapons.</shortDescription>
+                    <!-- TODO Support ranged bonus -->
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or name="defense">
+                <feature>
+                    <name>Defense</name>
+                    <ac>+1</ac>
+                    <condition>armor</condition>
+                    <shortDescription>While you are wearing armor, you gain a +1 bonus to AC.</shortDescription>
+                    <context>ARMOR_CLASS</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Dueling</name>
+                    <shortDescription>When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or>
+                <feature>
+                    <name>Two-Weapon Fighting</name>
+                    <shortDescription>When you engage in two-weapon fighting, you can add you ability modifier to the damage of the second attack.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+        </choose>
+    </level>
+
+    <level value="3">
+        <subclass label="Ranger Archetype" />
+        <spells>
+            <known>3</known>
+            <slots>
+                <level value="1">3</level>
+            </slots>
+        </spells>
+        <feature>
+            <name>Primeval Awareness</name>
+            <!-- TODO spell slot usage -->
+            <shortDescription>You can use your action and expend one ranger spell slot to focus your awareness on the region around you. For 1 minute per level of the spell slot you expend, you can sense whether the following types of creatures are present within 1 mile of you (or within up to 6 miles if you are in your favored terrain): aberrations, celestials, dragons, elementals, fey, fiends, and undead. This feature doesn’t reveal the creatures’ location or number.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="5">
+        <spells>
+            <known>4</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">2</level>
+            </slots>
+        </spells>
+        <feature extension="extend">
+            <name>Extra Attack</name>
+            <extensionDescription>You gain an additional attack per action, up to two now.</extensionDescription>
+            <shortDescription>You can attack two times, instead of once, whenever you take the Attack action on your turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="6">
+        <choose name="terrain" title="Choose favored Terrain">
+            <or name="arctic">
+                <feature>
+                    <name>Natural Explorer: Arctic</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="coast">
+                <feature>
+                    <name>Natural Explorer: Coast</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="desert">
+                <feature>
+                    <name>Natural Explorer: Desert</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="forest">
+                <feature>
+                    <name>Natural Explorer: Forest</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="grassland">
+                <feature>
+                    <name>Natural Explorer: Grassland</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="mountain">
+                <feature>
+                    <name>Natural Explorer: Mountain</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="swamp">
+                <feature>
+                    <name>Natural Explorer: Swamp</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+        </choose>
+
+        <choose name="enemy" title="Choose a Monster or two Humanoid races">
+            <or name="monster" >
+                <choose name="monster">
+                    <or name="aberrations">
+                        <feature>
+                            <name>Favored Enemy: Aberrations</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="beasts">
+                        <feature>
+                            <name>Favored Enemy: Beasts</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="celestials">
+                        <feature>
+                            <name>Favored Enemy: Celestials</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="constructs">
+                        <feature>
+                            <name>Favored Enemy: Constructs</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="dragons">
+                        <feature>
+                            <name>Favored Enemy: Dragons</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="elementals">
+                        <feature>
+                            <name>Favored Enemy: Elementals</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="fey">
+                        <feature>
+                            <name>Favored Enemy: Fey</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="fiends">
+                        <feature>
+                            <name>Favored Enemy: Fiends</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="giant">
+                        <feature>
+                            <name>Favored Enemy: Giants</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="monstrosities">
+                        <feature>
+                            <name>Favored Enemy: Monstrosities</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="oozes">
+                        <feature>
+                            <name>Favored Enemy: Oozes</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="plants">
+                        <feature>
+                            <name>Favored Enemy: Plants</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="undead">
+                        <feature>
+                            <name>Favored Enemy: Undead</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                </choose>
+
+            </or>
+            <or name="humanoid">
+                <choose number="2" name="humanoids" title="Choose two" >
+                    <or name="bugbear">
+                        <feature>
+                            <name>Favored Enemy: Bugbear</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="gnoll">
+                        <feature>
+                            <name>Favored Enemy: Gnoll</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="goblin">
+                        <feature>
+                            <name>Favored Enemy: Goblin</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="Hobgoblin">
+                        <feature>
+                            <name>Favored Enemy: Hobgoblin</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="Kobold">
+                        <feature>
+                            <name>Favored Enemy: Kobold</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="Lizardfolk">
+                        <feature>
+                            <name>Favored Enemy: Lizardfolk</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="orc">
+                        <feature>
+                            <name>Favored Enemy: Orc</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="vampire">
+                        <feature>
+                            <name>Favored Enemy: Vampire</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                </choose>
+            </or>
+        </choose>
+    </level>
+
+    <level value="7">
+        <spells>
+            <known>5</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="8">
+        <feature>
+            <name>Land's Stride</name>
+            <shortDescription>Moving through nonmagical difficult terrain costs you no extra movement. You can also pass through nonmagical plants without being slowed by them and without taking damage from them if they have thorns, spines, or a similar hazard.
+                In addition, you have advantage on saving throws against plants that are magically created or manipulated to impede movement, such those created by the entangle spell.</shortDescription>
+            <context>HIT_POINTS,SAVING_THROW,SPEED</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <spells>
+            <known>6</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="10">
+        <feature>
+            <name>Hide in Plain Sight</name>
+            <shortDescription>You can spend 1 minute creating camouflage for yourself. You must have access to fresh mud, dirt, plants, soot, and other naturally occurring materials with which to create your camouflage.
+                Once you are camouflaged in this way, you can try to hide by pressing yourself up against a solid surface, such as a tree or wall, that is at least as tall and wide as you are. You gain a +10 bonus to Dexterity (Stealth) checks as long as you remain there without moving or taking actions. Once you move or take an action or a reaction, you must camouflage yourself again to gain this benefit.</shortDescription>
+            <context>SKILL_ROLL(stealth)</context>
+        </feature>
+        <choose name="terrain" title="Choose favored Terrain">
+            <or name="arctic">
+                <feature>
+                    <name>Natural Explorer: Arctic</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="coast">
+                <feature>
+                    <name>Natural Explorer: Coast</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="desert">
+                <feature>
+                    <name>Natural Explorer: Desert</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="forest">
+                <feature>
+                    <name>Natural Explorer: Forest</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="grassland">
+                <feature>
+                    <name>Natural Explorer: Grassland</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="mountain">
+                <feature>
+                    <name>Natural Explorer: Mountain</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="swamp">
+                <feature>
+                    <name>Natural Explorer: Swamp</name>
+                    <shortDescription>You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions.
+                        When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you’re proficient in.
+                        While traveling for an hour or more in your favored terrain, you gain the following benefits:
+                        • Difficult terrain doesn’t slow your group’s travel.
+                        • Your group can’t become lost except by magical means.
+                        • Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.
+                        • If you are traveling alone, you can move stealthily at a normal pace.
+                        • When you forage, you find twice as much food as you normally would.
+                        • While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+        </choose>
+    </level>
+
+    <level value="11">
+        <spells>
+            <known>7</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="13">
+        <spells>
+            <known>8</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="14">
+        <feature>
+            <name>Vanish</name>
+            <shortDescription>You can use the Hide action as a bonus action on your turn. Also, you can’t be tracked by nonmagical means, unless you choose to leave a trail.</shortDescription>
+            <context>SKILL_ROLL(stealth)</context>
+        </feature>
+        <choose name="enemy" title="Choose a Monster or two Humanoid races">
+            <or name="monster" >
+                <choose name="monster">
+                    <or name="aberrations">
+                        <feature>
+                            <name>Favored Enemy: Aberrations</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="beasts">
+                        <feature>
+                            <name>Favored Enemy: Beasts</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="celestials">
+                        <feature>
+                            <name>Favored Enemy: Celestials</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="constructs">
+                        <feature>
+                            <name>Favored Enemy: Constructs</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="dragons">
+                        <feature>
+                            <name>Favored Enemy: Dragons</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="elementals">
+                        <feature>
+                            <name>Favored Enemy: Elementals</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="fey">
+                        <feature>
+                            <name>Favored Enemy: Fey</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="fiends">
+                        <feature>
+                            <name>Favored Enemy: Fiends</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="giant">
+                        <feature>
+                            <name>Favored Enemy: Giants</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="monstrosities">
+                        <feature>
+                            <name>Favored Enemy: Monstrosities</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="oozes">
+                        <feature>
+                            <name>Favored Enemy: Oozes</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="plants">
+                        <feature>
+                            <name>Favored Enemy: Plants</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="undead">
+                        <feature>
+                            <name>Favored Enemy: Undead</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                </choose>
+
+            </or>
+            <or name="humanoid">
+                <choose number="2" name="humanoids" title="Choose two" >
+                    <or name="bugbear">
+                        <feature>
+                            <name>Favored Enemy: Bugbear</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="gnoll">
+                        <feature>
+                            <name>Favored Enemy: Gnoll</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="goblin">
+                        <feature>
+                            <name>Favored Enemy: Goblin</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="Hobgoblin">
+                        <feature>
+                            <name>Favored Enemy: Hobgoblin</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="Kobold">
+                        <feature>
+                            <name>Favored Enemy: Kobold</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="Lizardfolk">
+                        <feature>
+                            <name>Favored Enemy: Lizardfolk</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="orc">
+                        <feature>
+                            <name>Favored Enemy: Orc</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                    <or name="vampire">
+                        <feature>
+                            <name>Favored Enemy: Vampire</name>
+                            <shortDescription>You have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.
+                                You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.
+                                When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.
+                            </shortDescription>
+                            <context>SKILL_ROLL(survival),SKILL_ROLL(intelligence)</context>
+                        </feature>
+                    </or>
+                </choose>
+            </or>
+        </choose>
+    </level>
+
+    <level value="15">
+        <spells>
+            <known>9</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="17">
+        <spells>
+            <known>10</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="18">
+        <feature>
+            <name>Feral Senses</name>
+            <shortDescription>You gain preternatural senses that help you fight creatures you can’t see. When you attack a creature you can’t see, your inability to see it doesn’t impose disadvantage on your attack rolls against it.
+                You are also aware of the location of any invisible creature within 30 feet of you, provided that the creature isn’t hidden from you and you aren’t blinded or deafened.</shortDescription>
+            <context>WEAPON_ATTACK,SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value= "19">
+        <spells>
+            <known>11</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="20">
+        <feature>
+            <name>Foe Slayer</name>
+            <shortDescription>You become an unparalleled hunter of your enemies. Once on each of your turns, you can add your Wisdom modifier to the attack roll or the damage roll of an attack you make against one of your favored enemies. You can choose to use this feature before or after the roll, but before any effects of the roll are applied.</shortDescription>
+            <context>WEAPON_ATTACK,SPELL_CAST</context>
+        </feature>
+    </level>
+
+</class>

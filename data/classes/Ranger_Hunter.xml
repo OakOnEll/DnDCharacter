@@ -1,0 +1,107 @@
+<class>
+    <ref>PHB p.93</ref>
+    <name>Hunter</name>
+    <parent>Ranger</parent>
+
+    <level value="3">
+        <choose name="prey" title="Hunter's Prey- Choose One">
+            <or name="colossus">
+                <feature>
+                    <name>Colossus Slayer</name>
+                    <shortDescription>Your tenacity can wear down the most potent foes. When you hit a creature with a weapon attack, the creature takes an extra 1d8 damage if it’s below its hit point maximum. You can deal this extra damage only once per turn.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or name="giant">
+                <feature>
+                    <name>Giant Killer</name>
+                    <shortDescription>When a Large or larger creature within 5 feet of you hits or misses you with an attack, you can use your reaction to attack that creature immediately after its attack, provided that you can see the creature.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or name="horde">
+                <feature>
+                    <name>Horde Breaker</name>
+                    <shortDescription>Once on each of your turns when you make a weapon attack, you can make another attack with the same weapon against a different creature that is within 5 feet of the original target and within range of your weapon.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+        </choose>
+
+    </level>
+
+
+    <level value="7">
+        <choose name="defensive" title="Defensive Tactics- Choose One">
+            <or name="escape">
+                <feature>
+                    <name>Escape the Horde</name>
+                    <shortDescription>Opportunity attacks against you are made with disadvantage.</shortDescription>
+                    <context>TO_HIT</context>
+                </feature>
+            </or>
+            <or name="multiattack">
+                <feature>
+                    <name>Multiattack Defense</name>
+                    <shortDescription>When a creature hits you with an attack, you gain a +4 bonus to AC against all subsequent attacks made by that creature for the rest of the turn.</shortDescription>
+                    <context>TO_HIT,ARMOR_CLASS</context>
+                </feature>
+            </or>
+            <or name="will">
+                <feature>
+                    <name>Steel Will</name>
+                    <shortDescription>You have advantage on saving throws against being frightened.</shortDescription>
+                    <context>SAVING_THROW</context>
+                </feature>
+            </or>
+        </choose>
+    </level>
+
+
+    <level value="11">
+        <choose name="multiattack" title="Multiattack- Choose One">
+            <or name="volley">
+                <feature>
+                    <name>Volley</name>
+                    <shortDescription>You can use your action to make a ranged attack against any number of creatures within 10 feet of a point you can see within your weapon’s range. You must have ammunition for each target, as normal, and you make a separate attack roll for each target.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+            <or name="whirlwind">
+                <feature>
+                    <name>Whirlwind Attack</name>
+                    <shortDescription>You can use your action to make a melee attack against any number of creatures within 5 feet of you, with a separate attack roll for each target.</shortDescription>
+                    <context>WEAPON_ATTACK</context>
+                </feature>
+            </or>
+        </choose>
+    </level>
+
+    <level value="15">
+        <choose name="superior" title="Superior Hunter's Defense- Choose One">
+            <or name="Evasion">
+                <feature>
+                    <name>Evasion</name>
+                    <shortDescription>When you are subjected to an effect, such as a red dragon’s fiery breath or a lightning bolt spell, that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.</shortDescription>
+                    <context>HIT_POINTS</context>
+                </feature>
+            </or>
+            <or name="tide">
+                <feature>
+                    <name>Stand Against the Tide</name>
+                    <shortDescription>When a hostile creature misses you with a melee attack, you can use your reaction to force that creature to repeat the same attack against another creature (other than itself) of your choice.</shortDescription>
+                    <context/>
+                </feature>
+            </or>
+            <or name="dodge">
+                <feature>
+                    <name>Uncanny Dodge</name>
+                    <shortDescription>When an attacker that you can see hits you with an attack, you can use your reaction to halve the attack’s damage against you.</shortDescription>
+                    <context>HIT_POINTS</context>
+                </feature>
+            </or>
+        </choose>
+    </level>
+
+
+</class>
