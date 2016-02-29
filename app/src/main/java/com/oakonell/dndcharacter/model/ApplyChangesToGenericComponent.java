@@ -424,8 +424,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                             boolean countsAsKnown = true;
                             addSpell(eachSavedSpell, stat, countsAsKnown);
                         }
-                        addedSpellIndex++;
                     }
+                    addedSpellIndex++;
                 }
             }
         }
@@ -494,6 +494,22 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     addCantrip(each, stat);
                 }
             }
+            List<Element> cantripList = XmlUtils.getChildElements(element, "cantrip");
+            int addedCantripIndex = 0;
+            if (cantripList.size() > 0) {
+                for (Element cantripElement : cantripList) {
+                    final String cantripName = cantripElement.getTextContent();
+                    if (cantripName == null || cantripName.trim().length() == 0) {
+                        List<String> specificAddedCantrip = savedChoices.getChoicesFor("addedCantrip" + addedCantripIndex);
+                        StatType stat = null;
+                        for (String eachSavedCantrip : specificAddedCantrip) {
+                            boolean countsAsKnown = true;
+                            addCantrip(eachSavedCantrip, stat);
+                        }
+                    }
+                    addedCantripIndex++;
+                }
+            }
         }
         super.visitCantrips(element);
     }
@@ -501,6 +517,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     @Override
     protected void visitCantrip(@NonNull Element element) {
         final String cantripName = element.getTextContent();
+        // if cantrip name is empty, presume it was a specificAddCantrip in visitCantrips above
+        if (cantripName == null || cantripName.trim().length() == 0) return;
         String statString = element.getAttribute("stat");
 
         StatType stat = null;

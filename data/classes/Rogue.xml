@@ -1,4 +1,5 @@
 <class>
+    <ref>PHB p.95</ref>
     <name>Rogue</name>
     <hitDice>1d8</hitDice>
     <savingThrows>
@@ -6,7 +7,7 @@
         <proficiency>Intelligence</proficiency>
     </savingThrows>
     <skills>
-        <choose name="skills" number="4">
+        <choose name="skills" number="3">
             <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
             <or name="athletics"><proficiency>Athletics</proficiency></or>
             <or name="deception"><proficiency>Deception</proficiency></or>
@@ -22,21 +23,21 @@
     </skills>
 
     <weapons>
-        <proficiency category="simple weapons"></proficiency>
+        <proficiency category="simple weapons"/>
         <proficiency>Hand Crossbow</proficiency>
-        <proficiency>Long Sword</proficiency>
+        <proficiency>Longsword</proficiency>
         <proficiency>Rapier</proficiency>
-        <proficiency>Short Sword</proficiency>
+        <proficiency>Shortsword</proficiency>
     </weapons>
 
 
     <equipment>
-        <item>leather armor</item>
-        <item count="2">dagger</item>
-        <item>thieves' tools</item>
+        <item>Leather Armor</item>
+        <item count="2">Dagger</item>
+        <item>Thieves' tools</item>
         <choose name="weapon">
             <or name="shortsword">
-                <item>Short sword</item>
+                <item>Shortsword</item>
             </or>
             <or name="rapier">
                 <item>Rapier</item>
@@ -49,7 +50,7 @@
                 <item count="20">arrow</item>
             </or>
             <or name="sword">
-                <item>Short sword</item>
+                <item>Shortsword</item>
             </or>
         </choose>
 
@@ -66,36 +67,56 @@
         </choose>
     </equipment>
     <multiclassPrerequisite>dexterity >=13</multiclassPrerequisite>
+
     <level value="1">
+        <skills>
+            <!-- TODO filter to exclude/mention ones already chosen -->
+            <choose name="skills2" number="1">
+                <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
+                <or name="athletics"><proficiency>Athletics</proficiency></or>
+                <or name="deception"><proficiency>Deception</proficiency></or>
+                <or name="insight"><proficiency>Insight</proficiency></or>
+                <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+                <or name="investigation"><proficiency>Investigation</proficiency></or>
+                <or name="perception"><proficiency>Perception</proficiency></or>
+                <or name="performance"><proficiency>Performance</proficiency></or>
+                <or name="persuasion"><proficiency>Persuasion</proficiency></or>
+                <or name="sleight_of_hand"><proficiency>Sleight of Hand</proficiency></or>
+                <or name="stealth"><proficiency>Stealth</proficiency></or>
+            </choose>
+        </skills>
         <feature>
             <name>Sneak Attack</name>
-            <shortDescription>Once per turn, can deal extra damage with a finesse or ranged weapon if you have advantage or target has an enemy within 5 feet.</shortDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
             <context>WEAPON_ATTACK</context>
         </feature>
         <feature>
             <name>Thieves' Cant</name>
-            <shortDescription>You can communicate in a secret language.</shortDescription>
+            <shortDescription>During your rogue training you learned thieves’ cant, a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves’ cant understands such messages. It takes four times longer to convey such a message than it does to speak the same idea plainly.
+                In addition, you understand a set of secret signs and symbols used to convey short, simple messages, such as whether an area is dangerous or the territory of a thieves’ guild, whether loot is nearby, or whether the people in an area are easy marks or will provide a safe house for thieves on the run</shortDescription>
         </feature>
         <armor>
-            <proficiency category="light armor"></proficiency>
+            <proficiency category="light armor"/>
         </armor>
-        <!-- one skill... TODO support conditional/multiclass properties -->
 
-
-        <choose name="expertise">
+        <choose name="expertise" title="Expertise">
             <or name="skills">
+                <!-- TODO these are not including the skill above in same level :(  -->
                 <skills>
-                    <choose name="expert_skills" number="2">
+                    <choose name="expert_skills" level="expert" number="2" filters="skills,skills2,$existing" >
                         <!-- TODO handle referencing existing skills (eg, including background) -->
                         <!-- TODO support this to increase skill to expert -->
                     </choose>
                 </skills>
                 <tools>
                     <proficiency>thieves' tools</proficiency>
-                </tools>            </or>
+                </tools>
+            </or>
             <or name="tools">
                 <skills>
-                    <choose name="tools" number="1">
+                    <choose name="expert_skill" level="expert" number="1" filters="skills,skills2,$existing">
                         <!-- TODO handle referencing existing skills (eg, including background) -->
                         <!-- TODO support this to increase skill to expert -->
                     </choose>
@@ -106,7 +127,188 @@
             </or>
         </choose>
 
+    </level>
 
+    <level value="2">
+        <feature>
+            <name>Cunning Action</name>
+            <shortDescription>Your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="3">
+        <subclass label="Roguish Archetype" />
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>Your Sneak Attack damage increase to 2d6 damage.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 2d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="5">
+        <feature>
+            <name>Uncanny Dodge</name>
+            <shortDescription>When an attacker that you can see hits you with an attack, you can use your reaction to halve the attack’s damage against you.</shortDescription>
+            <context>HIT_POINTS</context>
+        </feature>
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>Your Sneak Attack damage increase to 3d6 damage.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 3d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="6">
+        <choose name="expertise" title="Expertise">
+            <or name="skills">
+                <skills>
+                    <!-- TODO this includes skill already expert in! -->
+                    <choose name="expert_skills" level="expert" number="2" filters="$existing" >
+                        <!-- TODO handle referencing existing skills (eg, including background) -->
+                        <!-- TODO support this to increase skill to expert -->
+                    </choose>
+                </skills>
+                <tools>
+                    <proficiency>thieves' tools</proficiency>
+                </tools>
+            </or>
+            <or name="tools">
+                <skills>
+                    <choose name="expert_skill" level="expert" number="1" filters="$existing">
+                        <!-- TODO handle referencing existing skills (eg, including background) -->
+                        <!-- TODO support this to increase skill to expert -->
+                    </choose>
+                </skills>
+                <tools>
+                    <proficiency level="expert">thieves' tools</proficiency>
+                </tools>
+            </or>
+        </choose>
+    </level>
+
+    <level value="7">
+        <feature>
+            <name>Evasion</name>
+            <shortDescription>You can nimbly dodge out of the way of certain area effects, such as a red dragon’s fiery breath or an ice storm spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.</shortDescription>
+            <context>HIT_POINTS,SAVING_THROW(dexterity)</context>
+        </feature>
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>Your Sneak Attack damage increase to 4d6 damage.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 4d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>Your Sneak Attack damage increase to 5d6 damage.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 5d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="11">
+        <feature>
+            <name>Reliable Talent</name>
+            <shortDescription>You have refined your chosen skills until they approach perfection. Whenever you make an ability check that lets you add your proficiency bonus, you can treat a d20 roll of 9 or lower as a 10</shortDescription>
+            <context>SKILL_ROLL</context>
+        </feature>
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>Your Sneak Attack damage increase to 6d6 damage.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 6d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="13">
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>Your Sneak Attack damage increase to 7d6 damage.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 7d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature>
+            <name>Blindsense</name>
+            <shortDescription>If you are able to hear, you are aware of the location of any hidden or invisible creature within 10 feet of you.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="15">
+        <savingThrows>
+            <proficiency>Wisdom</proficiency>
+        </savingThrows>
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>Your Sneak Attack damage increase to 8d6 damage.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 8d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>Your Sneak Attack damage increase to 9d6 damage.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 9d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="18">
+        <feature>
+            <name>Elusive</name>
+            <shortDescription>You are so evasive that attackers rarely gain the upper hand against you. No attack roll has advantage against you while you aren’t incapacitated.</shortDescription>
+            <context>TO_HIT</context>
+        </feature>
+    </level>
+
+    <level value="19">
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>Your Sneak Attack damage increase to 10d6 damage.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 10d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="20">
+        <feature>
+            <name>Stroke of Luck</name>
+            <refreshes>short_rest</refreshes>
+            <uses>1</uses>
+            <shortDescription>You have an uncanny knack for succeeding when you need to. If your attack misses a target within range, you can turn the miss into a hit. Alternatively, if you fail an ability check, you can treat the d20 roll as a 20.
+                Once you use this feature, you can’t use it again until you finish a short or long rest.</shortDescription>
+            <context>WEAPON_ATTACK,SKILL_ROLL</context>
+        </feature>
     </level>
 
 </class>

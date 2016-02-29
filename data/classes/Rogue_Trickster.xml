@@ -1,0 +1,172 @@
+<class>
+    <ref>PHB p.98</ref>
+    <name>Arcane Trickster</name>
+    <parent>Rogue</parent>
+
+    <spellCastingSpellClass>Wizard</spellCastingSpellClass>
+    <spellCastingStat>intelligence</spellCastingStat>
+    <multiclassCasterFactor>1/3</multiclassCasterFactor>
+
+    <level value="3">
+        <cantrips>
+            <!-- TODO these specific are not being used -->
+            <cantrip>Mage Hand</cantrip>
+            <cantrip/>
+            <cantrip/>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <known>3</known>
+            <spell schools="enchantment,illusion" />
+            <spell schools="enchantment,illusion"/>
+            <spell />
+            <slots>
+                <level value="1">2</level>
+            </slots>
+        </spells>
+
+        <feature>
+            <name>Mage Hand Legerdemain</name>
+            <shortDescription>When you cast Mage Hand, you can make the spectral hand invisible, and you can perform the following additional tasks with it:
+            * You can stow one object the hand is holding in a container worn or carried by another creature.
+            * You can retrieve an object in a container worn or carried by another creature.
+            * You can use thieve's tools to pick locks and disarm traps at a range.
+            You can perform one of these tasks without being noticed by a creature if you succeed on a Dexterity (Sleight of Hand) check contested by the creature's Wisdom (Perception) check.
+            In addition, you can use the bonus action granted by Cunning Action to control the hand.</shortDescription>
+            <context>SPEED</context>
+        </feature>
+    </level>
+
+    <level value="4">
+        <spells>
+            <known>4</known>
+            <spell schools="enchantment,illusion" />
+            <slots>
+                <level value="1">3</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="7">
+        <spells>
+            <known>5</known>
+            <spell schools="enchantment,illusion" />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="8">
+        <spells>
+            <known>6</known>
+            <spell />
+        </spells>
+    </level>
+
+    <level value="9">
+        <feature>
+            <name>Magical Ambush</name>
+            <shortDescription>If you are hidden from a creature when you cast a spell on it, the creature has disadvantage on any saving throw it makes against the spell this turn.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="10">
+        <cantrips>
+            <known>4</known>
+            <cantrip/>
+        </cantrips>
+        <spells>
+            <known>7</known>
+            <spell schools="enchantment,illusion" />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="11">
+        <spells>
+            <known>8</known>
+            <spell schools="enchantment,illusion" />
+        </spells>
+    </level>
+
+    <level value="13">
+        <feature>
+            <name>Versatile Trickster</name>
+            <shortDescription>You gain the ability to distract targets with your mage hand. As a bonus action on your turn, you can designate a creature within 5 feet of the spectral hand created by by the spell. Doing so gives you advantage on attack rolls against that creature until the end of the turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <spells>
+            <known>9</known>
+            <spell schools="enchantment,illusion" />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="14">
+        <spells>
+            <known>10</known>
+            <spell  />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="16">
+        <spells>
+            <known>11</known>
+            <spell schools="enchantment,illusion" />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="17">
+        <feature>
+            <name>Spell Thief</name>
+            <uses>1</uses>
+            <refreshes>long_rest</refreshes>
+            <!-- TODO make this an effect? -->
+            <shortDescription>You gain the ability to magically steal the knowledge of how to cast a spell from another spellcaster.
+                Immediately after a creature casts a spell that targets you or includes you in its area of effect, you can use your reaction to force the creature to make a saving throw with its spellcasting ability modifier. The DC equals your spell save DC. On a failed save, you negate the spells's effect against you, and you steal the knowledge of the spell if it is at least a 1st level and of a level you can cast (it doesn't need to be a wizard spell). For the next 8 hours, you know the spell and can cast it using your spell slots. The creature can't cast that spell until the 8 hours have passed.
+                Once you use this feature, you can't use it again until you finish a long rest.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="19">
+        <spells>
+            <known>12</known>
+            <spell schools="enchantment,illusion" />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="20">
+        <spells>
+            <known>13</known>
+            <spell />
+        </spells>
+    </level>
+
+</class>

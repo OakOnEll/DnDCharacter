@@ -1,0 +1,45 @@
+<class>
+    <ref>PHB p.97</ref>
+    <name>Thief</name>
+    <parent>Rogue</parent>
+
+    <level value="3">
+        <feature>
+            <name>Fast Hands</name>
+            <shortDescription>You can use the bonus action granted by your Cunning Action to make a Dexterity (Sleight of Hand) check, use your thieves’ tools to disarm a trap or open a lock, or take the Use an Object action</shortDescription>
+            <context>SKILL_ROLL(sleight_of_hand)</context>
+        </feature>
+        <feature>
+            <name>Second Story Work</name>
+            <shortDescription>You gain the ability to climb faster than normal; climbing no longer costs you extra movement.
+                In addition, when you make a running jump, the distance you cover increases by a number of feet equal to your Dexterity modifier.</shortDescription>
+            <context>SPEED</context>
+        </feature>
+    </level>
+
+
+    <level value="9">
+        <feature>
+            <name>Supreme Sneak</name>
+            <shortDescription>You have advantage on a Dexterity (Stealth) check if you move no more than half your speed on the same turn.</shortDescription>
+            <context>SKILL_ROLL(stealth)</context>
+        </feature>
+    </level>
+
+    <level value="13">
+        <feature>
+            <name>Use Magic Device</name>
+            <shortDescription>You have learned enough about the workings of magic that you can improvise the use of items even when they are not intended for you. You ignore all class, race, and level requirements on the use of magic items.</shortDescription>
+            <context/>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature>
+            <name>Thief’s Reflexes</name>
+            <shortDescription>You have become adept at laying ambushes and quickly escaping danger. You can take two turns during the first round of any combat. You take your first turn at your normal initiative and your second turn at your initiative minus 10. You can’t use this feature when you are surprised.</shortDescription>
+            <context>INITIATIVE</context>
+        </feature>
+    </level>
+
+</class>

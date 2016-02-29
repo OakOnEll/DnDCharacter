@@ -578,14 +578,15 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
         for (SkillType each : SkillType.values()) {
             // TODO existence check should only include up to the class level before this one, if this is a class
-            boolean exists = character.getSkillBlock(each).getProficiency().getMultiplier() > 0 || filters.contains(each.name().toUpperCase());
+            final double multiplier = character.getSkillBlock(each).getProficiency().getMultiplier();
+            boolean exists = multiplier > 0 || filters.contains(each.name().toUpperCase());
             if (selections.contains(each.name())) {
                 list.add(each);
                 continue;
             }
-            // if referencing an existing proficient skill, only add if exists
+            // if referencing an existing proficient skill, only add if exists and not already same proficiency level?
             if (filterExisting) {
-                if (exists) {
+                if (exists && multiplier < proficient.getMultiplier() ) {
                     list.add(each);
                 }
             } else if (!exists) {

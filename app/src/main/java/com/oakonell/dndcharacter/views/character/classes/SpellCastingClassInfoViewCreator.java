@@ -67,15 +67,112 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         if (casterClassName == null) {
             casterClassName = ownerClassName;
         }
-        if (cantrips != null) {
-            String known = XmlUtils.getElementText(cantrips, "known");
+
+        handleCantrips(characterActivity, classLevel, cantrips, savedChoices, mainGroup, ownerClassName, casterClassName);
+        handleSpells(characterActivity, classLevel, spells, mainGroup, ownerClassName, casterClassName);
+
+        return getChoicesMD();
+    }
+
+    protected void handleSpells(@NonNull CharacterActivity characterActivity, int classLevel, @Nullable Element spells, ViewGroup mainGroup, String ownerClassName, String casterClassName) {
+        if (spells == null) return;
+//            <known>3</known>
+//            <slots>
+//            <level value="1">3</level>
+//            </slots>
+
+//            createGroup("Spells");
+//            ViewGroup spellGroup = getParent();
+        ViewGroup spellGroup = mainGroup;
+
+        Element slotsElem = XmlUtils.getElement(spells, "slots");
+        // TODO can slots not exist, but other stuff be specifiec
+        List<Element> levelElems = XmlUtils.getChildElements(slotsElem, "level");
+        int maxLevel = 0;
+        for (Element each : levelElems) {
+            String levelString = each.getAttribute("value");
+            int level = Integer.parseInt(levelString);
+            if (level > maxLevel) {
+                maxLevel = level;
+            }
+        }
+
+        Element spellsKnownElem = XmlUtils.getElement(spells, "known");
+        List<Element> spellList = XmlUtils.getChildElements(spells, "spell");
+        if (spellsKnownElem != null) {
+            String known = spellsKnownElem.getTextContent();
+
+            TextView text = new TextView(spellGroup.getContext());
+            spellGroup.addView(text);
+            text.setText("Spells known: " + known);
+
+            if (casterClassName != null && spellList.isEmpty()) {
+                // be real fancy, and find actual difference from latest level specifying known spells?
+                int lastLevelSpellsKnown = findLastSpellsKnown(characterActivity.getCharacter(), ownerClassName, classLevel);
+                int numSpellsCanAdd = Integer.parseInt(known) - lastLevelSpellsKnown;
+
+                ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpells", numSpellsCanAdd, numSpellsCanAdd));
+                visitSpellSearchChoices(casterClassName, maxLevel, numSpellsCanAdd, null);
+                popChooseMD(oldChooseMD);
+            }
+
+        }
+
+        for (Element each : levelElems) {
+            String level = each.getAttribute("value");
+            String slots = each.getTextContent();
+
+            TextView text = new TextView(spellGroup.getContext());
+            spellGroup.addView(text);
+
+            text.setText("Level " + level + " slots: " + slots);
+        }
+
+        if (spellList.size() > 0) {
+            TextView text = new TextView(spellGroup.getContext());
+            spellGroup.addView(text);
+            text.setText("Spells: ");
+
+            int i = 0;
+            for (Element each : spellList) {
+                if (each.getTextContent() == null || each.getTextContent().trim().length() == 0) {
+                    ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpell" + i, 1, 1));
+                    String schoolsString = each.getAttribute("schools");
+                    String overrideCastClassName = each.getAttribute("casterClass");
+                    List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
+                    visitSpellSearchChoices((overrideCastClassName != null && overrideCastClassName.trim().length() > 0) ? overrideCastClassName : casterClassName, maxLevel, 1, schools);
+                    popChooseMD(oldChooseMD);
+                } else {
+                    visitSpell(each);
+//                        TextView spellText = new TextView(spellGroup.getContext());
+//                        spellGroup.addView(spellText);
+//                        spellText.setText(" * " + each.getTextContent());
+                }
+                i++;
+            }
+        }
+
+        setParent(mainGroup);
+
+    }
+
+    protected void handleCantrips(@NonNull CharacterActivity characterActivity, int classLevel, @Nullable Element cantrips, @NonNull SavedChoices savedChoices, ViewGroup mainGroup, String ownerClassName, String casterClassName) {
+        if (cantrips == null) return;
+
+
+        ViewGroup spellGroup = mainGroup;
+
+
+        Element cantripsKnownElem = XmlUtils.getElement(cantrips, "known");
+        List<Element> cantripsList = XmlUtils.getChildElements(cantrips, "cantrip");
+        if (cantripsKnownElem != null) {
+            String known = cantripsKnownElem.getTextContent();
 
             TextView text = new TextView(mainGroup.getContext());
             mainGroup.addView(text);
             text.setText("Cantrips known: " + known);
 
-            if (casterClassName != null) {
-                List<String> savedAddedCantrips = savedChoices.getChoicesFor("addedCantrips");
+            if (casterClassName != null && cantripsList.isEmpty()) {
                 // be real fancy, and find actual difference from latest level specifying known cantrips?
                 int lastLevelCantripsKnown = findLastCantripsKnown(characterActivity.getCharacter(), ownerClassName, classLevel);
                 int numCantripsCanAdd = Integer.parseInt(known) - lastLevelCantripsKnown;
@@ -87,86 +184,31 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         }
 
 
-        if (spells != null) {
-//            <known>3</known>
-//            <slots>
-//            <level value="1">3</level>
-//            </slots>
+        if (cantripsList.size() > 0) {
+            TextView text = new TextView(spellGroup.getContext());
+            spellGroup.addView(text);
+            text.setText("Cantrips: ");
 
-//            createGroup("Spells");
-//            ViewGroup spellGroup = getParent();
-            ViewGroup spellGroup = mainGroup;
-
-            Element slotsElem = XmlUtils.getElement(spells, "slots");
-            List<Element> levelElems = XmlUtils.getChildElements(slotsElem, "level");
-            int maxLevel = 0;
-            for (Element each : levelElems) {
-                String levelString = each.getAttribute("value");
-                int level = Integer.parseInt(levelString);
-                if (level > maxLevel) {
-                    maxLevel = level;
-                }
-            }
-
-            Element spellsKnownElem = XmlUtils.getElement(spells, "known");
-            List<Element> spellList = XmlUtils.getChildElements(spells, "spell");
-            if (spellsKnownElem != null) {
-                String known = spellsKnownElem.getTextContent();
-
-                TextView text = new TextView(spellGroup.getContext());
-                spellGroup.addView(text);
-                text.setText("Spells known: " + known);
-
-                if (casterClassName != null && spellList.isEmpty()) {
-                    // be real fancy, and find actual difference from latest level specifying known spells?
-                    int lastLevelSpellsKnown = findLastSpellsKnown(characterActivity.getCharacter(), ownerClassName, classLevel);
-                    int numSpellsCanAdd = Integer.parseInt(known) - lastLevelSpellsKnown;
-
-                    ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpells", numSpellsCanAdd, numSpellsCanAdd));
-                    visitSpellSearchChoices(casterClassName, maxLevel, numSpellsCanAdd, null);
+            int i = 0;
+            for (Element each : cantripsList) {
+                if (each.getTextContent() == null || each.getTextContent().trim().length() == 0) {
+                    ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedCantrip" + i, 1, 1));
+                    //String schoolsString = each.getAttribute("schools");
+                    String overrideCastClassName = each.getAttribute("casterClass");
+                    //List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
+                    visitCantripsSearchChoices((overrideCastClassName != null && overrideCastClassName.trim().length() > 0) ? overrideCastClassName : casterClassName, 1);
                     popChooseMD(oldChooseMD);
-                }
-
-            }
-
-            for (Element each : levelElems) {
-                String level = each.getAttribute("value");
-                String slots = each.getTextContent();
-
-                TextView text = new TextView(spellGroup.getContext());
-                spellGroup.addView(text);
-
-                text.setText("Level " + level + " slots: " + slots);
-            }
-
-            if (spellList.size() > 0) {
-                TextView text = new TextView(spellGroup.getContext());
-                spellGroup.addView(text);
-                text.setText("Spells: ");
-
-                int i = 0;
-                for (Element each : spellList) {
-                    if (each.getTextContent() == null || each.getTextContent().trim().length() == 0) {
-                        ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpell" + i, 1, 1));
-                        String schoolsString = each.getAttribute("schools");
-                        String overrideCastClassName = each.getAttribute("casterClass");
-                        List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
-                        visitSpellSearchChoices((overrideCastClassName != null && overrideCastClassName.trim().length()>0) ? overrideCastClassName : casterClassName, maxLevel, 1, schools);
-                        popChooseMD(oldChooseMD);
-                    } else {
-                        visitSpell(each);
+                } else {
+                    visitCantrip(each);
 //                        TextView spellText = new TextView(spellGroup.getContext());
 //                        spellGroup.addView(spellText);
 //                        spellText.setText(" * " + each.getTextContent());
-                    }
-                    i++;
                 }
+                i++;
             }
-
-            setParent(mainGroup);
         }
-        return getChoicesMD();
     }
+
 
     private int findLastCantripsKnown(Character character, String className, int classLevel) {
         final List<CharacterClass> classes = new ArrayList<>(character.getClasses());
