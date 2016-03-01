@@ -1,4 +1,5 @@
 <class>
+    <ref>PHB p.102</ref>
     <name>Draconic Bloodline</name>
     <parent>Sorcerer</parent>
 
@@ -6,9 +7,134 @@
         <feature>
             <name>Draconic Resilience</name>
             <ac>=13 + dexterityMod</ac>
-            <shortDescription>Your maximum HP increases by 1HP per character level. While not wearing armor, your AC equals 10 + dex + con modifiers. Can still use a shield.</shortDescription>
+            <hp>classLevel</hp>
+            <shortDescription>As magic flows through your body, it causes physical traits of your dragon ancestors to emerge. At 1st level, your hit point maximum increases by 1 and increases by 1 again whenever you gain a level in this class.
+                Additionally, parts of your skin are covered by a thin sheen of dragon-like scales. When you aren’t wearing armor, your AC equals 13 + your Dexterity modifier.</shortDescription>
             <context>ARMOR_CLASS,HIT_POINTS</context>
+        </feature>
+        <choose name="ancestor">
+            <or name="black">
+                <feature>
+                    <name>Black Dragon Ancestor</name>
+                    <shortDescription>You have a Black Dragon ancestor, associated with Acid Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+            <or name="blue">
+                <feature>
+                    <name>Blue Dragon Ancestor</name>
+                    <shortDescription>You have a Blue Dragon ancestor, associated with Lightning Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+            <or name="brass">
+                <feature>
+                    <name>Brass Dragon Ancestor</name>
+                    <shortDescription>You have a Brass Dragon ancestor, associated with Fire Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+            <or name="bronze">
+                <feature>
+                    <name>Bronze Dragon Ancestor</name>
+                    <shortDescription>You have a Bronze Dragon ancestor, associated with Lightning Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+            <or name="copper">
+                <feature>
+                    <name>Copper Dragon Ancestor</name>
+                    <shortDescription>You have a Copper Dragon ancestor, associated with Acid Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+            <or name="gold">
+                <feature>
+                    <name>Gold Dragon Ancestor</name>
+                    <shortDescription>You have a Gold Dragon ancestor, associated with Fire Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+            <or name="green">
+                <feature>
+                    <name>Green Dragon Ancestor</name>
+                    <shortDescription>You have a Gold Dragon ancestor, associated with Poison Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+            <or name="red">
+                <feature>
+                    <name>Red Dragon Ancestor</name>
+                    <shortDescription>You have a Red Dragon ancestor, associated with Fire Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+            <or name="silver">
+                <feature>
+                    <name>Silver Dragon Ancestor</name>
+                    <shortDescription>You have a Silver Dragon ancestor, associated with Cold Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+            <or name="white">
+                <feature>
+                    <name>White Dragon Ancestor</name>
+                    <shortDescription>You have a White Dragon ancestor, associated with Cold Damage. Whenever you make a Charisma check when interacting with dragons, your proficiency bonus is doubled if it applies to the check.</shortDescription>
+                    <context>SKILL_ROLL(charisma)</context>
+                </feature>
+            </or>
+        </choose>
+        <languages>
+            <language>Draconic</language>
+        </languages>
+
+    </level>
+
+
+    <level value="6">
+        <feature>
+            <name>Elemental Affinity</name>
+            <shortDescription>When you cast a spell that deals damage of the type associated with your draconic ancestry, you can add your Charisma modifier to one damage roll of that spell.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+
+        <feature extension="extend">
+            <name>Sorcery Points</name>
+            <extensionDescription>You have the ability to gain resistance to the damage type associated with your dragon ancestry.</extensionDescription>
+            <action uses="1">
+                <name>Elemental Affinity</name>
+                <shortDescription>When you cast a spell that deals damage of the type associated with your draconic ancestry, you can spend 1 sorcery point to gain resistance to that damage type for 1 hour.</shortDescription>
+            </action>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature>
+            <name>Dragon Wings</name>
+            <shortDescription>You gain the ability to sprout a pair of dragon wings from your back, gaining a flying speed equal to your current speed. You can create these wings as a bonus action on your turn. They last until you dismiss them as a bonus action on your turn.
+                You can’t manifest your wings while wearing armor unless the armor is made to accommodate them, and clothing not made to accommodate your wings might be destroyed when you manifest them.</shortDescription>
+            <effect>
+                <name>Dragon Wings</name>
+                <shortDescription>You have dragon wings sprouted from your back, gaining a flying speed equal to your regular speed. They last until you dismiss them as a bonus action on your turn.</shortDescription>
+                <!-- TODO set speed equal to another type's speed -->
+                <speed type="fly"/>
+                <context>SPEED</context>
+            </effect>
+        </feature>
+    </level>
+
+    <level value="18">
+        <feature extension="extend">
+            <name>Sorcery Points</name>
+            <extensionDescription>You can channel the dread presence of your dragon ancestor, causing those around you to become awestruck or frightened. </extensionDescription>
+            <effect uses="5" actionName="Draconic Presence">
+                <variable name="type" prompt="Choose a presence type">Awe,Fear</variable>
+                <name>Draconic Presence: $type</name>
+                <actionDescription>As an action, you can spend 5 sorcery points to draw on this power and exude an aura of awe or fear (your choice) to a distance of 60 feet. For 1 minute or until you lose your concentration (as if you were casting a concentration spell), each hostile creature that starts its turn in this aura must succeed on a Wisdom saving throw or be charmed (if you choose awe) or frightened (if you choose fear) until the aura ends.</actionDescription>
+                <shortDescription>You exude an aura of $type to a distance of 60 feet. For 1 minute or until you lose your concentration (as if you were casting a concentration spell), each hostile creature that starts its turn in this aura must succeed on a Wisdom saving throw or be charmed (if you chose awe) or frightened (if you chose fear) until the aura ends. A creature that succeeds on this saving throw is immune to your aura for 24 hours.</shortDescription>
+            </effect>
         </feature>
 
     </level>
+
 </class>

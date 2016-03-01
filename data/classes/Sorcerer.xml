@@ -1,9 +1,7 @@
 <class>
+    <ref>PHB p.100</ref>
     <name>Sorcerer</name>
     <hitDice>1d6</hitDice>
-    <armor>
-        <proficiency category="light armor"></proficiency>
-    </armor>
     <weapons>
         <proficiency>Dagger</proficiency>
         <proficiency>Dart</proficiency>
@@ -17,24 +15,12 @@
     </savingThrows>
     <skills>
         <choose name="skills" number="2">
-            <or name="arcana">
-                <proficiency>Arcana</proficiency>
-            </or>
-            <or name="deception">
-                <proficiency>Deception</proficiency>
-            </or>
-            <or name="insight">
-                <proficiency>Insight</proficiency>
-            </or>
-            <or name="intimidation">
-                <proficiency>Intimidation</proficiency>
-            </or>
-            <or name="persuasion">
-                <proficiency>Persuasion</proficiency>
-            </or>
-            <or name="religion">
-                <proficiency>Religion</proficiency>
-            </or>
+            <or name="arcana"><proficiency>Arcana</proficiency></or>
+            <or name="deception"><proficiency>Deception</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+            <or name="persuasion"><proficiency>Persuasion</proficiency></or>
+            <or name="religion"><proficiency>Religion</proficiency></or>
         </choose>
     </skills>
     <equipment>
@@ -68,6 +54,7 @@
     <spellCastingStat>charisma</spellCastingStat>
     <multiclassCasterFactor>1</multiclassCasterFactor>
     <multiclassPrerequisite>charisma>=13</multiclassPrerequisite>
+
     <level value="1">
         <subclass label="Sorcerous Origin" />
         <cantrips>
@@ -80,28 +67,99 @@
             </slots>
         </spells>
     </level>
+
     <level value="2">
-        <cantrips>
-            <known>4</known>
-        </cantrips>
+        <feature>
+            <name>Sorcery Points</name>
+            <shortDescription>You have sorcery points that can be used to gain additional spell slots or for meta-magic.</shortDescription>
+            <uses>classLevel</uses>
+            <action>
+                <name>Gain spell slot</name>
+                <shortDescription>You can use a bonus action to exchange unexpended sorcery points into a spell slot.
+                    Spell Slot       Sorcery Points
+                       1st              2
+                       2nd              3
+                       3rd              5
+                       4th              6
+                       5th              7
+                </shortDescription>
+            </action>
+            <action>
+                <!-- TODO support negative uses -->
+                <name>Gain sorcery points</name>
+                <shortDescription>You can expend a spell slot, and gain a number of sorcery points equal to the slot's level.</shortDescription>
+            </action>
+            <!-- TODO support exchange sorcery points for spell slots -->
+            <refreshes>long_rest</refreshes>
+            <context>SPELL_CAST</context>
+        </feature>
+
         <spells>
             <known>3</known>
             <slots>
                 <level value="1">3</level>
             </slots>
         </spells>
-        <feature>
-            <name>Font of Magic</name>
-            <refreshes>short rest</refreshes>
-            <pool>2</pool>
-            <shortDescription>You have sorcery points representing a deep wellspring of magic within yourself.</shortDescription>
-            <context></context>
-        </feature>
+
     </level>
+
     <level value="3">
-        <cantrips>
-            <known>4</known>
-        </cantrips>
+        <feature extension="extend">
+            <name>Sorcery Points</name>
+            <extensionDescription>You gain two meta-magic options, that use your sorcery points.</extensionDescription>
+            <choose name="meta-magic" number="2">
+                <or name="careful">
+                    <action uses="1">
+                        <name>Careful Spell</name>
+                        <shortDescription>When you cast a spell that forces other creatures to make a saving throw, you can protect some of those creatures from the spell’s full force. To do so, you spend 1 sorcery point and choose a number of those creatures up to your Charisma modifier (minimum of one creature). A chosen creature automatically succeeds on its saving throw against the spell.</shortDescription>
+                    </action>
+                </or>
+                <or name="distant">
+                    <action uses="1">
+                        <name>Distant Spell</name>
+                        <shortDescription>When you cast a spell that has a range of 5 feet or greater, you can spend 1 sorcery point to double the range of the spell. When you cast a spell that has a range of touch, you can spend 1 sorcery point to make the range of the spell 30 feet.</shortDescription>
+                    </action>
+                </or>
+                <or name="empowered">
+                    <action uses="1">
+                        <name>Empowered Spell</name>
+                        <shortDescription>When you roll damage for a spell, you can spend 1 sorcery point to reroll a number of the damage dice up to your Charisma modifier (minimum of one). You must use the new rolls. You can use Empowered Spell even if you have already used a different Metamagic option during the casting of the spell.</shortDescription>
+                    </action>
+                </or>
+                <or name="extended">
+                    <action uses="1">
+                        <name>Extended Spell</name>
+                        <shortDescription>When you cast a spell that has a duration of 1 minute or longer, you can spend 1 sorcery point to double its duration, to a maximum duration of 24 hours.</shortDescription>
+                    </action>
+                </or>
+                <or name="heightened">
+                    <action uses="3">
+                        <name>Heightened Spell</name>
+                        <shortDescription>When you cast a spell that forces a creature to make a saving throw to resist its effects, you can spend 3 sorcery points to give one target of the spell disadvantage on its first saving throw made against the spell.</shortDescription>
+                    </action>
+                </or>
+                <or name="quickened">
+                    <action uses="2">
+                        <name>Quickened Spell</name>
+                        <shortDescription>When you cast a spell that has a casting time of 1 action, you can spend 2 sorcery points to change the casting time to 1 bonus action for this casting.</shortDescription>
+                    </action>
+                </or>
+                <or name="subtle">
+                    <action uses="1">
+                        <name>Subtle Spell</name>
+                        <shortDescription>When you cast a spell, you can spend 1 sorcery point to cast it without any somatic or verbal components.</shortDescription>
+                    </action>
+                </or>
+                <or name="twinned">
+                    <action>
+                        <name>Twinned Spell</name>
+                        <shortDescription>When you cast a spell that targets only one creature and doesn’t have a range of self, you can spend a number of sorcery points equal to the spell’s level to target a second creature in range with the same spell (1 sorcery point if the spell is a cantrip). To be eligible, a spell must be incapable of targeting more than one creature at the spell’s current level. For example, magic missile and scorching ray aren’t eligible, but ray of frost and chromatic orb are.</shortDescription>
+                    </action>
+                </or>
+            </choose>
+        </feature>
+
+
         <spells>
             <known>4</known>
             <slots>
@@ -109,12 +167,313 @@
                 <level value="2">2</level>
             </slots>
         </spells>
-        <feature>
-            <name>Metamagic</name>
-            <refreshes>short rest</refreshes>
-            <pool>2</pool>
-            <shortDescription>You can choose a metamagic option to apply to spells cast.</shortDescription>
-            <context></context>
-        </feature>
     </level>
+
+
+    <level value="4">
+        <cantrips>
+            <known>5</known>
+        </cantrips>
+        <spells>
+            <known>5</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="5">
+        <spells>
+            <known>6</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="6">
+        <spells>
+            <known>7</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="7">
+        <spells>
+            <known>8</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="8">
+        <spells>
+            <known>9</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">2</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="9">
+        <spells>
+            <known>10</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="10">
+        <feature extension="extend">
+            <name>Sorcery Points</name>
+            <extensionDescription>You gain another meta-magic option.</extensionDescription>
+            <choose name="meta-magic" >
+                <or name="careful">
+                    <action uses="1">
+                        <name>Careful Spell</name>
+                        <shortDescription>When you cast a spell that forces other creatures to make a saving throw, you can protect some of those creatures from the spell’s full force. To do so, you spend 1 sorcery point and choose a number of those creatures up to your Charisma modifier (minimum of one creature). A chosen creature automatically succeeds on its saving throw against the spell.</shortDescription>
+                    </action>
+                </or>
+                <or name="distant">
+                    <action uses="1">
+                        <name>Distant Spell</name>
+                        <shortDescription>When you cast a spell that has a range of 5 feet or greater, you can spend 1 sorcery point to double the range of the spell. When you cast a spell that has a range of touch, you can spend 1 sorcery point to make the range of the spell 30 feet.</shortDescription>
+                    </action>
+                </or>
+                <or name="empowered">
+                    <action uses="1">
+                        <name>Empowered Spell</name>
+                        <shortDescription>When you roll damage for a spell, you can spend 1 sorcery point to reroll a number of the damage dice up to your Charisma modifier (minimum of one). You must use the new rolls. You can use Empowered Spell even if you have already used a different Metamagic option during the casting of the spell.</shortDescription>
+                    </action>
+                </or>
+                <or name="extended">
+                    <action uses="1">
+                        <name>Extended Spell</name>
+                        <shortDescription>When you cast a spell that has a duration of 1 minute or longer, you can spend 1 sorcery point to double its duration, to a maximum duration of 24 hours.</shortDescription>
+                    </action>
+                </or>
+                <or name="heightened">
+                    <action uses="3">
+                        <name>Heightened Spell</name>
+                        <shortDescription>When you cast a spell that forces a creature to make a saving throw to resist its effects, you can spend 3 sorcery points to give one target of the spell disadvantage on its first saving throw made against the spell.</shortDescription>
+                    </action>
+                </or>
+                <or name="quickened">
+                    <action uses="2">
+                        <name>Quickened Spell</name>
+                        <shortDescription>When you cast a spell that has a casting time of 1 action, you can spend 2 sorcery points to change the casting time to 1 bonus action for this casting.</shortDescription>
+                    </action>
+                </or>
+                <or name="subtle">
+                    <action uses="1">
+                        <name>Subtle Spell</name>
+                        <shortDescription>When you cast a spell, you can spend 1 sorcery point to cast it without any somatic or verbal components.</shortDescription>
+                    </action>
+                </or>
+                <or name="twinned">
+                    <action>
+                        <name>Twinned Spell</name>
+                        <shortDescription>When you cast a spell that targets only one creature and doesn’t have a range of self, you can spend a number of sorcery points equal to the spell’s level to target a second creature in range with the same spell (1 sorcery point if the spell is a cantrip). To be eligible, a spell must be incapable of targeting more than one creature at the spell’s current level. For example, magic missile and scorching ray aren’t eligible, but ray of frost and chromatic orb are.</shortDescription>
+                    </action>
+                </or>
+            </choose>
+        </feature>
+
+        <cantrips>
+            <known>6</known>
+        </cantrips>
+        <spells>
+            <known>11</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="11">
+        <spells>
+            <known>12</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="13">
+        <spells>
+            <known>13</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="15">
+        <spells>
+            <known>14</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+            </slots>
+        </spells>
+    </level>
+
+
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Sorcery Points</name>
+            <extensionDescription>You gain another meta-magic option.</extensionDescription>
+            <choose name="meta-magic" >
+                <or name="careful">
+                    <action uses="1">
+                        <name>Careful Spell</name>
+                        <shortDescription>When you cast a spell that forces other creatures to make a saving throw, you can protect some of those creatures from the spell’s full force. To do so, you spend 1 sorcery point and choose a number of those creatures up to your Charisma modifier (minimum of one creature). A chosen creature automatically succeeds on its saving throw against the spell.</shortDescription>
+                    </action>
+                </or>
+                <or name="distant">
+                    <action uses="1">
+                        <name>Distant Spell</name>
+                        <shortDescription>When you cast a spell that has a range of 5 feet or greater, you can spend 1 sorcery point to double the range of the spell. When you cast a spell that has a range of touch, you can spend 1 sorcery point to make the range of the spell 30 feet.</shortDescription>
+                    </action>
+                </or>
+                <or name="empowered">
+                    <action uses="1">
+                        <name>Empowered Spell</name>
+                        <shortDescription>When you roll damage for a spell, you can spend 1 sorcery point to reroll a number of the damage dice up to your Charisma modifier (minimum of one). You must use the new rolls. You can use Empowered Spell even if you have already used a different Metamagic option during the casting of the spell.</shortDescription>
+                    </action>
+                </or>
+                <or name="extended">
+                    <action uses="1">
+                        <name>Extended Spell</name>
+                        <shortDescription>When you cast a spell that has a duration of 1 minute or longer, you can spend 1 sorcery point to double its duration, to a maximum duration of 24 hours.</shortDescription>
+                    </action>
+                </or>
+                <or name="heightened">
+                    <action uses="3">
+                        <name>Heightened Spell</name>
+                        <shortDescription>When you cast a spell that forces a creature to make a saving throw to resist its effects, you can spend 3 sorcery points to give one target of the spell disadvantage on its first saving throw made against the spell.</shortDescription>
+                    </action>
+                </or>
+                <or name="quickened">
+                    <action uses="2">
+                        <name>Quickened Spell</name>
+                        <shortDescription>When you cast a spell that has a casting time of 1 action, you can spend 2 sorcery points to change the casting time to 1 bonus action for this casting.</shortDescription>
+                    </action>
+                </or>
+                <or name="subtle">
+                    <action uses="1">
+                        <name>Subtle Spell</name>
+                        <shortDescription>When you cast a spell, you can spend 1 sorcery point to cast it without any somatic or verbal components.</shortDescription>
+                    </action>
+                </or>
+                <or name="twinned">
+                    <action>
+                        <name>Twinned Spell</name>
+                        <shortDescription>When you cast a spell that targets only one creature and doesn’t have a range of self, you can spend a number of sorcery points equal to the spell’s level to target a second creature in range with the same spell (1 sorcery point if the spell is a cantrip). To be eligible, a spell must be incapable of targeting more than one creature at the spell’s current level. For example, magic missile and scorching ray aren’t eligible, but ray of frost and chromatic orb are.</shortDescription>
+                    </action>
+                </or>
+            </choose>
+        </feature>
+
+        <spells>
+            <known>15</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="19">
+        <spells>
+            <known>15</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">2</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="20">
+        <feature extension="extend">
+            <name>Sorcery Points</name>
+            <extensionDescription>You regain 4 expended sorcery points on a short rest.</extensionDescription>
+            <!-- TODO how to encode this -->
+        </feature>
+
+
+        <spells>
+            <known>15</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">2</level>
+                <level value="7">2</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
 </class>
