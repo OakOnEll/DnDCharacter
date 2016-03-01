@@ -222,7 +222,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
         public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractSelectComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
-            final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
+            final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, getIdColumnName()));
             final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
             name.setText(nameString);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -233,6 +233,11 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
                     }
                 }
             });
+        }
+
+        @NonNull
+        protected String getIdColumnName() {
+            return BaseColumns._ID;
         }
 
         @Override

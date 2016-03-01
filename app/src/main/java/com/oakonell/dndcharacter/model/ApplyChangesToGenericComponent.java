@@ -150,7 +150,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             if (valuesString == null || valuesString.trim().length() == 0) {
                 values = new String[]{};
             } else {
-                values = valuesString.split("\\\\s*,\\\\s*");
+                values = valuesString.split("\\s*,\\s*");
             }
             // clean up empty strings..
 

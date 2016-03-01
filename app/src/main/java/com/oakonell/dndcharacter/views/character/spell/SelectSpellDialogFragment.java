@@ -8,7 +8,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.activeandroid.Cache;
-import com.activeandroid.content.ContentProvider;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.DnDContentProvider;
 import com.oakonell.dndcharacter.model.EnumHelper;
@@ -372,6 +369,12 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             super(itemView);
             schoolTextView = (TextView) itemView.findViewById(R.id.school);
             levelTextView = (TextView) itemView.findViewById(R.id.level);
+        }
+
+
+        @NonNull
+        protected String getIdColumnName() {
+            return "spell";
         }
 
         @Override
