@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.views.character;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
@@ -85,7 +86,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
                 String searchTermString = searchTerms.getText().toString().trim();
                 if (searchTermString.length() == 0) {
                     return new CursorLoader(getActivity(),
-                            ContentProvider.createUri(getComponentClass(), null),
+                            getContentProviderUri(),
                             null, getSelection(), getSelectionArgs(), getCursorSortBy());
                 }
                 searchTermString = "%" + searchTermString + "%";
@@ -106,7 +107,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
                     System.arraycopy(extraArgs, 0, selectionArgs, 1, extraArgs.length + 1 - 1);
                 }
                 return new CursorLoader(getActivity(),
-                        ContentProvider.createUri(getComponentClass(), null),
+                        getContentProviderUri(),
                         null, selection, selectionArgs, getCursorSortBy()
                 );
             }
@@ -149,6 +150,10 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
 
 
         return view;
+    }
+
+    protected Uri getContentProviderUri() {
+        return ContentProvider.createUri(getComponentClass(), null);
     }
 
     protected boolean canSearch() {

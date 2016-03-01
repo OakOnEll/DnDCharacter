@@ -1,12 +1,14 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.activeandroid.Cache;
+import com.activeandroid.content.ContentProvider;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.DnDContentProvider;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.spell.Spell;
@@ -231,11 +236,24 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             schoolsFilterString = builder.toString();
         }
 
+        // TODO suspect this exists clause slows down the query
+        // perhaps do a join...?
         if (cantrips) {
-            return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level = 0" + schoolsFilterString;
+            return " upper(aClass) = ? and level = 0 " + schoolsFilterString;
         } else {
-            return " exists ( select 'X' from spell_class sc where sc.spell = spell._id  and upper(aClass) = ?) and level > 0 and level <= ? " + schoolsFilterString;
+            return " upper(aClass) = ? and level > 0 and level <= ? " + schoolsFilterString;
         }
+    }
+
+
+    protected Uri getContentProviderUri() {
+        final StringBuilder uri = new StringBuilder();
+        uri.append("content://");
+        uri.append(DnDContentProvider.sAuthority);
+        uri.append("/");
+        uri.append(DnDContentProvider.SPELL_AND_CLASSES);
+
+        return Uri.parse(uri.toString());
     }
 
     @Nullable
@@ -359,6 +377,17 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         @Override
         public void bindTo(@NonNull Cursor cursor, @NonNull AbstractSelectComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
+
+//            StringBuilder builder = new StringBuilder();
+//            for(String eachColumn : cursor.getColumnNames()) {
+//                int index = cursor.getColumnIndex(eachColumn);
+//                builder.append(eachColumn);
+//                builder.append(" = ");
+//                builder.append(cursor.getString(index));
+//                builder.append(", ");
+//            }
+//            Log.i("Spell", builder.toString());
+
             final int level = cursor.getInt(cursorIndexesByName.getIndex(cursor, "level"));
             String levelString;
             if (level == 0) {

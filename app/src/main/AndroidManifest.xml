@@ -67,7 +67,7 @@
             android:value="12" />
 
         <provider
-            android:name="com.activeandroid.content.ContentProvider"
+            android:name="com.oakonell.dndcharacter.model.DnDContentProvider"
             android:authorities="com.oakonell.dndcharacter"
             android:exported="false" />
 

@@ -3,10 +3,12 @@ package com.oakonell.dndcharacter.model.spell;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.EnumHelper;
@@ -60,7 +62,7 @@ public class Spell extends AbstractComponentModel {
 
     @NonNull
     public List<String> getUsableByClasses() {
-        List<SpellClass> spellClasses = new Select().from(SpellClass.class).where("spell = ?", this).execute();
+        List<SpellClass> spellClasses = new Select().from(SpellClass.class).where("spell = ?", getId()).execute();
         List<String> result = new ArrayList<>();
         for (SpellClass each : spellClasses) {
             result.add(each.getAClass());
@@ -69,7 +71,13 @@ public class Spell extends AbstractComponentModel {
     }
 
     public void setUsableByClasses(@NonNull List<String> classes) {
-        new Delete().from(SpellClass.class).where("spell = ?", this).execute();
+        final From query = new Delete().from(SpellClass.class).where("spell = ?", getId());
+//        int count = query.count();
+//        Log.i("Spell", "Deleted " + count + " spellClass rows for spell = " + getName());
+        query.execute();
+//        count = query.count();
+//        assert count ==0;
+
         for (String each : classes) {
             SpellClass spellClass = new SpellClass();
             spellClass.setAClass(each);
