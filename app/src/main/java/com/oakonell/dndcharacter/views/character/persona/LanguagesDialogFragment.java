@@ -12,11 +12,15 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rob on 11/30/2015.
@@ -44,6 +48,14 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     @Override
     protected String getTitle() {
         return getString(R.string.languages_known_title);
+    }
+
+    @NonNull
+    @Override
+    protected Set<FeatureContextArgument> getContextFilter() {
+        Set<FeatureContextArgument> filter = new HashSet<>();
+        filter.add(new FeatureContextArgument(FeatureContext.LANGUAGES));
+        return filter;
     }
 
     @Override
