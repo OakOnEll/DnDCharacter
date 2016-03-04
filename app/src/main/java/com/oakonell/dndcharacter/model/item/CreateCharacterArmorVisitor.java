@@ -13,9 +13,10 @@ import org.w3c.dom.Element;
  * Created by Rob on 12/29/2015.
  */
 public class CreateCharacterArmorVisitor extends AbstractArmorVisitor {
+    CharacterArmor armor;
 
     private CreateCharacterArmorVisitor(CharacterArmor armor) {
-        CharacterArmor armor1 = armor;
+        this.armor = armor;
     }
 
     @NonNull
@@ -38,6 +39,13 @@ public class CreateCharacterArmorVisitor extends AbstractArmorVisitor {
         character.addArmor(armor);
 
         return armor;
+    }
+
+
+    @Override
+    protected void visitCategory(@NonNull Element element) {
+        String category = element.getTextContent();
+        armor.setCategory(category);
     }
 
     @Override

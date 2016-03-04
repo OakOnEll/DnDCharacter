@@ -1,0 +1,63 @@
+<class>
+    <ref>PHB p.109</ref>
+    <name>Fiend</name>
+    <parent>Warlock</parent>
+
+    <level value="1">
+        <!-- TODO these are "warlock" spells for this subclass... not immediately known, just knowable -->
+        <extraSpells>
+            <spell>Burning Hands</spell>
+            <spell>Command</spell>
+            <spell>Blindness/Deafness</spell>
+            <spell>Scorching Ray</spell>
+            <spell>Fireball</spell>
+            <spell>Stinking Cloud</spell>
+            <spell>Fire Shield</spell>
+            <spell>Wall of Fire</spell>
+            <spell>Flame Strike</spell>
+            <spell>Hallow</spell>
+        </extraSpells>
+
+        <feature >
+            <name>Dark One's Blessing</name>
+            <shortDescription>When you reduce a hostile creature to 0 hit points, you gain temporary hit points equal to your charisma modifier + your warlock level (minimum of 1).</shortDescription>
+            <context>WEAPON_ATTACK,SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="6">
+        <feature >
+            <name>Dark One's Own Luck</name>
+            <shortDescription>You can call on your patron to alter fate in your favor. When you make an ability check or a saving throw, you can use this feature to add a d10 to your roll. You can do so after seeing the initial roll but before any of the roll’s effects occur. Once you use this feature, you can’t use it again until you finish a short or long rest</shortDescription>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+            <context>SKILL_ROLL,SAVING_THROW</context>
+        </feature>
+    </level>
+
+
+    <level value="10">
+        <feature>
+            <name>Fiendish Resilience</name>
+            <shortDescription>You can choose one damage type when you finish a short or long rest. You gain resistance to that damage type until you choose a different one with this feature. Damage from magical weapons or silver weapons ignores this resistance.</shortDescription>
+            <effect>
+                <name>Fiendish Resilience: $damageType</name>
+                <variable name="damageType" prompt="Choose a Damage Type to be Resilient to">Acid, Bludgeoning, Cold,Fire, Force, Lightning,Necrotic, Piercing, Poison,Psychic, Radiant, Slashing,Thunder</variable>
+                <shortDescription>You are resilient to $damageType. Damage from magical weapons or silver weapons ignores this resistance</shortDescription>
+            </effect>
+            <context>SHORT_REST,LONG_REST</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature>
+            <name>Hurl Through Hell</name>
+            <shortDescription>When you hit a creature with an attack, you can use this feature to instantly transport the target through the lower planes. The creature disappears and hurtles through a nightmare landscape.
+                At the end of your next turn, the target returns to the space it previously occupied, or the nearest unoccupied space. If the target is not a fiend, it takes 10d10 psychic damage as it reels from its horrific experience.
+                Once you use this feature, you can’t use it again until you finish a long rest.</shortDescription>
+            <uses>1</uses>
+            <refreshes>long_rest</refreshes>
+        </feature>
+    </level>
+
+</class>

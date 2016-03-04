@@ -1,0 +1,87 @@
+<class>
+    <ref>PHB p.108</ref>
+    <name>Archfey</name>
+    <parent>Warlock</parent>
+
+    <level value="1">
+        <!-- TODO these are "warlock" spells for this subclass... not immediately known, just knowable -->
+        <extraSpells>
+            <spell>Faerie Fire</spell>
+            <spell>Sleep</spell>
+            <spell>Calm Emotions</spell>
+            <spell>Phantasmal Force</spell>
+            <spell>blink</spell>
+            <spell>plant growth</spell>
+            <spell>dominate beast</spell>
+            <spell>greater invisibility</spell>
+            <spell>dominate person</spell>
+            <spell>seeming</spell>
+        </extraSpells>
+
+        <feature >
+            <name>Fey Presence</name>
+            <shortDescription>Your patron bestows upon you the ability to project the beguiling and fearsome presence of the fey.
+                As an action, you can cause each creature in a 1 10-foot cube originating from you to make a Wisdom saving throw against your Warlock spell save DC (8 + proficiency bonus + charisma modifier). The creatures that fail their saving throws are all charmed or frightened by you (your choice) until the end of your next turn.</shortDescription>
+            <effect uses="1" actionName="Charm">
+                <name>Fey Presence: Charmed</name>
+                <shortDescription>Creatures you have Charmed can't attack you or target you with harmful abilities or magical effects.
+                You have advantage on any ability check to interact socially with the creature.</shortDescription>
+            </effect>
+            <effect uses="1" actionName="Frighten">
+                <name>Fey Presence: Frightened</name>
+                <shortDescription>Creatures you have frightened have disadvantage on ability checks and attack rolls while you are within its line of sight.
+                The creature can't willingly move closer to you.</shortDescription>
+            </effect>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+        </feature>
+    </level>
+
+    <level value="6">
+        <feature >
+            <name>Misty Escape</name>
+            <effect uses="1" actionName="Frighten">
+                <name>Misty escape</name>
+                <shortDescription>You can vanish in a puff of mist in response to harm.
+                    When you take damage, you can use your reaction to turn invisible and teleport up to 60 feet to an unoccupied space you can see. You remain invisible until the start of your next turn or until you attack or cast a spell.</shortDescription>
+            </effect>
+            <shortDescription>You can vanish in a puff of mist in response to harm.
+            When you take damage, you can use your reaction to turn invisible and teleport up to 60 feet to an unoccupied space you can see. You remain invisible until the start of your next turn or until you attack or cast a spell.</shortDescription>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+            <context>HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="10">
+        <feature>
+            <name>Beguiling Defenses</name>
+            <shortDescription>Your patron teaches you how to turn the mind-affecting magic of your enemies against them.
+            You are immune to being charmed, and when another creature attempts to charm you, you can use your reaction to attempt to turn the charm back on that creature. The creature must succeed on a Wisdom saving throw against your warlock spell save DC (8 + proficiency bonus + charisma modifier) or be charmed by you for 1 minute or until the creature takes any damage.</shortDescription>
+            <context>SAVING_THROW</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature>
+            <name>Dark Delirium</name>
+            <shortDescription>You can plunge a creature into an illusory realm.
+            As an action, choose a creature that you can see within 60 feet of you. It must make a Wisdom saving throw against your warlock spell save DC (8 + proficiency bonus + charisma modifier). On a failed save, it is charmed or frightened by you (your choice) for 1 minute or until your concentration is broken (as if you are concentrating on the spell). This effect ends early if the creature takes any damage.
+            Until this illusion ends, the creature thinks it is lost in a misty realm, the appearance of which you choose. The creature can see and hear only itself, you, and the illusion.
+            You must finish a short or long rest before you can use this feature again.</shortDescription>
+            <effect uses="1" actionName="Charm">
+                <name>Dark Delirium: Charmed</name>
+                <shortDescription>The creature is charmed by you  for 1 minute or until your concentration is broken (as if you are concentrating on the spell). This effect ends early if the creature takes any damage.
+                    Until this illusion ends, the creature thinks it is lost in a misty realm, the appearance of which you choose. The creature can see and hear only itself, you, and the illusion.</shortDescription>
+            </effect>
+            <effect uses="1" actionName="Frighten">
+                <name>Dark Delirium: Frightened</name>
+                <shortDescription>The creature is frightened by you  for 1 minute or until your concentration is broken (as if you are concentrating on the spell). This effect ends early if the creature takes any damage.
+                    Until this illusion ends, the creature thinks it is lost in a misty realm, the appearance of which you choose. The creature can see and hear only itself, you, and the illusion.</shortDescription>
+            </effect>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+        </feature>
+    </level>
+
+</class>

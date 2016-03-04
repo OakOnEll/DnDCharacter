@@ -31,6 +31,9 @@ public class AbstractArmorVisitor extends AbstractComponentVisitor {
             case "disadvantage":
                 visitDisadvantage(element);
                 break;
+            case "category":
+                visitCategory(element);
+                break;
             default:
                 wasVisited = false;
         }
@@ -39,6 +42,9 @@ public class AbstractArmorVisitor extends AbstractComponentVisitor {
         }
     }
 
+    protected void visitCategory(Element element) {
+        visitSimpleItem(element);
+    }
 
     protected void visitStrengthMin(Element element) {
         visitSimpleItem(element);

@@ -581,6 +581,18 @@ public class Character {
                 }
             }
         }
+        for (CharacterEffect each : getEffects()) {
+            if (!each.isBaseArmor()) continue;
+
+            String acFormula = each.getBaseAcFormula();
+            if (acFormula != null) {
+                SimpleVariableContext variableContext = new SimpleVariableContext();
+                //each.getSource().addExtraFormulaVariables(variableContext, this);
+                int value = evaluateFormula(acFormula, variableContext);
+                ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each);
+                result.add(featureAc);
+            }
+        }
         Collections.sort(result, new Comparator<ArmorClassWithSource>() {
             @Override
             public int compare(@NonNull ArmorClassWithSource lhs, @NonNull ArmorClassWithSource rhs) {

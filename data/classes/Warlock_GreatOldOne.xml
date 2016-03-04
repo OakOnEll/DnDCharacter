@@ -1,0 +1,69 @@
+<class>
+    <ref>PHB p.110</ref>
+    <name>Great Old One</name>
+    <parent>Warlock</parent>
+
+     <level value="1">
+        <!-- TODO these are "warlock" spells for this subclass... not immediately known, just knowable -->
+         <extraSpells>
+             <spell>Dissonant Whispers</spell>
+             <spell>Tasha's Hideous Laughter</spell>
+             <spell>Detect Thoughts</spell>
+             <spell>Phantasmal Force</spell>
+             <spell>Clairvoyance</spell>
+             <spell>Sending</spell>
+             <spell>Dominate Beast</spell>
+             <spell>Evard's Black Tentacles</spell>
+             <spell>Dominate Person</spell>
+             <spell>Telekinesis</spell>
+         </extraSpells>
+
+
+        <feature >
+            <name>Awakened Mind</name>
+            <shortDescription>Your alien knowledge gives you the ability to touch the minds of other creatures.
+                You can communicate telepathically with any creature you can see within 30 feet of you. You don't need to share a language with the creature for it to understand your telepathic utterances, but the creature must be able to understand at least one language.</shortDescription>
+            <context>LANGUAGES</context>
+        </feature>
+    </level>
+
+    <level value="6">
+        <feature >
+            <name>Entropic Ward</name>
+            <shortDescription>You learn to ward yourself against attack and to turn an enemy's failed strike into good luck for yourself.
+                When a creature makes an attack roll against you, you can use your reaction to impose disadvantage on that roll. If the attack misses you, your next attack roll against the creature has advantage if you make it before the end of your next turn.
+                Once you use this feature, you can't use it again until you finish a short or long rest.</shortDescription>
+            <effect>
+                <name>Entropic Ward</name>
+                <shortDescription>Your next attack roll against the creature has advantage if you make it before the end of your next turn</shortDescription>
+                <context>WEAPON_ATTACK,SPELL_CAST</context>
+            </effect>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+        </feature>
+    </level>
+
+    <level value="10">
+        <feature>
+            <name>Thought Shield</name>
+            <shortDescription>Your thoughts can't be read by telepathy or other means unless you allow it. You also have resistance to psychic damage, and whenever a creature deals psychic damage to you, that creature takes the same amount of damage that you do.</shortDescription>
+            <context>SAVING_THROW,HIT_POINTS</context>
+        </feature>
+    </level>
+    <level value="14">
+        <feature>
+            <name>Create Thrall</name>
+            <shortDescription>You gain the ability to infect a humanoid's mind with the alien magic of your patron.
+                You can use your action to touch an incapacitated humanoid. That creature is then charmed by you until a remove curse spell is cast on it, the charmed condition is removed from it, or you use this feature again.
+                You can communicate telepathically with the charmed creature as long as the two of you are on the same plane of existence.</shortDescription>
+            <effect>
+                <variable name="creature" prompt="Choose creature to Enthral"/>
+                <name>$creature Enthralled</name>
+                <shortDescription>$creature is charmed by you until a remove curse spell is cast on it, the charmed condition is removed from it, or you use this feature again.
+                    You can communicate telepathically with $creature as long as the two of you are on the same plane of existence.</shortDescription>
+            </effect>
+        </feature>
+    </level>
+
+
+</class>
