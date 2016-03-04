@@ -9,6 +9,7 @@
     </classes>
     <duration>Instantaneous</duration>
     <range>10 feet</range>
+    <ritual>true</ritual>
     <castingTime>1 action</castingTime>
     <components>V, S</components>
     <shortDescription>All nonmagical food and drink within a 5-foot-radius sphere centered on a point of your choice within range is purified and rendered free of poison and disease.

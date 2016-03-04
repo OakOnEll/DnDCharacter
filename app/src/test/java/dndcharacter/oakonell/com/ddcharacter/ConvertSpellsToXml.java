@@ -75,13 +75,15 @@ public class ConvertSpellsToXml {
         boolean isWarlock = readBoooleanColumnValue(stringReader);
         boolean isWizard = readBoooleanColumnValue(stringReader);
 
+        boolean isRitual = name.contains("(Ritual)");
+
         assert readColumnValue(stringReader) == null;
 
-        writeXml(dir, name, schoolLevel, level, action, range, components, duration, description, higherLevelDescription, source, isBard, isCleric, isDruid, isPaladin, isRanger, isSorceror, isWarlock, isWizard);
+        writeXml(dir, name, schoolLevel, level, action, range, components, duration, description, higherLevelDescription, source, isBard, isCleric, isDruid, isPaladin, isRanger, isSorceror, isWarlock, isWizard, isRitual);
 
     }
 
-    private void writeXml(File dir, String name, String schoolLevel, int level, String action, String range, String components, String duration, String description, String higherLevelDescription, String source, boolean isBard, boolean isCleric, boolean isDruid, boolean isPaladin, boolean isRanger, boolean isSorceror, boolean isWarlock, boolean isWizard) throws IOException {
+    private void writeXml(File dir, String name, String schoolLevel, int level, String action, String range, String components, String duration, String description, String higherLevelDescription, String source, boolean isBard, boolean isCleric, boolean isDruid, boolean isPaladin, boolean isRanger, boolean isSorceror, boolean isWarlock, boolean isWizard, boolean isRitual) throws IOException {
         System.out.println(level + " - " + name);
         String filename = name.replace(" ", "_").replace("'", "").replace("\\", "_").replace("/", "_");
         File outFile = new File(dir, filename + ".xml");
@@ -144,6 +146,11 @@ public class ConvertSpellsToXml {
         writer.append("    <range>");
         writer.append(range);
         writer.append("</range>\n");
+
+        if (isRitual) {
+            writer.append("    <ritual>true</ritual>\n");
+        }
+
 
         writer.append("    <castingTime>");
         writer.append(action);

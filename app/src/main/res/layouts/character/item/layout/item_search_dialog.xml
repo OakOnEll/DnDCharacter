@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            tools:listitem="@layout/spell_list_item" />
+            tools:listitem="@layout/item_list_item" />
 
         <include layout="@layout/dialog_done" />
 

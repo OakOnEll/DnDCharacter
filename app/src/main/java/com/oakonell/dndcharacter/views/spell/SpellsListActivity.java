@@ -63,11 +63,13 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
         @NonNull
         private final TextView levelTextView;
         private final TextView schoolTextView;
+        private final TextView ritualTextView;
 
         public SpellRowViewHolderCursor(@NonNull View itemView) {
             super(itemView);
             levelTextView = (TextView) itemView.findViewById(R.id.level);
             schoolTextView = (TextView) itemView.findViewById(R.id.school);
+            ritualTextView = (TextView) itemView.findViewById(R.id.ritual);
         }
 
         @Override
@@ -81,6 +83,13 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
                 levelString = level + "";
             }
             levelTextView.setText(levelString);
+
+            final int ritualInt = cursor.getInt(cursorIndexesByName.getIndex(cursor, "ritual"));
+            if (ritualInt != 0) {
+                ritualTextView.setVisibility(View.VISIBLE);
+            } else {
+                ritualTextView.setVisibility(View.GONE);
+            }
 
             final String schoolString = cursor.getString(cursorIndexesByName.getIndex(cursor, "school"));
             SpellSchool school = EnumHelper.stringToEnum(schoolString, SpellSchool.class);

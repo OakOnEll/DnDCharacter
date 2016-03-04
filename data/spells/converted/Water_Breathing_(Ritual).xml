@@ -10,6 +10,7 @@
     </classes>
     <duration>24 hours</duration>
     <range>30 feet</range>
+    <ritual>true</ritual>
     <castingTime>1 action</castingTime>
     <components>V, S, M (a short reed or piece of straw)</components>
     <shortDescription>This spell grants up to ten willing creatures you can see within range the ability to breathe underwater until the spell ends. Affected creatures also retain their normal mode of respiration.
