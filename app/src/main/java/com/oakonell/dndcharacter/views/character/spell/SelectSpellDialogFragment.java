@@ -39,6 +39,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     public static final String CASTER_CLASSES = "casterClasses";
     public static final String CANTRIPS = "cantrips";
     private static final String SCHOOLS = "schools";
+    private static final String RITUAL_ONLY = "ritualOnly";
 
     private NoDefaultSpinner classNameSpinner;
     private TextView max_spell_level;
@@ -46,6 +47,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     private SpellSelectedListener listener;
 
     private List<SpellSchool> schoolsFilter = null;
+    private boolean ritualOnly;
 
     public void setListener(SpellSelectedListener listener) {
         this.listener = listener;
@@ -78,7 +80,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
 
     @NonNull
-    public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, List<SpellSchool> schools, SpellSelectedListener listener) {
+    public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, List<SpellSchool> schools, boolean limitToRitual, SpellSelectedListener listener) {
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
         ArrayList<ClassChoice> classChoices = new ArrayList<>();
@@ -104,6 +106,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             args.putStringArrayList(SCHOOLS, schoolNames);
         }
         args.putBoolean(CANTRIPS, maxLevel == 0);
+        args.putBoolean(RITUAL_ONLY, limitToRitual);
 
         dialog.setArguments(args);
         dialog.setListener(listener);
@@ -146,6 +149,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
         List<ClassChoice> classChoices = getArguments().getParcelableArrayList(CASTER_CLASSES);
         cantrips = getArguments().getBoolean(CANTRIPS);
+        ritualOnly = getArguments().getBoolean(RITUAL_ONLY);
 
 
         final List<String> schoolNames = getArguments().getStringArrayList(SCHOOLS);
@@ -232,13 +236,15 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             builder.append(")");
             schoolsFilterString = builder.toString();
         }
-
-        // TODO suspect this exists clause slows down the query
-        // perhaps do a join...?
+        String ritualFilter = "";
+        if (ritualOnly) {
+            ritualFilter = " AND ritual = 1";
+        }
+        // doing a join for performance
         if (cantrips) {
-            return " upper(aClass) = ? and level = 0 " + schoolsFilterString;
+            return " upper(aClass) = ? and level = 0 " + schoolsFilterString + ritualFilter;
         } else {
-            return " upper(aClass) = ? and level > 0 and level <= ? " + schoolsFilterString;
+            return " upper(aClass) = ? and level > 0 and level <= ? " + schoolsFilterString + ritualFilter;
         }
     }
 
@@ -364,11 +370,13 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
         private final TextView schoolTextView;
         private final TextView levelTextView;
+        private final TextView ritualTextView;
 
         public SpellRowViewHolder(@NonNull View itemView) {
             super(itemView);
             schoolTextView = (TextView) itemView.findViewById(R.id.school);
             levelTextView = (TextView) itemView.findViewById(R.id.level);
+            ritualTextView = (TextView) itemView.findViewById(R.id.ritual);
         }
 
 
@@ -381,15 +389,13 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         public void bindTo(@NonNull Cursor cursor, @NonNull AbstractSelectComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
-//            StringBuilder builder = new StringBuilder();
-//            for(String eachColumn : cursor.getColumnNames()) {
-//                int index = cursor.getColumnIndex(eachColumn);
-//                builder.append(eachColumn);
-//                builder.append(" = ");
-//                builder.append(cursor.getString(index));
-//                builder.append(", ");
-//            }
-//            Log.i("Spell", builder.toString());
+            final int ritualInt = cursor.getInt(cursorIndexesByName.getIndex(cursor, "ritual"));
+            if (ritualInt != 0) {
+                ritualTextView.setVisibility(View.VISIBLE);
+            } else {
+                ritualTextView.setVisibility(View.GONE);
+            }
+
 
             final int level = cursor.getInt(cursorIndexesByName.getIndex(cursor, "level"));
             String levelString;

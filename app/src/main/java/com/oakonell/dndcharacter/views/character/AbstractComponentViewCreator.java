@@ -57,7 +57,7 @@ import java.util.Set;
 public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor {
     private static final String SELECT_FEAT_DIALOG = "select_feat_frag";
     private static final String SELECT_SPELL_DIALOG = "select_spell_frag";
-    private final boolean handleSpells;
+    private boolean handleSpells;
     SavedChoices choices;
     int uiIdCounter;
     ChooseMD<?> currentChooseMD;
@@ -70,6 +70,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     private int featSearchIndex;
     private Character character;
     private ComponentSource currentComponent;
+
+    private String spellPrefix = "";
+    private int spellIndex;
+    private int cantripIndex;
 
     public AbstractComponentViewCreator(Character character, boolean handleSpells) {
         this.handleSpells = handleSpells;
@@ -123,6 +127,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
         ViewGroup oldParent = parent;
         String name = XmlUtils.getElementText(element, "name");
+        String displayName = name;
         String extensionDescription = XmlUtils.getElementText(element, "extensionDescription");
         String description;
         if (extensionDescription == null || extensionDescription.trim().length() == 0) {
@@ -138,15 +143,21 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         }
 
         if (extensionType != null) {
-            name += "(" + parent.getResources().getString(extensionType.getStringResId()) + ")";
+            displayName += "(" + parent.getResources().getString(extensionType.getStringResId()) + ")";
         }
 
-        createGroup("Feature: " + name);
+        createGroup("Feature: " + displayName);
         TextView featureText = new TextView(parent.getContext());
         parent.addView(featureText);
         featureText.setText(description);
 
+        boolean oldHandleSpells = handleSpells;
+        handleSpells = true;
+        String oldSpellPrefix = spellPrefix;
+        spellPrefix = name;
         super.visitFeature(element);
+        spellPrefix = oldSpellPrefix;
+        handleSpells = oldHandleSpells;
 
         parent = oldParent;
     }
@@ -300,7 +311,6 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         }
     }
 
-    int spellIndex;
 
     @Override
     protected void visitSpells(@NonNull Element element) {
@@ -318,12 +328,13 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             if (numString != null && numString.trim().length() > 0) {
                 num = Integer.parseInt(numString);
             }
-            currentChooseMD = new CategoryChoicesMD("spells", num, num);
+            currentChooseMD = new CategoryChoicesMD(spellPrefix + "_spells", num, num);
             choicesMD.addChildChoice(currentChooseMD);
 
             //TODO find max level...
             int maxlevel = 1;
-            visitSpellSearchChoices(casterClass, maxlevel, num, null);
+            boolean limitToRitual = false;
+            visitSpellSearchChoices(casterClass, maxlevel, num, null, limitToRitual);
         }
 
         parent = oldParent;
@@ -336,6 +347,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         ChooseMD oldChooseMD = currentChooseMD;
         ViewGroup oldParent = parent;
         createGroup(parent.getContext().getString(R.string.cantrips_title));
+        cantripIndex = 0;
         super.visitCantrips(element);
 
         if (XmlUtils.getChildElements(element).isEmpty()) {
@@ -346,7 +358,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             if (numString != null && numString.trim().length() > 0) {
                 num = Integer.parseInt(numString);
             }
-            currentChooseMD = new CategoryChoicesMD("cantrips", num, num);
+            currentChooseMD = new CategoryChoicesMD(spellPrefix + "_cantrips", num, num);
             choicesMD.addChildChoice(currentChooseMD);
 
             visitCantripsSearchChoices(casterClass, num);
@@ -357,21 +369,41 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     protected void visitSpell(@NonNull Element element) {
-//        if (element.getTextContent() == null || element.getTextContent().trim().length() == 0) {
-//            ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("addedSpell" + spellIndex, 1, 1));
-//            String schoolsString = element.getAttribute("schools");
-//            List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
-//            visitSpellSearchChoices(casterClassName, maxLevel, 1, schools);
-//            popChooseMD(oldChooseMD);
-//            spellIndex++;
-//        } else {
+        if (element.getTextContent() == null || element.getTextContent().trim().length() == 0) {
+            ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD(spellPrefix + "_addedSpell" + spellIndex, 1, 1));
+
+            String maxLevelString = element.getAttribute("maxLevel");
+            int maxLevel = 0;
+            if (maxLevelString != null && maxLevelString.trim().length() >0) {
+                maxLevel = Integer.parseInt(maxLevelString);
+            }
+            String ritualString = element.getAttribute("ritual");
+            boolean limitToRitual = "true".equals(ritualString);
+            String schoolsString = element.getAttribute("schools");
+            String overrideCastClassName = element.getAttribute("casterClass");
+            List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
+            visitSpellSearchChoices((overrideCastClassName != null && overrideCastClassName.trim().length() > 0) ? overrideCastClassName : "*", maxLevel, 1, schools, limitToRitual);
+            popChooseMD(oldChooseMD);
+            spellIndex++;
+        } else {
+
         visitSimpleItem(element);
-//        }
+        }
     }
 
     @Override
     protected void visitCantrip(@NonNull Element element) {
-        super.visitCantrip(element);
+        if (element.getTextContent() == null || element.getTextContent().trim().length() == 0) {
+            ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD(spellPrefix + "_addedCantrip" + cantripIndex, 1, 1));
+            //String schoolsString = each.getAttribute("schools");
+            String overrideCastClassName = element.getAttribute("casterClass");
+            //List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
+            visitCantripsSearchChoices((overrideCastClassName != null && overrideCastClassName.trim().length() > 0) ? overrideCastClassName : "*", 1);
+            popChooseMD(oldChooseMD);
+            cantripIndex++;
+        } else {
+            super.visitCantrip(element);
+        }
     }
 
     @Override
@@ -718,7 +750,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @Override
             AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
-                return SelectSpellDialogFragment.createDialog(casterClass, 0, null, new SelectSpellDialogFragment.SpellSelectedListener() {
+                return SelectSpellDialogFragment.createDialog(casterClass, 0, null, false, new SelectSpellDialogFragment.SpellSelectedListener() {
                     @Override
                     public boolean spellSelected(long id, String className) {
                         Spell spell = Spell.load(Spell.class, id);
@@ -734,7 +766,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
     }
 
-    protected void visitSpellSearchChoices(final String casterClass, final int maxLevel, int numChoices, final List<SpellSchool> schoolNames) {
+    protected void visitSpellSearchChoices(final String casterClass, final int maxLevel, int numChoices, final List<SpellSchool> schoolNames, final boolean limitToRitual) {
         final int searchResId = R.string.search_for_spell;
         final String fragmentId = SELECT_SPELL_DIALOG;
         final List<String> casterClasses = new ArrayList<>();
@@ -742,7 +774,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @Override
             AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
-                return SelectSpellDialogFragment.createDialog(casterClass, maxLevel, schoolNames, new SelectSpellDialogFragment.SpellSelectedListener() {
+                return SelectSpellDialogFragment.createDialog(casterClass, maxLevel, schoolNames, limitToRitual,new SelectSpellDialogFragment.SpellSelectedListener() {
                     @Override
                     public boolean spellSelected(long id, String className) {
                         Spell spell = Spell.load(Spell.class, id);

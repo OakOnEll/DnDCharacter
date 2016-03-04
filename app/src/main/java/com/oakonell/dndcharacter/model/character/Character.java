@@ -443,6 +443,7 @@ public class Character {
         final int[] count = new int[]{0};
         for (CharacterSpell each : cantrips) {
             if (each.getSource() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
+                if (!each.countsAsKnown()) continue;
                 count[0]++;
             }
         }
@@ -450,6 +451,7 @@ public class Character {
             if (!eachClass.getName().equals(className)) continue;
             for (CharacterSpell each : eachClass.getCantrips()) {
                 if (each.getSource() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
+                    if (!each.countsAsKnown()) continue;
                     count[0]++;
                 }
             }

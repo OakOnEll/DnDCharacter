@@ -52,6 +52,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private String currentChoiceName;
 
     private Feature feature;
+    private String spellPrefix = "";
 
     protected ApplyChangesToGenericComponent(Context context, SavedChoices savedChoices, C component, @Nullable Character character) {
         this.context = context;
@@ -196,8 +197,13 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
     @Override
     protected void visitFeature(@NonNull Element element) {
-        feature = new Feature();
         String name = XmlUtils.getElementText(element, "name");
+
+        String oldSpellPrefix = spellPrefix;
+        spellPrefix = name;
+
+
+        feature = new Feature();
         feature.setName(name);
         feature.setDescription(XmlUtils.getElementText(element, "shortDescription"));
         // TODO handle refreshes, and other data in XML
@@ -273,7 +279,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         feature.setActiveFormula(condition);
 
         component.addFeature(feature);
-        super.visitFeature(element);
+
+        spellPrefix = oldSpellPrefix;
+
     }
 
     protected int readIntegerAttribute(@NonNull Element actionElement, String attributeName, int defaultValue) {
@@ -391,8 +399,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     @Override
     protected void visitSpells(@NonNull Element element) {
         if (savedChoices != null) {
-            final List<String> spells = savedChoices.getChoicesFor("spells");
-            final List<String> addedSpells = savedChoices.getChoicesFor("addedSpells");
+            final List<String> spells = savedChoices.getChoicesFor(spellPrefix + "_spells");
+            final List<String> addedSpells = savedChoices.getChoicesFor(spellPrefix + "_addedSpells");
             if (spells != null && (!spells.isEmpty() || !addedSpells.isEmpty())) {
                 String statString = element.getAttribute("stat");
                 String casterClass = element.getAttribute("casterClass");
@@ -418,10 +426,16 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 for (Element spellElement : spellList) {
                     final String spellName = spellElement.getTextContent();
                     if (spellName == null || spellName.trim().length() == 0) {
-                        List<String> specificAddedSpell = savedChoices.getChoicesFor("addedSpell" + addedSpellIndex);
+
+                        String knownString = spellElement.getAttribute("known");
+                        boolean countsAsKnown = true;
+                        if (knownString != null && knownString.trim().length() > 0) {
+                            countsAsKnown = "true".equals(knownString);
+                        }
+
+                        List<String> specificAddedSpell = savedChoices.getChoicesFor(spellPrefix + "_addedSpell" + addedSpellIndex);
                         StatType stat = null;
                         for (String eachSavedSpell : specificAddedSpell) {
-                            boolean countsAsKnown = true;
                             addSpell(eachSavedSpell, stat, countsAsKnown);
                         }
                     }
@@ -478,20 +492,27 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     @Override
     protected void visitCantrips(@NonNull Element element) {
         if (savedChoices != null) {
-            final List<String> cantrips = savedChoices.getChoicesFor("cantrips");
-            final List<String> addedCantrips = savedChoices.getChoicesFor("addedCantrips");
+            final List<String> cantrips = savedChoices.getChoicesFor(spellPrefix + "_cantrips");
+            final List<String> addedCantrips = savedChoices.getChoicesFor(spellPrefix + "_addedCantrips");
             if (cantrips != null && (!cantrips.isEmpty() || !addedCantrips.isEmpty())) {
                 String casterClass = element.getAttribute("casterClass");
+
+                String knownString = element.getAttribute("known");
+                boolean countsAsKnown = true;
+                if (knownString != null && knownString.trim().length() > 0) {
+                    countsAsKnown = "true".equals(knownString);
+                }
+
                 String statString = element.getAttribute("stat");
                 StatType stat = null;
                 if (statString != null && statString.trim().length() > 0) {
                     stat = EnumHelper.stringToEnum(statString, StatType.class);
                 }
                 for (String each : cantrips) {
-                    addCantrip(each, stat);
+                    addCantrip(each, stat, countsAsKnown);
                 }
                 for (String each : addedCantrips) {
-                    addCantrip(each, stat);
+                    addCantrip(each, stat, countsAsKnown);
                 }
             }
             List<Element> cantripList = XmlUtils.getChildElements(element, "cantrip");
@@ -500,11 +521,16 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 for (Element cantripElement : cantripList) {
                     final String cantripName = cantripElement.getTextContent();
                     if (cantripName == null || cantripName.trim().length() == 0) {
-                        List<String> specificAddedCantrip = savedChoices.getChoicesFor("addedCantrip" + addedCantripIndex);
+                        String knownString = cantripElement.getAttribute("known");
+                        boolean countsAsKnown = true;
+                        if (knownString != null && knownString.trim().length() > 0) {
+                            countsAsKnown = "true".equals(knownString);
+                        }
+
+                        List<String> specificAddedCantrip = savedChoices.getChoicesFor(spellPrefix + "_addedCantrip" + addedCantripIndex);
                         StatType stat = null;
                         for (String eachSavedCantrip : specificAddedCantrip) {
-                            boolean countsAsKnown = true;
-                            addCantrip(eachSavedCantrip, stat);
+                            addCantrip(eachSavedCantrip, stat, countsAsKnown);
                         }
                     }
                     addedCantripIndex++;
@@ -525,10 +551,11 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         if (statString != null && statString.trim().length() > 0) {
             stat = EnumHelper.stringToEnum(statString, StatType.class);
         }
-        addCantrip(cantripName, stat);
+        boolean countsAsKnown = true;
+        addCantrip(cantripName, stat, countsAsKnown);
     }
 
-    private void addCantrip(@NonNull String cantripName, StatType stat) {
+    private void addCantrip(@NonNull String cantripName, StatType stat, boolean countsAsKnown) {
         List<Spell> spells = new Select()
                 .from(Spell.class).where("UPPER(name) = ?", cantripName.toUpperCase()).execute();
         CharacterSpell characterSpell = null;
@@ -544,6 +571,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             characterSpell = new CharacterSpell();
         }
         characterSpell.setLevel(0);
+        characterSpell.countsAsKnown(countsAsKnown);
         characterSpell.setName(cantripName);
         characterSpell.setCastingStat(stat);
         // TODO need to store the caster class, if different from owner name?
