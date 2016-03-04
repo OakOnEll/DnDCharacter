@@ -125,14 +125,14 @@
             <effect actionName="Aquatic Adaptation">
                 <name>Aquatic Adaptation</name>
                 <actionDescription>You adapt your body to an aquatic environment.</actionDescription>
-                <shortDescription>You have sprouted gills and grow webbing between your fingers. You can breathe underwater and gain a swimming speed equal to your walking speed.</shortDescription>
+                <shortDescription>For one hour while concentrating, you have sprouted gills and grow webbing between your fingers. You can breathe underwater and gain a swimming speed equal to your walking speed.</shortDescription>
                 <!-- TODO handle speed assignment -->
                 <context>SPEED</context>
             </effect>
             <effect actionName="Change Appearance">
                 <name>Changed Appearance</name>
                 <actionDescription>You transform your appearance.</actionDescription>
-                <shortDescription>You decide what you look like, including your height, weight, facial features, sound of your voice, hair length, coloration, and distinguishing characteristics, if any. You can make yourself appear as a member of another race, though none of your statistics change. You also can’t appear as a creature of a different size than you, and your basic shape stays the same; if you’re bipedal, you can’t use this spell to become quadrupedal, for instance. At any time for the duration of the spell, you can use your action to change your appearance in this way again.</shortDescription>
+                <shortDescription>For one hour while concentrating, you decide what you look like, including your height, weight, facial features, sound of your voice, hair length, coloration, and distinguishing characteristics, if any. You can make yourself appear as a member of another race, though none of your statistics change. You also can’t appear as a creature of a different size than you, and your basic shape stays the same; if you’re bipedal, you can’t use this spell to become quadrupedal, for instance. At any time for the duration of the spell, you can use your action to change your appearance in this way again.</shortDescription>
                 <context></context>
             </effect>
             <effect actionName="Natural Weapons">
@@ -140,7 +140,7 @@
                 <id>Natural Weapons</id>
                 <variable name="name" prompt="Choose natural weapon">Claws, Fangs, Spines, Horns, Other</variable>
                 <actionDescription>You grow claws, fangs, spines, or horns.</actionDescription>
-                <shortDescription>You grow $name. Your unarmed strikes deal 1d6 bludgeoning, piercing, or slashing damage, as appropriate to the natural weapon you chose, and you are proficient with your unarmed strikes. Finally, the natural weapon is magic and you have a +1 bonus to the attack and damage rolls you make using it.</shortDescription>
+                <shortDescription>For one hour while concentrating, you grow $name. Your unarmed strikes deal 1d6 bludgeoning, piercing, or slashing damage, as appropriate to the natural weapon you chose, and you are proficient with your unarmed strikes. Finally, the natural weapon is magic and you have a +1 bonus to the attack and damage rolls you make using it.</shortDescription>
                 <!-- TODO adjust the unarmed strike "weapon" -->
                 <context>WEAPON_ATTACK</context>
             </effect>
