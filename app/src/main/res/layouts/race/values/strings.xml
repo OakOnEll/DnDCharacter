@@ -39,4 +39,5 @@
     <string name="transmutation">Transmutation</string>
     <string name="schools_label">Schools</string>
     <string name="Ritual">Ritual</string>
+    <string name="initiative_roll">Initiative Roll</string>
 </resources>

@@ -16,6 +16,7 @@ import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
+import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
@@ -26,7 +27,7 @@ import java.util.Set;
 /**
  * Created by Rob on 11/30/2015.
  */
-public class InitiativeDialogFragment extends AbstractCharacterDialogFragment {
+public class InitiativeDialogFragment extends RollableDialogFragment {
     private RecyclerView listView;
     private InitiativeSourcesAdapter adapter;
 
@@ -40,6 +41,7 @@ public class InitiativeDialogFragment extends AbstractCharacterDialogFragment {
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.initiative_dialog, container);
+        superCreateView(view, savedInstanceState);
 
         listView = (RecyclerView) view.findViewById(R.id.list);
 
@@ -69,6 +71,8 @@ public class InitiativeDialogFragment extends AbstractCharacterDialogFragment {
                 return character.deriveInitiative();
             }
         };
+
+        setModifier(character.getInitiative());
 
         adapter = new InitiativeSourcesAdapter(this, listRetriever);
         listView.setAdapter(adapter);
