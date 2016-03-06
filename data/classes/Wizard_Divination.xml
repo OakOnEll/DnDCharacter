@@ -1,0 +1,82 @@
+<class>
+    <ref>PHB p.116</ref>
+    <name>Divination</name>
+    <parent>Wizard</parent>
+
+    <level value="2">
+        <feature>
+            <name>Divination Savant</name>
+            <shortDescription>The gold and time you must spend to copy an Divination spell into your spellbook is halved.</shortDescription>
+        </feature>
+
+        <feature>
+            <name>Portent</name>
+            <shortDescription>Glimpses of the future begin to press in on your awareness.
+            When you finish a long rest, roll 2 d20s and record the numbers rolled. You can replace any attack roll, saving throw, or ability check made by you or a creature that you can see with one of the foretelling rolls. You must choose to do so before the roll, and you can replace a roll in this way only once per turn.
+            Each foretelling roll can be used only once. When you finish a long rest, you lose any unused foretelling rolls.</shortDescription>
+            <effect>
+                <name>Portent: $roll</name>
+                <variable name="roll" prompt="Enter a d20 roll"/>
+                <shortDescription>You can replace any attack roll, saving throw, or ability check made by you or a creature that you can see with one of the foretelling rolls. You must choose to do so before the roll, and you can replace a roll in this way only once per turn.
+                    Each foretelling roll can be used only once. When you finish a long rest, you lose this foretelling roll.</shortDescription>
+                <context>LONG_REST, WEAPON_ATTACK,SAVING_THROW,SKILL_ROLL,SPELL_CAST</context>
+            </effect>
+            <context>LONG_REST</context>
+            <uses>2</uses>
+            <refreshes>long_rest</refreshes>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <feature >
+            <name>Expert Divination</name>
+            <shortDescription>Casting divination spells comes so easily to you that it expends only a fraction of your spellcasting efforts. When you cast a divination spell of 2nd level or higher using a spell slot, you regain one expended spell slot. The slot you regain must be of a level lower than the spell you cast and can't be higher than 5th.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="10">
+        <feature >
+            <name>The Third Eye</name>
+            <shortDescription>You can use your action to increase your powers of perception.
+            When you do so, choose one of the following benefits, which lasts until you are incapacitated or you take a short or long rest. You can't use the feature again until you finish a long rest.</shortDescription>
+            <effect >
+                <name>Darkvision</name>
+                <actionDescription>You gain darkvision out to a range of 60 feet.</actionDescription>
+                <shortDescription>You gain darkvision out to a range of 60 feet, as described in chapter 8. <!-- TODO --></shortDescription>
+            </effect>
+            <effect >
+                <name>Ethereal Sight</name>
+                <actionDescription>You can see into the Ethereal Plane within 60 feet of you.</actionDescription>
+                <shortDescription>You can see into the Ethereal Plane within 60 feet of you.</shortDescription>
+            </effect>
+            <effect >
+                <name>Greater Comprehension</name>
+                <actionDescription>You can read any language.</actionDescription>
+                <shortDescription>You can read any language.</shortDescription>
+                <context>LANGUAGES</context>
+            </effect>
+            <effect >
+                <name>See Invisibility</name>
+                <actionDescription>You can see invisible creatures and objects within 10 feet of you that are within line of sight.</actionDescription>
+                <shortDescription>You can see invisible creatures and objects within 10 feet of you that are within line of sight.</shortDescription>
+            </effect>
+            <uses>1</uses>
+            <refreshes>long_rest</refreshes>
+            <context>HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature extension="extend">
+            <name>Portent</name>
+            <extensionDescription>The visions in your dreams intensify and paint a more accurate picture of what is to come. You roll 3 d20s rather than two.</extensionDescription>
+            <shortDescription>Glimpses of the future begin to press in on your awareness.
+                When you finish a long rest, roll 3 d20s and record the numbers rolled. You can replace any attack roll, saving throw, or ability check made by you or a creature that you can see with one of the foretelling rolls. You must choose to do so before the roll, and you can replace a roll in this way only once per turn.
+                Each foretelling roll can be used only once. When you finish a long rest, you lose any unused foretelling rolls.</shortDescription>
+            <uses>3</uses>
+        </feature>
+    </level>
+
+</class>

@@ -435,6 +435,23 @@
         </spells>
     </level>
 
+
+    <level value="18">
+        <spells>
+            <known>15</known>
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">3</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
     <level value="19">
         <spells>
             <known>15</known>
@@ -443,7 +460,7 @@
                 <level value="2">3</level>
                 <level value="3">3</level>
                 <level value="4">3</level>
-                <level value="5">2</level>
+                <level value="5">3</level>
                 <level value="6">2</level>
                 <level value="7">1</level>
                 <level value="8">1</level>
@@ -467,7 +484,7 @@
                 <level value="2">3</level>
                 <level value="3">3</level>
                 <level value="4">3</level>
-                <level value="5">2</level>
+                <level value="5">3</level>
                 <level value="6">2</level>
                 <level value="7">2</level>
                 <level value="8">1</level>

@@ -1,0 +1,111 @@
+<class>
+    <ref>PHB p.119</ref>
+    <name>Transmutation</name>
+    <parent>Wizard</parent>
+
+    <level value="2">
+        <feature>
+            <name>Transmutation Savant</name>
+            <shortDescription>The gold and time you must spend to copy an Transmutation spell into your spellbook is halved.</shortDescription>
+        </feature>
+
+        <feature>
+            <name>Minor Alchemy</name>
+            <shortDescription>You can temporarily alter the physical properties of one nonmagical object, changing it from one substance into another. You perform a special alchemical procedure on one object composed entirely of wood, stone (but not gemstone), iron, copper, or silver, transforming it into a different one of those materials. For each 10 minutes you spend performing the procedure, you can transform up to 1 cubic foot of material. After 1 hour, or until you lose your concentration (as if you were concentrating on a spell), the material reverts to its original substance.</shortDescription>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <feature >
+            <name>Transmuter's Stone</name>
+            <shortDescription>You can spend 8 hours creating a transmuter's stone that stores transmutation magic. You can benefit from the stone yourself or give it to another creature. A creature gains a benefit of your choice as long as the stone is in the creature's possession.
+                Each time you cast a transmutation spell of 1st level or higher, you can change the effect of your stone if the stone is on your person.
+                If you create a new transmutater's stone, the previous one ceases to function.
+                When you create the stone, choose the benefit from the following options            </shortDescription>
+            <effect actionName="Darkvision">
+                    <name>Transmuter's tone: Darkvision</name>
+                    <actionDescription>Darkvision out to a range of 60 feet, as described in chapter 8</actionDescription>
+                    <shortDescription>Darkvision out to a range of 60 feet, as described in chapter 8</shortDescription>
+                </effect>
+                <effect actionName="Speed">
+                    <name>Transmuter's Stone: Speed</name>
+                    <actionDescription>An increase in speed of 10 feet while the creature is unencumbered.</actionDescription>
+                    <shortDescription>Your speed is increased by 10 feet while unencumbered.</shortDescription>
+                    <speed>10</speed>
+                    <context>SPEED</context>
+                </effect>
+                <effect actionName="Constitution Proficiency">
+                    <name>Transmuter's Stone: Constitution</name>
+                    <actionDescription>Proficiency in Constitution saving throws.</actionDescription>
+                    <shortDescription>You have proficiency in Constitution saving throws.</shortDescription>
+                    <savingThrows>
+                        <proficiency>Constitution</proficiency>
+                    </savingThrows>
+                    <context>SAVING_THROW(constitution)</context>
+                </effect>
+                <effect actionName="Damage Resistance">
+                    <name>Transmuter's Stone: $damage Resistance</name>
+                    <actionDescription>Resistance to one of Cold, Fire, Lightning, or Thunder damages.</actionDescription>
+                    <variable name="damage" prompt="Choose damage to be resistant to">Cold, Fire, Lightning, Thunder</variable>
+                    <shortDescription>You have resistance to $damage damage.</shortDescription>
+                    <context>HIT_POINTS</context>
+                </effect>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="10">
+        <feature >
+            <name>Shape Changer</name>
+            <shortDescription>You add the polymorph spell to your spellbook if it is not already there. You can cast polymorph without expending a spell slot. When you do so, you can target only yourself and transform into a beast whose challenge rating is 1 or lower.
+            Once you cast polymorph this way, you can't do so again until you finish a short or long rest, though you can still cast it normally using an available spell slot.</shortDescription>
+            <effect actionName="Polymorph Self">
+                <name>Polymorph</name>
+                <shortDescription>This spell transforms you into a new form for up to an hour while concentrating.
+                    The transformation lasts for the duration, or until you drop to 0 hit points or dies. The new form can be any beast whose challenge rating is less than 1. The target’s game statistics, including mental ability scores, are replaced by the statistics of the chosen beast. It retains its alignment and personality.
+                    You assume the hit points of your new form. When you revert to your normal form, you return to the number of hit points you had before it transformed. If you revert as a result of dropping to 0 hit points, any excess damage carries over to your normal form. As long as the excess damage doesn’t reduce the your normal form to 0 hit points, you aren't knocked unconscious.
+                    You are limited in the actions you can perform by the nature of your new form, and you can’t speak, cast spells, or take any other action that requires hands or speech.
+                    Your gear melds into the new form. You can’t activate, use, wield, or otherwise benefit from any of its equipment.</shortDescription>
+            </effect>
+            <spells>
+                <spell>Polymorph</spell>
+            </spells>
+            <refreshes>short_rest</refreshes>
+            <uses>1</uses>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature >
+            <name>Matter Transmuter</name>
+            <shortDescription>You can use your action to consume the reserve of tranmutation magic stored within your transmuter's stone in a single burst. When you do so, choose one of the following effects. Your transmuter's stone is destroyed and can't be remade until you finish a long rest.
+            </shortDescription>
+            <action>
+                <name>Major Transformation</name>
+                <shortDescription>You can transmute one nonmagical object- no larger than a 5 foot cube- into another nonmagical object of similar size and mass and of equal or lesser value. You must spend 10 minutes handling the object to transform it.</shortDescription>
+            </action>
+            <action>
+                <name>Panacea</name>
+                <shortDescription>You remove all curses, diseases, and poisons affecting a crature that you touch with the transmuter's stone. The creature also regains all its hit points.</shortDescription>
+            </action>
+            <action>
+                <name>Restore Life</name>
+                <shortDescription>You cast the raise dead spell on a creature you touch with the transmuter's stone, without expending a spell slot or needing to have the spell in your spellbook.</shortDescription>
+            </action>
+            <action>
+                <name>Restore Life</name>
+                <shortDescription>You cast the raise dead spell on a creature you touch with the transmuter's stone, without expending a spell slot or needing to have the spell in your spellbook.
+                    You return a dead creature you touch to life, provided that it has been dead no longer than 10 days. If the creature’s soul is both willing and at liberty to rejoin the body, the creature returns to life with 1 hit point.
+                    This spell also neutralizes any poisons and cures nonmagical diseases that affected the creature at the time it died. This spell doesn’t, however, remove magical diseases, curses, or similar effects; if these aren’t first removed prior to casting the spell, they take effect when the creature returns to life. The spell can’t return an undead creature to life.
+                    This spell closes all mortal wounds, but it doesn’t restore missing body parts. If the creature is lacking body parts or organs integral for its survival—its head, for instance—the spell automatically fails.
+                    Coming back from the dead is an ordeal. The target takes a −4 penalty to all attack rolls, saving throws, and ability checks. Every time the target finishes a long rest, the penalty is reduced by 1 until it disappears.</shortDescription>
+            </action>
+            <action>
+                <name>Restore Youth</name>
+                <shortDescription>You touch the transmuter's stone to a willing creature, and that creature's apparent age is reduced by 3d10 years, to a maximum of 13 years. This effect doesn't extend the creature's lifespan.</shortDescription>
+            </action>
+        </feature>
+    </level>
+
+</class>

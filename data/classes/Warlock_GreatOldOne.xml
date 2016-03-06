@@ -57,7 +57,7 @@
                 You can use your action to touch an incapacitated humanoid. That creature is then charmed by you until a remove curse spell is cast on it, the charmed condition is removed from it, or you use this feature again.
                 You can communicate telepathically with the charmed creature as long as the two of you are on the same plane of existence.</shortDescription>
             <effect>
-                <variable name="creature" prompt="Choose creature to Enthral"/>
+                <variable name="creature" prompt="Choose creature to Enthrall"/>
                 <name>$creature Enthralled</name>
                 <shortDescription>$creature is charmed by you until a remove curse spell is cast on it, the charmed condition is removed from it, or you use this feature again.
                     You can communicate telepathically with $creature as long as the two of you are on the same plane of existence.</shortDescription>

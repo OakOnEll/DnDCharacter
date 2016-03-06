@@ -1,0 +1,366 @@
+<class>
+    <ref>PHB p.113</ref>
+    <name>Wizard</name>
+    <hitDice>1d6</hitDice>
+    <weapons>
+        <proficiency>Dagger</proficiency>
+        <proficiency>Dart</proficiency>
+        <proficiency>Sling</proficiency>
+        <proficiency>Quarterstaff</proficiency>
+        <proficiency>Light Crossbow</proficiency>
+    </weapons>
+    <savingThrows>
+        <proficiency>Intelligence</proficiency>
+        <proficiency>Wisdom</proficiency>
+    </savingThrows>
+    <skills>
+        <choose name="skills" number="2">
+            <or name="arcana"><proficiency>Arcana</proficiency></or>
+            <or name="history"><proficiency>History</proficiency></or>
+            <or name="insight"><proficiency>Insight</proficiency></or>
+            <or name="investigation"><proficiency>Investigation</proficiency></or>
+            <or name="medicine"><proficiency>Medicine</proficiency></or>
+            <or name="religion"><proficiency>Religion</proficiency></or>
+        </choose>
+    </skills>
+    <equipment>
+        <choose name="weapon">
+            <or name="staff">
+                <item>Quarterstaff</item>
+            </or>
+            <or name="simple">
+                <item>Dagger</item>
+            </or>
+        </choose>
+        <choose name="magic">
+            <or name="pouch">
+                <item>Component Pouch</item>
+            </or>
+            <or name="focus">
+                <item>Arcane Focus</item>
+            </or>
+        </choose>
+        <choose name="pack">
+            <or name="scholar">
+                <item>Scholar's pack</item>
+            </or>
+            <or name="explorers">
+                <item>Explorer's pack</item>
+            </or>
+        </choose>
+        <item>Spellbook</item>
+    </equipment>
+    <spellCastingStat>intelligence</spellCastingStat>
+    <multiclassCasterFactor>1</multiclassCasterFactor>
+    <multiclassPrerequisite>intelligence>=13</multiclassPrerequisite>
+    <preparedSpellsFormula>max(intelligenceMod + classLevel, 1)</preparedSpellsFormula>
+
+    <level value="1">
+        <cantrips>
+            <known>3</known>
+        </cantrips>
+        <spells>
+            <spell />
+            <spell />
+            <spell />
+            <spell />
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">2</level>
+            </slots>
+        </spells>
+        <feature>
+            <name>Arcane Recovery</name>
+            <shortDescription>You have learned to regain some of your magical energy by studying your spellbook.	
+                Once per day when you finish a short rest, you can choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your wizard level (rounded up), and none of the slots can be 6th level or higher.
+                For example, if you’re a 4th-level wizard, you can recover up to two levels worth of spell slots. You can recover either a 2nd-level spell slot or two 1st-level spell slots.</shortDescription>
+            <uses>1</uses>
+            <!-- TODO encode this as an action? -->
+            <refreshes>long_rest</refreshes>
+            <context>SHORT_REST</context>
+        </feature>
+    </level>
+
+    <level value="2">
+        <subclass label="Arcane Tradition" />
+
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">3</level>
+            </slots>
+        </spells>
+
+    </level>
+
+    <level value="3">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">2</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="4">
+        <cantrips>
+            <known>4</known>
+        </cantrips>
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="5">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">2</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="6">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="7">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="8">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">2</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="9">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="10">
+        <cantrips>
+            <known>5</known>
+        </cantrips>
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+            </slots>
+        </spells>
+    </level>
+
+
+    <level value="11">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="12">
+        <spells>
+            <spell />
+            <spell />
+        </spells>
+    </level>
+
+    <level value="13">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="14">
+        <spells>
+            <spell />
+            <spell />
+        </spells>
+    </level>
+
+    <level value="15">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="16">
+        <spells>
+            <spell />
+            <spell />
+        </spells>
+    </level>
+
+    <level value="17">
+
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">2</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="18">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">3</level>
+                <level value="6">1</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+        <feature>
+            <name>Spell Mastery</name>
+            <shortDescription>You have achieved such mastery over certain spells that you can cast them at will.	
+                Choose a 1st-level wizard spell and a 2nd-level wizard spell that are in your spellbook. You can cast those spells at their lowest level without expending a spell slot when you have them prepared. If you want to cast either spell at a higher level, you must expend a spell slot as normal.
+                By spending 8 hours in study, you can exchange one or both of the spells you chose for different spells of the same levels</shortDescription>
+            <!-- TODO encode this as an action? -->
+        </feature>
+    </level>
+
+    <level value="19">
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">3</level>
+                <level value="6">2</level>
+                <level value="7">1</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
+    <level value="20">
+        <feature >
+            <name>Signature Spells</name>
+            <shortDescription>You gain mastery over two powerful spells and can cast them with little effort.
+                Choose two 3rd-level wizard spells in your spellbook as your signature spells. You always have these spells prepared, they don’t count against the number of spells you have prepared, and you can cast each of them once at 3rd level without expending a spell slot. When you do so, you can’t do so again until you finish a short or long rest.
+                If you want to cast either spell at a higher level, you must expend a spell slot as normal.</shortDescription>
+            <!-- TODO how to encode this -->
+        </feature>
+
+
+        <spells>
+            <spell />
+            <spell />
+            <slots>
+                <level value="1">4</level>
+                <level value="2">3</level>
+                <level value="3">3</level>
+                <level value="4">3</level>
+                <level value="5">3</level>
+                <level value="6">2</level>
+                <level value="7">2</level>
+                <level value="8">1</level>
+                <level value="9">1</level>
+            </slots>
+        </spells>
+    </level>
+
+</class>

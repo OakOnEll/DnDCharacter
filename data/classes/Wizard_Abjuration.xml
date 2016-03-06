@@ -1,0 +1,69 @@
+<class>
+    <ref>PHB p.115</ref>
+    <name>Abjuration</name>
+    <parent>Wizard</parent>
+
+    <level value="2">
+        <feature>
+            <name>Abjuration Savant</name>
+            <shortDescription>The gold and time you must spend to copy an Abjuration spell into your spellbook is halved.</shortDescription>
+        </feature>
+
+        <feature>
+            <name>Arcane Ward</name>
+            <shortDescription>You can weave magic around yourself for protection.
+            When you cast an abjuration spell of 1st level or higher, you can simultaneously use a strand of the spell's magic to create a magical ward on yourself that lasts until you finish a long rest. The ward has hit points equal to twice your wizard level + your intelligence modifier. Whenever you take damage, the ward takes the damage instead. If this damage reduces the ward to 0 hit points, you take any remaining damage.
+            While the ward has 0 hit points, it can't absorb damage, but its magic remains. Whenever you cast an abjuration spell of 1st level or higher, the ward regains a number of hit points equal to twice the level of the spell.
+            Once you create the ward, you can't create it again until you finish a long rest.</shortDescription>
+            <effect>
+                <name>Arcane Ward</name>
+                <shortDescription>You have created a magical ward on yourself that lasts until you finish a long rest. The ward has hit points equal to twice your wizard level + your intelligence modifier. Whenever you take damage, the ward takes the damage instead. If this damage reduces the ward to 0 hit points, you take any remaining damage.
+                    While the ward has 0 hit points, it can't absorb damage, but its magic remains. Whenever you cast an abjuration spell of 1st level or higher, the ward regains a number of hit points equal to twice the level of the spell.
+                    Once you create the ward, you can't create it again until you finish a long rest.</shortDescription>
+                <context>SPELL_CAST,HIT_POINTS,LONG_REST</context>
+            </effect>
+            <uses>1</uses>
+            <refreshes>long_rest</refreshes>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <feature extension="extend">
+            <name>Arcane Ward</name>
+            <extensionDescription>You can project your ward to protect another creature you can see within 30 feet of you.</extensionDescription>
+            <shortDescription>You can weave magic around yourself for protection.
+                When you cast an abjuration spell of 1st level or higher, you can simultaneously use a strand of the spell's magic to create a magical ward on yourself that lasts until you finish a long rest. The ward has hit points equal to twice your wizard level + your intelligence modifier. Whenever you take damage, the ward takes the damage instead. If this damage reduces the ward to 0 hit points, you take any remaining damage.
+                While the ward has 0 hit points, it can't absorb damage, but its magic remains. Whenever you cast an abjuration spell of 1st level or higher, the ward regains a number of hit points equal to twice the level of the spell.
+                When a creature that you can see within 30 feet of you takes damage, you can use your reaction to cause your arcane ward to absorb that damage. If this damage reduces the ward to 0 hit points, the warded creature takes any remaining damage.
+                Once you create the ward, you can't create it again until you finish a long rest.</shortDescription>
+            <effect extension="replace">
+                <name>Arcane Ward</name>
+                <shortDescription>You have created a magical ward on yourself that lasts until you finish a long rest. The ward has hit points equal to twice your wizard level + your intelligence modifier. Whenever you take damage, the ward takes the damage instead. If this damage reduces the ward to 0 hit points, you take any remaining damage.
+                    While the ward has 0 hit points, it can't absorb damage, but its magic remains. Whenever you cast an abjuration spell of 1st level or higher, the ward regains a number of hit points equal to twice the level of the spell.
+                    When a creature that you can see within 30 feet of you takes damage, you can use your reaction to cause your arcane ward to absorb that damage. If this damage reduces the ward to 0 hit points, the warded creature takes any remaining damage.
+                    Once you create the ward, you can't create it again until you finish a long rest.</shortDescription>
+                <context>SPELL_CAST,HIT_POINTS,LONG_REST</context>
+            </effect>
+        </feature>
+    </level>
+
+    <level value="10">
+        <feature >
+            <name>Improved Abjuration</name>
+            <shortDescription>When you cast an abjuration spell that requires you to make an ability check as part of casting that spell (as in counterspell and dispel magic), you add your proficiency bonus to that ability check.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature>
+            <name>Spell Resistance</name>
+            <shortDescription>You have advantage on saving throws against spells.
+            Furthermore, you have resistance against the damage of spells.</shortDescription>
+            <context>SAVING_THROW,HIT_POINTS</context>
+        </feature>
+    </level>
+
+</class>
