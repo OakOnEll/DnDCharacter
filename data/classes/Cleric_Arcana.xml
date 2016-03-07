@@ -1,0 +1,92 @@
+<class>
+    <ref>SCAG p.125</ref>
+    <name>Arcana Cleric</name>
+    <parent>Cleric</parent>
+
+    <level value="1">
+        <cantrips>
+            <cantrip casterClass="wizard" stat="Wisdom"/>
+            <cantrip casterClass="wizard" stat="Wisdom"/>
+        </cantrips>
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Detect Magic</spell>
+            <spell>Magic Missile</spell>
+        </spells>
+    </level>
+
+    <level value="2">
+        <feature extension="extend">
+            <name>Channel Divinity</name>
+            <action uses="1">
+                <name>Arcane Abjuration</name>
+                <shortDescription>As an action, you present your holy symbol, and one celestial, elemental, fey, or fiend of you choice that is within 30 feet of you must make a Wisdom saving throw, provided that the creature can see or hear you. If the creature fails its saving throw, it is turned for 1 minute or until it takes any damage.</shortDescription>
+            </action>
+            <context></context>
+        </feature>
+    </level>
+
+    <level value="3">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Magic Weapon</spell>
+            <spell>Nystul's Magic Aura</spell>
+        </spells>
+    </level>
+
+    <level value="5">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Dispel Magic</spell>
+            <spell>Magic Circle</spell>
+        </spells>
+    </level>
+
+    <level value="6">
+        <feature >
+            <name>Spell Breaker</name>
+            <shortDescription>When you restore hit points to an ally with a spell of 1st level or higher, you can also end one spell of your choice on that creature. The level of the spell you end must be equal to or lower than the level of the spell slot you use to cast the healing spell.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="7">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Arcane Eye</spell>
+            <spell>Leomund's Secret Chest</spell>
+        </spells>
+    </level>
+
+    <level value="8">
+        <feature >
+            <name>Potent Spellcasting</name>
+            <shortDescription>You add your Wisdom Modifier to the damage you deal with any cleric cantrip.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <spells>
+            <!-- TODO always prepared domain spells -->
+            <spell>Planar Binding</spell>
+            <spell>Teleportation Circle</spell>
+        </spells>
+    </level>
+
+
+    <level value="17">
+        <feature >
+            <name>Arcane Maserty</name>
+            <shortDescription>You can choose 4 wizard spells to add to your domain spells always prepared list.</shortDescription>
+            <spells>
+                <!-- TODO always prepared domain spells -->
+                <spell casterClass="wizard" maxLevel="6"/>
+                <spell casterClass="wizard" maxLevel="7"/>
+                <spell casterClass="wizard" maxLevel="8"/>
+                <spell casterClass="wizard" maxLevel="9"/>
+            </spells>
+        </feature>
+    </level>
+
+</class>

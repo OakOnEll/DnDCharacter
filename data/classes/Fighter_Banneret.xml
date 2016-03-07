@@ -1,0 +1,71 @@
+<class>
+    <ref>SCAG p.128</ref>
+    <name>Banneret</name>
+    <parent>Fighter</parent>
+
+    <level value="3">
+        <feature>
+            <name>Rallying Cry</name>
+            <shortDescription>You lean how to inspire your allies to fight on past their injuries.
+            When you use your second wind feature, you can choose up to three creatures within 60 feet of you that are allied with you. Each on regains hit points equal to your fighter level, provided that the creature can see or hear you.</shortDescription>
+            <context>EFFECT(Second Wind)</context>
+        </feature>
+    </level>
+
+
+    <level value="7">
+        <feature>
+            <name>Royal Envoy</name>
+            <shortDescription>You are an expert at persuasion. If you are already proficient in persuasion, pick another skill to gain proficiency in. Otherwise, pick Persuasion.</shortDescription>
+            <skills>
+                <choose name="persuasion">
+                    <or name="persuasive">
+                        <proficiency level="expert">Persuasion</proficiency>
+                    </or>
+                    <or name="alreadyPersuasive">
+                        <choose name="otherskill">
+                            <or name="animal"><proficiency>Animal Handling</proficiency></or>
+                            <or name="insight"><proficiency>Insight</proficiency></or>
+                            <or name="intimidation"><proficiency>Intimidation</proficiency></or>
+                            <or name="Performance"><proficiency>Performance</proficiency></or>
+                        </choose>
+                        <proficiency level="expert">Persuasion</proficiency>
+                    </or>
+                </choose>
+            </skills>
+        </feature>
+    </level>
+
+    <level value="10">
+        <feature extension="extend">
+            <name>Action Surge</name>
+            <extensionDescription>You can inspire an ally within 60 feet to make an attack when you action surge.</extensionDescription>
+            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.
+            Additionally, you can choose one creature within 60 feet of you that allied with you. That creature can make one melee or ranged weapon attack with its reaction, provided that it can see or hear you.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="15">
+        <feature extension="extend">
+            <name>Indomitable</name>
+            <extensionDescription>You can extend the benefit of your Indomitable feature to an ally.</extensionDescription>
+            <shortDescription>You can reroll a saving throw that you fail. If you do so, you must use the new roll.
+            When you use the Indomitable feature to reroll an Intelligence, Wisdom, or Charisma saving throw and you aren't incapacitated, you can choose on ally within 60 feet of you that also failed its saving throw against the same effect. If that creature can see or hear you, it can reroll its saving throw and must use the new roll.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Action Surge</name>
+            <extensionDescription>You can now inspire two allies within 60 feet to make an attack when you action surge.</extensionDescription>
+            <shortDescription>On your turn, you can take one additional action on top of your regular action and a possible bonus action.
+                Additionally, you can choose two creatures within 60 feet of you that allied with you. Those creatures can make one melee or ranged weapon attack with its reaction, provided that they can see or hear you.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+
+    </level>
+
+
+
+</class>

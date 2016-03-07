@@ -1,0 +1,20 @@
+<spell>
+    <name>Lightning Lure</name>
+    <school>Evocation</school>
+    <level>0</level>
+    <classes>
+        <class>Warlock</class>
+        <class>Wizard</class>
+        <class>Sorcerer</class>
+    </classes>
+    <duration>Instantaneous</duration>
+    <range>15 feet</range>
+    <castingTime>1 action</castingTime>
+    <components>V</components>
+
+    <numTargets>1</numTargets>
+    <attack>melee</attack>
+
+    <shortDescription>You creature a lash of lightning energy that strikes at one creature of your choice that you can see within range. The target must succeed on a Strength saving throw or be pulled up to 10 feet in a straight line toward you and then take 1d8 lightning damage if it is within 5 feet of you.
+    The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8)</shortDescription>
+</spell>

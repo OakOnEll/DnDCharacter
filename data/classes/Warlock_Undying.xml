@@ -1,0 +1,62 @@
+<class>
+    <ref>PHB p.109</ref>
+    <name>Undying</name>
+    <parent>Warlock</parent>
+
+    <level value="1">
+        <!-- TODO these are "warlock" spells for this subclass... not immediately known, just knowable -->
+        <extraSpells>
+            <spell>False Life</spell>
+            <spell>Ray of Sickness</spell>
+            <spell>Blindness/Deafness</spell>
+            <spell>Silence</spell>
+            <spell>Feign Death</spell>
+            <spell>Speak with Dead</spell>
+            <spell>Aura of Life</spell>
+            <spell>Death Ward</spell>
+            <spell>Contagion</spell>
+            <spell>Legend Lore</spell>
+        </extraSpells>
+
+        <cantrips>
+            <cantrip>Spare the Dying</cantrip>
+        </cantrips>
+        <feature >
+            <name>Among the dead</name>
+            <shortDescription>You have advantage on saving throws against any disease.
+            Additionally, undead have difficulty harming you. If an undead targets you directly with an attack or harmful spell, that creature must make a Wisdom saving throw against your spell save DC (8 + your proficiency bonus + your Charisma modifier) (an undead needn't make the save when it includes you in an area of effect, such as the explosion of Fireball). On a failed save, the creature must choose a new target or forfeit targeting someone instead of you, potentially wasting the attack or spell. On a successful save, the create is immune to this effect for 24 hours. An undead is also immune to this effect for 24 hours if you target it with an attack or harmful spell.</shortDescription>
+            <context>WEAPON_ATTACK,TO_HIT,HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="6">
+        <feature >
+            <name>Defy Death</name>
+            <shortDescription>You can give yourself vitality when you cheat death or when you help someone else cheat it. You can regain hit points equal to 1d8 + your constitution modifier (minimum of 1 hit point) when you succeed on a death saving throw or when you stabilize a creature with spare the dying. Once you use this feature, you can't use it again until you finish a long rest.</shortDescription>
+            <uses>1</uses>
+            <refreshes>long_rest</refreshes>
+            <context>HIT_POINTS,SPELL_CAST</context>
+        </feature>
+    </level>
+
+
+    <level value="10">
+        <feature>
+            <name>Undying Nature</name>
+            <shortDescription>You can hold your breath indefinitely, and you don't require food, water, or sleep, although you still require rest to reduce exhaustion and still benefit from finishing short and long rests.
+            In addition, you age at a slower rate. For every 10 years that pass, your body ages only 1 year, and you immune to being magically aged.</shortDescription>
+            <context>SHORT_REST,LONG_REST,SAVING_THROW</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature>
+            <name>Indestructable Life</name>
+            <shortDescription>You partake of some of the true secrets of the Undying. On you turn, you can use a bonus action to regain hit points equal to 1d8 + your warlock level. Additionally, if you put a severed body part of yours back in place when you use this feature, the part reattaches.
+            Once you use this feature, you can't use it again until you finish a short or long rest</shortDescription>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+        </feature>
+    </level>
+
+</class>

@@ -1,0 +1,10 @@
+<item>
+    <ref>SCAG p121</ref>
+    <name>Spiked Armor</name>
+    <itemType>ARMOR</itemType>
+    <ac>=14 + min(dexterityMod,2)</ac>
+    <category>Medium Armor</category>
+    <weight>45</weight>
+    <disadvantage>stealth</disadvantage>
+    <cost>75gp</cost>
+</item>

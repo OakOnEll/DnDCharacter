@@ -1,0 +1,47 @@
+<class>
+    <ref>SCAG p.130</ref>
+    <name>Way of the Long Death</name>
+    <parent>Monk</parent>
+
+    <level value="3">
+        <feature>
+            <name>Touch of Death</name>
+            <shortDescription>Your study of death allows you to extract vitality from another creature as it nears its demise.
+            When you reduce a creature within 5 feet of you to 0 hit points, you gain temporary hit points equals to your Wisdom modifier + your monk level (minimum of 1 temporary hit point).</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <feature>
+            <name>Hour of Reaping</name>
+            <shortDescription>You gain the ability to unsettle or terrify those around you as an action, for you soul has been touched by the shadow of death.
+            When you take this action, each creature within 30 feet of you that can see you must succeed on a Wisdom saving throw against your monk save Ki save DC (8 + your proficiency bonus + your Wisdom modifier) or be frightened of you until the end of your next turn.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="11">
+        <feature extension="extend">
+            <name>Ki</name>
+            <action uses="1">
+                <name>Mastery of Death</name>
+                <shortDescription>When you are reduced to 0 hit points, you can expend a Ki point to have 1 hit point instead.</shortDescription>
+                <context>HIT_POINTS</context>
+            </action>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Ki</name>
+            <action >
+                <name>Touch of the Long Death</name>
+                <shortDescription>As an action, you touch one creature within 5 feet of you, and expend 1 to 10 Ki points.
+                The target must make a Constitution saving throw against your monk save Ki save DC (8 + your proficiency bonus + your Wisdom modifier), and it takes 2d10 necrotic damage per ki point spent on a failed save, or half as much on damage on a successful one.</shortDescription>
+                <context>WEAPON_ATTACK</context>
+            </action>
+        </feature>
+    </level>
+
+</class>

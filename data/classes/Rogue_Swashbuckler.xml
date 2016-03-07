@@ -1,0 +1,70 @@
+<class>
+    <ref>SCAG p.135</ref>
+    <name>Swashbuckler</name>
+    <parent>Rogue</parent>
+
+    <level value="3">
+        <tools>
+            <proficiency>Disguise kit</proficiency>
+            <proficiency>Forgery Kit</proficiency>
+            <choose name="gaming set" category="gaming set"/>
+        </tools>
+        <feature>
+            <name>Fancy Footwork</name>
+            <shortDescription>If you make a melee attack against a creature, that creature can't make opportunity attacks against you for the rest of your turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <feature>
+            <name>Rakish Audacity</name>
+            <shortDescription>You add your charisma modifier to your initiative rolls</shortDescription>
+            <initiative>charismaMod</initiative>
+            <context>INITIATIVE</context>
+        </feature>
+        <feature extension="extend">
+            <name>Sneak Attack</name>
+            <extensionDescription>You don't need advantage to use the Sneak Attack feature if no other creature other than your target is within 5 feet of you.</extensionDescription>
+            <shortDescription>You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll, or if no other creature other than your target is within 5 feet of you. The attack must use a finesse or a ranged weapon.
+                You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.
+                The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+
+    </level>
+
+
+    <level value="9">
+        <feature>
+            <name>Panache</name>
+            <shortDescription>As an action, you can make a Charisma (Persuasion) check contested by a creature's Wisdom (Insight) check. The creature must be able to hear you, and the two of you must share a language.
+            If you succeed on the check and the creature is hostile to you, it has disadvantage on attack rolls against targets other than you, and can't make opportunity attacks against targets other than you. This effect lasts for 1 minute, until one of your companions attacks the target or affects it with a spell, or until you and the target are mor ethan 60 feet apart.
+            If you succeed on the check and the creature isn't hostile to you, it is charmed by you for 1 minute. While charmed, it regards you as a friendly acquaintance. This effect ends immediately if you or your companions do anything harmful to it.</shortDescription>
+            <effect actionName="Charm">
+                <actionDescription>You charm a creature not hostile to you for 1 minute.</actionDescription>
+                <shortDescription>If you succeed on the check and the creature isn't hostile to you, it is charmed by you for 1 minute. While charmed, it regards you as a friendly acquaintance. This effect ends immediately if you or your companions do anything harmful to it.</shortDescription>
+            </effect>
+            <effect actionName="Intimidate">
+                <actionDescription>You intimidate a creature hostile to you for 1 minute, causing it to have disadvantage on attack rolls against targets other than you an unable to make opportunity attacks against targets other than you.</actionDescription>
+                <shortDescription>If you succeed on the check and the creature is hostile to you, it has disadvantage on attack rolls against targets other than you, and can't make opportunity attacks against targets other than you. This effect lasts for 1 minute, until one of your companions attacks the target or affects it with a spell, or until you and the target are mor ethan 60 feet apart.</shortDescription>
+            </effect>
+        </feature>
+    </level>
+
+    <level value="13">
+        <feature>
+            <name>Elegant Maneuver</name>
+            <shortDescription>You can use a bonus action on your turn to gain advantage on the next Dexterity(Acrobatics) or Strength(Athletics) check you make during the the same turn.</shortDescription>
+            <context>SKILL_ROLL(acrobatics),SKILL_ROLL(athletics)</context>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature>
+            <name>Master Duelist</name>
+            <shortDescription>Your mastery of the blade lets you turn failure into success in combat. If you miss with an attack roll, you can roll it again with advantage. Once you do so, you can't use this feature again until you finish a short or long rest.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+            <refreshes>short_rest</refreshes>
+            <uses>1</uses>
+        </feature>
+    </level>
+
+</class>

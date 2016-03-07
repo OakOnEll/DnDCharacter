@@ -1,0 +1,98 @@
+<class>
+    <ref>SCAG p.133</ref>
+    <name>Oath of the Crown</name>
+    <parent>Paladin</parent>
+
+    <level value="3">
+        <feature>
+            <name>Tenets of Devotion</name>
+            <shortDescription>Law. The law is paramount. It is the mortar that holds the stones of civilization together, and it must be respected.
+                Loyalty. Your word is your bond. Without layalty, oaths and laws are meaningless.
+                Courage. You must be willing to do what needs to be done for the sake of order, even in the face of overwhelming odds. If you don't act, then who will.
+                Responsibility. You must deal with the consequences of your actions, and you are responsible for fulfilling your duties and obligations.</shortDescription>
+        </feature>
+        <spells>
+            <spell>Command</spell>
+            <spell>Compelled Duel</spell>
+        </spells>
+        <feature>
+            <name>Channel Divinity</name>
+            <uses>1</uses>
+            <refreshes>short_rest</refreshes>
+            <action  uses="1">
+                <name>Champion Challenge</name>
+                <shortDescription>You issue a challenge that compels other creatures creatures to do battle with you. Each creature of your choice that you can see within 30 feet of you must make a Wisdom saving throw against your Paladin spellcasting save DC (8 + proficiency bonus + charisma modifier). On a failed save, a creature can't willingly move more than 30 feet away from you. The effect ends on the creature if you are incapacitated or die, or if the creature is moved more than 30 feet away from you.</shortDescription>
+            </action>
+            <action  uses="1">
+                <name>Turn the Tide</name>
+                <shortDescription>As a bonus action, you can bolster injured creatures with your Channel Divinity. Each creature of your choice that can hear you within 30 fet of you regains hit points equal to 1d6 + your Charisma modifier (minimum of 1) if it has no mor ethan half of its hit points.</shortDescription>
+            </action>
+        </feature>
+    </level>
+
+    <level value="5">
+        <spells>
+            <spell>Warding Bond</spell>
+            <spell>Zone of Truth</spell>
+        </spells>
+    </level>
+
+    <level value="7">
+        <feature>
+            <name>Divine Allegiance</name>
+            <shortDescription>When a creature within 5 feet of you takes damage, you can use your reaction to magically substitute your own health for that of the target creature, causing that creature to not take the damage. Instead, you take the damage. This damage to you can't be reduced or prevented in any way.</shortDescription>
+            <context>HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="9">
+        <spells>
+            <spell>Aura of Vitality</spell>
+            <spell>Spirit of Guardians</spell>
+        </spells>
+    </level>
+
+    <level value="13">
+        <spells>
+            <spell>Banishment</spell>
+            <spell>Guardian of Faith</spell>
+        </spells>
+    </level>
+
+    <level value="15">
+        <feature>
+            <name>Unyielding Spirit</name>
+            <shortDescription>You have advantage on saving throws to avoid becoming paralyzed or stunned.</shortDescription>
+            <context>SAVING_THROW</context>
+        </feature>
+    </level>
+
+    <level value="17">
+        <spells>
+            <spell>Circle of power</spell>
+            <spell>Geas</spell>
+        </spells>
+    </level>
+
+
+    <level value="20">
+        <feature>
+            <name>Exalted Champion</name>
+            <shortDescription>As an action, you can undergo a transformation for 1 hour, gaining wings and an aura of menace that frightens enemies.</shortDescription>
+            <refreshes>long_rest</refreshes>
+            <uses>1</uses>
+            <effect uses="1">
+                <name>Exalted Champion</name>
+                <shortDescription>For 1 hour, you gain the following benefits:
+                    * You have resistance to bludgeoning, piercing, and slashing damage from nonmagical weapons.
+                    * Your allies have advantage on death saving throws while within 30 feet of you.
+                    * You have advantage on Wisdom saving throws, as do your allies within 30 feet of you.
+                    Once you use this feature, you can’t use it again until you finish a long rest.</shortDescription>
+                <context>HIT_POINTS,SAVING_THROW(wisdom)</context>
+            </effect>
+        </feature>
+    </level>
+
+
+
+</class>

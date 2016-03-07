@@ -1,0 +1,44 @@
+<class>
+    <ref>SCAG p121</ref>
+    <name>Battlerager</name>
+    <parent>Barbarian</parent>
+
+    <level value="3">
+        <feature>
+            <name>Spiked Armor</name>
+                <shortDescription>You gain the ability to use spiked armor as a weapon.
+                While you are wearing spiked armor and are raging, you can use a bonus action to make one melee weapon attack with your armor spikes against a target within 5 feet of you. If the attack hits, the spikes deal 1d4 piercing damage. You can use your Strength modifier for the attack and damage rolls.
+                Additionally, when you use the attack action to grapple a creature, the target takes 3 piercing damage if your grapple succeeds.</shortDescription>
+                <context>WEAPON_ATTACK</context>
+        </feature>
+        <armor>
+            <proficiency>Spiked Armor</proficiency>
+        </armor>
+    </level>
+
+    <level value="6">
+        <feature extension="extend">
+            <name>Reckless Attack</name>
+            <shortDescription>When you use the Reckless Attack while raging, you also gain temporary hit points equal to your constitution modifier (minimum 1). They vanish if any of them are left when your rage ends.</shortDescription>
+            <context>SAVING_THROW,EFFECT(Raging),EFFECT(Frenzied Raging),HIT_POINTS</context>
+        </feature>
+    </level>
+
+
+    <level value="10">
+        <feature >
+            <name>Battlerager Charge</name>
+            <shortDescription>You can take the Dash action as a bonus action while you are raging.</shortDescription>
+            <context>SPEED</context>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature >
+            <name>Spiked Retribution</name>
+            <shortDescription>When a creature within 5 feet of you hits you with a melee attack, the attacker takes 3 piercing damage if you are raging, aren't incapacitated, and are wearing spiked armor.</shortDescription>
+            <context>HIT_POINTS</context>
+        </feature>
+    </level>
+
+</class>

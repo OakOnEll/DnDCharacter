@@ -1,0 +1,57 @@
+<class>
+    <ref>SCAG p.135</ref>
+    <name>Mastermind</name>
+    <parent>Rogue</parent>
+
+    <level value="3">
+        <tools>
+            <proficiency>Disguise kit</proficiency>
+            <proficiency>Forgery Kit</proficiency>
+            <choose name="gaming set" category="gaming set"/>
+        </tools>
+        <languages>
+            <choose name="language" number="2"/>
+        </languages>
+        <feature>
+            <name>Master of Intrigue</name>
+            <shortDescription>You can unerringly mimic the speech patterns and accent of a creature that you hear speak for at least one minute, allowing you to pass yourself off as a native speaker of a particular land, provided that you know the language.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+        <feature>
+            <name>Master of Tactics</name>
+            <shortDescription>When you use the Help action to aid an ally in attacking a creature, the target of that attack can be 30 feet of you, rather than 5 feet of you, if the target can see or hear you.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+
+    <level value="9">
+        <feature>
+            <name>Insightful Manipulator</name>
+            <shortDescription>If you spend at least 1 minute observing or interacting with another creature outside combat, you can learn certain information about its capabilities compared to your own. The DM tells you if the creature is your equal, superior, or inferior in regard to two of the following characteristics of your choice:
+            * Intelligence score
+            * Wisdom score
+            * Charisma score
+            * Class levels (if any)
+            At the DM's option, you might also realize you know a piece of the creature's history or one of its personality traits, if it has any.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="13">
+        <feature>
+            <name>Misdirection</name>
+            <shortDescription>You can sometimes cause another creature to suffer an attack meant for you. When you are targeted by an attack while a creature within 5 feet of you is granting you cover against that attack, you can use your reaction to have the attack target that creature instead of you.</shortDescription>
+            <context>TO_HIT,HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature>
+            <name>Soul of Deceit</name>
+            <shortDescription>Your thoughts can't be read by telepathy or other means, unless you allow it. You can present false thoughts by making a Charisma(Deception) check contested by the mind reader's Wisdom(Insight) check.
+            Additionally, no matter what you say, magic that determine if you are telling the truth indicates that you are being truthful, if you so choose, and you can't be complled to tell the truth by magic.</shortDescription>
+            <context>SAVING_THROW</context>
+        </feature>
+    </level>
+
+</class>

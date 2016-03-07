@@ -1,0 +1,59 @@
+<class>
+    <ref>PHB p.103</ref>
+    <name>Storm Sorcerer</name>
+    <parent>Sorcerer</parent>
+
+    <level value="1">
+        <languages>
+            <language>Primordial</language>
+        </languages>
+        <feature>
+            <name>Tempestuous Magic</name>
+            <shortDescription>You can use a bonus action on your turn to cause whirling gusts of elemental air to briefly surround you, immediately before or after you cast a spell of 1st level or higher. Doing so allows you to fly up to 10 feet without provoking opportunity attacks.</shortDescription>
+            <context>SPELL_CAST</context>
+        </feature>
+    </level>
+
+
+    <level value="6">
+        <feature >
+            <name>Heart of the Storm</name>
+            <shortDescription>You gain resistance to lightning and thunder damage. In addition, whenever you start casting a spell of 1st level or higher that deals lightning or thunder damage, stormy magic erupts from you. This eruption causes creatures of your choice that you can see within 10 feet of you to take lightning or thunder damage (choose each time this ability activates) equal to half your sorcerer level.</shortDescription>
+            <context>SPELL_CAST,HIT_POINTS</context>
+        </feature>
+        <feature >
+            <name>Storm Guide</name>
+            <shortDescription>You gain the ability to subtly control weather around you.
+            If it is raining, you can use an action to cause the rain to stop falling in a 20-foot radius centered on you. You can end this effect as a bonus action.
+            If it is windy, you can use a bonus action each round to choose the direction that the wind blows in a 100-foot-radius spehere centered on you. The wind blows in that direction until the end of your next turn. This feature doesn't alter the speed of the wind.</shortDescription>
+            <context/>
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature >
+            <name>Storm's Fury</name>
+            <shortDescription>When you are hit by a melee attack, you can use your reaction to deal lightning damage to the attacker. The damage equals your sorcerer level. The attacker must also make a Strength saving throw against your sorcerer spell save DC (8 + your proficiency bonus + charisma modifier). On a failed save, the attacker is pushed in a straight line up to 20 feet away from you.</shortDescription>
+            <context>HIT_POINTS</context>
+        </feature>
+    </level>
+
+    <level value="18">
+        <feature>
+            <name>Wind Soul</name>
+            <shortDescription>You are immune to lightning and thunder damage.
+            You also gain a magical flying speed of 60 feet. As an action, you can reduce your flying speed to 30 feet for 1 hour, and choose a number of creatures within 30 feet of you equal to 3 + your charisma modifier. The chosen creatures gain a magical flying speed of 30 feet for 1 hour. Once you reduce your flying speed in this way, you can't do so again until you finish a short or long rest.
+            </shortDescription>
+            <speed type="fly">60</speed>
+            <effect actionName="Share Flight">
+                <speed type="fly">-30</speed>
+                <actionDescription>As an action, you can reduce your flying speed to 30 feet for 1 hour, and choose a number of creatures within 30 feet of you equal to 3 + your charisma modifier. The chosen creatures gain a magical flying speed of 30 feet for 1 hour. Once you reduce your flying speed in this way, you can't do so again until you finish a short or long rest.</actionDescription>
+                <shortDescription>You have reduced your flying speed to 30 feet for 1 hour, so that a number of creatures within 30 feet of you equal to 3 + your charisma modifier also are able to fly at 30 feet for 1 hour. </shortDescription>
+            </effect>
+            <refreshes>short_rest</refreshes>
+            <uses>1</uses>
+            <context>SPEED,HIT_POINTS</context>
+        </feature>
+    </level>
+
+</class>

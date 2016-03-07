@@ -1,0 +1,79 @@
+<class>
+    <ref>SCAG p.141</ref>
+    <name>Bladesinger</name>
+    <parent>Wizard</parent>
+
+    <level value="2">
+        <armor>
+            <proficiency category="light armor"/>
+        </armor>
+        <skills>
+            <proficiency>Performance</proficiency>
+        </skills>
+        <weapons>
+            <choose name="oneHandWeaponProf">
+                <or name="club"><proficiency>Club</proficiency></or>
+                <or name="handaxe"><proficiency>Handaxe</proficiency></or>
+                <or name="light_hammer"><proficiency>Light Hammer</proficiency></or>
+                <or name="mace"><proficiency>Mace</proficiency></or>
+                <or name="sickle"><proficiency>Sickle</proficiency></or>
+                <or name="battleaxe"><proficiency>Battleaxe</proficiency></or>
+                <or name="flail"><proficiency>Flail</proficiency></or>
+                <or name="longsword"><proficiency>Longsword</proficiency></or>
+                <or name="morningstar"><proficiency>Morningstar</proficiency></or>
+                <or name="rapier"><proficiency>Rapier</proficiency></or>
+                <or name="scimitar"><proficiency>Scimitar</proficiency></or>
+                <or name="shortsword"><proficiency>Shortsword</proficiency></or>
+                <or name="trident"><proficiency>Trident</proficiency></or>
+                <or name="warpick"><proficiency>War Pick</proficiency></or>
+            </choose>
+        </weapons>
+
+        <feature>
+            <name>Bladesong</name>
+            <shortDescription>You can invoke a secret elven magic called the Bladesong, provided that you aren't wearing medium or heavy armor or using a shield. You can use a bonus action to start the Bladesong which lasts for 1 minute. It ends early if you are incapacitated, if you don medium or heavy armor or a shield, or if you use two hands to make an attack with a weapon. You can also dismiss the Bladesong at any time you choose, no action required.</shortDescription>
+            <effect uses="1">
+                <name>Bladesong</name>
+                <shortDescription>You gain the following benefits
+                * You gain a bonus to your AC equal to your Intelligence modifier (minimum of +1)
+                * Your walking speed increases by 10 feet
+                * You have advantage on Dexterity (Acrobatics) checks
+                * You gain a bonus to any Constitution saving throw you make to maintain your concentration on a spell. The bonus equals your Intelligence modifier (minimum of +1)</shortDescription>
+                <ac>+max(intelligenceMod,1)</ac>
+                <speed>10</speed>
+                <context>SPEED,ARMOR_CLASS,SKILL_ROLL(acrobatics),SAVING_THROW(constitution)</context>
+            </effect>
+            <uses>2</uses>
+            <refreshes>short_rest</refreshes>
+        </feature>
+
+
+    </level>
+
+
+    <level value="6">
+        <feature >
+            <name>Extra Attack</name>
+            <shortDescription>You can attack twice, instead of once, whever you take the Attack action on you turn.</shortDescription>
+            <context>WEAPON_ATTACK</context>
+        </feature>
+    </level>
+
+    <level value="10">
+        <feature >
+            <name>Song of Defense</name>
+            <shortDescription>You can direct your magic to absorb damage while your Bladesong is active. When you take damage, you can use your reaction to expend one spell slot and reduce that damage to you by an amount equal to five times the spell slot's level.</shortDescription>
+            <context>HIT_POINTS,EFFECT(Bladesong)</context>
+            <!-- TODO use spell slots -->
+        </feature>
+    </level>
+
+    <level value="14">
+        <feature >
+            <name>Song of Victory</name>
+            <shortDescription>Add your Intelligence modifier (minimum of +1) to the damage of your melee weapon attacks while your Bladesong is active.</shortDescription>
+            <context>WEAPON_ATTACK,EFFECT(Bladesong)</context>
+        </feature>
+    </level>
+
+</class>

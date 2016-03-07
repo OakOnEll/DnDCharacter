@@ -1,5 +1,5 @@
 <class>
-    <ref>PHB p.50</ref>
+    <ref>PHB p.50, SCAG p.122</ref>
     <name>Totem Warrior</name>
     <parent>Barbarian</parent>
 
@@ -43,6 +43,21 @@
                     <context>EFFECT(Raging)</context>
                 </feature>
             </or>
+            <or name="elk" title="Elk">
+                <feature >
+                    <name>Elk Totem Spirit</name>
+                    <shortDescription>While you're raging and aren't wearing heavy armor, your walking speed increase by 15 feet. The spirit of the elk make you extraordinarily swift.</shortDescription>
+                    <context>EFFECT(Raging),SPEED</context>
+                    <!-- TODO conditional speed on armor type -->
+                </feature>
+            </or>
+            <or name="tiger" title="Tiger">
+                <feature >
+                    <name>Tiger Totem Spirit</name>
+                    <shortDescription>While raging, you can add 10 feet to your long jump distance and 3 feet to your high jump distance. The spirit of the tiger empowers your leaps.</shortDescription>
+                    <context></context>
+                </feature>
+            </or>
         </choose>
 
     </level>
@@ -70,6 +85,28 @@
                     <context>SKILL_ROLL(stealth),SKILL_ROLL(survival)</context>
                 </feature>
             </or>
+            <or name="elk" title="Elk">
+                <feature >
+                    <name>Aspect of the Elk</name>
+                    <shortDescription>Whether mounted or on foot, your travel pace is doubled, as is the travel pave of up to 10 companions while they're within 60 feet of you and you're not incapacitated. The elk spirit helps you roam far and fast.</shortDescription>
+                    <context>SPEED</context>
+                </feature>
+            </or>
+            <or name="tiger" title="Tiger">
+                <feature >
+                    <name>Aspect of the Tiger</name>
+                    <shortDescription>You gain proficiency in two skills.</shortDescription>
+                    <context>SPEED</context>
+                    <skills>
+                        <choose name="skills" number="2">
+                            <or name="athletics"><proficiency>Athletics</proficiency></or>
+                            <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
+                            <or name="survival"><proficiency>Survival</proficiency></or>
+                            <or name="stealth"><proficiency>Stealth</proficiency></or>
+                        </choose>
+                    </skills>
+                </feature>
+            </or>
         </choose>
     </level>
 
@@ -90,7 +127,7 @@
     </level>
 
     <level value="14">
-        <choose name="attunement" title="Aspect of the Beast (need not be same as at 3rd or 6th level)">>
+        <choose name="attunement" title="Totemic Attunement (need not be same as at 3rd or 6th level)">>
             <or name="bear" title="Bear">
                 <feature >
                     <name>Totemic Attunement to the Bear</name>
@@ -111,6 +148,20 @@
                 <feature >
                     <name>Totemic Attunement to the Wolf</name>
                     <shortDescription>While raging, you can use a bonus action on your turn to knock a Large or smaller creature prone when you hit it with a melee weapon attack.</shortDescription>
+                    <context>WEAPON_ATTACK,EFFECT(Raging)</context>
+                </feature>
+            </or>
+            <or name="elk" title="Elk">
+                <feature >
+                    <name>Totemic Attunement to the Elk</name>
+                    <shortDescription>While raging, you can use a bonus action during your move to pass through the space of a Large or smaller creature. That creature must succeed on a Strength saving throw (DC 8 + strength bonus + your proficiency) or be knocked prone and take bludgeoning damage equal to 1d12 + your Strength modifier.</shortDescription>
+                    <context>WEAPON_ATTACK,EFFECT(Raging)</context>
+                </feature>
+            </or>
+            <or name="tiger" title="Tiger">
+                <feature >
+                    <name>Totemic Attunement to the Tiger</name>
+                    <shortDescription>While you're raging, if you move at least 20 feet in a straight line toward a Large or smaller target right before making a melee weapon attack against it, you can use a bonus action to make an additional melee weapon attack against it.</shortDescription>
                     <context>WEAPON_ATTACK,EFFECT(Raging)</context>
                 </feature>
             </or>
