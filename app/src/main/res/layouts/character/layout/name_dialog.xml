@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/name_label"
                 tools:hint="Name"
-                android:inputType="textPersonName" />
+                android:inputType="textCapWords" />
         </android.support.design.widget.TextInputLayout>
 
         <ScrollView

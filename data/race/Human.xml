@@ -11,6 +11,38 @@
     <size>medium</size>
     <speed>30</speed>
 
+    <names>
+        <list typeLabel="Chondathan Male Names">Darvin, Dorn, Evendur,Gorstag, Grim, Helm, Malark, Morn, Randal, Stedd</list>
+        <list typeLabel="Chondathan Female Names">Arveene, Esvele, Jhessail, Kerri, Lureene, Miri,Rowan, Shandri, Tessele</list>
+        <list typeLabel="Chondathan Surnames">Amblecrown,Buckman, Dundragon, Evenwood, Greycastle, Tallstag</list>
+
+
+        <list typeLabel="Damaran Male Names"> Bor, Fodel, Glar, Grigor, Igan,Ivor, Kosef, Mival, Orel, Pavel, Sergor</list>
+        <list typeLabel="Damaran Female Names">Alethra,Kara, Katernin, Mara, Natali, Olma, Tana, Zora</list>
+        <list typeLabel="Damaran Surnames">Bersk, Chernin, Dotsk, Kulenov, Marsk,Nemetsk, Shemov, Starag</list>
+
+        <list typeLabel="Illuskan Male Names">Ander, Blath, Bran, Frath, Geth,Lander, Luth, Malcer, Stor, Taman, Urth</list>
+        <list typeLabel="Illuskan Female Names">Amafrey, Betha, Cefrey, Kethra, Mara, Olga, Silifrey,Westra</list>
+        <list typeLabel="Illuskan Surnames"> Brightwood, Helder, Hornraven,Lackman, Stormwind, Windrivver</list>
+
+        <list typeLabel="Mulan Male Names">Aoth, Bareris, Ehput-Ki, Kethoth,Mumed, Ramas, So-Kehur, Thazar-De, Urhur</list>
+        <list typeLabel="Mulan Female Names">Arizima, Chathi, Nephis, Nulara, Murithi, Sefris, Thola,Umara, Zolis</list>
+        <list typeLabel="Mulan Surnames">Ankhalab, Anskuld, Fezim,Hahpet, Nathandem, Sepret, Uuthrak</list>
+
+        <list typeLabel="Rashemi Male Names">Borivik, Faurgar, Jandar,Kanithar, Madislak, Ralmevik, Shaumar, Vladislak</list>
+        <list typeLabel="Rashemi Female Names"> Fyevarra, Hulmarra, Immith, Imzel,Navarra, Shevarra, Tammith, Yuldra</list>
+        <list typeLabel="Rashemi Surnames">Chergoba, Dyernina, Iltazyara, Murnyethara,Stayanoga, Ulmokina</list>
+
+        <list typeLabel="Shou Male Names"> An, Chen, Chi, Fai, Jiang, Jun, Lian,Long, Meng, On, Shan, Shui, Wen</list>
+        <list typeLabel="Shou Female Names"> Bai, Chao, Jia, Lei, Mei, Qiao, Shui, Tai</list>
+        <list typeLabel="Shou Surnames"> Chien, Huang,Kao, Kung, Lao, Ling, Mei, Pin, Shin, Sum, Tan, Wan</list>
+
+        <list typeLabel="Turami Male Names">Anton, Diero, Marcon, Pieron, Rimardo, Romero, Salazar, Umbero;</list>
+        <list typeLabel="Turami Female Names">Balama,Dona, Faila, Jalana, Luisa, Marta, Quara, Selise,Vonda</list>
+        <list typeLabel="Turami Surnames">Agosto, Astorio, Calabra, Domine,Falone, Marivaldi, Pisacar, Ramondo</list>
+
+    </names>
+
     <languages>
         <language>Common</language>
         <choose name="language"/>
