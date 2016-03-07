@@ -11,6 +11,11 @@
     <size>medium</size>
     <speed>30</speed>
 
+    <names>
+        <list typeLabel="Male Names">Arjhan,Balasar,Bharash,Donaar,Ghesh,Heskan,Kriv,Medrash,Mehen,Nadarr,Pandjed,Patrin,Rhogar,Shamash,Shedinn,Tarhun,Torinn</list>
+        <list typeLabel="Female Names">Akra,Biri,Daar,Farideh,Harann,Havilar,Jheri,Kava,Korinn,Mishann,Nala,Perra,Raiann,Sora,Surina,Thava,Uadjit</list>
+    </names>
+
     <languages>
         <language>Common</language>
         <language>Draconic</language>

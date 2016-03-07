@@ -12,6 +12,12 @@
     <size>medium</size>
     <speed>30</speed>
 
+    <names>
+        <list typeLabel="Male Infernal Names">Akmenos,Amnon,Barakas,Damakos,Ekemon,Iados,Kairon,Leucis,Melech,Mordai,Morthos,Pelaios,Skamos,Therai</list>
+        <list typeLabel="Female Infernal Names">Akta,Anakis,Bryseis,Criella,Damaia,Ea,Kallista,Lerissa,Makaria,Nemeia,Orianna,Phelaia,Rieta</list>
+        <list typeLabel="'Virtue' Names">Art,Carrion,Chant,Creed,Despair,Excellence,Fear,Glory,Hope,Ideal,Music,Nowhere,Open,Poetry,Quest,Random,Reverence,Sorrow,Temerity,Torment,Weary</list>
+    </names>
+
     <languages>
         <language>Common</language>
         <language>Infernal</language>

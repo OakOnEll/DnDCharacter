@@ -6,6 +6,12 @@
     <age>Although elves reach physical maturity at about the same age as humans, the elven understanding of adulthood goes beyond physical  growth to encompass worldly experience. An elf  typically claims adulthood and an adult name  around the age of 100 and can live to be 750 years  old.</age>
     <height>Elves range from under 5 to over 6 feet tall</height>
     <weight>Elves have slender builds.</weight>
+    <names>
+        <list typeLabel="Child Names"> Ara, Bryn, Del, Eryn, Faen, Innil,Lael, Mella, Naill, Naeris, Phann, Rael, Rinn, Sai,Syllin, Thia, Vall</list>
+        <list typeLabel="Male Adult Names">Adran, Aelar, Aramil, Arannis, Aust, Beiro, Berrian, Carric, Enialis, Erdan, Erevan, Galinndan, Hadarai, Heian, Himo, Immeral, Ivellios, Laucian, Mindartis, Paelias, Peren, Quarion, Riardon, Rolen, Soveliss, Thamior, Tharivol, Theren, Varis</list>
+        <list typeLabel="Female Adult Names">Adrie, Althaea, Anastrianna, Andraste, Antinua, Bethrynna, Birel, Caelynn, Drusilia, Enna, Felosial, Ielenia, Jelenneth, Keyleth, Leshanna, Lia, Meriele, Mialee, Naivara, Quelenna, Quillathe, Sariel, Shanairra, Shava, Silaqui, Theirastra, Thia, Vadania, Valanthe, Xanaphia</list>
+        <list typeLabel="Family Names">Amakiir (Gemflower), Amastacia (Starflower), Galanodel (Moonwhisper), Holimion (Diamonddew), Ilphelkiir (Gemblossom), Liadon (Silverfrond), Meliamne (Oakenheel), Naïlo (Nightbreeze), Siannodel (Moonbrook), Xiloscient (Goldpetal)</list>
+    </names>
     <skills>
         <proficiency>Perception</proficiency>
     </skills>

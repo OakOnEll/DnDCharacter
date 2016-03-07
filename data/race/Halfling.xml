@@ -10,6 +10,13 @@
     <weightMultiplier>1</weightMultiplier>
     <size>small</size>
     <speed>25</speed>
+
+    <names>
+        <list typeLabel="Male Names">Alton, Ander, Cade, Corrin, Eldon, Errich, Finnan, Garret, Lindal, Lyle, Merric, Milo, Osborn, Perrin, Reed, Roscoe, Wellby</list>
+        <list typeLabel="Female Names">Andry, Bree, Callie, Cora, Euphemia, Jillian, Kithri, Lavinia, Lidda, Merla, Nedda, Paela, Portia, Seraphina, Shaena, Trym, Vani, Verna</list>
+        <list typeLabel="Family Names">Brushgather, Goodbarrel, Greenbottle, High-hill, Hilltopple, Leagallow, Tealeaf, Thorngage, Tosscobble, Underbough</list>
+    </names>
+    
     <feature>
         <name>Lucky</name>
         <shortDescription>When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.</shortDescription>

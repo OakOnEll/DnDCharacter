@@ -10,6 +10,14 @@
     <weightMultiplier>1</weightMultiplier>
     <size>small</size>
     <speed>25</speed>
+
+    <names>
+        <list typeLabel="Male Names">Alston,Alvyn,Boddynock,Brocc,Burgell,Dimble,Eldon,Erky,Fonkin,Frug,Gerbo,Gimble,Glim,Jebeddo,Kellen,Namfoodle,Orryn,Roondair,Seebo,Sindir,Warryn,Wrenn,Zook</list>
+        <list typeLabel="Female Names">Bimpnottin,Breena,Caramip,Carlin,Donella,Duvamil,Ella,Ellyjobell,Ellywick,Lilli,Loopmottin,Lorilla,Mardnab,Nissa,Nyx,Oda,Orla,Roywyn,Shamil,Tana,Waywocket,Zanna</list>
+        <list typeLabel="Clan Names">Beren,Daregel,Folkow,Garrick,Nackle,Murnig,Ningel,Raulnor,Scheppen,Timbers,Turen</list>
+        <list typeLabel="Nicknames">Aleslosh,Ashhearth,Badger,Cloak,Doublelock,Filchbatter,Fnipper,Ku,Nim,Oneshoe,Pock,Sparklegem,Stumbleduck</list>
+    </names>
+
     <feature>
         <name>Darkvision</name>
         <shortDescription>Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>

@@ -12,6 +12,11 @@
     <size>medium</size>
     <speed>30</speed>
 
+    <names>
+        <list typeLabel="Male Names">Dench,Feng,Gell,Henk,Holg,Imsh,Keth,Krusk,Mhurren,Ront,Shump,Thokk</list>
+        <list typeLabel="Female Names">Baggi,Emen,Engong,Kansif,Myev,Neega,Ovak,Ownka,Shautha,Sutha,Vola,Volen,Yevelda</list>
+    </names>
+
     <languages>
         <language>Common</language>
         <language>Orc</language>
