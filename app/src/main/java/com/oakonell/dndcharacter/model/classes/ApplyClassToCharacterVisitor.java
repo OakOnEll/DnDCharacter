@@ -39,6 +39,8 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
     public static void addClassLevel(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int characterlevel, int classLevel, int hpRoll) {
         CharacterClass charClass = createCharacterClass(context, aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, characterlevel, classLevel, hpRoll);
         character.getClasses().add(charClass);
+
+        character.setHP( character.getHP() + hpRoll + character.getStatBlock(StatType.CONSTITUTION).getModifier());
     }
 
     public static void updateClassLevel(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int classIndex, int classLevel, int hpRoll) {

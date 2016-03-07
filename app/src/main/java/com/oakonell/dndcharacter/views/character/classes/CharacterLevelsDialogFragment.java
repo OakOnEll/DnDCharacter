@@ -233,38 +233,39 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
         @Override
         public void onItemDismiss(final int position) {
             final CharacterClass item = getItem(position);
-            if (context.recordsBeingDeleted.containsKey(item)) {
-                // actually delete the record, now
-                classes.remove(item);
-                context.recordsBeingDeleted.remove(item);
-                notifyItemRemoved(position);
-                if (context.getMainActivity() != null) {
-                    context.updateView();
-                    ((CharacterActivity) context.getActivity()).updateViews();
-                    ((CharacterActivity) context.getActivity()).saveCharacter();
+            final CharacterActivity activity = ((CharacterActivity) context.getActivity());
+            final Runnable deleteClass = new Runnable() {
+                @Override
+                public void run() {
+                    context.recordsBeingDeleted.remove(item);
+                    // actually delete the record, now
+                    classes.remove(item);
+                    if (activity.getCharacter().getHP()> activity.getCharacter().getMaxHP()) {
+                        activity.getCharacter().setHP(activity.getCharacter().getMaxHP());
+                    }
+                    notifyItemRemoved(position);
+                    if (context.getMainActivity() != null) {
+                        context.updateView();
+                        ((CharacterActivity) context.getActivity()).updateViews();
+                        ((CharacterActivity) context.getActivity()).saveCharacter();
+                    }
+
                 }
+            };
+            if (context.recordsBeingDeleted.containsKey(item)) {
+                deleteClass.run();
             }
 
             context.recordsBeingDeleted.put(item, System.currentTimeMillis());
             notifyItemChanged(position);
 
-            final CharacterActivity activity = ((CharacterActivity) context.getActivity());
             context.list.postDelayed(new Runnable() {
                 public void run() {
                     // may have been deleted, undone, and then redeleted
                     Long deletedTime = context.recordsBeingDeleted.get(item);
                     if (deletedTime == null) return;
                     if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
-                        // actually delete the record, now
-                        context.recordsBeingDeleted.remove(item);
-                        if (context.getMainActivity() != null) {
-                            classes.remove(item);
-                            notifyItemRemoved(position);
-                            context.updateView();
-                            activity.updateViews();
-                            activity.saveCharacter();
-                        }
-
+                        deleteClass.run();
                     }
                 }
             }, UNDO_DELAY);
