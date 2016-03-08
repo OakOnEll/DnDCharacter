@@ -40,4 +40,7 @@
     <string name="schools_label">Schools</string>
     <string name="Ritual">Ritual</string>
     <string name="initiative_roll">Initiative Roll</string>
+    <string name="death_saves">Death Saves</string>
+    <string name="failures">Failures</string>
+    <string name="successes">Successes</string>
 </resources>

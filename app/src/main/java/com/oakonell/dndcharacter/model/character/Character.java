@@ -151,6 +151,11 @@ public class Character {
 
     @Element(required = false)
     private SpeedType visibleSpeedType = SpeedType.WALK;
+    @Element(required = false)
+
+    private int deathSaveFails;
+    @Element(required = false)
+    private int deathSaveSuccesses;
 
     public Character() {
     }
@@ -2133,4 +2138,26 @@ public class Character {
             return null;
         }
     }
+
+    public int getDeathSaveFails() {
+        return deathSaveFails;
+    }
+
+    public void failDeathSave() {
+        deathSaveFails++;
+    }
+
+    public int getDeathSaveSuccesses() {
+        return deathSaveSuccesses;
+    }
+
+    public void passDeathSave() {
+        deathSaveSuccesses++;
+        if (deathSaveSuccesses >= 3) {
+            hp = 1;
+            deathSaveFails = 0;
+            deathSaveSuccesses = 0;
+        }
+    }
+
 }

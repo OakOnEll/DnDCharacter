@@ -131,6 +131,20 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/death_save_layout"
+
+                style="@style/hitpoints_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <include layout="@layout/death_saves" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/hp_layout"
 
                 style="@style/hitpoints_style"
@@ -166,7 +180,6 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
             </RelativeLayout>
-
 
             <RelativeLayout
                 android:id="@+id/temp_hp_layout"

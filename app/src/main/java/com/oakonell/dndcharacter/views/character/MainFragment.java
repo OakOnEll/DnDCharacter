@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -43,6 +44,12 @@ public class MainFragment extends AbstractSheetFragment {
     TextView ac;
     TextView hp;
     View temp_hp_layout;
+    View death_saves_layout;
+    ViewGroup fail_layout;
+    ViewGroup success_layout;
+
+    View hp_layout;
+
     TextView tempHp;
     TextView hitDice;
     TextView proficiency;
@@ -58,6 +65,10 @@ public class MainFragment extends AbstractSheetFragment {
         hp = (TextView) rootView.findViewById(R.id.hp);
         tempHp = (TextView) rootView.findViewById(R.id.temp_hp);
         temp_hp_layout = rootView.findViewById(R.id.temp_hp_layout);
+        death_saves_layout = rootView.findViewById(R.id.death_save_layout);
+        fail_layout = (ViewGroup) rootView.findViewById(R.id.fail_layout);
+        success_layout = (ViewGroup) rootView.findViewById(R.id.success_layout);
+        hp_layout = rootView.findViewById(R.id.hp_layout);
 
         hitDice = (TextView) rootView.findViewById(R.id.hit_dice);
         proficiency = (TextView) rootView.findViewById(R.id.proficiency);
@@ -155,7 +166,7 @@ public class MainFragment extends AbstractSheetFragment {
 
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
-        Character character = getCharacter();
+        final Character character = getCharacter();
         if (character == null) {
 // TODO shouldn't be possible now...
             ac.setText("");
@@ -208,6 +219,41 @@ public class MainFragment extends AbstractSheetFragment {
             tempHp.setText(NumberUtils.formatNumber(tempHpVal));
         } else {
             temp_hp_layout.setVisibility(View.GONE);
+        }
+        if (character.getHP() == 0 && character.getMaxHP() > 0) {
+            death_saves_layout.setVisibility(View.VISIBLE);
+            hp_layout.setVisibility(View.GONE);
+            ((CheckBox) rootView.findViewById(R.id.fail1)).setChecked(character.getDeathSaveFails() >= 1);
+            ((CheckBox) rootView.findViewById(R.id.fail2)).setChecked(character.getDeathSaveFails() >= 2);
+            ((CheckBox) rootView.findViewById(R.id.fail3)).setChecked(character.getDeathSaveFails() >= 3);
+
+
+            ((CheckBox) rootView.findViewById(R.id.success1)).setChecked(character.getDeathSaveSuccesses() >= 1);
+            ((CheckBox) rootView.findViewById(R.id.success2)).setChecked(character.getDeathSaveSuccesses() >= 2);
+            ((CheckBox) rootView.findViewById(R.id.success3)).setChecked(character.getDeathSaveSuccesses() >= 3);
+
+
+            fail_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    character.failDeathSave();
+                    getMainActivity().updateViews();
+                    getMainActivity().saveCharacter();
+                }
+            });
+            success_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    character.passDeathSave();
+                    getMainActivity().updateViews();
+                    getMainActivity().saveCharacter();
+                }
+            });
+
+
+        } else {
+            death_saves_layout.setVisibility(View.GONE);
+            hp_layout.setVisibility(View.VISIBLE);
         }
 
         hitDice.setText(character.getHitDiceString());
