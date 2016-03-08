@@ -498,7 +498,7 @@ public class Character {
         for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
             List<CharacterSpell> spells = entry.getValue().spells;
             for (CharacterSpell each : spells) {
-                if (each.getType() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
+                if (each.getSource() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
                     if (each.isPrepared()) prepared++;
                 }
             }
@@ -1448,6 +1448,26 @@ public class Character {
 
     }
 
+    public static class CharacterSpellWithSource extends WithSource {
+        private final CharacterSpell spell;
+
+        CharacterSpellWithSource(CharacterSpell spell, ComponentSource source) {
+            super(source);
+            this.spell = spell;
+        }
+
+        public CharacterSpell getSpell() {
+            return spell;
+        }
+
+//        @NonNull
+//        @Override
+//        public String toString() {
+//            return proficient + " (" + getSourceString() + ")";
+//        }
+
+    }
+
     public static class HitDieRow {
         public int dieSides;
         public int numDiceRemaining;
@@ -1572,7 +1592,7 @@ public class Character {
         CharacterAbilityDeriver cantripDeriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
                 for (CharacterSpell each : component.getCantrips()) {
-                    cantrips.getSpellInfos().add(each);
+                    cantrips.getSpellInfos().add(new CharacterSpellWithSource(each, component));
                 }
             }
         };
@@ -1580,7 +1600,7 @@ public class Character {
 
 
         for (CharacterSpell each : this.cantrips) {
-            cantrips.spellInfos.add(each);
+            cantrips.spellInfos.add(new CharacterSpellWithSource(each, null));
         }
 
         final List<SpellLevelInfo> result = new ArrayList<>();
@@ -1645,9 +1665,9 @@ public class Character {
             SpellLevelInfo level = result.get(i);
             level.slotsAvailable = level.maxSlots - used;
 
-            final List<CharacterSpell> spells = level.getSpellInfos();
+            final List<CharacterSpellWithSource> spells = level.getSpellInfos();
             for (CharacterSpell each : getSpells(i)) {
-                spells.add(each);
+                spells.add(new CharacterSpellWithSource(each, null));
             }
         }
 
@@ -1660,7 +1680,7 @@ public class Character {
                         level = 1;
                     }
                     SpellLevelInfo levelInfo = result.get(level);
-                    levelInfo.getSpellInfos().add(each);
+                    levelInfo.getSpellInfos().add(new CharacterSpellWithSource(each, component));
                 }
             }
         };
@@ -1769,10 +1789,10 @@ public class Character {
         int maxSlots;
 
         @NonNull
-        private List<CharacterSpell> spellInfos = new ArrayList<>();
+        private List<CharacterSpellWithSource> spellInfos = new ArrayList<>();
 
         @NonNull
-        public List<CharacterSpell> getSpellInfos() {
+        public List<CharacterSpellWithSource> getSpellInfos() {
             return spellInfos;
         }
 
@@ -2121,6 +2141,10 @@ public class Character {
 
         CheatComponentSource(int stringResId) {
             this.stringResId = stringResId;
+        }
+
+        public String getName() {
+            return "-";
         }
 
         @Override

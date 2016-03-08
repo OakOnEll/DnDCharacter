@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -24,7 +25,9 @@ import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
@@ -35,11 +38,13 @@ import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.feat.SelectFeatDialogFragment;
 import com.oakonell.dndcharacter.views.character.md.CategoryChoicesMD;
+import com.oakonell.dndcharacter.views.character.md.CategoryOptionMD;
 import com.oakonell.dndcharacter.views.character.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;
 import com.oakonell.dndcharacter.views.character.md.DropdownOptionMD;
 import com.oakonell.dndcharacter.views.character.md.MultipleChoicesMD;
+import com.oakonell.dndcharacter.views.character.md.OptionMD;
 import com.oakonell.dndcharacter.views.character.md.RootChoiceMDNode;
 import com.oakonell.dndcharacter.views.character.md.SearchOptionMD;
 import com.oakonell.dndcharacter.views.character.spell.SelectSpellDialogFragment;
@@ -69,11 +74,14 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     private AppCompatActivity activity;
     private int featSearchIndex;
     private Character character;
+    @Nullable
     private ComponentSource currentComponent;
 
     private String spellPrefix = "";
     private int spellIndex;
     private int cantripIndex;
+    Set<String> hardCodedSpells = new HashSet<>();
+    Set<CategoryChoicesMD> chosenSpellMDs = new HashSet<>();
 
     public AbstractComponentViewCreator(Character character, boolean handleSpells) {
         this.handleSpells = handleSpells;
@@ -94,6 +102,14 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     protected ViewGroup getParent() {
         return parent;
+    }
+
+    protected void setCurrentComponent(ComponentSource currentComponent) {
+        this.currentComponent = currentComponent;
+    }
+
+    protected ComponentSource getCurrentComponent() {
+        return currentComponent;
     }
 
     protected void createGroup(String title) {
@@ -330,6 +346,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             }
             currentChooseMD = new CategoryChoicesMD(spellPrefix + "_spells", num, num);
             choicesMD.addChildChoice(currentChooseMD);
+            chosenSpellMDs.add((CategoryChoicesMD) currentChooseMD);
 
             //TODO find max level...
             int maxlevel = 1;
@@ -360,7 +377,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             }
             currentChooseMD = new CategoryChoicesMD(spellPrefix + "_cantrips", num, num);
             choicesMD.addChildChoice(currentChooseMD);
-
+            chosenSpellMDs.add((CategoryChoicesMD) currentChooseMD);
             visitCantripsSearchChoices(casterClass, num);
         }
 
@@ -368,13 +385,19 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         currentChooseMD = oldChooseMD;
     }
 
+    protected void addChosenSpellMD(CategoryChoicesMD newChooseMD) {
+        chosenSpellMDs.add(newChooseMD);
+    }
+
     protected void visitSpell(@NonNull Element element) {
         if (element.getTextContent() == null || element.getTextContent().trim().length() == 0) {
-            ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD(spellPrefix + "_addedSpell" + spellIndex, 1, 1));
+            final CategoryChoicesMD newChooseMD = new CategoryChoicesMD(spellPrefix + "_addedSpell" + spellIndex, 1, 1);
+            ChooseMD oldChooseMD = pushChooseMD(newChooseMD);
 
+            chosenSpellMDs.add(newChooseMD);
             String maxLevelString = element.getAttribute("maxLevel");
             int maxLevel = 0;
-            if (maxLevelString != null && maxLevelString.trim().length() >0) {
+            if (maxLevelString != null && maxLevelString.trim().length() > 0) {
                 maxLevel = Integer.parseInt(maxLevelString);
             }
             String ritualString = element.getAttribute("ritual");
@@ -382,19 +405,22 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             String schoolsString = element.getAttribute("schools");
             String overrideCastClassName = element.getAttribute("casterClass");
             List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
+            // TODO tie in all spells known from this component, _addedSpell{index}.. and others
             visitSpellSearchChoices((overrideCastClassName != null && overrideCastClassName.trim().length() > 0) ? overrideCastClassName : "*", maxLevel, 1, schools, limitToRitual);
             popChooseMD(oldChooseMD);
             spellIndex++;
         } else {
-
-        visitSimpleItem(element);
+            hardCodedSpells.add(element.getTextContent());
+            visitSimpleItem(element);
         }
     }
 
     @Override
     protected void visitCantrip(@NonNull Element element) {
         if (element.getTextContent() == null || element.getTextContent().trim().length() == 0) {
-            ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD(spellPrefix + "_addedCantrip" + cantripIndex, 1, 1));
+            final CategoryChoicesMD newChooseMD = new CategoryChoicesMD(spellPrefix + "_addedCantrip" + cantripIndex, 1, 1);
+            ChooseMD oldChooseMD = pushChooseMD(newChooseMD);
+            chosenSpellMDs.add(newChooseMD);
             //String schoolsString = each.getAttribute("schools");
             String overrideCastClassName = element.getAttribute("casterClass");
             //List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
@@ -402,6 +428,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             popChooseMD(oldChooseMD);
             cantripIndex++;
         } else {
+            hardCodedSpells.add(element.getTextContent());
             super.visitCantrip(element);
         }
     }
@@ -498,7 +525,18 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         TextView text = new TextView(parent.getContext());
         parent.addView(text);
         int num = Integer.parseInt(element.getTextContent());
-        String string = parent.getResources().getString(R.string.increase_statname_by, element.getAttribute("name"), num);
+
+        int value = 0;
+        String statName = element.getAttribute("name");
+        for (Character.ModifierWithSource each : getCharacter().deriveStat(EnumHelper.stringToEnum(statName, StatType.class))) {
+            if (each.getSource() != null && each.getSource().equals(getCurrentComponent())) {
+                continue;
+            }
+            value += each.getModifier();
+        }
+        int newValue = value + num;
+
+        String string = parent.getResources().getString(R.string.increase_statname_by_to, statName, num, newValue);
         text.setText(" *  " + string);
     }
 
@@ -618,7 +656,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             }
             // if referencing an existing proficient skill, only add if exists and not already same proficiency level?
             if (filterExisting) {
-                if (exists && multiplier < proficient.getMultiplier() ) {
+                if (exists && multiplier < proficient.getMultiplier()) {
                     list.add(each);
                 }
             } else if (!exists) {
@@ -750,6 +788,30 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @Override
             AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
+                // TODO ignore cantrips from the other choices in the same component's dialog (eg, class/subclass..)
+                List<String> knownCantrips = new ArrayList<>();
+                for (Character.SpellLevelInfo each : character.getSpellInfos()) {
+                    if (each.getLevel() != 0) continue;
+
+                    for (Character.CharacterSpellWithSource eachSpell : each.getSpellInfos()) {
+                        if (!eachSpell.getSource().equals(currentComponent)) {
+                            knownCantrips.add(eachSpell.getSpell().getName());
+                        }
+                    }
+                }
+
+                for (String each : hardCodedSpells) {
+                    knownCantrips.add(each);
+                }
+                for (CategoryChoicesMD eachChooseMD : chosenSpellMDs) {
+                    for (CategoryOptionMD each : eachChooseMD.getOptions()) {
+                        String text = each.getText();
+                        if (text != null && text.trim().length() > 0) {
+                            knownCantrips.add(text);
+                        }
+                    }
+                }
+
                 return SelectSpellDialogFragment.createDialog(casterClass, 0, null, false, new SelectSpellDialogFragment.SpellSelectedListener() {
                     @Override
                     public boolean spellSelected(long id, String className) {
@@ -759,7 +821,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                         optionMD.setSelected(name);
                         return true;
                     }
-                });
+                }, knownCantrips);
             }
         };
 
@@ -774,7 +836,33 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @Override
             AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
-                return SelectSpellDialogFragment.createDialog(casterClass, maxLevel, schoolNames, limitToRitual,new SelectSpellDialogFragment.SpellSelectedListener() {
+                // TODO ignore spells from the other choices in the same component's dialog (eg, class/subclass..)
+                List<String> knownSpells = new ArrayList<>();
+                for (Character.SpellLevelInfo each : character.getSpellInfos()) {
+                    if (each.getLevel() == 0) continue;
+
+                    for (Character.CharacterSpellWithSource eachSpell : each.getSpellInfos()) {
+                        if (!eachSpell.getSource().equals(currentComponent)) {
+                            knownSpells.add(eachSpell.getSpell().getName());
+                        }
+                    }
+                }
+
+
+                for (String each : hardCodedSpells) {
+                    knownSpells.add(each);
+                }
+                for (CategoryChoicesMD eachChooseMD : chosenSpellMDs) {
+                    for (CategoryOptionMD each : eachChooseMD.getOptions()) {
+                        String text = each.getText();
+                        if (text != null && text.trim().length() > 0) {
+                            knownSpells.add(text);
+                        }
+                    }
+                }
+
+
+                return SelectSpellDialogFragment.createDialog(casterClass, maxLevel, schoolNames, limitToRitual, new SelectSpellDialogFragment.SpellSelectedListener() {
                     @Override
                     public boolean spellSelected(long id, String className) {
                         Spell spell = Spell.load(Spell.class, id);
@@ -783,9 +871,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                         optionMD.setSelected(name);
                         return true;
                     }
-                });
+                }, knownSpells);
             }
         };
+
 
         appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
     }
@@ -1008,5 +1097,6 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     public ChooseMDTreeNode getChoicesMD() {
         return choicesMD;
     }
+
 
 }

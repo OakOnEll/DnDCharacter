@@ -350,9 +350,9 @@ public class SpellDialogFragment extends RollableDialogFragment {
 
         List<CharacterSpell> spells = new ArrayList<>();
         for (Character.SpellLevelInfo eachSpellLevel : character.getSpellInfos()) {
-            for (CharacterSpell each : eachSpellLevel.getSpellInfos()) {
-                if (each.getName().equals(name)) {
-                    spells.add(each);
+            for (Character.CharacterSpellWithSource each : eachSpellLevel.getSpellInfos()) {
+                if (each.getSpell().getName().equals(name)) {
+                    spells.add(each.getSpell());
                 }
 
             }

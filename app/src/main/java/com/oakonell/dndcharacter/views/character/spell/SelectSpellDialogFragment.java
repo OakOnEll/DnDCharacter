@@ -40,6 +40,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     public static final String CANTRIPS = "cantrips";
     private static final String SCHOOLS = "schools";
     private static final String RITUAL_ONLY = "ritualOnly";
+    private static final String IGNORE_LIST = "ignoreList";
 
     private NoDefaultSpinner classNameSpinner;
     private TextView max_spell_level;
@@ -48,6 +49,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
     private List<SpellSchool> schoolsFilter = null;
     private boolean ritualOnly;
+    private ArrayList<String> ignoreSpellNamesList;
 
     public void setListener(SpellSelectedListener listener) {
         this.listener = listener;
@@ -59,7 +61,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
     // Will use the current character's classes/caster classes to filter
     @NonNull
-    public static SelectSpellDialogFragment createDialog(Character character, boolean cantrips, SpellSelectedListener listener) {
+    public static SelectSpellDialogFragment createDialog(Character character, boolean cantrips, SpellSelectedListener listener, List<String> ignoreSpellNames) {
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
         args.putBoolean(CANTRIPS, cantrips);
@@ -73,6 +75,11 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         }
         args.putParcelableArrayList(CASTER_CLASSES, classChoices);
 
+        if (ignoreSpellNames != null && !ignoreSpellNames.isEmpty()) {
+            ArrayList<String> ignoreList = new ArrayList<>(ignoreSpellNames);
+            args.putStringArrayList(IGNORE_LIST, ignoreList);
+        }
+
         dialog.setArguments(args);
         dialog.setListener(listener);
         return dialog;
@@ -80,7 +87,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
 
     @NonNull
-    public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, List<SpellSchool> schools, boolean limitToRitual, SpellSelectedListener listener) {
+    public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, List<SpellSchool> schools, boolean limitToRitual, SpellSelectedListener listener, List<String> ignoreSpellNames) {
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
         ArrayList<ClassChoice> classChoices = new ArrayList<>();
@@ -98,6 +105,12 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             classChoices.add(new ClassChoice(casterClass, casterClass, maxLevel));
         }
         args.putParcelableArrayList(CASTER_CLASSES, classChoices);
+
+        if (ignoreSpellNames != null && !ignoreSpellNames.isEmpty()) {
+            ArrayList<String> ignoreList = new ArrayList<>(ignoreSpellNames);
+            args.putStringArrayList(IGNORE_LIST, ignoreList);
+        }
+
         if (schools != null && !schools.isEmpty()) {
             ArrayList<String> schoolNames = new ArrayList<>();
             for (SpellSchool each : schools) {
@@ -169,10 +182,11 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
             TextView schoolsTextView = (TextView) view.findViewById(R.id.schools);
             schoolsTextView.setText(namesList);
-
         } else {
             view.findViewById(R.id.schools_group).setVisibility(View.GONE);
         }
+
+        ignoreSpellNamesList = getArguments().getStringArrayList(IGNORE_LIST);
 
         if (cantrips) {
             view.findViewById(R.id.max_spell_level_group).setVisibility(View.GONE);
@@ -236,15 +250,31 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             builder.append(")");
             schoolsFilterString = builder.toString();
         }
+
+        String notInString = "";
+        if (ignoreSpellNamesList != null && ignoreSpellNamesList.size() > 0) {
+            StringBuilder notInStringBuilder = new StringBuilder(" AND upper(name) not in (");
+            boolean first = true;
+            for (String each : ignoreSpellNamesList) {
+                if (!first) notInStringBuilder.append(',');
+                notInStringBuilder.append("'");
+                notInStringBuilder.append(each.replaceAll("'", "''").toUpperCase());
+                notInStringBuilder.append("'");
+                first = false;
+            }
+            notInStringBuilder.append(")");
+            notInString = notInStringBuilder.toString();
+        }
+
         String ritualFilter = "";
         if (ritualOnly) {
             ritualFilter = " AND ritual = 1";
         }
         // doing a join for performance
         if (cantrips) {
-            return " upper(aClass) = ? and level = 0 " + schoolsFilterString + ritualFilter;
+            return " upper(aClass) = ? and level = 0 " + schoolsFilterString + ritualFilter + notInString;
         } else {
-            return " upper(aClass) = ? and level > 0 and level <= ? " + schoolsFilterString + ritualFilter;
+            return " upper(aClass) = ? and level > 0 and level <= ? " + schoolsFilterString + ritualFilter + notInString;
         }
     }
 

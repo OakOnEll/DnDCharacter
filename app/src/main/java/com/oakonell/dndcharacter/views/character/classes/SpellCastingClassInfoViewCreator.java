@@ -31,7 +31,8 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         super(character, false);
     }
 
-    public ChooseMDTreeNode appendToLayout(@NonNull CharacterActivity characterActivity, @NonNull ViewGroup parent, int classLevel, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices) {
+    public ChooseMDTreeNode appendToLayout(@NonNull CharacterActivity characterActivity, @NonNull ViewGroup parent, int classLevel, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices, CharacterClass charClass) {
+        setCurrentComponent(charClass);
         setParent(parent);
         setChoices(savedChoices);
         setActivity(characterActivity);
@@ -111,9 +112,12 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
                 int lastLevelSpellsKnown = findLastSpellsKnown(characterActivity.getCharacter(), ownerClassName, classLevel);
                 int numSpellsCanAdd = Integer.parseInt(known) - lastLevelSpellsKnown;
 
-                ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("_addedSpells", numSpellsCanAdd, numSpellsCanAdd));
+                final CategoryChoicesMD newChooseMD = new CategoryChoicesMD("_addedSpells", numSpellsCanAdd, numSpellsCanAdd);
+                ChooseMD oldChooseMD = pushChooseMD(newChooseMD);
+                addChosenSpellMD(newChooseMD);
+
                 boolean limitToRitual = false;
-                visitSpellSearchChoices(casterClassName, maxLevel, numSpellsCanAdd, null,limitToRitual);
+                visitSpellSearchChoices(casterClassName, maxLevel, numSpellsCanAdd, null, limitToRitual);
                 popChooseMD(oldChooseMD);
             }
 
@@ -137,7 +141,9 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
             int i = 0;
             for (Element each : spellList) {
                 if (each.getTextContent() == null || each.getTextContent().trim().length() == 0) {
-                    ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("_addedSpell" + i, 1, 1));
+                    final CategoryChoicesMD newChooseMD = new CategoryChoicesMD("_addedSpell" + i, 1, 1);
+                    ChooseMD oldChooseMD = pushChooseMD(newChooseMD);
+                    addChosenSpellMD(newChooseMD);
                     String schoolsString = each.getAttribute("schools");
                     String overrideCastClassName = each.getAttribute("casterClass");
                     List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);
@@ -180,7 +186,10 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
                 int lastLevelCantripsKnown = findLastCantripsKnown(characterActivity.getCharacter(), ownerClassName, classLevel);
                 int numCantripsCanAdd = Integer.parseInt(known) - lastLevelCantripsKnown;
 
-                ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("_addedCantrips", numCantripsCanAdd, numCantripsCanAdd));
+                final CategoryChoicesMD newChooseMD = new CategoryChoicesMD("_addedCantrips", numCantripsCanAdd, numCantripsCanAdd);
+                ChooseMD oldChooseMD = pushChooseMD(newChooseMD);
+                addChosenSpellMD(newChooseMD);
+
                 visitCantripsSearchChoices(casterClassName, numCantripsCanAdd);
                 popChooseMD(oldChooseMD);
             }
@@ -195,7 +204,10 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
             int i = 0;
             for (Element each : cantripsList) {
                 if (each.getTextContent() == null || each.getTextContent().trim().length() == 0) {
-                    ChooseMD oldChooseMD = pushChooseMD(new CategoryChoicesMD("_addedCantrip" + i, 1, 1));
+                    final CategoryChoicesMD newChooseMD = new CategoryChoicesMD("_addedCantrip" + i, 1, 1);
+                    ChooseMD oldChooseMD = pushChooseMD(newChooseMD);
+                    addChosenSpellMD(newChooseMD);
+
                     //String schoolsString = each.getAttribute("schools");
                     String overrideCastClassName = each.getAttribute("casterClass");
                     //List<SpellSchool> schools = EnumHelper.commaListToEnum(schoolsString, SpellSchool.class);

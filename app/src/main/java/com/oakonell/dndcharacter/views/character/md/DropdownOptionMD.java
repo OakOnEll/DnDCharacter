@@ -59,4 +59,15 @@ public class DropdownOptionMD<T> extends CategoryOptionMD {
     public void setEnabled(boolean enabled) {
         spinner.setEnabled(enabled);
     }
+
+    public String getText() {
+        T selection = (T) spinner.getSelectedItem();
+        // TODO hmm.. not sure if this is correct
+        if (toString == null) {
+            return (String) selection;
+        } else {
+            return toString.toSaveString(selection, spinner.getSelectedItemPosition());
+        }
+
+    }
 }

@@ -20,6 +20,7 @@ import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,7 +68,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
 
 
     @Override
-    public void onCharacterLoaded(com.oakonell.dndcharacter.model.character.Character character) {
+    public void onCharacterLoaded(final com.oakonell.dndcharacter.model.character.Character character) {
         super.onCharacterLoaded(character);
 
         casterInfoAdapter = new CasterInfoAdapter(this, character);
@@ -97,14 +98,32 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
         add_cantrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(getCharacter(), true, SpellsFragment.this);
+                List<String> knownCantrips = new ArrayList<>();
+                for (Character.SpellLevelInfo each : character.getSpellInfos()) {
+                    if (each.getLevel() != 0) continue;
+
+                    for (Character.CharacterSpellWithSource eachSpell : each.getSpellInfos()) {
+                        knownCantrips.add(eachSpell.getSpell().getName());
+                    }
+                }
+                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(getCharacter(), true, SpellsFragment.this, knownCantrips);
                 frag.show(getFragmentManager(), ADD_CANTRIP_DIALOG);
             }
         });
         add_spell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(getCharacter(), false, SpellsFragment.this);
+                // TODO add the known spells to ignore in the search
+                List<String> knownSpells = new ArrayList<>();
+                for (Character.SpellLevelInfo each : character.getSpellInfos()) {
+                    if (each.getLevel() == 0) continue;
+
+                    for (Character.CharacterSpellWithSource eachSpell : each.getSpellInfos()) {
+                        knownSpells.add(eachSpell.getSpell().getName());
+                    }
+                }
+
+                SelectSpellDialogFragment frag = SelectSpellDialogFragment.createDialog(getCharacter(), false, SpellsFragment.this, knownSpells);
                 frag.show(getFragmentManager(), ADD_SPELL_DIALOG);
             }
         });
@@ -129,7 +148,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
                 if (spell.getLevel() == 0) {
                     titleRes = R.string.select_cantrip;
                 }
-                new AlertDialog.Builder(getContext()).setTitle(titleRes).setMessage(getString(R.string.spell_already_known, each.getName(), each.getOriginString())).setNeutralButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(getContext()).setTitle(titleRes).setMessage(getString(R.string.spell_already_known, each.getName(), each.getSourceString(getResources()))).setNeutralButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(@NonNull DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -140,10 +159,10 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
         }
 
         final CharacterSpell characterSpell = ApplySpellToCharacterVisitor.createCharacterSpell(getActivity(), spell, getCharacter());
-        characterSpell.setSource(ComponentType.CLASS);
+        characterSpell.setSource(null);
 
         final Character.CastingClassInfo info = getCharacter().getCasterClassInfoFor(owningClassName);
-        characterSpell.setOwnerName(owningClassName);
+//        characterSpell.setOwnerName(owningClassName);
 
         if (spell.getLevel() > 0) {
             if (info.usesPreparedSpells()) {

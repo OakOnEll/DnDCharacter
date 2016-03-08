@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.character.spell;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
@@ -23,7 +24,6 @@ public class CharacterSpell extends BaseCharacterComponent {
     private StatType castingStat;
     @Element(required = false)
     private ComponentType source;
-
 
     @Element(required = false)
     private int level;
@@ -250,6 +250,7 @@ public class CharacterSpell extends BaseCharacterComponent {
         this.attackType = attackType;
     }
 
+
     public String getOwnerName() {
         return ownerName;
     }
@@ -257,6 +258,7 @@ public class CharacterSpell extends BaseCharacterComponent {
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
     }
+
 
     public StatType getCastingStat() {
         return castingStat;
@@ -266,24 +268,6 @@ public class CharacterSpell extends BaseCharacterComponent {
         this.castingStat = castingStat;
     }
 
-    public void setSource(ComponentType source) {
-        this.source = source;
-    }
-
-    public ComponentType getSource() {
-        return source;
-    }
-
-    public String getOriginString() {
-        ComponentType type = getSource();
-        if (type == ComponentType.CLASS) {
-            return ownerName;
-        }
-        if (type == null) {
-            return "";
-        }
-        return type.toString();
-    }
 
     public void countsAsKnown(boolean countsAsKnown) {
         this.countsAsKnown = countsAsKnown;
@@ -291,5 +275,13 @@ public class CharacterSpell extends BaseCharacterComponent {
 
     public boolean countsAsKnown() {
         return countsAsKnown;
+    }
+
+    public void setSource(ComponentType type) {
+        this.source = type;
+    }
+
+    public ComponentType getSource() {
+        return source;
     }
 }

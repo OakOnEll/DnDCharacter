@@ -5,9 +5,9 @@
     <age>Deep gnomes are short-lived for gnomes. Theymature at the same rate humans do and are consideredfull-grown adults by 25. They live 200 to 250 years,although hard toil and the dangers of the Underdarkoften claim them before their time.</age>
     <height>A typical svirfneblin stands about 3 to three and a half feet tall.</height>
     <weight>A typical svirfneblin weighs 80 to 120 pounds.</weight>
-    <feature>
-        <name>Superior Darkvision</name>
-        <shortDescription>Within 120' can see in dim light as bright, in darkness as dim(greyscale).</shortDescription>
+    <feature extension="extend">
+        <name>Darkvision</name>
+        <shortDescription>Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 120 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
         <description></description>
     </feature>
     <feature>

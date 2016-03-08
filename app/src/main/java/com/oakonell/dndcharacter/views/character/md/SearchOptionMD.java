@@ -70,4 +70,8 @@ public class SearchOptionMD extends CategoryOptionMD {
         search.startAnimation(shake);
         text.startAnimation(shake);
     }
+
+    public String getText() {
+        return text.getText().toString();
+    }
 }

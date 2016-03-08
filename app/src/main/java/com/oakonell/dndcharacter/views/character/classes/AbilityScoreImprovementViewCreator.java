@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
@@ -69,11 +70,21 @@ public class AbilityScoreImprovementViewCreator extends AbstractComponentViewCre
 
     protected void updateStatIncreaseText(String statName, int num) {
         ViewGroup parent = getParent();
-        String string = parent.getResources().getString(R.string.increase_statname_by, statName, num);
+        int value = 0;
+        for (Character.ModifierWithSource each : getCharacter().deriveStat(EnumHelper.stringToEnum(statName, StatType.class))) {
+            if (each.getSource() != null && each.getSource().equals(getCurrentComponent())) {
+                continue;
+            }
+            value += each.getModifier();
+        }
+        int newValue = value + num;
+
+        String string = parent.getResources().getString(R.string.increase_statname_by_to, statName, num, newValue);
         final TextView text = statTextViews.get(statName);
         if (text == null) {
             throw new RuntimeException("No text view for stat named '" + statName + "' was found");
         }
+
         text.setText(" *  " + string);
 
     }

@@ -16,4 +16,6 @@ public abstract class CategoryOptionMD extends OptionMD<CategoryChoicesMD> {
     public abstract boolean isPopulated();
 
     public abstract void showRequiredError(ViewGroup dynamicView);
+
+    public abstract String getText();
 }

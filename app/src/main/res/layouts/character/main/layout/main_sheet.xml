@@ -131,6 +131,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/death_save_layout"
 
                 style="@style/hitpoints_style"

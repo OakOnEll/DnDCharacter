@@ -341,7 +341,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     if (overrideChoices != null) {
                         addSubclassTextView(dynamic);
                     }
-                    final ChooseMDTreeNode treeNode = visitor.appendToLayout(getMainActivity(), dynamic, getClassLevel(), rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices);
+                    final ChooseMDTreeNode treeNode = visitor.appendToLayout(getMainActivity(), dynamic, getClassLevel(), rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices,getCharacterClass());
                     if (overrideChoices != null) {
                         subclassChooseMDs = treeNode;
                         return new RootChoiceMDNode();

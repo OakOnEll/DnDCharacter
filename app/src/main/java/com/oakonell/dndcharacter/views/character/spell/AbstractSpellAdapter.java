@@ -19,7 +19,7 @@ import java.util.List;
  */
 public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.AbstractSpellViewHolder> extends RecyclerView.Adapter<AbstractSpellAdapter.AbstractSpellViewHolder> {
     private final SpellsFragment context;
-    List<CharacterSpell> spellInfos;
+    List<Character.CharacterSpellWithSource> spellInfos;
 
     AbstractSpellAdapter(SpellsFragment context, @NonNull Character.SpellLevelInfo spellLevelInfo) {
         this.context = context;
@@ -33,7 +33,7 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
 
     @Override
     public void onBindViewHolder(@NonNull AbstractSpellViewHolder holder, int position) {
-        CharacterSpell spellInfo = spellInfos.get(position);
+        Character.CharacterSpellWithSource spellInfo = spellInfos.get(position);
         holder.bind(context, this, spellInfo);
     }
 
@@ -42,7 +42,7 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
         return spellInfos.size();
     }
 
-    public static class AbstractSpellViewHolder extends BindableComponentViewHolder<CharacterSpell, SpellsFragment, AbstractSpellAdapter<?>> {
+    public static class AbstractSpellViewHolder extends BindableComponentViewHolder<Character.CharacterSpellWithSource, SpellsFragment, AbstractSpellAdapter<?>> {
         @NonNull
         private final TextView name;
         @NonNull
@@ -61,24 +61,24 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
         }
 
         @Override
-        public void bind(@NonNull final SpellsFragment context, @NonNull final AbstractSpellAdapter adapter, @NonNull final CharacterSpell info) {
-            name.setText(info.getName());
-            school.setText(info.getSchool());
-            source.setText(info.getOriginString());
+        public void bind(@NonNull final SpellsFragment context, @NonNull final AbstractSpellAdapter adapter, @NonNull final Character.CharacterSpellWithSource info) {
+            name.setText(info.getSpell().getName());
+            school.setText(info.getSpell().getSchool());
+            source.setText(info.getSourceString(context.getResources()));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // launch spell cast dialog
-                    SpellDialogFragment dialog = SpellDialogFragment.create(info);
+                    SpellDialogFragment dialog = SpellDialogFragment.create(info.getSpell());
                     dialog.show(context.getFragmentManager(), "spell");
                 }
             });
-            if (info.getSource() == ComponentType.CLASS || info.getSource() == null) {
+            if (info.getSource() == null || info.getSource().getType() == ComponentType.CLASS) {
                 delete.setVisibility(View.VISIBLE);
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.getCharacter().deleteSpell(info);
+                        context.getCharacter().deleteSpell(info.getSpell());
                         adapter.notifyDataSetChanged();
                         context.updateViews();
                         context.getMainActivity().saveCharacter();
