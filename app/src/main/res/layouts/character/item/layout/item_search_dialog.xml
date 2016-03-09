@@ -21,6 +21,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/limit_to_proficient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Limit to Items Proficient with"/>
 
 
             <com.oakonell.dndcharacter.views.MyEditText

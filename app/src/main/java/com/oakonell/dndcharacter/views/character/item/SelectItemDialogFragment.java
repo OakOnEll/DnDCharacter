@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.activeandroid.Model;
@@ -49,6 +51,7 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
     private ItemSelectedListener listener;
     private ItemType itemType;
     private NoDefaultSpinner itemTypeSpinner;
+    AppCompatCheckBox limit_to_proficient;
 
     private ArrayList<String> catList = new ArrayList<>();
     private ArrayList<String> nameList = new ArrayList<>();
@@ -108,6 +111,14 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
         float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (prompt.length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, itemTypeSpinner.getResources().getDisplayMetrics());
         itemTypeSpinner.setMinimumWidth((int) minWidth);
 
+        limit_to_proficient = (AppCompatCheckBox) view.findViewById(R.id.limit_to_proficient);
+        limit_to_proficient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                search();
+            }
+        });
+
         List<String> itemTypes = new ArrayList<>();
         for (ItemType each : ItemType.values()) {
             itemTypes.add(getString(each.getStringResId()));
@@ -164,9 +175,52 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
     @Override
     protected String getSelection() {
         if (itemTypeSpinner == null) return null;
+
+        String itemTypeFilter = "";
         int index = itemTypeSpinner.getSelectedItemPosition();
-        if (index < 0) return null;
-        return " itemType = ?";
+        if (index >= 0) {
+            itemTypeFilter = " itemType = ?";
+        }
+
+        String proficientFilter = "";
+        if (limit_to_proficient.isChecked()) {
+            StringBuilder builder = new StringBuilder();
+            if (nameList != null) {
+                builder.append(" and (upper(name) in (");
+                boolean first = true;
+                for (String name : nameList) {
+                    if (!first) builder.append(",");
+                    builder.append("'");
+                    builder.append(name.replaceAll("'", "''"));
+                    builder.append("'");
+                    first = false;
+                }
+                builder.append(")");
+            }
+            if (catList != null) {
+                if (nameList != null) {
+                    builder.append(" or ");
+                } else {
+                    builder.append(" and ");
+                }
+                builder.append(" upper(category) in (");
+                boolean first = true;
+                for (String category : catList) {
+                    if (!first) builder.append(",");
+                    builder.append("'");
+                    builder.append(category.replaceAll("'", "''"));
+                    builder.append("'");
+                    first = false;
+                }
+                builder.append(")");
+            }
+            if (nameList != null) {
+                builder.append(")");
+            }
+            proficientFilter = builder.toString();
+        }
+
+        return itemTypeFilter + proficientFilter;
     }
 
     @Nullable
