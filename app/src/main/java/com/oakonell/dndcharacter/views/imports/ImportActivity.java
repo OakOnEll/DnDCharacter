@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.views.imports;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -114,72 +116,111 @@ public class ImportActivity extends AppCompatActivity {
 
     }
 
-    private void importRows() {
-        Toast.makeText(this, "ToDo import the selected rows ", Toast.LENGTH_SHORT).show();
-
+    private static class ImportResult {
         int failed = 0;
         int updated = 0;
         int added = 0;
 
-        int position = 0;
-        for (ImportRow each : importRows) {
-            if (!each.shouldImport) continue;
+    }
 
-            boolean success = true;
-            Class<? extends AbstractComponentModel> modelClass;
+    private void importRows() {
+        Toast.makeText(this, "ToDo import the selected rows ", Toast.LENGTH_SHORT).show();
 
-            switch (each.type.toLowerCase()) {
-                case "background":
-                    modelClass = Background.class;
-                    break;
-                case "class":
-                    modelClass = AClass.class;
-                    break;
-                case "race":
-                    modelClass = Race.class;
-                    break;
-                case "item":
-                    modelClass = ItemRow.class;
-                    break;
-                case "effect":
-                    modelClass = Effect.class;
-                    break;
-                case "spell":
-                    modelClass = Spell.class;
-                    break;
-                case "feat":
-                    modelClass = Feat.class;
-                    break;
-                default:
-                    each.message = "Not imported. Type not handled";
-                    modelClass = null;
-                    failed++;
-                    success = false;
-            }
+        final ProgressDialog barProgressDialog = new ProgressDialog(this);
+        barProgressDialog.setTitle("Importing ...");
+        barProgressDialog.setMessage("Importing in progress ...");
+        barProgressDialog.setProgressStyle(barProgressDialog.STYLE_HORIZONTAL);
+        barProgressDialog.setProgress(0);
+        barProgressDialog.setMax(importRows.size());
+        barProgressDialog.show();
+        barProgressDialog.setCancelable(false);
 
-            if (success) {
-                try {
-                    AbstractComponentModel model = new Select().from(modelClass).where("name = ?", each.name).executeSingle();
-                    boolean isUpdated = true;
-                    if (model == null) {
-                        model = modelClass.newInstance();
-                        isUpdated = false;
+        AsyncTask<Void, Integer, ImportResult> task = new AsyncTask<Void, Integer, ImportResult>() {
+            @Override
+            protected ImportResult doInBackground(Void... params) {
+                ImportResult result = new ImportResult();
+                int position = 0;
+                for (ImportRow each : importRows) {
+                    if (!each.shouldImport) continue;
+
+                    boolean success = true;
+                    Class<? extends AbstractComponentModel> modelClass;
+
+                    switch (each.type.toLowerCase()) {
+                        case "background":
+                            modelClass = Background.class;
+                            break;
+                        case "class":
+                            modelClass = AClass.class;
+                            break;
+                        case "race":
+                            modelClass = Race.class;
+                            break;
+                        case "item":
+                            modelClass = ItemRow.class;
+                            break;
+                        case "effect":
+                            modelClass = Effect.class;
+                            break;
+                        case "spell":
+                            modelClass = Spell.class;
+                            break;
+                        case "feat":
+                            modelClass = Feat.class;
+                            break;
+                        default:
+                            each.message = "Not imported. Type not handled";
+                            modelClass = null;
+                            result.failed++;
+                            success = false;
                     }
-                    model.setDocumentAndSave(each.element);
-                    if (isUpdated) {
-                        updated++;
-                    } else {
-                        added++;
+
+                    if (success) {
+                        try {
+                            AbstractComponentModel model = new Select().from(modelClass).where("name = ?", each.name).executeSingle();
+                            boolean isUpdated = true;
+                            if (model == null) {
+                                model = modelClass.newInstance();
+                                isUpdated = false;
+                            }
+                            model.setDocumentAndSave(each.element);
+                            if (isUpdated) {
+                                result.updated++;
+                            } else {
+                                result.added++;
+                            }
+                            each.imported = true;
+                        } catch (Exception e) {
+                            result.failed++;
+                            each.message = "Error importing. " + e.getMessage();
+                        }
                     }
-                    each.imported = true;
-                } catch (Exception e) {
-                    failed++;
-                    each.message = "Error importing. " + e.getMessage();
+                    final int finalPosition = position;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            listAdapter.notifyItemChanged(finalPosition);
+                        }
+                    });
+                    position++;
+                    publishProgress(position);
                 }
+                return result;
             }
-            listAdapter.notifyItemChanged(position);
-            position++;
-        }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                barProgressDialog.setProgress(values[0]);
+            }
+
+            @Override
+            protected void onPostExecute(ImportResult importResult) {
+                barProgressDialog.dismiss();
+            }
+        };
+        task.execute();
+
+
     }
 
     @Override
