@@ -65,7 +65,7 @@
         </feature>
         <feature>
             <name>Unarmored Defence</name>
-            <condition>!armor</condition>
+            <condition>NOT armor</condition>
             <ac>=10 + dexterityMod + constitutionMod</ac>
             <shortDescription>While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.</shortDescription>
             <context>ARMOR_CLASS</context>

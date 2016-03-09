@@ -103,7 +103,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         }
         for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
             if (!each.isArmor()) continue;
-            ((CharacterArmor) each.getSource()).setEquipped(getResources(),getCharacter(), each.isEquipped());
+            ((CharacterArmor) each.getSource()).setEquipped(getResources(), getCharacter(), each.isEquipped());
         }
         return super.onDone();
     }
@@ -249,42 +249,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     row.setIsEquipped(isChecked);
-                    Character.ArmorClassWithSource selected = null;
-                    int selectedIndex = -1;
-                    if (isChecked) {
-                        selected = row;
-                        int index = -1;
-                        for (Character.ArmorClassWithSource other : list) {
-                            index++;
-                            if (other == row) {
-                                selectedIndex = index;
-                                continue;
-                            }
-                            if (!other.isEquipped()) continue;
-                            other.setIsEquipped(false);
-                            other.isDisabled = false;
-                            adapter.notifyItemChanged(index);
-                        }
-                    } else {
-                        int index = -1;
-                        for (Character.ArmorClassWithSource other : list) {
-                            index++;
-                            if (other == row) continue;
-                            if (other.isDisabled) continue;
-                            selected = other;
-                            selectedIndex = index;
-                            other.setIsEquipped(true);
-                            //other.isDisabled = true;
-                            adapter.notifyItemChanged(index);
-                            break;
-                        }
-
-                    }
-                    if (selected != null) {
-                        selected.isDisabled = !selected.isArmor();
-                        adapter.notifyItemChanged(selectedIndex);
-                        context.updateModifyingRows(selected.isArmor());
-                    }
+                    adapter.updateDueToAChange();
                     context.updateAC();
                     // update other list items
                 }
@@ -312,6 +277,12 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
         public void reloadList(@NonNull Character character) {
             list = character.deriveRootAcs();
+            notifyDataSetChanged();
+        }
+
+        public void updateDueToAChange() {
+            Character.modifyRootAcs(fragment.getCharacter(), fragment.modifyingAcAdapter.list, list);
+            notifyDataSetChanged();
         }
 
         @NonNull
@@ -343,7 +314,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         public void reloadList(@NonNull Character character) {
-            list = character.deriveRootAcs();
+            list = character.deriveModifyingAcs();
         }
 
         @NonNull
@@ -368,6 +339,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
                     row.setIsEquipped(isChecked);
                     fragment.updateAC();
                     // update other list items, and calculate and update ac on this dialog
+                    fragment.rootAcAdapter.updateDueToAChange();
                 }
             });
 

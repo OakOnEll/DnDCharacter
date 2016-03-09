@@ -74,4 +74,8 @@ public class CharacterArmor extends CharacterItem {
         character.addEffect(effect);
     }
 
+    public boolean isShield() {
+        // TODO perhaps shield should be a property, to allow different named shield items
+        return getName().toUpperCase().contains("SHIELD");
+    }
 }

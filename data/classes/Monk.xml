@@ -51,7 +51,7 @@
         <feature>
             <name>Unarmored Defense</name>
             <!-- TODO introduce shield variable as well -->
-            <condition>!armor</condition>
+            <condition>NOT armor AND NOT shield</condition>
             <ac>=10 + dexterityMod + wisdomMod</ac>
             <shortDescription>While you are wearing no armor and not wielding a shield, your Armor Class equals 10 + your Dexterity modifier + your Wisdom modifier.</shortDescription>
             <context>ARMOR_CLASS</context>
@@ -96,7 +96,7 @@
             <!-- TODO handle incremental -->
             <speed>+10</speed>
             <!-- TODO introduce shield variable as well -->
-            <condition>!armor</condition>
+            <condition>NOT armor AND NOT shield</condition>
             <context>SPEED</context>
         </feature>
     </level>

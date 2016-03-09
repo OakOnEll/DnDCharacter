@@ -565,6 +565,14 @@ public class Character {
 
     @NonNull
     public List<ArmorClassWithSource> deriveRootAcs() {
+        final List<ArmorClassWithSource> modifyingAcs = deriveModifyingAcs();
+        final List<ArmorClassWithSource> rootAcs = deriveRootAcs(modifyingAcs);
+        modifyRootAcs(this, modifyingAcs, rootAcs);
+        return rootAcs;
+    }
+
+
+    public List<ArmorClassWithSource> deriveRootAcs(List<ArmorClassWithSource> modifyingAcs) {
         List<ArmorClassWithSource> result = new ArrayList<>();
         String baseFormula = "10 + dexterityMod";
         int baseValue = evaluateFormula(baseFormula, null);
@@ -582,6 +590,7 @@ public class Character {
                     each.getSource().addExtraFormulaVariables(variableContext, this);
                     int value = evaluateFormula(acFormula, variableContext);
                     ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each);
+
                     result.add(featureAc);
                 }
             }
@@ -606,43 +615,99 @@ public class Character {
                 return lv < rv ? -1 : (lv == rv ? 0 : 1);
             }
         });
-        int max = result.size() - 1;
-        for (int i = 0; i + 1 < result.size(); i++) {
-            ArmorClassWithSource each = result.get(i);
-            each.isDisabled = true;
-        }
-        ArmorClassWithSource noArmorRow = result.get(max);
-
 
         // go through items
-        boolean hasAny = false;
         for (CharacterArmor each : getArmor()) {
             if (!each.isBaseArmor()) continue;
 
             String formula = each.getBaseAcFormula();
             if (formula != null) {
                 int value = evaluateFormula(formula, null);
-
                 ArmorClassWithSource featureAc = new ArmorClassWithSource(formula, value, each);
-                if (featureAc.isEquipped()) {
-                    hasAny = true;
-                }
                 result.add(featureAc);
             }
         }
-        if (!hasAny) {
+
+        return result;
+    }
+
+
+    public static void modifyRootAcs(Character character, List<ArmorClassWithSource> modifyingAcs, List<ArmorClassWithSource> rootAcs) {
+        boolean usingShield = false;
+        boolean wearingArmor = false;
+        for (ArmorClassWithSource each : modifyingAcs) {
+            if (each.isEquipped() && each.isArmor() && ((CharacterArmor) each.getSource()).isShield()) {
+                usingShield = true;
+            }
+
+        }
+        // go through items
+        for (ArmorClassWithSource each : rootAcs) {
+            each.isDisabled = false;
+            if (!each.isArmor()) {
+                each.isEquipped = false;
+                continue;
+            }
+
+            String formula = each.getFormula();
+            if (formula != null) {
+                if (each.isEquipped()) {
+                    wearingArmor = true;
+                }
+            }
+        }
+
+
+        for (ArmorClassWithSource each : rootAcs) {
+            if (each.getSource() == null) continue;
+            if (each.isArmor()) {
+                continue;
+            }
+            final ComponentSource source = each.getSource();
+            String activeFormula = source.getActiveFormula();
+            if (activeFormula != null) {
+                SimpleVariableContext variableContext = new SimpleVariableContext();
+//                source.addExtraFormulaVariables(variableContext, character);
+                variableContext.setBoolean("armor", wearingArmor);
+                variableContext.setBoolean("shield", usingShield);
+
+                boolean isActive = character.evaluateBooleanFormula(activeFormula, variableContext);
+                each.isDisabled = !isActive;
+            } else {
+                each.isDisabled = false;
+            }
+        }
+
+
+        Collections.sort(rootAcs, new Comparator<ArmorClassWithSource>() {
+            @Override
+            public int compare(@NonNull ArmorClassWithSource lhs, @NonNull ArmorClassWithSource rhs) {
+                int lv = lhs.getValue();
+                int rv = rhs.getValue();
+                return lv < rv ? -1 : (lv == rv ? 0 : 1);
+            }
+        });
+        ArmorClassWithSource noArmorRow = null;
+        for (int i = 0; i < rootAcs.size(); i++) {
+            ArmorClassWithSource each = rootAcs.get(i);
+            if (each.isArmor()) continue;
+            if (each.isDisabled) continue;
+            noArmorRow = each;
+            each.isDisabled = true;
+        }
+
+        if (!wearingArmor) {
             noArmorRow.setIsEquipped(true);
             noArmorRow.isDisabled = true;
         }
 
-
-        return result;
     }
 
     @NonNull
     public List<ArmorClassWithSource> deriveModifyingAcs() {
         final List<ArmorClassWithSource> result = new ArrayList<>();
 
+        boolean usingShield = false;
         boolean wearingArmor = false;
         for (CharacterArmor each : getArmor()) {
             if (each.isBaseArmor()) {
@@ -650,10 +715,15 @@ public class Character {
                     wearingArmor = true;
                     break;
                 }
+            } else if (each.isShield()) {
+                if (each.isEquipped()) {
+                    usingShield = true;
+                    break;
+                }
             }
         }
         final boolean isWearingArmor = wearingArmor;
-
+        final boolean isUsingShield = usingShield;
         // multiple here will really just take the highest ?? at runtime
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             @Override
@@ -665,6 +735,7 @@ public class Character {
 
                 SimpleVariableContext variableContext = new SimpleVariableContext();
                 variableContext.setBoolean("armor", isWearingArmor);
+                variableContext.setBoolean("shield", isUsingShield);
                 component.addExtraFormulaVariables(variableContext, Character.this);
 
                 int value = evaluateFormula(acFormula, variableContext);
@@ -676,56 +747,25 @@ public class Character {
                     boolean isActive = evaluateBooleanFormula(activeFormula, variableContext);
                     featureAc.setIsEquipped(isActive);
                 } else {
-                    featureAc.setIsEquipped(true);
+                    if (component instanceof CharacterArmor) {
+                        featureAc.setIsEquipped(((CharacterArmor) component).isEquipped());
+                    } else {
+                        featureAc.setIsEquipped(true);
+                    }
                 }
-                featureAc.isDisabled = true;
-
-
-//
-//                for (FeatureInfo each : component.getFeatures(Character.this)) {
-//                    if (each.getFeature().isBaseArmor()) continue;
-//
-//
-//                    String acFormula = each.getFeature().getModifyingAcFormula();
-//                    if (acFormula == null) continue;
-//
-//
-//                    SimpleVariableContext variableContext = new SimpleVariableContext();
-//                    variableContext.setBoolean("armor", isWearingArmor);
-//                    each.getSource().addExtraFormulaVariables(variableContext);
-//
-//                    int value = evaluateFormula(acFormula, variableContext);
-//                    ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each.getFeature());
-//                    result.add(featureAc);
-//
-//                    String activeFormula = each.getFeature().getActiveFormula();
-//                    if (activeFormula != null) {
-//                        boolean isActive = evaluateBooleanFormula(activeFormula, variableContext);
-//                        featureAc.setIsEquipped(isActive);
-//                    }
-//                    featureAc.isDisabled = true;
-//                }
+                if (component instanceof Feature) {
+                    featureAc.isDisabled = true;
+                }
             }
         };
         deriver.derive(this, "AC modifiers");
-//        for (CharacterClass eachClass : classes) {
-//        }
-        // go through items
-        for (CharacterArmor each : getArmor()) {
-            if (each.isBaseArmor()) continue;
 
-            String formula = each.getModifyingAcFormula();
-            if (formula != null) {
-                int value = evaluateFormula(formula, null);
-                ArmorClassWithSource acMod = new ArmorClassWithSource(formula, value, each);
-                result.add(acMod);
-            }
-        }
 
         return result;
     }
 
     public int getArmorClass() {
+        List<ArmorClassWithSource> modifiers = deriveModifyingAcs();
         List<ArmorClassWithSource> roots = deriveRootAcs();
         ArmorClassWithSource activeRoot = null;
         for (ArmorClassWithSource each : roots) {
@@ -743,7 +783,6 @@ public class Character {
         int ac = activeRoot.getValue();
         int addition = 0;
 
-        List<ArmorClassWithSource> modifiers = deriveModifyingAcs();
         for (ArmorClassWithSource each : modifiers) {
             if (each.isEquipped()) {
                 addition += each.getValue();
