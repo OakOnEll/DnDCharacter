@@ -8,16 +8,24 @@
     android:orientation="vertical">
 
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:maxLines="1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            tools:text="Medium Text" />
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:text="Medium Text" />
+    <TextView
+        android:visibility="gone"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/not_proficient"
+        android:text="@string/not_proficient"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,9 +33,9 @@
 
         <TextView
             android:id="@+id/category"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:lines="1"
             android:maxLines="1"
@@ -54,7 +62,6 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             tools:text="50gp" />
     </LinearLayout>
-
 
 
     <TextView

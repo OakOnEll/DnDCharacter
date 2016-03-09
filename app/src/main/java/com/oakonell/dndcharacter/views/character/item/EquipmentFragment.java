@@ -255,17 +255,17 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     private void addWeapon() {
-        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.WEAPON);
+        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.WEAPON, getCharacter().deriveToolProficiencies(ProficiencyType.WEAPON));
         dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 
     private void addArmor() {
-        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.ARMOR);
+        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.ARMOR, getCharacter().deriveToolProficiencies(ProficiencyType.ARMOR));
         dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 
     private void addEquipment() {
-        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), null);
+        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), null, null);
         dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 

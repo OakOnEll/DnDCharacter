@@ -44,9 +44,14 @@ import java.util.List;
 public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragment<AbstractSelectComponentDialogFragment.RowViewHolder> {
 
     private static final String ITEM_TYPE = "itemType";
+    private static final String CATEGORY_PROFICIENCIES = "category_proficiencies";
+    private static final String NAME_PROFICIENCIES = "name_proficiencies";
     private ItemSelectedListener listener;
     private ItemType itemType;
     private NoDefaultSpinner itemTypeSpinner;
+
+    private ArrayList<String> catList = new ArrayList<>();
+    private ArrayList<String> nameList = new ArrayList<>();
 
     public void setListener(ItemSelectedListener listener) {
         this.listener = listener;
@@ -57,14 +62,28 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
     }
 
     @NonNull
-    public static SelectItemDialogFragment createDialog(@NonNull ItemSelectedListener listener, ItemType itemType) {
+    public static SelectItemDialogFragment createDialog(@NonNull ItemSelectedListener listener, ItemType itemType, List<Character.ToolProficiencyWithSource> proficiencies) {
         SelectItemDialogFragment dialog = new SelectItemDialogFragment();
 
+        Bundle args = new Bundle();
         if (itemType != null) {
-            Bundle args = new Bundle();
             args.putString(ITEM_TYPE, itemType.name());
-            dialog.setArguments(args);
         }
+        if (proficiencies != null) {
+            ArrayList<String> catList = new ArrayList<>();
+            ArrayList<String> nameList = new ArrayList<>();
+            for (Character.ToolProficiencyWithSource each : proficiencies) {
+                if (each.getProficiency().getCategory() != null) {
+                    catList.add(each.getProficiency().getCategory().toUpperCase());
+                } else {
+                    nameList.add(each.getProficiency().getName().toUpperCase());
+                }
+            }
+            args.putStringArrayList(CATEGORY_PROFICIENCIES, catList);
+            args.putStringArrayList(NAME_PROFICIENCIES, nameList);
+        }
+        dialog.setArguments(args);
+
         dialog.setListener(listener);
         return dialog;
     }
@@ -78,6 +97,8 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
             if (itemTypeString != null && itemTypeString.trim().length() > 0) {
                 itemType = EnumHelper.stringToEnum(itemTypeString, ItemType.class);
             }
+            catList = getArguments().getStringArrayList(CATEGORY_PROFICIENCIES);
+            nameList = getArguments().getStringArrayList(NAME_PROFICIENCIES);
         }
 
 
@@ -177,12 +198,14 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
         private final TextView itemTypeView;
         private final TextView categoryView;
         private final TextView costView;
+        private final TextView not_proficient;
 
         public ItemRowViewHolder(@NonNull View itemView) {
             super(itemView);
             itemTypeView = (TextView) itemView.findViewById(R.id.item_type);
             categoryView = (TextView) itemView.findViewById(R.id.category);
             costView = (TextView) itemView.findViewById(R.id.cost);
+            not_proficient = (TextView) itemView.findViewById(R.id.not_proficient);
         }
 
         @Override
@@ -197,7 +220,23 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
             if (SelectItemDialogFragment.this.itemType != null) {
                 itemTypeView.setVisibility(View.GONE);
             }
-
+            if (catList != null || nameList != null) {
+                boolean prof = false;
+                final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
+                if (catList != null && category != null && catList.contains(category.toUpperCase())) {
+                    prof = true;
+                }
+                if (nameList != null && nameList.contains(nameString.toUpperCase())) {
+                    prof = true;
+                }
+                if (prof) {
+                    not_proficient.setVisibility(View.GONE);
+                } else {
+                    not_proficient.setVisibility(View.VISIBLE);
+                }
+            } else {
+                not_proficient.setVisibility(View.GONE);
+            }
             itemTypeView.setText(typeString);
             categoryView.setText(category);
             costView.setText(cost);
