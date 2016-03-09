@@ -235,6 +235,44 @@ public class ExpressionTest {
         assertTrue(expression.evaluate());
     }
 
+    @Test
+    public void testLogicalNotWithAnd() {
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        // single
+        Expression<Boolean> expression = Expression.parse("NOT false", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertTrue(expression.evaluate());
+
+        expression = Expression.parse("NOT true", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertFalse(expression.evaluate());
+
+        // or'd
+        expression = Expression.parse("NOT false OR NOT false", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertTrue(expression.evaluate());
+
+        expression = Expression.parse("NOT false OR NOT true", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertTrue(expression.evaluate());
+
+        expression = Expression.parse("NOT true OR NOT false", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertTrue(expression.evaluate());
+
+        expression = Expression.parse("NOT true OR NOT true", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertFalse(expression.evaluate());
+
+        // and'd
+        expression = Expression.parse("NOT false AND NOT false", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertTrue(expression.evaluate());
+
+        expression = Expression.parse("NOT true AND NOT false", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertFalse(expression.evaluate());
+
+        expression = Expression.parse("NOT false AND NOT true", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertFalse(expression.evaluate());
+
+        expression = Expression.parse("NOT true AND NOT true", ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertFalse(expression.evaluate());
+
+    }
+
 
     @Test
     public void testInequalityOrLogical() {

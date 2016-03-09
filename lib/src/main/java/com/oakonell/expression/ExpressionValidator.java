@@ -141,7 +141,7 @@ class ExpressionValidator extends ExpressionBaseVisitor<ExpressionType<?>> {
     @Override
     public ExpressionType<?> visitLogicalNot(ExpressionParser.LogicalNotContext ctx) {
         ExpressionType<?> lhs = visit(ctx.genericExpression());
-        if (!lhs.isNumber()) {
+        if (!lhs.isBoolean()) {
             reportError(ctx.genericExpression(), lhs, "Logical Not expression should be a boolean");
         }
         return lhs;
