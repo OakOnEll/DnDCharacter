@@ -8,3 +8,8 @@ boot
  https://thenounproject.com/search/?q=boot&i=110413
 cube
  https://thenounproject.com/search/?q=dice&i=6887
+
+skull
+  https://thenounproject.com/search/?q=skull&i=12740
+  By Andrea Torres Morales, CL
+
