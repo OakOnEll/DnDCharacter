@@ -111,14 +111,6 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
         float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (prompt.length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, itemTypeSpinner.getResources().getDisplayMetrics());
         itemTypeSpinner.setMinimumWidth((int) minWidth);
 
-        limit_to_proficient = (AppCompatCheckBox) view.findViewById(R.id.limit_to_proficient);
-        limit_to_proficient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                search();
-            }
-        });
-
         List<String> itemTypes = new ArrayList<>();
         for (ItemType each : ItemType.values()) {
             itemTypes.add(getString(each.getStringResId()));
@@ -128,6 +120,16 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
                 R.layout.large_spinner_text, itemTypes);
         dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
         itemTypeSpinner.setAdapter(dataAdapter);
+
+
+        limit_to_proficient = (AppCompatCheckBox) view.findViewById(R.id.limit_to_proficient);
+        limit_to_proficient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                search();
+            }
+        });
+
 
         if (itemType != null) {
             int index = itemTypes.indexOf(getString(itemType.getStringResId()));
