@@ -133,6 +133,9 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
             int index = itemTypes.indexOf(getString(itemType.getStringResId()));
             itemTypeSpinner.setSelection(index);
             itemTypeSpinner.setEnabled(false);
+            if (itemType == ItemType.EQUIPMENT) {
+                limit_to_proficient.setVisibility(View.GONE);
+            }
         } else {
             itemTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override

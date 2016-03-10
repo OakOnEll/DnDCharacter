@@ -265,7 +265,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     private void addEquipment() {
-        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), null, null);
+        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.EQUIPMENT, null);
         dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 
