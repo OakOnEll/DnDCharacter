@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -45,8 +47,10 @@ public class MainFragment extends AbstractSheetFragment {
     TextView hp;
     View temp_hp_layout;
     View death_saves_layout;
+    View stable;
     ViewGroup fail_layout;
     ViewGroup success_layout;
+    Button stabilize;
 
     View hp_layout;
 
@@ -68,7 +72,11 @@ public class MainFragment extends AbstractSheetFragment {
         death_saves_layout = rootView.findViewById(R.id.death_save_layout);
         fail_layout = (ViewGroup) rootView.findViewById(R.id.fail_layout);
         success_layout = (ViewGroup) rootView.findViewById(R.id.success_layout);
+        stabilize = (Button) rootView.findViewById(R.id.stabilize);
+        stable = rootView.findViewById(R.id.stable);
+
         hp_layout = rootView.findViewById(R.id.hp_layout);
+
 
         hitDice = (TextView) rootView.findViewById(R.id.hit_dice);
         proficiency = (TextView) rootView.findViewById(R.id.proficiency);
@@ -220,40 +228,43 @@ public class MainFragment extends AbstractSheetFragment {
         } else {
             temp_hp_layout.setVisibility(View.GONE);
         }
-        if (character.getHP() == 0 && character.getMaxHP() > 0) {
+        if (character.getHP() <= 0 && !character.isStable() && character.getMaxHP() > 0) {
             death_saves_layout.setVisibility(View.VISIBLE);
             hp_layout.setVisibility(View.GONE);
-            ((CheckBox) rootView.findViewById(R.id.fail1)).setChecked(character.getDeathSaveFails() >= 1);
-            ((CheckBox) rootView.findViewById(R.id.fail2)).setChecked(character.getDeathSaveFails() >= 2);
-            ((CheckBox) rootView.findViewById(R.id.fail3)).setChecked(character.getDeathSaveFails() >= 3);
+            ((ImageView) rootView.findViewById(R.id.fail1)).setVisibility(character.getDeathSaveFails() >= 1 ? View.VISIBLE : View.INVISIBLE);
+            ((ImageView) rootView.findViewById(R.id.fail2)).setVisibility(character.getDeathSaveFails() >= 2 ? View.VISIBLE : View.INVISIBLE);
+            ((ImageView) rootView.findViewById(R.id.fail3)).setVisibility(character.getDeathSaveFails() >= 3 ? View.VISIBLE : View.INVISIBLE);
 
 
-            ((CheckBox) rootView.findViewById(R.id.success1)).setChecked(character.getDeathSaveSuccesses() >= 1);
-            ((CheckBox) rootView.findViewById(R.id.success2)).setChecked(character.getDeathSaveSuccesses() >= 2);
-            ((CheckBox) rootView.findViewById(R.id.success3)).setChecked(character.getDeathSaveSuccesses() >= 3);
+            ((ImageView) rootView.findViewById(R.id.success1)).setVisibility(character.getDeathSaveSuccesses() >= 1 ? View.VISIBLE : View.INVISIBLE);
+            ((ImageView) rootView.findViewById(R.id.success2)).setVisibility(character.getDeathSaveSuccesses() >= 2 ? View.VISIBLE : View.INVISIBLE);
+            ((ImageView) rootView.findViewById(R.id.success3)).setVisibility(character.getDeathSaveSuccesses() >= 3 ? View.VISIBLE : View.INVISIBLE);
 
-
-            fail_layout.setOnClickListener(new View.OnClickListener() {
+            stabilize.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    character.failDeathSave();
-                    getMainActivity().updateViews();
-                    getMainActivity().saveCharacter();
-                }
-            });
-            success_layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    character.passDeathSave();
+                    character.stabilize();
                     getMainActivity().updateViews();
                     getMainActivity().saveCharacter();
                 }
             });
 
+            death_saves_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DeathSaveDialogFragment dialog = DeathSaveDialogFragment.create();
+                    dialog.show(getFragmentManager(), "death_save");
+                }
+            });
 
         } else {
             death_saves_layout.setVisibility(View.GONE);
             hp_layout.setVisibility(View.VISIBLE);
+            if (character.getHP() == 0 && character.isStable()) {
+                stable.setVisibility(View.VISIBLE);
+            } else {
+                stable.setVisibility(View.GONE);
+            }
         }
 
         hitDice.setText(character.getHitDiceString());

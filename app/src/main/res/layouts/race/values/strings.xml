@@ -43,4 +43,12 @@
     <string name="death_saves">Death Saves</string>
     <string name="failures">Failures</string>
     <string name="successes">Successes</string>
+    <string name="death_save_roll">Death Save Roll</string>
+    <string name="death_save_critical_failure">[1] Critical Failure (Two Failures)</string>
+    <string name="death_save_failure">[2-9] Fail</string>
+    <string name="death_save_pass">[10-19] Pass</string>
+    <string name="death_save_critical_pass">[20] Critical Pass (stabilize to 1HP)</string>
+    <string name="death_save_prompt">[Death Save Result]</string>
+    <string name="stabilize">Stabilize</string>
+    <string name="stable">(Stable)</string>
 </resources>

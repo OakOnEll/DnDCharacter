@@ -9,20 +9,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+        <TextView
+            android:id="@+id/death_save_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:text="@string/death_saves" />
+
+        <!--<Button-->
+            <!--android:id="@+id/roll"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toLeftOf="@id/death_save_label"-->
+            <!--android:text="@string/roll" />-->
+
         <Button
+            android:id="@+id/stabilize"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stabilize"
-            android:id="@+id/stabilize"
-             />
-
-        <TextView
-            android:layout_alignParentTop="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/death_saves" />
+            android:layout_toRightOf="@id/death_save_label"
+            android:text="@string/stabilize" />
     </RelativeLayout>
 
     <LinearLayout
@@ -44,23 +54,26 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/fail1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false" />
+                android:enabled="false"
+                android:src="@drawable/skull_crossbones" />
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/fail2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false" />
+                android:enabled="false"
+                android:src="@drawable/skull_crossbones" />
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/fail3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false" />
+                android:enabled="false"
+                android:src="@drawable/skull_crossbones" />
 
         </LinearLayout>
     </LinearLayout>
@@ -84,23 +97,26 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/success1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false" />
+                android:enabled="false"
+                android:src="@drawable/check_heart" />
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/success2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false" />
+                android:enabled="false"
+                android:src="@drawable/check_heart" />
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/success3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false" />
+                android:enabled="false"
+                android:src="@drawable/check_heart" />
         </LinearLayout>
     </LinearLayout>
 

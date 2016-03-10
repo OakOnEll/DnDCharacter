@@ -177,6 +177,12 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
 
         total += modifier;
         totalText.setText(NumberUtils.formatNumber(total));
+
+        rollResult(total);
+    }
+
+    protected void rollResult(int total) {
+
     }
 
     private int getTextViewInteger(@NonNull TextView textView) {

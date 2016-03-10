@@ -151,11 +151,13 @@ public class Character {
 
     @Element(required = false)
     private SpeedType visibleSpeedType = SpeedType.WALK;
-    @Element(required = false)
 
+    @Element(required = false)
     private int deathSaveFails;
     @Element(required = false)
     private int deathSaveSuccesses;
+    @Element(required = false)
+    private boolean stable;
 
     public Character() {
     }
@@ -524,6 +526,16 @@ public class Character {
             default:
                 return false;
         }
+    }
+
+    public void stabilize() {
+        stable = true;
+        deathSaveFails=0;
+        deathSaveSuccesses=0;
+    }
+
+    public boolean isStable() {
+        return stable;
     }
 
 
@@ -1279,6 +1291,9 @@ public class Character {
     }
 
     public void damage(int amount) {
+        if (hp ==0) {
+            deathSaveFails++;
+        }
         if (tempHp > 0) {
             tempHp -= amount;
             if (tempHp < 0) {
@@ -1287,6 +1302,13 @@ public class Character {
             }
         } else {
             hp -= amount;
+        }
+        if (hp <= -getMaxHP()) {
+            deathSaveFails = 3;
+        }
+        if (hp <= 0) {
+            stable = false;
+            hp = 0;
         }
     }
 
@@ -2217,7 +2239,8 @@ public class Character {
     public void passDeathSave() {
         deathSaveSuccesses++;
         if (deathSaveSuccesses >= 3) {
-            hp = 1;
+            hp = 0;
+            stable=true;
             deathSaveFails = 0;
             deathSaveSuccesses = 0;
         }

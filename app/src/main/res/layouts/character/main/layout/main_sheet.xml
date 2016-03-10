@@ -54,8 +54,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ac_lbl"
                     android:layout_centerHorizontal="true"
-                    tools:text="11"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    tools:text="11" />
             </RelativeLayout>
 
 
@@ -90,8 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/speed_lbl"
                     android:layout_centerHorizontal="true"
-                    tools:text="25"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    tools:text="25" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -118,8 +118,8 @@
                     android:layout_below="@id/initiative_lbl"
                     android:layout_centerHorizontal="true"
 
-                    tools:text="2"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    tools:text="2" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -131,15 +131,15 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/death_save_layout"
-
                 style="@style/hitpoints_style"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <include layout="@layout/death_saves" />
 
@@ -177,8 +177,20 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/hp_lbl"
                     android:layout_centerHorizontal="true"
-                    tools:text="8 / 8"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    tools:text="8 / 8" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/stable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/hp_lbl"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/stable"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/hp"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             </RelativeLayout>
 
@@ -205,8 +217,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/temp_hp_lbl"
                     android:layout_centerHorizontal="true"
-                    tools:text="8 / 8"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    tools:text="8 / 8" />
 
                 <!--                <ImageView
                                     android:id="@+id/imageView3"
@@ -240,8 +252,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/hit_die_lbl"
                     android:layout_centerHorizontal="true"
-                    tools:text="2d8, 1d10"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    tools:text="2d8, 1d10" />
 
                 <!--<ImageView
                     android:id="@+id/imageView6"
@@ -266,7 +278,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
 
                 <LinearLayout
@@ -353,8 +365,8 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/passive_perception_lbl"
                             android:layout_centerHorizontal="true"
-                            tools:text="11"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            tools:text="11" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -386,14 +398,14 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/proficiency_lbl"
                             android:layout_centerHorizontal="true"
-                            tools:text="2"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            tools:text="2" />
                     </RelativeLayout>
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -603,7 +615,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
             </TableRow>
         </TableLayout>
