@@ -53,4 +53,17 @@
     <string name="stable">(Stable)</string>
     <string name="about_app">About</string>
     <string name="action_about">About</string>
+    <string name="import_title">Import</string>
+    <string name="import_from_file">Import From Local File</string>
+    <string name="import_from_url">Import from URL</string>
+    <string name="download_url_data"><![CDATA[Downloading D&D data]]></string>
+    <string name="import_summary">Import added %1$d records, updated %2$d records, and had %3$d failed imports.</string>
+    <string name="bad_http_return_code">Invalid HTTP return code %1$s: %2$s</string>
+    <string name="io_exception">Encountered io error while reading from URL or writing to file</string>
+    <string name="file_not_found">File not found</string>
+    <string name="invalid_url">Invalid URL</string>
+    <string name="import_rows_progress_title">Importing rows...</string>
+    <string name="import_rows_message">Import in progress ...</string>
+    <string name="loading_file_title">Loading data from file..</string>
+    <string name="loading_file">Loading...</string>
 </resources>

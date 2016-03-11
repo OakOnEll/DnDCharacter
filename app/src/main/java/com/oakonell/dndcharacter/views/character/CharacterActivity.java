@@ -23,12 +23,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
 import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.ServerManagedPolicy;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.DataImporter;
+import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.views.AboutDialog;
@@ -45,6 +49,7 @@ import com.oakonell.dndcharacter.views.character.rest.LongRestDialogFragment;
 import com.oakonell.dndcharacter.views.character.rest.ShortRestDialogFragment;
 import com.oakonell.dndcharacter.views.character.spell.SpellsFragment;
 import com.oakonell.dndcharacter.views.character.stats.BaseStatsDialogFragment;
+import com.oakonell.dndcharacter.views.imports.ImportActivity;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -100,6 +105,7 @@ public class CharacterActivity extends AbstractBaseActivity {
      */
     private ViewPager mViewPager;
     private final List<OnCharacterLoaded> onCharacterLoadListeners = new ArrayList<>();
+    private BackgroundCharacterLoader characterLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +124,10 @@ public class CharacterActivity extends AbstractBaseActivity {
         );
         doCheck();
 
+        if (!DataImporter.hasAtLeastMinimalData()) {
+            Intent intent = new Intent(this, ImportActivity.class);
+            startActivity(intent);
+        }
 
         if (savedInstanceState != null) {
             SelectEffectDialogFragment dpf = (SelectEffectDialogFragment) getSupportFragmentManager().findFragmentByTag(ADD_EFFECT_DIALOG);
@@ -188,6 +198,9 @@ public class CharacterActivity extends AbstractBaseActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        if (characterLoader != null) {
+            characterLoader.cancel(true);
+        }
         outState.putLong(CHARACTER_ID, id);
     }
 
@@ -440,7 +453,7 @@ public class CharacterActivity extends AbstractBaseActivity {
             createNewCharacter();
             return;
         }
-        BackgroundCharacterLoader characterLoader = new BackgroundCharacterLoader();
+        characterLoader = new BackgroundCharacterLoader();
         characterLoader.execute(savedId);
     }
 
@@ -497,6 +510,8 @@ public class CharacterActivity extends AbstractBaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            if (isCancelled()) return;
+
             Toast.makeText(CharacterActivity.this, "Character '" + character.getName() + "' loaded", Toast.LENGTH_SHORT).show();
             for (Iterator<OnCharacterLoaded> iter = onCharacterLoadListeners.iterator(); iter.hasNext(); ) {
                 OnCharacterLoaded listener = iter.next();

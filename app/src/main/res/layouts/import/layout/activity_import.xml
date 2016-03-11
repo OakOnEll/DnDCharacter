@@ -10,16 +10,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.oakonell.dndcharacter.views.imports.ImportActivity">
 
+    <com.oakonell.dndcharacter.views.NoDefaultSpinner
+        android:id="@+id/import_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:prompt="@string/import_from_hint" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <TextView
+        <EditText
             android:id="@+id/filename"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:hint="@string/import_path_hint"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -29,7 +36,38 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_search" />
 
+        <ImageButton
+            android:id="@+id/download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_more" />
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/import_rows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/import_button_lbl" />
+
+        <TextView
+            android:id="@+id/import_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Added 19 rows, updated 5, 3 errors" />
+    </LinearLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select/Deselect All"
+        android:id="@+id/select_all" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
@@ -43,11 +81,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/import_rows"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/import_button_lbl" />
     </LinearLayout>
 
+    <include layout="@layout/dialog_done" />
 </LinearLayout>

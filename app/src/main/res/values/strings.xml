@@ -133,6 +133,7 @@
     <string name="your_xp_gain">Your XP Gain</string>
     <string name="final_xp">Final XP</string>
     <string name="import_path_hint">/file/path</string>
+    <string name="import_from_hint">[Import From]</string>
     <string name="level_n">Level %d</string>
     <string name="increase_statname_by">Increase %1$s by %2$d</string>
     <string name="increase_statname_by_to">Increase %1$s by %2$d to %3$d</string>

@@ -42,7 +42,6 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final int NUM_RECENT_CHARACTERS = 3;
-    public static final int FILE_IMPORT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,8 +210,8 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (id == R.id.nav_import) {
-            Intent intent = new Intent(this, FilePickerActivity.class);
-            startActivityForResult(intent, FILE_IMPORT_REQUEST);
+            Intent intent = new Intent(this, ImportActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -229,23 +228,6 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         intent.putExtra(CharacterActivity.CREATE_CHARACTER, true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == FILE_IMPORT_REQUEST && resultCode == RESULT_OK) {
-//            String filePath = data.getStringExtra(FilePickerActivity.FILE_EXTRA_DATA_PATH);
-            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            Toast.makeText(this, "Clicked import " + filePath, Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(this, ImportActivity.class);
-            intent.putExtra(ImportActivity.EXTRA_FILE_PATH, filePath);
-            startActivity(intent);
-
-            // Do anything with file
-        }
     }
 
 }
