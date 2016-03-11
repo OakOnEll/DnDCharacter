@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,19 +17,26 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.vending.licensing.AESObfuscator;
+import com.google.android.vending.licensing.LicenseChecker;
+import com.google.android.vending.licensing.LicenseCheckerCallback;
+import com.google.android.vending.licensing.Policy;
+import com.google.android.vending.licensing.ServerManagedPolicy;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
+import com.oakonell.dndcharacter.views.AboutDialog;
 import com.oakonell.dndcharacter.views.AbstractBaseActivity;
 import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.views.character.classes.AddClassLevelDialogFragment;
-import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeaturesFragment;
+import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.item.EquipmentFragment;
 import com.oakonell.dndcharacter.views.character.persona.NotesFragment;
 import com.oakonell.dndcharacter.views.character.persona.PersonaFragment;
@@ -62,7 +71,18 @@ public class CharacterActivity extends AbstractBaseActivity {
     public static final String BASE_STATS_FRAG = "base_stats";
     private static final String NAME_FRAG = "name_frag";
 
-    private final String MyPREFERENCES = "prefs";
+    private static final String MyPREFERENCES = "prefs";
+
+    private LicenseCheckerCallback mLicenseCheckerCallback;
+    private LicenseChecker mChecker;
+    private Handler mHandler;
+    // Generate 20 random bytes, and put them here.
+    private static final byte[] SALT = new byte[]{
+            -46, 65, 30, -128, -103, -57, 74, -64, 51, 88, -95,
+            -45, 77, -117, -36, -113, -11, 32, -64, 89
+    };
+    private static final String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAora7BLaHK7LJAHLn6h16j8PC5/Z3q68vB5SknwsRGgPMJBP6T0UlMfa/X8vwgPcyULLZMY51hgNpH0HXIbdAITQ0CfbgtnUI50zY0/9XjbNSLDZF4jMztB4Zs08Gipa0foixnOzbhXC88w3BqYyQYMF9+UdfimSBvjW+bTMayLtH24KcI7EzmsRfXK9UH22bxJQ+MUalk0jjE3FlE5gCDwPmmhBFDVvzNM10EQo1wu+Q+Z9FhdBpENRe1awnDvtn2/Qz4mhrAca2ueVPYekjaaG3wVKcUSdYCxB9JJ+YZhmcDrnRARsvJpYoPuXhkKUXRr/0LdSYFYkfrXM0xc/mxwIDAQAB";
+
     long id = -1;
     @Nullable
     private Character character = null;
@@ -85,6 +105,19 @@ public class CharacterActivity extends AbstractBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mHandler = new Handler();
+        // Construct the LicenseCheckerCallback. The library calls this when done.
+        mLicenseCheckerCallback = new MyLicenseCheckerCallback();
+        // Construct the LicenseChecker with a Policy.
+        String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        mChecker = new LicenseChecker(
+                this, new ServerManagedPolicy(this,
+                new AESObfuscator(SALT, getPackageName(), deviceId)),
+                BASE64_PUBLIC_KEY  // Your public licensing key.
+        );
+        doCheck();
+
 
         if (savedInstanceState != null) {
             SelectEffectDialogFragment dpf = (SelectEffectDialogFragment) getSupportFragmentManager().findFragmentByTag(ADD_EFFECT_DIALOG);
@@ -123,6 +156,11 @@ public class CharacterActivity extends AbstractBaseActivity {
         // Load recent used character
         loadCharacter(savedInstanceState);
 
+    }
+
+    private void doCheck() {
+        setProgressBarIndeterminateVisibility(true);
+        mChecker.checkAccess(mLicenseCheckerCallback);
     }
 
     @Override
@@ -170,6 +208,11 @@ public class CharacterActivity extends AbstractBaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Toast.makeText(this, "Clicked settings ", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (id == R.id.action_about) {
+            final AboutDialog aboutDialog = AboutDialog.create();
+            aboutDialog.show(getSupportFragmentManager(), "about");
             return true;
         }
         if (id == R.id.action_long_rest) {
@@ -579,4 +622,63 @@ public class CharacterActivity extends AbstractBaseActivity {
         }
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mChecker.onDestroy();
+    }
+
+    private class MyLicenseCheckerCallback implements LicenseCheckerCallback {
+        public void allow(int reason) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    setProgressBarIndeterminateVisibility(false);
+
+                }
+            });
+//            if (isFinishing()) {
+//                // Don't update UI if Activity is finishing.
+//                return;
+//            }
+            // Should allow user access.
+            // do nothing
+        }
+
+        public void dontAllow(int reason) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    setProgressBarIndeterminateVisibility(false);
+
+                }
+            });
+            if (isFinishing()) {
+                // Don't update UI if Activity is finishing.
+                return;
+            }
+            // TODO AlertDialog
+
+            if (reason == Policy.RETRY) {
+                // If the reason received from the policy is RETRY, it was probably
+                // due to a loss of connection with the service, so we should give the
+                // user a chance to retry. So show a dialog to retry.
+//                showDialog(DIALOG_RETRY);
+            } else {
+                // Otherwise, the user is not licensed to use this app.
+                // Your response should always inform the user that the application
+                // is not licensed, but your behavior at that point can vary. You might
+                // provide the user a limited access version of your app or you can
+                // take them to Google Play to purchase the app.
+//                showDialog(DIALOG_GOTOMARKET);
+            }
+        }
+
+        @Override
+        public void applicationError(int errorCode) {
+            // TODO
+        }
+    }
+
 }

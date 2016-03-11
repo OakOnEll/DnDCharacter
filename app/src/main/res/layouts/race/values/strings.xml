@@ -51,4 +51,6 @@
     <string name="death_save_prompt">[Death Save Result]</string>
     <string name="stabilize">Stabilize</string>
     <string name="stable">(Stable)</string>
+    <string name="about_app">About</string>
+    <string name="action_about">About</string>
 </resources>
