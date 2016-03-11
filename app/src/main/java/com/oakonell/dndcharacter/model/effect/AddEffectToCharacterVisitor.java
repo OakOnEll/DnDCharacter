@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.model.effect;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.AbstractContextualComponent;
@@ -33,7 +34,7 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
     }
 
     @NonNull
-    public static CharacterEffect applyToCharacter(final @NonNull CharacterActivity context, final @NonNull Effect race, final @NonNull Character character, final Runnable continuation) {
+    public static CharacterEffect applyToCharacter(final @NonNull CharacterActivity context, final @NonNull Effect race, final @NonNull Character character, @Nullable final Runnable continuation) {
         Element element = XmlUtils.getDocument(race.getXml()).getDocumentElement();
         final CharacterEffect characterEffect = new CharacterEffect();
         readEffect(context, element, characterEffect);

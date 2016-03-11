@@ -197,7 +197,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     Page<AClass> subclassPage = new Page<AClass>() {
                         @NonNull
                         @Override
-                        public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
+                        public ChooseMDTreeNode appendToLayout(AClass model, @NonNull ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
                             addSubclassTextView(dynamic);
                             AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter(), !subclassCaster);
 
@@ -317,7 +317,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         return pages;
     }
 
-    private void possiblyAddSpellsAndCantripsPage(List<Page<AClass>> pages, final Element rootClassElement, Element levelElement, Element spellCastingStat, final SavedChoices overrideChoices) {
+    private void possiblyAddSpellsAndCantripsPage(@NonNull List<Page<AClass>> pages, @NonNull final Element rootClassElement, @NonNull Element levelElement, @Nullable Element spellCastingStat, @Nullable final SavedChoices overrideChoices) {
         final Element spells = XmlUtils.getElement(levelElement, "spells");
         final Element cantrips = XmlUtils.getElement(levelElement, "cantrips");
 
@@ -336,7 +336,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
             Page<AClass> spellPage = new Page<AClass>() {
                 @NonNull
                 @Override
-                public ChooseMDTreeNode appendToLayout(AClass model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
+                public ChooseMDTreeNode appendToLayout(AClass model, @NonNull ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
                     SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator(getCharacter());
                     if (overrideChoices != null) {
                         addSubclassTextView(dynamic);
@@ -355,6 +355,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         }
     }
 
+    @Nullable
     protected abstract CharacterClass getCharacterClass();
 
     @Override
@@ -454,10 +455,11 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         setClassError(classErrorText, classErrorError);
     }
 
+    @Nullable
     String classErrorText;
     boolean classErrorError;
 
-    protected void setClassError(String text, boolean error) {
+    protected void setClassError(@Nullable String text, boolean error) {
         classErrorText = text;
         classErrorError = error;
         if (classErrorTextView == null) return;

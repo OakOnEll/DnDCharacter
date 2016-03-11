@@ -274,7 +274,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
     }
 
     public abstract static class AbstractCharacterClassViewHolder extends BindableComponentViewHolder<CharacterClass, CharacterLevelsDialogFragment, ClassAdapter> {
-        protected AbstractCharacterClassViewHolder(View itemView) {
+        protected AbstractCharacterClassViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }

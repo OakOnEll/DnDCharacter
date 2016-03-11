@@ -35,7 +35,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     private StatSourceAdapter adapter;
 
     @NonNull
-    public static StatBlockDialogFragment create(StatBlock block) {
+    public static StatBlockDialogFragment create(@NonNull StatBlock block) {
         StatBlockDialogFragment frag = new StatBlockDialogFragment();
         frag.setStatTypeArg(block);
 
@@ -63,7 +63,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
         StatBlock statBlock = setStatBlock(character);
@@ -71,6 +71,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         updateView(statBlock);
 
         RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource>() {
+            @NonNull
             @Override
             public List<Character.ModifierWithSource> getList(Character character) {
                 return getStatBlock().getModifiers();
@@ -103,7 +104,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
 
         StatBlock statBlock = setStatBlock(character);
@@ -119,7 +120,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         }
 
         @Override
-        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.ModifierWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ModifierWithSource>> adapter, Character.ModifierWithSource item) {
+        public void bind(@NonNull CharacterActivity activity, @NonNull RowWithSourceAdapter<Character.ModifierWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ModifierWithSource>> adapter, @NonNull Character.ModifierWithSource item) {
             super.bind(activity, adapter, item);
             final ComponentSource source = item.getSource();
             int value = item.getModifier();
@@ -135,7 +136,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     public static class StatSourceAdapter extends RowWithSourceAdapter<Character.ModifierWithSource, StatSourceViewHolder> {
-        StatSourceAdapter(@NonNull StatBlockDialogFragment fragment, ListRetriever<Character.ModifierWithSource> listRetriever) {
+        StatSourceAdapter(@NonNull StatBlockDialogFragment fragment, @NonNull ListRetriever<Character.ModifierWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
@@ -146,7 +147,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
         @NonNull
         @Override
-        protected StatSourceViewHolder newViewHolder(View view) {
+        protected StatSourceViewHolder newViewHolder(@NonNull View view) {
             return new StatSourceViewHolder(view);
         }
 

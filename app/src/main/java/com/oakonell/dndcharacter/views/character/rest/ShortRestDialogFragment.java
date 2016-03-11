@@ -414,7 +414,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
 
-    protected int getSlotsToRestore(Character.SpellLevelInfo info) {
+    protected int getSlotsToRestore(@NonNull Character.SpellLevelInfo info) {
         int value = 0;
         for (Character.CastingClassInfo each : getCharacter().getCasterClassInfo()) {
             final RefreshType refreshType = each.getSpellSlotRefresh();

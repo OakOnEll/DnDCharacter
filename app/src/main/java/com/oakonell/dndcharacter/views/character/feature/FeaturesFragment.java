@@ -50,7 +50,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
         if (getActivity() == null) return;
 

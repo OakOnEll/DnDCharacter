@@ -78,7 +78,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         adapter.reloadList(character);
     }
@@ -90,7 +90,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.LanguageWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.LanguageWithSource>> adapter, Character.LanguageWithSource item) {
+        public void bind(@NonNull CharacterActivity activity, @NonNull RowWithSourceAdapter<Character.LanguageWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.LanguageWithSource>> adapter, @NonNull Character.LanguageWithSource item) {
             super.bind(activity, adapter, item);
             String language = item.getLanguage();
 
@@ -106,14 +106,14 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     public static class LanguagesSourcesAdapter extends RowWithSourceAdapter<Character.LanguageWithSource, LanguageSourceViewHolder> {
-        LanguagesSourcesAdapter(@NonNull LanguagesDialogFragment fragment, ListRetriever<Character.LanguageWithSource> listRetriever) {
+        LanguagesSourcesAdapter(@NonNull LanguagesDialogFragment fragment, @NonNull ListRetriever<Character.LanguageWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
 
         @NonNull
         @Override
-        protected LanguageSourceViewHolder newViewHolder(View view) {
+        protected LanguageSourceViewHolder newViewHolder(@NonNull View view) {
             return new LanguageSourceViewHolder(view);
         }
     }

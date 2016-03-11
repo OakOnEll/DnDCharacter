@@ -79,6 +79,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         updateView(statBlock);
 
         RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
+            @NonNull
             @Override
             public List<Character.ProficientWithSource> getList(Character character) {
                 return getStatBlock().getSaveProficiencies();
@@ -135,7 +136,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         }
 
         @Override
-        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.ProficientWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ProficientWithSource>> adapter, Character.ProficientWithSource item) {
+        public void bind(@NonNull CharacterActivity activity, @NonNull RowWithSourceAdapter<Character.ProficientWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ProficientWithSource>> adapter, @NonNull Character.ProficientWithSource item) {
             super.bind(activity, adapter, item);
             Proficient value = item.getProficient();
             this.value.setText(activity.getString(value.getStringResId()));
@@ -150,14 +151,14 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     public static class SaveThrowSourcesAdapter extends RowWithSourceAdapter<Character.ProficientWithSource, SaveThrowSourceViewHolder> {
-        SaveThrowSourcesAdapter(@NonNull SaveThrowBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
+        SaveThrowSourcesAdapter(@NonNull SaveThrowBlockDialogFragment fragment, @NonNull ListRetriever<Character.ProficientWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
 
         @NonNull
         @Override
-        protected SaveThrowSourceViewHolder newViewHolder(View view) {
+        protected SaveThrowSourceViewHolder newViewHolder(@NonNull View view) {
             return new SaveThrowSourceViewHolder(view);
         }
     }

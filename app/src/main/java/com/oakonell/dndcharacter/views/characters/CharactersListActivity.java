@@ -68,6 +68,7 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
         public final TextView classes;
         @NonNull
         private final TextView race;
+        @NonNull
         private final TextView hp;
 
         public CharacterRowViewHolderCursor(@NonNull View itemView) {

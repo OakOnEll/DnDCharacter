@@ -71,7 +71,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         updateView();
     }
@@ -513,7 +513,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     public abstract static class AbstractHPViewHolder extends BindableComponentViewHolder<HpRow, HitPointDiaogFragment, HitPointsAdapter> {
 
-        public AbstractHPViewHolder(View itemView) {
+        public AbstractHPViewHolder(@NonNull View itemView) {
             super(itemView);
         }
 
@@ -529,7 +529,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(final HitPointDiaogFragment context, @NonNull final HitPointsAdapter adapter, @NonNull final HpRow hpRow) {
+        public void bind(@NonNull final HitPointDiaogFragment context, @NonNull final HitPointsAdapter adapter, @NonNull final HpRow hpRow) {
             super.bind(context, adapter, hpRow);
 
             undo.setOnClickListener(new View.OnClickListener() {
@@ -559,7 +559,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(HitPointDiaogFragment context, HitPointsAdapter adapter, @NonNull HpRow hpRow) {
+        public void bind(@NonNull HitPointDiaogFragment context, HitPointsAdapter adapter, @NonNull HpRow hpRow) {
             if (hpRow.hpType == HpType.DAMAGE) {
                 if (hpRow.damageType == null) {
                     type.setText(R.string.damage_label);

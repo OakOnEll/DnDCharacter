@@ -3,6 +3,8 @@ package com.oakonell.dndcharacter.views;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -31,6 +33,7 @@ import java.lang.reflect.Field;
 public class GridLayoutManager extends android.support.v7.widget.GridLayoutManager {
 
     private static boolean canMakeInsetsDirty = true;
+    @Nullable
     private static Field insetsDirtyField = null;
 
     private static final int CHILD_WIDTH = 0;
@@ -39,6 +42,7 @@ public class GridLayoutManager extends android.support.v7.widget.GridLayoutManag
 
     private final int[] childDimensions = new int[2];
     private int spanCount;
+    @Nullable
     private final RecyclerView view;
 
     private int childSize = DEFAULT_CHILD_SIZE;
@@ -78,7 +82,7 @@ public class GridLayoutManager extends android.support.v7.widget.GridLayoutManag
     }
 
     @Override
-    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+    public void onMeasure(@NonNull RecyclerView.Recycler recycler, @NonNull RecyclerView.State state, int widthSpec, int heightSpec) {
         final int widthMode = View.MeasureSpec.getMode(widthSpec);
         final int heightMode = View.MeasureSpec.getMode(heightSpec);
 
@@ -221,7 +225,7 @@ public class GridLayoutManager extends android.support.v7.widget.GridLayoutManag
         }
     }
 
-    private void measureChild(RecyclerView.Recycler recycler, int position, int widthSize, int heightSize, int[] dimensions) {
+    private void measureChild(@NonNull RecyclerView.Recycler recycler, int position, int widthSize, int heightSize, int[] dimensions) {
         final View child;
         try {
             child = recycler.getViewForPosition(position);

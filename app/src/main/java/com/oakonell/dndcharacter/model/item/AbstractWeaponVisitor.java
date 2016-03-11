@@ -49,31 +49,31 @@ public class AbstractWeaponVisitor extends AbstractComponentVisitor {
         }
     }
 
-    protected void visitDamage(Element element) {
+    protected void visitDamage(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitVersatileDamage(Element element) {
+    protected void visitVersatileDamage(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitProperties(Element element) {
+    protected void visitProperties(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitRange(Element element) {
+    protected void visitRange(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitAmmunition(Element element) {
+    protected void visitAmmunition(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitRanged(Element element) {
+    protected void visitRanged(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitCategory(Element element) {
+    protected void visitCategory(@NonNull Element element) {
         visitSimpleItem(element);
     }
 

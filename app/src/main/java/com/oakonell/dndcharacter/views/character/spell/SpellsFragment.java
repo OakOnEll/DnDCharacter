@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.views.character.spell;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
     private ImageButton add_cantrip;
 
     @Override
-    protected View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.spell_sheet, container, false);
 
         spell_level_list = (RecyclerView) rootView.findViewById(R.id.spell_level_list);
@@ -68,7 +69,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
 
 
     @Override
-    public void onCharacterLoaded(final com.oakonell.dndcharacter.model.character.Character character) {
+    public void onCharacterLoaded(@NonNull final com.oakonell.dndcharacter.model.character.Character character) {
         super.onCharacterLoaded(character);
 
         casterInfoAdapter = new CasterInfoAdapter(this, character);
@@ -177,7 +178,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
 
 
     public static class CantripAdapter extends AbstractSpellAdapter<CantripViewHolder> {
-        CantripAdapter(SpellsFragment context, com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo spellLevelInfo) {
+        CantripAdapter(SpellsFragment context, @NonNull com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo spellLevelInfo) {
             super(context, spellLevelInfo);
         }
 
@@ -190,7 +191,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
     }
 
     public static class CantripViewHolder extends AbstractSpellAdapter.AbstractSpellViewHolder {
-        public CantripViewHolder(View itemView) {
+        public CantripViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }

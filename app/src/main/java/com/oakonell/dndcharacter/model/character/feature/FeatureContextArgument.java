@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.feature;
 
+import android.support.annotation.Nullable;
+
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.simpleframework.xml.Element;
@@ -8,6 +10,7 @@ import org.simpleframework.xml.Element;
  * Created by Rob on 2/6/2016.
  */
 public class FeatureContextArgument {
+    @Nullable
     @Element(required = false)
     String argument;
     @Element(required = false)
@@ -16,7 +19,7 @@ public class FeatureContextArgument {
     public FeatureContextArgument() {
         // support persistence
     }
-    public FeatureContextArgument(FeatureContext context, String argument) {
+    public FeatureContextArgument(FeatureContext context, @Nullable String argument) {
         this.context = context;
 
         if (argument != null) {
@@ -34,6 +37,7 @@ public class FeatureContextArgument {
         this.argument = null;
     }
 
+    @Nullable
     public String getArgument() {
         return argument;
     }

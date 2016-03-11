@@ -330,7 +330,7 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
 
     }
 
-    protected int getSlotsToRestore(Character.SpellLevelInfo each) {
+    protected int getSlotsToRestore(@NonNull Character.SpellLevelInfo each) {
         return each.getMaxSlots() - each.getSlotsAvailable();
     }
 

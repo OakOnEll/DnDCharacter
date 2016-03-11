@@ -48,10 +48,12 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
 
-    public String getSourceString(Resources resources) {
+    @NonNull
+    public String getSourceString(@NonNull Resources resources) {
         return source.getSourceString(resources);
     }
 
+    @NonNull
     @Override
     public ComponentType getType() {
         return ComponentType.FEATURE;
@@ -62,6 +64,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
 
+    @Nullable
     @Override
     public String getActiveFormula() {
         if (getFeature().getActiveFormula() != null) {
@@ -71,6 +74,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return null;
     }
 
+    @Nullable
     public String getShortDescription() {
         if (getFeature().getDescription() != null) {
             return getFeature().getDescription();
@@ -89,6 +93,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
 
+    @Nullable
     public RefreshType getRefreshesOn() {
         if (getFeature().getRefreshesOn() != null) {
             return getFeature().getRefreshesOn();
@@ -113,6 +118,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
 
+    @Nullable
     public UseType getUseType() {
         if (getFeature().getUseType() != null) {
             return getFeature().getUseType();
@@ -122,7 +128,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public boolean isInContext(FeatureContextArgument context) {
+    public boolean isInContext(@NonNull FeatureContextArgument context) {
         if (feature.isInContext(context)) return true;
         if (extendedFeature != null) {
             if (extendedFeature.isInContext(context)) return true;
@@ -131,7 +137,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public boolean isInContext(Set<FeatureContextArgument> filter) {
+    public boolean isInContext(@NonNull Set<FeatureContextArgument> filter) {
         if (feature.isInContext(filter)) return true;
         if (extendedFeature != null) {
             if (extendedFeature.isInContext(filter)) return true;
@@ -168,7 +174,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
 
 
     @Override
-    public int getSpeed(Character character, SpeedType type) {
+    public int getSpeed(@NonNull Character character, SpeedType type) {
         if (getFeature().getModifyingAcFormula() != null) {
             return getFeature().getSpeed(character, type);
         }
@@ -177,7 +183,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public int getInitiativeMod(Character character) {
+    public int getInitiativeMod(@NonNull Character character) {
         if (getFeature().getInitiativeModFormula() != null) {
             return getFeature().getInitiativeMod(character);
         }
@@ -186,7 +192,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public int getPassivePerceptionMod(Character character) {
+    public int getPassivePerceptionMod(@NonNull Character character) {
         if (getFeature().getPassivePerceptionModFormula() != null) {
             return getFeature().getPassivePerceptionMod(character);
         }
@@ -203,6 +209,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return 0;
     }
 
+    @Nullable
     @Override
     public Proficient getSkillProficient(SkillType type) {
         if (getFeature().getSkillProficient(type) != null) {
@@ -212,6 +219,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return null;
     }
 
+    @Nullable
     @Override
     public Proficient getSaveProficient(StatType type) {
         if (getFeature().getSaveProficient(type) != null) {
@@ -222,6 +230,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
 
+    @NonNull
     public Collection<IFeatureAction> getActionsAndEffects() {
         Map<String, IFeatureAction> resultActionsAndEffects = new HashMap<>();
         for (IFeatureAction each : feature.getActionsAndEffects()) {
@@ -268,6 +277,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return toolProficiencies;
     }
 
+    @Nullable
     @Override
     public String getAcFormula() {
         if (getFeature().getAcFormula() != null) {
@@ -277,6 +287,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return null;
     }
 
+    @Nullable
     @Override
     public String getHpFormula() {
         if (getFeature().getHpFormula() != null) {

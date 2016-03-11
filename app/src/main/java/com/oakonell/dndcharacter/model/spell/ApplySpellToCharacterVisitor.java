@@ -59,7 +59,7 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
 
 
     @Override
-    protected void visitSpell(Element element) {
+    protected void visitSpell(@NonNull Element element) {
         String levelString = XmlUtils.getElementText(element, "level");
         int level = Integer.parseInt(levelString);
         charSpell.setLevel(level);

@@ -128,7 +128,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     }
 
     public final View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                   Bundle savedInstanceState) {
+                                   @Nullable Bundle savedInstanceState) {
         View view = onCreateTheView(inflater, container, savedInstanceState);
         getMainActivity().addCharacterLoadLister(this);
         if (savedInstanceState != null) {

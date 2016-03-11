@@ -183,8 +183,9 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
             private RaceLooksDialogFragment frag;
 
+            @NonNull
             @Override
-            public ChooseMDTreeNode appendToLayout(Race model, ViewGroup dynamicView, SavedChoices savedChoices, Map<String, String> customChoices) {
+            public ChooseMDTreeNode appendToLayout(@NonNull Race model, ViewGroup dynamicView, SavedChoices savedChoices, @NonNull Map<String, String> customChoices) {
                 String subraceName = null;
                 if (subrace != null) {
                     subraceName = subrace.getName();
@@ -199,7 +200,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
             }
 
             @Override
-            public void saveChoices(Race model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
+            public void saveChoices(Race model, ViewGroup dynamic, SavedChoices savedChoices, @NonNull Map<String, String> customChoices) {
                 super.saveChoices(model, dynamic, savedChoices, customChoices);
                 customChoices.putAll(frag.getData());
             }
@@ -210,7 +211,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         return result;
     }
 
-    protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices) {
+    protected void applyToCharacter(SavedChoices savedChoices, @NonNull Map<String, String> customChoices) {
         SavedChoices subraceChoices = null;
         Map<String, String> subraceCustom = null;
         if (subrace != null) {
@@ -245,6 +246,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
         return character.getRaceChoices();
     }
 
+    @Nullable
     protected String getCurrentName() {
         return getCharacter().getRaceName();
     }
@@ -297,7 +299,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 
     @NonNull
     @Override
-    protected Map<String, String> getCustomChoicesFromCharacter(Character character) {
+    protected Map<String, String> getCustomChoicesFromCharacter(@NonNull Character character) {
         Map<String, String> result = super.getCustomChoicesFromCharacter(character);
 
         result.put("age", character.getAge());

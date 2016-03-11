@@ -62,7 +62,7 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
         RowWithSourceAdapter.ListRetriever<Character.InitiativeWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.InitiativeWithSource>() {
             @NonNull
@@ -83,7 +83,7 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         adapter.reloadList(character);
     }
@@ -95,7 +95,7 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
         }
 
         @Override
-        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.InitiativeWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.InitiativeWithSource>> adapter, Character.InitiativeWithSource item) {
+        public void bind(@NonNull CharacterActivity activity, @NonNull RowWithSourceAdapter<Character.InitiativeWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.InitiativeWithSource>> adapter, @NonNull Character.InitiativeWithSource item) {
             super.bind(activity, adapter, item);
             int initiative = item.getInitiative();
 
@@ -111,14 +111,14 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
     }
 
     public static class InitiativeSourcesAdapter extends RowWithSourceAdapter<Character.InitiativeWithSource, InitiativeSourceViewHolder> {
-        InitiativeSourcesAdapter(@NonNull InitiativeDialogFragment fragment, ListRetriever<Character.InitiativeWithSource> listRetriever) {
+        InitiativeSourcesAdapter(@NonNull InitiativeDialogFragment fragment, @NonNull ListRetriever<Character.InitiativeWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
 
         @NonNull
         @Override
-        protected InitiativeSourceViewHolder newViewHolder(View view) {
+        protected InitiativeSourceViewHolder newViewHolder(@NonNull View view) {
             return new InitiativeSourceViewHolder(view);
         }
     }

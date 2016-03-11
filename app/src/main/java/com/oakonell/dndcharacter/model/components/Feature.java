@@ -97,7 +97,7 @@ public class Feature extends AbstractContextualComponent {
     }
 
     @Override
-    public boolean isInContext(FeatureContextArgument context) {
+    public boolean isInContext(@NonNull FeatureContextArgument context) {
         if (super.isInContext(context)) return true;
         for (IFeatureAction each : getActionsAndEffects()) {
             if (each.isActionInContext(context)) return true;
@@ -123,7 +123,7 @@ public class Feature extends AbstractContextualComponent {
         return result;
     }
 
-    public boolean applies(Character character) {
+    public boolean applies(@NonNull Character character) {
         if (appliesFormula == null || appliesFormula.trim().length() == 0) return true;
 
         // TODO can't construct the normal context variables, as it looks on features!
@@ -163,6 +163,7 @@ public class Feature extends AbstractContextualComponent {
         @Element(required = false)
         private FeatureExtensionType extensionType;
 
+        @NonNull
         @ElementList(required = false)
         private Set<FeatureContextArgument> contexts = new HashSet<>();
 
@@ -175,7 +176,7 @@ public class Feature extends AbstractContextualComponent {
         }
 
         @Override
-        public boolean isActionInContext(FeatureContextArgument context) {
+        public boolean isActionInContext(@NonNull FeatureContextArgument context) {
             for (FeatureContextArgument each : contexts) {
                 if (each.getContext() != context.getContext()) continue;
                 if (each.getArgument() == null) return true;
@@ -202,6 +203,7 @@ public class Feature extends AbstractContextualComponent {
             return name;
         }
 
+        @NonNull
         @Override
         public List<FeatureEffectVariable> getVariables() {
             return Collections.emptyList();
@@ -297,9 +299,11 @@ public class Feature extends AbstractContextualComponent {
         @Element(required = false)
         private FeatureExtensionType extensionType;
 
+        @NonNull
         @ElementList(required = false)
         private List<FeatureEffectVariable> variables = new ArrayList<>();
 
+        @NonNull
         @ElementList(required = false)
         private Set<FeatureContextArgument> actionsContexts = new HashSet<>();
 
@@ -311,7 +315,7 @@ public class Feature extends AbstractContextualComponent {
             return !actionsContexts.isEmpty();
         }
 
-        public boolean isActionInContext(FeatureContextArgument context) {
+        public boolean isActionInContext(@NonNull FeatureContextArgument context) {
             for (FeatureContextArgument each : actionsContexts) {
                 if (each.getContext() != context.getContext()) continue;
                 if (each.getArgument() == null) return true;
@@ -353,7 +357,7 @@ public class Feature extends AbstractContextualComponent {
 
 
         @Override
-        public void applyToCharacter(@NonNull Character character, Map<FeatureEffectVariable, String> variableValues) {
+        public void applyToCharacter(@NonNull Character character, @NonNull Map<FeatureEffectVariable, String> variableValues) {
             // TODO create a clone, so that specialized variables can be applied?
             if (!variableValues.isEmpty()) {
                 try {
@@ -400,6 +404,7 @@ public class Feature extends AbstractContextualComponent {
             return extensionType == FeatureExtensionType.REPLACE;
         }
 
+        @NonNull
         @Override
         public List<FeatureEffectVariable> getVariables() {
             return variables;

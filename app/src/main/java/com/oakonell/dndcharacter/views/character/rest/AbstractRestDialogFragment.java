@@ -59,6 +59,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     @Nullable
     private Bundle savedFeatureResets;
+    @Nullable
     private Bundle savedSpellSlotResets;
 
     protected boolean allowExtraHealing() {
@@ -278,8 +279,11 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     }
 
     static class SpellSlotResetViewHolder extends BindableComponentViewHolder<SpellSlotResetInfo, Context, SpellSlotsResetsAdapter> {
+        @NonNull
         private final CheckBox level;
+        @NonNull
         private final TextView slots;
+        @NonNull
         private final TextView final_slots;
 
         public SpellSlotResetViewHolder(@NonNull View itemView) {
@@ -292,7 +296,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         }
 
         @Override
-        public void bind(Context context, final SpellSlotsResetsAdapter adapter, final SpellSlotResetInfo info) {
+        public void bind(@NonNull Context context, @NonNull final SpellSlotsResetsAdapter adapter, @NonNull final SpellSlotResetInfo info) {
             level.setText(NumberUtils.formatNumber(info.level));
             level.setOnCheckedChangeListener(null);
             level.setChecked(info.reset);
@@ -326,6 +330,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             this.resets = resets;
         }
 
+        @NonNull
         @Override
         public SpellSlotResetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = View.inflate(context, R.layout.rest_spell_slot_reset_item, null);
@@ -334,7 +339,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         }
 
         @Override
-        public void onBindViewHolder(SpellSlotResetViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull SpellSlotResetViewHolder holder, int position) {
             holder.bind(context, this, resets.get(position));
         }
 

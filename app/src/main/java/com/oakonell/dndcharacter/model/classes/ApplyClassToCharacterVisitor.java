@@ -49,7 +49,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
     }
 
     @NonNull
-    private static CharacterClass createCharacterClass(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, @Nullable AClass subClass, SavedChoices subclassSavedChoices, Character character, int characterLevel, int classLevel, int hpRoll) {
+    private static CharacterClass createCharacterClass(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, @Nullable AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int characterLevel, int classLevel, int hpRoll) {
         CharacterClass charClass = new CharacterClass();
         charClass.setSavedChoices(savedChoices);
         // apply common changes
@@ -186,13 +186,13 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
     }
 
     @Override
-    protected void visitCantrips(Element element) {
+    protected void visitCantrips(@NonNull Element element) {
         String known = XmlUtils.getElementText(element, "known");
         charClass.setCantripsKnownFormula(known);
     }
 
     @Override
-    protected void visitSpells(Element element) {
+    protected void visitSpells(@NonNull Element element) {
         /* <spells>
         * <known>4</known>
         * <slots>

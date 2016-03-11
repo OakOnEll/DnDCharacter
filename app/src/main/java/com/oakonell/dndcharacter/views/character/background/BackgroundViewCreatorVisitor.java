@@ -182,7 +182,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         return choicesMD;
     }
 
-    protected void visitSpecialties(final Element element) {
+    protected void visitSpecialties(@NonNull final Element element) {
         String groupTitle = parent.getContext().getString(R.string.specialties);
         String choiceName = "specialties";
         Runnable superVisit = new Runnable() {
@@ -196,7 +196,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
     }
 
 
-    protected void visitTraits(final Element element) {
+    protected void visitTraits(@NonNull final Element element) {
         String groupTitle = parent.getContext().getString(R.string.personality_traits);
         String choiceName = "traits";
         Runnable superVisit = new Runnable() {
@@ -210,7 +210,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         createCharacterTraitSelection(groupTitle, choiceName, superVisit, true);
     }
 
-    protected void visitBonds(final Element element) {
+    protected void visitBonds(@NonNull final Element element) {
         String choiceName = "bonds";
         String groupTitle = parent.getContext().getString(R.string.bonds);
         Runnable superVisit = new Runnable() {
@@ -224,7 +224,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
     }
 
 
-    protected void visitFlaws(final Element element) {
+    protected void visitFlaws(@NonNull final Element element) {
         String groupTitle = parent.getContext().getString(R.string.flaws);
         String choiceName = "flaws";
         Runnable superVisit = new Runnable() {
@@ -237,7 +237,7 @@ public class BackgroundViewCreatorVisitor extends AbstractBackgroundVisitor {
         createCharacterTraitSelection(groupTitle, choiceName, superVisit, true);
     }
 
-    protected void visitIdeals(final Element element) {
+    protected void visitIdeals(@NonNull final Element element) {
         String groupTitle = parent.getContext().getString(R.string.ideals);
         String choiceName = "ideals";
         Runnable superVisit = new Runnable() {

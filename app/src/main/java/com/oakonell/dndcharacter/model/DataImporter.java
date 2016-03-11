@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.model;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.ActiveAndroid;
@@ -63,7 +64,8 @@ public class DataImporter {
             return arguments;
         }
 
-        public String getMessageText(Resources resources) {
+        @NonNull
+        public String getMessageText(@NonNull Resources resources) {
             return resources.getString(messageResource, arguments);
         }
     }
@@ -82,7 +84,7 @@ public class DataImporter {
         boolean isCancelled();
     }
 
-    public void loadUrl(Context context, URL url, LoadProgress progress) {
+    public void loadUrl(@NonNull Context context, @NonNull URL url, @NonNull LoadProgress progress) {
         fileRead = false;
         InputStream input = null;
         OutputStream output = null;
@@ -163,6 +165,7 @@ public class DataImporter {
 
     private final List<DataImporter.ImportRow> importRows = new ArrayList<>();
 
+    @NonNull
     public List<ImportRow> getImportRows() {
         return importRows;
     }
@@ -184,13 +187,13 @@ public class DataImporter {
         public Element element;
     }
 
-    public void loadFile(String filename) {
+    public void loadFile(@NonNull String filename) {
         File file = new File(filename);
         loadFile(file);
     }
 
 
-    protected void loadFile(File file) {
+    protected void loadFile(@NonNull File file) {
         fileRead = false;
         importRows.clear();
         Document doc = readDocument(file);
@@ -209,7 +212,8 @@ public class DataImporter {
         fileRead = true;
     }
 
-    private Document readDocument(File file) {
+    @Nullable
+    private Document readDocument(@NonNull File file) {
         FileInputStream in;
         try {
             in = new FileInputStream(file);
@@ -227,7 +231,8 @@ public class DataImporter {
         return num;
     }
 
-    public ImportResult importRows(ImportProgress progress) {
+    @NonNull
+    public ImportResult importRows(@Nullable ImportProgress progress) {
         DataImporter.ImportResult result = new DataImporter.ImportResult();
 
         for (DataImporter.ImportRow each : importRows) {

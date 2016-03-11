@@ -45,6 +45,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
         return list.get(position);
     }
 
+    @NonNull
     @Override
     public V onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(activity).inflate(getLayoutResource(), parent, false);
@@ -53,7 +54,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
     }
 
     @Override
-    public void onBindViewHolder(V holder, int position) {
+    public void onBindViewHolder(@NonNull V holder, int position) {
         final C item = getItem(position);
         holder.bind(activity, (RowWithSourceAdapter<C, WithSourceViewHolder<C>>) this, item);
     }
@@ -81,6 +82,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
 //    }
 
     public interface ListRetriever<C> {
+        @NonNull
         List<C> getList(Character character);
     }
 
@@ -95,7 +97,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
         }
 
         @Override
-        public void bind(final CharacterActivity activity, final RowWithSourceAdapter<C, WithSourceViewHolder<C>> adapter, C item) {
+        public void bind(@NonNull final CharacterActivity activity, @NonNull final RowWithSourceAdapter<C, WithSourceViewHolder<C>> adapter, @NonNull C item) {
             final ComponentSource source = item.getSource();
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

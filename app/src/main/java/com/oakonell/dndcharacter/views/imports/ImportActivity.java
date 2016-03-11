@@ -51,6 +51,7 @@ public class ImportActivity extends AppCompatActivity {
     private static final int URL_TYPE_INDEX = 1;
     private static final String PREF_LAST_IMPORT_TYPE = "lastImportType";
 
+    @NonNull
     private DataImporter importer = new DataImporter();
 
     private Spinner importTypeSpinner;
@@ -205,11 +206,11 @@ public class ImportActivity extends AppCompatActivity {
         updateViews();
     }
 
-    private void attemptToLoadFile(final String filename) {
+    private void attemptToLoadFile(@NonNull final String filename) {
         attemptToLoadFile(filename, null);
     }
 
-    private void attemptToLoadFile(final String filename, final Runnable uiContinuation) {
+    private void attemptToLoadFile(@NonNull final String filename, @Nullable final Runnable uiContinuation) {
         final ProgressDialog barProgressDialog = new ProgressDialog(this);
         barProgressDialog.setTitle(getString(R.string.loading_file_title));
         barProgressDialog.setMessage(getString(R.string.loading_file));
@@ -219,6 +220,7 @@ public class ImportActivity extends AppCompatActivity {
         barProgressDialog.setCancelable(false);
 
         AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
+            @Nullable
             @Override
             protected String doInBackground(Void... params) {
                 try {
@@ -232,7 +234,7 @@ public class ImportActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(String result) {
+            protected void onPostExecute(@Nullable String result) {
                 barProgressDialog.dismiss();
                 if (result != null) {
                     import_summary.setText(result);
@@ -251,7 +253,8 @@ public class ImportActivity extends AppCompatActivity {
         task.execute();
     }
 
-    private ImportInputs getDefaultedInputs(Bundle savedInstanceState) {
+    @NonNull
+    private ImportInputs getDefaultedInputs(@Nullable Bundle savedInstanceState) {
         ImportInputs result = new ImportInputs();
         // look in saved state
         if (savedInstanceState != null) {
@@ -345,11 +348,12 @@ public class ImportActivity extends AppCompatActivity {
         barProgressDialog.setCancelable(false);
 
         AsyncTask<Void, Integer, DataImporter.ImportResult> task = new AsyncTask<Void, Integer, DataImporter.ImportResult>() {
+            @NonNull
             @Override
             protected DataImporter.ImportResult doInBackground(Void... params) {
                 DataImporter.ImportProgress progress = new DataImporter.ImportProgress() {
                     @Override
-                    public void progress(DataImporter.ImportResult progress) {
+                    public void progress(@NonNull DataImporter.ImportResult progress) {
                         publishProgress(progress.updated + progress.added, progress.failed);
                     }
                 };
@@ -364,7 +368,7 @@ public class ImportActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(DataImporter.ImportResult importResult) {
+            protected void onPostExecute(@NonNull DataImporter.ImportResult importResult) {
                 import_summary.setText(getString(R.string.import_summary, importResult.added, importResult.updated, importResult.failed));
                 barProgressDialog.dismiss();
                 listAdapter.notifyDataSetChanged();
@@ -508,6 +512,7 @@ public class ImportActivity extends AppCompatActivity {
             this.context = context;
         }
 
+        @Nullable
         @Override
         protected String doInBackground(String... sUrl) {
             DataImporter.LoadProgress progress = new DataImporter.LoadProgress() {
@@ -549,7 +554,7 @@ public class ImportActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(@Nullable String result) {
             mUrlDownloadProgressDialog.dismiss();
             if (result != null) {
                 Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
@@ -584,6 +589,7 @@ public class ImportActivity extends AppCompatActivity {
 
     static class ImportInputs {
         ImportType type;
+        @Nullable
         String name;
     }
 

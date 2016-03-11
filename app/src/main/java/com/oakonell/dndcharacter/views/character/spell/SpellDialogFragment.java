@@ -425,7 +425,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
         }
 
         @Override
-        public void bind(SpellDialogFragment context, DamagesListAdapter adapter, @NonNull AttackDamageInfo row) {
+        public void bind(@NonNull SpellDialogFragment context, DamagesListAdapter adapter, @NonNull AttackDamageInfo row) {
             damage.setText(row.getDescription(context.getResources()));
         }
     }
@@ -463,7 +463,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
         };
 
         @NonNull
-        public String getDescription(Resources resources) {
+        public String getDescription(@NonNull Resources resources) {
             StringBuilder builder = new StringBuilder();
             boolean isFirst = true;
             for (Map.Entry<DamageType, Integer> each : damages.entrySet()) {

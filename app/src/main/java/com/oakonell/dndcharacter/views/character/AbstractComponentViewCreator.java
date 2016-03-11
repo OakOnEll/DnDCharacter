@@ -77,10 +77,13 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Nullable
     private ComponentSource currentComponent;
 
+    @Nullable
     private String spellPrefix = "";
     private int spellIndex;
     private int cantripIndex;
+    @NonNull
     Set<String> hardCodedSpells = new HashSet<>();
+    @NonNull
     Set<CategoryChoicesMD> chosenSpellMDs = new HashSet<>();
 
     public AbstractComponentViewCreator(Character character, boolean handleSpells) {
@@ -108,6 +111,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         this.currentComponent = currentComponent;
     }
 
+    @Nullable
     protected ComponentSource getCurrentComponent() {
         return currentComponent;
     }
@@ -665,16 +669,18 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         }
 
         SpinnerToString<SkillType> toString = new SpinnerToString<SkillType>() {
+            @NonNull
             @Override
-            public String toString(SkillType object) {
+            public String toString(@NonNull SkillType object) {
                 return parent.getResources().getString(object.getStringResId());
             }
 
             @Override
-            public String toSaveString(SkillType selection, int index) {
+            public String toSaveString(@NonNull SkillType selection, int index) {
                 return selection.name();
             }
 
+            @NonNull
             @Override
             public SkillType fromSavedString(String skillName) {
                 SkillType type = EnumHelper.stringToEnum(skillName, SkillType.class);
@@ -759,8 +765,9 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final int searchResId = R.string.search_for_feat;
         final String fragmentId = SELECT_FEAT_DIALOG;
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
+            @NonNull
             @Override
-            AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
+            AbstractSelectComponentDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
                 SelectFeatDialogFragment dialog = SelectFeatDialogFragment.createDialog(new SelectFeatDialogFragment.FeatSelectedListener() {
                     @Override
                     public boolean featSelected(long id) {
@@ -779,15 +786,17 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     public abstract static class SearchDialogCreator {
+        @NonNull
         abstract AbstractSelectComponentDialogFragment createDialog(SearchOptionMD optionMD);
     }
 
-    protected void visitCantripsSearchChoices(final String casterClass, int numChoices) {
+    protected void visitCantripsSearchChoices(@NonNull final String casterClass, int numChoices) {
         final int searchResId = R.string.search_for_cantrip;
         final String fragmentId = SELECT_SPELL_DIALOG;
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
+            @NonNull
             @Override
-            AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
+            AbstractSelectComponentDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
                 // TODO ignore cantrips from the other choices in the same component's dialog (eg, class/subclass..)
                 List<String> knownCantrips = new ArrayList<>();
                 for (Character.SpellLevelInfo each : character.getSpellInfos()) {
@@ -828,14 +837,15 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
     }
 
-    protected void visitSpellSearchChoices(final String casterClass, final int maxLevel, int numChoices, final List<SpellSchool> schoolNames, final boolean limitToRitual) {
+    protected void visitSpellSearchChoices(@NonNull final String casterClass, final int maxLevel, int numChoices, final List<SpellSchool> schoolNames, final boolean limitToRitual) {
         final int searchResId = R.string.search_for_spell;
         final String fragmentId = SELECT_SPELL_DIALOG;
         final List<String> casterClasses = new ArrayList<>();
         casterClasses.add(casterClass);
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
+            @NonNull
             @Override
-            AbstractSelectComponentDialogFragment createDialog(final SearchOptionMD optionMD) {
+            AbstractSelectComponentDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
                 // TODO ignore spells from the other choices in the same component's dialog (eg, class/subclass..)
                 List<String> knownSpells = new ArrayList<>();
                 for (Character.SpellLevelInfo each : character.getSpellInfos()) {
@@ -879,7 +889,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
     }
 
-    private void appendSearches(int numChoices, int searchResId, final String fragmentId, final SearchDialogCreator dialogCreator) {
+    private void appendSearches(int numChoices, int searchResId, final String fragmentId, @NonNull final SearchDialogCreator dialogCreator) {
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
@@ -927,14 +937,16 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
     public static abstract class SpinnerToString<T> {
+        @NonNull
         public abstract String toString(T object);
 
         public abstract String toSaveString(T localizedString, int index);
 
+        @NonNull
         public abstract T fromSavedString(String string);
     }
 
-    private <T> void appendCategoryDropDowns(int numChoices, @NonNull CategoryChoicesMD categoryChoicesMD, @NonNull List<String> savedSelections, @NonNull List<T> choices, final SpinnerToString<T> toString, @NonNull String prompt) {
+    private <T> void appendCategoryDropDowns(int numChoices, @NonNull CategoryChoicesMD categoryChoicesMD, @NonNull List<String> savedSelections, @NonNull List<T> choices, @Nullable final SpinnerToString<T> toString, @NonNull String prompt) {
         for (int i = 0; i < numChoices; i++) {
             ArrayAdapter<T> dataAdapter;
             if (toString == null) {
@@ -943,16 +955,19 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             } else {
                 dataAdapter = new ArrayAdapter<T>(parent.getContext(),
                         android.R.layout.simple_spinner_item, choices) {
-                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                    @Nullable
+                    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                         return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_dropdown_item);
                     }
 
-                    public View getView(int position, View convertView, ViewGroup parent) {
+                    @Nullable
+                    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                         return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_item);
                     }
 
-                    private View createViewFromResource(int position, View convertView,
-                                                        ViewGroup parent, int resource) {
+                    @Nullable
+                    private View createViewFromResource(int position, @Nullable View convertView,
+                                                        @NonNull ViewGroup parent, int resource) {
                         View view;
                         TextView text;
 

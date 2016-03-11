@@ -42,15 +42,15 @@ public class AbstractArmorVisitor extends AbstractComponentVisitor {
         }
     }
 
-    protected void visitCategory(Element element) {
+    protected void visitCategory(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitStrengthMin(Element element) {
+    protected void visitStrengthMin(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitDisadvantage(Element element) {
+    protected void visitDisadvantage(@NonNull Element element) {
         visitSimpleItem(element);
     }
 

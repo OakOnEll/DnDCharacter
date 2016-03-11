@@ -56,7 +56,7 @@ public class SelectEffectDialogFragment extends AbstractSelectComponentDialogFra
 
     @NonNull
     @Override
-    public RowViewHolder newRowViewHolder(View newView) {
+    public RowViewHolder newRowViewHolder(@NonNull View newView) {
         return new RowViewHolder(newView);
     }
 

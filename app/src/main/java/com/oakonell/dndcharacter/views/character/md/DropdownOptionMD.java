@@ -50,7 +50,7 @@ public class DropdownOptionMD<T> extends CategoryOptionMD {
     }
 
     @Override
-    public void showRequiredError(ViewGroup dynamicView) {
+    public void showRequiredError(@NonNull ViewGroup dynamicView) {
         errorTextView.setError(dynamicView.getContext().getString(R.string.choose_one_error));
         Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
         spinner.startAnimation(shake);

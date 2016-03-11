@@ -24,6 +24,7 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
     private final TextView total_slots;
     @NonNull
     private final TextView level;
+    @NonNull
     private final Button use_button;
 
     public SpellsViewHolder(@NonNull View itemView) {
@@ -35,7 +36,7 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
     }
 
     @Override
-    public void bind(final SpellsFragment context, SpellLevelsAdapter adapter, final @NonNull com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo info) {
+    public void bind(@NonNull final SpellsFragment context, SpellLevelsAdapter adapter, final @NonNull com.oakonell.dndcharacter.model.character.Character.SpellLevelInfo info) {
         super.bind(context, adapter, info);
         available_slots.setText(NumberUtils.formatNumber(info.getSlotsAvailable()));
         total_slots.setText(NumberUtils.formatNumber(info.getMaxSlots()));
@@ -53,12 +54,12 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
 
     @NonNull
     @Override
-    protected AbstractSpellAdapter newAdapter(SpellsFragment context, Character.SpellLevelInfo info) {
+    protected AbstractSpellAdapter newAdapter(SpellsFragment context, @NonNull Character.SpellLevelInfo info) {
         return new SpellAdapter(context, info);
     }
 
     public static class SpellAdapter extends AbstractSpellAdapter<SpellViewHolder> {
-        SpellAdapter(SpellsFragment context, Character.SpellLevelInfo spellLevelInfo) {
+        SpellAdapter(SpellsFragment context, @NonNull Character.SpellLevelInfo spellLevelInfo) {
             super(context, spellLevelInfo);
         }
 
@@ -80,7 +81,7 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
         }
 
         @Override
-        public void bind(@NonNull final SpellsFragment context, AbstractSpellAdapter adapter, @NonNull final Character.CharacterSpellWithSource info) {
+        public void bind(@NonNull final SpellsFragment context, @NonNull AbstractSpellAdapter adapter, @NonNull final Character.CharacterSpellWithSource info) {
             super.bind(context, adapter, info);
             if (!info.getSpell().isPreparable()) {
                 prepared.setVisibility(View.INVISIBLE);

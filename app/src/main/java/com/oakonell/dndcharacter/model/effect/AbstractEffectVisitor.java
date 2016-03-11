@@ -32,7 +32,7 @@ public abstract class AbstractEffectVisitor extends AbstractComponentVisitor {
         }
     }
 
-    protected void visitEffect(Element element) {
+    protected void visitEffect(@NonNull Element element) {
         visitChildren(element);
     }
 

@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.support.annotation.Nullable;
+
 import com.oakonell.dndcharacter.model.components.RefreshType;
 
 /**
@@ -7,6 +9,7 @@ import com.oakonell.dndcharacter.model.components.RefreshType;
  */
 public class FeatureResetInfo {
     public String name;
+    @Nullable
     public String description;
     public boolean reset;
     public RefreshType refreshOn;

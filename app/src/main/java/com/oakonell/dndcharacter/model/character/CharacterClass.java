@@ -53,7 +53,7 @@ public class CharacterClass extends BaseCharacterComponent {
 
     @NonNull
     @Override
-    public String getSourceString(Resources resources) {
+    public String getSourceString(@NonNull Resources resources) {
         return resources.getString(getType().getStringResId()) + ": " + getName() + " " + level;
     }
 

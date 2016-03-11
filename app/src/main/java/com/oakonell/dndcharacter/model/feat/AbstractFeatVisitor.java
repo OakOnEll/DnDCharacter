@@ -33,7 +33,7 @@ public abstract class AbstractFeatVisitor extends AbstractComponentVisitor {
         }
     }
 
-    protected void visitEffect(Element element) {
+    protected void visitEffect(@NonNull Element element) {
         visitChildren(element);
     }
 

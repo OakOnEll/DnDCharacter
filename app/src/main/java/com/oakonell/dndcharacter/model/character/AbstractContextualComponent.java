@@ -27,7 +27,7 @@ public abstract class AbstractContextualComponent extends BaseCharacterComponent
     }
 
     @Override
-    public boolean isInContext(FeatureContextArgument context) {
+    public boolean isInContext(@NonNull FeatureContextArgument context) {
         for (FeatureContextArgument each : contexts) {
             if (each.getContext() != context.getContext()) continue;
             if (each.getArgument() == null) return true;
@@ -46,7 +46,8 @@ public abstract class AbstractContextualComponent extends BaseCharacterComponent
 
     private static final Pattern PAREN_ARG = Pattern.compile("([^\\(]+)(\\(([^\\)]*)\\))?");
 
-    public static FeatureContextArgument parseFeatureContext(String contextWithPossibleArg) {
+    @NonNull
+    public static FeatureContextArgument parseFeatureContext(@NonNull String contextWithPossibleArg) {
         final Matcher argMatcher = PAREN_ARG.matcher(contextWithPossibleArg);
         if (!argMatcher.matches()) {
             throw new RuntimeException("Error matching pattern for " + contextWithPossibleArg);

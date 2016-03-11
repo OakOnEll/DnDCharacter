@@ -66,7 +66,7 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
         }
 
         @Override
-        public void bind(@NonNull final SpellsFragment context, final SpellLevelsAdapter adapter, final Character.SpellLevelInfo info) {
+        public void bind(@NonNull final SpellsFragment context, final SpellLevelsAdapter adapter, @NonNull final Character.SpellLevelInfo info) {
             if (spellAdapter == null) {
                 spellAdapter = newAdapter(context, info);
                 list.setAdapter(spellAdapter);

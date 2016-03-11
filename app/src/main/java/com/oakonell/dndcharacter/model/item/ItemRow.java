@@ -24,6 +24,7 @@ public class ItemRow extends AbstractComponentModel {
     private String xml;
     @Column
     private ItemType itemType;
+    @Nullable
     @Column
     private String cost;
 

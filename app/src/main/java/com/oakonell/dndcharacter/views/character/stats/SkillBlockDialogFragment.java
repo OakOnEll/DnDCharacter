@@ -92,6 +92,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         updateView(character);
 
         RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
+            @NonNull
             @Override
             public List<Character.ProficientWithSource> getList(@NonNull Character character) {
                 return character.getSkillBlock(type).getProficiencies();
@@ -149,12 +150,12 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     public static class SkillProfWithSourceViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.ProficientWithSource> {
 
-        public SkillProfWithSourceViewHolder(View view) {
+        public SkillProfWithSourceViewHolder(@NonNull View view) {
             super(view);
         }
 
         @Override
-        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.ProficientWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ProficientWithSource>> adapter, Character.ProficientWithSource item) {
+        public void bind(@NonNull CharacterActivity activity, @NonNull RowWithSourceAdapter<Character.ProficientWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ProficientWithSource>> adapter, @NonNull Character.ProficientWithSource item) {
             super.bind(activity, adapter, item);
             Proficient value = item.getProficient();
             this.value.setText(activity.getString(value.getStringResId()));
@@ -169,14 +170,14 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     }
 
     public static class SkillSourceAdapter extends RowWithSourceAdapter<Character.ProficientWithSource, SkillProfWithSourceViewHolder> {
-        SkillSourceAdapter(@NonNull SkillBlockDialogFragment fragment, ListRetriever<Character.ProficientWithSource> listRetriever) {
+        SkillSourceAdapter(@NonNull SkillBlockDialogFragment fragment, @NonNull ListRetriever<Character.ProficientWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
 
         @NonNull
         @Override
-        protected SkillProfWithSourceViewHolder newViewHolder(View view) {
+        protected SkillProfWithSourceViewHolder newViewHolder(@NonNull View view) {
             return new SkillProfWithSourceViewHolder(view);
         }
     }

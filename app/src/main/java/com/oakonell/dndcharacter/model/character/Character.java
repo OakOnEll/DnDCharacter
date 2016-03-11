@@ -149,6 +149,7 @@ public class Character {
     @Element(required = false)
     private String eyes;
 
+    @NonNull
     @Element(required = false)
     private SpeedType visibleSpeedType = SpeedType.WALK;
 
@@ -371,7 +372,7 @@ public class Character {
         return isProficientWithItem(ProficiencyType.WEAPON, weapon);
     }
 
-    protected boolean isProficientWithItem(ProficiencyType type, CharacterItem item) {
+    protected boolean isProficientWithItem(@NonNull ProficiencyType type, @NonNull CharacterItem item) {
         String name = item.getName().toUpperCase();
         String category = item.getCategory();
         if (category == null) {
@@ -382,7 +383,7 @@ public class Character {
         return isProficientWithItem(type, name, category);
     }
 
-    public boolean isProficientWithItem(ProficiencyType type, String name, String category) {
+    public boolean isProficientWithItem(@NonNull ProficiencyType type, @NonNull String name, @NonNull String category) {
         List<ToolProficiencyWithSource> list = deriveToolProficiencies(type);
         for (ToolProficiencyWithSource each : list) {
             final Proficiency proficiency = each.getProficiency();
@@ -584,6 +585,7 @@ public class Character {
     }
 
 
+    @NonNull
     public List<ArmorClassWithSource> deriveRootAcs(List<ArmorClassWithSource> modifyingAcs) {
         List<ArmorClassWithSource> result = new ArrayList<>();
         String baseFormula = "10 + dexterityMod";
@@ -644,7 +646,7 @@ public class Character {
     }
 
 
-    public static void modifyRootAcs(Character character, List<ArmorClassWithSource> modifyingAcs, List<ArmorClassWithSource> rootAcs) {
+    public static void modifyRootAcs(@NonNull Character character, @NonNull List<ArmorClassWithSource> modifyingAcs, @NonNull List<ArmorClassWithSource> rootAcs) {
         boolean usingShield = false;
         boolean wearingArmor = false;
         for (ArmorClassWithSource each : modifyingAcs) {
@@ -739,7 +741,7 @@ public class Character {
         // multiple here will really just take the highest ?? at runtime
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             @Override
-            void visitComponent(ICharacterComponent component) {
+            void visitComponent(@NonNull ICharacterComponent component) {
                 if (component.isBaseArmor()) return;
 
                 String acFormula = component.getModifyingAcFormula();
@@ -862,7 +864,7 @@ public class Character {
     }
 
     @NonNull
-    private String getToolProficiencyString(ProficiencyType type) {
+    private String getToolProficiencyString(@NonNull ProficiencyType type) {
         List<ToolProficiencyWithSource> list = deriveToolProficiencies(type);
 
         // first categories, so can pull out specifics if category already covered
@@ -938,7 +940,7 @@ public class Character {
     }
 
     @NonNull
-    public List<ModifierWithSource> deriveStat(final StatType type) {
+    public List<ModifierWithSource> deriveStat(@NonNull final StatType type) {
         final List<ModifierWithSource> result = new ArrayList<>();
 
         if (baseStats != null) {
@@ -962,7 +964,7 @@ public class Character {
         return result;
     }
 
-    public int deriveStatValue(final StatType type) {
+    public int deriveStatValue(@NonNull final StatType type) {
         // start with base stats
         final int value[] = new int[]{0};
         if (baseStats != null) {
@@ -984,7 +986,7 @@ public class Character {
     }
 
     @NonNull
-    public List<ProficientWithSource> deriveSkillProciencies(final SkillType type) {
+    public List<ProficientWithSource> deriveSkillProciencies(@NonNull final SkillType type) {
         final List<ProficientWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
@@ -1002,7 +1004,7 @@ public class Character {
     }
 
     @NonNull
-    public List<ProficientWithSource> deriveSaveProficiencies(final StatType type) {
+    public List<ProficientWithSource> deriveSaveProficiencies(@NonNull final StatType type) {
         final List<ProficientWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
@@ -1019,7 +1021,7 @@ public class Character {
         return result;
     }
 
-    public Proficient deriveSkillProciency(final SkillType type) {
+    public Proficient deriveSkillProciency(@NonNull final SkillType type) {
         final Proficient proficient[] = new Proficient[1];
         proficient[0] = Proficient.NONE;
 
@@ -1048,7 +1050,7 @@ public class Character {
         return 6;
     }
 
-    public Proficient deriveSaveProciency(final StatType type) {
+    public Proficient deriveSaveProciency(@NonNull final StatType type) {
         final Proficient proficient[] = new Proficient[1];
         proficient[0] = Proficient.NONE;
         final List<LanguageWithSource> languages = new ArrayList<>();
@@ -1371,7 +1373,7 @@ public class Character {
     }
 
     @NonNull
-    public List<ToolProficiencyWithSource> deriveToolProficiencies(final ProficiencyType type) {
+    public List<ToolProficiencyWithSource> deriveToolProficiencies(@NonNull final ProficiencyType type) {
         final List<ToolProficiencyWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
@@ -1614,7 +1616,8 @@ public class Character {
             return source;
         }
 
-        public String getSourceString(Resources resources) {
+        @NonNull
+        public String getSourceString(@NonNull Resources resources) {
             if (source == null) return resources.getString(R.string.no_component_source);
             return source.getSourceString(resources);
         }
@@ -2088,6 +2091,7 @@ public class Character {
         this.eyes = eyes;
     }
 
+    @NonNull
     public SpeedType getSpeedType() {
         return visibleSpeedType;
     }
@@ -2097,7 +2101,7 @@ public class Character {
     }
 
     @NonNull
-    public List<SpeedWithSource> deriveSpeeds(final SpeedType type) {
+    public List<SpeedWithSource> deriveSpeeds(@NonNull final SpeedType type) {
         final List<SpeedWithSource> result = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
@@ -2113,7 +2117,7 @@ public class Character {
         return result;
     }
 
-    public int getSpeed(final SpeedType type) {
+    public int getSpeed(@NonNull final SpeedType type) {
         final int result[] = new int[]{0};
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
@@ -2204,20 +2208,24 @@ public class Character {
             this.stringResId = stringResId;
         }
 
+        @NonNull
         public String getName() {
             return "-";
         }
 
+        @NonNull
         @Override
-        public String getSourceString(Resources resources) {
+        public String getSourceString(@NonNull Resources resources) {
             return resources.getString(stringResId);
         }
 
+        @Nullable
         @Override
         public ComponentType getType() {
             return null;
         }
 
+        @Nullable
         @Override
         public String getActiveFormula() {
             return null;

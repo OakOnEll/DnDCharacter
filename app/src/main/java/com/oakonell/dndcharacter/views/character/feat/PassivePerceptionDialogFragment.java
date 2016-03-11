@@ -78,7 +78,7 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         adapter.reloadList(character);
     }
@@ -90,7 +90,7 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
         }
 
         @Override
-        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.PassivePerceptionWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.PassivePerceptionWithSource>> adapter, Character.PassivePerceptionWithSource item) {
+        public void bind(@NonNull CharacterActivity activity, @NonNull RowWithSourceAdapter<Character.PassivePerceptionWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.PassivePerceptionWithSource>> adapter, @NonNull Character.PassivePerceptionWithSource item) {
             super.bind(activity, adapter, item);
             int initiative = item.getPassivePerception();
 
@@ -106,14 +106,14 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
     }
 
     public static class PassivePerceptionSourcesAdapter extends RowWithSourceAdapter<Character.PassivePerceptionWithSource, PassivePerceptionSourceViewHolder> {
-        PassivePerceptionSourcesAdapter(@NonNull PassivePerceptionDialogFragment fragment, ListRetriever<Character.PassivePerceptionWithSource> listRetriever) {
+        PassivePerceptionSourcesAdapter(@NonNull PassivePerceptionDialogFragment fragment, @NonNull ListRetriever<Character.PassivePerceptionWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
 
         @NonNull
         @Override
-        protected PassivePerceptionSourceViewHolder newViewHolder(View view) {
+        protected PassivePerceptionSourceViewHolder newViewHolder(@NonNull View view) {
             return new PassivePerceptionSourceViewHolder(view);
         }
     }

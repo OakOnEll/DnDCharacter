@@ -172,7 +172,7 @@ public class MainFragment extends AbstractSheetFragment {
     }
 
 
-    protected void updateViews(View rootView) {
+    protected void updateViews(@NonNull View rootView) {
         super.updateViews(rootView);
         final Character character = getCharacter();
         if (character == null) {

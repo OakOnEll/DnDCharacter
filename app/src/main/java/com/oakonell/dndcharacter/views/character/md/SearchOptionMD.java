@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.md;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -29,7 +30,7 @@ public class SearchOptionMD extends CategoryOptionMD {
     }
 
     @Override
-    public void saveChoice(ViewGroup dynamicView, List<String> list, Map<String, String> customChoices, SavedChoices savedChoices) {
+    public void saveChoice(ViewGroup dynamicView, @NonNull List<String> list, Map<String, String> customChoices, SavedChoices savedChoices) {
         if (!isPopulated()) return;
         String selection = text.getText().toString();
         list.add(selection);
@@ -64,13 +65,14 @@ public class SearchOptionMD extends CategoryOptionMD {
     }
 
     @Override
-    public void showRequiredError(ViewGroup dynamicView) {
+    public void showRequiredError(@NonNull ViewGroup dynamicView) {
         text.setError(dynamicView.getContext().getString(R.string.choose_one_error));
         Animation shake = AnimationUtils.loadAnimation(dynamicView.getContext(), R.anim.shake);
         search.startAnimation(shake);
         text.startAnimation(shake);
     }
 
+    @NonNull
     public String getText() {
         return text.getText().toString();
     }

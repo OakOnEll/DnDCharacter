@@ -67,7 +67,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
 
 
     @Override
-    protected void visitBackground(Element element) {
+    protected void visitBackground(@NonNull Element element) {
         charBackground.setName(XmlUtils.getElementText(element, "name"));
         super.visitBackground(element);
     }
@@ -98,7 +98,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitTraits(final Element element) {
+    protected void visitTraits(@NonNull final Element element) {
         String choiceName = "traits";
         Runnable superVisit = new Runnable() {
             @Override
@@ -116,7 +116,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitBonds(final Element element) {
+    protected void visitBonds(@NonNull final Element element) {
         String choiceName = "bonds";
         Runnable superVisit = new Runnable() {
             @Override
@@ -134,7 +134,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitFlaws(final Element element) {
+    protected void visitFlaws(@NonNull final Element element) {
         String choiceName = "flaws";
         Runnable superVisit = new Runnable() {
             @Override
@@ -152,7 +152,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
     }
 
     @Override
-    protected void visitIdeals(final Element element) {
+    protected void visitIdeals(@NonNull final Element element) {
         String choiceName = "ideals";
         Runnable superVisit = new Runnable() {
             @Override

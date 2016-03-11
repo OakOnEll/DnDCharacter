@@ -109,7 +109,7 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         updateViews();
     }

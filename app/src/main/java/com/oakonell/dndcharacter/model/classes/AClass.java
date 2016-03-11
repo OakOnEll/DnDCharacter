@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model.classes;
 
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
@@ -24,7 +25,7 @@ public class AClass extends AbstractComponentModel {
     @Column(name = "parentClass")
     private String parentClass;
 
-    public static Element findLevelElement(Element rootClassElement, int level) {
+    public static Element findLevelElement(@NonNull Element rootClassElement, int level) {
         // TODO change this to instance-based...
         List<Element> elements = XmlUtils.getChildElements(rootClassElement, "level");
         String levelString = level + "";
@@ -36,7 +37,7 @@ public class AClass extends AbstractComponentModel {
         return null;
     }
 
-    public static int getHitDieSides(Element rootClassElement) {
+    public static int getHitDieSides(@NonNull Element rootClassElement) {
         // TODO move this..
         String hitDieString = XmlUtils.getElementText(rootClassElement, "hitDice");
         // TODO correct the charClass hitdie

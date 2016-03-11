@@ -81,7 +81,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         refreshes_label = (TextView) view.findViewById(R.id.refreshes_label);
     }
 
-    public FeatureViewHolder(View view, Set<FeatureContextArgument> filter) {
+    public FeatureViewHolder(@NonNull View view, Set<FeatureContextArgument> filter) {
         this(view);
         this.filter = filter;
     }
@@ -354,7 +354,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             return list.size();
         }
 
-        public void setFeature(@NonNull FeatureInfo info, Set<FeatureContextArgument> filter) {
+        public void setFeature(@NonNull FeatureInfo info, @Nullable Set<FeatureContextArgument> filter) {
             list = new ArrayList<>();
             for (IFeatureAction each : info.getActionsAndEffects()) {
                 if (filter == null || (!each.hasActionContext() || each.isActionInContext(filter))) {
@@ -371,7 +371,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     }
 
 
-    public static void prompt(final List<Feature.FeatureEffectVariable> variables, final Map<Feature.FeatureEffectVariable, String> values, final int index, @NonNull final CharacterActivity context, final Runnable continuation) {
+    public static void prompt(@NonNull final List<Feature.FeatureEffectVariable> variables, @NonNull final Map<Feature.FeatureEffectVariable, String> values, final int index, @NonNull final CharacterActivity context, @NonNull final Runnable continuation) {
 // TODO  how to deal with rotation/save state/restore with the continuation?
         final Feature.FeatureEffectVariable variable = variables.get(index);
         AlertDialog.Builder b = new AlertDialog.Builder(context);
@@ -383,7 +383,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             b.setView(input);
             b.setPositiveButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(@NonNull DialogInterface dialog, int which) {
                     dialog.dismiss();
                     values.put(variable, input.getText().toString());
                     int next = index + 1;
@@ -397,7 +397,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         } else {
             b.setItems(choices, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(@NonNull DialogInterface dialog, int which) {
                     dialog.dismiss();
                     values.put(variable, choices[which]);
                     int next = index + 1;

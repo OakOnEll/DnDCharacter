@@ -23,6 +23,7 @@ import java.util.Map;
  */
 public class AbilityScoreImprovementViewCreator extends AbstractComponentViewCreator {
 
+    @NonNull
     private Map<String, TextView> statTextViews = new HashMap<>();
 
     public AbilityScoreImprovementViewCreator(Character character) {
@@ -30,14 +31,14 @@ public class AbilityScoreImprovementViewCreator extends AbstractComponentViewCre
     }
 
     @Override
-    protected void onOptionCheckChange(CheckOptionMD optionMD, boolean isChecked) {
+    protected void onOptionCheckChange(@NonNull CheckOptionMD optionMD, boolean isChecked) {
         super.onOptionCheckChange(optionMD, isChecked);
         if (!"stat".equals(optionMD.getChoiceName())) return;
 
         updateStatIncreaseText(optionMD.getChooseMD());
     }
 
-    private void updateStatIncreaseText(MultipleChoicesMD choicesMD) {
+    private void updateStatIncreaseText(@NonNull MultipleChoicesMD choicesMD) {
         int numChecked = 0;
         for (CheckOptionMD each : choicesMD.getOptions()) {
             if (each.getCheckbox().isChecked()) {

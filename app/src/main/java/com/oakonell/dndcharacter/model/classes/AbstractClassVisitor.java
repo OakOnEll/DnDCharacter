@@ -67,7 +67,7 @@ public abstract class AbstractClassVisitor extends AbstractChoiceComponentVisito
      *
      * @param element
      */
-    protected void visitSpells(Element element) {
+    protected void visitSpells(@NonNull Element element) {
         visitGroup(element);
     }
 
@@ -78,35 +78,35 @@ public abstract class AbstractClassVisitor extends AbstractChoiceComponentVisito
      *
      * @param element
      */
-    protected void visitCantrips(Element element) {
+    protected void visitCantrips(@NonNull Element element) {
         visitGroup(element);
     }
 
-    protected void visitMulticlassCasterFactor(Element element) {
+    protected void visitMulticlassCasterFactor(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitSpellCastingStat(Element element) {
+    protected void visitSpellCastingStat(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitSpellCastingSpellClass(Element element) {
+    protected void visitSpellCastingSpellClass(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitPreparedSpells(Element element) {
+    protected void visitPreparedSpells(@NonNull Element element) {
         visitSimpleItem(element);
     }
 
-    protected void visitSubClass(Element element) {
+    protected void visitSubClass(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitClass(Element element) {
+    protected void visitClass(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitLevel(Element element) {
+    protected void visitLevel(@NonNull Element element) {
         visitChildren(element);
     }
 

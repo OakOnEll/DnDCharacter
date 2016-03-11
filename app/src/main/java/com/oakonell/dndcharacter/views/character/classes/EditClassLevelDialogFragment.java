@@ -45,7 +45,7 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         classIndex = getArguments().getInt(CLASS_INDEX);
         includeHP = getArguments().getBoolean(INCLUDE_HP);
         return super.onCreateTheView(inflater, container, savedInstanceState);

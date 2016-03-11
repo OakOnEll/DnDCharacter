@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.components;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.views.character.IContextualComponent;
@@ -32,5 +34,6 @@ public interface IFeatureAction {
 
     String getName();
 
+    @NonNull
     List<Feature.FeatureEffectVariable> getVariables();
 }

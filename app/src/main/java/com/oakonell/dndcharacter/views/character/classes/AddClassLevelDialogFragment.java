@@ -143,6 +143,7 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
     }
 
     private static class MulticlassFailureInfo {
+        @Nullable
         String formula;
         String className;
     }

@@ -29,6 +29,7 @@ public class AbstractRestRequest {
         spellSlotResets.put(level, restoreSlots + resets);
     }
 
+    @NonNull
     public Map<Integer, Integer> getSpellSlotResets() {
         return spellSlotResets;
     }

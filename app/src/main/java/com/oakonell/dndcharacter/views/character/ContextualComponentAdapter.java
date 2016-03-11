@@ -30,6 +30,7 @@ import java.util.Set;
  */
 public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, CharacterActivity,ContextualComponentAdapter>> {
     private static final int UNDO_DELAY = 5000;
+    @NonNull
     private final CharacterActivity context;
     private final Set<FeatureContextArgument> filter;
     private List<IContextualComponent> list;

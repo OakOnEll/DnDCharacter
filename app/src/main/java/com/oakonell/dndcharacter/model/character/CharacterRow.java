@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model.character;
 
 import android.provider.BaseColumns;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -17,6 +18,7 @@ public class CharacterRow extends AbstractComponentModel {
     public String name;
     @Column
     public String classesString;
+    @Nullable
     @Column
     public String race_display_name;
     @Column

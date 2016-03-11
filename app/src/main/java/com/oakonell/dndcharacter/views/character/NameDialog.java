@@ -70,7 +70,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(com.oakonell.dndcharacter.model.character.Character character) {
+    public void onCharacterLoaded(@NonNull com.oakonell.dndcharacter.model.character.Character character) {
         super.onCharacterLoaded(character);
         name.setText(character.getName());
 
@@ -111,7 +111,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         updateViews();
     }
 
-    private void addNameTypes(List<Element> nameElems, List<NameType> nameTypesList) {
+    private void addNameTypes(@NonNull List<Element> nameElems, @NonNull List<NameType> nameTypesList) {
 /*
     <names>
         <list typeLabel="Male Names">Alberich,Adrik</list>
@@ -170,6 +170,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
     }
 
     private static class NameViewHolder extends BindableComponentViewHolder<String, NameDialog, NameAdapter> {
+        @NonNull
         private final TextView name;
 
         public NameViewHolder(@NonNull View itemView) {
@@ -178,7 +179,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(NameDialog context, NameAdapter adapter, final String info) {
+        public void bind(NameDialog context, @NonNull NameAdapter adapter, final String info) {
             name.setText(info);
             // append this to the current name in the dialog...
             final EditText dialogNameTextView = adapter.dialog.name;
@@ -211,6 +212,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             this.dialog = dialog;
         }
 
+        @NonNull
         @Override
         public NameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(dialog.getMainActivity()).inflate(R.layout.race_name_item, parent, false);
@@ -219,7 +221,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void onBindViewHolder(NameViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull NameViewHolder holder, int position) {
             final String aName = type.names.get(position);
             holder.bind(dialog, this, aName);
         }
@@ -231,7 +233,9 @@ public class NameDialog extends AbstractCharacterDialogFragment {
     }
 
     private static class NameTypeViewHolder extends BindableComponentViewHolder<NameType, NameDialog, NameTypeAdapter> {
+        @NonNull
         private final TextView name_type;
+        @NonNull
         private final RecyclerView names;
         private NameAdapter nameAdapter;
         private static float textPx;
@@ -243,7 +247,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(NameDialog context, NameTypeAdapter adapter, NameType info) {
+        public void bind(@NonNull NameDialog context, @NonNull NameTypeAdapter adapter, @NonNull NameType info) {
             name_type.setText(info.typeName);
 
             if (nameAdapter == null) {
@@ -327,6 +331,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             this.nameTypes = nameTypes;
         }
 
+        @NonNull
         @Override
         public NameTypeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(dialog.getMainActivity()).inflate(R.layout.race_name_type, parent, false);
@@ -335,7 +340,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void onBindViewHolder(NameTypeViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull NameTypeViewHolder holder, int position) {
             final NameType nameType = nameTypes.get(position);
             holder.bind(dialog, this, nameType);
         }

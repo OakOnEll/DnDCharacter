@@ -75,7 +75,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         return getChoicesMD();
     }
 
-    protected void handleSpells(@NonNull CharacterActivity characterActivity, int classLevel, @Nullable Element spells, ViewGroup mainGroup, String ownerClassName, String casterClassName) {
+    protected void handleSpells(@NonNull CharacterActivity characterActivity, int classLevel, @Nullable Element spells, ViewGroup mainGroup, String ownerClassName, @Nullable String casterClassName) {
         if (spells == null) return;
 //            <known>3</known>
 //            <slots>
@@ -165,7 +165,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
 
     }
 
-    protected void handleCantrips(@NonNull CharacterActivity characterActivity, int classLevel, @Nullable Element cantrips, @NonNull SavedChoices savedChoices, ViewGroup mainGroup, String ownerClassName, String casterClassName) {
+    protected void handleCantrips(@NonNull CharacterActivity characterActivity, int classLevel, @Nullable Element cantrips, @NonNull SavedChoices savedChoices, @NonNull ViewGroup mainGroup, String ownerClassName, @Nullable String casterClassName) {
         if (cantrips == null) return;
 
 
@@ -225,7 +225,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
     }
 
 
-    private int findLastCantripsKnown(Character character, String className, int classLevel) {
+    private int findLastCantripsKnown(@NonNull Character character, String className, int classLevel) {
         final List<CharacterClass> classes = new ArrayList<>(character.getClasses());
         Collections.reverse(classes);
         for (CharacterClass each : classes) {
@@ -239,7 +239,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         return 0;
     }
 
-    private int findLastSpellsKnown(Character character, String className, int classLevel) {
+    private int findLastSpellsKnown(@NonNull Character character, String className, int classLevel) {
         final List<CharacterClass> classes = new ArrayList<>(character.getClasses());
         Collections.reverse(classes);
         for (CharacterClass each : classes) {

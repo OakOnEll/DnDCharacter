@@ -33,7 +33,7 @@ public class AbstractSpellVisitor extends AbstractNameDescriptionVisitor {
         }
     }
 
-    protected void visitSpell(Element element) {
+    protected void visitSpell(@NonNull Element element) {
         visitGroup(element);
     }
 

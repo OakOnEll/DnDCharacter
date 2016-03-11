@@ -88,7 +88,7 @@ public class DeathSaveDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
     }
 

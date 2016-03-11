@@ -67,7 +67,7 @@ public class RacesListActivity extends AbstractComponentListActivity<Race> {
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String parentName = cursor.getString(cursorIndexesByName.getIndex(cursor, "parentRace"));
             parentRace.setText(parentName);

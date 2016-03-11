@@ -49,12 +49,12 @@ public class CreateCharacterArmorVisitor extends AbstractArmorVisitor {
     }
 
     @Override
-    protected void visitStrengthMin(Element element) {
+    protected void visitStrengthMin(@NonNull Element element) {
         super.visitStrengthMin(element);
     }
 
     @Override
-    protected void visitDisadvantage(Element element) {
+    protected void visitDisadvantage(@NonNull Element element) {
         super.visitDisadvantage(element);
     }
 

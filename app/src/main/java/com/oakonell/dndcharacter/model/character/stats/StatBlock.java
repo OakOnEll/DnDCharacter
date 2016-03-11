@@ -34,10 +34,12 @@ public class StatBlock {
         return ((int) (proficiency * proficient.getMultiplier())) + statMod;
     }
 
+    @NonNull
     public List<Character.ModifierWithSource> getModifiers() {
         return character.deriveStat(type);
     }
 
+    @NonNull
     public List<Character.ProficientWithSource> getSaveProficiencies() {
         return character.deriveSaveProficiencies(type);
     }

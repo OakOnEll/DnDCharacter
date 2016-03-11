@@ -131,7 +131,7 @@ public class PersonaFragment extends AbstractSheetFragment {
     }
 
     @Override
-    protected void updateViews(View rootView) {
+    protected void updateViews(@Nullable View rootView) {
         super.updateViews(rootView);
         Character character = getCharacter();
 

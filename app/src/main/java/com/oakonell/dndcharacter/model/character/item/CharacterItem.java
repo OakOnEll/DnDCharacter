@@ -39,6 +39,7 @@ public class CharacterItem extends BaseCharacterComponent {
         this.source = source;
     }
 
+    @NonNull
     public ItemType getItemType() {
         return ItemType.EQUIPMENT;
     }

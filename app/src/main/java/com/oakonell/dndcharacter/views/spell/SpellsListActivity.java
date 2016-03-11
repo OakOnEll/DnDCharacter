@@ -62,7 +62,9 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
     protected static class SpellRowViewHolderCursor extends RowViewHolderCursor {
         @NonNull
         private final TextView levelTextView;
+        @NonNull
         private final TextView schoolTextView;
+        @NonNull
         private final TextView ritualTextView;
 
         public SpellRowViewHolderCursor(@NonNull View itemView) {

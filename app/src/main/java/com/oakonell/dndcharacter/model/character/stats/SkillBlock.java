@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.stats;
 
+import android.support.annotation.NonNull;
+
 import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
 
@@ -33,6 +35,7 @@ public class SkillBlock {
         return character.deriveSkillProciency(type);
     }
 
+    @NonNull
     public List<Character.ProficientWithSource> getProficiencies() {
         return character.deriveSkillProciencies(type);
     }

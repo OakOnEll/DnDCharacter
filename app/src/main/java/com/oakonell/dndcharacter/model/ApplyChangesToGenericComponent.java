@@ -52,6 +52,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private String currentChoiceName;
 
     private Feature feature;
+    @Nullable
     private String spellPrefix = "";
 
     protected ApplyChangesToGenericComponent(Context context, SavedChoices savedChoices, C component, @Nullable Character character) {
@@ -89,7 +90,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         component.setDescription(element.getTextContent());
     }
 
-    private void addFeat(String name) {
+    private void addFeat(@NonNull String name) {
         Feat feat = new Select().from(Feat.class).where("upper(name) = ?", name.toUpperCase()).executeSingle();
         if (feat == null) {
             throw new RuntimeException("Error finding feat named '" + name + "'");
@@ -628,7 +629,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
     }
 
-    private void categoryChoices(Element element) {
+    private void categoryChoices(@NonNull Element element) {
         List<String> selections = savedChoices.getChoicesFor(currentChoiceName);
         for (String selection : selections) {
             switch (state) {

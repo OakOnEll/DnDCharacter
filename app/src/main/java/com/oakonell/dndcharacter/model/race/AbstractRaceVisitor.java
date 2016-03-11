@@ -31,7 +31,7 @@ public abstract class AbstractRaceVisitor extends AbstractChoiceComponentVisitor
     }
 
 
-    protected void visitRace(Element element) {
+    protected void visitRace(@NonNull Element element) {
         visitChildren(element);
     }
 

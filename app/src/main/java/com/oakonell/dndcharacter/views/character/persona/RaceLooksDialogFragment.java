@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.character.persona;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -60,13 +61,14 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
     private TextView dup_height_roll;
     private Button acceptWeight;
 
+    @Nullable
     private Map<String, String> data = null;
     private TextInputLayout random_height_roll_layout;
     private TextInputLayout random_weight_roll_layout;
 
 
     @NonNull
-    public static RaceLooksDialogFragment create(String raceName, String subraceName, Map<String, String> data) {
+    public static RaceLooksDialogFragment create(String raceName, String subraceName, @NonNull Map<String, String> data) {
         RaceLooksDialogFragment dialog = new RaceLooksDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putString(RACE_NAME_ARG, raceName);
@@ -148,7 +150,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
     }
 
 
-    private String getRaceProperty(Element raceRoot, Element subraceRoot, String propertyName) {
+    private String getRaceProperty(@NonNull Element raceRoot, @Nullable Element subraceRoot, String propertyName) {
         if (subraceRoot != null) {
             String text = XmlUtils.getElementText(subraceRoot, propertyName);
             if (text != null && text.trim().length() > 0) return text;
@@ -159,7 +161,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
         // TODO load the race, and get the height/weight/age descriptions
         String raceName = getArguments() != null ? getArguments().getString(RACE_NAME_ARG) : null;
@@ -200,7 +202,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         updateViews();
     }
 
-    protected void configureRandomHeight(Element raceRoot, Element subraceRoot) {
+    protected void configureRandomHeight(@NonNull Element raceRoot, Element subraceRoot) {
         final String baseHeight = getRaceProperty(raceRoot, subraceRoot, "baseHeight");
         final String heightModifier = getRaceProperty(raceRoot, subraceRoot, "heightModifier");
         if (baseHeight != null) {
@@ -221,7 +223,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
                 }
 
                 @Override
-                public void afterTextChanged(Editable s) {
+                public void afterTextChanged(@NonNull Editable s) {
                     int roll = 0;
                     if (s.toString().trim().length() > 0) {
                         try {
@@ -252,7 +254,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         });
     }
 
-    protected void configureRandomWeight(Element raceRoot, Element subraceRoot) {
+    protected void configureRandomWeight(@NonNull Element raceRoot, Element subraceRoot) {
         final String baseWeight = getRaceProperty(raceRoot, subraceRoot, "baseWeight");
         final String weightModifier = getRaceProperty(raceRoot, subraceRoot, "weightMultiplier");
         if (baseWeight != null) {
@@ -273,7 +275,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
                 }
 
                 @Override
-                public void afterTextChanged(Editable s) {
+                public void afterTextChanged(@NonNull Editable s) {
                     int roll = 0;
                     if (s.toString().trim().length() > 0) {
                         try {
@@ -314,7 +316,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         updateViews();
     }
@@ -352,6 +354,7 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
         eyesText.setText(eyes);
     }
 
+    @Nullable
     public Map<String, String> getData() {
         data.put("age", ageText.getText().toString());
         data.put("weight", weightText.getText().toString());

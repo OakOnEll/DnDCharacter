@@ -42,7 +42,7 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     }
 
     @Override
-    protected void visitDamage(Element element) {
+    protected void visitDamage(@NonNull Element element) {
         String amount = XmlUtils.getElementText(element, "amount");
         String typeString = XmlUtils.getElementText(element, "damageType");
         if (typeString == null) {
@@ -53,7 +53,7 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     }
 
     @Override
-    protected void visitVersatileDamage(Element element) {
+    protected void visitVersatileDamage(@NonNull Element element) {
         String amount = XmlUtils.getElementText(element, "amount");
         String typeString = XmlUtils.getElementText(element, "damageType");
         if (typeString == null) {

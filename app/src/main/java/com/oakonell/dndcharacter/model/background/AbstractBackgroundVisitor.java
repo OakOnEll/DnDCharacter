@@ -62,50 +62,50 @@ public abstract class AbstractBackgroundVisitor extends AbstractChoiceComponentV
         }
     }
 
-    protected void visitFlaw(Element element) {
+    protected void visitFlaw(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitFlaws(Element element) {
+    protected void visitFlaws(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitBond(Element element) {
+    protected void visitBond(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitBonds(Element element) {
+    protected void visitBonds(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitIdeal(Element element) {
+    protected void visitIdeal(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitIdeals(Element element) {
+    protected void visitIdeals(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitTrait(Element element) {
+    protected void visitTrait(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitTraits(Element element) {
+    protected void visitTraits(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitSpecialty(Element element) {
+    protected void visitSpecialty(@NonNull Element element) {
         visitChildren(element);
     }
 
-    protected void visitSpecialties(Element element) {
+    protected void visitSpecialties(@NonNull Element element) {
         VisitState oldState = state;
         state = VisitState.SPECIALTIES;
         visitGroup(element);
         state = oldState;
     }
 
-    protected void visitBackground(Element element) {
+    protected void visitBackground(@NonNull Element element) {
         visitChildren(element);
     }
 

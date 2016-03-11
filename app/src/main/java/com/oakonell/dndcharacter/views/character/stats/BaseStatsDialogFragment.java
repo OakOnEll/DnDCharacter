@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.views.character.stats;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -69,7 +70,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
+                                @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.base_stats, container);
 
         if (savedInstanceState != null) {
@@ -271,7 +272,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(DONE_LABEL, doneLabel);
     }
@@ -537,6 +538,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
 
     private ApplyAbstractComponentDialogFragment.DoneListener doneListener;
+    @Nullable
     private String doneLabel;
 
     public void setDoneLabel(String doneLabel) {

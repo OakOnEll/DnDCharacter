@@ -58,7 +58,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
         adapter = new SpeedTypeAdapter(this, character.getSpeedType());
@@ -100,15 +100,19 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
             this.type = type;
         }
 
+        @NonNull
         @Override
-        public List<Character.SpeedWithSource> getList(Character character) {
+        public List<Character.SpeedWithSource> getList(@NonNull Character character) {
             return character.deriveSpeeds(type);
         }
     }
 
     public static class SpeedTypeViewHolder extends BindableComponentViewHolder<SpeedType, CharacterActivity, SpeedTypeAdapter> {
+        @NonNull
         private final CheckBox checkbox;
+        @NonNull
         private final TextView name;
+        @NonNull
         private final RecyclerView speed_sources;
         SpeedSourceAdapter sourceAdapter;
 
@@ -120,7 +124,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(CharacterActivity activity, final SpeedTypeAdapter adapter, final SpeedType type) {
+        public void bind(@NonNull CharacterActivity activity, @NonNull final SpeedTypeAdapter adapter, @NonNull final SpeedType type) {
             name.setText(type.getStringResId());
             boolean isChecked = (adapter.selectedType == type);
             checkbox.setOnCheckedChangeListener(null);
@@ -152,6 +156,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     public static class SpeedTypeAdapter extends RecyclerView.Adapter<SpeedTypeViewHolder> {
+        @NonNull
         private final SpeedDialogFragment fragment;
         private final SpeedType[] speeds;
         private SpeedType selectedType;
@@ -162,14 +167,15 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
             this.selectedType = selectedType;
         }
 
+        @NonNull
         @Override
-        public SpeedTypeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public SpeedTypeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.speed_type_item, parent, false);
             return new SpeedTypeViewHolder(newView);
         }
 
         @Override
-        public void onBindViewHolder(SpeedTypeViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull SpeedTypeViewHolder holder, int position) {
             final SpeedType speedType = speeds[position];
             holder.bind(fragment.getMainActivity(), this, speedType);
         }
@@ -191,7 +197,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         @Override
-        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.SpeedWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.SpeedWithSource>> adapter, Character.SpeedWithSource item) {
+        public void bind(@NonNull CharacterActivity activity, @NonNull RowWithSourceAdapter<Character.SpeedWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.SpeedWithSource>> adapter, @NonNull Character.SpeedWithSource item) {
             super.bind(activity, adapter, item);
             int speed = item.getSpeed();
 
@@ -203,7 +209,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
 
 
     public static class SpeedSourceAdapter extends RowWithSourceAdapter<Character.SpeedWithSource, SpeedViewHolder> {
-        SpeedSourceAdapter(@NonNull SpeedTypeAdapter adapter, ListRetriever<Character.SpeedWithSource> listRetriever) {
+        SpeedSourceAdapter(@NonNull SpeedTypeAdapter adapter, @NonNull ListRetriever<Character.SpeedWithSource> listRetriever) {
             super(adapter.fragment.getMainActivity(), listRetriever);
         }
 
@@ -213,7 +219,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
 
         @NonNull
         @Override
-        protected SpeedViewHolder newViewHolder(View view) {
+        protected SpeedViewHolder newViewHolder(@NonNull View view) {
             return new SpeedViewHolder(view);
         }
     }

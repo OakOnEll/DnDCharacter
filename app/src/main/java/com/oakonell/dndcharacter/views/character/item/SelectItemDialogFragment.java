@@ -53,7 +53,9 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
     private NoDefaultSpinner itemTypeSpinner;
     AppCompatCheckBox limit_to_proficient;
 
+    @Nullable
     private ArrayList<String> catList = new ArrayList<>();
+    @Nullable
     private ArrayList<String> nameList = new ArrayList<>();
 
     public void setListener(ItemSelectedListener listener) {
@@ -65,7 +67,7 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
     }
 
     @NonNull
-    public static SelectItemDialogFragment createDialog(@NonNull ItemSelectedListener listener, ItemType itemType, List<Character.ToolProficiencyWithSource> proficiencies) {
+    public static SelectItemDialogFragment createDialog(@NonNull ItemSelectedListener listener, @Nullable ItemType itemType, @Nullable List<Character.ToolProficiencyWithSource> proficiencies) {
         SelectItemDialogFragment dialog = new SelectItemDialogFragment();
 
         Bundle args = new Bundle();
@@ -92,7 +94,7 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
     }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateTheView(inflater, container, savedInstanceState);
 
         if (getArguments() != null) {
@@ -254,9 +256,13 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
 
     private class ItemRowViewHolder extends RowViewHolder {
 
+        @NonNull
         private final TextView itemTypeView;
+        @NonNull
         private final TextView categoryView;
+        @NonNull
         private final TextView costView;
+        @NonNull
         private final TextView not_proficient;
 
         public ItemRowViewHolder(@NonNull View itemView) {

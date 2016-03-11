@@ -1,5 +1,8 @@
 package com.oakonell.dndcharacter.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
@@ -12,7 +15,8 @@ import java.util.List;
  */
 public class EnumHelper {
 
-    public static <T extends Enum<T>> List<T> commaListToEnum(String input, Class<T> clazz) {
+    @Nullable
+    public static <T extends Enum<T>> List<T> commaListToEnum(@Nullable String input, @NonNull Class<T> clazz) {
         List<T> enums = null;
         if (input != null && input.trim().length() > 0) {
             String[] strings = input.split(",");
@@ -26,7 +30,7 @@ public class EnumHelper {
     }
 
 
-    public static <T extends Enum<T>> T stringToEnum(String input, Class<T> clazz) {
+    public static <T extends Enum<T>> T stringToEnum(String input, @NonNull Class<T> clazz) {
         input = input.replaceAll(" ", "_");
         input = input.toUpperCase();
         return SkillType.valueOf(clazz, input);

@@ -47,8 +47,10 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     private boolean cantrips;
     private SpellSelectedListener listener;
 
+    @Nullable
     private List<SpellSchool> schoolsFilter = null;
     private boolean ritualOnly;
+    @Nullable
     private ArrayList<String> ignoreSpellNamesList;
 
     public void setListener(SpellSelectedListener listener) {
@@ -61,7 +63,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
     // Will use the current character's classes/caster classes to filter
     @NonNull
-    public static SelectSpellDialogFragment createDialog(Character character, boolean cantrips, SpellSelectedListener listener, List<String> ignoreSpellNames) {
+    public static SelectSpellDialogFragment createDialog(@NonNull Character character, boolean cantrips, SpellSelectedListener listener, @Nullable List<String> ignoreSpellNames) {
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
         args.putBoolean(CANTRIPS, cantrips);
@@ -87,7 +89,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
 
     @NonNull
-    public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, List<SpellSchool> schools, boolean limitToRitual, SpellSelectedListener listener, List<String> ignoreSpellNames) {
+    public static SelectSpellDialogFragment createDialog(@NonNull String casterClass, int maxLevel, @Nullable List<SpellSchool> schools, boolean limitToRitual, SpellSelectedListener listener, @Nullable List<String> ignoreSpellNames) {
         SelectSpellDialogFragment dialog = new SelectSpellDialogFragment();
         Bundle args = new Bundle();
         ArrayList<ClassChoice> classChoices = new ArrayList<>();
@@ -148,7 +150,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 //    }
 
     @Override
-    public View onCreateTheView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateTheView(inflater, container, savedInstanceState);
 
         max_spell_level = (TextView) view.findViewById(R.id.max_spell_level);
@@ -360,7 +362,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             this.maxLevel = maxLevel;
         }
 
-        public ClassChoice(Parcel in) {
+        public ClassChoice(@NonNull Parcel in) {
             ownerClass = in.readString();
             casterClass = in.readString();
             maxLevel = in.readInt();
@@ -378,7 +380,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             dest.writeString(ownerClass);
             dest.writeString(casterClass);
             dest.writeInt(maxLevel);
@@ -398,8 +400,11 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
     public static class SpellRowViewHolder extends RowViewHolder {
 
+        @NonNull
         private final TextView schoolTextView;
+        @NonNull
         private final TextView levelTextView;
+        @NonNull
         private final TextView ritualTextView;
 
         public SpellRowViewHolder(@NonNull View itemView) {

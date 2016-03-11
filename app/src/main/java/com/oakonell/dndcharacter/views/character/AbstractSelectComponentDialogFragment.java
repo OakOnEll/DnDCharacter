@@ -44,6 +44,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
     private LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks;
 
 
+    @Nullable
     @Override
     protected abstract String getTitle();
 
@@ -55,6 +56,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
 //        }
 //    }
 
+    @Nullable
     @Override
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {

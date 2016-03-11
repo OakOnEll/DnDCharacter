@@ -65,6 +65,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     private String hpFormula;
     @Element(required = false)
     private String initiativeModFormula;
+    @NonNull
     @ElementList(required = false)
     private List<CharacterSpell> spells = new ArrayList<>();
     @Element(required = false)
@@ -121,6 +122,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
         return proficient;
     }
 
+    @NonNull
     public abstract ComponentType getType();
 
     public void addFeature(Feature feature) {
@@ -128,13 +130,13 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     }
 
     @NonNull
-    public Collection<FeatureInfo> getFeatures(Character character) {
+    public Collection<FeatureInfo> getFeatures(@NonNull Character character) {
         Map<String, FeatureInfo> map = new HashMap<>();
         addFeatureInfo(map, character);
         return new ArrayList<>(map.values());
     }
 
-    public void addFeatureInfo(Map<String, FeatureInfo> map, Character character) {
+    public void addFeatureInfo(@NonNull Map<String, FeatureInfo> map, @NonNull Character character) {
         for (Feature each : features) {
             if (!each.applies(character)) continue;
             FeatureExtensionType type = each.getExtensionType();
@@ -157,7 +159,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
 
 
     @NonNull
-    public String getSourceString(Resources resources) {
+    public String getSourceString(@NonNull Resources resources) {
         return resources.getString(getType().getStringResId()) + ": " + getName();
     }
 
@@ -274,12 +276,13 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     }
 
     @Override
-    public int getSpeed(Character character, SpeedType type) {
+    public int getSpeed(@NonNull Character character, SpeedType type) {
         final String val = speeds.get(type);
         if (val == null || val.trim().length() == 0) return 0;
         return character.evaluateFormula(val, null);
     }
 
+    @NonNull
     public List<CharacterSpell> getSpells() {
         return spells;
     }
@@ -297,7 +300,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     }
 
     @Override
-    public int getInitiativeMod(Character character) {
+    public int getInitiativeMod(@NonNull Character character) {
         return character.evaluateFormula(initiativeModFormula, null);
     }
 
@@ -310,7 +313,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     }
 
     @Override
-    public int getPassivePerceptionMod(Character character) {
+    public int getPassivePerceptionMod(@NonNull Character character) {
         return character.evaluateFormula(passivePerceptionModFormula, null);
     }
 

@@ -173,7 +173,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     @Override
-    public void onCharacterLoaded(Character character) {
+    public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
         // armor
         armorAdapter = new ArmorAdapter(this, character);
@@ -378,7 +378,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
             ac = (TextView) view.findViewById(R.id.ac);
         }
 
-        protected String getNameString(@NonNull CharacterArmor item, EquipmentFragment context) {
+        @NonNull
+        protected String getNameString(@NonNull CharacterArmor item, @NonNull EquipmentFragment context) {
             boolean isProficient = context.getCharacter().isProficientWith(item);
             return item.getName() + (isProficient ? "" : context.getString(R.string.not_proficient));
         }
@@ -521,7 +522,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     public abstract static class BindableRecyclerViewHolder<I extends CharacterItem> extends BindableComponentViewHolder<I, EquipmentFragment, SubAdapter<I>> {
 
-        public BindableRecyclerViewHolder(View itemView) {
+        public BindableRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
         }
 

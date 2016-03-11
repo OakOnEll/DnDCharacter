@@ -67,7 +67,7 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String categoryString = cursor.getString(cursorIndexesByName.getIndex(cursor, "category"));
             category.setText(categoryString);

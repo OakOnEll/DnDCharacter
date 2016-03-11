@@ -100,7 +100,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
         }
 
         @Override
-        public void bind(CharacterActivity activity, RowWithSourceAdapter<Character.ToolProficiencyWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ToolProficiencyWithSource>> adapter, Character.ToolProficiencyWithSource item) {
+        public void bind(@NonNull CharacterActivity activity, @NonNull RowWithSourceAdapter<Character.ToolProficiencyWithSource, RowWithSourceAdapter.WithSourceViewHolder<Character.ToolProficiencyWithSource>> adapter, @NonNull Character.ToolProficiencyWithSource item) {
             super.bind(activity, adapter, item);
             String category = item.getProficiency().getCategory();
             String text;
@@ -125,14 +125,14 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
     }
 
     public static class ToolProficiencySourceAdapter extends RowWithSourceAdapter<Character.ToolProficiencyWithSource, ToolProfViewHolder> {
-        ToolProficiencySourceAdapter(@NonNull ToolProficiencyDialogFragment fragment, ListRetriever<Character.ToolProficiencyWithSource> listRetriever) {
+        ToolProficiencySourceAdapter(@NonNull ToolProficiencyDialogFragment fragment, @NonNull ListRetriever<Character.ToolProficiencyWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
         }
 
 
         @NonNull
         @Override
-        protected ToolProfViewHolder newViewHolder(View view) {
+        protected ToolProfViewHolder newViewHolder(@NonNull View view) {
             return new ToolProfViewHolder(view);
         }
     }

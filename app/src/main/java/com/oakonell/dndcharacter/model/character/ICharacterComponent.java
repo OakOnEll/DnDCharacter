@@ -23,8 +23,10 @@ public interface ICharacterComponent extends ComponentSource {
 
     int getStatModifier(StatType type);
 
+    @Nullable
     Proficient getSkillProficient(SkillType type);
 
+    @Nullable
     Proficient getSaveProficient(StatType type);
 
     @NonNull
@@ -33,8 +35,10 @@ public interface ICharacterComponent extends ComponentSource {
     @NonNull
     List<Proficiency> getToolProficiencies(ProficiencyType type);
 
+    @Nullable
     String getAcFormula();
 
+    @Nullable
     String getHpFormula();
 
     boolean isBaseArmor();
