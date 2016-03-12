@@ -523,7 +523,7 @@ public class ImportActivity extends AppCompatActivity {
 
                 @Override
                 public boolean isCancelled() {
-                    return false;
+                    return isCancelled();
                 }
             };
 
