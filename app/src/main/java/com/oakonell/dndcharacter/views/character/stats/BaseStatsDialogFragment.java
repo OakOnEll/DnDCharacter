@@ -194,22 +194,14 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
                 @Override
                 public void onClick(View v) {
                     final BaseStatRow other = baseStatRows.get(each.index - 1);
-                    StatType tempType = other.type;
-                    other.type = each.type;
-                    each.type = tempType;
-                    other.typeView.setText(other.type.getStringResId());
-                    each.typeView.setText(each.type.getStringResId());
+                    swapStatRow(each, other);
                 }
             });
             each.down.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final BaseStatRow other = baseStatRows.get(each.index + 1);
-                    StatType tempType = other.type;
-                    other.type = each.type;
-                    each.type = tempType;
-                    other.typeView.setText(other.type.getStringResId());
-                    each.typeView.setText(each.type.getStringResId());
+                    swapStatRow(each, other);
                 }
             });
 
@@ -224,6 +216,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         pointBuyRows.add(5, new BaseStatPointBuy(StatType.CHARISMA, (Button) view.findViewById(R.id.charisma_add), (TextView) view.findViewById(R.id.charisma_buy), (Button) view.findViewById(R.id.charisma_subtract)));
 
         for (final BaseStatPointBuy each : pointBuyRows) {
+            each.setValue(8);
             each.add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -263,6 +256,18 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
 
 
         return view;
+    }
+
+    private void swapStatRow(BaseStatRow each, BaseStatRow other) {
+        StatType tempType = other.type;
+        other.type = each.type;
+        each.type = tempType;
+        other.typeView.setText(other.type.getStringResId());
+        each.typeView.setText(each.type.getStringResId());
+
+        int tempMod = other.getModifier();
+        other.setModifier(each.getModifier());
+        each.setModifier(tempMod);
     }
 
     @Override
@@ -407,6 +412,38 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
             }
             break;
         }
+
+        StringBuilder builder = new StringBuilder();
+        for (StatType stat : StatType.values()) {
+            final List<Character.ModifierWithSource> modifierWithSources = character.deriveStat(stat);
+            int modifier = 0;
+            for (Character.ModifierWithSource each : modifierWithSources) {
+                if (each.getSource() == null) continue;
+                modifier += each.getModifier();
+                if (builder.length() > 0) {
+                    builder.append(",");
+                }
+                builder.append(getString(stat.getStringResId()));
+                builder.append(" +");
+                builder.append(each.getModifier());
+                builder.append(" (");
+                builder.append(each.getSourceString(getResources()));
+                builder.append(")");
+            }
+            for (BaseStatRow each : baseStatRows) {
+                if (each.type == stat) {
+                    each.setModifier(modifier);
+                }
+            }
+            for (BaseStatPointBuy each : pointBuyRows) {
+                if (each.type == stat) {
+                    each.setModifier(modifier);
+                }
+            }
+
+        }
+        race_bonuses.setText(builder.toString());
+
         updateView();
     }
 
@@ -556,6 +593,10 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         final TextView valueTextView;
         final Button subtract;
 
+        // TODO these need to be saved?
+        private int value;
+        private int modifier;
+
         public BaseStatPointBuy(StatType type, Button add, TextView value, Button subtract) {
             this.type = type;
             this.add = add;
@@ -564,37 +605,79 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         public int getValue() {
-            return Integer.parseInt(valueTextView.getText().toString());
+            return value;
         }
 
         public void setValue(int theValue) {
-            valueTextView.setText(NumberUtils.formatNumber(theValue));
+            value = theValue;
+            updateText();
+        }
+
+        protected void updateText() {
+            final String formattedRaw = NumberUtils.formatNumber(value);
+            String formattedAdjusted = "";
+            if (modifier != 0) {
+                formattedAdjusted = "(" + NumberUtils.formatNumber(value + modifier) + ") ";
+            }
+            valueTextView.setText(formattedAdjusted + formattedRaw);
+        }
+
+        public void setModifier(int modifier) {
+            this.modifier = modifier;
+            updateText();
+        }
+
+        public int getModifier() {
+            return modifier;
         }
     }
 
     private static class BaseStatRow {
         final int index;
-        StatType type;
         final TextView typeView;
         final TextView valueTextView;
         final ImageView up;
         final ImageView down;
 
+        StatType type;
+        // TODO these need to be saved?
+        private int value;
+        private int modifier;
+
         public BaseStatRow(int index, StatType type, TextView typeView, TextView value, ImageView up, ImageView down) {
             this.index = index;
-            this.type = type;
             this.typeView = typeView;
             this.valueTextView = value;
             this.up = up;
             this.down = down;
+            this.type = type;
         }
 
         public int getValue() {
-            return Integer.parseInt(valueTextView.getText().toString());
+            return value;
         }
 
         public void setValue(int theValue) {
-            valueTextView.setText(NumberUtils.formatNumber(theValue));
+            value = theValue;
+            updateText();
+        }
+
+        protected void updateText() {
+            final String formattedRaw = NumberUtils.formatNumber(value);
+            String formattedAdjusted = "";
+            if (modifier != 0) {
+                formattedAdjusted = "(" + NumberUtils.formatNumber(value + modifier) + ") ";
+            }
+            valueTextView.setText(formattedAdjusted + formattedRaw);
+        }
+
+        public void setModifier(int modifier) {
+            this.modifier = modifier;
+            updateText();
+        }
+
+        public int getModifier() {
+            return modifier;
         }
     }
 

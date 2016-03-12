@@ -21,7 +21,7 @@
     <string name="result_roll_label">Result</string>
     <string name="add_another_button_label">Add\nAnother</string>
     <string name="total_roll_label">Total</string>
-    <string name="racial_bonuses_label">Racial bonuses</string>
+    <string name="racial_bonuses_label">Stat Bonuses</string>
     <string name="strength">Strength</string>
     <string name="dexterity">Dexterity</string>
     <string name="constitution">Constitution</string>
