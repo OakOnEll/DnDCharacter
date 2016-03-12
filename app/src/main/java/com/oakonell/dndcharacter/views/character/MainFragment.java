@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -230,14 +229,14 @@ public class MainFragment extends AbstractSheetFragment {
         if (character.getHP() <= 0 && !character.isStable() && character.getMaxHP() > 0) {
             death_saves_layout.setVisibility(View.VISIBLE);
             hp_layout.setVisibility(View.GONE);
-            ((ImageView) rootView.findViewById(R.id.fail1)).setVisibility(character.getDeathSaveFails() >= 1 ? View.VISIBLE : View.INVISIBLE);
-            ((ImageView) rootView.findViewById(R.id.fail2)).setVisibility(character.getDeathSaveFails() >= 2 ? View.VISIBLE : View.INVISIBLE);
-            ((ImageView) rootView.findViewById(R.id.fail3)).setVisibility(character.getDeathSaveFails() >= 3 ? View.VISIBLE : View.INVISIBLE);
+            rootView.findViewById(R.id.fail1).setVisibility(character.getDeathSaveFails() >= 1 ? View.VISIBLE : View.INVISIBLE);
+            rootView.findViewById(R.id.fail2).setVisibility(character.getDeathSaveFails() >= 2 ? View.VISIBLE : View.INVISIBLE);
+            rootView.findViewById(R.id.fail3).setVisibility(character.getDeathSaveFails() >= 3 ? View.VISIBLE : View.INVISIBLE);
 
 
-            ((ImageView) rootView.findViewById(R.id.success1)).setVisibility(character.getDeathSaveSuccesses() >= 1 ? View.VISIBLE : View.INVISIBLE);
-            ((ImageView) rootView.findViewById(R.id.success2)).setVisibility(character.getDeathSaveSuccesses() >= 2 ? View.VISIBLE : View.INVISIBLE);
-            ((ImageView) rootView.findViewById(R.id.success3)).setVisibility(character.getDeathSaveSuccesses() >= 3 ? View.VISIBLE : View.INVISIBLE);
+            rootView.findViewById(R.id.success1).setVisibility(character.getDeathSaveSuccesses() >= 1 ? View.VISIBLE : View.INVISIBLE);
+            rootView.findViewById(R.id.success2).setVisibility(character.getDeathSaveSuccesses() >= 2 ? View.VISIBLE : View.INVISIBLE);
+            rootView.findViewById(R.id.success3).setVisibility(character.getDeathSaveSuccesses() >= 3 ? View.VISIBLE : View.INVISIBLE);
 
             stabilize.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.oakonell.dndcharacter">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <application xmlns:tools="http://schemas.android.com/tools"
         android:name=".DndCharacterApp"
         android:allowBackup="true"
@@ -76,7 +80,4 @@
             android:value="74ae3579d71c997859cbe007cec110297e81aa2a" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
-    <uses-permission android:name="com.android.vending.BILLING" />
 </manifest>

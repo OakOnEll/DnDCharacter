@@ -43,7 +43,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         createGroup("Spell casting");
 
         ViewGroup mainGroup = getParent();
-
+// TODO localization
         {
             String stat = castingStatElem.getTextContent();
             TextView text = new TextView(mainGroup.getContext());

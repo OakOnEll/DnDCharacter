@@ -84,7 +84,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         adapter.reloadList(character);
     }
 

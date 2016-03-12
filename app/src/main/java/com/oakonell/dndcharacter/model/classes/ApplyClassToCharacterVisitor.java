@@ -154,7 +154,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
 
     @Override
-    protected void visitLevel(Element element) {
+    protected void visitLevel(@NonNull Element element) {
         // the visitor shouldn't actually dive into levels
     }
 

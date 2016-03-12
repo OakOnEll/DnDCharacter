@@ -59,7 +59,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
         void onDone();
     }
 
-    public void setDoneLabel(String doneLabel) {
+    public void setDoneLabel(@NonNull String doneLabel) {
         this.doneLabel = doneLabel;
     }
 

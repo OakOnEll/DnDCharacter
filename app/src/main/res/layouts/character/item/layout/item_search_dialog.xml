@@ -25,7 +25,7 @@
                 android:id="@+id/limit_to_proficient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Limit to Items Proficient with"/>
+                android:text="@string/limit_to_proficient"/>
 
 
             <com.oakonell.dndcharacter.views.MyEditText

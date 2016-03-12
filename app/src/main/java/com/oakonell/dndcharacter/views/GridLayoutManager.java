@@ -51,7 +51,7 @@ public class GridLayoutManager extends android.support.v7.widget.GridLayoutManag
     private final Rect tmpRect = new Rect();
 
     @SuppressWarnings("UnusedDeclaration")
-    public GridLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, RecyclerView view) {
+    public GridLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, @Nullable RecyclerView view) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.view = view;
     }
@@ -63,7 +63,7 @@ public class GridLayoutManager extends android.support.v7.widget.GridLayoutManag
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public GridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout, RecyclerView view) {
+    public GridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout, @Nullable RecyclerView view) {
         super(context, spanCount, orientation, reverseLayout);
         this.spanCount = spanCount;
         this.view = view;

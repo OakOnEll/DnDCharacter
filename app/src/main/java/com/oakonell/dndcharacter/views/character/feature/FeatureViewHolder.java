@@ -193,7 +193,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                     @Override
                     public void onClick(View v) {
                         // TODO ask for possible prompts for action
-                        final Map<Feature.FeatureEffectVariable, String> values = new HashMap<Feature.FeatureEffectVariable, String>();
+                        final Map<Feature.FeatureEffectVariable, String> values = new HashMap<>();
                         Runnable continuation = new Runnable() {
                             @Override
                             public void run() {

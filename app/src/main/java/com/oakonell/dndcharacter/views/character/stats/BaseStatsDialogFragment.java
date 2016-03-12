@@ -577,7 +577,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     @Nullable
     private String doneLabel;
 
-    public void setDoneLabel(String doneLabel) {
+    public void setDoneLabel(@NonNull String doneLabel) {
         this.doneLabel = doneLabel;
     }
 

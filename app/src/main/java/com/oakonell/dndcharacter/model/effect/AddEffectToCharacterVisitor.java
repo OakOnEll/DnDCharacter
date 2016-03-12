@@ -59,7 +59,7 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
         }
 
         if (!variables.isEmpty()) {
-            final Map<Feature.FeatureEffectVariable, String> variableValues = new HashMap<Feature.FeatureEffectVariable, String>();
+            final Map<Feature.FeatureEffectVariable, String> variableValues = new HashMap<>();
             final Runnable variableContinuation = new Runnable() {
                 @Override
                 public void run() {

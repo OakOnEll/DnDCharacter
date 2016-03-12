@@ -109,7 +109,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         return parent;
     }
 
-    protected void setCurrentComponent(ComponentSource currentComponent) {
+    protected void setCurrentComponent(@NonNull ComponentSource currentComponent) {
         this.currentComponent = currentComponent;
     }
 
@@ -842,8 +842,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void visitSpellSearchChoices(@NonNull final String casterClass, final int maxLevel, int numChoices, final List<SpellSchool> schoolNames, final boolean limitToRitual) {
         final int searchResId = R.string.search_for_spell;
         final String fragmentId = SELECT_SPELL_DIALOG;
-        final List<String> casterClasses = new ArrayList<>();
-        casterClasses.add(casterClass);
+
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @NonNull
             @Override

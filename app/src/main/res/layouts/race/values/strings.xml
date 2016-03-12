@@ -45,8 +45,8 @@
     <string name="successes">Successes</string>
     <string name="death_save_roll">Death Save Roll</string>
     <string name="death_save_critical_failure">[1] Critical Failure (Two Failures)</string>
-    <string name="death_save_failure">[2-9] Fail</string>
-    <string name="death_save_pass">[10-19] Pass</string>
+    <string name="death_save_failure">[2–9] Fail</string>
+    <string name="death_save_pass">[10–19] Pass</string>
     <string name="death_save_critical_pass">[20] Critical Pass (stabilize to 1HP)</string>
     <string name="death_save_prompt">[Death Save Result]</string>
     <string name="stabilize">Stabilize</string>
@@ -62,8 +62,11 @@
     <string name="io_exception">Encountered io error while reading from URL or writing to file</string>
     <string name="file_not_found">File not found</string>
     <string name="invalid_url">Invalid URL</string>
-    <string name="import_rows_progress_title">Importing rows...</string>
-    <string name="import_rows_message">Import in progress ...</string>
+    <string name="import_rows_progress_title">Importing rows…</string>
+    <string name="import_rows_message">Import in progress …</string>
     <string name="loading_file_title">Loading data from file..</string>
-    <string name="loading_file">Loading...</string>
+    <string name="loading_file">Loading…</string>
+    <string name="limit_to_proficient">Limit to Items Proficient with</string>
+    <string name="select_deselect_all">Select/Deselect All</string>
+    <string name="components_menu_label">Components</string>
 </resources>

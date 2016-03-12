@@ -51,7 +51,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
 
     @DebugLog
     @Override
-    public final void onCharacterChanged(Character character) {
+    public final void onCharacterChanged(@NonNull Character character) {
         updateViews();
     }
 

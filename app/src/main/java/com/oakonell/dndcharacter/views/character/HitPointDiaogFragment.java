@@ -442,7 +442,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         @Nullable
         Long deleteRequestedTime;
 
-        public HpRow(HpType hpType, DamageType damageType, VulnerabilityType vulnerabilityType, int hp) {
+        public HpRow(HpType hpType, @Nullable DamageType damageType, @Nullable VulnerabilityType vulnerabilityType, int hp) {
             this.hpType = hpType;
             this.damageType = damageType;
             this.hp = hp;

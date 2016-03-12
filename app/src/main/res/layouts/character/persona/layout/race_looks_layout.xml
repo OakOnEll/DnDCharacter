@@ -65,7 +65,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/height_label"
-                    android:minEms="4" />
+                    android:minEms="4"
+                    tools:ignore="TextFields" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -154,7 +155,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/weight_label"
-                    android:minEms="4" />
+                    android:minEms="4"
+                    tools:ignore="TextFields" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -268,12 +270,7 @@
                     tools:text="White" />
             </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
 
-            </LinearLayout>
         </TableRow>
 
         <TableRow
@@ -295,10 +292,7 @@
                     tools:text="Brown" />
             </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+
         </TableRow>
 
         <TableRow
@@ -314,16 +308,12 @@
                 <EditText
                     android:id="@+id/hair"
                     android:layout_width="wrap_content"
-                    android:minEms="5"
                     android:layout_height="wrap_content"
                     android:hint="@string/hair_label"
+                    android:minEms="5"
                     tools:text="White" />
             </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
         </TableRow>
 
 

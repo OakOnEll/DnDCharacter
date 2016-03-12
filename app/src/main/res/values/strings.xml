@@ -6,11 +6,8 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="section_format">Hello World from section: %1$d</string>
-
     <string name="choose_race">[Race]</string>
     <string name="damage_type">[Damage Type]</string>
-    <string name="choose_background">[Background]</string>
     <string name="vulnerability_type">[Vulnerability]</string>
     <string name="import_button_lbl">Import</string>
     <string name="base_armor_class_title">Base Armor Class</string>
@@ -135,12 +132,11 @@
     <string name="import_path_hint">/file/path</string>
     <string name="import_from_hint">[Import From]</string>
     <string name="level_n">Level %d</string>
-    <string name="increase_statname_by">Increase %1$s by %2$d</string>
     <string name="increase_statname_by_to">Increase %1$s by %2$d to %3$d</string>
     <string name="fraction_d_slash_d">%1$d / %2$d</string>
     <string name="enter_hp_between_1_and_n">Enter an hp value between 1 and %d</string>
     <string name="class_spinner_hint">[Class]</string>
-    <string name="archtype_hint">Archtype</string>
+    <string name="archtype_hint">Archetype</string>
     <string name="choose_subclass_error">Choose subclass</string>
     <string name="armor_class_base_formula">=%s</string>
     <string name="class_and_level">%1$s (%2$d)</string>
@@ -177,7 +173,6 @@
     <string name="send">Send</string>
     <string name="short_rest">Short Rest</string>
     <string name="long_rest">Long Rest</string>
-    <string name="select_effect">Select Effect</string>
     <string name="add_effect">Add Effect</string>
     <string name="level_up">Level Up</string>
     <string name="delete">Delete</string>
@@ -205,7 +200,6 @@
     <string name="race_prompt">[Race]</string>
     <string name="character_class_levels">Character Class Levels</string>
     <string name="already_has_effect">Character already has effect \'%s\'</string>
-    <string name="add_an_item">Add an Item</string>
     <string name="armor_class_title">Armor Class</string>
     <string name="versatile">Versatile</string>
     <string name="finesse">Finesse</string>
@@ -307,12 +301,8 @@
     <string name="armor">Armor</string>
     <string name="weapon">Weapon</string>
     <string name="tool">Tool</string>
-    <string name="height">Height</string>
-    <string name="age">Age</string>
     <string name="looks">Looks</string>
     <string name="random_lbl">Random</string>
-    <string name="xp_label">xp</string>
-    <string name="party_size_hint">Party Size</string>
     <string name="choose_skill">Choose a Skill</string>
     <string name="climb">Climb</string>
     <string name="burrow">Burrow</string>

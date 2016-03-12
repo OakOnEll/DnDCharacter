@@ -88,7 +88,7 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
     }
 
     @Override
-    public void onCharacterChanged(Character character) {
+    public void onCharacterChanged(@NonNull Character character) {
         updateView();
         adapter.reloadList(character);
     }
