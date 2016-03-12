@@ -79,7 +79,6 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
             @Override
             public Loader<Cursor> onCreateLoader(int theLoaderId, @Nullable Bundle cursor) {
                 loaderId = theLoaderId;
-                Toast.makeText(AbstractComponentListActivity.this, "Loader created- cursor " + (cursor == null ? "is null!" : " bundled"), Toast.LENGTH_SHORT).show();
                 return new CursorLoader(AbstractComponentListActivity.this,
                         ContentProvider.createUri(getComponentClass(), null),
                         null, null, null, getCursorSortBy()
@@ -88,13 +87,11 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
 
             @Override
             public void onLoadFinished(Loader<Cursor> arg0, @Nullable Cursor cursor) {
-                Toast.makeText(AbstractComponentListActivity.this, "Load finished- cursor " + (cursor == null ? "is null!" : cursor.getCount()), Toast.LENGTH_SHORT).show();
                 adapter.swapCursor(cursor);
             }
 
             @Override
             public void onLoaderReset(Loader<Cursor> arg0) {
-                Toast.makeText(AbstractComponentListActivity.this, "Loader rest ", Toast.LENGTH_SHORT).show();
                 adapter.swapCursor(null);
             }
         });

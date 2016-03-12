@@ -557,7 +557,7 @@ public class ImportActivity extends AppCompatActivity {
         protected void onPostExecute(@Nullable String result) {
             mUrlDownloadProgressDialog.dismiss();
             if (result != null) {
-                Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
+                import_summary.setText(getString(R.string.download_error) + result);
                 return;
             }
             changingSelectState = true;

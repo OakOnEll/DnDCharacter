@@ -27,6 +27,7 @@ import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.ServerManagedPolicy;
+import com.oakonell.dndcharacter.BuildConfig;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.DataImporter;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -501,14 +502,18 @@ public class CharacterActivity extends AbstractBaseActivity {
 
         @Override
         protected void onProgressUpdate(String... values) {
-            Toast.makeText(CharacterActivity.this, values[0], Toast.LENGTH_SHORT).show();
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(CharacterActivity.this, values[0], Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             if (isCancelled()) return;
 
-            Toast.makeText(CharacterActivity.this, "Character '" + character.getName() + "' loaded", Toast.LENGTH_SHORT).show();
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(CharacterActivity.this, "Character '" + character.getName() + "' loaded", Toast.LENGTH_SHORT).show();
+            }
             for (Iterator<OnCharacterLoaded> iter = onCharacterLoadListeners.iterator(); iter.hasNext(); ) {
                 OnCharacterLoaded listener = iter.next();
                 listener.onCharacterLoaded(character);

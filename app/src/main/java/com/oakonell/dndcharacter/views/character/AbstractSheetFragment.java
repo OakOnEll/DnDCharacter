@@ -73,8 +73,6 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     protected void updateViews(View rootView) {
         Character character = getCharacter();
         if (character == null) {
-            Toast.makeText(getActivity(), "Update views with a null character!?", Toast.LENGTH_SHORT).show();
-
             character_name_read_only.setText("");
 
             race.setText("");

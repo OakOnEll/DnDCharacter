@@ -82,7 +82,6 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
             @Override
             public Loader<Cursor> onCreateLoader(int theLoaderId, @Nullable Bundle cursor) {
                 loaderId = theLoaderId;
-                Toast.makeText(getActivity(), "Loader created- cursor " + (cursor == null ? "is null!" : " bundled"), Toast.LENGTH_SHORT).show();
                 start = System.nanoTime();
 
                 String searchTermString = searchTerms.getText().toString().trim();
@@ -118,13 +117,11 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
             public void onLoadFinished(Loader<Cursor> arg0, @Nullable Cursor cursor) {
                 long totalTime = System.nanoTime() - start;
                 start = 0;
-                Toast.makeText(getActivity(), "Load finished- cursor " + (cursor == null ? "is null!" : " with " + cursor.getCount() + " rows") + " in " + TimeUnit.NANOSECONDS.toMillis(totalTime) + " milliseconds", Toast.LENGTH_SHORT).show();
                 adapter.swapCursor(cursor);
             }
 
             @Override
             public void onLoaderReset(Loader<Cursor> arg0) {
-                Toast.makeText(getActivity(), "Loader rest ", Toast.LENGTH_SHORT).show();
                 adapter.swapCursor(null);
             }
         };
