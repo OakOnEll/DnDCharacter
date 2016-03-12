@@ -2,8 +2,8 @@ package com.oakonell.dndcharacter.model.character.stats;
 
 import android.support.annotation.NonNull;
 
-import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.Proficient;
 
 import java.util.List;
 

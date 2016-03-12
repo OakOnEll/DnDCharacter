@@ -32,8 +32,6 @@ import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.character.md.CategoryChoicesMD;
-import com.oakonell.dndcharacter.views.character.md.ChooseMD;
 
 import org.w3c.dom.Element;
 

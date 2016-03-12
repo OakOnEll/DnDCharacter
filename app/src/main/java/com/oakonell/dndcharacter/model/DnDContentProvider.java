@@ -4,10 +4,8 @@ package com.oakonell.dndcharacter.model;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.SparseArray;
 
 import com.activeandroid.Cache;
-import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
 
 /**

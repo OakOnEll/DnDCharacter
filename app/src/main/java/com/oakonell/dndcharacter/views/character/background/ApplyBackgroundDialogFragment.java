@@ -6,11 +6,11 @@ import android.view.ViewGroup;
 
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.background.ApplyBackgroundToCharacterVisitor;
+import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterBackground;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
-import com.oakonell.dndcharacter.model.background.ApplyBackgroundToCharacterVisitor;
-import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.character.ApplyAbstractComponentDialogFragment;

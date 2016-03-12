@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
-import com.oakonell.dndcharacter.model.character.stats.StatType;
-import com.oakonell.dndcharacter.model.spell.SpellSchool;
 
 import java.util.ArrayList;
 import java.util.List;

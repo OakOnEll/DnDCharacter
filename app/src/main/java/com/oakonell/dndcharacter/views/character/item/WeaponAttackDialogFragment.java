@@ -21,19 +21,19 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.model.EnumHelper;
-import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
-import com.oakonell.dndcharacter.utils.NumberUtils;
-import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.DamageType;
+import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
-import com.oakonell.dndcharacter.model.character.DamageType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
-import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
+import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 

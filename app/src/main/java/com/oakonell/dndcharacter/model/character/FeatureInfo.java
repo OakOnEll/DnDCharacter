@@ -9,13 +9,13 @@ import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
-import com.oakonell.dndcharacter.views.character.IContextualComponent;
-import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.UseType;
+import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.expression.context.SimpleVariableContext;
 
 import java.util.ArrayList;

@@ -3,10 +3,8 @@ package com.oakonell.dndcharacter.views.feat;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.effect.Effect;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
-import com.oakonell.dndcharacter.views.effect.EditEffectDialogFragment;
 
 /**
  * Created by Rob on 11/2/2015.

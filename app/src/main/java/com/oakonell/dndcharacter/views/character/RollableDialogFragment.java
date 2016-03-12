@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
-import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;

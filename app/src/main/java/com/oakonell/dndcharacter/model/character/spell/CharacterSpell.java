@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.model.character.spell;
 
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;

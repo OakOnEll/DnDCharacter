@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
-import com.oakonell.dndcharacter.views.character.IContextualComponent;
 
 import java.util.List;
 import java.util.Map;

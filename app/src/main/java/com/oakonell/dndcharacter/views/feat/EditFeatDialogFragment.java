@@ -2,7 +2,6 @@ package com.oakonell.dndcharacter.views.feat;
 
 import android.support.annotation.NonNull;
 
-import com.oakonell.dndcharacter.model.effect.Effect;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.views.AbstractEditComponentDialogFragment;
 

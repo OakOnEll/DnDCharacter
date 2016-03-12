@@ -2,10 +2,12 @@ package com.oakonell.dndcharacter.model.components;
 
 import android.support.annotation.NonNull;
 
-import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.AbstractContextualComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterEffect;
+import com.oakonell.dndcharacter.model.character.ComponentType;
+import com.oakonell.dndcharacter.model.character.FeatureExtensionType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
-import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.expression.Expression;
 import com.oakonell.expression.ExpressionContext;
 import com.oakonell.expression.ExpressionType;

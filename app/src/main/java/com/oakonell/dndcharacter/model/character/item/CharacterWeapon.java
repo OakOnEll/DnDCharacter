@@ -3,7 +3,7 @@ package com.oakonell.dndcharacter.model.character.item;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
-import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.item.ItemType;

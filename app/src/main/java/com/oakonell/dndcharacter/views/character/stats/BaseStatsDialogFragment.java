@@ -19,14 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.stats.BaseStatsType;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.stats.BaseStatsType;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
-import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.ApplyAbstractComponentDialogFragment;
-import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;

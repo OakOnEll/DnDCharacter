@@ -10,9 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.background.AbstractBackgroundVisitor;
 import com.oakonell.dndcharacter.model.background.Background;
+import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.views.character.md.CheckOptionMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;

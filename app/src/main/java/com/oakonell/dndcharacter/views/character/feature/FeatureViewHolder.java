@@ -28,8 +28,8 @@ import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.UseType;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
-import com.oakonell.dndcharacter.views.character.ComponentLaunchHelper;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
+import com.oakonell.dndcharacter.views.character.ComponentLaunchHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
