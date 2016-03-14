@@ -65,6 +65,9 @@
         <tools>
             <choose  name="moreInstrumentProfs" category="Musical Instrument" filters="instrumentProfs"/>
         </tools>
+        <armor>
+            <proficiency category="light armor"/>
+        </armor>
 
         <cantrips>
             <known>2</known>
