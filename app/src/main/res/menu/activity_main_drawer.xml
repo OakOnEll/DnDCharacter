@@ -57,7 +57,7 @@
         <menu>
             <item
                 android:id="@+id/nav_import"
-                android:icon="@android:drawable/ic_menu_add"
+                android:icon="@drawable/ic_cloud_download_black_18dp"
                 android:title="@string/import_action" />
         </menu>
     </item>

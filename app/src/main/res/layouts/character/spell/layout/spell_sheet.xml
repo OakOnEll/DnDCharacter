@@ -53,7 +53,7 @@
                 android:id="@+id/add_cantrip"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@android:drawable/ic_input_add" />
+                android:src="@drawable/ic_add_circle_outline_primary_18dp" />
 
         </LinearLayout>
 
@@ -89,7 +89,7 @@
                 android:id="@+id/add_spell"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@android:drawable/ic_input_add" />
+                android:src="@drawable/ic_add_circle_outline_primary_18dp" />
 
         </LinearLayout>
 

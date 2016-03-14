@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"
-                android:src="@android:drawable/arrow_up_float" />
+                android:src="@drawable/ic_levelup_primary_18dp" />
 
             <TextView
                 android:id="@+id/level_up_text"

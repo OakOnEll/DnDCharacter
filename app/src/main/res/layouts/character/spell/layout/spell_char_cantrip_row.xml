@@ -39,7 +39,7 @@
         android:id="@+id/delete"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@android:drawable/ic_delete" />
+        android:src="@drawable/ic_clear_primary_18dp" />
 
 
 </LinearLayout>

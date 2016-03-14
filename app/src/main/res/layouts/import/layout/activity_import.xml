@@ -34,13 +34,13 @@
             android:id="@+id/search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_search" />
+            android:src="@drawable/ic_search_primary_18dp" />
 
         <ImageButton
             android:id="@+id/download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_more" />
+            android:src="@drawable/ic_file_download_primary_18dp" />
 
     </LinearLayout>
 
@@ -64,10 +64,10 @@
     </LinearLayout>
 
     <CheckBox
+        android:id="@+id/select_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_deselect_all"
-        android:id="@+id/select_all" />
+        android:text="@string/select_deselect_all" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
