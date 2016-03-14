@@ -87,4 +87,9 @@ public class ItemRow extends AbstractComponentModel {
         setItemType(type);
         this.cost = cost;
     }
+
+    public static boolean isPack(String itemName) {
+        // TODO better way to mark packs, to avoid hitting DB for each item encountered?
+        return itemName.toUpperCase().contains(" PACK");
+    }
 }

@@ -1,0 +1,19 @@
+<item>
+    <name>Diplomat's Pack</name>
+    <itemType>EQUIPMENT</itemType>
+    <cost>39gp</cost>
+    <equipment>
+        <item>chest</item>
+        <item count="2">map/scroll case</item>
+        <item>set of fine clothes</item>
+        <item>bottle of ink</item>
+        <item>ink pen</item>
+        <item>lamp</item>
+        <item count="2">oil flask</item>
+        <item count="5">sheet of paper</item>
+        <item>vial of perfume</item>
+        <item>sealing wax</item>
+        <item>soap</item>
+    </equipment>
+
+</item>

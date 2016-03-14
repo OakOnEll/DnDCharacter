@@ -1,0 +1,15 @@
+<item>
+    <name>Scholar's Pack</name>
+    <itemType>EQUIPMENT</itemType>
+    <cost>40gp</cost>
+    <equipment>
+        <item>backpack</item>
+        <item>book of lore</item>
+        <item>bottle of ink</item>
+        <item>ink pen</item>
+        <item count="10">sheet of parchment</item>
+        <item>little bag of sand</item>
+        <item>small knife</item>
+    </equipment>
+
+</item>

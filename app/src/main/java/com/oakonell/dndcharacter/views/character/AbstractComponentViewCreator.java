@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.activeandroid.Model;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
@@ -441,10 +442,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     @Override
     protected void visitItem(@NonNull Element element) {
+        String name = element.getTextContent();
         if ("true".equals(element.getAttribute("displayProficiency"))) {
             TextView text = new TextView(parent.getContext());
             parent.addView(text);
-            String name = element.getTextContent();
             final String countString = element.getAttribute("count");
             String display = name;
             if (countString != null && countString.trim().length() > 0) {
@@ -476,7 +477,25 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
             text.setText(" *  " + display + proficientDisplay);
         } else {
-            super.visitItem(element);
+            if (ItemRow.isPack(name)) {
+                final ItemRow itemRow = new Select().from(ItemRow.class).where("upper(name) = ?", name.toUpperCase()).executeSingle();
+                if (itemRow != null) {
+                    final Element root = XmlUtils.getDocument(itemRow.getXml()).getDocumentElement();
+                    final Element equipment = XmlUtils.getElement(root, "equipment");
+                    if (equipment != null) {
+                        final List<Element> childItems = XmlUtils.getChildElements(equipment, "item");
+                        for (Element each : childItems) {
+                            visitItem(each);
+                        }
+                    }
+                } else {
+                    TextView text = new TextView(parent.getContext());
+                    parent.addView(text);
+                    text.setText(" *  " + name + "[?]");
+                }
+            } else {
+                super.visitItem(element);
+            }
         }
     }
 

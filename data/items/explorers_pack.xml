@@ -1,0 +1,16 @@
+<item>
+    <name>Explorer's Pack</name>
+    <itemType>EQUIPMENT</itemType>
+    <cost>10gp</cost>
+    <equipment>
+        <item>backpack</item>
+        <item>bedroll</item>
+        <item>messkit</item>
+        <item>tinderbox</item>
+        <item count="10">torch</item>
+        <item count="10">rations</item>
+        <item>waterskin</item>
+        <item>rope 50 feet</item>
+    </equipment>
+
+</item>

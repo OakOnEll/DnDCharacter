@@ -610,13 +610,27 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     weapon.setSource(component.getType());
                     break;
                 case EQUIPMENT:
-                    CharacterItem item = new CharacterItem();
-                    item.setName(itemName);
-                    item.setSource(component.getType());
+                    if (ItemRow.isPack(itemName)) {
+                        final ItemRow childItemRow = new Select().from(ItemRow.class).where("upper(name) = ?", itemName.toUpperCase()).executeSingle();
+                        if (childItemRow != null) {
+                            final Element root = XmlUtils.getDocument(childItemRow.getXml()).getDocumentElement();
+                            final Element equipment = XmlUtils.getElement(root, "equipment");
+                            if (equipment != null) {
+                                final List<Element> childItems = XmlUtils.getChildElements(equipment, "item");
+                                for (Element each : childItems) {
+                                    addItem(each.getTextContent());
+                                }
+                            }
+                        }
+                    } else {
+                        CharacterItem item = new CharacterItem();
+                        item.setName(itemName);
+                        item.setSource(component.getType());
 
-                    ApplyChangesToGenericComponent.applyToCharacter(context, XmlUtils.getDocument(itemRow.getXml()).getDocumentElement(), null, item, character, false);
+                        ApplyChangesToGenericComponent.applyToCharacter(context, XmlUtils.getDocument(itemRow.getXml()).getDocumentElement(), null, item, character, false);
 
-                    character.addItem(item);
+                        character.addItem(item);
+                    }
                     break;
             }
         } else {

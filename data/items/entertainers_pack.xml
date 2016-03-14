@@ -1,0 +1,15 @@
+<item>
+    <name>Entertainer's Pack</name>
+    <itemType>EQUIPMENT</itemType>
+    <cost>40gp</cost>
+    <equipment>
+        <item>backpack</item>
+        <item>bedroll</item>
+        <item count="2">costume</item>
+        <item count="5">candle</item>
+        <item count="5">rations</item>
+        <item>waterskin</item>
+        <item>Disguise kit</item>
+    </equipment>
+
+</item>

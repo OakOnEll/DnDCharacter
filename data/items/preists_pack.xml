@@ -1,0 +1,18 @@
+<item>
+    <name>Priest's Pack</name>
+    <itemType>EQUIPMENT</itemType>
+    <cost>19gp</cost>
+    <equipment>
+        <item>backpack</item>
+        <item>blanket</item>
+        <item count="10">candles</item>
+        <item>tinderbox</item>
+        <item>alms box</item>
+        <item count="2">incense</item>
+        <item>censer</item>
+        <item>vestments</item>
+        <item count="2">rations</item>
+        <item>waterskin</item>
+    </equipment>
+
+</item>

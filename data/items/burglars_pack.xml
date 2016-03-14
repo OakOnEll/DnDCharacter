@@ -1,0 +1,22 @@
+<item>
+    <name>Burglar's Pack</name>
+    <itemType>EQUIPMENT</itemType>
+    <cost>16gp</cost>
+    <equipment>
+        <item>backpack</item>
+        <item>bag of 1000 ball bearings</item>
+        <item>string 10 feet</item>
+        <item>bell</item>
+        <item count="5">candle</item>
+        <item>crowbar</item>
+        <item>hammer</item>
+        <item count="10">pitons</item>
+        <item>lantern</item>
+        <item count="2">oil flask</item>
+        <item count="5">rations</item>
+        <item>tinderbox</item>
+        <item>waterskin</item>
+        <item>rope 50 feet</item>
+    </equipment>
+
+</item>
