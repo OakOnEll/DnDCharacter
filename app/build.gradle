@@ -18,6 +18,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        playStore {
+            applicationId
+            "com.oakonell.dndcharacter"
+            versionName "1.03"
+
+
+            dependencies {
+                compile project(':play_licensing')
+            }
+
+        }
+        Amazon {
+            applicationId
+            "com.oakonell.dndcharacter.amazon"
+            versionName "1.03"
+        }
+    }
+
     sourceSets {
         main {
             res.srcDirs =
@@ -57,7 +77,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
-    compile project(':play_licensing')
 }
 
 repositories {

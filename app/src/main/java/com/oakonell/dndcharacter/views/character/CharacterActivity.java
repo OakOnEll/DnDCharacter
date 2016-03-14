@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PersistableBundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -22,11 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.vending.licensing.AESObfuscator;
-import com.google.android.vending.licensing.LicenseChecker;
-import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
-import com.google.android.vending.licensing.ServerManagedPolicy;
 import com.oakonell.dndcharacter.BuildConfig;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.DataImporter;
@@ -75,15 +69,7 @@ public class CharacterActivity extends AbstractBaseActivity {
 
     private static final String MyPREFERENCES = "prefs";
 
-    private LicenseCheckerCallback mLicenseCheckerCallback;
-    private LicenseChecker mChecker;
-    private Handler mHandler;
-    // Generate 20 random bytes, and put them here.
-    private static final byte[] SALT = new byte[]{
-            -46, 65, 30, -128, -103, -57, 74, -64, 51, 88, -95,
-            -45, 77, -117, -36, -113, -11, 32, -64, 89
-    };
-    private static final String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAora7BLaHK7LJAHLn6h16j8PC5/Z3q68vB5SknwsRGgPMJBP6T0UlMfa/X8vwgPcyULLZMY51hgNpH0HXIbdAITQ0CfbgtnUI50zY0/9XjbNSLDZF4jMztB4Zs08Gipa0foixnOzbhXC88w3BqYyQYMF9+UdfimSBvjW+bTMayLtH24KcI7EzmsRfXK9UH22bxJQ+MUalk0jjE3FlE5gCDwPmmhBFDVvzNM10EQo1wu+Q+Z9FhdBpENRe1awnDvtn2/Qz4mhrAca2ueVPYekjaaG3wVKcUSdYCxB9JJ+YZhmcDrnRARsvJpYoPuXhkKUXRr/0LdSYFYkfrXM0xc/mxwIDAQAB";
+    com.oakonell.dndcharacter.views.character.LicenseChecker checker = new com.oakonell.dndcharacter.views.character.LicenseChecker();
 
     long id = -1;
     @Nullable
@@ -109,17 +95,8 @@ public class CharacterActivity extends AbstractBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mHandler = new Handler();
-        // Construct the LicenseCheckerCallback. The library calls this when done.
-        mLicenseCheckerCallback = new MyLicenseCheckerCallback();
-        // Construct the LicenseChecker with a Policy.
-        String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        mChecker = new LicenseChecker(
-                this, new ServerManagedPolicy(this,
-                new AESObfuscator(SALT, getPackageName(), deviceId)),
-                BASE64_PUBLIC_KEY  // Your public licensing key.
-        );
-        doCheck();
+        checker.onCreate(this, new TheLicenseCheckerCallback());
+        checker.doCheck(this);
 
         if (!DataImporter.hasAtLeastMinimalData()) {
             Intent intent = new Intent(this, ImportActivity.class);
@@ -165,10 +142,6 @@ public class CharacterActivity extends AbstractBaseActivity {
 
     }
 
-    private void doCheck() {
-        setProgressBarIndeterminateVisibility(true);
-        mChecker.checkAccess(mLicenseCheckerCallback);
-    }
 
     @Override
     protected void onStop() {
@@ -642,41 +615,25 @@ public class CharacterActivity extends AbstractBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mChecker.onDestroy();
+        checker.onDestroy(this);
     }
 
-    private class MyLicenseCheckerCallback implements LicenseCheckerCallback {
+    private class TheLicenseCheckerCallback implements com.oakonell.dndcharacter.views.character.LicenseChecker.LicenseCallback {
+        @Override
         public void allow(int reason) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    setProgressBarIndeterminateVisibility(false);
-
-                }
-            });
-//            if (isFinishing()) {
-//                // Don't update UI if Activity is finishing.
-//                return;
-//            }
-            // Should allow user access.
-            // do nothing
+            // we're good
         }
 
+        @Override
         public void dontAllow(int reason) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    setProgressBarIndeterminateVisibility(false);
 
-                }
-            });
             if (isFinishing()) {
                 // Don't update UI if Activity is finishing.
                 return;
             }
             // TODO AlertDialog
 
-            if (reason == Policy.RETRY) {
+            if (reason == LicenseChecker.RETRY_REASON) {
                 // If the reason received from the policy is RETRY, it was probably
                 // due to a loss of connection with the service, so we should give the
                 // user a chance to retry. So show a dialog to retry.
@@ -696,5 +653,6 @@ public class CharacterActivity extends AbstractBaseActivity {
             // TODO
         }
     }
+
 
 }
