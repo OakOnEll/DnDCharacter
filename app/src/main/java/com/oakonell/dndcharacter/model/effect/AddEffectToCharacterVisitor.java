@@ -85,6 +85,7 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
             return characterEffect;
         }
 
+        character.addEffect(characterEffect);
         if (continuation != null) continuation.run();
 
         return characterEffect;
