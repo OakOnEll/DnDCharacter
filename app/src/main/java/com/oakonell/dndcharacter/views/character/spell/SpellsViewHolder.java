@@ -17,6 +17,7 @@ import com.oakonell.dndcharacter.utils.NumberUtils;
  * Created by Rob on 1/24/2016.
  */
 public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewHolder {
+    private static final java.lang.String SLOT_EDIT_FRAGMENT = "slot_edit_frag";
     @NonNull
     private final TextView available_slots;
     @NonNull
@@ -25,6 +26,8 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
     private final TextView level;
     @NonNull
     private final Button use_button;
+    @NonNull
+    private final ViewGroup slots_group;
 
     public SpellsViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -32,6 +35,7 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
         available_slots = (TextView) itemView.findViewById(R.id.available_slots);
         total_slots = (TextView) itemView.findViewById(R.id.total_slots);
         use_button = (Button) itemView.findViewById(R.id.use_button);
+        slots_group = (ViewGroup) itemView.findViewById(R.id.slots_group);
     }
 
     @Override
@@ -47,6 +51,14 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
                 context.getCharacter().useSpellSlot(info.getLevel());
                 context.updateViews();
                 context.getMainActivity().saveCharacter();
+            }
+        });
+
+        slots_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SpellSlotEditDialog slotEditDialog = SpellSlotEditDialog.createDialog(info.getLevel());
+                slotEditDialog.show(context.getFragmentManager(), SLOT_EDIT_FRAGMENT);
             }
         });
     }

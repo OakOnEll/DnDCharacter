@@ -515,6 +515,10 @@ public class Character {
         spellSlotsUsed.put(level, used + 1);
     }
 
+    public void setSpellSlots(int level, int slotsUsed) {
+        spellSlotsUsed.put(level, slotsUsed);
+    }
+
     public boolean canChooseAbilityScoreImprovement(AClass model, int classLevel) {
         // all classes have standard ASI levels!
         switch (classLevel) {
@@ -531,8 +535,8 @@ public class Character {
 
     public void stabilize() {
         stable = true;
-        deathSaveFails=0;
-        deathSaveSuccesses=0;
+        deathSaveFails = 0;
+        deathSaveSuccesses = 0;
     }
 
     public boolean isStable() {
@@ -1293,7 +1297,7 @@ public class Character {
     }
 
     public void damage(int amount) {
-        if (hp ==0) {
+        if (hp == 0) {
             deathSaveFails++;
         }
         if (tempHp > 0) {
@@ -2248,7 +2252,7 @@ public class Character {
         deathSaveSuccesses++;
         if (deathSaveSuccesses >= 3) {
             hp = 0;
-            stable=true;
+            stable = true;
             deathSaveFails = 0;
             deathSaveSuccesses = 0;
         }

@@ -32,43 +32,52 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             tools:text="1" />
 
-        <TextView
-            android:id="@+id/slots_label"
+        <RelativeLayout
+            android:id="@+id/slots_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/level"
-            android:gravity="center_horizontal"
-            android:paddingLeft="15dp"
-            android:text="@string/spell_slots_label"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:background="@drawable/list_selector">
 
-        <TextView
-            android:id="@+id/available_slots"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/slots_label"
-            android:gravity="center_horizontal"
-            android:paddingLeft="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="2" />
 
-        <TextView
-            android:id="@+id/slash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/available_slots"
-            android:gravity="center_horizontal"
-            android:text="/"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/slots_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-        <TextView
-            android:id="@+id/total_slots"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/slash"
-            android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="5" />
+                android:gravity="center_horizontal"
+                android:paddingLeft="15dp"
+                android:text="@string/spell_slots_label"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/available_slots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/slots_label"
+                android:gravity="center_horizontal"
+                android:paddingLeft="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="2" />
+
+            <TextView
+                android:id="@+id/slash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/available_slots"
+                android:gravity="center_horizontal"
+                android:text="/"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/total_slots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/slash"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="5" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/use_button"

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="download_error">Download Error:</string>
+    <string name="spell_slots_for_level">Level %1d Spell Slots</string>
+    <string name="enter_spell_slots_between_0_n">Enter number between 0 and %d</string>
 </resources>
