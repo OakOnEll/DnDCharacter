@@ -482,6 +482,11 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                 if (itemRow != null) {
                     final Element root = XmlUtils.getDocument(itemRow.getXml()).getDocumentElement();
                     final Element equipment = XmlUtils.getElement(root, "equipment");
+
+                    TextView text = new TextView(parent.getContext());
+                    parent.addView(text);
+                    text.setText("------- " + name + " --------");
+
                     if (equipment != null) {
                         final List<Element> childItems = XmlUtils.getChildElements(equipment, "item");
                         for (Element each : childItems) {
