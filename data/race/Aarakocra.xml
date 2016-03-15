@@ -6,10 +6,10 @@
     <weight>Aarakocra have thin, lightweight bodies that weigh between 80 and 100 pounds.</weight>
 
 <!-- TODO
-    <baseHeight>56</baseHeight>
-    <baseWeight>110</baseWeight>
-    <heightModifier>2d10</heightModifier>
-    <weightMultiplier>2d4</weightMultiplier>
+    <baseHeight>53</baseHeight>
+    <baseWeight>75</baseWeight>
+    <heightModifier>2d6</heightModifier>
+    <weightMultiplier>1d4</weightMultiplier>
 -->
 
     <size>medium</size>
