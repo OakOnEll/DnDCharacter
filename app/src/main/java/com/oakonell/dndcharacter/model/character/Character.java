@@ -159,6 +159,8 @@ public class Character {
     private int deathSaveSuccesses;
     @Element(required = false)
     private boolean stable;
+    @Element(required = false)
+    private Alignment alignment;
 
     public Character() {
     }
@@ -541,6 +543,14 @@ public class Character {
 
     public boolean isStable() {
         return stable;
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(Alignment alignment) {
+        this.alignment = alignment;
     }
 
 

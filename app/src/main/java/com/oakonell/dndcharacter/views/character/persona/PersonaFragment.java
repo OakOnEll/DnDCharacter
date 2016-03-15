@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.persona;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.Alignment;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
@@ -42,6 +44,8 @@ public class PersonaFragment extends AbstractSheetFragment {
 
     TextView xp;
     ViewGroup xpGroup;
+    private ViewGroup alignment_group;
+    private TextView alignment;
 
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
@@ -56,6 +60,9 @@ public class PersonaFragment extends AbstractSheetFragment {
         hair = (TextView) rootView.findViewById(R.id.hair);
         languages = (TextView) rootView.findViewById(R.id.languages);
         languageGroup = (ViewGroup) rootView.findViewById(R.id.language_group);
+
+        alignment_group = (ViewGroup) rootView.findViewById(R.id.alignment_group);
+        alignment = (TextView) rootView.findViewById(R.id.alignment);
 
         xp = (TextView) rootView.findViewById(R.id.xp);
         xpGroup = (ViewGroup) rootView.findViewById(R.id.xp_group);
@@ -143,7 +150,7 @@ public class PersonaFragment extends AbstractSheetFragment {
             }
         };
         // weird state
-        if(rootView ==null) return;
+        if (rootView == null) return;
         if (character.getRaceName() != null) {
             rootView.findViewById(R.id.looks_group).setOnClickListener(onClickListener);
         } else {
@@ -174,6 +181,20 @@ public class PersonaFragment extends AbstractSheetFragment {
             public void onClick(View v) {
                 LanguagesDialogFragment fragment = LanguagesDialogFragment.create();
                 fragment.show(getFragmentManager(), "language_dialog");
+            }
+        });
+
+        final Alignment alignment = character.getAlignment();
+        if (alignment != null) {
+            this.alignment.setText(getString(alignment.getStringResId()));
+        } else {
+            this.alignment.setText("");
+        }
+        alignment_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlignmentDialogFragment fragment = AlignmentDialogFragment.create();
+                fragment.show(getFragmentManager(), "alignment_dialog");
             }
         });
 

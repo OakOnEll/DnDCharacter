@@ -3,4 +3,16 @@
     <string name="download_error">Download Error:</string>
     <string name="spell_slots_for_level">Level %1d Spell Slots</string>
     <string name="enter_spell_slots_between_0_n">Enter number between 0 and %d</string>
+    <string name="alignment_title">Alignment</string>
+    <string name="good_v_evil_axis_label">Good\n vs\nEvil</string>
+    <string name="law_v_chaos_axis_label">Law vs Chaos</string>
+    <string name="chaotic_good">Chaotic Good</string>
+    <string name="neutral_good">Neutral Good</string>
+    <string name="lawful_good">Lawful Good</string>
+    <string name="lawful_neutral">Lawful Neutral</string>
+    <string name="true_neutral">(True) Neutral</string>
+    <string name="chaotic_neutral">Chaotic Neutral</string>
+    <string name="lawful_evil">Lawful Evil</string>
+    <string name="neutral_evil">Neutral Evil</string>
+    <string name="chaotic_evil">Chaotic Evil</string>
 </resources>
