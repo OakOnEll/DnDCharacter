@@ -209,6 +209,15 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return 0;
     }
 
+    public boolean usesSpellSlot() {
+        if (getFeature().usesSpellSlot()) {
+            return true;
+        }
+        if (extendedFeature != null) return extendedFeature.usesSpellSlot();
+        return false;
+    }
+
+
     @Nullable
     @Override
     public Proficient getSkillProficient(SkillType type) {
@@ -300,7 +309,8 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     @Override
     public void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull Character character) {
         getFeature().addExtraFormulaVariables(extraVariables, character);
-        if (extendedFeature != null) extendedFeature.addExtraFormulaVariables(extraVariables, character);
+        if (extendedFeature != null)
+            extendedFeature.addExtraFormulaVariables(extraVariables, character);
     }
 
 

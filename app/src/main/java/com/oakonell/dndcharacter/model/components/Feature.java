@@ -49,6 +49,9 @@ public class Feature extends AbstractContextualComponent {
     @Element(required = false)
     private FeatureExtensionType extensionType;
 
+    @Element(required = false)
+    private boolean useSpellSlot;
+
     @NonNull
     @Override
     public ComponentType getType() {
@@ -152,6 +155,14 @@ public class Feature extends AbstractContextualComponent {
 
     public void setExtensionType(FeatureExtensionType extensionType) {
         this.extensionType = extensionType;
+    }
+
+    public boolean usesSpellSlot() {
+        return useSpellSlot;
+    }
+
+    public void setUsesSpellSlot(boolean useSpellSlot) {
+        this.useSpellSlot = useSpellSlot;
     }
 
     public static class FeatureAction implements IFeatureAction {

@@ -85,6 +85,28 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/spell_slot_use_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/use_spell_slot"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_spell_slot" />
+
+            <Spinner
+                android:id="@+id/spell_slot_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/actions_list"
             android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.views.character.feature;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.DataSetObserver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,17 +16,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.FeatureInfo;
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.UseType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
@@ -61,10 +68,14 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
     @NonNull
     public final RecyclerView action_list;
+    private final Button use_spell_slot;
+    private final Spinner spell_slot_level;
+    private final ViewGroup spell_slot_use_group;
 
     private Set<FeatureContextArgument> filter;
 
     private ActionAdapter actionsAdapter;
+    private ArrayList<String> spellLevels;
 
 
     public FeatureViewHolder(@NonNull View view) {
@@ -79,6 +90,10 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         uses_remaining = (TextView) view.findViewById(R.id.remaining);
         shortDescription = (TextView) view.findViewById(R.id.short_description);
         refreshes_label = (TextView) view.findViewById(R.id.refreshes_label);
+
+        spell_slot_use_group = (ViewGroup) view.findViewById(R.id.spell_slot_use_group);
+        spell_slot_level = (Spinner) view.findViewById(R.id.spell_slot_level);
+        use_spell_slot = (Button) view.findViewById(R.id.use_spell_slot);
     }
 
     public FeatureViewHolder(@NonNull View view, Set<FeatureContextArgument> filter) {
@@ -98,6 +113,50 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                 ComponentLaunchHelper.editComponent(context, info.getSource(), false);
             }
         });
+
+
+        if (info.usesSpellSlot()) {
+            spell_slot_use_group.setVisibility(View.VISIBLE);
+
+            ArrayAdapter spell_slot_levelAdapter = (ArrayAdapter) spell_slot_level.getAdapter();
+            if (spell_slot_levelAdapter == null) {
+                spellLevels = new ArrayList<>();
+                spell_slot_levelAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spellLevels);
+                spell_slot_level.setAdapter(spell_slot_levelAdapter);
+            }
+            spellLevels.clear();
+            for (Character.SpellLevelInfo each : context.getCharacter().getSpellInfos()) {
+                if (each.getLevel() == 0) continue;
+                spellLevels.add(context.getString(R.string.spell_slot_level_and_uses, each.getLevel(), each.getSlotsAvailable()));
+            }
+            spell_slot_levelAdapter.notifyDataSetChanged();
+
+            spell_slot_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    final Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
+                    use_spell_slot.setEnabled(levelInfo.getSlotsAvailable() > 0);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            final Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
+            use_spell_slot.setEnabled(levelInfo.getSlotsAvailable() > 0);
+            use_spell_slot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.getCharacter().useSpellSlot(spell_slot_level.getSelectedItemPosition() + 1);
+                    context.saveCharacter();
+                    context.updateViews();
+                }
+            });
+        } else {
+            spell_slot_use_group.setVisibility(View.GONE);
+        }
 
         if (actionsAdapter == null) {
             actionsAdapter = new ActionAdapter(context);

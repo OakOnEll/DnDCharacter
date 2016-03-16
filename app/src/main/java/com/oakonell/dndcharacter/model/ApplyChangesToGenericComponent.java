@@ -244,6 +244,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             feature.setFormula(pool);
         }
 
+        String usesSpellSlot = XmlUtils.getElementText(element, "useSpellSlot");
+        feature.setUsesSpellSlot("true".equals(usesSpellSlot));
+
         super.visitFeature(element);
 
         if (useType != null) {

@@ -15,4 +15,6 @@
     <string name="lawful_evil">Lawful Evil</string>
     <string name="neutral_evil">Neutral Evil</string>
     <string name="chaotic_evil">Chaotic Evil</string>
+    <string name="use_spell_slot">Use spell slot</string>
+    <string name="spell_slot_level_and_uses">Level %1$d - %2$s remaining</string>
 </resources>

@@ -123,7 +123,7 @@
         <feature>
             <name>Divine Smite</name>
             <shortDescription>When you hit a creature with a melee weapon attack, you can expend one spell slot to deal radiant damage to the target, in addition to the weapon’s damage. The extra damage is 2d8 for a 1st-level spell slot, plus 1d8 for each spell level higher than 1st, to a maximum of 5d8. The damage increases by 1d8 if the target is an undead or a fiend.</shortDescription>
-            <!-- TODO allow "use" of a spell slot from a feature -->
+            <useSpellSlot>true</useSpellSlot>
             <context>WEAPON_ATTACK</context>
         </feature>
     </level>
@@ -203,7 +203,7 @@
             <extensionDescription>Whenever you hit a creature with a melee weapon, the creature takes an extra 1d8 radiant damage.</extensionDescription>
             <shortDescription>You are so suffused with righteous might that all your melee weapon strikes carry divine power with them. Whenever you hit a creature with a melee weapon, the creature takes an extra 1d8 radiant damage.
                 You can also expend one spell slot to deal more radiant damage to the target, in addition to the weapon’s damage. The extra damage is 2d8 for a 1st-level spell slot, plus 1d8 for each spell level higher than 1st, to a maximum of 5d8. The damage increases by 1d8 if the target is an undead or a fiend.</shortDescription>
-            <!-- TODO allow "use" of a spell slot from a feature -->
+            <useSpellSlot>true</useSpellSlot>
             <context>WEAPON_ATTACK</context>
         </feature>
 
