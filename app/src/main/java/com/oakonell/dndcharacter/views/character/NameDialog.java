@@ -29,6 +29,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
+import com.oakonell.dndcharacter.views.GridLayoutManager;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 import org.w3c.dom.Element;
@@ -171,13 +172,16 @@ public class NameDialog extends AbstractCharacterDialogFragment {
     }
 
     private static class NameViewHolder {
+            //extends BindableComponentViewHolder<String, NameDialog, NameAdapter> {
         @NonNull
         private final TextView name;
 
         public NameViewHolder(@NonNull View itemView) {
+            //super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
         }
 
+        //@Override
         public void bind(NameDialog context, @NonNull NameAdapter adapter, final String info) {
             name.setText(info);
             // append this to the current name in the dialog...
@@ -202,7 +206,9 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         }
     }
 
-    private static class NameAdapter extends BaseAdapter {
+    private static class NameAdapter extends
+            BaseAdapter {
+        //RecyclerView.Adapter<NameViewHolder> {
         private NameType type;
         private final NameDialog dialog;
 
@@ -211,12 +217,11 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             this.dialog = dialog;
         }
 
-//
-//        public NameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            View view = LayoutInflater.from(dialog.getMainActivity()).inflate(R.layout.race_name_item, parent, false);
-//            NameViewHolder holder = new NameViewHolder(view);
-//            return holder;
-//        }
+        public NameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(dialog.getMainActivity()).inflate(R.layout.race_name_item, parent, false);
+            NameViewHolder holder = new NameViewHolder(view);
+            return holder;
+        }
 
 
         public void onBindViewHolder(@NonNull NameViewHolder holder, int position) {
@@ -228,7 +233,6 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         public int getItemCount() {
             return type.names.size();
         }
-
 
         @Override
         public int getCount() {
@@ -260,20 +264,25 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             onBindViewHolder(holder, position);
             return theView;
         }
+
+
     }
 
     private static class NameTypeViewHolder extends BindableComponentViewHolder<NameType, NameDialog, NameTypeAdapter> {
         @NonNull
         private final TextView name_type;
         @NonNull
+        //private final RecyclerView names;
         private final GridView names;
         private NameAdapter nameAdapter;
         private static float textPx;
+        private int widthPx;
 
         public NameTypeViewHolder(@NonNull View itemView) {
             super(itemView);
             name_type = (TextView) itemView.findViewById(R.id.name_type);
             names = (GridView) itemView.findViewById(R.id.names);
+            //names = (RecyclerView) itemView.findViewById(R.id.names);
         }
 
         @Override
@@ -283,57 +292,22 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             if (nameAdapter == null) {
                 nameAdapter = new NameAdapter(adapter.dialog, info);
                 names.setAdapter(nameAdapter);
-
-//                names.setHasFixedSize(false);
-
+//                names.setHasFixedSize(true);
+//                final GridLayoutManager layoutManager = new GridLayoutManager(context.getActivity(), 1);
+//                names.setLayoutManager(layoutManager);
+//
 //                names.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 //                    @Override
 //                    public void onGlobalLayout() {
-//                        if (nameAdapter.getNumColumns() == 0) {
-//
-//
-//
-//                            int maxLength = 0;
-//                            int mTextWidth;
-//                            int maxWidth = 0;
-//                            Paint mTextPaint = new Paint();
-//
-////                mPaint.setAntiAlias(true);
-////            mPaint.setStrokeWidth(5);
-////            mPaint.setStrokeCap(Paint.Cap.ROUND);
-////            mPaint.setTextSize(64);
-////            mPaint.setTypeface(Typeface.create(Typeface.SERIF,
-////                                               Typeface.ITALIC));
-//
-//                            for (String each : info.names) {
-//                                // Now lets calculate the size of the text
-//                                Rect textBounds = new Rect();
-//                                mTextPaint.getTextBounds(each, 0, each.length(), textBounds);
-//                                int width = (int) mTextPaint.measureText(each); // Use measureText to calculate width
-//                                if (width > maxWidth) {
-//                                    maxWidth = width;
-//                                }
-//                                if (each.length() > maxLength) {
-//                                    maxLength = each.length();
-//                                }
-//                            }
-//                            mTextPaint = null;
-//
-//
-//
-//
-//
-//
-//                            final int numColumns = (int) Math.floor(names.getWidth() / (mPhotoSize + mPhotoSpacing));
-//                            if (numColumns > 0) {
-//                                final int columnWidth = (names.getWidth() / numColumns) - mPhotoSpacing;
-//                                nameAdapter.setNumColumns(numColumns);
-//                                //nameAdapter.setItemHeight(columnWidth);
-//                            }
+//                        final int numColumns = (int) Math.floor(names.getWidth() / (widthPx));
+//                        int currentColumns = layoutManager.getSpanCount();
+//                        if (currentColumns != numColumns) {
+//                            layoutManager.setSpanCount(numColumns);
+//                            names.requestLayout();
 //                        }
 //                    }
+//
 //                });
-                // from http://techiedreams.com/android-custom-gridview-scalable-auto-adjusting-col-width/#sthash.pX9tlGrB.dpuf
 
             } else {
                 nameAdapter.type = info;
@@ -348,11 +322,9 @@ public class NameDialog extends AbstractCharacterDialogFragment {
                 }
             }
 
-            int width = measureTextWidth(context.getActivity(), largest);
-            names.setColumnWidth((int) (width + convertDpToPixel(10)));
+            widthPx = measureTextWidth(context.getActivity(), largest) + (int) convertDpToPixel(10);
+            names.setColumnWidth(widthPx);
             nameAdapter.notifyDataSetChanged();
-
-
         }
 
         public static float convertDpToPixel(float dp) {
