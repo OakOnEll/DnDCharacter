@@ -1,20 +1,27 @@
 package com.oakonell.dndcharacter.views.character;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.activeandroid.query.Select;
@@ -72,7 +79,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         String subraceName = character.getSubRaceName();
         String raceTitle = subraceName;
 
-        Element raceElem ;
+        Element raceElem;
         List<Element> nameElems = Collections.emptyList();
         if (subraceName != null) {
             Race subrace = new Select().from(Race.class).where("name = ? ", subraceName).executeSingle();
@@ -163,16 +170,14 @@ public class NameDialog extends AbstractCharacterDialogFragment {
 
     }
 
-    private static class NameViewHolder extends BindableComponentViewHolder<String, NameDialog, NameAdapter> {
+    private static class NameViewHolder {
         @NonNull
         private final TextView name;
 
         public NameViewHolder(@NonNull View itemView) {
-            super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
         }
 
-        @Override
         public void bind(NameDialog context, @NonNull NameAdapter adapter, final String info) {
             name.setText(info);
             // append this to the current name in the dialog...
@@ -197,7 +202,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         }
     }
 
-    private static class NameAdapter extends RecyclerView.Adapter<NameViewHolder> {
+    private static class NameAdapter extends BaseAdapter {
         private NameType type;
         private final NameDialog dialog;
 
@@ -206,23 +211,54 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             this.dialog = dialog;
         }
 
-        @NonNull
-        @Override
-        public NameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(dialog.getMainActivity()).inflate(R.layout.race_name_item, parent, false);
-            NameViewHolder holder = new NameViewHolder(view);
-            return holder;
-        }
+//
+//        public NameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//            View view = LayoutInflater.from(dialog.getMainActivity()).inflate(R.layout.race_name_item, parent, false);
+//            NameViewHolder holder = new NameViewHolder(view);
+//            return holder;
+//        }
 
-        @Override
+
         public void onBindViewHolder(@NonNull NameViewHolder holder, int position) {
             final String aName = type.names.get(position);
             holder.bind(dialog, this, aName);
         }
 
-        @Override
+
         public int getItemCount() {
             return type.names.size();
+        }
+
+
+        @Override
+        public int getCount() {
+            return getItemCount();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return type.names.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View theView;
+            NameViewHolder holder;
+            if (convertView != null) {
+                theView = convertView;
+                holder = (NameViewHolder) theView.getTag();
+            } else {
+                theView = LayoutInflater.from(dialog.getMainActivity()).inflate(R.layout.race_name_item, parent, false);
+                holder = new NameViewHolder(theView);
+                theView.setTag(holder);
+            }
+            onBindViewHolder(holder, position);
+            return theView;
         }
     }
 
@@ -230,91 +266,125 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         @NonNull
         private final TextView name_type;
         @NonNull
-        private final RecyclerView names;
+        private final GridView names;
         private NameAdapter nameAdapter;
         private static float textPx;
 
         public NameTypeViewHolder(@NonNull View itemView) {
             super(itemView);
             name_type = (TextView) itemView.findViewById(R.id.name_type);
-            names = (RecyclerView) itemView.findViewById(R.id.names);
+            names = (GridView) itemView.findViewById(R.id.names);
         }
 
         @Override
-        public void bind(@NonNull NameDialog context, @NonNull NameTypeAdapter adapter, @NonNull NameType info) {
+        public void bind(@NonNull NameDialog context, @NonNull NameTypeAdapter adapter, final @NonNull NameType info) {
             name_type.setText(info.typeName);
 
             if (nameAdapter == null) {
                 nameAdapter = new NameAdapter(adapter.dialog, info);
                 names.setAdapter(nameAdapter);
 
-                names.setHasFixedSize(false);
+//                names.setHasFixedSize(false);
+
+//                names.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                    @Override
+//                    public void onGlobalLayout() {
+//                        if (nameAdapter.getNumColumns() == 0) {
+//
+//
+//
+//                            int maxLength = 0;
+//                            int mTextWidth;
+//                            int maxWidth = 0;
+//                            Paint mTextPaint = new Paint();
+//
+////                mPaint.setAntiAlias(true);
+////            mPaint.setStrokeWidth(5);
+////            mPaint.setStrokeCap(Paint.Cap.ROUND);
+////            mPaint.setTextSize(64);
+////            mPaint.setTypeface(Typeface.create(Typeface.SERIF,
+////                                               Typeface.ITALIC));
+//
+//                            for (String each : info.names) {
+//                                // Now lets calculate the size of the text
+//                                Rect textBounds = new Rect();
+//                                mTextPaint.getTextBounds(each, 0, each.length(), textBounds);
+//                                int width = (int) mTextPaint.measureText(each); // Use measureText to calculate width
+//                                if (width > maxWidth) {
+//                                    maxWidth = width;
+//                                }
+//                                if (each.length() > maxLength) {
+//                                    maxLength = each.length();
+//                                }
+//                            }
+//                            mTextPaint = null;
+//
+//
+//
+//
+//
+//
+//                            final int numColumns = (int) Math.floor(names.getWidth() / (mPhotoSize + mPhotoSpacing));
+//                            if (numColumns > 0) {
+//                                final int columnWidth = (names.getWidth() / numColumns) - mPhotoSpacing;
+//                                nameAdapter.setNumColumns(numColumns);
+//                                //nameAdapter.setItemHeight(columnWidth);
+//                            }
+//                        }
+//                    }
+//                });
+                // from http://techiedreams.com/android-custom-gridview-scalable-auto-adjusting-col-width/#sthash.pX9tlGrB.dpuf
+
             } else {
                 nameAdapter.type = info;
-                nameAdapter.notifyDataSetChanged();
             }
-
 
             int maxLength = 0;
-            int mTextWidth;
-            int maxWidth = 0;
-            Paint mTextPaint = new Paint();
-
-//                mPaint.setAntiAlias(true);
-//            mPaint.setStrokeWidth(5);
-//            mPaint.setStrokeCap(Paint.Cap.ROUND);
-//            mPaint.setTextSize(64);
-//            mPaint.setTypeface(Typeface.create(Typeface.SERIF,
-//                                               Typeface.ITALIC));
-
+            String largest = "";
             for (String each : info.names) {
-                // Now lets calculate the size of the text
-                Rect textBounds = new Rect();
-                mTextPaint.getTextBounds(each, 0, each.length(), textBounds);
-                int width = (int) mTextPaint.measureText(each); // Use measureText to calculate width
-                if (width > maxWidth) {
-                    maxWidth = width;
-                }
                 if (each.length() > maxLength) {
                     maxLength = each.length();
+                    largest = each;
                 }
             }
-            mTextPaint = null;
-/*
-            //Display display = context.getActivity().getWindowManager().getDefaultDisplay();
-            WindowManager wm = (WindowManager) context.getActivity().getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int width = size.x;
 
+            int width = measureTextWidth(context.getActivity(), largest);
+            names.setColumnWidth((int) (width + convertDpToPixel(10)));
+            nameAdapter.notifyDataSetChanged();
 
-//            int dialogWidth = context.rootView.getWidth();
-            int numColumns = width / maxWidth;
-//
-//
-//            names.measure(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            int width = names.getMeasuredWidth();
-            names.setLayoutManager(new com.oakonell.dndcharacter.views.GridLayoutManager(context.getActivity(), numColumns));
-*/
-
-            WindowManager wm = (WindowManager) context.getActivity().getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int width = size.x;
-
-            // TODO find the correct way to calculate the best number of columns
-            if (textPx == 0) {
-                textPx = new TextView(context.getActivity()).getTextSize();
-            }
-            int numColumns = (int) (0.5 * width / (maxLength * textPx)) - 1;
-            if (numColumns < 1) numColumns = 1;
-
-            names.setLayoutManager(new com.oakonell.dndcharacter.views.GridLayoutManager(context.getActivity(), numColumns));
 
         }
+
+        public static float convertDpToPixel(float dp) {
+            DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+            float px = dp * (metrics.densityDpi / 160f);
+            return Math.round(px);
+        }
+
+        public int measureTextWidth(Context context, String string) {
+            // We need a fake parent
+            FrameLayout buffer = new FrameLayout(context);
+            TextView text = new TextView(context);
+            int numChars = string.length();
+            String sampleString = "";
+            for (int i = 0; i < numChars; i++) {
+                sampleString += "M";
+            }
+            text.setText(sampleString);
+            android.widget.AbsListView.LayoutParams layoutParams = new android.widget.AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
+            buffer.addView(text, layoutParams);
+
+            text.forceLayout();
+            text.measure(1000, 1000);
+
+            int width = text.getMeasuredWidth();
+
+            buffer.removeAllViews();
+
+            return width;
+        }
     }
+
 
     private static class NameTypeAdapter extends RecyclerView.Adapter<NameTypeViewHolder> {
         private final List<NameType> nameTypes;

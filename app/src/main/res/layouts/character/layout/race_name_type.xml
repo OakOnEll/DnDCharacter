@@ -12,11 +12,12 @@
         android:layout_gravity="center_horizontal"
         tools:text="Male Names" />
 
-    <android.support.v7.widget.RecyclerView
+    <com.oakonell.dndcharacter.views.MyGridView
         android:id="@+id/names"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:numColumns="auto_fit"
         tools:listitem="@layout/race_name_item" />
 
 </LinearLayout>
