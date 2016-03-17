@@ -53,11 +53,16 @@ import com.oakonell.dndcharacter.views.character.md.SearchOptionMD;
 import com.oakonell.dndcharacter.views.character.spell.SelectSpellDialogFragment;
 
 import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 /**
  * Created by Rob on 11/18/2015.
@@ -723,6 +728,14 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
         String category = element.getAttribute("category");
+        String title = element.getAttribute("title");
+        if (title == null || title.trim().length() == 0) {
+            title = category;
+        }
+        String conditional = element.getAttribute("conditional");
+        if (conditional != null && conditional.trim().length() == 0) {
+            conditional = null;
+        }
         From nameSelect = new Select()
                 .from(ItemRow.class).orderBy("name");
         nameSelect = nameSelect.where("UPPER(category)= ?", category.toUpperCase());
@@ -744,10 +757,21 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         List<String> tools = new ArrayList<>();
         for (ItemRow each : toolRows) {
             if (filters.contains(each.getName().toUpperCase())) continue;
+            if (conditional != null) {
+                XPathFactory factory = XPathFactory.newInstance();
+                XPath xPath = factory.newXPath();
+                final Element root = XmlUtils.getDocument(each.getXml()).getDocumentElement();
+                try {
+                    String result = xPath.evaluate(conditional, root);
+                    if (result == null || result.trim().length() == 0) continue;
+                } catch (XPathExpressionException e) {
+                    Log.e(AbstractComponentViewCreator.class.getSimpleName(), "Error applying conditional to item document:" + e.getMessage());
+                }
+            }
             tools.add(each.getName());
         }
 
-        appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, tools, category);
+        appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, tools, title);
     }
 
     private void visitLanguageCategoryChoices(int numChoices) {
@@ -781,7 +805,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                 dropdownLanguages.add(each);
             }
         }
-
+        // TODO allow adding languages?
         String languagePrompt = parent.getContext().getString(R.string.language);
         appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, dropdownLanguages, languagePrompt);
 

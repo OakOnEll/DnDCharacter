@@ -34,8 +34,7 @@
                 <item>Scimitar</item>
             </or>
             <or name="simpleweapon">
-                <!-- TODO weapons have multiple categories? This should be category="simple melee weapons"-->
-                <choose name="weapon_weapon" category="simple weapons" />
+                <choose name="weapon_weapon" category="simple weapons" title="Choose a Simple Melee Weapon" conditional="/item[not(ranged='true')]"/>
             </or>
         </choose>
 
