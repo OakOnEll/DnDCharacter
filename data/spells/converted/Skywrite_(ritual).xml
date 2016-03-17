@@ -1,6 +1,6 @@
 <spell>
-    <name>Skywrite</name>
-    <school>(ritual)</school>
+    <name>Skywrite (ritual)</name>
+    <school>transmutation</school>
     <level>2</level>
     <classes>
         <class>Bard</class>
