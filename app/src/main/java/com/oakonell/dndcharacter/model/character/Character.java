@@ -1463,6 +1463,10 @@ public class Character {
 
     public void setBaseStats(Map<StatType, Integer> baseStats) {
         this.baseStats = baseStats;
+        // adjust the HP, in case constitution was changed...
+        if (hp > getMaxHP()) {
+            hp = getMaxHP();
+        }
     }
 
     public static class LanguageWithSource extends WithSource {

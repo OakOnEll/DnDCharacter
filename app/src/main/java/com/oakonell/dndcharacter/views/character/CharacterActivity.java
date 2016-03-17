@@ -109,7 +109,7 @@ public class CharacterActivity extends AbstractBaseActivity {
                 dpf.setListener(new SelectEffectDialogFragment.AddEffectToCharacterListener(this));
             }
 
-            String[] wizardFrags = new String[]{RACE_FRAG, LEVEL_UP_FRAG, BACKGROUND_FRAG, BASE_STATS_FRAG};
+            String[] wizardFrags = new String[]{RACE_FRAG, LEVEL_UP_FRAG, BACKGROUND_FRAG};
             for (String eachFrag : wizardFrags) {
                 ApplyAbstractComponentDialogFragment<?> wizardDialog = (ApplyAbstractComponentDialogFragment<?>) getSupportFragmentManager().findFragmentByTag(eachFrag);
                 if (wizardDialog != null) {
@@ -118,7 +118,7 @@ public class CharacterActivity extends AbstractBaseActivity {
             }
             BaseStatsDialogFragment baseStatDialog = (BaseStatsDialogFragment) getSupportFragmentManager().findFragmentByTag(BASE_STATS_FRAG);
             if (baseStatDialog != null) {
-                baseStatDialog.setDoneListener(new CreationWizardDoneListener());
+                baseStatDialog.setDoneListener(new BaseStatsWizardDoneListener());
             }
         }
 
@@ -401,7 +401,7 @@ public class CharacterActivity extends AbstractBaseActivity {
 
         if (character.getBaseStats().isEmpty()) {
             BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog();
-            dialog.setDoneListener(new CreationWizardDoneListener());
+            dialog.setDoneListener(new BaseStatsWizardDoneListener());
             String doneLabelId = null;
             if (character.getName() == null || character.getName().trim().length() == 0) {
                 doneLabelId = getString(R.string.choose_name);
@@ -602,6 +602,14 @@ public class CharacterActivity extends AbstractBaseActivity {
                 loadCharacter(newId);
             }
         });
+    }
+
+    public class BaseStatsWizardDoneListener extends CreationWizardDoneListener {
+        @Override
+        public void onDone() {
+            getCharacter().setHP(getCharacter().getMaxHP());
+            super.onDone();
+        }
     }
 
     public class CreationWizardDoneListener implements ApplyAbstractComponentDialogFragment.DoneListener {
