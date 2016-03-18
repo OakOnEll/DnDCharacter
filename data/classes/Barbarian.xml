@@ -41,7 +41,7 @@
             </or>
         </choose>
         <item>explorer's pack</item>
-        <item count="4">Javelins</item>
+        <item count="4">Javelin</item>
     </equipment>
     <multiclassPrerequisite>strength>=13</multiclassPrerequisite>
     <level value="1">
