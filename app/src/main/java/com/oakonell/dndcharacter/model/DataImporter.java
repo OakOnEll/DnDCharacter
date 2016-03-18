@@ -175,6 +175,7 @@ public class DataImporter {
         public int updated = 0;
         public int added = 0;
 
+        public UpdateCharacters.CharacterUpdateResult characterResult;
     }
 
     public static class ImportRow {
@@ -273,6 +274,7 @@ public class DataImporter {
             if (success) {
                 try {
                     AbstractComponentModel model = new Select().from(modelClass).where("name = ?", each.name).executeSingle();
+                    // TODO is it faster to skip when the xml is unchanged?
                     boolean isUpdated = true;
                     if (model == null) {
                         model = modelClass.newInstance();

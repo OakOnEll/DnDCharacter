@@ -158,7 +158,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 //                if (mainRace!= null && !race.getName().equals(mainRace.getName())) {
 //                    mainRace = null;
 //                }
-                ChooseMDTreeNode chooseMDs = visitor.appendToLayout(element, getMainActivity(), dynamicView, savedChoices,mainRace);
+                ChooseMDTreeNode chooseMDs = visitor.appendToLayout(element, getMainActivity(), dynamicView, savedChoices, mainRace);
 
                 if (subrace != null) {
                     CharacterRace characterSubrace = currentRace;
@@ -167,7 +167,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
 //                    }
                     Element subRaceElement = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
                     SavedChoices subRaceSavedChoices = savedChoicesByModel.get(subrace.getName());
-                    subRaceChooseMDs = visitor.appendToLayout(subRaceElement, getMainActivity(), dynamicView, subRaceSavedChoices,characterSubrace);
+                    subRaceChooseMDs = visitor.appendToLayout(subRaceElement, getMainActivity(), dynamicView, subRaceSavedChoices, characterSubrace);
                 }
 
                 return chooseMDs;
@@ -217,7 +217,7 @@ public class ApplyRaceDialogFragment extends ApplyAbstractComponentDialogFragmen
             subraceCustom = customChoicesByModel.get(subrace.getName());
         }
 
-        ApplyRaceToCharacterVisitor.applyToCharacter(getActivity(), getModel(), savedChoices, customChoices, subrace, subraceChoices, subraceCustom, getCharacter());
+        ApplyRaceToCharacterVisitor.applyToCharacter(getActivity(), getModel(), savedChoices, customChoices, subrace, subraceChoices, subraceCustom, getCharacter(), false);
 
         String age = customChoices.get("age");
         String weight = customChoices.get("weight");

@@ -259,32 +259,7 @@ public class CharacterActivity extends AbstractBaseActivity {
         @Override
         protected String doInBackground(Void... params) {
             Serializer serializer = new Persister();
-            OutputStream out;
-            try {
-                out = new ByteArrayOutputStream();
-                serializer.write(character, out);
-                out.close();
-            } catch (Exception e) {
-                throw new RuntimeException("Error writing character xml", e);
-            }
-            String xml = out.toString();
-            CharacterRow row;
-            String action;
-            if (id >= 0) {
-                row = CharacterRow.load(CharacterRow.class, id);
-                action = "Updated";
-            } else {
-                row = new CharacterRow();
-                action = "Added";
-            }
-            row.classesString = character.getClassesString();
-            row.race_display_name = character.getDisplayRaceName();
-            row.hp = getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP());
-            row.name = character.getName();
-            row.xml = xml;
-            row.last_updated = new Date();
-
-            id = row.save();
+            String action = CharacterRow.saveCharacter(CharacterActivity.this, serializer, character, id);
 
             SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -292,6 +267,7 @@ public class CharacterActivity extends AbstractBaseActivity {
             editor.apply();
             return action;
         }
+
 
         @Override
         protected void onPostExecute(String action) {

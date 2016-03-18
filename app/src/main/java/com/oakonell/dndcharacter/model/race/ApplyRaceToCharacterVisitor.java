@@ -28,14 +28,14 @@ public class ApplyRaceToCharacterVisitor extends AbstractRaceVisitor {
 
     public static void applyToCharacter(@NonNull Context context, @NonNull Race race, SavedChoices savedChoices, Map<String, String> customChoices,
                                         @Nullable Race subrace, SavedChoices subraceSavedChoices, Map<String, String> subraceCustomChoices,
-                                        @NonNull Character character) {
+                                        @NonNull Character character, boolean preventItemDelete) {
         CharacterRace charRace = new CharacterRace();
         charRace.setSavedChoices(savedChoices);
 
         // apply common changes
         Element element = XmlUtils.getDocument(race.getXml()).getDocumentElement();
         charRace.setName(XmlUtils.getElementText(element, "name"));
-        ApplyChangesToGenericComponent.applyToCharacter(context, element, savedChoices, charRace, character, true);
+        ApplyChangesToGenericComponent.applyToCharacter(context, element, savedChoices, charRace, character, true && !preventItemDelete);
 
         ApplyRaceToCharacterVisitor newMe = new ApplyRaceToCharacterVisitor(savedChoices, customChoices, charRace);
         newMe.visit(element);

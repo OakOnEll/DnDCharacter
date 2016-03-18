@@ -44,6 +44,8 @@ import java.util.List;
 public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> extends AbstractChoiceComponentVisitor {
     private final C component;
     private final SavedChoices savedChoices;
+    private boolean addItems;
+
     @Nullable
     private final com.oakonell.dndcharacter.model.character.Character character;
     private final Context context;
@@ -80,6 +82,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
 
         ApplyChangesToGenericComponent<C> newMe = new ApplyChangesToGenericComponent<>(context, savedChoices, component, character);
+        newMe.addItems = deleteEquipment;
         newMe.visitChildren(element);
     }
 
@@ -592,6 +595,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     }
 
     private void addItem(@NonNull String itemName) {
+        if (!addItems) return;
         // look up in items table for more information
         List<ItemRow> items = new Select()
                 .from(ItemRow.class).where("UPPER(name) = ?", itemName.toUpperCase()).execute();

@@ -37,19 +37,19 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
 
     public static void addClassLevel(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int characterlevel, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(context, aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, characterlevel, classLevel, hpRoll);
+        CharacterClass charClass = createCharacterClass(context, aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, characterlevel, classLevel, hpRoll, false);
         character.getClasses().add(charClass);
 
-        character.setHP( character.getHP() + hpRoll + character.getStatBlock(StatType.CONSTITUTION).getModifier());
+        character.setHP(character.getHP() + hpRoll + character.getStatBlock(StatType.CONSTITUTION).getModifier());
     }
 
-    public static void updateClassLevel(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int classIndex, int classLevel, int hpRoll) {
-        CharacterClass charClass = createCharacterClass(context, aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, classIndex + 1, classLevel, hpRoll);
+    public static void updateClassLevel(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int classIndex, int classLevel, int hpRoll, boolean preventItemDelete) {
+        CharacterClass charClass = createCharacterClass(context, aClass, savedChoices, customChoices, subClass, subclassSavedChoices, character, classIndex + 1, classLevel, hpRoll, preventItemDelete);
         character.getClasses().set(classIndex, charClass);
     }
 
     @NonNull
-    private static CharacterClass createCharacterClass(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, @Nullable AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int characterLevel, int classLevel, int hpRoll) {
+    private static CharacterClass createCharacterClass(@NonNull Context context, @NonNull AClass aClass, SavedChoices savedChoices, Map<String, String> customChoices, @Nullable AClass subClass, SavedChoices subclassSavedChoices, @NonNull Character character, int characterLevel, int classLevel, int hpRoll, boolean preventItemDelete) {
         CharacterClass charClass = new CharacterClass();
         charClass.setSavedChoices(savedChoices);
         // apply common changes
@@ -58,7 +58,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
 
         if (characterLevel == 1) {
             // this will not visit any level elements, but will apply top level stuff as the first class for a character
-            ApplyChangesToGenericComponent.applyToCharacter(context, rootClassElement, savedChoices, charClass, character, true);
+            ApplyChangesToGenericComponent.applyToCharacter(context, rootClassElement, savedChoices, charClass, character, true && !preventItemDelete);
 
             // grab the first character level skills and such
             ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);

@@ -27,12 +27,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.oakonell.dndcharacter.BuildConfig;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.DataImporter;
+import com.oakonell.dndcharacter.model.UpdateCharacters;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 
 import java.net.MalformedURLException;
@@ -60,6 +60,7 @@ public class ImportActivity extends AppCompatActivity {
     private ImageButton downloadButton;
     ProgressDialog mUrlDownloadProgressDialog;
     private TextView import_summary;
+    private TextView character_update_summary;
     private CheckBox select_all;
     private boolean changingSelectState;
 
@@ -98,6 +99,7 @@ public class ImportActivity extends AppCompatActivity {
         importRowsButton = (Button) findViewById(R.id.import_rows);
         filenameText = (TextView) findViewById(R.id.filename);
         import_summary = (TextView) findViewById(R.id.import_summary);
+        character_update_summary = (TextView) findViewById(R.id.character_update_summary);
 
         select_all = (CheckBox) findViewById(R.id.select_all);
 
@@ -156,6 +158,7 @@ public class ImportActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 import_summary.setText("");
+                character_update_summary.setText("");
                 importer.clear();
                 listAdapter.notifyDataSetChanged();
                 if (position == FILE_TYPE_INDEX) {
@@ -348,6 +351,8 @@ public class ImportActivity extends AppCompatActivity {
         barProgressDialog.setCancelable(false);
 
         AsyncTask<Void, Integer, DataImporter.ImportResult> task = new AsyncTask<Void, Integer, DataImporter.ImportResult>() {
+            boolean scrollImportList = true;
+
             @NonNull
             @Override
             protected DataImporter.ImportResult doInBackground(Void... params) {
@@ -357,19 +362,45 @@ public class ImportActivity extends AppCompatActivity {
                         publishProgress(progress.updated + progress.added, progress.failed);
                     }
                 };
-                return importer.importRows(progress);
+                DataImporter.ImportResult result = importer.importRows(progress);
+                if (result.updated > 0) {
+                    // update any characters that may be affected by imported data
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            barProgressDialog.setMessage(getString(R.string.updating_characters));
+                            barProgressDialog.setMax(UpdateCharacters.getNumberCharacters());
+
+                        }
+                    });
+                    scrollImportList = false;
+                    UpdateCharacters.UpdateCharacterProgress charProgress = new UpdateCharacters.UpdateCharacterProgress() {
+                        @Override
+                        public void progress(int updated, int error) {
+                            publishProgress(updated, error);
+                        }
+                    };
+                    UpdateCharacters.CharacterUpdateResult charResult = UpdateCharacters.updateCharacters(ImportActivity.this, charProgress);
+                    result.characterResult = charResult;
+                }
+                return result;
             }
 
 
             @Override
             protected void onProgressUpdate(Integer... values) {
                 barProgressDialog.setProgress(values[0]);
-                listView.smoothScrollToPosition(values[0] + values[1]);
+                if (scrollImportList) {
+                    listView.smoothScrollToPosition(values[0] + values[1]);
+                }
             }
 
             @Override
             protected void onPostExecute(@NonNull DataImporter.ImportResult importResult) {
                 import_summary.setText(getString(R.string.import_summary, importResult.added, importResult.updated, importResult.failed));
+                if (importResult.characterResult != null) {
+                    character_update_summary.setText(getString(R.string.character_update_summary, importResult.characterResult.updated, importResult.characterResult.failed));
+                }
                 barProgressDialog.dismiss();
                 listAdapter.notifyDataSetChanged();
                 updateViews();

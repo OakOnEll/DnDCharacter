@@ -74,7 +74,7 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
 
     @Override
     protected void applyToCharacter(SavedChoices savedChoices, Map<String, String> customChoices) {
-        ApplyClassToCharacterVisitor.updateClassLevel(getActivity(), getModel(), savedChoices, customChoices, getSubClass(), getSubClassChoices(), getCharacter(), classIndex, characterClass.getLevel(), hp);
+        ApplyClassToCharacterVisitor.updateClassLevel(getActivity(), getModel(), savedChoices, customChoices, getSubClass(), getSubClassChoices(), getCharacter(), classIndex, characterClass.getLevel(), hp, false);
     }
 
 

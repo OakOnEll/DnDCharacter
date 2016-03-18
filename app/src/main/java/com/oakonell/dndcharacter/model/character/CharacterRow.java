@@ -1,12 +1,19 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.content.Context;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
 
+import org.simpleframework.xml.Serializer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.Date;
 
 /**
@@ -49,5 +56,40 @@ public class CharacterRow extends AbstractComponentModel {
     @Override
     public void setXml(String xml) {
         this.xml = xml;
+    }
+
+    @NonNull
+    public static String saveCharacter(Context context, Serializer serializer, Character character, long id) {
+        String xml = characterToXmlString(serializer, character);
+        CharacterRow row;
+        String action;
+        if (id >= 0) {
+            row = CharacterRow.load(CharacterRow.class, id);
+            action = "Updated";
+        } else {
+            row = new CharacterRow();
+            action = "Added";
+        }
+        row.classesString = character.getClassesString();
+        row.race_display_name = character.getDisplayRaceName();
+        row.hp = context.getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP());
+        row.name = character.getName();
+        row.xml = xml;
+        row.last_updated = new Date();
+
+        id = row.save();
+        return action;
+    }
+
+    public static String characterToXmlString(Serializer serializer, Character character) {
+        OutputStream out;
+        try {
+            out = new ByteArrayOutputStream();
+            serializer.write(character, out);
+            out.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Error writing character xml", e);
+        }
+        return out.toString();
     }
 }
