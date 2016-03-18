@@ -70,7 +70,7 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
     @Override
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.base_stats, container);
+        View view = inflater.inflate(R.layout.base_stats_dialog, container);
 
         if (savedInstanceState != null) {
             doneLabel = savedInstanceState.getString(DONE_LABEL);
