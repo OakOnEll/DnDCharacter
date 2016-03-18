@@ -265,8 +265,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     private void addEquipment() {
-        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.EQUIPMENT, null);
-        dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
+        CharacterItemEditDialogFragment fragment = CharacterItemEditDialogFragment.createAddDialog();
+        fragment.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 
     @Override
@@ -356,13 +356,26 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(EquipmentFragment context, SubAdapter<CharacterItem> adapter, @NonNull CharacterItem item) {
+        public void bind(final EquipmentFragment context, SubAdapter<CharacterItem> adapter, @NonNull final CharacterItem item) {
             super.bind(context, adapter, item);
             if (item.getCount() != 1) {
                 count.setText("(" + item.getCount() + ")");
             } else {
                 count.setText("");
             }
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CharacterItemEditDialogFragment fragment = CharacterItemEditDialogFragment.createDialog(context.getCharacter(), item);
+                    fragment.show(context.getFragmentManager(), "weapon_dialog");
+                }
+            });
+        }
+
+        @Override
+        public void onItemSelected() {
+            super.onItemSelected();
         }
     }
 

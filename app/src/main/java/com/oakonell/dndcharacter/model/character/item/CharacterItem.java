@@ -25,6 +25,14 @@ public class CharacterItem extends BaseCharacterComponent {
     @Element(required = false)
     private int count = 1;
 
+    @Element(required = false)
+    private String weight;
+    @Element(required = false)
+    private String cost;
+    @Element(required = false)
+    private String notes;
+
+
     @NonNull
     @Override
     public ComponentType getType() {
@@ -77,5 +85,29 @@ public class CharacterItem extends BaseCharacterComponent {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getCost() {
+        return cost;
+    }
+
+    public void setCost(String cost) {
+        this.cost = cost;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }
