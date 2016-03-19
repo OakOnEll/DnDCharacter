@@ -65,6 +65,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private WeaponsAdapter weaponsAdapter;
     private View rootView;
     private RecyclerView armorView;
+    private TextView armor_class;
     private ViewGroup armorItemsView;
     private RecyclerView weaponsView;
     private ViewGroup weaponItemsView;
@@ -139,12 +140,13 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         armorView = (RecyclerView) rootView.findViewById(R.id.armor_list);
         armorItemsView = (ViewGroup) rootView.findViewById(R.id.armor_items_group);
+        armor_class = (TextView) rootView.findViewById(R.id.armor_class);
         weaponsView = (RecyclerView) rootView.findViewById(R.id.weapons_list);
         weaponItemsView = (ViewGroup) rootView.findViewById(R.id.weapons_items_group);
         itemsView = (RecyclerView) rootView.findViewById(R.id.items_list);
 
 
-        Button addArmor = (Button) rootView.findViewById(R.id.addArmor);
+        View addArmor = rootView.findViewById(R.id.addArmor);
         addArmor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +155,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         });
 
 
-        Button addWeapon = (Button) rootView.findViewById(R.id.addWeapon);
+        View addWeapon = rootView.findViewById(R.id.addWeapon);
         addWeapon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +163,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
-        Button addEquipment = (Button) rootView.findViewById(R.id.addItem);
+        View addEquipment = rootView.findViewById(R.id.addItem);
         addEquipment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -328,6 +330,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
+        armor_class.setText(getString(R.string.armor_class_paren_value, character.getArmorClass()));
 
         equipmentAdapter.reloadList(character);
         armorAdapter.reloadList(character);

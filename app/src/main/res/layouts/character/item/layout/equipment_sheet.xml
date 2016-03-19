@@ -41,15 +41,14 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="center_horizontal"
                     android:text="@string/weapons_title"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <Button
+                <ImageView
                     android:id="@+id/addWeapon"
-                    style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/add_button_label" />
+                    android:src="@drawable/ic_add_circle_outline_primary_18dp" />
 
 
             </LinearLayout>
@@ -90,15 +89,23 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="center_horizontal"
                     android:text="@string/armor_title"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <Button
-                    android:id="@+id/addArmor"
-                    style="?android:attr/buttonStyleSmall"
+                <TextView
+                    android:id="@+id/armor_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/add_button_label" />
+                    android:gravity="center_horizontal"
+                    tools:text="(AC=16)"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageView
+                    android:id="@+id/addArmor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_add_circle_outline_primary_18dp" />
 
 
             </LinearLayout>
@@ -137,13 +144,12 @@
                     android:text="@string/equipment_title"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <Button
+                <ImageView
                     android:id="@+id/addItem"
-                    style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/add_button_label" />
+                    android:src="@drawable/ic_add_circle_outline_primary_18dp" />
 
 
             </LinearLayout>

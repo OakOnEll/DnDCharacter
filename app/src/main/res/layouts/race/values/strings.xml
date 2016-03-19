@@ -29,4 +29,5 @@
     <string name="armor_class_hint">Armor Class (=formula, or +addition)</string>
     <string name="add_armor_title">Add Armor</string>
     <string name="add_item_title">Add Item</string>
+    <string name="armor_class_paren_value">(AC=%d)</string>
 </resources>
