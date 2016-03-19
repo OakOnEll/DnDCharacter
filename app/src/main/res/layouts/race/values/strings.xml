@@ -24,4 +24,9 @@
     <string name="item_cost_hint">Item Cost</string>
     <string name="item_weight_hint">Item Weight</string>
     <string name="item_name_hint">Item Name</string>
+    <string name="edit_armor_title">Edit Armor</string>
+    <string name="equipped">Equipped</string>
+    <string name="armor_class_hint">Armor Class (=formula, or +addition)</string>
+    <string name="add_armor_title">Add Armor</string>
+    <string name="add_item_title">Add Item</string>
 </resources>

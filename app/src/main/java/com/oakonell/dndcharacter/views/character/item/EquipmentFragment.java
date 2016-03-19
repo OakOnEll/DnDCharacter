@@ -260,7 +260,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     private void addArmor() {
-        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.ARMOR, getCharacter().deriveToolProficiencies(ProficiencyType.ARMOR));
+        CharacterArmorEditDialogFragment dialog = CharacterArmorEditDialogFragment.createAddDialog();
         dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 
@@ -433,6 +433,15 @@ public class EquipmentFragment extends AbstractSheetFragment {
                     }, 500);
                 }
             });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CharacterArmorEditDialogFragment fragment = CharacterArmorEditDialogFragment.createDialog(context.getCharacter(), item);
+                    fragment.show(context.getFragmentManager(), "armor_dialog");
+                }
+            });
+
         }
     }
 

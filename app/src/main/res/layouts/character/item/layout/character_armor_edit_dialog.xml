@@ -15,6 +15,19 @@
         android:orientation="vertical">
 
         <include layout="@layout/common_item_edit_name" />
+
+        <EditText
+            android:id="@+id/armor_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/armor_class_hint" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equipped"
+            android:id="@+id/equipped" />
+
         <include layout="@layout/common_item_edit" />
 
         <include layout="@layout/dialog_cancel_done" />

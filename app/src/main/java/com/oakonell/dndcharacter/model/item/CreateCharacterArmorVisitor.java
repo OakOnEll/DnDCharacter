@@ -36,7 +36,9 @@ public class CreateCharacterArmorVisitor extends AbstractArmorVisitor {
         CreateCharacterArmorVisitor newMe = new CreateCharacterArmorVisitor(armor);
         newMe.visit(row);
 
-        character.addArmor(armor);
+        if (character != null) {
+            character.addArmor(armor);
+        }
 
         return armor;
     }
