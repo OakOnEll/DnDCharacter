@@ -257,7 +257,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     private void addWeapon() {
-        SelectItemDialogFragment dialog = SelectItemDialogFragment.createDialog(new SelectItemDialogFragment.DefaultAddItemListener(getMainActivity()), ItemType.WEAPON, getCharacter().deriveToolProficiencies(ProficiencyType.WEAPON));
+        CharacterWeaponEditDialogFragment dialog = CharacterWeaponEditDialogFragment.createAddDialog();
         dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
     }
 

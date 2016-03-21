@@ -82,6 +82,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     private DamagesListAdapter damageListAdapter;
     @Nullable
     private AttackDamageInfo attackDamageInfo;
+    private View edit_weapon;
 
 
     @NonNull
@@ -105,6 +106,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
         description = (TextView) view.findViewById(R.id.description);
         name = (TextView) view.findViewById(R.id.weapon_label);
+        edit_weapon = (View) view.findViewById(R.id.edit);
         attack_bonus = (TextView) view.findViewById(R.id.attack_bonus);
         damage_descr = (TextView) view.findViewById(R.id.damage_descr);
         two_handed = (CheckBox) view.findViewById(R.id.two_handed);
@@ -385,7 +387,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
         ammunitionViewHelper.bindView(getMainActivity(), weapon);
     }
 
-    private void loadWeapon(@NonNull Character character) {
+    private void loadWeapon(@NonNull final Character character) {
         String name = getArguments().getString(WEAPON);
 
         List<CharacterWeapon> weapons = new ArrayList<>();
@@ -403,6 +405,15 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
         }
         weapon = weapons.get(0);
+
+        edit_weapon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharacterWeaponEditDialogFragment dialog = CharacterWeaponEditDialogFragment.createDialog(character, weapon);
+                // TODO  update the weapon info when the dialog closes...
+                dialog.show(getFragmentManager(), "weapon_edit");
+            }
+        });
     }
 
 

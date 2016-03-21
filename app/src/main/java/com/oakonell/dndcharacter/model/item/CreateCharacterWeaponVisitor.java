@@ -30,7 +30,9 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
         CreateCharacterWeaponVisitor newMe = new CreateCharacterWeaponVisitor(weapon);
         newMe.visit(row);
 
-        character.addWeapon(weapon);
+        if (character != null) {
+            character.addWeapon(weapon);
+        }
 
         return weapon;
     }

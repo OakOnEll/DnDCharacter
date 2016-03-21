@@ -37,6 +37,8 @@ public class CharacterWeapon extends CharacterItem {
     private List<DamageFormula> versatileDamageFormulas = new ArrayList<>();
     @Element(required = false)
     private String ammunition;
+    @Element(required = false)
+    private String specialComment;
 
 
     @NonNull
@@ -121,12 +123,124 @@ public class CharacterWeapon extends CharacterItem {
         return properties != null && properties.contains("VERSATILE");
     }
 
+    public void setIsVersatile(boolean checked) {
+        if (checked) {
+            properties.add("VERSATILE");
+        } else {
+            properties.remove("VERSATILE");
+        }
+    }
+
+    public void setIsThrown(boolean checked) {
+        if (checked) {
+            properties.add("THROWN");
+        } else {
+            properties.remove("THROWN");
+        }
+    }
+
+    public void setIsLoading(boolean checked) {
+        if (checked) {
+            properties.add("LOADING");
+        } else {
+            properties.remove("LOADING");
+        }
+    }
+
+    public void setIsFinesse(boolean checked) {
+        if (checked) {
+            properties.add("FINESSE");
+        } else {
+            properties.remove("FINESSE");
+        }
+    }
+
+    public void setIsTwoHanded(boolean checked) {
+        if (checked) {
+            properties.add("TWO-HANDED");
+        } else {
+            properties.remove("TWO-HANDED");
+        }
+    }
+
+    public void setIsReach(boolean checked) {
+        if (checked) {
+            properties.add("REACH");
+        } else {
+            properties.remove("REACH");
+        }
+    }
+
+    public void setIsHeavy(boolean checked) {
+        if (checked) {
+            properties.add("HEAVY");
+        } else {
+            properties.remove("HEAVY");
+        }
+    }
+
+    public void setIsLight(boolean checked) {
+        if (checked) {
+            properties.add("LIGHT");
+        } else {
+            properties.remove("LIGHT");
+        }
+    }
+    public void setIsSpecial(boolean checked) {
+        if (checked) {
+            properties.add("SPECIAL");
+        } else {
+            properties.remove("SPECIAL");
+        }
+    }
+    public void setUsesAmmunition(boolean checked) {
+        if (checked) {
+            if (ammunition == null) {
+                ammunition = "";
+            }
+        } else {
+            ammunition = null;
+        }
+    }
+
+
     public boolean isTwoHanded() {
         return properties != null && properties.contains("TWO-HANDED");
     }
 
     public boolean isFinesse() {
         return properties != null && properties.contains("FINESSE");
+    }
+
+    public boolean isThrown() {
+        return properties != null && properties.contains("THROWN");
+    }
+
+    public boolean isLoading() {
+        return properties != null && properties.contains("LOADING");
+    }
+
+    public boolean usesReach() {
+        return properties != null && properties.contains("REACH");
+    }
+
+    public boolean isHeavy() {
+        return properties != null && properties.contains("HEAVY");
+    }
+
+    public boolean isLight() {
+        return properties != null && properties.contains("LIGHT");
+    }
+
+    public boolean isSpecial() {
+        return properties != null && properties.contains("SPECIAL");
+    }
+
+    public String specialComment() {
+        return specialComment;
+    }
+    public void setSpecialComment(String comment) {
+        specialComment = comment;
     }
 
     @NonNull
@@ -185,6 +299,11 @@ public class CharacterWeapon extends CharacterItem {
         return ammunition;
     }
 
+    public boolean usesAmmunition() {
+        return getAmmunition() != null;
+    }
+
+
     public static class DamageFormula {
         @Element(required = false)
         String damageFormula;
@@ -206,6 +325,14 @@ public class CharacterWeapon extends CharacterItem {
 
         public DamageType getType() {
             return type;
+        }
+
+        public void setDamageFormula(String damageFormula) {
+            this.damageFormula = damageFormula;
+        }
+
+        public void setType(DamageType type) {
+            this.type = type;
         }
     }
 

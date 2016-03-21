@@ -30,4 +30,22 @@
     <string name="add_armor_title">Add Armor</string>
     <string name="add_item_title">Add Item</string>
     <string name="armor_class_paren_value">(AC=%d)</string>
+    <string name="ranged">Ranged</string>
+    <string name="range_hint">Enter a range, eg 100/300</string>
+    <string name="damage_formula_hint">Enter a formula, eg d8+1</string>
+    <string name="heavy">Heavy</string>
+    <string name="loading">Loading</string>
+    <string name="reach">Reach</string>
+    <string name="thrown">Thrown</string>
+    <string name="light">Light</string>
+    <string name="two_handed">Two Handed</string>
+    <string name="ammunition">Ammunition</string>
+    <string name="special">Special</string>
+    <string name="special_hint">Special comment</string>
+    <string name="ammunition_hint">Ammunition name</string>
+    <string name="damage_required">Enter Damage</string>
+    <string name="damage_type_required">Enter Damage Type</string>
+    <string name="enter_valid_formula">Enter Valid Formula</string>
+    <string name="edit_weapon_title">Edit Weapon</string>
+    <string name="add_weapon_title">Add Weapon</string>
 </resources>

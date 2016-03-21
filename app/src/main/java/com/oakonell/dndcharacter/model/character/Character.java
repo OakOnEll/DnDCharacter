@@ -1130,13 +1130,8 @@ public class Character {
         if (formula == null || formula.length() == 0) return 0;
         variableContext = getPopulatedVariableContext(variableContext);
 
-        try {
-            Expression<Integer> expression = Expression.parse(formula, ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
-            return expression.evaluate();
-        } catch (Exception e) {
-            // should be done at formula save time...
-            return 10;
-        }
+        Expression<Integer> expression = Expression.parse(formula, ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        return expression.evaluate();
     }
 
     public int getUses(@NonNull String featureName) {

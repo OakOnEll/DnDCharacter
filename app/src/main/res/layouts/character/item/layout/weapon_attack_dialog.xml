@@ -24,14 +24,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/weapon_label"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:orientation="horizontal">
 
-                    tools:text="Long sword" />
+                    <TextView
+                        android:id="@+id/weapon_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+
+                        tools:text="Long sword" />
+
+                    <ImageView
+                        android:id="@+id/edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@android:drawable/ic_menu_edit" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/description"
@@ -84,19 +98,26 @@
                         tools:text="1d6" />
                 </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/two_handed"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/two_handed_checkbox" />
+                    android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/use_dexterity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/use_dexterity_checkbox" />
+                    <CheckBox
+                        android:id="@+id/two_handed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/two_handed_checkbox" />
+
+                    <CheckBox
+                        android:id="@+id/use_dexterity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/use_dexterity_checkbox" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ammunition_layout"
