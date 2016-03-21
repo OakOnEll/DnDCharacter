@@ -47,10 +47,9 @@ public class CharacterArmorEditDialogFragment extends AbstractCharacterItemEditD
         CharacterArmorEditDialogFragment newMe = new CharacterArmorEditDialogFragment();
 
         // TODO encode which item- nameText and index? just index...
-        String name = item.getName();
-        newMe.getMatchingItems(character, name);
+        long id = item.getId();
         Bundle args = new Bundle();
-        args.putString(NAME, name);
+        args.putLong(ID, id);
         newMe.setArguments(args);
 
         return newMe;
@@ -78,8 +77,9 @@ public class CharacterArmorEditDialogFragment extends AbstractCharacterItemEditD
         return getString(R.string.edit_armor_title);
     }
 
-    protected List<CharacterArmor> getItems(Character character) {
-        return character.getArmor();
+    @Override
+    protected CharacterArmor getItemById(long id) {
+        return getCharacter().getArmorById(id);
     }
 
     @Override

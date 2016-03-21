@@ -31,6 +31,8 @@ public class CharacterItem extends BaseCharacterComponent {
     private String cost;
     @Element(required = false)
     private String notes;
+    @Element(required = false)
+    private long id;
 
 
     @NonNull
@@ -109,5 +111,13 @@ public class CharacterItem extends BaseCharacterComponent {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 }

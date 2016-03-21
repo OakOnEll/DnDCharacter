@@ -162,6 +162,10 @@ public class Character {
     @Element(required = false)
     private Alignment alignment;
 
+    @Element(required = false)
+    private long itemIdSequence;
+
+
     public Character() {
     }
 
@@ -1409,6 +1413,7 @@ public class Character {
     }
 
     public void addItem(CharacterItem item) {
+        item.setId(itemIdSequence++);
         items.add(item);
     }
 
@@ -1426,7 +1431,29 @@ public class Character {
         return result;
     }
 
+    public CharacterItem getItemById(long id) {
+        for (CharacterItem each : items) {
+            if (each.getId() == id) return each;
+        }
+        return null;
+    }
+
+    public CharacterWeapon getWeaponById(long id) {
+        for (CharacterWeapon each : weapons) {
+            if (each.getId() == id) return each;
+        }
+        return null;
+    }
+
+    public CharacterArmor getArmorById(long id) {
+        for (CharacterArmor each : armor) {
+            if (each.getId() == id) return each;
+        }
+        return null;
+    }
+
     public void addWeapon(CharacterWeapon weapon) {
+        weapon.setId(itemIdSequence++);
         weapons.add(weapon);
     }
 
@@ -1436,6 +1463,7 @@ public class Character {
     }
 
     public void addArmor(CharacterArmor armor) {
+        armor.setId(itemIdSequence++);
         this.armor.add(armor);
     }
 

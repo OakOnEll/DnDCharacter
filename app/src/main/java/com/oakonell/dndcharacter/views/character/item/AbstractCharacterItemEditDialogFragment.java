@@ -9,12 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
-import com.oakonell.dndcharacter.model.item.ItemRow;
-import com.oakonell.dndcharacter.model.item.ItemType;
-import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
 import java.util.ArrayList;
@@ -25,7 +21,7 @@ import java.util.List;
  */
 public abstract class AbstractCharacterItemEditDialogFragment<I extends CharacterItem> extends AbstractCharacterDialogFragment {
 
-    protected static final String NAME = "name";
+    protected static final String ID = "id";
     protected static final String ADD = "add";
 
     private EditText nameText;
@@ -80,25 +76,6 @@ public abstract class AbstractCharacterItemEditDialogFragment<I extends Characte
         return true;
     }
 
-    protected List<I> getMatchingItems(com.oakonell.dndcharacter.model.character.Character character, String name) {
-        List<I> matchingItems = new ArrayList<>();
-        for (I each : getItems(character)) {
-            if (each.getName().equals(name)) {
-                matchingItems.add(each);
-            }
-        }
-        if (matchingItems.size() == 0) {
-            throw new RuntimeException("Should be an item named '" + name + "' in equipment inventory");
-        }
-        if (matchingItems.size() > 1) {
-            throw new RuntimeException("Found multiple items named '" + name + "' in equipment inventory");
-        }
-        return matchingItems;
-    }
-
-
-    protected abstract List<I> getItems(Character character);
-
 
     public void onCharacterLoaded(@NonNull com.oakonell.dndcharacter.model.character.Character character) {
         super.onCharacterLoaded(character);
@@ -106,9 +83,8 @@ public abstract class AbstractCharacterItemEditDialogFragment<I extends Characte
         Bundle args = getArguments();
         if (!args.getBoolean(ADD, false)) {
             search.setVisibility(View.GONE);
-            String name = args.getString(NAME);
-            List<I> matchingItems = getMatchingItems(character, name);
-            item = matchingItems.get(0);
+            long id = args.getLong(ID);
+            item = getItemById(id);
         } else {
             search.setVisibility(View.VISIBLE);
             search.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +100,8 @@ public abstract class AbstractCharacterItemEditDialogFragment<I extends Characte
         updateViewsFromItem();
 
     }
+
+    protected abstract I getItemById(long id);
 
     @NonNull
     protected abstract SelectItemDialogFragment createSelectItemDialogFragment();

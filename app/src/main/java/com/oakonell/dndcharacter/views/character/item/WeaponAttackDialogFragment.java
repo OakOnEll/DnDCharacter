@@ -88,10 +88,9 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     @NonNull
     public static WeaponAttackDialogFragment create(@NonNull CharacterItem item) {
         WeaponAttackDialogFragment newMe = new WeaponAttackDialogFragment();
-        String name = item.getName();
 
         Bundle args = new Bundle();
-        args.putString(WEAPON, name);
+        args.putLong(WEAPON, item.getId());
         newMe.setArguments(args);
 
         return newMe;
@@ -388,23 +387,13 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     private void loadWeapon(@NonNull final Character character) {
-        String name = getArguments().getString(WEAPON);
+        long id = getArguments().getLong(WEAPON);
 
-        List<CharacterWeapon> weapons = new ArrayList<>();
-        for (CharacterWeapon each : character.getWeapons()) {
-            if (each.getName().equals(name)) {
-                weapons.add(each);
-            }
-        }
-        if (weapons.isEmpty()) {
+        weapon = character.getWeaponById(id);
+        if (weapon == null) {
             // TODO deal with weapon having been deleted
-            throw new RuntimeException("No weapon named '" + name + "' in inventory");
+            throw new RuntimeException("No weapon with id '" + id + "' in inventory");
         }
-        if (weapons.size() > 1) {
-            // TODO compare damages?
-
-        }
-        weapon = weapons.get(0);
 
         edit_weapon.setOnClickListener(new View.OnClickListener() {
             @Override

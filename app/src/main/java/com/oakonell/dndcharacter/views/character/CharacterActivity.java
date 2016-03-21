@@ -244,6 +244,7 @@ public class CharacterActivity extends AbstractBaseActivity {
 
     @DebugLog
     public void saveCharacter(Runnable post) {
+        if (character == null) return;
         BackgroundCharacterSaver characterSaver = new BackgroundCharacterSaver(post);
         characterSaver.execute();
     }
@@ -259,6 +260,9 @@ public class CharacterActivity extends AbstractBaseActivity {
         @Override
         protected String doInBackground(Void... params) {
             Serializer serializer = new Persister();
+            if (character == null) {
+                return "not saved... nonexistent?";
+            }
             String action = CharacterRow.saveCharacter(CharacterActivity.this, serializer, character, id);
 
             SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);

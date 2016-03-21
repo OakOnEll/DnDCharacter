@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -23,25 +21,18 @@ import android.widget.Spinner;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.DamageType;
-import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
-import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
-import com.oakonell.dndcharacter.model.item.CreateCharacterArmorVisitor;
 import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
-import com.oakonell.dndcharacter.views.character.rest.HitDieUseRow;
-import com.oakonell.expression.grammar.ExpressionParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Rob on 3/18/2016.
@@ -81,10 +72,9 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         CharacterWeaponEditDialogFragment newMe = new CharacterWeaponEditDialogFragment();
 
         // TODO encode which item- nameText and index? just index...
-        String name = item.getName();
-        newMe.getMatchingItems(character, name);
+        long id = item.getId();
         Bundle args = new Bundle();
-        args.putString(NAME, name);
+        args.putLong(ID, id);
         newMe.setArguments(args);
 
         return newMe;
@@ -213,9 +203,6 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         return getString(R.string.edit_weapon_title);
     }
 
-    protected List<CharacterWeapon> getItems(Character character) {
-        return character.getWeapons();
-    }
 
     @Override
     protected void addItem(CharacterWeapon item) {
@@ -299,14 +286,14 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
             if (ammunition.isChecked()) {
                 item.setAmmunition(ammunition_name.getText().toString());
             } else {
-                item.setAmmunition("");
+                item.setAmmunition(null);
             }
         } else {
             item.setRange("");
             item.setIsThrown(false);
             item.setIsLoading(false);
             item.setUsesAmmunition(false);
-            item.setAmmunition("");
+            item.setAmmunition(null);
         }
 
         item.setIsFinesse(finesse.isChecked());
@@ -513,5 +500,10 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         // TODO handle rotation/save state
+    }
+
+    @Override
+    protected CharacterWeapon getItemById(long id) {
+        return getCharacter().getWeaponById(id);
     }
 }

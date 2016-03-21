@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
@@ -37,10 +38,9 @@ public class CharacterItemEditDialogFragment extends AbstractCharacterItemEditDi
         CharacterItemEditDialogFragment newMe = new CharacterItemEditDialogFragment();
 
         // TODO encode which item- nameText and index? just index...
-        String name = item.getName();
-        newMe.getMatchingItems(character, name);
+        long id = item.getId();
         Bundle args = new Bundle();
-        args.putString(NAME, name);
+        args.putLong(ID, id);
         newMe.setArguments(args);
 
         return newMe;
@@ -62,10 +62,6 @@ public class CharacterItemEditDialogFragment extends AbstractCharacterItemEditDi
             return getString(R.string.add_item_title);
         }
         return getString(R.string.edit_item_title);
-    }
-
-    protected List<CharacterItem> getItems(Character character) {
-        return character.getItems();
     }
 
 
@@ -97,4 +93,8 @@ public class CharacterItemEditDialogFragment extends AbstractCharacterItemEditDi
         }, ItemType.EQUIPMENT, null);
     }
 
+    @Override
+    protected CharacterItem getItemById(long id) {
+        return getCharacter().getItemById(id);
+    }
 }
