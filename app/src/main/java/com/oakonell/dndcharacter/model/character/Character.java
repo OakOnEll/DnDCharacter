@@ -825,6 +825,16 @@ public class Character {
                 }
             }
         };
+
+        // go through custom adjustments
+        final CustomAdjustments customRootACs = getCustomAdjustments(CustomAdjustmentType.MODIFYING_ACS);
+        for (CustomAdjustments.Adjustment each : customRootACs.getAdjustments()) {
+            ComponentSource source = new AdjustmentComponentSource(each);
+            ArmorClassWithSource customAC = new ArmorClassWithSource(each.stringValue, each.numValue, source, false, true);
+            result.add(customAC);
+            customAC.setIsEquipped(each.applied);
+        }
+
         deriver.derive(this, "AC modifiers");
 
 

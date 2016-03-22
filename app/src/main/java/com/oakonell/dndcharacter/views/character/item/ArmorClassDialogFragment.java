@@ -18,12 +18,10 @@ import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
 import com.oakonell.dndcharacter.model.character.CustomAdjustments;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
-import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
-import com.oakonell.expression.context.SimpleVariableContext;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -51,6 +49,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     @Nullable
     private ArrayList<String> modifyingArmorSaved;
     private View add_base_adjustment;
+    private View add_modifying_adjustment;
 
     @NonNull
     public static ArmorClassDialogFragment createDialog() {
@@ -68,6 +67,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         modList = (RecyclerView) view.findViewById(R.id.mod_ac_list);
 
         modifiers_group = (ViewGroup) view.findViewById(R.id.modifiers_group);
+        add_modifying_adjustment = view.findViewById(R.id.add_modifying_adjustment);
 
 
         if (savedInstanceState != null) {
@@ -78,7 +78,14 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         add_base_adjustment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomRootACDialog dialog = CustomRootACDialog.createDialog();
+                CustomACDialog dialog = CustomACDialog.createRootACDialog();
+                dialog.show(getFragmentManager(), "custom_ac");
+            }
+        });
+        add_modifying_adjustment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomACDialog dialog = CustomACDialog.createModifyingACDialog();
                 dialog.show(getFragmentManager(), "custom_ac");
             }
         });
@@ -352,6 +359,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
         public void reloadList(@NonNull Character character) {
             list = character.deriveModifyingAcs();
+            notifyDataSetChanged();
         }
 
         @NonNull
@@ -394,7 +402,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
                 holder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        CustomAdjustments adjustments = fragment.getCharacter().getCustomAdjustments(CustomAdjustmentType.ROOT_ACS);
+                        CustomAdjustments adjustments = fragment.getCharacter().getCustomAdjustments(CustomAdjustmentType.MODIFYING_ACS);
                         adjustments.delete(((AdjustmentComponentSource) row.getSource()).getAdjustment());
                         fragment.getMainActivity().updateViews();
                     }
@@ -409,6 +417,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             return list.size();
         }
     }
+
 
 }
 

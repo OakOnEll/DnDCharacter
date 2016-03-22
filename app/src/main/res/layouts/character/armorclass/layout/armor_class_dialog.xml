@@ -38,11 +38,11 @@
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <ImageView
-                        android:background="@drawable/list_selector"
                         android:id="@+id/add_base_adjustment"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_marginLeft="4dp"
+                        android:background="@drawable/list_selector"
                         android:padding="4dp"
                         android:src="@drawable/ic_add_circle_outline_primary_18dp" />
                 </LinearLayout>
@@ -60,11 +60,27 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/armor_class_modifiers_title"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/armor_class_modifiers_title"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <ImageView
+                            android:id="@+id/add_modifying_adjustment"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginLeft="4dp"
+                            android:background="@drawable/list_selector"
+                            android:padding="4dp"
+                            android:src="@drawable/ic_add_circle_outline_primary_18dp" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/mod_ac_list"

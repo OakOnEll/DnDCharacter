@@ -53,4 +53,7 @@
     <string name="custom_ac_value">Custom AC value</string>
     <string name="custom_ac">Add a Custom AC</string>
     <string name="add_custom_ac_title">Add a Custom AC</string>
+    <string name="enter_an_ac">Enter an AC</string>
+    <string name="add_custom_root_ac_title">Add Custom Base AC</string>
+    <string name="add_custom_ac_adjustment_title">Add Custom AC Adjustment</string>
 </resources>
