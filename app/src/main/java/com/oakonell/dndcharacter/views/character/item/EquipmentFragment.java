@@ -64,9 +64,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private ArmorAdapter armorAdapter;
     private WeaponsAdapter weaponsAdapter;
     private View rootView;
+
     private RecyclerView armorView;
     private TextView armor_class;
+    private View ac_title;
     private ViewGroup armorItemsView;
+
     private RecyclerView weaponsView;
     private ViewGroup weaponItemsView;
     private RecyclerView itemsView;
@@ -141,6 +144,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         armorView = (RecyclerView) rootView.findViewById(R.id.armor_list);
         armorItemsView = (ViewGroup) rootView.findViewById(R.id.armor_items_group);
         armor_class = (TextView) rootView.findViewById(R.id.armor_class);
+        ac_title = rootView.findViewById(R.id.ac_title);
         weaponsView = (RecyclerView) rootView.findViewById(R.id.weapons_list);
         weaponItemsView = (ViewGroup) rootView.findViewById(R.id.weapons_items_group);
         itemsView = (RecyclerView) rootView.findViewById(R.id.items_list);
@@ -331,6 +335,14 @@ public class EquipmentFragment extends AbstractSheetFragment {
         });
 
         armor_class.setText(getString(R.string.armor_class_paren_value, character.getArmorClass()));
+
+        ac_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArmorClassDialogFragment dialog = ArmorClassDialogFragment.createDialog();
+                dialog.show(getFragmentManager(), "ac");
+            }
+        });
 
         equipmentAdapter.reloadList(character);
         armorAdapter.reloadList(character);

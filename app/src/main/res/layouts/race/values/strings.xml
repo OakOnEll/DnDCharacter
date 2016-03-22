@@ -48,4 +48,9 @@
     <string name="enter_valid_formula">Enter Valid Formula</string>
     <string name="edit_weapon_title">Edit Weapon</string>
     <string name="add_weapon_title">Add Weapon</string>
+    <string name="enter_a_damage">Enter at least one damage</string>
+    <string name="custom_ac_name">Custom AC Name</string>
+    <string name="custom_ac_value">Custom AC value</string>
+    <string name="custom_ac">Add a Custom AC</string>
+    <string name="add_custom_ac_title">Add a Custom AC</string>
 </resources>

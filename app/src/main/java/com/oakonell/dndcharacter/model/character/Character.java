@@ -166,6 +166,10 @@ public class Character {
     private long itemIdSequence;
 
 
+    @NonNull
+    @ElementMap(entry = "adjustment", key = "key", value = "value", required = false)
+    private Map<CustomAdjustmentType, CustomAdjustments> adjustments = new HashMap<>();
+
     public Character() {
     }
 
@@ -560,17 +564,22 @@ public class Character {
 
     public static class ArmorClassWithSource extends WithSource {
         private final String formula;
-        boolean isEquipped;
+        private final boolean isArmor;
         private final int value;
+        private final boolean isEquipabble;
+
+        boolean isEquipped;
         public boolean isDisabled;
 
-        ArmorClassWithSource(String formula, int value, ComponentSource source) {
+        ArmorClassWithSource(String formula, int value, ComponentSource source, boolean isArmor, boolean isEquipabble) {
             super(source);
             this.value = value;
             this.formula = formula;
             if (source instanceof CharacterArmor) {
                 isEquipped = ((CharacterArmor) source).isEquipped();
             }
+            this.isEquipabble = isEquipabble;
+            this.isArmor = isArmor;
         }
 
         public void setIsEquipped(boolean value) {
@@ -589,8 +598,20 @@ public class Character {
             return value;
         }
 
+        public boolean isEquipabble() {
+            return isEquipabble;
+        }
+
         public boolean isArmor() {
-            return getSource() instanceof CharacterArmor;
+            return isArmor;
+        }
+
+        public void setEquipped(Resources resources, Character character, boolean equipped) {
+            if (getSource() instanceof CharacterArmor) {
+                ((CharacterArmor) getSource()).setEquipped(resources, character, equipped);
+            } else if (getSource() instanceof AdjustmentComponentSource) {
+                ((AdjustmentComponentSource) getSource()).setEquipped(resources, character, equipped);
+            }
         }
     }
 
@@ -608,7 +629,7 @@ public class Character {
         List<ArmorClassWithSource> result = new ArrayList<>();
         String baseFormula = "10 + dexterityMod";
         int baseValue = evaluateFormula(baseFormula, null);
-        ArmorClassWithSource unarmored = new ArmorClassWithSource(baseFormula, baseValue, null);
+        ArmorClassWithSource unarmored = new ArmorClassWithSource(baseFormula, baseValue, null, false, false);
         result.add(unarmored);
 
         // multiple here will really just take the highest ?? at runtime
@@ -621,7 +642,7 @@ public class Character {
                     SimpleVariableContext variableContext = new SimpleVariableContext();
                     each.getSource().addExtraFormulaVariables(variableContext, this);
                     int value = evaluateFormula(acFormula, variableContext);
-                    ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each);
+                    ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each, false, false);
 
                     result.add(featureAc);
                 }
@@ -635,10 +656,31 @@ public class Character {
                 SimpleVariableContext variableContext = new SimpleVariableContext();
                 //each.getSource().addExtraFormulaVariables(variableContext, this);
                 int value = evaluateFormula(acFormula, variableContext);
-                ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each);
+                ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each, false, false);
                 result.add(featureAc);
             }
         }
+        // go through custom adjustments
+        final CustomAdjustments customRootACs = getCustomAdjustments(CustomAdjustmentType.ROOT_ACS);
+        for (CustomAdjustments.Adjustment each : customRootACs.getAdjustments()) {
+            ComponentSource source = new AdjustmentComponentSource(each);
+            ArmorClassWithSource customAC = new ArmorClassWithSource(each.stringValue, each.numValue, source, false, true);
+            result.add(customAC);
+            customAC.setIsEquipped(each.applied);
+        }
+
+        // go through items
+        for (CharacterArmor each : getArmor()) {
+            if (!each.isBaseArmor()) continue;
+
+            String formula = each.getBaseAcFormula();
+            if (formula != null) {
+                int value = evaluateFormula(formula, null);
+                ArmorClassWithSource featureAc = new ArmorClassWithSource(formula, value, each, true, true);
+                result.add(featureAc);
+            }
+        }
+
         Collections.sort(result, new Comparator<ArmorClassWithSource>() {
             @Override
             public int compare(@NonNull ArmorClassWithSource lhs, @NonNull ArmorClassWithSource rhs) {
@@ -648,39 +690,32 @@ public class Character {
             }
         });
 
-        // go through items
-        for (CharacterArmor each : getArmor()) {
-            if (!each.isBaseArmor()) continue;
-
-            String formula = each.getBaseAcFormula();
-            if (formula != null) {
-                int value = evaluateFormula(formula, null);
-                ArmorClassWithSource featureAc = new ArmorClassWithSource(formula, value, each);
-                result.add(featureAc);
-            }
-        }
-
         return result;
     }
 
 
     public static void modifyRootAcs(@NonNull Character character, @NonNull List<ArmorClassWithSource> modifyingAcs, @NonNull List<ArmorClassWithSource> rootAcs) {
+        // determine if using a shield
         boolean usingShield = false;
-        boolean wearingArmor = false;
         for (ArmorClassWithSource each : modifyingAcs) {
             if (each.isEquipped() && each.isArmor() && ((CharacterArmor) each.getSource()).isShield()) {
                 usingShield = true;
             }
 
         }
+
+        // clear out the unequippable roots (feature based)
+        // determine if wearing armor
+        boolean wearingArmor = false;
         // go through items
         for (ArmorClassWithSource each : rootAcs) {
             each.isDisabled = false;
-            if (!each.isArmor()) {
+            if (!each.isEquipabble()) {
                 each.isEquipped = false;
                 continue;
             }
 
+//            if (!each.isArmor()) continue;
             String formula = each.getFormula();
             if (formula != null) {
                 if (each.isEquipped()) {
@@ -692,7 +727,7 @@ public class Character {
 
         for (ArmorClassWithSource each : rootAcs) {
             if (each.getSource() == null) continue;
-            if (each.isArmor()) {
+            if (each.isEquipabble()) {
                 continue;
             }
             final ComponentSource source = each.getSource();
@@ -722,7 +757,7 @@ public class Character {
         ArmorClassWithSource noArmorRow = null;
         for (int i = 0; i < rootAcs.size(); i++) {
             ArmorClassWithSource each = rootAcs.get(i);
-            if (each.isArmor()) continue;
+            if (each.isEquipabble()) continue;
             if (each.isDisabled) continue;
             noArmorRow = each;
             each.isDisabled = true;
@@ -771,7 +806,7 @@ public class Character {
                 component.addExtraFormulaVariables(variableContext, Character.this);
 
                 int value = evaluateFormula(acFormula, variableContext);
-                ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, component);
+                ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, component, component instanceof CharacterArmor, true);
                 result.add(featureAc);
 
                 String activeFormula = component.getActiveFormula();
@@ -1425,8 +1460,9 @@ public class Character {
     @NonNull
     public List<CharacterItem> getItemsNamed(String name) {
         List<CharacterItem> result = new ArrayList<>();
+        String upperName = name.toUpperCase();
         for (CharacterItem each : items) {
-            if (each.getName().equals(name)) result.add(each);
+            if (each.getName().toUpperCase().equals(upperName)) result.add(each);
         }
         return result;
     }
@@ -2293,6 +2329,15 @@ public class Character {
             deathSaveFails = 0;
             deathSaveSuccesses = 0;
         }
+    }
+
+    public CustomAdjustments getCustomAdjustments(CustomAdjustmentType type) {
+        CustomAdjustments adjustments = this.adjustments.get(type);
+        if (adjustments == null) {
+            adjustments = new CustomAdjustments(type);
+            this.adjustments.put(type, adjustments);
+        }
+        return adjustments;
     }
 
 }

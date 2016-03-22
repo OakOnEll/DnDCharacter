@@ -12,7 +12,11 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AdjustmentComponentSource;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentType;
+import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
+import com.oakonell.dndcharacter.model.character.CustomAdjustments;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.utils.NumberUtils;
@@ -46,6 +50,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     private String baseArmorSaved;
     @Nullable
     private ArrayList<String> modifyingArmorSaved;
+    private View add_base_adjustment;
 
     @NonNull
     public static ArmorClassDialogFragment createDialog() {
@@ -59,6 +64,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         acText = (TextView) view.findViewById(R.id.ac);
 
         rootList = (RecyclerView) view.findViewById(R.id.root_ac_list);
+        add_base_adjustment = view.findViewById(R.id.add_base_adjustment);
         modList = (RecyclerView) view.findViewById(R.id.mod_ac_list);
 
         modifiers_group = (ViewGroup) view.findViewById(R.id.modifiers_group);
@@ -68,6 +74,14 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             baseArmorSaved = savedInstanceState.getString(BASE_ARMOR);
             modifyingArmorSaved = savedInstanceState.getStringArrayList(MODIFYING_ARMOR);
         }
+
+        add_base_adjustment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomRootACDialog dialog = CustomRootACDialog.createDialog();
+                dialog.show(getFragmentManager(), "custom_ac");
+            }
+        });
 
         return view;
     }
@@ -98,12 +112,10 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     @Override
     protected boolean onDone() {
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
-            if (!each.isArmor()) continue;
-            ((CharacterArmor) each.getSource()).setEquipped(getResources(), getCharacter(), each.isEquipped());
+            each.setEquipped(getResources(), getCharacter(), each.isEquipped());
         }
         for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
-            if (!each.isArmor()) continue;
-            ((CharacterArmor) each.getSource()).setEquipped(getResources(), getCharacter(), each.isEquipped());
+            each.setEquipped(getResources(), getCharacter(), each.isEquipped());
         }
         return super.onDone();
     }
@@ -201,23 +213,23 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
     }
 
-    private void updateModifyingRows(boolean armor) {
-        int position = -1;
-        for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
-            position++;
-            if (each.isArmor()) continue;
-
-            String activeFormula = each.getSource().getActiveFormula();
-            if (activeFormula == null) continue;
-            SimpleVariableContext variableContext = new SimpleVariableContext();
-            variableContext.setBoolean("armor", armor);
-            boolean shouldEquip = getCharacter().evaluateBooleanFormula(activeFormula, variableContext);
-            if (each.isEquipped() != shouldEquip) {
-                each.setIsEquipped(shouldEquip);
-                modifyingAcAdapter.notifyItemChanged(position);
-            }
-        }
-    }
+//    private void updateModifyingRows(boolean armor) {
+//        int position = -1;
+//        for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
+//            position++;
+//            if (each.isArmor()) continue;
+//
+//            String activeFormula = each.getSource().getActiveFormula();
+//            if (activeFormula == null) continue;
+//            SimpleVariableContext variableContext = new SimpleVariableContext();
+//            variableContext.setBoolean("armor", armor);
+//            boolean shouldEquip = getCharacter().evaluateBooleanFormula(activeFormula, variableContext);
+//            if (each.isEquipped() != shouldEquip) {
+//                each.setIsEquipped(shouldEquip);
+//                modifyingAcAdapter.notifyItemChanged(position);
+//            }
+//        }
+//    }
 
     public static class AcViewHolder extends BindableComponentViewHolder<Character.ArmorClassWithSource, ArmorClassDialogFragment, RootAcAdapter> {
         @NonNull
@@ -228,6 +240,8 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         private final TextView formula;
         @NonNull
         private final TextView value;
+        @NonNull
+        private final View delete;
 
         public AcViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -235,6 +249,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             formula = (TextView) itemView.findViewById(R.id.formula);
             value = (TextView) itemView.findViewById(R.id.value);
             checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
+            delete = itemView.findViewById(R.id.delete);
         }
 
         @Override
@@ -248,7 +263,15 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        // clear out other checked rows for root ACs, only one allowed
+                        for (Character.ArmorClassWithSource each : adapter.list) {
+                            if (each == row) continue;
+                            each.setIsEquipped(false);
+                        }
+                    }
                     row.setIsEquipped(isChecked);
+
                     adapter.updateDueToAChange();
                     context.updateAC();
                     // update other list items
@@ -262,6 +285,20 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
                 value.setText("");
             } else {
                 value.setText(context.getString(R.string.armor_class_base_formula, stringVal));
+            }
+
+            if (row.getSource() != null && row.getSource().getType() == ComponentType.CUSTOM_ADJUSTMENT) {
+                delete.setVisibility(View.VISIBLE);
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CustomAdjustments adjustments = context.getCharacter().getCustomAdjustments(CustomAdjustmentType.ROOT_ACS);
+                        adjustments.delete(((AdjustmentComponentSource) row.getSource()).getAdjustment());
+                        context.getMainActivity().updateViews();
+                    }
+                });
+            } else {
+                delete.setVisibility(View.GONE);
             }
         }
     }
@@ -350,6 +387,20 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
                 holder.value.setText("");
             } else {
                 holder.value.setText(fragment.getString(R.string.armor_class_base_formula, stringVal));
+            }
+
+            if (row.getSource() != null && row.getSource().getType() == ComponentType.CUSTOM_ADJUSTMENT) {
+                holder.delete.setVisibility(View.VISIBLE);
+                holder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CustomAdjustments adjustments = fragment.getCharacter().getCustomAdjustments(CustomAdjustmentType.ROOT_ACS);
+                        adjustments.delete(((AdjustmentComponentSource) row.getSource()).getAdjustment());
+                        fragment.getMainActivity().updateViews();
+                    }
+                });
+            } else {
+                holder.delete.setVisibility(View.GONE);
             }
         }
 

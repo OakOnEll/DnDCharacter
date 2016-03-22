@@ -10,6 +10,7 @@ import com.oakonell.dndcharacter.model.item.ItemType;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ import java.util.Set;
 /**
  * Created by Rob on 12/8/2015.
  */
+@Root(strict = false)
 public class CharacterWeapon extends CharacterItem {
     @Element(required = false)
     private boolean isRanged;
@@ -26,7 +28,7 @@ public class CharacterWeapon extends CharacterItem {
     @Element(required = false)
     private String range;
     @ElementList(required = false)
-    private Set<String> properties;
+    private Set<String> properties = new HashSet<>();
 
     @NonNull
     @ElementList(required = false)
@@ -112,7 +114,7 @@ public class CharacterWeapon extends CharacterItem {
 
 
     public void setIsRanged(boolean ranged) {
-        this.isRanged = ranged;
+        isRanged = ranged;
     }
 
     public boolean isRanged() {
@@ -130,6 +132,7 @@ public class CharacterWeapon extends CharacterItem {
             properties.remove("VERSATILE");
         }
     }
+
 
     public void setIsThrown(boolean checked) {
         if (checked) {
@@ -186,6 +189,7 @@ public class CharacterWeapon extends CharacterItem {
             properties.remove("LIGHT");
         }
     }
+
     public void setIsSpecial(boolean checked) {
         if (checked) {
             properties.add("SPECIAL");
@@ -193,6 +197,7 @@ public class CharacterWeapon extends CharacterItem {
             properties.remove("SPECIAL");
         }
     }
+
     public void setUsesAmmunition(boolean checked) {
         if (checked) {
             if (ammunition == null) {
@@ -239,6 +244,7 @@ public class CharacterWeapon extends CharacterItem {
     public String specialComment() {
         return specialComment;
     }
+
     public void setSpecialComment(String comment) {
         specialComment = comment;
     }
@@ -262,7 +268,7 @@ public class CharacterWeapon extends CharacterItem {
                 isFirst = false;
             }
         }
-        if (isRanged) {
+        if (isRanged()) {
             if (!isFirst) {
                 builder.append(", ");
             }

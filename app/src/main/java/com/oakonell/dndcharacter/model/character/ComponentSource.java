@@ -18,4 +18,6 @@ public interface ComponentSource {
 
     @Nullable
     String getActiveFormula();
+
+
 }

@@ -45,9 +45,10 @@
 
                 <ImageView
                     android:id="@+id/addWeapon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center_vertical"
+                    android:background="@drawable/list_selector"
                     android:src="@drawable/ic_add_circle_outline_primary_18dp" />
 
 
@@ -83,28 +84,41 @@
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ac_title"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_horizontal"
-                    android:text="@string/armor_title"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <TextView
-                    android:id="@+id/armor_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_horizontal"
-                    tools:text="(AC=16)"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:background="@drawable/list_selector">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_horizontal"
+                        android:text="@string/armor_title"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/armor_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        tools:text="(AC=16)" />
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/addArmor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+
                     android:layout_gravity="center_vertical"
+                    android:background="@drawable/list_selector"
                     android:src="@drawable/ic_add_circle_outline_primary_18dp" />
 
 
@@ -146,9 +160,12 @@
 
                 <ImageView
                     android:id="@+id/addItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+
                     android:layout_gravity="center_vertical"
+                    android:background="@drawable/list_selector"
                     android:src="@drawable/ic_add_circle_outline_primary_18dp" />
 
 

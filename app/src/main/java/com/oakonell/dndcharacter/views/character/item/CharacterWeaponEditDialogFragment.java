@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -238,13 +239,11 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         super.updateViewsFromItem();
 
         damagesAdapter.damages.clear();
-        damagesAdapter.damages.addAll(item.getDamages());
-        damagesAdapter.notifyDataSetChanged();
+        damagesAdapter.setDamages(item.getDamages());
 
         versatile.setChecked(item.isVersatile());
-        versatileDamagesAdapter.damages.clear();
-        versatileDamagesAdapter.damages.addAll(item.getVersatileDamages());
-        versatileDamagesAdapter.notifyDataSetChanged();
+        versatileDamagesAdapter.setDamages(item.getVersatileDamages());
+
         updateVersatileViews(item.isVersatile());
 
         ranged.setChecked(item.isRanged());
@@ -313,17 +312,17 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         // TODO validate
         // validate formulas for damages/versatile damages
         int[] numDamagesResult = new int[]{0};
-        valid = validateDamages(damagesAdapter.damages, damages, numDamagesResult);
-        valid = valid && numDamagesResult[0] > 0;
+        boolean damagesValid = validateDamages(damagesAdapter.damages, damages, numDamagesResult);
+        valid = damagesValid && numDamagesResult[0] > 0;
 
         if (versatile.isChecked()) {
             numDamagesResult = new int[]{0};
-            valid = validateDamages(versatileDamagesAdapter.damages, versatile_damages, numDamagesResult);
-            valid = valid && numDamagesResult[0] > 0;
+            damagesValid = validateDamages(versatileDamagesAdapter.damages, versatile_damages, numDamagesResult);
+            valid = damagesValid && numDamagesResult[0] > 0;
         }
 
 
-        return valid && super.validate();
+        return super.validate() && valid;
     }
 
     private boolean validateDamages(List<CharacterWeapon.DamageFormula> damagesList, RecyclerView recyclerView, int[] numDamagesResult) {
@@ -334,7 +333,7 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
             index++;
             final String formula = each.getDamageFormula();
             DamageType type = each.getType();
-            if (formula.trim().length() == 0) {
+            if (formula == null || formula.trim().length() == 0) {
                 continue;
             }
             numDamagesResult[0]++;
@@ -361,6 +360,14 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
                 }
             }
         }
+
+        if (numDamagesResult[0] == 0) {
+            // TODO recyclerView.setError(getString(R.string.enter_a_damage));
+            Animation shake = AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.shake);
+            recyclerView.startAnimation(shake);
+        }
+
+
         return valid;
     }
 
@@ -425,6 +432,15 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         }
 
 
+        public void setDamages(List<CharacterWeapon.DamageFormula> damages) {
+            this.damages.clear();
+            this.damages.addAll(damages);
+            if (this.damages.isEmpty()) {
+                // need at least one..
+                this.damages.add(new CharacterWeapon.DamageFormula());
+            }
+            notifyDataSetChanged();
+        }
     }
 
     static class DamagesViewHolder extends BindableComponentViewHolder<CharacterWeapon.DamageFormula, CharacterWeaponEditDialogFragment, DamagesAdapter> {
@@ -487,11 +503,23 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
                 float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (damageType.getPrompt().length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, damageType.getResources().getDisplayMetrics());
                 damageType.setMinimumWidth((int) minWidth);
             }
+            damageType.setOnItemSelectedListener(null);
             if (info.getType() != null) {
                 damageType.setSelection(Arrays.asList(DamageType.values()).indexOf(info.getType()));
             } else {
                 damageType.setSelection(-1);
             }
+            damageType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    info.setType(DamageType.values()[position]);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
         }
     }
