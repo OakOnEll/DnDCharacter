@@ -8,6 +8,7 @@
     </damage>
     <properties>finesse,light,thrown</properties>
     <range>20/60</range>
+    <ranged>true</ranged>
     <weight>1</weight>
     <cost>2gp</cost>
 </item>

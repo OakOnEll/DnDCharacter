@@ -11,6 +11,7 @@
         <damageType>slashing</damageType>
     </versatileDamage>
     <properties>versatile,thrown</properties>
+    <ranged>true</ranged>
     <range>20/60</range>
     <weight>4</weight>
     <cost>5gp</cost>

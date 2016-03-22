@@ -8,6 +8,7 @@
     </damage>
     <properties>light,thrown</properties>
     <range>20/60</range>
+    <ranged>true</ranged>
     <weight>2</weight>
     <cost>5gp</cost>
 </item>

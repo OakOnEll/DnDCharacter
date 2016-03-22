@@ -11,7 +11,6 @@
         <damageType>bludgeoning</damageType>
     </versatileDamage>
     <properties>versatile</properties>
-    <range>20/60</range>
     <weight>4</weight>
     <cost>2sp</cost>
 </item>

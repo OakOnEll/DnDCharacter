@@ -7,6 +7,7 @@
         <damageType>piercing</damageType>
     </damage>
     <properties>thrown</properties>
+    <ranged>true</ranged>
     <range>30/120</range>
     <weight>2</weight>
     <cost>5sp</cost>
