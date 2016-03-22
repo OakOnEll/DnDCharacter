@@ -1,0 +1,6 @@
+<effect>
+    <ref>PHB, p. 218</ref>
+    <name>Blessed</name>
+    <shortDescription>Within 1 minute, while the caster is concentrating, when you make an attack roll or a saving throw you can add a d4 and add the number rolled to the attack roll or saving throw.</shortDescription>
+    <context>WEAPON_ATTACK,SAVING_THROW</context>
+</effect>
