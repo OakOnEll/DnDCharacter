@@ -38,6 +38,7 @@ public class AbstractWeaponVisitor extends AbstractComponentVisitor {
                 break;
             case "ranged":
                 visitRanged(element);
+                break;
             case "ammunition":
                 visitAmmunition(element);
                 break;
