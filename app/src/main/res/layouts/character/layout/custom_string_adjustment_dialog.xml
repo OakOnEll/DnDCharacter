@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:paddingBottom="@dimen/dialog_vertical_margin"
+    android:paddingLeft="@dimen/dialog_horizontal_margin"
+    android:paddingRight="@dimen/dialog_horizontal_margin"
+    android:paddingTop="@dimen/dialog_vertical_margin"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter Comment"
+            android:minEms="10" />
+
+        <EditText
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter Value"
+            android:inputType="number"
+            android:minEms="10" />
+
+        <include layout="@layout/dialog_cancel_done" />
+
+    </LinearLayout>
+</RelativeLayout>

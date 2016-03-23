@@ -267,6 +267,7 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
     @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
+        if (nameSpinner == null) return;
 
         int max = nameSpinner.getAdapter().getCount();
         for (int i = 0; i < max; i++) {

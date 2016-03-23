@@ -56,4 +56,8 @@
     <string name="enter_an_ac">Enter an AC</string>
     <string name="add_custom_root_ac_title">Add Custom Base AC</string>
     <string name="add_custom_ac_adjustment_title">Add Custom AC Adjustment</string>
+    <string name="enter_a_value">Enter a Value</string>
+    <string name="enter_a_comment">Enter a Comment</string>
+    <string name="enter_a_valid_number">Enter a Valid Number</string>
+    <string name="add_initiative_adjustment">Add Initiative Adjustment</string>
 </resources>

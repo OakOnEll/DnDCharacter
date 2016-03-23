@@ -4,6 +4,7 @@ package com.oakonell.dndcharacter.views.character;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.oakonell.dndcharacter.model.character.AdjustmentComponentSource;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;
@@ -42,6 +43,10 @@ public final class ComponentLaunchHelper {
                 break;
             case ITEM:
                 Toast.makeText(context, "Opening item source not supported yet", Toast.LENGTH_SHORT).show();
+                break;
+            case CUSTOM_ADJUSTMENT:
+                // TODO launch a generic adjustment dialog? Need the custom type, not available from row currently
+                Toast.makeText(context, "Opening adjustment source not supported yet", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

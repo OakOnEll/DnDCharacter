@@ -7,16 +7,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
+import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
+import com.oakonell.dndcharacter.views.character.CustomNumericAdjustmentDialog;
 import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,8 +30,11 @@ import java.util.Set;
  * Created by Rob on 11/30/2015.
  */
 public class InitiativeDialogFragment extends RollableDialogFragment {
+    public static final String INITIATIVE_ADJUSTMENT_FRAG = "initiative_adjustment";
     private RecyclerView listView;
     private InitiativeSourcesAdapter adapter;
+    View add_adjustment;
+    TextView initiative_modifier;
 
     @NonNull
     public static InitiativeDialogFragment create() {
@@ -41,9 +48,39 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
         View view = inflater.inflate(R.layout.initiative_dialog, container);
         superCreateView(view, savedInstanceState);
 
+        if (savedInstanceState != null) {
+            CustomNumericAdjustmentDialog frag = (CustomNumericAdjustmentDialog) getMainActivity().getSupportFragmentManager().findFragmentByTag(INITIATIVE_ADJUSTMENT_FRAG);
+            if (frag != null) {
+                frag.setOnDoneListener(getAdjustmentOnDoneListener());
+            }
+        }
+
         listView = (RecyclerView) view.findViewById(R.id.list);
 
+        add_adjustment = view.findViewById(R.id.add_adjustment);
+        initiative_modifier = (TextView) view.findViewById(R.id.initiative_modifier);
+
+        add_adjustment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(getString(R.string.add_initiative_adjustment), CustomAdjustmentType.INITIATIVE, getAdjustmentOnDoneListener());
+                dialog.show(getFragmentManager(), INITIATIVE_ADJUSTMENT_FRAG);
+            }
+        });
+
         return view;
+    }
+
+    @NonNull
+    protected CustomNumericAdjustmentDialog.OnDoneListener getAdjustmentOnDoneListener() {
+        return new CustomNumericAdjustmentDialog.OnDoneListener() {
+            @Override
+            public void onDone(String comment, int number) {
+                getCharacter().getCustomAdjustments(CustomAdjustmentType.INITIATIVE).addAdjustment(comment, number);
+                getMainActivity().updateViews();
+                getMainActivity().saveCharacter();
+            }
+        };
     }
 
     @Override
@@ -70,20 +107,25 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
             }
         };
 
-        setModifier(character.getInitiative());
+        final int initiative = character.getInitiative();
+        setModifier(initiative);
+        initiative_modifier.setText(NumberUtils.formatNumber(initiative));
 
         adapter = new InitiativeSourcesAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
         listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         listView.setHasFixedSize(false);
-
     }
 
     @Override
     public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         adapter.reloadList(character);
+
+        final int initiative = character.getInitiative();
+        setModifier(initiative);
+        initiative_modifier.setText(NumberUtils.formatNumber(initiative));
     }
 
     public static class InitiativeSourceViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.InitiativeWithSource> {
@@ -105,6 +147,7 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
             } else {
                 this.source.setText(source.getSourceString(activity.getResources()));
             }
+
         }
     }
 
@@ -113,12 +156,26 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
             super(fragment.getMainActivity(), listRetriever);
         }
 
+        @Override
+        protected int getLayoutResource() {
+            return R.layout.stat_mod_row;
+        }
 
         @NonNull
         @Override
         protected InitiativeSourceViewHolder newViewHolder(@NonNull View view) {
             return new InitiativeSourceViewHolder(view);
         }
+
+        protected void launchNoSource(CharacterActivity activity, Character character) {
+            // TODO launch base/dex stat
+        }
+
+        @Override
+        protected CustomAdjustmentType getAdjustmentType() {
+            return CustomAdjustmentType.INITIATIVE;
+        }
+
     }
 
 

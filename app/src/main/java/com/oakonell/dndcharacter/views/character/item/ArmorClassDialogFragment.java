@@ -40,7 +40,6 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     private TextView acText;
     private RecyclerView rootList;
     private RecyclerView modList;
-    private ViewGroup modifiers_group;
 
     private RootAcAdapter rootAcAdapter;
     private ModifyingAcAdapter modifyingAcAdapter;
@@ -66,7 +65,6 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         add_base_adjustment = view.findViewById(R.id.add_base_adjustment);
         modList = (RecyclerView) view.findViewById(R.id.mod_ac_list);
 
-        modifiers_group = (ViewGroup) view.findViewById(R.id.modifiers_group);
         add_modifying_adjustment = view.findViewById(R.id.add_modifying_adjustment);
 
 
@@ -198,11 +196,6 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     private void updateAC() {
-        if (modifyingAcAdapter.list.isEmpty()) {
-            modifiers_group.setVisibility(View.GONE);
-        } else {
-            modifiers_group.setVisibility(View.VISIBLE);
-        }
         int ac = 0;
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
             if (each.isEquipped()) {

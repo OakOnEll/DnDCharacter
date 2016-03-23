@@ -1708,6 +1708,22 @@ public class Character {
             if (source == null) return resources.getString(R.string.no_component_source);
             return source.getSourceString(resources);
         }
+
+        public boolean isAdjustment() {
+            return getSource() instanceof AdjustmentComponentSource;
+        }
+
+        public boolean isActive() {
+            return isAdjustment() ? ((AdjustmentComponentSource) getSource()).adjustment.applied : true;
+        }
+
+        public void setActive(boolean active) {
+            if (isAdjustment()) {
+                ((AdjustmentComponentSource) getSource()).adjustment.applied = active;
+            } else {
+                throw new RuntimeException("Shouldn't set the active state of a non-custom");
+            }
+        }
     }
 
     public void addExperience(int xp) {
@@ -2256,14 +2272,15 @@ public class Character {
 
 
     public int getInitiative() {
-        final int result[] = new int[]{0};
-        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull ICharacterComponent component) {
-                result[0] += component.getInitiativeMod(Character.this);
+        int result = 0;
+        List<InitiativeWithSource> initList = deriveInitiative();
+        for (InitiativeWithSource each : initList) {
+            if (each.isActive()) {
+                result += each.getInitiative();
             }
-        };
-        deriver.derive(this, "passivePerception");
-        return result[0] + getStatBlock(StatType.DEXTERITY).getModifier();
+        }
+
+        return result;
     }
 
     @NonNull
@@ -2283,6 +2300,13 @@ public class Character {
         };
         deriver.derive(this, "passivePerception");
 
+        // go through custom adjustments
+        final CustomAdjustments customRootACs = getCustomAdjustments(CustomAdjustmentType.INITIATIVE);
+        for (CustomAdjustments.Adjustment each : customRootACs.getAdjustments()) {
+            AdjustmentComponentSource source = new AdjustmentComponentSource(each);
+            InitiativeWithSource customAC = new InitiativeWithSource(each.numValue, source);
+            result.add(customAC);
+        }
 
         return result;
     }

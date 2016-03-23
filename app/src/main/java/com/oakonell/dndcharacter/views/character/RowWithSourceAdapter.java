@@ -1,15 +1,21 @@
 package com.oakonell.dndcharacter.views.character;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AdjustmentComponentSource;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
+import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
+import com.oakonell.dndcharacter.model.character.CustomAdjustments;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 
 import java.util.List;
@@ -42,6 +48,11 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
 
     public C getItem(int position) {
         return list.get(position);
+    }
+
+
+    protected CustomAdjustmentType getAdjustmentType() {
+        return null;
     }
 
     @NonNull
@@ -86,17 +97,29 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
     }
 
     public static class WithSourceViewHolder<C extends Character.WithSource> extends BindableComponentViewHolder<C, CharacterActivity, RowWithSourceAdapter<C, WithSourceViewHolder<C>>> {
+        @Nullable
+        private final View delete;
+        @Nullable
+        private final CheckBox enable;
+        private final int originalTextColor;
+        private final int originalSourceColor;
+        @NonNull
         public TextView value;
+        @NonNull
         public TextView source;
 
         public WithSourceViewHolder(@NonNull View view) {
             super(view);
             value = (TextView) view.findViewById(R.id.value);
             source = (TextView) view.findViewById(R.id.source);
+            delete = view.findViewById(R.id.delete);
+            enable = (CheckBox) view.findViewById(R.id.enable);
+            originalTextColor = value.getCurrentTextColor();
+            originalSourceColor = source.getCurrentTextColor();
         }
 
         @Override
-        public void bind(@NonNull final CharacterActivity activity, @NonNull final RowWithSourceAdapter<C, WithSourceViewHolder<C>> adapter, @NonNull C item) {
+        public void bind(@NonNull final CharacterActivity activity, @NonNull final RowWithSourceAdapter<C, WithSourceViewHolder<C>> adapter, final @NonNull C item) {
             final ComponentSource source = item.getSource();
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,7 +132,48 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
                     }
                 }
             });
+            if (enable != null) enable.setVisibility(View.GONE);
+            if (delete != null) delete.setVisibility(View.GONE);
+            if (!item.isActive()) {
+                final int grey = activity.getResources().getColor(android.support.v7.appcompat.R.color.material_grey_300);
+                value.setTextColor(grey);
+                this.source.setTextColor(grey);
+            } else {
+                value.setTextColor(originalTextColor);
+                this.source.setTextColor(originalTextColor);
+            }
+            if (item.isAdjustment()) {
+                if (delete != null) {
+                    delete.setVisibility(View.VISIBLE);
+                    delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // TODO
+                            CustomAdjustmentType adjustmentType = adapter.getAdjustmentType();
+                            if (adjustmentType != null) {
+                                activity.getCharacter().getCustomAdjustments(adjustmentType).delete(((AdjustmentComponentSource) item.getSource()).getAdjustment());
+                                activity.updateViews();
+                                activity.saveCharacter();
+                            }
+                        }
+                    });
+                }
+                if (enable != null) {
+                    enable.setVisibility(View.VISIBLE);
+                    enable.setOnCheckedChangeListener(null);
+                    enable.setChecked(item.isActive());
+                    enable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            item.setActive(isChecked);
+                            activity.updateViews();
+                            activity.saveCharacter();
+                        }
+                    });
+                }
+            }
         }
+
 
     }
 }

@@ -57,7 +57,7 @@ public class CustomACDialog extends AbstractCharacterDialogFragment {
 
     public View onCreateTheView(@NonNull LayoutInflater inflater, final ViewGroup container,
                                 @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.custom_root_ac_dialog, container);
+        View view = inflater.inflate(R.layout.custom_ac_dialog, container);
 
         comment = (EditText) view.findViewById(R.id.comment);
         formula = (EditText) view.findViewById(R.id.formula);
