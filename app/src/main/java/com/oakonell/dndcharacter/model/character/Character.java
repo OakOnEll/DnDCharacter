@@ -1024,28 +1024,27 @@ public class Character {
         };
         deriver.derive(this, "stat " + type.name());
 
+        // go through custom adjustments
+        final CustomAdjustments customStats = getCustomAdjustments(type.getCustomType());
+        for (CustomAdjustments.Adjustment each : customStats.getAdjustments()) {
+            AdjustmentComponentSource source = new AdjustmentComponentSource(each);
+            ModifierWithSource customStat = new ModifierWithSource(each.numValue, source);
+            result.add(customStat);
+        }
+
         return result;
     }
 
     public int deriveStatValue(@NonNull final StatType type) {
-        // start with base stats
-        final int value[] = new int[]{0};
-        if (baseStats != null) {
-            final Integer stat = baseStats.get(type);
-            // support character creation
-            if (stat != null) {
-                value[0] = stat;
+        int result = 0;
+        final List<ModifierWithSource> modifiers = deriveStat(type);
+        for (ModifierWithSource each : modifiers) {
+            if (each.isActive()) {
+                result += each.getModifier();
             }
         }
 
-        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull ICharacterComponent component) {
-                value[0] += component.getStatModifier(type);
-            }
-        };
-        deriver.derive(this, "stat value " + type.name());
-
-        return value[0];
+        return result;
     }
 
     @NonNull

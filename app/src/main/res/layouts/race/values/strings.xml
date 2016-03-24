@@ -60,4 +60,5 @@
     <string name="enter_a_comment">Enter a Comment</string>
     <string name="enter_a_valid_number">Enter a Valid Number</string>
     <string name="add_initiative_adjustment">Add Initiative Adjustment</string>
+    <string name="stat_modifiers_title">Stat Sources</string>
 </resources>

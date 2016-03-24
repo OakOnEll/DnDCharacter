@@ -12,10 +12,13 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
+import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
+import com.oakonell.dndcharacter.views.character.CustomNumericAdjustmentDialog;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
@@ -27,9 +30,12 @@ import java.util.Set;
  * Created by Rob on 11/7/2015.
  */
 public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
+    public static final String STAT_ADJUSTMENT_FRAG = "stat_adjustment";
     private TextView total;
     private TextView modifier;
     private RecyclerView listView;
+
+    private View add_adjustment;
 
     private StatSourceAdapter adapter;
 
@@ -52,7 +58,35 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         modifier = (TextView) view.findViewById(R.id.modifier);
         listView = (RecyclerView) view.findViewById(R.id.list);
 
+        add_adjustment = view.findViewById(R.id.add_adjustment);
+        add_adjustment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(getString(R.string.add_initiative_adjustment), getType().getCustomType(), getAdjustmentOnDoneListener());
+                dialog.show(getFragmentManager(), STAT_ADJUSTMENT_FRAG);
+            }
+        });
+        if (savedInstanceState != null) {
+            CustomNumericAdjustmentDialog frag = (CustomNumericAdjustmentDialog) getMainActivity().getSupportFragmentManager().findFragmentByTag(STAT_ADJUSTMENT_FRAG);
+            if (frag != null) {
+                frag.setOnDoneListener(getAdjustmentOnDoneListener());
+            }
+        }
+
+
         return view;
+    }
+
+    @NonNull
+    protected CustomNumericAdjustmentDialog.OnDoneListener getAdjustmentOnDoneListener() {
+        return new CustomNumericAdjustmentDialog.OnDoneListener() {
+            @Override
+            public void onDone(String comment, int number) {
+                getCharacter().getCustomAdjustments(getType().getCustomType()).addAdjustment(comment, number);
+                getMainActivity().updateViews();
+                getMainActivity().saveCharacter();
+            }
+        };
     }
 
     @Override
@@ -135,8 +169,11 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     public static class StatSourceAdapter extends RowWithSourceAdapter<Character.ModifierWithSource, StatSourceViewHolder> {
+        final private StatType type;
+
         StatSourceAdapter(@NonNull StatBlockDialogFragment fragment, @NonNull ListRetriever<Character.ModifierWithSource> listRetriever) {
             super(fragment.getMainActivity(), listRetriever);
+            type = fragment.getType();
         }
 
         @Override
@@ -154,6 +191,11 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         protected void launchNoSource(@NonNull CharacterActivity activity, Character character) {
             BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog();
             dialog.show(activity.getSupportFragmentManager(), "base_stats");
+        }
+
+        @Override
+        protected CustomAdjustmentType getAdjustmentType() {
+            return type.getCustomType();
         }
     }
 
