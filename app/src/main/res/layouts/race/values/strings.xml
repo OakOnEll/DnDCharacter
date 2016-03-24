@@ -61,4 +61,7 @@
     <string name="enter_a_valid_number">Enter a Valid Number</string>
     <string name="add_initiative_adjustment">Add Initiative Adjustment</string>
     <string name="stat_modifiers_title">Stat Sources</string>
+    <string name="add_stat_adjustment">Add %s Adjustment</string>
+    <string name="add_passive_perception_adjustment">Add Passive Perception Adjustment</string>
+    <string name="passive_perception_sources">Passive Perception Sources</string>
 </resources>

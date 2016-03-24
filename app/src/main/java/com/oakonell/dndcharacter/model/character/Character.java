@@ -2231,14 +2231,13 @@ public class Character {
     }
 
     public int getPassivePerception() {
-        final int result[] = new int[]{0};
-        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull ICharacterComponent component) {
-                result[0] += component.getPassivePerceptionMod(Character.this);
+        int result = 0;
+        for (PassivePerceptionWithSource each : derivePassivePerception()) {
+            if (each.isActive()) {
+                result += each.getPassivePerception();
             }
-        };
-        deriver.derive(this, "passivePerception");
-        return 10 + result[0] + getSkillBlock(SkillType.PERCEPTION).getBonus();
+        }
+        return result;
     }
 
     @NonNull
@@ -2265,6 +2264,14 @@ public class Character {
             }
         };
         deriver.derive(this, "passivePerception");
+
+        // go through custom adjustments
+        final CustomAdjustments adjustments = getCustomAdjustments(CustomAdjustmentType.PASSIVE_PERCEPTION);
+        for (CustomAdjustments.Adjustment each : adjustments.getAdjustments()) {
+            AdjustmentComponentSource source = new AdjustmentComponentSource(each);
+            PassivePerceptionWithSource adjustment = new PassivePerceptionWithSource(each.numValue, source);
+            result.add(adjustment);
+        }
 
         return result;
     }

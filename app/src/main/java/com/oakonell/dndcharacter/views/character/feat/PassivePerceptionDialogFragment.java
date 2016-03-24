@@ -7,14 +7,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
+import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
+import com.oakonell.dndcharacter.views.character.CustomNumericAdjustmentDialog;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
@@ -26,8 +29,12 @@ import java.util.Set;
  * Created by Rob on 11/30/2015.
  */
 public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFragment {
+    public static final String ADJUSTMENT_FRAG = "stat_adjustment";
     private RecyclerView listView;
     private PassivePerceptionSourcesAdapter adapter;
+
+    private View add_adjustment;
+    TextView perception_total;
 
     @NonNull
     public static PassivePerceptionDialogFragment create() {
@@ -38,11 +45,41 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
     @Override
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.initiative_dialog, container);
+        View view = inflater.inflate(R.layout.passive_perception_dialog, container);
 
         listView = (RecyclerView) view.findViewById(R.id.list);
 
+        perception_total = (TextView) view.findViewById(R.id.total);
+
+        add_adjustment = view.findViewById(R.id.add_adjustment);
+        add_adjustment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = getString(R.string.add_passive_perception_adjustment);
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, CustomAdjustmentType.PASSIVE_PERCEPTION, getAdjustmentOnDoneListener());
+                dialog.show(getFragmentManager(), ADJUSTMENT_FRAG);
+            }
+        });
+        if (savedInstanceState != null) {
+            CustomNumericAdjustmentDialog frag = (CustomNumericAdjustmentDialog) getMainActivity().getSupportFragmentManager().findFragmentByTag(ADJUSTMENT_FRAG);
+            if (frag != null) {
+                frag.setOnDoneListener(getAdjustmentOnDoneListener());
+            }
+        }
+
         return view;
+    }
+
+    @NonNull
+    protected CustomNumericAdjustmentDialog.OnDoneListener getAdjustmentOnDoneListener() {
+        return new CustomNumericAdjustmentDialog.OnDoneListener() {
+            @Override
+            public void onDone(String comment, int number) {
+                getCharacter().getCustomAdjustments(CustomAdjustmentType.PASSIVE_PERCEPTION).addAdjustment(comment, number);
+                getMainActivity().updateViews();
+                getMainActivity().saveCharacter();
+            }
+        };
     }
 
     @Override
@@ -75,12 +112,15 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
         listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         listView.setHasFixedSize(false);
 
+        perception_total.setText(NumberUtils.formatNumber(character.getPassivePerception()));
+
     }
 
     @Override
     public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         adapter.reloadList(character);
+        perception_total.setText(NumberUtils.formatNumber(character.getPassivePerception()));
     }
 
     public static class PassivePerceptionSourceViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.PassivePerceptionWithSource> {
@@ -111,10 +151,20 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
         }
 
 
+        @Override
+        protected int getLayoutResource() {
+            return R.layout.stat_mod_row;
+        }
+
         @NonNull
         @Override
         protected PassivePerceptionSourceViewHolder newViewHolder(@NonNull View view) {
             return new PassivePerceptionSourceViewHolder(view);
+        }
+
+        @Override
+        protected CustomAdjustmentType getAdjustmentType() {
+            return CustomAdjustmentType.PASSIVE_PERCEPTION;
         }
     }
 

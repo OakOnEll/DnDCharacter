@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:paddingBottom="@dimen/dialog_vertical_margin"
+    android:paddingLeft="@dimen/dialog_horizontal_margin"
+    android:paddingRight="@dimen/dialog_horizontal_margin"
+    android:paddingTop="@dimen/dialog_vertical_margin"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/passive_perception_sources" />
+
+                    <ImageView
+                        android:id="@+id/add_adjustment"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/list_selector"
+                        android:src="@drawable/ic_add_circle_outline_primary_18dp" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_horizontal"
+
+                    android:layout_weight="1"
+                    tools:layout_height="100dp"
+                    tools:listitem="@layout/stat_mod_row" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Total Passive Perception"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        tools:text="2" />
+                </LinearLayout>
+
+                <include layout="@layout/feature_context" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <include layout="@layout/dialog_done" />
+    </LinearLayout>
+</RelativeLayout>

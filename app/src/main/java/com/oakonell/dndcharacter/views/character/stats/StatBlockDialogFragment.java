@@ -62,7 +62,8 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         add_adjustment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(getString(R.string.add_initiative_adjustment), getType().getCustomType(), getAdjustmentOnDoneListener());
+                String title = getString(R.string.add_stat_adjustment, getString(getType().getStringResId()));
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, getType().getCustomType(), getAdjustmentOnDoneListener());
                 dialog.show(getFragmentManager(), STAT_ADJUSTMENT_FRAG);
             }
         });
