@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/custom_ac_value"
-            android:inputType="number"
+            android:inputType="numberSigned"
             android:minEms="10" />
 
         <include layout="@layout/dialog_cancel_done" />

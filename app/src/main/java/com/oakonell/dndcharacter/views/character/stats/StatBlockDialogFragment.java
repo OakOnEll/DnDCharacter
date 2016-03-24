@@ -163,7 +163,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
                 this.value.setText(NumberUtils.formatNumber(value));
             } else {
                 this.source.setText(source.getSourceString(activity.getResources()));
-                this.value.setText("+" + value);
+                this.value.setText(NumberUtils.formatSignedNumber(value));
             }
         }
     }

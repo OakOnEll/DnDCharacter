@@ -19,4 +19,9 @@ public class NumberUtils {
         }
         return result;
     }
+
+    public static String formatSignedNumber(int number) {
+        return String.format("%+,d", number);
+    }
+
 }
