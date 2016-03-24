@@ -26,6 +26,10 @@ public class CustomAdjustments {
         this.type = type;
     }
 
+    public CustomAdjustmentType getType() {
+        return type;
+    }
+
     public List<Adjustment> getAdjustments() {
         return adjustments;
     }

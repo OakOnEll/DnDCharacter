@@ -8,16 +8,28 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
+import com.oakonell.dndcharacter.model.character.CustomAdjustments;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
+import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
+import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
+import org.solovyev.android.views.llm.LinearLayoutManager;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,6 +37,7 @@ import java.util.Set;
  */
 public class FeaturesFragment extends AbstractSheetFragment {
 
+    private static final int ADJUSTMENT_VIEW = 1001;
     private FeatureAdapter adapter;
     private RecyclerView gridView;
 
@@ -64,10 +77,9 @@ public class FeaturesFragment extends AbstractSheetFragment {
     }
 
 
-    public class FeatureAdapter extends RecyclerView.Adapter<FeatureViewHolder> {
+    public class FeatureAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>>> {
         @NonNull
         private final CharacterActivity context;
-        private Set<FeatureContextArgument> filter;
         private List<FeatureInfo> list;
 
         public FeatureAdapter(@NonNull CharacterActivity context) {
@@ -75,37 +87,18 @@ public class FeaturesFragment extends AbstractSheetFragment {
             list = new ArrayList<>(context.getCharacter().getFeatureInfos());
         }
 
-        public FeatureAdapter(@NonNull CharacterActivity context, Set<FeatureContextArgument> filter) {
-            this.context = context;
-            this.filter = filter;
-            list = filterList(context.getCharacter());
-        }
 
         public void reloadList(@NonNull Character character) {
-            if (filter == null) {
-                list = new ArrayList<>(context.getCharacter().getFeatureInfos());
-            } else {
-                list = filterList(character);
-            }
+            list = new ArrayList<>(character.getFeatureInfos());
             notifyDataSetChanged();
-        }
-
-        @NonNull
-        private List<FeatureInfo> filterList(@NonNull Character character) {
-            if (filter == null) return new ArrayList<>(character.getFeatureInfos());
-            List<FeatureInfo> result = new ArrayList<>();
-            for (FeatureInfo each : character.getFeatureInfos()) {
-                if (each.isInContext(filter)) {
-                    result.add(each);
-                }
-            }
-            return result;
         }
 
         @Override
         public int getItemCount() {
             if (context.getCharacter() == null) return 0;
-            return list.size();
+            int numFeatures = list.size();
+            if (getCharacter().hasAdjustments()) return numFeatures + 1;
+            return numFeatures;
         }
 
 
@@ -117,20 +110,197 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
         @NonNull
         @Override
-        public FeatureViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>> onCreateViewHolder(ViewGroup parent, int viewType) {
+            if (viewType == ADJUSTMENT_VIEW) {
+                View view = LayoutInflater.from(context).inflate(R.layout.adjustments_layout, parent, false);
+                AdjustmentsViewHolder holder = new AdjustmentsViewHolder(view);
+                return holder;
+            }
+
             View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
             FeatureViewHolder holder = new FeatureViewHolder(view);
-
-
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final FeatureViewHolder viewHolder, final int position) {
+        public int getItemViewType(int position) {
+            if (position == list.size()) {
+                if (getCharacter().hasAdjustments()) {
+                    return ADJUSTMENT_VIEW;
+                }
+            }
+            return super.getItemViewType(position);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>> viewHolder, final int position) {
+            if (position == list.size()) {
+                if (getCharacter().hasAdjustments()) {
+                    // slightly ugly...
+                    BindableComponentViewHolder genericHolder = viewHolder;
+                    AdjustmentsViewHolder featureViewHolder = (AdjustmentsViewHolder) genericHolder;
+                    featureViewHolder.bind(context, this, getCharacter());
+                }
+                return;
+            }
+
+
             final FeatureInfo info = getItem(position);
-            viewHolder.bind(context, this, info);
+            // slightly ugly...
+            BindableComponentViewHolder genericHolder = viewHolder;
+            FeatureViewHolder featureViewHolder = (FeatureViewHolder) genericHolder;
+            featureViewHolder.bind(context, this, info);
         }
 
 
     }
+
+    public static class AdjustmentsViewHolder extends BindableComponentViewHolder<Character, CharacterActivity, RecyclerView.Adapter<?>> {
+        RecyclerView list;
+        AdjustmentsAdapter listAdapter;
+
+        public AdjustmentsViewHolder(View view) {
+            super(view);
+            list = (RecyclerView) view.findViewById(R.id.list);
+        }
+
+        @Override
+        public void bind(CharacterActivity context, RecyclerView.Adapter<?> adapter, Character character) {
+            if (listAdapter == null) {
+                listAdapter = new AdjustmentsAdapter(context, character);
+                list.setAdapter(listAdapter);
+
+                list.setHasFixedSize(false);
+                list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+
+                DividerItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
+                list.addItemDecoration(itemDecoration);
+            } else {
+                listAdapter.setCharacter(character);
+                listAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private static class AdjustmentsAdapter extends RecyclerView.Adapter<AdjustmentTypeViewHolder> {
+        CharacterActivity context;
+        private Character character;
+
+        public AdjustmentsAdapter(CharacterActivity context, Character character) {
+            this.context = context;
+            this.character = character;
+        }
+
+        public void setCharacter(Character character) {
+            this.character = character;
+        }
+
+        @Override
+        public AdjustmentTypeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.adjustment_type_row, parent, false);
+            return new AdjustmentTypeViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(AdjustmentTypeViewHolder holder, int position) {
+            CustomAdjustments adjustment = character.getCustomAdjustments().get(position);
+            holder.bind(context, this, adjustment);
+        }
+
+        @Override
+        public int getItemCount() {
+            return character.getCustomAdjustments().size();
+        }
+    }
+
+    private static final class AdjustmentTypeViewHolder extends BindableComponentViewHolder<CustomAdjustments, CharacterActivity, RecyclerView.Adapter<?>> {
+        TextView type;
+        RecyclerView list;
+        AdjustmentTypeAdapter listAdapter;
+
+        public AdjustmentTypeViewHolder(View view) {
+            super(view);
+            type = (TextView) view.findViewById(R.id.type);
+            list = (RecyclerView) view.findViewById(R.id.list);
+        }
+
+        @Override
+        public void bind(CharacterActivity context, RecyclerView.Adapter<?> adapter, CustomAdjustments info) {
+            type.setText(info.getType().getStringResId());
+            if (listAdapter == null) {
+                listAdapter = new AdjustmentTypeAdapter(context, info);
+                list.setAdapter(listAdapter);
+
+                list.setHasFixedSize(false);
+                list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+
+                DividerItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
+                list.addItemDecoration(itemDecoration);
+            } else {
+                listAdapter.setCustomAdjustments(info);
+            }
+        }
+    }
+
+    private static class AdjustmentTypeAdapter extends RecyclerView.Adapter<AdjustmentRowViewHolder> {
+        CharacterActivity context;
+        CustomAdjustments adjustments;
+
+        public AdjustmentTypeAdapter(CharacterActivity context, CustomAdjustments adjustments) {
+            this.context = context;
+            this.adjustments = adjustments;
+        }
+
+        public void setCustomAdjustments(CustomAdjustments adjustments) {
+            this.adjustments = adjustments;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public AdjustmentRowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.adjustment_row, parent, false);
+            return new AdjustmentRowViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(AdjustmentRowViewHolder holder, int position) {
+            CustomAdjustments.Adjustment adjustment = adjustments.getAdjustments().get(position);
+            holder.bind(context, this, adjustment);
+        }
+
+        @Override
+        public int getItemCount() {
+            return adjustments.getAdjustments().size();
+        }
+    }
+
+    private static class AdjustmentRowViewHolder extends BindableComponentViewHolder<CustomAdjustments.Adjustment, CharacterActivity, RecyclerView.Adapter<?>> {
+        private CheckBox enable;
+        private TextView value;
+        private TextView comment;
+
+        public AdjustmentRowViewHolder(View view) {
+            super(view);
+            enable = (CheckBox) view.findViewById(R.id.enable);
+            value = (TextView) view.findViewById(R.id.value);
+            comment = (TextView) view.findViewById(R.id.comment);
+        }
+
+        @Override
+        public void bind(final CharacterActivity context, RecyclerView.Adapter<?> adapter, final CustomAdjustments.Adjustment info) {
+            value.setText(NumberUtils.formatNumber(info.numValue));
+            comment.setText(info.comment);
+            enable.setOnCheckedChangeListener(null);
+            enable.setChecked(info.applied);
+            enable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    info.applied = isChecked;
+                    context.updateViews();
+                    context.saveCharacter();
+                }
+            });
+        }
+    }
+
 }

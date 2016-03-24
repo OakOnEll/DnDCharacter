@@ -65,4 +65,7 @@
     <string name="add_passive_perception_adjustment">Add Passive Perception Adjustment</string>
     <string name="passive_perception_sources">Passive Perception Sources</string>
     <string name="add_speed_type_adjustment">Add %s Speed Adjustment</string>
+    <string name="adjustments_title">Adjustments</string>
+    <string name="root_ac">Root AC</string>
+    <string name="modifying_acs">Modifying ACs</string>
 </resources>

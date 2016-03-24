@@ -561,6 +561,28 @@ public class Character {
         this.alignment = alignment;
     }
 
+    public boolean hasAdjustments() {
+        boolean isEmpty = true;
+        for (Iterator<CustomAdjustments> iter = adjustments.values().iterator(); iter.hasNext(); ) {
+            final CustomAdjustments adjustment = iter.next();
+            if (adjustment.getAdjustments().isEmpty()) {
+                continue;
+            }
+            isEmpty = false;
+        }
+        return !isEmpty;
+    }
+
+    public List<CustomAdjustments> getCustomAdjustments() {
+        final ArrayList<CustomAdjustments> result = new ArrayList<>();
+        for (CustomAdjustments each : adjustments.values()) {
+            if (!each.getAdjustments().isEmpty()) {
+                result.add(each);
+            }
+        }
+        return result;
+    }
+
 
     public static class ArmorClassWithSource extends WithSource {
         private final String formula;
