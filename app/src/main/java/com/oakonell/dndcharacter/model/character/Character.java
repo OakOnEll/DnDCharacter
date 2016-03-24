@@ -2216,18 +2216,25 @@ public class Character {
         };
         deriver.derive(this, "speed " + type.name());
 
+        // go through custom adjustments
+        final CustomAdjustments customStats = getCustomAdjustments(type.getCustomType());
+        for (CustomAdjustments.Adjustment each : customStats.getAdjustments()) {
+            AdjustmentComponentSource source = new AdjustmentComponentSource(each);
+            SpeedWithSource customStat = new SpeedWithSource(each.numValue, source);
+            result.add(customStat);
+        }
+
         return result;
     }
 
     public int getSpeed(@NonNull final SpeedType type) {
-        final int result[] = new int[]{0};
-        CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
-            protected void visitComponent(@NonNull ICharacterComponent component) {
-                result[0] += component.getSpeed(Character.this, type);
+        int result = 0;
+        for (SpeedWithSource each : deriveSpeeds(type)) {
+            if (each.isActive()) {
+                result += each.getSpeed();
             }
-        };
-        deriver.derive(this, "speed " + type.name());
-        return result[0];
+        }
+        return result;
     }
 
     public int getPassivePerception() {

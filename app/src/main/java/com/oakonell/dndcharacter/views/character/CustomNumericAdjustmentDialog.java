@@ -22,15 +22,6 @@ public class CustomNumericAdjustmentDialog extends AbstractCharacterDialogFragme
     private EditText comment;
     private EditText number;
 
-    private OnDoneListener onDoneListener;
-
-    public void setOnDoneListener(OnDoneListener onDoneListener) {
-        this.onDoneListener = onDoneListener;
-    }
-
-    public interface OnDoneListener {
-        void onDone(String comment, int number);
-    }
 
     @Nullable
     @Override
@@ -40,13 +31,12 @@ public class CustomNumericAdjustmentDialog extends AbstractCharacterDialogFragme
     }
 
     @NonNull
-    public static CustomNumericAdjustmentDialog createDialog(String title, CustomAdjustmentType type, OnDoneListener listener) {
+    public static CustomNumericAdjustmentDialog createDialog(String title, CustomAdjustmentType type) {
         CustomNumericAdjustmentDialog dialog = new CustomNumericAdjustmentDialog();
         Bundle args = new Bundle();
         args.putString(TITLE, title);
         args.putString(TYPE, type.name());
         dialog.setArguments(args);
-        dialog.setOnDoneListener(listener);
         return dialog;
     }
 
@@ -59,6 +49,12 @@ public class CustomNumericAdjustmentDialog extends AbstractCharacterDialogFragme
 
         return view;
     }
+
+    @Nullable
+    private CustomAdjustmentType getType() {
+        return CustomAdjustmentType.valueOf(getArguments().getString(TYPE));
+    }
+
 
     @Override
     protected boolean onDone() {
@@ -88,7 +84,9 @@ public class CustomNumericAdjustmentDialog extends AbstractCharacterDialogFragme
             isValid = false;
         }
         if (isValid) {
-            onDoneListener.onDone(commentString, intVal);
+            getCharacter().getCustomAdjustments(getType()).addAdjustment(commentString, intVal);
+            getMainActivity().updateViews();
+            getMainActivity().saveCharacter();
         }
         return super.onDone();
     }

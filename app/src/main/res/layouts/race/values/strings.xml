@@ -64,4 +64,5 @@
     <string name="add_stat_adjustment">Add %s Adjustment</string>
     <string name="add_passive_perception_adjustment">Add Passive Perception Adjustment</string>
     <string name="passive_perception_sources">Passive Perception Sources</string>
+    <string name="add_speed_type_adjustment">Add %s Speed Adjustment</string>
 </resources>

@@ -48,12 +48,6 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
         View view = inflater.inflate(R.layout.initiative_dialog, container);
         superCreateView(view, savedInstanceState);
 
-        if (savedInstanceState != null) {
-            CustomNumericAdjustmentDialog frag = (CustomNumericAdjustmentDialog) getMainActivity().getSupportFragmentManager().findFragmentByTag(INITIATIVE_ADJUSTMENT_FRAG);
-            if (frag != null) {
-                frag.setOnDoneListener(getAdjustmentOnDoneListener());
-            }
-        }
 
         listView = (RecyclerView) view.findViewById(R.id.list);
 
@@ -63,7 +57,7 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
         add_adjustment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(getString(R.string.add_initiative_adjustment), CustomAdjustmentType.INITIATIVE, getAdjustmentOnDoneListener());
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(getString(R.string.add_initiative_adjustment), CustomAdjustmentType.INITIATIVE);
                 dialog.show(getFragmentManager(), INITIATIVE_ADJUSTMENT_FRAG);
             }
         });
@@ -71,17 +65,6 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
         return view;
     }
 
-    @NonNull
-    protected CustomNumericAdjustmentDialog.OnDoneListener getAdjustmentOnDoneListener() {
-        return new CustomNumericAdjustmentDialog.OnDoneListener() {
-            @Override
-            public void onDone(String comment, int number) {
-                getCharacter().getCustomAdjustments(CustomAdjustmentType.INITIATIVE).addAdjustment(comment, number);
-                getMainActivity().updateViews();
-                getMainActivity().saveCharacter();
-            }
-        };
-    }
 
     @Override
     protected String getTitle() {

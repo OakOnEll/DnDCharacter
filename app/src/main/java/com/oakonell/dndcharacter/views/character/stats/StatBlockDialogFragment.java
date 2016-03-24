@@ -63,32 +63,15 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
             @Override
             public void onClick(View v) {
                 String title = getString(R.string.add_stat_adjustment, getString(getType().getStringResId()));
-                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, getType().getCustomType(), getAdjustmentOnDoneListener());
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, getType().getCustomType());
                 dialog.show(getFragmentManager(), STAT_ADJUSTMENT_FRAG);
             }
         });
-        if (savedInstanceState != null) {
-            CustomNumericAdjustmentDialog frag = (CustomNumericAdjustmentDialog) getMainActivity().getSupportFragmentManager().findFragmentByTag(STAT_ADJUSTMENT_FRAG);
-            if (frag != null) {
-                frag.setOnDoneListener(getAdjustmentOnDoneListener());
-            }
-        }
 
 
         return view;
     }
 
-    @NonNull
-    protected CustomNumericAdjustmentDialog.OnDoneListener getAdjustmentOnDoneListener() {
-        return new CustomNumericAdjustmentDialog.OnDoneListener() {
-            @Override
-            public void onDone(String comment, int number) {
-                getCharacter().getCustomAdjustments(getType().getCustomType()).addAdjustment(comment, number);
-                getMainActivity().updateViews();
-                getMainActivity().saveCharacter();
-            }
-        };
-    }
 
     @Override
     protected String getTitle() {

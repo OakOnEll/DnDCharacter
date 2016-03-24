@@ -56,31 +56,15 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
             @Override
             public void onClick(View v) {
                 String title = getString(R.string.add_passive_perception_adjustment);
-                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, CustomAdjustmentType.PASSIVE_PERCEPTION, getAdjustmentOnDoneListener());
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, CustomAdjustmentType.PASSIVE_PERCEPTION);
                 dialog.show(getFragmentManager(), ADJUSTMENT_FRAG);
             }
         });
-        if (savedInstanceState != null) {
-            CustomNumericAdjustmentDialog frag = (CustomNumericAdjustmentDialog) getMainActivity().getSupportFragmentManager().findFragmentByTag(ADJUSTMENT_FRAG);
-            if (frag != null) {
-                frag.setOnDoneListener(getAdjustmentOnDoneListener());
-            }
-        }
+
 
         return view;
     }
 
-    @NonNull
-    protected CustomNumericAdjustmentDialog.OnDoneListener getAdjustmentOnDoneListener() {
-        return new CustomNumericAdjustmentDialog.OnDoneListener() {
-            @Override
-            public void onDone(String comment, int number) {
-                getCharacter().getCustomAdjustments(CustomAdjustmentType.PASSIVE_PERCEPTION).addAdjustment(comment, number);
-                getMainActivity().updateViews();
-                getMainActivity().saveCharacter();
-            }
-        };
-    }
 
     @Override
     protected String getTitle() {

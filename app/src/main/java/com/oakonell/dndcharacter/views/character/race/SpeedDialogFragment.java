@@ -14,12 +14,14 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
+import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
 import com.oakonell.dndcharacter.model.character.SpeedType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
+import com.oakonell.dndcharacter.views.character.CustomNumericAdjustmentDialog;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
@@ -107,6 +109,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     public static class SpeedTypeViewHolder extends BindableComponentViewHolder<SpeedType, CharacterActivity, SpeedTypeAdapter> {
+        private static final String ADJUSTMENT_FRAG = "adjustment_frag";
         @NonNull
         private final CheckBox checkbox;
         @NonNull
@@ -114,17 +117,31 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
         @NonNull
         private final RecyclerView speed_sources;
         SpeedSourceAdapter sourceAdapter;
+        private final View add_adjustment;
+
 
         public SpeedTypeViewHolder(@NonNull View view) {
             super(view);
             checkbox = (CheckBox) view.findViewById(R.id.checkBox);
             name = (TextView) view.findViewById(R.id.name);
             speed_sources = (RecyclerView) view.findViewById(R.id.speed_sources);
+            add_adjustment = view.findViewById(R.id.add_adjustment);
         }
 
         @Override
-        public void bind(@NonNull CharacterActivity activity, @NonNull final SpeedTypeAdapter adapter, @NonNull final SpeedType type) {
+        public void bind(@NonNull final CharacterActivity activity, @NonNull final SpeedTypeAdapter adapter, @NonNull final SpeedType type) {
             name.setText(type.getStringResId());
+
+            add_adjustment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO
+                    String title = activity.getString(R.string.add_speed_type_adjustment, activity.getString(type.getStringResId()));
+                    CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, type.getCustomType());
+                    dialog.show(activity.getSupportFragmentManager(), ADJUSTMENT_FRAG);
+                }
+            });
+
             boolean isChecked = (adapter.selectedType == type);
             checkbox.setOnCheckedChangeListener(null);
             checkbox.setChecked(isChecked);
@@ -140,15 +157,14 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
                 }
             });
             if (sourceAdapter == null) {
-                SpeedTypeListRetriever retriever = new SpeedTypeListRetriever(type);
 
-                sourceAdapter = new SpeedSourceAdapter(adapter, retriever);
+                sourceAdapter = new SpeedSourceAdapter(adapter, type);
                 speed_sources.setAdapter(sourceAdapter);
 
                 speed_sources.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 speed_sources.setHasFixedSize(false);
             } else {
-                ((SpeedTypeListRetriever) sourceAdapter.getListRetriever()).setType(type);
+                sourceAdapter.setType(type);
                 sourceAdapter.reloadList(activity.getCharacter());
             }
         }
@@ -208,18 +224,32 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
 
 
     public static class SpeedSourceAdapter extends RowWithSourceAdapter<Character.SpeedWithSource, SpeedViewHolder> {
-        SpeedSourceAdapter(@NonNull SpeedTypeAdapter adapter, @NonNull ListRetriever<Character.SpeedWithSource> listRetriever) {
-            super(adapter.fragment.getMainActivity(), listRetriever);
+        private SpeedType type;
+
+        SpeedSourceAdapter(@NonNull SpeedTypeAdapter adapter, SpeedType type) {
+            super(adapter.fragment.getMainActivity(), new SpeedTypeListRetriever(type));
+            this.type = type;
         }
 
         protected int getLayoutResource() {
-            return R.layout.speed_source_row;
+            return R.layout.stat_mod_row;
         }
 
         @NonNull
         @Override
         protected SpeedViewHolder newViewHolder(@NonNull View view) {
             return new SpeedViewHolder(view);
+        }
+
+
+        public void setType(SpeedType type) {
+            this.type = type;
+            ((SpeedTypeListRetriever) getListRetriever()).setType(type);
+        }
+
+        @Override
+        protected CustomAdjustmentType getAdjustmentType() {
+            return type.getCustomType();
         }
     }
 
