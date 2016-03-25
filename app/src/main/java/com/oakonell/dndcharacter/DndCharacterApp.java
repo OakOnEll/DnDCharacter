@@ -22,9 +22,14 @@ public class DndCharacterApp extends Application {
 
     private RefWatcher refWatcher;
 
-    @Override public void onCreate() {
+    @Override
+    public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        final Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics())
+                .debuggable(true)
+                .build();
+        Fabric.with(fabric);
         refWatcher = LeakCanary.install(this);
     }
 }

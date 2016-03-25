@@ -21,8 +21,8 @@ android {
         playStore {
             applicationId
             "com.oakonell.dndcharacter"
-            versionCode 8
-            versionName "1.07"
+            versionCode 9
+            versionName "1.09a"
 
 
             dependencies {
