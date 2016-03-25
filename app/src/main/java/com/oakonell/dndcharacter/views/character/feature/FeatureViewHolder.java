@@ -421,7 +421,6 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
                 }
             }
 
-            this.list = new ArrayList<>(info.getActionsAndEffects());
             this.info = info;
 
             notifyDataSetChanged();

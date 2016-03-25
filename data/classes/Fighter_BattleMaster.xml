@@ -20,6 +20,7 @@
                     <action uses="1">
                         <name>Disarming Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to disarm the target, forcing it to drop one item of your choice that it is holding. You add the superiority die to the attack's damage roll, and the target must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, it drops the object you choose. The object lands at its feet.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="distracting_strike">
@@ -27,12 +28,14 @@
                     <action uses="1">
                         <name>Distracting Strike</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to distract the creature, giving your allies an opening. You add the superiority die to the attack's damage roll. The next attack roll against the target by an attacker other than you has advantage if the attack is made before the start of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="evasive_footwork">
                     <action uses="1">
                         <name>Evasive Footwork</name>
                         <shortDescription>When you move, you can expend one superiority die, rolling the die and adding the number rolled to your AC until you stop moving.</shortDescription>
+                        <context>SPEED,ARMOR_CLASS</context>
                     </action>
                 </or>
                 <or name="feinting_attack">
@@ -40,48 +43,56 @@
                     <action uses="1">
                         <name>Feinting Attack</name>
                         <shortDescription>You can expend one superiority die and use a bonus action on your turn to feint, choosing one creature within 5 feet of you as your target. You have advantage on your next attack roll against that creature. If that attack hits, add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="goading_attack">
                     <action uses="1">
                         <name>Goading Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to goad the target into attacking you. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, the target has disadvantage on all attack rolls other than you until the end of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="lunging_attack">
                     <action uses="1">
                         <name>Lunging Attack</name>
                         <shortDescription>When you make a melee weapon attack on your turn, you can expend one superiority die to increase your reach for that attack by 5 feet. If you hit, you add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="maneuvering_attack">
                     <action uses="1">
                         <name>Maneuvering Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to maneuver one of your comrades into a more advantageous position. You add the superiority die to the attack's damage roll, and you choose a friendly creature who can see or hear you. That creature can use its reaction to move up to half its speed without provoking opportunity attacks from the target of you attack.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="menacing_attack">
                     <action uses="1">
                         <name>Menacing Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to frighten the target. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, it is frightened of you until the end of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="parry">
                     <action uses="1">
                         <name>Parry</name>
                         <shortDescription>When another creature damages you with a melee attack, you can use your reaction and expend one superiority die to add it to reduce the damage by the number you roll + your dexterity modifier.</shortDescription>
+                        <context>HIT_POINTS</context>
                     </action>
                 </or>
                 <or name="precision_attack">
                     <action uses="1">
                         <name>Precision Attack</name>
                         <shortDescription>When you make a weapon attack roll against a creature, you can expend one superiority die to add it to the roll. You can use this maneuver before or after making the attack roll, but before any effects of the attack are applied.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="pushing_attack">
                     <action uses="1">
                         <name>Pushing Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to drive the target back. You add the superiority die to the attack's damage roll, and if the target is Large os smaller, it must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, you the target up to 15 feet away from you.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="rally">
@@ -94,23 +105,24 @@
                     <action uses="1">
                         <name>Riposte</name>
                         <shortDescription>When a create misses you with a melee attack, you can use your reaction and expend one superiority die to make a melee weapon attack against the creature. If you hit, add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK,ARMOR_CLASS,TO_HIT</context>
                     </action>
                 </or>
                 <or name="sweeping_attack">
                     <action uses="1">
                         <name>Sweeping Attack</name>
                         <shortDescription>When you hit a creature with a melee weapon attack, you can expend one superiority die to attempt to damage another creature with the same attack. Choose another creature within 5 feet of the original target and within your reach. If the original attack roll would hit the second creature, it takes damage equal to the number you roll on your superiority die. The damage is of the same type dealt by the original attack.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="tripping_attack">
                     <action uses="1">
                         <name>Tripping Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to knock the target down. You add the superiority die to the attack's damage roll, and if the target is Large or smaller, it must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, you knock the target prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
             </choose>
-            <!-- TODO move the contexts onto the actions -->
-            <context>WEAPON_ATTACK,ARMOR_CLASS</context>
         </feature>
         <tools>
             <choose name="toolProf" category="artisan tool"/>
@@ -146,6 +158,7 @@
                     <action uses="1">
                         <name>Disarming Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to disarm the target, forcing it to drop one item of your choice that it is holding. You add the superiority die to the attack's damage roll, and the target must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, it drops the object you choose. The object lands at its feet.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="distracting_strike">
@@ -153,12 +166,14 @@
                     <action uses="1">
                         <name>Distracting Strike</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to distract the creature, giving your allies an opening. You add the superiority die to the attack's damage roll. The next attack roll against the target by an attacker other than you has advantage if the attack is made before the start of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="evasive_footwork">
                     <action uses="1">
                         <name>Evasive Footwork</name>
                         <shortDescription>When you move, you can expend one superiority die, rolling the die and adding the number rolled to your AC until you stop moving.</shortDescription>
+                        <context>SPEED,ARMOR_CLASS</context>
                     </action>
                 </or>
                 <or name="feinting_attack">
@@ -166,48 +181,56 @@
                     <action uses="1">
                         <name>Feinting Attack</name>
                         <shortDescription>You can expend one superiority die and use a bonus action on your turn to feint, choosing one creature within 5 feet of you as your target. You have advantage on your next attack roll against that creature. If that attack hits, add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="goading_attack">
                     <action uses="1">
                         <name>Goading Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to goad the target into attacking you. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, the target has disadvantage on all attack rolls other than you until the end of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="lunging_attack">
                     <action uses="1">
                         <name>Lunging Attack</name>
                         <shortDescription>When you make a melee weapon attack on your turn, you can expend one superiority die to increase your reach for that attack by 5 feet. If you hit, you add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="maneuvering_attack">
                     <action uses="1">
                         <name>Maneuvering Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to maneuver one of your comrades into a more advantageous position. You add the superiority die to the attack's damage roll, and you choose a friendly creature who can see or hear you. That creature can use its reaction to move up to half its speed without provoking opportunity attacks from the target of you attack.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="menacing_attack">
                     <action uses="1">
                         <name>Menacing Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to frighten the target. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, it is frightened of you until the end of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="parry">
                     <action uses="1">
                         <name>Parry</name>
                         <shortDescription>When another creature damages you with a melee attack, you can use your reaction and expend one superiority die to add it to reduce the damage by the number you roll + your dexterity modifier.</shortDescription>
+                        <context>HIT_POINTS</context>
                     </action>
                 </or>
                 <or name="precision_attack">
                     <action uses="1">
                         <name>Precision Attack</name>
                         <shortDescription>When you make a weapon attack roll against a creature, you can expend one superiority die to add it to the roll. You can use this maneuver before or after making the attack roll, but before any effects of the attack are applied.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="pushing_attack">
                     <action uses="1">
                         <name>Pushing Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to drive the target back. You add the superiority die to the attack's damage roll, and if the target is Large os smaller, it must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, you the target up to 15 feet away from you.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="rally">
@@ -220,18 +243,21 @@
                     <action uses="1">
                         <name>Riposte</name>
                         <shortDescription>When a create misses you with a melee attack, you can use your reaction and expend one superiority die to make a melee weapon attack against the creature. If you hit, add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK,ARMOR_CLASS,TO_HIT</context>
                     </action>
                 </or>
                 <or name="sweeping_attack">
                     <action uses="1">
                         <name>Sweeping Attack</name>
                         <shortDescription>When you hit a creature with a melee weapon attack, you can expend one superiority die to attempt to damage another creature with the same attack. Choose another creature within 5 feet of the original target and within your reach. If the original attack roll would hit the second creature, it takes damage equal to the number you roll on your superiority die. The damage is of the same type dealt by the original attack.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="tripping_attack">
                     <action uses="1">
                         <name>Tripping Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to knock the target down. You add the superiority die to the attack's damage roll, and if the target is Large or smaller, it must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, you knock the target prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
             </choose>
@@ -254,6 +280,7 @@
                     <action uses="1">
                         <name>Disarming Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to disarm the target, forcing it to drop one item of your choice that it is holding. You add the superiority die to the attack's damage roll, and the target must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, it drops the object you choose. The object lands at its feet.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="distracting_strike">
@@ -261,12 +288,14 @@
                     <action uses="1">
                         <name>Distracting Strike</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to distract the creature, giving your allies an opening. You add the superiority die to the attack's damage roll. The next attack roll against the target by an attacker other than you has advantage if the attack is made before the start of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="evasive_footwork">
                     <action uses="1">
                         <name>Evasive Footwork</name>
                         <shortDescription>When you move, you can expend one superiority die, rolling the die and adding the number rolled to your AC until you stop moving.</shortDescription>
+                        <context>SPEED,ARMOR_CLASS</context>
                     </action>
                 </or>
                 <or name="feinting_attack">
@@ -274,48 +303,56 @@
                     <action uses="1">
                         <name>Feinting Attack</name>
                         <shortDescription>You can expend one superiority die and use a bonus action on your turn to feint, choosing one creature within 5 feet of you as your target. You have advantage on your next attack roll against that creature. If that attack hits, add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="goading_attack">
                     <action uses="1">
                         <name>Goading Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to goad the target into attacking you. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, the target has disadvantage on all attack rolls other than you until the end of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="lunging_attack">
                     <action uses="1">
                         <name>Lunging Attack</name>
                         <shortDescription>When you make a melee weapon attack on your turn, you can expend one superiority die to increase your reach for that attack by 5 feet. If you hit, you add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="maneuvering_attack">
                     <action uses="1">
                         <name>Maneuvering Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to maneuver one of your comrades into a more advantageous position. You add the superiority die to the attack's damage roll, and you choose a friendly creature who can see or hear you. That creature can use its reaction to move up to half its speed without provoking opportunity attacks from the target of you attack.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="menacing_attack">
                     <action uses="1">
                         <name>Menacing Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to frighten the target. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, it is frightened of you until the end of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="parry">
                     <action uses="1">
                         <name>Parry</name>
                         <shortDescription>When another creature damages you with a melee attack, you can use your reaction and expend one superiority die to add it to reduce the damage by the number you roll + your dexterity modifier.</shortDescription>
+                        <context>HIT_POINTS</context>
                     </action>
                 </or>
                 <or name="precision_attack">
                     <action uses="1">
                         <name>Precision Attack</name>
                         <shortDescription>When you make a weapon attack roll against a creature, you can expend one superiority die to add it to the roll. You can use this maneuver before or after making the attack roll, but before any effects of the attack are applied.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="pushing_attack">
                     <action uses="1">
                         <name>Pushing Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to drive the target back. You add the superiority die to the attack's damage roll, and if the target is Large os smaller, it must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, you the target up to 15 feet away from you.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="rally">
@@ -328,18 +365,21 @@
                     <action uses="1">
                         <name>Riposte</name>
                         <shortDescription>When a create misses you with a melee attack, you can use your reaction and expend one superiority die to make a melee weapon attack against the creature. If you hit, add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK,ARMOR_CLASS,TO_HIT</context>
                     </action>
                 </or>
                 <or name="sweeping_attack">
                     <action uses="1">
                         <name>Sweeping Attack</name>
                         <shortDescription>When you hit a creature with a melee weapon attack, you can expend one superiority die to attempt to damage another creature with the same attack. Choose another creature within 5 feet of the original target and within your reach. If the original attack roll would hit the second creature, it takes damage equal to the number you roll on your superiority die. The damage is of the same type dealt by the original attack.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="tripping_attack">
                     <action uses="1">
                         <name>Tripping Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to knock the target down. You add the superiority die to the attack's damage roll, and if the target is Large or smaller, it must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, you knock the target prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
             </choose>
@@ -368,6 +408,7 @@
                     <action uses="1">
                         <name>Disarming Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to disarm the target, forcing it to drop one item of your choice that it is holding. You add the superiority die to the attack's damage roll, and the target must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, it drops the object you choose. The object lands at its feet.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="distracting_strike">
@@ -375,12 +416,14 @@
                     <action uses="1">
                         <name>Distracting Strike</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to distract the creature, giving your allies an opening. You add the superiority die to the attack's damage roll. The next attack roll against the target by an attacker other than you has advantage if the attack is made before the start of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="evasive_footwork">
                     <action uses="1">
                         <name>Evasive Footwork</name>
                         <shortDescription>When you move, you can expend one superiority die, rolling the die and adding the number rolled to your AC until you stop moving.</shortDescription>
+                        <context>SPEED,ARMOR_CLASS</context>
                     </action>
                 </or>
                 <or name="feinting_attack">
@@ -388,48 +431,56 @@
                     <action uses="1">
                         <name>Feinting Attack</name>
                         <shortDescription>You can expend one superiority die and use a bonus action on your turn to feint, choosing one creature within 5 feet of you as your target. You have advantage on your next attack roll against that creature. If that attack hits, add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="goading_attack">
                     <action uses="1">
                         <name>Goading Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to goad the target into attacking you. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, the target has disadvantage on all attack rolls other than you until the end of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="lunging_attack">
                     <action uses="1">
                         <name>Lunging Attack</name>
                         <shortDescription>When you make a melee weapon attack on your turn, you can expend one superiority die to increase your reach for that attack by 5 feet. If you hit, you add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="maneuvering_attack">
                     <action uses="1">
                         <name>Maneuvering Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to maneuver one of your comrades into a more advantageous position. You add the superiority die to the attack's damage roll, and you choose a friendly creature who can see or hear you. That creature can use its reaction to move up to half its speed without provoking opportunity attacks from the target of you attack.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="menacing_attack">
                     <action uses="1">
                         <name>Menacing Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to frighten the target. You add the superiority die to the attack's damage roll, and the target must make a Wisdom saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, it is frightened of you until the end of your next turn.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="parry">
                     <action uses="1">
                         <name>Parry</name>
                         <shortDescription>When another creature damages you with a melee attack, you can use your reaction and expend one superiority die to add it to reduce the damage by the number you roll + your dexterity modifier.</shortDescription>
+                        <context>HIT_POINTS</context>
                     </action>
                 </or>
                 <or name="precision_attack">
                     <action uses="1">
                         <name>Precision Attack</name>
                         <shortDescription>When you make a weapon attack roll against a creature, you can expend one superiority die to add it to the roll. You can use this maneuver before or after making the attack roll, but before any effects of the attack are applied.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="pushing_attack">
                     <action uses="1">
                         <name>Pushing Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to drive the target back. You add the superiority die to the attack's damage roll, and if the target is Large os smaller, it must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, you the target up to 15 feet away from you.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="rally">
@@ -442,18 +493,21 @@
                     <action uses="1">
                         <name>Riposte</name>
                         <shortDescription>When a create misses you with a melee attack, you can use your reaction and expend one superiority die to make a melee weapon attack against the creature. If you hit, add the superiority die to the attack's damage roll.</shortDescription>
+                        <context>WEAPON_ATTACK,ARMOR_CLASS,TO_HIT</context>
                     </action>
                 </or>
                 <or name="sweeping_attack">
                     <action uses="1">
                         <name>Sweeping Attack</name>
                         <shortDescription>When you hit a creature with a melee weapon attack, you can expend one superiority die to attempt to damage another creature with the same attack. Choose another creature within 5 feet of the original target and within your reach. If the original attack roll would hit the second creature, it takes damage equal to the number you roll on your superiority die. The damage is of the same type dealt by the original attack.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
                 <or name="tripping_attack">
                     <action uses="1">
                         <name>Tripping Attack</name>
                         <shortDescription>When you hit a creature with a weapon attack, you can expend one superiority die to attempt to knock the target down. You add the superiority die to the attack's damage roll, and if the target is Large or smaller, it must make a Strength saving throw (against your maneuver save: 8 + proficiency + [strength or dexterity] modifier). On a failed save, you knock the target prone.</shortDescription>
+                        <context>WEAPON_ATTACK</context>
                     </action>
                 </or>
             </choose>
