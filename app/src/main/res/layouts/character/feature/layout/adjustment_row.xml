@@ -12,17 +12,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/value"
+    <LinearLayout
+        android:background="@drawable/list_selector"
+        android:layout_marginLeft="8dp"
+        android:id="@+id/adjustment_group"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="+3" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Comment" />
+        <TextView
+            android:id="@+id/value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="+3" />
 
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Comment" />
+    </LinearLayout>
+
+    <ImageView
+        android:background="@drawable/list_selector"
+        android:layout_marginLeft="8dp"
+        android:id="@+id/delete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_delete_primary_18dp" />
 
 </LinearLayout>
