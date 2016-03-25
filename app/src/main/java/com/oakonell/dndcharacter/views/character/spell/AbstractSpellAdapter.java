@@ -49,14 +49,14 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
         @NonNull
         private final TextView source;
         @NonNull
-        private final ImageButton delete;
+        private final View delete;
 
         public AbstractSpellViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             source = (TextView) itemView.findViewById(R.id.source);
             school = (TextView) itemView.findViewById(R.id.school);
-            delete = (ImageButton) itemView.findViewById(R.id.delete);
+            delete = itemView.findViewById(R.id.delete);
         }
 
         @Override
@@ -72,11 +72,12 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
                     dialog.show(context.getFragmentManager(), "spell");
                 }
             });
-            if (info.getSource() == null || info.getSource().getType() == ComponentType.CLASS) {
+            if (info.getSource() == null) {
                 delete.setVisibility(View.VISIBLE);
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // TODO support undo
                         context.getCharacter().deleteSpell(info.getSpell());
                         adapter.notifyDataSetChanged();
                         context.updateViews();

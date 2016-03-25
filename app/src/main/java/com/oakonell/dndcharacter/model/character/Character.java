@@ -1627,6 +1627,12 @@ public class Character {
             this.spell = spell;
         }
 
+        @NonNull
+        public String getSourceString(@NonNull Resources resources) {
+            if (getSource() == null) return getSpell().getOwnerName();
+            return super.getSourceString(resources);
+        }
+
         public CharacterSpell getSpell() {
             return spell;
         }

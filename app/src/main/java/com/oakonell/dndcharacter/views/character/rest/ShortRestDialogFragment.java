@@ -356,12 +356,12 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         @NonNull
         final TextView value;
         @NonNull
-        final ImageButton deleteButton;
+        final View deleteButton;
 
         public HitDieUseViewHolder(@NonNull View view) {
             super(view);
             value = (TextView) view.findViewById(R.id.value);
-            deleteButton = (ImageButton) view.findViewById(R.id.delete_button);
+            deleteButton =  view.findViewById(R.id.delete_button);
         }
 
         @Override

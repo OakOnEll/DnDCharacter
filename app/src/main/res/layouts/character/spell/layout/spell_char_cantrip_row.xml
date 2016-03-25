@@ -35,10 +35,11 @@
         android:layout_height="1dp"
         android:layout_weight="1" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/delete"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/list_selector"
         android:src="@drawable/ic_clear_primary_18dp" />
 
 

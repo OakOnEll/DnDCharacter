@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.spell.ApplySpellToCharacterVisitor;
 import com.oakonell.dndcharacter.model.spell.Spell;
@@ -35,8 +36,8 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
     private CasterInfoAdapter casterInfoAdapter;
     private RecyclerView cantrips;
     private CantripAdapter cantripsAdapter;
-    private ImageButton add_spell;
-    private ImageButton add_cantrip;
+    private View add_spell;
+    private View add_cantrip;
 
     @Override
     protected View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,8 +47,8 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
         caster_list = (RecyclerView) rootView.findViewById(R.id.caster_list);
         cantrips = (RecyclerView) rootView.findViewById(R.id.cantrips);
 
-        add_spell = (ImageButton) rootView.findViewById(R.id.add_spell);
-        add_cantrip = (ImageButton) rootView.findViewById(R.id.add_cantrip);
+        add_spell = rootView.findViewById(R.id.add_spell);
+        add_cantrip =  rootView.findViewById(R.id.add_cantrip);
 
         if (savedInstanceState != null) {
             SelectSpellDialogFragment dialogFrag = (SelectSpellDialogFragment) getMainActivity().getSupportFragmentManager()
@@ -159,10 +160,10 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
         }
 
         final CharacterSpell characterSpell = ApplySpellToCharacterVisitor.createCharacterSpell(getActivity(), spell, getCharacter());
-        characterSpell.setSource(null);
+        characterSpell.setSource(ComponentType.CLASS);
 
         final Character.CastingClassInfo info = getCharacter().getCasterClassInfoFor(owningClassName);
-//        characterSpell.setOwnerName(owningClassName);
+        characterSpell.setOwnerName(owningClassName);
 
         if (spell.getLevel() > 0) {
             if (info.usesPreparedSpells()) {
