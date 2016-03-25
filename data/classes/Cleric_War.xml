@@ -17,7 +17,6 @@
             <context>WEAPON_ATTACK</context>
         </feature>
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Divine Favor</spell>
             <spell>Shield of Faith</spell>
         </spells>
@@ -36,7 +35,6 @@
 
     <level value="3">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Magic Weapon</spell>
             <spell>Spiritual Weapon</spell>
         </spells>
@@ -44,7 +42,6 @@
 
     <level value="5">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Crusader's Mantle</spell>
             <spell>Spirit Guardians</spell>
         </spells>
@@ -63,7 +60,6 @@
 
     <level value="7">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Freedom of Movement</spell>
             <spell>Stoneskin</spell>
         </spells>
@@ -79,7 +75,6 @@
 
     <level value="9">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Flame Strike</spell>
             <spell>Hold Monster</spell>
         </spells>

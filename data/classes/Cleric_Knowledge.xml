@@ -16,7 +16,6 @@
             </choose>
         </skills>
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>command</spell>
             <spell>identify</spell>
         </spells>
@@ -38,7 +37,6 @@
 
     <level value="3">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>augury</spell>
             <spell>suggestion</spell>
         </spells>
@@ -46,7 +44,6 @@
 
     <level value="5">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Nondetection</spell>
             <spell>Speak with the Dead</spell>
         </spells>
@@ -71,7 +68,6 @@
 
     <level value="7">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Arcane Eye</spell>
             <spell>Confusion</spell>
         </spells>
@@ -87,7 +83,6 @@
 
     <level value="9">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Legend of Lore</spell>
             <spell>Scrying</spell>
         </spells>

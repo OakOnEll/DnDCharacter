@@ -9,7 +9,6 @@
             <cantrip casterClass="wizard" stat="Wisdom"/>
         </cantrips>
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Detect Magic</spell>
             <spell>Magic Missile</spell>
         </spells>
@@ -28,7 +27,6 @@
 
     <level value="3">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Magic Weapon</spell>
             <spell>Nystul's Magic Aura</spell>
         </spells>
@@ -36,7 +34,6 @@
 
     <level value="5">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Dispel Magic</spell>
             <spell>Magic Circle</spell>
         </spells>
@@ -52,7 +49,6 @@
 
     <level value="7">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Arcane Eye</spell>
             <spell>Leomund's Secret Chest</spell>
         </spells>
@@ -68,7 +64,6 @@
 
     <level value="9">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Planar Binding</spell>
             <spell>Teleportation Circle</spell>
         </spells>
@@ -80,7 +75,6 @@
             <name>Arcane Maserty</name>
             <shortDescription>You can choose 4 wizard spells to add to your domain spells always prepared list.</shortDescription>
             <spells>
-                <!-- TODO always prepared domain spells -->
                 <spell casterClass="wizard" maxLevel="6"/>
                 <spell casterClass="wizard" maxLevel="7"/>
                 <spell casterClass="wizard" maxLevel="8"/>

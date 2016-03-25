@@ -16,7 +16,6 @@
             </choose>
         </skills>
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Animal Friendship</spell>
             <spell>Speak with Animals</spell>
         </spells>
@@ -37,7 +36,6 @@
 
     <level value="3">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Barkskin</spell>
             <spell>Spike Growth</spell>
         </spells>
@@ -45,7 +43,6 @@
 
     <level value="5">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Plant Growth</spell>
             <spell>Wind Wall</spell>
         </spells>
@@ -61,7 +58,6 @@
 
     <level value="7">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Dominate Beast</spell>
             <spell>Grasping Vine</spell>
         </spells>
@@ -77,7 +73,6 @@
 
     <level value="9">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Insect Plague</spell>
             <spell>Tree Stride</spell>
         </spells>

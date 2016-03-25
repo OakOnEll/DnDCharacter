@@ -15,7 +15,6 @@
                 You can use this feature a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses after a long rest.</shortDescription>
         </feature>
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Burning Hands</spell>
             <spell>Faerie Fire</spell>
         </spells>
@@ -36,7 +35,6 @@
 
     <level value="3">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Flaming Sphere</spell>
             <spell>Scorching Ray</spell>
         </spells>
@@ -44,7 +42,6 @@
 
     <level value="5">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Daylight</spell>
             <spell>Fireball</spell>
         </spells>
@@ -63,7 +60,6 @@
 
     <level value="7">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Guardian of Faith</spell>
             <spell>Wall of Fire</spell>
         </spells>
@@ -79,7 +75,6 @@
 
     <level value="9">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Flame Strike</spell>
             <spell>Scrying</spell>
         </spells>

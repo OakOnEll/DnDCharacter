@@ -17,7 +17,6 @@
             <context>HIT_POINTS</context>
         </feature>
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Fog Cloud</spell>
             <spell>Thunderwave</spell>
         </spells>
@@ -37,7 +36,6 @@
 
     <level value="3">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Gust of Wind</spell>
             <spell>Shatter</spell>
         </spells>
@@ -45,7 +43,6 @@
 
     <level value="5">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Call Lightning</spell>
             <spell>Sleet Storm</spell>
         </spells>
@@ -61,7 +58,6 @@
 
     <level value="7">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Control Water</spell>
             <spell>Ice Storm</spell>
         </spells>
@@ -77,7 +73,6 @@
 
     <level value="9">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Destructive Wave</spell>
             <spell>Insect Plague</spell>
         </spells>

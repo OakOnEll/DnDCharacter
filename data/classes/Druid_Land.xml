@@ -18,7 +18,6 @@
 
     <level value="3">
         <choose name="land" title="Choose the land where you became a Druid">
-            <!-- TODO always prepared domain spells -->
             <or name="arctic" title="Arctic">
                 <spells>
                     <spell>Hold Person</spell>
@@ -72,7 +71,6 @@
 
     <level value="5">
         <choose name="land" title="Choose the land where you became a Druid (Should be the same as 3rd level choice)">
-            <!-- TODO always prepared domain spells -->
             <or name="arctic" title="Arctic">
                 <spells>
                     <spell>Sleet Storm</spell>
@@ -135,7 +133,6 @@
 
     <level value="7">
         <choose name="land" title="Choose the land where you became a Druid (Should be the same as 3rd level choice)">
-            <!-- TODO always prepared domain spells -->
             <or name="arctic" title="Arctic">
                 <spells>
                     <spell>Freedom of Movement</spell>
@@ -190,7 +187,6 @@
 
     <level value="9">
         <choose name="land" title="Choose the land where you became a Druid (Should be the same as 3rd level choice)">
-            <!-- TODO always prepared domain spells -->
             <or name="arctic" title="Arctic">
                 <spells>
                     <spell>Commune with Nature</spell>

@@ -9,7 +9,6 @@
             <context/>
         </feature>
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Charm Person</spell>
             <spell>Disguise Self</spell>
         </spells>
@@ -30,7 +29,6 @@
 
     <level value="3">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Mirror Image</spell>
             <spell>Pass Without Trace</spell>
         </spells>
@@ -38,7 +36,6 @@
 
     <level value="5">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Blink</spell>
             <spell>Dispel Magic</spell>
         </spells>
@@ -58,7 +55,6 @@
 
     <level value="7">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Dimension Door</spell>
             <spell>Polymorph</spell>
         </spells>
@@ -74,7 +70,6 @@
 
     <level value="9">
         <spells>
-            <!-- TODO always prepared domain spells -->
             <spell>Dominate Person</spell>
             <spell>Modify Memory</spell>
         </spells>
