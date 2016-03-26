@@ -43,6 +43,7 @@ import java.util.List;
  */
 public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> extends AbstractChoiceComponentVisitor {
     private final C component;
+    protected BaseCharacterComponent currentComponent;
     private final SavedChoices savedChoices;
     private boolean addItems;
 
@@ -51,13 +52,13 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private final Context context;
     private String currentChoiceName;
 
-    private Feature feature;
     @Nullable
     private String spellPrefix = "";
 
     protected ApplyChangesToGenericComponent(Context context, SavedChoices savedChoices, C component, @Nullable Character character) {
         this.context = context;
         this.component = component;
+        currentComponent = component;
         this.savedChoices = savedChoices;
         this.character = character;
     }
@@ -88,7 +89,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
     @Override
     protected void visitShortDescription(@NonNull Element element) {
-        component.setDescription(element.getTextContent());
+        currentComponent.setDescription(element.getTextContent());
     }
 
     private void addFeat(@NonNull String name) {
@@ -141,7 +142,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String actionDescription = XmlUtils.getElementText(effectElement, "actionDescription");
         effect.setActionDescription(actionDescription);
         effect.setAction(actionName);
-        feature.addEffect(effect);
+        ((Feature)currentComponent).addEffect(effect);
 
         // look for any variable/prompts
         List<Element> variables = XmlUtils.getChildElements(effectElement, "variable");
@@ -162,7 +163,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
 
 
-        effect.setSource(component.getSourceString(context.getResources()) + "[" + feature.getSourceString(context.getResources()) + "]");
+        effect.setSource(component.getSourceString(context.getResources()) + "[" + currentComponent.getSourceString(context.getResources()) + "]");
     }
 
     @Override
@@ -194,7 +195,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         action.setName(actionName);
         action.setCost(cost);
         action.setDescription(shortDescription);
-        feature.addAction(action);
+        ((Feature)currentComponent).addAction(action);
     }
 
     @Override
@@ -205,7 +206,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         spellPrefix = name;
 
 
-        feature = new Feature();
+        Feature feature = new Feature();
         feature.setName(name);
         feature.setDescription(XmlUtils.getElementText(element, "shortDescription"));
         // TODO handle refreshes, and other data in XML
@@ -250,7 +251,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String usesSpellSlot = XmlUtils.getElementText(element, "useSpellSlot");
         feature.setUsesSpellSlot("true".equals(usesSpellSlot));
 
+        BaseCharacterComponent oldComponent = currentComponent;
+        currentComponent = feature;
         super.visitFeature(element);
+        currentComponent = oldComponent;
 
         if (useType != null) {
             feature.setUseType(useType);
@@ -283,7 +287,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         final String condition = XmlUtils.getElementText(element, "condition");
         feature.setActiveFormula(condition);
 
-        component.addFeature(feature);
+        currentComponent.addFeature(feature);
 
         spellPrefix = oldSpellPrefix;
 
@@ -313,7 +317,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         if (state == AbstractComponentVisitor.VisitState.SKILLS) {
             SkillType type = EnumHelper.stringToEnum(skillName, SkillType.class);
             // TODO handle error
-            component.addSkill(type, proficient);
+            currentComponent.addSkill(type, proficient);
         } else if (state == VisitState.TOOLS || state == VisitState.ARMOR || state == VisitState.WEAPONS) {
             ProficiencyType type;
             if (state == VisitState.TOOLS) {
@@ -328,14 +332,14 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
             // TODO handle error
             if (category != null && category.trim().length() > 0) {
-                component.addToolCategoryProficiency(type, category, proficient);
+                currentComponent.addToolCategoryProficiency(type, category, proficient);
             } else {
-                component.addToolProficiency(type, skillName, proficient);
+                currentComponent.addToolProficiency(type, skillName, proficient);
             }
         } else if (state == VisitState.SAVING_THROWS) {
             StatType type = EnumHelper.stringToEnum(skillName, StatType.class);
             // TODO handle error
-            component.addSaveThrow(type, proficient);
+            currentComponent.addSaveThrow(type, proficient);
 
         }
         super.visitProficiency(element);
@@ -350,14 +354,14 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
         int amount = Integer.parseInt(amountStr);
 
-        component.addModifier(type, amount);
+        currentComponent.addModifier(type, amount);
         super.visitIncrease(element);
     }
 
     @Override
     protected void visitLanguage(@NonNull Element element) {
         String language = element.getTextContent();
-        component.getLanguages().add(language);
+        currentComponent.getLanguages().add(language);
         super.visitLanguage(element);
     }
 
@@ -386,19 +390,19 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             speedType = EnumHelper.stringToEnum(speedTypString, SpeedType.class);
         }
         String valueString = element.getTextContent();
-        component.setSpeedFormula(speedType, valueString);
+        currentComponent.setSpeedFormula(speedType, valueString);
     }
 
     @Override
     protected void visitInitiative(@NonNull Element element) {
         String valueString = element.getTextContent();
-        component.setInitiativeModFormula(valueString);
+        currentComponent.setInitiativeModFormula(valueString);
     }
 
     @Override
     protected void visitPassivePerception(@NonNull Element element) {
         String valueString = element.getTextContent();
-        component.setPassivePerceptionModFormula(valueString);
+        currentComponent.setPassivePerceptionModFormula(valueString);
     }
 
     @Override
@@ -653,16 +657,16 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         for (String selection : selections) {
             switch (state) {
                 case LANGUAGES:
-                    component.getLanguages().add(selection);
+                    currentComponent.getLanguages().add(selection);
                     break;
                 case TOOLS:
-                    component.addToolProficiency(ProficiencyType.TOOL, selection, Proficient.PROFICIENT);
+                    currentComponent.addToolProficiency(ProficiencyType.TOOL, selection, Proficient.PROFICIENT);
                     break;
                 case ARMOR:
-                    component.addToolProficiency(ProficiencyType.ARMOR, selection, Proficient.PROFICIENT);
+                    currentComponent.addToolProficiency(ProficiencyType.ARMOR, selection, Proficient.PROFICIENT);
                     break;
                 case WEAPONS:
-                    component.addToolCategoryProficiency(ProficiencyType.WEAPON, selection, Proficient.PROFICIENT);
+                    currentComponent.addToolCategoryProficiency(ProficiencyType.WEAPON, selection, Proficient.PROFICIENT);
                     break;
                 case EQUIPMENT:
                     addItem(selection);
@@ -679,7 +683,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
                     // TODO how to specify a different proficiency
                     SkillType type = EnumHelper.stringToEnum(selection, SkillType.class);
-                    component.addSkill(type, proficient);
+                    currentComponent.addSkill(type, proficient);
                     break;
             }
         }

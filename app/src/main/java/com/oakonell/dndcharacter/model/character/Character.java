@@ -792,27 +792,38 @@ public class Character {
 
     }
 
+    private static class ArmorInfo {
+        private final boolean isWearingArmor;
+        private final boolean isUsingShield;
+
+        ArmorInfo(List<CharacterArmor> armor) {
+            boolean usingShield = false;
+            boolean wearingArmor = false;
+            for (CharacterArmor each : armor) {
+                if (each.isBaseArmor()) {
+                    if (each.isEquipped()) {
+                        wearingArmor = true;
+                        break;
+                    }
+                } else if (each.isShield()) {
+                    if (each.isEquipped()) {
+                        usingShield = true;
+                        break;
+                    }
+                }
+            }
+            isWearingArmor = wearingArmor;
+            isUsingShield = usingShield;
+        }
+
+
+    }
+
     @NonNull
     public List<ArmorClassWithSource> deriveModifyingAcs() {
         final List<ArmorClassWithSource> result = new ArrayList<>();
 
-        boolean usingShield = false;
-        boolean wearingArmor = false;
-        for (CharacterArmor each : getArmor()) {
-            if (each.isBaseArmor()) {
-                if (each.isEquipped()) {
-                    wearingArmor = true;
-                    break;
-                }
-            } else if (each.isShield()) {
-                if (each.isEquipped()) {
-                    usingShield = true;
-                    break;
-                }
-            }
-        }
-        final boolean isWearingArmor = wearingArmor;
-        final boolean isUsingShield = usingShield;
+        final ArmorInfo armorInfo = new ArmorInfo(getArmor());
         // multiple here will really just take the highest ?? at runtime
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             @Override
@@ -823,8 +834,8 @@ public class Character {
                 if (acFormula == null) return;
 
                 SimpleVariableContext variableContext = new SimpleVariableContext();
-                variableContext.setBoolean("armor", isWearingArmor);
-                variableContext.setBoolean("shield", isUsingShield);
+                variableContext.setBoolean("armor", armorInfo.isWearingArmor);
+                variableContext.setBoolean("shield", armorInfo.isUsingShield);
                 component.addExtraFormulaVariables(variableContext, Character.this);
 
                 int value = evaluateFormula(acFormula, variableContext);
@@ -1681,6 +1692,7 @@ public class Character {
 
     public static class SpeedWithSource extends WithSource {
         private final int speed;
+        private boolean isActive;
 
         SpeedWithSource(int speed, ComponentSource source) {
             super(source);
@@ -1691,6 +1703,15 @@ public class Character {
             return speed;
         }
 
+        @Override
+        public void setActive(boolean active) {
+            isActive = active;
+        }
+
+        @Override
+        public boolean isActive() {
+            return isActive;
+        }
     }
 
     public static class InitiativeWithSource extends WithSource {
@@ -2234,11 +2255,26 @@ public class Character {
     public List<SpeedWithSource> deriveSpeeds(@NonNull final SpeedType type) {
         final List<SpeedWithSource> result = new ArrayList<>();
 
+        final ArmorInfo armorInfo = new ArmorInfo(getArmor());
+
+
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
                 int speed = component.getSpeed(Character.this, type);
                 if (speed == 0) return;
+
+                boolean isActive = true;
+                String activeFormula = component.getActiveFormula();
+                if (activeFormula != null && activeFormula.trim().length() > 0) {
+                    SimpleVariableContext variables = new SimpleVariableContext();
+                    // add armor class variables
+                    variables.setBoolean("armor", armorInfo.isWearingArmor);
+                    variables.setBoolean("shield", armorInfo.isUsingShield);
+                    isActive = evaluateBooleanFormula(activeFormula, variables);
+                }
+
                 SpeedWithSource speedWithSource = new SpeedWithSource(speed, component);
+                speedWithSource.setActive(isActive);
                 result.add(speedWithSource);
             }
         };

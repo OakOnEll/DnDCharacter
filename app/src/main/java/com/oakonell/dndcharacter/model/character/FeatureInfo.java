@@ -175,8 +175,9 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
 
     @Override
     public int getSpeed(@NonNull Character character, SpeedType type) {
-        if (getFeature().getModifyingAcFormula() != null) {
-            return getFeature().getSpeed(character, type);
+        int speed = getFeature().getSpeed(character, type);
+        if (speed != 0) {
+            return speed;
         }
         if (extendedFeature != null) return extendedFeature.getSpeed(character, type);
         return 0;
@@ -328,12 +329,12 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     @NonNull
     @Override
     public List<CharacterSpell> getSpells() {
-        List<CharacterSpell> cantrips = new ArrayList<>();
-        cantrips.addAll(feature.getSpells());
+        List<CharacterSpell> spells = new ArrayList<>();
+        spells.addAll(feature.getSpells());
         if (extendedFeature != null) {
-            cantrips.addAll(extendedFeature.getSpells());
+            spells.addAll(extendedFeature.getSpells());
         }
-        return cantrips;
+        return spells;
     }
 
     @Override

@@ -50,7 +50,6 @@
     <level value="1">
         <feature>
             <name>Unarmored Defense</name>
-            <!-- TODO introduce shield variable as well -->
             <condition>NOT armor AND NOT shield</condition>
             <ac>=10 + dexterityMod + wisdomMod</ac>
             <shortDescription>While you are wearing no armor and not wielding a shield, your Armor Class equals 10 + your Dexterity modifier + your Wisdom modifier.</shortDescription>
@@ -93,9 +92,7 @@
         <feature>
             <name>Unarmored Movement</name>
             <shortDescription>Your speed increases by 10 feet while you are not wearing armor or wielding a shield.</shortDescription>
-            <!-- TODO handle incremental -->
             <speed>+10</speed>
-            <!-- TODO introduce shield variable as well -->
             <condition>NOT armor AND NOT shield</condition>
             <context>SPEED</context>
         </feature>
@@ -153,7 +150,6 @@
             <name>Unarmored Movement</name>
             <extensionDescription>Your speed increases by 15 feet.</extensionDescription>
             <shortDescription>Your speed increases by 15 feet while you are not wearing armor or wielding a shield.</shortDescription>
-            <!-- TODO handle incremental -->
             <speed>+15</speed>
         </feature>
     </level>
@@ -181,7 +177,6 @@
             <name>Unarmored Movement</name>
             <extensionDescription>Your speed increases by 20 feet.</extensionDescription>
             <shortDescription>Your speed increases by 20 feet while you are not wearing armor or wielding a shield.</shortDescription>
-            <!-- TODO handle incremental -->
             <speed>+20</speed>
         </feature>
     </level>
@@ -217,7 +212,6 @@
             <name>Unarmored Movement</name>
             <extensionDescription>Your speed increases by 25 feet.</extensionDescription>
             <shortDescription>Your speed increases by 25 feet while you are not wearing armor or wielding a shield.</shortDescription>
-            <!-- TODO handle incremental -->
             <speed>+25</speed>
         </feature>
     </level>
@@ -251,7 +245,6 @@
             <name>Unarmored Movement</name>
             <extensionDescription>Your speed increases by 30 feet.</extensionDescription>
             <shortDescription>Your speed increases by 30 feet while you are not wearing armor or wielding a shield.</shortDescription>
-            <!-- TODO handle incremental -->
             <speed>+30</speed>
         </feature>
     </level>
