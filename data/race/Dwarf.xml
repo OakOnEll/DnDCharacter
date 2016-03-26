@@ -3,7 +3,7 @@
     <name>Dwarf</name>
     <size>medium</size>
     <speed>25</speed>
-    <!-- TODO speed not reduced by wearing heavy armor -->
+    <!-- TODO speed not reduced by wearing heavy armor with min strength/dex... -->
     <age>Dwarves mature at the same rate as humans,  but they’re considered young until they reach the age of 50. On average, they live about 350 years.</age>
     <height>Dwarves stand between 4 and 5 feet tall.</height>
     <weight>Dwarves average about 150 pounds.</weight>

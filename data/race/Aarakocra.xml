@@ -5,7 +5,7 @@
     <height>Aarakocra are about 5 feet tall.</height>
     <weight>Aarakocra have thin, lightweight bodies that weigh between 80 and 100 pounds.</weight>
 
-<!-- TODO
+<!-- TODO height/weight
     <baseHeight>53</baseHeight>
     <baseWeight>75</baseWeight>
     <heightModifier>2d6</heightModifier>
