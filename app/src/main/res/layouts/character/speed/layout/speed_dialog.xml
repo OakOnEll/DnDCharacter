@@ -11,31 +11,34 @@
 
     >
 
-    <LinearLayout
+    <include
+        android:id="@+id/action_group"
+        layout="@layout/dialog_cancel_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true" />
 
-        <android.support.v4.widget.NestedScrollView
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/action_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/speed_type_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                tools:layout_height="100dp"
+                tools:listitem="@layout/speed_type_item" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/speed_type_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:layout_height="100dp"
-                    tools:listitem="@layout/speed_type_item" />
+            <include layout="@layout/feature_context" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-                <include layout="@layout/feature_context" />
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-
-        <include layout="@layout/dialog_cancel_done" />
-    </LinearLayout>
 </RelativeLayout>
