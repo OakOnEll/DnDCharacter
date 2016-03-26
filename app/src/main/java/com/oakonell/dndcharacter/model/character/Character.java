@@ -30,8 +30,12 @@ import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.expression.Expression;
 import com.oakonell.expression.ExpressionContext;
 import com.oakonell.expression.ExpressionType;
+import com.oakonell.expression.ExpressionValue;
 import com.oakonell.expression.context.SimpleFunctionContext;
 import com.oakonell.expression.context.SimpleVariableContext;
+import com.oakonell.expression.functions.ExpressionFunction;
+import com.oakonell.expression.types.BooleanValue;
+import com.oakonell.expression.types.StringValue;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -1183,7 +1187,7 @@ public class Character {
         variableContext = getPopulatedVariableContext(variableContext);
 
         try {
-            Expression<Boolean> expression = Expression.parse(formula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+            Expression<Boolean> expression = Expression.parse(formula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(getFunctionContext(), variableContext));
             return expression.evaluate();
         } catch (Exception e) {
             // should be done at formula save time...
@@ -1211,8 +1215,13 @@ public class Character {
         if (formula == null || formula.length() == 0) return 0;
         variableContext = getPopulatedVariableContext(variableContext);
 
-        Expression<Integer> expression = Expression.parse(formula, ExpressionType.NUMBER_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        Expression<Integer> expression = Expression.parse(formula, ExpressionType.NUMBER_TYPE, new ExpressionContext(getFunctionContext(), variableContext));
         return expression.evaluate();
+    }
+
+    @NonNull
+    protected SimpleFunctionContext getFunctionContext() {
+        return new CharacterFunctionContext(this);
     }
 
     public int getUses(@NonNull String featureName) {
@@ -2451,4 +2460,88 @@ public class Character {
         return adjustments;
     }
 
+    private static class HasEffectFunction implements ExpressionFunction {
+
+        private final Character character;
+
+        public HasEffectFunction(Character character) {
+            this.character = character;
+        }
+
+        @Override
+        public String getName() {
+            return "effect";
+        }
+
+        @Override
+        public ExpressionValue<?> evaluate(List<ExpressionValue<?>> arguments) {
+            StringValue value = (StringValue) arguments.get(0);
+            return BooleanValue.valueOf(character.getEffectNamed(value.getValue()) != null);
+        }
+
+        @Override
+        public ExpressionType<?> validate(List<ExpressionType<?>> argumentTypes) {
+            if (argumentTypes.size() != 1) {
+                throw new RuntimeException("Function '" + getName() + "' only takes 1 string argument");
+            }
+            if (argumentTypes.get(0) != ExpressionType.STRING_TYPE) {
+                throw new RuntimeException("Function '" + getName() + "' only takes 1 string argument");
+            }
+            return ExpressionType.BOOLEAN_TYPE;
+        }
+    }
+
+    private static class HasArmorFunction implements ExpressionFunction {
+
+        private final Character character;
+
+        public HasArmorFunction(Character character) {
+            this.character = character;
+        }
+
+        @Override
+        public String getName() {
+            return "wearingArmor";
+        }
+
+        @Override
+        public ExpressionValue<?> evaluate(List<ExpressionValue<?>> arguments) {
+            if (arguments.size() == 0) {
+                final ArmorInfo armorInfo = new ArmorInfo(character.getArmor());
+                return BooleanValue.valueOf(armorInfo.isWearingArmor);
+            }
+            StringValue value = (StringValue) arguments.get(0);
+            String categoryName = value.getValue().toUpperCase().trim();
+            for (CharacterArmor each : character.getArmor()) {
+                if (!each.isBaseArmor()) continue;
+                if (!each.isEquipped()) continue;
+                if (each.getCategory().toUpperCase().trim().equals(categoryName)) {
+                    return BooleanValue.TRUE;
+                }
+            }
+            return BooleanValue.FALSE;
+        }
+
+        @Override
+        public ExpressionType<?> validate(List<ExpressionType<?>> argumentTypes) {
+            final int size = argumentTypes.size();
+            if (size > 1) {
+                throw new RuntimeException("Function '" + getName() + "' takes 0 or 1 string arguments- name of armor category");
+            }
+            if (size == 1) {
+                if (argumentTypes.get(0) != ExpressionType.STRING_TYPE) {
+                    throw new RuntimeException("Function '" + getName() + "' takes a string argument- name of armor category");
+                }
+            }
+            return ExpressionType.BOOLEAN_TYPE;
+        }
+    }
+
+    private static class CharacterFunctionContext extends SimpleFunctionContext {
+        CharacterFunctionContext(Character character) {
+            super();
+            add(new HasEffectFunction(character));
+            add(new HasArmorFunction(character));
+        }
+    }
 }

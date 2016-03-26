@@ -29,4 +29,8 @@ public class BooleanValue extends ExpressionValue<Boolean> {
     public Boolean getValue() {
         return value;
     }
+
+    public static BooleanValue valueOf(boolean value) {
+        return value ? TRUE : FALSE;
+    }
 }

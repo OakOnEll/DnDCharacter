@@ -20,7 +20,7 @@
         <feature extension="extend">
             <name>Reckless Attack</name>
             <shortDescription>When you use the Reckless Attack while raging, you also gain temporary hit points equal to your constitution modifier (minimum 1). They vanish if any of them are left when your rage ends.</shortDescription>
-            <context>SAVING_THROW,EFFECT(Raging),EFFECT(Frenzied Raging),HIT_POINTS</context>
+            <context>SAVING_THROW,EFFECT(Raging),HIT_POINTS</context>
         </feature>
     </level>
 

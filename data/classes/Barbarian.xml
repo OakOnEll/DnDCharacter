@@ -115,6 +115,7 @@
         <feature>
             <name>Extra Movement</name>
             <shortDescription>Your speed increases by 10 feet while you aren’t wearing heavy armor.</shortDescription>
+            <condition>NOT wearingArmor('Heavy Armor')</condition>
             <speed>+10</speed>
             <context>SPEED</context>
         </feature>
