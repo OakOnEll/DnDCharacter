@@ -133,6 +133,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
     @Override
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
+        if (spellsAdapter == null) return;
         spellsAdapter.reloadList(getCharacter());
         cantripsAdapter.reloadList(getCharacter().getSpellInfos().get(0));
         casterInfoAdapter.reloadList(getCharacter());
