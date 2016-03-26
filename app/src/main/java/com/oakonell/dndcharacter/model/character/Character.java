@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
@@ -35,6 +36,7 @@ import com.oakonell.expression.context.SimpleFunctionContext;
 import com.oakonell.expression.context.SimpleVariableContext;
 import com.oakonell.expression.functions.ExpressionFunction;
 import com.oakonell.expression.types.BooleanValue;
+import com.oakonell.expression.types.NumberValue;
 import com.oakonell.expression.types.StringValue;
 
 import org.simpleframework.xml.Element;
@@ -2266,11 +2268,13 @@ public class Character {
 
         final ArmorInfo armorInfo = new ArmorInfo(getArmor());
 
+        final List<SpeedWithSource> baseSpeeds = new ArrayList<>();
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
                 int speed = component.getSpeed(Character.this, type);
-                if (speed == 0) return;
+                Boolean isBaseSpeed = component.isBaseSpeed(type);
+                if (speed == 0 && isBaseSpeed == null) return;
 
                 boolean isActive = true;
                 String activeFormula = component.getActiveFormula();
@@ -2285,9 +2289,36 @@ public class Character {
                 SpeedWithSource speedWithSource = new SpeedWithSource(speed, component);
                 speedWithSource.setActive(isActive);
                 result.add(speedWithSource);
+                if (isBaseSpeed && isActive) baseSpeeds.add(speedWithSource);
             }
         };
         deriver.derive(this, "speed " + type.name());
+
+        // pick the highest base speed, unless there are any base zeros, then all are inactive
+        boolean hasBaseZero = false;
+        SpeedWithSource activeBaseSpeed = null;
+        for (SpeedWithSource each : baseSpeeds) {
+            each.setActive(false);
+        }
+        for (SpeedWithSource each : baseSpeeds) {
+            if (each.getSpeed() == 0) {
+                hasBaseZero = true;
+                activeBaseSpeed = each;
+                each.setActive(true);
+                break;
+            }
+            if (activeBaseSpeed == null) {
+                activeBaseSpeed = each;
+                each.setActive(true);
+                continue;
+            }
+            if (each.getSpeed() > activeBaseSpeed.getSpeed()) {
+                activeBaseSpeed.setActive(false);
+                activeBaseSpeed = each;
+                each.setActive(true);
+            }
+        }
+
 
         // go through custom adjustments
         final CustomAdjustments customStats = getCustomAdjustments(type.getCustomType());
@@ -2297,6 +2328,12 @@ public class Character {
             result.add(customStat);
         }
 
+        if (hasBaseZero) {
+            for (SpeedWithSource each : result) {
+                if (each == activeBaseSpeed) continue;
+                each.setActive(false);
+            }
+        }
         return result;
     }
 
@@ -2537,11 +2574,45 @@ public class Character {
         }
     }
 
+    private static class SpeedFunction implements ExpressionFunction {
+
+        private final Character character;
+
+        public SpeedFunction(Character character) {
+            this.character = character;
+        }
+
+        @Override
+        public String getName() {
+            return "speed";
+        }
+
+        @Override
+        public ExpressionValue<?> evaluate(List<ExpressionValue<?>> arguments) {
+            StringValue value = (StringValue) arguments.get(0);
+            String speedName = value.getValue();
+            SpeedType speedType = EnumHelper.stringToEnum(speedName, SpeedType.class);
+            return new NumberValue(character.getSpeed(speedType));
+        }
+
+        @Override
+        public ExpressionType<?> validate(List<ExpressionType<?>> argumentTypes) {
+            if (argumentTypes.size() != 1) {
+                throw new RuntimeException("Function '" + getName() + "' only takes 1 string argument");
+            }
+            if (argumentTypes.get(0) != ExpressionType.STRING_TYPE) {
+                throw new RuntimeException("Function '" + getName() + "' only takes 1 string argument");
+            }
+            return ExpressionType.NUMBER_TYPE;
+        }
+    }
+
     private static class CharacterFunctionContext extends SimpleFunctionContext {
         CharacterFunctionContext(Character character) {
             super();
             add(new HasEffectFunction(character));
             add(new HasArmorFunction(character));
+            add(new SpeedFunction(character));
         }
     }
 }

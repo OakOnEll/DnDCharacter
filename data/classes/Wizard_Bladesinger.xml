@@ -40,7 +40,7 @@
                 * You have advantage on Dexterity (Acrobatics) checks
                 * You gain a bonus to any Constitution saving throw you make to maintain your concentration on a spell. The bonus equals your Intelligence modifier (minimum of +1)</shortDescription>
                 <ac>+max(intelligenceMod,1)</ac>
-                <speed>10</speed>
+                <speed>+10</speed>
                 <context>SPEED,ARMOR_CLASS,SKILL_ROLL(acrobatics),SAVING_THROW(constitution)</context>
             </effect>
             <uses>2</uses>

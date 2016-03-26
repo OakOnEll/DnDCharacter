@@ -58,6 +58,8 @@ public interface ICharacterComponent extends ComponentSource {
 
     int getSpeed(Character character, SpeedType type);
 
+    Boolean isBaseSpeed(SpeedType type);
+
     int getInitiativeMod(Character character);
 
     int getPassivePerceptionMod(Character character);

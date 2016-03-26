@@ -2,7 +2,7 @@
     <ref>PHB p.39</ref>
     <name>Half-Elf</name>
     <size>medium</size>
-    <speed>30</speed>
+    <speed>=30</speed>
     <age>Half-elves mature at the same rate humans do and reach adulthood around the age of 20. They live much longer than humans, however, often exceeding 180 years.</age>
     <height>Half-elves are about the same size as humans, ranging from 5 to 6 feet tall.</height>
     <weight></weight>

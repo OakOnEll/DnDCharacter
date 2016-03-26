@@ -11,7 +11,7 @@
     <weightMultiplier>2d4</weightMultiplier>
 
     <size>medium</size>
-    <speed>30</speed>
+    <speed>=30</speed>
 
     <feature>
         <name>Darkvision</name>

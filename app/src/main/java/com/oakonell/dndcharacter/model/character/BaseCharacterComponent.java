@@ -277,10 +277,23 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
 
     @Override
     public int getSpeed(@NonNull Character character, SpeedType type) {
-        final String val = speeds.get(type);
-        if (val == null || val.trim().length() == 0) return 0;
+        String val = speeds.get(type);
+        if (val == null) return 0;
+        val = val.trim();
+        if (val.length() == 0) return 0;
+        if (val.startsWith("=")) val = val.substring(1);
         return character.evaluateFormula(val, null);
     }
+
+    public Boolean isBaseSpeed(SpeedType type) {
+        String val = speeds.get(type);
+        if (val == null) return null;
+        val = val.trim();
+
+        if (val == null || val.trim().length() == 0) return false;
+        return val.startsWith("=");
+    }
+
 
     @NonNull
     public List<CharacterSpell> getSpells() {

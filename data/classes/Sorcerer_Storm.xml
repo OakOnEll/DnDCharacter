@@ -44,7 +44,7 @@
             <shortDescription>You are immune to lightning and thunder damage.
             You also gain a magical flying speed of 60 feet. As an action, you can reduce your flying speed to 30 feet for 1 hour, and choose a number of creatures within 30 feet of you equal to 3 + your charisma modifier. The chosen creatures gain a magical flying speed of 30 feet for 1 hour. Once you reduce your flying speed in this way, you can't do so again until you finish a short or long rest.
             </shortDescription>
-            <speed type="fly">60</speed>
+            <speed type="fly">=60</speed>
             <effect actionName="Share Flight">
                 <speed type="fly">-30</speed>
                 <actionDescription>As an action, you can reduce your flying speed to 30 feet for 1 hour, and choose a number of creatures within 30 feet of you equal to 3 + your charisma modifier. The chosen creatures gain a magical flying speed of 30 feet for 1 hour. Once you reduce your flying speed in this way, you can't do so again until you finish a short or long rest.</actionDescription>

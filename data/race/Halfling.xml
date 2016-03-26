@@ -9,7 +9,7 @@
     <heightModifier>2d6</heightModifier>
     <weightMultiplier>1</weightMultiplier>
     <size>small</size>
-    <speed>25</speed>
+    <speed>=25</speed>
 
     <names>
         <list typeLabel="Male Names">Alton, Ander, Cade, Corrin, Eldon, Errich, Finnan, Garret, Lindal, Lyle, Merric, Milo, Osborn, Perrin, Reed, Roscoe, Wellby</list>

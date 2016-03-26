@@ -1,7 +1,7 @@
 <effect>
     <ref>PHB, p. 291</ref>
     <name>Exhaustion V</name>
-    <speed>0</speed>
+    <speed>=0</speed>
     <!-- TODO speed factors, max HP factor-->
     <shortDescription>Disadvantage	on	ability	checks.
         Speed halved.

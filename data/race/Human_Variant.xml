@@ -9,7 +9,7 @@
     <heightModifier>2d10</heightModifier>
     <weightMultiplier>2d4</weightMultiplier>
     <size>medium</size>
-    <speed>30</speed>
+    <speed>=30</speed>
 
     <languages>
         <language>Common</language>

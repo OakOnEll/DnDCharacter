@@ -2,7 +2,7 @@
     <ref>UA, http://media.wizards.com/2015/downloads/dnd/UA_Eberron_v1.1.pdf</ref>
     <name>Shifter</name>
     <size>medium</size>
-    <speed>30</speed>
+    <speed>=30</speed>
     <age></age>
     <height>Shifters are about the same size as humans.</height>
     <weight></weight>

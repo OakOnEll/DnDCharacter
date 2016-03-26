@@ -10,7 +10,7 @@
     <weightMultiplier>2d6</weightMultiplier>
 
     <size>medium</size>
-    <speed>30</speed>
+    <speed>=30</speed>
 
     <names>
         <list typeLabel="Male Names">Dench,Feng,Gell,Henk,Holg,Imsh,Keth,Krusk,Mhurren,Ront,Shump,Thokk</list>

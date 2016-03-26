@@ -227,7 +227,7 @@
                             While in this form, your only method of movement is flying at a speed of 10 feet. You can enter and occupy the space of another creature. You have resistance to nonmagical damage, and have advantage on Strength, Dexterity, and Constitution saving throws. You can pass through small holes, narrow openings, and even mere cracks, though you treat liquids as though they were solid surfaces. You can't fall, and remain hovering in the air even when stunned or otherwise incapacitated.
                             While in this form, you can't talk or manipulate objects, and any objects you were carrying or holding can't be dropped, used, or otherwise interacted with. You can't attack or cast spells.
                         </shortDescription>
-                        <speed type="fly">10</speed>
+                        <speed type="fly">=10</speed>
                         <context>WEAPON_ATTACK,SPELL_CAST,HIT_POINTS,SPEED,SAVING_THROW(strength),SAVING_THROW(dexterity),SAVING_THROW(constitution)</context>
                     </effect>
                 </or>
@@ -236,7 +236,7 @@
                         <name>Ride the Wind</name>
                         <actionDescription>You can spend 4 Ki points to cast Fly on yourself, gaining a flying speed of 60 feet for up to an hour.</actionDescription>
                         <shortDescription>You gain a flying speed of 60 feet for up to an hour. When the spell ends, you will fall if still aloft, unless you can stop the fall.</shortDescription>
-                        <speed type="fly">60</speed>
+                        <speed type="fly">=60</speed>
                         <context>SPEED</context>
                     </effect>
                 </or>                <or name="gale">
@@ -357,7 +357,7 @@
                             While in this form, your only method of movement is flying at a speed of 10 feet. You can enter and occupy the space of another creature. You have resistance to nonmagical damage, and have advantage on Strength, Dexterity, and Constitution saving throws. You can pass through small holes, narrow openings, and even mere cracks, though you treat liquids as though they were solid surfaces. You can't fall, and remain hovering in the air even when stunned or otherwise incapacitated.
                             While in this form, you can't talk or manipulate objects, and any objects you were carrying or holding can't be dropped, used, or otherwise interacted with. You can't attack or cast spells.
                         </shortDescription>
-                        <speed type="fly">10</speed>
+                        <speed type="fly">=10</speed>
                         <context>WEAPON_ATTACK,SPELL_CAST,HIT_POINTS,SPEED,SAVING_THROW(strength),SAVING_THROW(dexterity),SAVING_THROW(constitution)</context>
                     </effect>
                 </or>
@@ -366,7 +366,7 @@
                         <name>Ride the Wind</name>
                         <actionDescription>You can spend 4 Ki points to cast Fly on yourself, gaining a flying speed of 60 feet for up to an hour.</actionDescription>
                         <shortDescription>You gain a flying speed of 60 feet for up to an hour. When the spell ends, you will fall if still aloft, unless you can stop the fall.</shortDescription>
-                        <speed type="fly">60</speed>
+                        <speed type="fly">=60</speed>
                         <context>SPEED</context>
                     </effect>
                 </or>

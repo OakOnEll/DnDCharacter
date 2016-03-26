@@ -32,7 +32,7 @@
                     <name>Transmuter's Stone: Speed</name>
                     <actionDescription>An increase in speed of 10 feet while the creature is unencumbered.</actionDescription>
                     <shortDescription>Your speed is increased by 10 feet while unencumbered.</shortDescription>
-                    <speed>10</speed>
+                    <speed>+10</speed>
                     <context>SPEED</context>
                 </effect>
                 <effect actionName="Constitution Proficiency">

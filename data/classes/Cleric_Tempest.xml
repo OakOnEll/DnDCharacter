@@ -91,8 +91,7 @@
         <feature >
             <name>Storm Born</name>
             <shortDescription>You have a flying speed equal to your current walking speed whenever you are not underground or indoors.</shortDescription>
-            <!-- TODO set speed equal to another one -->
-            <speed type="fly">10</speed>
+            <speed type="fly">=speed('walk')</speed>
             <context>SPEED</context>
         </feature>
     </level>

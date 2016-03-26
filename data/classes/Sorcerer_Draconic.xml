@@ -116,8 +116,7 @@
             <effect>
                 <name>Dragon Wings</name>
                 <shortDescription>You have dragon wings sprouted from your back, gaining a flying speed equal to your regular speed. They last until you dismiss them as a bonus action on your turn.</shortDescription>
-                <!-- TODO set speed equal to another type's speed -->
-                <speed type="fly"/>
+                <speed type="fly">=speed('walk')</speed>
                 <context>SPEED</context>
             </effect>
         </feature>

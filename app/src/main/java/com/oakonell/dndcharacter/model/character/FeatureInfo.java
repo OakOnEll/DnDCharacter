@@ -184,6 +184,16 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
+    public Boolean isBaseSpeed(SpeedType type) {
+        Boolean isBase = getFeature().isBaseSpeed(type);
+        if (isBase != null) {
+            return isBase;
+        }
+        if (extendedFeature != null) return extendedFeature.isBaseSpeed(type);
+        return null;
+    }
+
+    @Override
     public int getInitiativeMod(@NonNull Character character) {
         if (getFeature().getInitiativeModFormula() != null) {
             return getFeature().getInitiativeMod(character);

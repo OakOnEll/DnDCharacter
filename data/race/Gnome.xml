@@ -9,7 +9,7 @@
     <heightModifier>2d4</heightModifier>
     <weightMultiplier>1</weightMultiplier>
     <size>small</size>
-    <speed>25</speed>
+    <speed>=25</speed>
 
     <names>
         <list typeLabel="Male Names">Alston,Alvyn,Boddynock,Brocc,Burgell,Dimble,Eldon,Erky,Fonkin,Frug,Gerbo,Gimble,Glim,Jebeddo,Kellen,Namfoodle,Orryn,Roondair,Seebo,Sindir,Warryn,Wrenn,Zook</list>

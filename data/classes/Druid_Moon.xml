@@ -126,7 +126,7 @@
                 <name>Aquatic Adaptation</name>
                 <actionDescription>You adapt your body to an aquatic environment.</actionDescription>
                 <shortDescription>For one hour while concentrating, you have sprouted gills and grow webbing between your fingers. You can breathe underwater and gain a swimming speed equal to your walking speed.</shortDescription>
-                <!-- TODO handle speed assignment -->
+                <speed type="swim">=speed('walk')</speed>
                 <context>SPEED</context>
             </effect>
             <effect actionName="Change Appearance">

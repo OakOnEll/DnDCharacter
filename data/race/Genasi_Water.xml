@@ -2,7 +2,7 @@
     <ref>EE p.9</ref>
     <name>Water Genasi</name>
     <parent>Genasi</parent>
-    <speed type="swim">30</speed>
+    <speed type="swim">=30</speed>
     <stat>
         <increase name="Wisdom">1</increase>
     </stat>

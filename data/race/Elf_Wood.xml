@@ -2,7 +2,7 @@
     <ref>PHB p.24</ref>
     <name>Wood Elf</name>
     <parent>Elf</parent>
-    <speed>35</speed>
+    <speed>=35</speed>
 
     <baseHeight>48</baseHeight>
     <baseWeight>100</baseWeight>

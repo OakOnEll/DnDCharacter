@@ -9,7 +9,7 @@
     <heightModifier>2d8</heightModifier>
     <weightMultiplier>2d6</weightMultiplier>
     <size>medium</size>
-    <speed>30</speed>
+    <speed>=30</speed>
 
     <names>
         <list typeLabel="Male Names">Arjhan,Balasar,Bharash,Donaar,Ghesh,Heskan,Kriv,Medrash,Mehen,Nadarr,Pandjed,Patrin,Rhogar,Shamash,Shedinn,Tarhun,Torinn</list>

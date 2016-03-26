@@ -10,7 +10,7 @@
     <weightMultiplier>2d4</weightMultiplier>
 
     <size>medium</size>
-    <speed>30</speed>
+    <speed>=30</speed>
 
     <names>
         <list typeLabel="Male Infernal Names">Akmenos,Amnon,Barakas,Damakos,Ekemon,Iados,Kairon,Leucis,Melech,Mordai,Morthos,Pelaios,Skamos,Therai</list>

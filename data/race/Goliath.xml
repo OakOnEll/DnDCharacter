@@ -2,7 +2,7 @@
     <ref>EE p.11</ref>
     <name>Goliath</name>
     <size>medium</size>
-    <speed>30</speed>
+    <speed>=30</speed>
     <age>Goliaths have lifespans comparable to humans. They enter adulthood in their late teens and usually live less than a century.</age>
     <height>Goliaths are between 7 and 8 feet tall.</height>
     <weight>Goliaths weigh between 280 and 340 pounds.</weight>

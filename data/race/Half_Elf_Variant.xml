@@ -38,7 +38,7 @@
             <skills>
                 <proficiency>Perception</proficiency>
             </skills>
-            <speed>30</speed>
+            <speed>=30</speed>
         </or>
         <or name="wood" title="Wood Elf">
             <choose name="wood">
@@ -58,7 +58,7 @@
                     </feature>
                 </or>
                 <or name="fleet foot">
-                    <speed>35</speed>
+                    <speed>=35</speed>
                 </or>
             </choose>
         </or>
@@ -76,7 +76,7 @@
                     <cantrips casterClass="wizard" stat="intelligence" />
                 </or>
             </choose>
-            <speed>30</speed>
+            <speed>=30</speed>
         </or>
         <or name="drow" title="Drow Elf">
             <cantrips>
@@ -96,16 +96,16 @@
                 <uses>1</uses>
                 <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
             </feature>
-            <speed>30</speed>
+            <speed>=30</speed>
         </or>
         <or name="aquatic" title="Aquatic">
             <feature>
-                <speed type="swim">30</speed>
+                <speed type="swim">=30</speed>
                 <name>Swim</name>
                 <shortDescription>You have a swimming speed of 30 feet.</shortDescription>
                 <context></context>
             </feature>
-            <speed>30</speed>
+            <speed>=30</speed>
         </or>
     </choose>
 

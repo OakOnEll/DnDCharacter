@@ -2,7 +2,7 @@
     <ref>UA, http://media.wizards.com/2015/downloads/dnd/UA_Eberron_v1.1.pdf</ref>
     <name>Changeling</name>
     <size>medium</size>
-    <speed>30</speed>
+    <speed>=30</speed>
 
     <height>Changelings are built much like humans, but a little leaner.</height>
     <weight></weight>
