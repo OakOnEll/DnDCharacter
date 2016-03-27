@@ -20,9 +20,25 @@
 
 
     <level value="6">
-        <spells casterClass="*" number="2" known="false">
-            <!-- TODO learn 2 spells/cantrips from any class. Count as bard spells (eg, casting ability?) but not known bard spells -->
-        </spells>
+        <feature>
+            <name>Additional Magical Secrets</name>
+            <choose name="spell1">
+                <or name="spell">
+                    <spells casterClass="*" known="false"/>
+                </or>
+                <or name="cantrip">
+                    <cantrips casterClass="*" known="false"/>
+                </or>
+            </choose>
+            <choose name="spell2">
+                <or name="spell2">
+                    <spells casterClass="*" known="false"/>
+                </or>
+                <or name="cantrip2">
+                    <cantrips casterClass="*" known="false"/>
+                </or>
+            </choose>
+        </feature>
     </level>
 
     <level value="14">

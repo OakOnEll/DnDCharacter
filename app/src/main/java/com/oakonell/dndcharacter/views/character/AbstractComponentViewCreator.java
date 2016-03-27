@@ -591,9 +591,12 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void visitChoose(@NonNull Element element) {
         ChooseMD oldChooseMD = currentChooseMD;
         ViewGroup oldParent = parent;
+        String oldSpellPrefix = spellPrefix;
 
         int numChoices = 1;
         String choiceName = element.getAttribute("name");
+        spellPrefix = choiceName;
+
         String numChoicesString = element.getAttribute("number");
         if (numChoicesString != null && numChoicesString.trim().length() > 0) {
             numChoices = Integer.parseInt(numChoicesString);
@@ -637,6 +640,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
         currentChooseMD = oldChooseMD;
         parent = oldParent;
+        spellPrefix = oldSpellPrefix;
     }
 
     protected void categoryChoices(@NonNull Element element, int numChoices) {

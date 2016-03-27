@@ -142,7 +142,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String actionDescription = XmlUtils.getElementText(effectElement, "actionDescription");
         effect.setActionDescription(actionDescription);
         effect.setAction(actionName);
-        ((Feature)currentComponent).addEffect(effect);
+        ((Feature) currentComponent).addEffect(effect);
 
         // look for any variable/prompts
         List<Element> variables = XmlUtils.getChildElements(effectElement, "variable");
@@ -195,7 +195,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         action.setName(actionName);
         action.setCost(cost);
         action.setDescription(shortDescription);
-        ((Feature)currentComponent).addAction(action);
+        ((Feature) currentComponent).addAction(action);
     }
 
     @Override
@@ -368,8 +368,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     @Override
     protected void visitChoose(@NonNull Element element) {
         String oldChoiceName = currentChoiceName;
+        String oldSpellPrefix = spellPrefix;
 
         currentChoiceName = element.getAttribute("name");
+        spellPrefix = currentChoiceName;
 
         List<Element> childOrElems = XmlUtils.getChildElements(element, "or");
         if (childOrElems.size() == 0) {
@@ -380,6 +382,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
 
         currentChoiceName = oldChoiceName;
+        spellPrefix = oldSpellPrefix;
     }
 
     @Override
@@ -493,9 +496,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         characterSpell.setName(spellName);
         characterSpell.setCastingStat(stat);
         // TODO need to store the caster class, if different from owner name?
-        characterSpell.setOwnerName(component.getName());
-        characterSpell.setSource(component.getType());
-        component.getSpells().add(characterSpell);
+        characterSpell.setOwnerName(currentComponent.getName());
+        characterSpell.setSource(currentComponent.getType());
+        currentComponent.getSpells().add(characterSpell);
     }
 
     @Override
@@ -584,9 +587,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         characterSpell.setName(cantripName);
         characterSpell.setCastingStat(stat);
         // TODO need to store the caster class, if different from owner name?
-        characterSpell.setOwnerName(component.getName());
-        characterSpell.setSource(component.getType());
-        component.getCantrips().add(characterSpell);
+        characterSpell.setOwnerName(currentComponent.getName());
+        characterSpell.setSource(currentComponent.getType());
+        currentComponent.getCantrips().add(characterSpell);
     }
 
     @Override
@@ -613,12 +616,12 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 case ARMOR:
                     CharacterArmor armor = CreateCharacterArmorVisitor.createArmor(context, itemRow, character);
                     armor.setName(itemName);
-                    armor.setSource(component.getType());
+                    armor.setSource(currentComponent.getType());
                     break;
                 case WEAPON:
                     CharacterWeapon weapon = CreateCharacterWeaponVisitor.createWeapon(context, itemRow, character);
                     weapon.setName(itemName);
-                    weapon.setSource(component.getType());
+                    weapon.setSource(currentComponent.getType());
                     break;
                 case EQUIPMENT:
                     if (ItemRow.isPack(itemName)) {
@@ -636,7 +639,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     } else {
                         CharacterItem item = new CharacterItem();
                         item.setName(itemName);
-                        item.setSource(component.getType());
+                        item.setSource(currentComponent.getType());
 
                         ApplyChangesToGenericComponent.applyToCharacter(context, XmlUtils.getDocument(itemRow.getXml()).getDocumentElement(), null, item, character, false);
 
@@ -647,7 +650,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         } else {
             CharacterItem item = new CharacterItem();
             item.setName(itemName);
-            item.setSource(component.getType());
+            item.setSource(currentComponent.getType());
             character.addItem(item);
         }
     }
