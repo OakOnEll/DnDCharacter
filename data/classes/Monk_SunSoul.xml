@@ -8,7 +8,6 @@
             <name>Radiant Sun Bolt</name>
             <shortDescription>You gain a ranged spell attack that you can use with the attack action. The attack has a range of 30 feet. You are proficient with it, and you add your Dexterity modifier to its attack and damage rolls. Its damage is radiant, and its damage die is a d4. This die changes as you gain levels, as shown in the martial arts column of the monk table.
             When you use this Attack action on your turn, you can spend 1 Ki point to make two additional attacks with it as a bonus action.</shortDescription>
-            <!-- TODO account for the martial arts damage die -->
             <context>WEAPON_ATTACK</context>
         </feature>
 
@@ -18,8 +17,16 @@
                 <name>Radiant Sun Bolt</name>
                 <shortDescription>When you use the Radiant Sun Bolt Attack action on your turn, you can spend 1 Ki point to make two additional attacks with it as a bonus action.</shortDescription>
                 <context>WEAPON_ATTACK</context>
-                <!-- TODO account for the martial arts damage die -->
             </action>
+        </feature>
+    </level>
+
+    <level value="5">
+        <feature  extension="extend">
+            <name>Radiant Sun Bolt</name>
+            <extensionDescription>Your sun bolt damage die increases to a 1d6.</extensionDescription>
+            <shortDescription>You gain a ranged spell attack that you can use with the attack action. The attack has a range of 30 feet. You are proficient with it, and you add your Dexterity modifier to its attack and damage rolls. Its damage is radiant, and its damage die is a d6.
+                When you use this Attack action on your turn, you can spend 1 Ki point to make two additional attacks with it as a bonus action.</shortDescription>
         </feature>
     </level>
 
@@ -46,7 +53,12 @@
             You can increase the sphere's damage by spending ki points. Each point you spend, up to a maximum of 3, increase the damage by 2d6.</shortDescription>
             <context>WEAPON_ATTACK</context>
         </feature>
-
+        <feature  extension="extend">
+            <name>Radiant Sun Bolt</name>
+            <extensionDescription>Your sun bolt damage die increases to a 1d8.</extensionDescription>
+            <shortDescription>You gain a ranged spell attack that you can use with the attack action. The attack has a range of 30 feet. You are proficient with it, and you add your Dexterity modifier to its attack and damage rolls. Its damage is radiant, and its damage die is a d8.
+                When you use this Attack action on your turn, you can spend 1 Ki point to make two additional attacks with it as a bonus action.</shortDescription>
+        </feature>
         <feature extension="extend">
             <name>Ki</name>
             <action >
@@ -66,6 +78,13 @@
             If a creature hits you with a melee attack while this light shines, you can use your reaction to deal radiant damage to the creature. The radiant damage equals 5 + your Wisdom modifier.</shortDescription>
             <context>HIT_POINTS</context>
         </feature>
+        <feature  extension="extend">
+            <name>Radiant Sun Bolt</name>
+            <extensionDescription>Your sun bolt damage die increases to a 1d10.</extensionDescription>
+            <shortDescription>You gain a ranged spell attack that you can use with the attack action. The attack has a range of 30 feet. You are proficient with it, and you add your Dexterity modifier to its attack and damage rolls. Its damage is radiant, and its damage die is a d10.
+                When you use this Attack action on your turn, you can spend 1 Ki point to make two additional attacks with it as a bonus action.</shortDescription>
+        </feature>
+
     </level>
 
 </class>

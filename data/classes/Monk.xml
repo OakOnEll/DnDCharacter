@@ -137,6 +137,13 @@
                 <context>WEAPON_ATTACK</context>
             </action>
         </feature>
+        <feature extension="extend">
+            <name>Martial Arts</name>
+            <shortDescription>Your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don’t have the twohanded or heavy property. You gain the following benefits while you are unarmed or wielding only monk weapons and you aren’t wearing armor or wielding a shield:
+                • You can use Dexterity instead of Strength for the attack and damage rolls of your unarmed strikes and monk weapons.
+                • You can roll a 1d6 in place of the normal damage of your unarmed strike or monk weapon.
+                • When you use the Attack action with an unarmed strike or a monk weapon on your turn, you can make one unarmed strike as a bonus action. For example, if you take the Attack action and attack with a quarterstaff, you can also make an unarmed strike as a bonus action, assuming you haven’t already taken a bonus action this turn.</shortDescription>
+        </feature>
     </level>
 
 
@@ -167,6 +174,16 @@
         </feature>
     </level>
 
+    <level value="9">
+        <feature extension="extend">
+            <name>Unarmored Movement</name>
+            <extensionDescription>You gain the ability to move along vertical surfaces and across liquids on your turn without falling during the move.</extensionDescription>
+            <shortDescription>Your speed increases by 20 feet while you are not wearing armor or wielding a shield.
+                You have the ability to move along vertical surfaces and across liquids on your turn without falling during the move.</shortDescription>
+            <speed>+20</speed>
+        </feature>
+    </level>
+
     <level value="10">
         <feature>
             <name>Purity of Body</name>
@@ -176,10 +193,22 @@
         <feature extension="extend">
             <name>Unarmored Movement</name>
             <extensionDescription>Your speed increases by 20 feet.</extensionDescription>
-            <shortDescription>Your speed increases by 20 feet while you are not wearing armor or wielding a shield.</shortDescription>
+            <shortDescription>Your speed increases by 20 feet while you are not wearing armor or wielding a shield.
+                You have the ability to move along vertical surfaces and across liquids on your turn without falling during the move.</shortDescription>
             <speed>+20</speed>
         </feature>
     </level>
+
+    <level value="11">
+        <feature extension="extend">
+            <name>Martial Arts</name>
+            <shortDescription>Your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don’t have the twohanded or heavy property. You gain the following benefits while you are unarmed or wielding only monk weapons and you aren’t wearing armor or wielding a shield:
+                • You can use Dexterity instead of Strength for the attack and damage rolls of your unarmed strikes and monk weapons.
+                • You can roll a 1d8 in place of the normal damage of your unarmed strike or monk weapon.
+                • When you use the Attack action with an unarmed strike or a monk weapon on your turn, you can make one unarmed strike as a bonus action. For example, if you take the Attack action and attack with a quarterstaff, you can also make an unarmed strike as a bonus action, assuming you haven’t already taken a bonus action this turn.</shortDescription>
+        </feature>
+    </level>
+
 
     <level value="13">
         <feature>
@@ -211,7 +240,8 @@
         <feature extension="extend">
             <name>Unarmored Movement</name>
             <extensionDescription>Your speed increases by 25 feet.</extensionDescription>
-            <shortDescription>Your speed increases by 25 feet while you are not wearing armor or wielding a shield.</shortDescription>
+            <shortDescription>Your speed increases by 25 feet while you are not wearing armor or wielding a shield.
+                You have the ability to move along vertical surfaces and across liquids on your turn without falling during the move.</shortDescription>
             <speed>+25</speed>
         </feature>
     </level>
@@ -220,6 +250,16 @@
         <feature>
             <name>Timeless Body</name>
             <shortDescription>Your ki sustains you so that you suffer none of the frailty of old age, and you can’t be aged magically. You can still die of old age, however. In addition, you no longer need food or water.</shortDescription>
+        </feature>
+    </level>
+
+    <level value="17">
+        <feature extension="extend">
+            <name>Martial Arts</name>
+            <shortDescription>Your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don’t have the twohanded or heavy property. You gain the following benefits while you are unarmed or wielding only monk weapons and you aren’t wearing armor or wielding a shield:
+                • You can use Dexterity instead of Strength for the attack and damage rolls of your unarmed strikes and monk weapons.
+                • You can roll a 1d10 in place of the normal damage of your unarmed strike or monk weapon.
+                • When you use the Attack action with an unarmed strike or a monk weapon on your turn, you can make one unarmed strike as a bonus action. For example, if you take the Attack action and attack with a quarterstaff, you can also make an unarmed strike as a bonus action, assuming you haven’t already taken a bonus action this turn.</shortDescription>
         </feature>
     </level>
 
@@ -244,7 +284,8 @@
         <feature extension="extend">
             <name>Unarmored Movement</name>
             <extensionDescription>Your speed increases by 30 feet.</extensionDescription>
-            <shortDescription>Your speed increases by 30 feet while you are not wearing armor or wielding a shield.</shortDescription>
+            <shortDescription>Your speed increases by 30 feet while you are not wearing armor or wielding a shield.
+                You have the ability to move along vertical surfaces and across liquids on your turn without falling during the move.</shortDescription>
             <speed>+30</speed>
         </feature>
     </level>
