@@ -1,0 +1,7 @@
+<item>
+    <name>Carpenter's Tools</name>
+    <itemType>EQUIPMENT</itemType>
+    <category>artisan tool</category>
+    <weight>6</weight>
+    <cost>8gp</cost>
+</item>

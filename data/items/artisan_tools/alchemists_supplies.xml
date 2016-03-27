@@ -1,0 +1,7 @@
+<item>
+    <name>Alchemist's Supplies</name>
+    <itemType>EQUIPMENT</itemType>
+    <category>artisan tool</category>
+    <weight>8</weight>
+    <cost>50gp</cost>
+</item>
