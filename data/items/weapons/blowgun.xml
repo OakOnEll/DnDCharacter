@@ -8,6 +8,7 @@
     </damage>
     <ranged>true</ranged>
     <properties>ammunition,loading</properties>
+    <ammunition>needles</ammunition>
     <range>25/100</range>
     <weight>1</weight>
     <cost>10gp</cost>

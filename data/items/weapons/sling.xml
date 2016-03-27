@@ -8,7 +8,7 @@
     </damage>
     <ranged>true</ranged>
     <properties>ammunition, two-handed</properties>
-    <ammunition>stone</ammunition>
+    <ammunition>bullet</ammunition>
     <range>30/120</range>
     <weight></weight>
     <cost>1sp</cost>
