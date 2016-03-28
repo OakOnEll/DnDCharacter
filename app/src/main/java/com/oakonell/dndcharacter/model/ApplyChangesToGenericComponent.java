@@ -595,6 +595,15 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
             ApplyChangesToGenericComponent.applyToCharacter(context, root, null, characterSpell, null, false);
             characterSpell.setSchool(spell.getSchool());
+
+            // TODO
+            if (component instanceof CharacterClass) {
+                Character.CastingClassInfo info = character.getCasterClassInfoFor(component.getName());
+                if (stat == null) {
+                    stat = info.getCastingStat();
+                }
+            }
+
         } else {
             characterSpell = new CharacterSpell();
         }
