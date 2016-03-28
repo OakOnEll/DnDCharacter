@@ -8,6 +8,7 @@ import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.character.AbstractContextualComponent;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.FeatureExtensionType;
 import com.oakonell.dndcharacter.model.character.Proficient;
@@ -489,6 +490,15 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             characterSpell.setSchool(spell.getSchool());
             //String castingTime = XmlUtils.getElementText(element, "castingTime");
             //characterSpell.setCastingTime();
+
+            // TODO
+            if (component instanceof CharacterClass) {
+                Character.CastingClassInfo info = character.getCasterClassInfoFor(component.getName());
+                if (info != null && info.usesPreparedSpells()) {
+                    characterSpell.setPreparable(true);
+                }
+            }
+
 
         } else {
             characterSpell = new CharacterSpell();

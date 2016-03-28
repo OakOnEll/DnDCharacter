@@ -67,7 +67,7 @@ public class CharacterSpell extends BaseCharacterComponent {
     private boolean ritual;
 
     @Element(required = false)
-    private boolean countsAsKnown;
+    private boolean countsAsKnown = true;
 
 
     @Element(required = false)

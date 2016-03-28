@@ -41,7 +41,8 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
 
 
     @NonNull
-    public static CharacterSpell createCharacterSpell(@NonNull Context context, @NonNull Spell spell, @NonNull Character character) {
+    public static CharacterSpell createCharacterSpell(@NonNull Context context,  @NonNull Spell spell, @NonNull Character character) {
+        // TODO this is only called from spell fragment add spell, and is not getting the "owner"class of the spell, to know whether preparable, etc...
         CharacterSpell charSpell = new CharacterSpell();
 
         final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
@@ -50,6 +51,8 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
 
         ApplySpellToCharacterVisitor newMe = new ApplySpellToCharacterVisitor(charSpell);
         newMe.visit(spell);
+
+
 
         int level = spell.getLevel();
         List<CharacterSpell> spells = character.getSpells(level);

@@ -514,14 +514,22 @@ public class Character {
 
     public int getSpellsPreparedForClass(@NonNull String className) {
         int prepared = 0;
-        for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
-            List<CharacterSpell> spells = entry.getValue().spells;
-            for (CharacterSpell each : spells) {
-                if (each.getSource() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
-                    if (each.isPrepared()) prepared++;
+        final List<SpellLevelInfo> spellInfos = getSpellInfos();
+        for (SpellLevelInfo each : spellInfos) {
+            for (CharacterSpellWithSource spell: each.getSpellInfos()) {
+                if (spell.getSpell().getSource() == ComponentType.CLASS && className.equals(spell.getSpell().getOwnerName())) {
+                    if (spell.getSpell().isPrepared()) prepared++;
                 }
             }
         }
+//        for (Map.Entry<Integer, SpellListWrapper> entry : spellsForLevel.entrySet()) {
+//            List<CharacterSpell> spells = entry.getValue().spells;
+//            for (CharacterSpell each : spells) {
+//                if (each.getSource() == ComponentType.CLASS && className.equals(each.getOwnerName())) {
+//                    if (each.isPrepared()) prepared++;
+//                }
+//            }
+//        }
         return prepared;
     }
 
