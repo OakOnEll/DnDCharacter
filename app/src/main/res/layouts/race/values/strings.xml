@@ -69,4 +69,5 @@
     <string name="root_ac">Root AC</string>
     <string name="modifying_acs">Modifying ACs</string>
     <string name="unknown">[unknown]</string>
+    <string name="save_dc_label">Spell Save DC</string>
 </resources>

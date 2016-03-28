@@ -88,7 +88,9 @@ public class CasterInfoAdapter extends RecyclerView.Adapter<CasterInfoAdapter.Ca
             StatType castingStat = info.getCastingStat();
             String castingStatString = context.getString(castingStat.getStringResId());
             StatBlock castingStatBlock = context.getCharacter().getStatBlock(castingStat);
-            casting_stat.setText(context.getString(R.string.stat_and_mod, castingStatString, castingStatBlock.getModifier()));
+            final int dc = 8 + castingStatBlock.getModifier() + context.getCharacter().getProficiency();
+            final int spellAttack = castingStatBlock.getModifier() + context.getCharacter().getProficiency();
+            casting_stat.setText(context.getString(R.string.stat_and_mod, castingStatString, NumberUtils.formatSignedNumber(spellAttack), dc));
 
             int cantrips = context.getCharacter().getCantripsKnownForClass(owningClassName);
             int maxCantrips = context.getCharacter().evaluateFormula(info.getKnownCantrips(), null);

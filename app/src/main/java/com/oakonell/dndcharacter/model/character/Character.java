@@ -93,7 +93,7 @@ public class Character {
     @Element(required = false)
     private BaseStatsType statsType;
     @Element(required = false)
-    private String notes;
+    private String notes="";
     @NonNull
     @ElementMap(entry = "hitDie", key = "die", value = "uses", required = false)
     private Map<Integer, Integer> hitDieUses = new HashMap<>();

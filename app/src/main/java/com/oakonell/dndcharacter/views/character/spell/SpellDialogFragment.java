@@ -61,6 +61,8 @@ public class SpellDialogFragment extends RollableDialogFragment {
     private TextView description;
     private TextView name;
     private TextView attack_bonus;
+    private TextView save_dc;
+
     private TextView damage_descr;
 
     private Button add_another;
@@ -100,6 +102,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
         description = (TextView) view.findViewById(R.id.description);
         name = (TextView) view.findViewById(R.id.weapon_label);
         attack_bonus = (TextView) view.findViewById(R.id.attack_bonus);
+        save_dc = (TextView) view.findViewById(R.id.save_dc);
         damage_descr = (TextView) view.findViewById(R.id.damage_descr);
 
         Button attack_roll_button = (Button) view.findViewById(R.id.attack_roll_button);
@@ -329,14 +332,16 @@ public class SpellDialogFragment extends RollableDialogFragment {
         int modifier = 0;
         if (stat != null) {
             modifier = character.getStatBlock(stat).getModifier();
-            setModifier(modifier);
+            setModifier(modifier + character.getProficiency());
         }
+
+        save_dc.setText(NumberUtils.formatNumber(8 + modifier + character.getProficiency()));
 
         // updateViews
 
 
         description.setText(spell.getDescription());
-        attack_bonus.setText(NumberUtils.formatNumber(modifier));
+        attack_bonus.setText(NumberUtils.formatNumber(modifier + character.getProficiency()));
 
         name.setText(spell.getName());
 

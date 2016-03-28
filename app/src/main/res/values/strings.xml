@@ -140,7 +140,7 @@
     <string name="choose_subclass_error">Choose subclass</string>
     <string name="armor_class_base_formula">=%s</string>
     <string name="class_and_level">%1$s (%2$d)</string>
-    <string name="stat_and_mod">%1$s (%2$d)</string>
+    <string name="stat_and_mod">%1$s (%2$s DC=%3$d)</string>
     <string name="too_many_cantrips_for_class">Too many cantrips for %s</string>
     <string name="too_many_known_spells_for_class">Too many known spells for %s</string>
     <string name="too_many_prepared_spells_for_class">Too many prepared spells for %s</string>

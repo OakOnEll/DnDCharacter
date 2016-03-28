@@ -6,8 +6,8 @@
         <proficiency>Stealth</proficiency>
     </skills>
     <tools>
-        <tool>Disguise kit</tool>
-        <tool>Thieves' tools</tool>
+        <proficiency>Disguise kit</proficiency>
+        <proficiency>Thieves' tools</proficiency>
     </tools>
     <equipment>
         <item>small knife</item>

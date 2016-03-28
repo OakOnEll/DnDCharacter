@@ -497,6 +497,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 if (info != null && info.usesPreparedSpells()) {
                     characterSpell.setPreparable(true);
                 }
+                if (stat == null) {
+                    stat = info.getCastingStat();
+                }
             }
 
 
