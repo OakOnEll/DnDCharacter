@@ -117,7 +117,16 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
                 sub.clear();
 
                 for (final CharacterRow each : characters) {
-                    MenuItem subitem = sub.add(each.name + "- " + each.classesString);
+                    String name = each.getName();
+                    if (name == null || name.trim().length() == 0) {
+                        name = getString(R.string.unnamed_character);
+                    }
+                    String classesString = each.classesString;
+                    if (classesString == null) {
+                        each.classesString = getString(R.string.no_class);
+                    }
+
+                    MenuItem subitem = sub.add(name + "- " + classesString);
                     subitem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
