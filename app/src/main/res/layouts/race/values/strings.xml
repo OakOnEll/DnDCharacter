@@ -68,4 +68,5 @@
     <string name="adjustments_title">Adjustments</string>
     <string name="root_ac">Root AC</string>
     <string name="modifying_acs">Modifying ACs</string>
+    <string name="unknown">[unknown]</string>
 </resources>

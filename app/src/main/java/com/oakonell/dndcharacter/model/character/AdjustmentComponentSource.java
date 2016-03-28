@@ -25,6 +25,12 @@ public class AdjustmentComponentSource implements ComponentSource {
         return resources.getString(getType().getStringResId()) + ": " + adjustment.comment;
     }
 
+    @NonNull
+    @Override
+    public String getAsSourceString(Resources resources) {
+        return resources.getString(getType().getStringResId()) + ": " + adjustment.comment;
+    }
+
     @Nullable
     @Override
     public ComponentType getType() {

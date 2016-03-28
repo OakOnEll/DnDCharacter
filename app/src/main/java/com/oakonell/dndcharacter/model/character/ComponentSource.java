@@ -20,4 +20,5 @@ public interface ComponentSource {
     String getActiveFormula();
 
 
+    String getAsSourceString(Resources resources);
 }

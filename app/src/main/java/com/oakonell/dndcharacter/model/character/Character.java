@@ -1765,7 +1765,12 @@ public class Character {
         @NonNull
         public String getSourceString(@NonNull Resources resources) {
             if (source == null) return resources.getString(R.string.no_component_source);
-            return source.getSourceString(resources);
+            return source.getAsSourceString(resources);
+        }
+
+        public String getShortSourceString(Resources resources) {
+            if (source == null) return resources.getString(R.string.no_component_source);
+            return source.getName();
         }
 
         public boolean isAdjustment() {
@@ -1783,6 +1788,7 @@ public class Character {
                 throw new RuntimeException("Shouldn't set the active state of a non-custom");
             }
         }
+
     }
 
     public void addExperience(int xp) {
@@ -2453,6 +2459,11 @@ public class Character {
             return resources.getString(stringResId);
         }
 
+        @Override
+        public String getAsSourceString(Resources resources) {
+            return getName();
+        }
+
         @Nullable
         @Override
         public ComponentType getType() {
@@ -2464,6 +2475,8 @@ public class Character {
         public String getActiveFormula() {
             return null;
         }
+
+
     }
 
     public int getDeathSaveFails() {

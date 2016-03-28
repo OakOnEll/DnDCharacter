@@ -57,6 +57,12 @@ public class CharacterClass extends BaseCharacterComponent {
         return resources.getString(getType().getStringResId()) + ": " + getName() + " " + level;
     }
 
+
+    @NonNull
+    public String getAsSourceString(@NonNull Resources resources) {
+        return resources.getString(getType().getStringResId()) + ": " + getName() + " " + level;
+    }
+
     public int getLevel() {
         return level;
     }

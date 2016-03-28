@@ -69,7 +69,7 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
         charSpell.setName(name);
 
         String school = XmlUtils.getElementText(element, "school");
-        charSpell.setSchool(school);
+        charSpell.setSchool(SpellSchool.valueOf(school));
 
 
         //charSpell.setAttackType();

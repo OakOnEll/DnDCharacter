@@ -6,9 +6,11 @@ import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
+import com.oakonell.dndcharacter.model.spell.SpellSchool;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 /**
  * Created by Rob on 1/13/2016.
  */
+@Root(strict=false)
 public class CharacterSpell extends BaseCharacterComponent {
     @Element(required = false)
     private String ownerName;
@@ -27,7 +30,7 @@ public class CharacterSpell extends BaseCharacterComponent {
     @Element(required = false)
     private int level;
     @Element(required = false)
-    private String school;
+    private SpellSchool spellSchool;
 
     @Element(required = false)
     private SpellRange rangeType;
@@ -118,8 +121,8 @@ public class CharacterSpell extends BaseCharacterComponent {
     }
 
 
-    public String getSchool() {
-        return school;
+    public SpellSchool getSchool() {
+        return spellSchool;
     }
 
     public SpellRange getRangeType() {
@@ -189,8 +192,8 @@ public class CharacterSpell extends BaseCharacterComponent {
         this.level = level;
     }
 
-    public void setSchool(String school) {
-        this.school = school;
+    public void setSchool(SpellSchool school) {
+        this.spellSchool = school;
     }
 
     public void setRangeType(SpellRange rangeType) {

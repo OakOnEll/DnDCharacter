@@ -160,6 +160,12 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
 
     @NonNull
     public String getSourceString(@NonNull Resources resources) {
+        return resources.getString(getType().getStringResId())  + ": " + getName();
+    }
+
+
+    @NonNull
+    public String getAsSourceString(@NonNull Resources resources) {
         return resources.getString(getType().getStringResId()) + ": " + getName();
     }
 

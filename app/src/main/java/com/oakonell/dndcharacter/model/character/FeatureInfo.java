@@ -53,6 +53,11 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return source.getSourceString(resources);
     }
 
+    @Override
+    public String getAsSourceString(Resources resources) {
+        return getSourceString(resources) + ":" + getName();
+    }
+
     @NonNull
     @Override
     public ComponentType getType() {

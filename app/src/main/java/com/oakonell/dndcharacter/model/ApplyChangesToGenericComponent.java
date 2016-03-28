@@ -201,12 +201,13 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     @Override
     protected void visitFeature(@NonNull Element element) {
         String name = XmlUtils.getElementText(element, "name");
-
+        BaseCharacterComponent oldComponent = currentComponent;
         String oldSpellPrefix = spellPrefix;
         spellPrefix = name;
 
 
         Feature feature = new Feature();
+        currentComponent = feature;
         feature.setName(name);
         feature.setDescription(XmlUtils.getElementText(element, "shortDescription"));
         // TODO handle refreshes, and other data in XML
@@ -251,10 +252,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String usesSpellSlot = XmlUtils.getElementText(element, "useSpellSlot");
         feature.setUsesSpellSlot("true".equals(usesSpellSlot));
 
-        BaseCharacterComponent oldComponent = currentComponent;
-        currentComponent = feature;
         super.visitFeature(element);
-        currentComponent = oldComponent;
 
         if (useType != null) {
             feature.setUseType(useType);
@@ -287,8 +285,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         final String condition = XmlUtils.getElementText(element, "condition");
         feature.setActiveFormula(condition);
 
+        currentComponent = oldComponent;
         currentComponent.addFeature(feature);
-
         spellPrefix = oldSpellPrefix;
 
     }
@@ -488,6 +486,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
             ApplyChangesToGenericComponent.applyToCharacter(context, root, null, characterSpell, null, false);
             characterSpell.setLevel(spell.getLevel());
+            characterSpell.setSchool(spell.getSchool());
+            //String castingTime = XmlUtils.getElementText(element, "castingTime");
+            //characterSpell.setCastingTime();
+
         } else {
             characterSpell = new CharacterSpell();
             characterSpell.setLevel(1);
@@ -579,6 +581,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             characterSpell = new CharacterSpell();
             final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
             ApplyChangesToGenericComponent.applyToCharacter(context, root, null, characterSpell, null, false);
+            characterSpell.setSchool(spell.getSchool());
         } else {
             characterSpell = new CharacterSpell();
         }

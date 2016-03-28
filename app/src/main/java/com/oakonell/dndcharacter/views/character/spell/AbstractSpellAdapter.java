@@ -62,8 +62,17 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
         @Override
         public void bind(@NonNull final SpellsFragment context, @NonNull final AbstractSpellAdapter adapter, @NonNull final Character.CharacterSpellWithSource info) {
             name.setText(info.getSpell().getName());
-            school.setText(info.getSpell().getSchool());
-            source.setText(info.getSourceString(context.getResources()));
+            if (info.getSpell().getSchool() != null) {
+                school.setText(context.getString(info.getSpell().getSchool().getStringResId()));
+            } else {
+                school.setText(R.string.unknown);
+            }
+            if (context.getResources().getBoolean(R.bool.large)) {
+                source.setText(info.getSourceString(context.getResources()));
+            } else {
+                // TODO short
+                source.setText(info.getShortSourceString(context.getResources()));
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
