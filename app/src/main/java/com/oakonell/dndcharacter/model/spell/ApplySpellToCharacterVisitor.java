@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.utils.XmlUtils;
@@ -69,7 +70,7 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
         charSpell.setName(name);
 
         String school = XmlUtils.getElementText(element, "school");
-        charSpell.setSchool(SpellSchool.valueOf(school));
+        charSpell.setSchool(EnumHelper.stringToEnum(school, SpellSchool.class));
 
 
         //charSpell.setAttackType();
