@@ -25,6 +25,7 @@ import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.characters.CharactersListActivity;
 import com.oakonell.dndcharacter.views.classes.ClassesListActivity;
 import com.oakonell.dndcharacter.views.effect.EffectsListActivity;
+import com.oakonell.dndcharacter.views.exports.ExportActivity;
 import com.oakonell.dndcharacter.views.feat.FeatsListActivity;
 import com.oakonell.dndcharacter.views.imports.ImportActivity;
 import com.oakonell.dndcharacter.views.item.ItemsListActivity;
@@ -220,7 +221,8 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
             Intent intent = new Intent(this, ImportActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
-
+            Intent intent = new Intent(this, ExportActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_send) {
 
         }

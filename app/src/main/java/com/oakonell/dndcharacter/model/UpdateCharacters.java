@@ -13,6 +13,8 @@ import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
 import com.oakonell.dndcharacter.model.race.ApplyRaceToCharacterVisitor;
 import com.oakonell.dndcharacter.model.race.Race;
+import com.oakonell.dndcharacter.utils.ProgressData;
+import com.oakonell.dndcharacter.utils.ProgressUpdater;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -24,25 +26,21 @@ import java.util.List;
  * Created by Rob on 3/17/2016.
  */
 public class UpdateCharacters {
-    public static class CharacterUpdateResult {
-        public int updated;
-        public int failed;
-    }
 
     public static int getNumberCharacters() {
         return new Select().from(CharacterRow.class).count();
     }
 
-    public interface UpdateCharacterProgress {
-        void progress(int updated, int error);
-    }
-
-    public static CharacterUpdateResult updateCharacters(Context context, UpdateCharacterProgress progress) {
-        CharacterUpdateResult result = new CharacterUpdateResult();
+    public static ProgressData updateCharacters(Context context, ProgressUpdater progress) {
+        ProgressData result = new ProgressData();
         final List<CharacterRow> list = new Select().from(CharacterRow.class).execute();
         Serializer serializer = new Persister();
+        result.total = list.size();
 
         for (CharacterRow each : list) {
+            if (progress.isCancelled()) {
+                return result;
+            }
             try {
                 ByteArrayInputStream input = new ByteArrayInputStream(each.xml.getBytes());
                 Character character = serializer.read(Character.class, input);
@@ -91,15 +89,12 @@ public class UpdateCharacters {
                     Log.d("UpdateCharacters", "Character " + character.getName() + " was updated on import");
                     CharacterRow.saveCharacter(context, serializer, character, each.getId());
                 }
-
-            } catch (InterruptedException e) {
-                // continue
             } catch (Exception e) {
                 Log.e("UpdateCharacters", "Error updating character " + each.getName() + ": " + e.getMessage(), e);
-                result.failed++;
+                result.error++;
             }
-            result.updated++;
-            progress.progress(result.updated, result.failed);
+            result.progress++;
+            progress.progress(result);
         }
         return result;
     }

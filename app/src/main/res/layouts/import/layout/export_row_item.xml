@@ -11,50 +11,41 @@
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/should_import"
+            android:id="@+id/should_export"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/imported"
+            android:id="@+id/exported"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_agenda"
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="5dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="Class" />
-
-        <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="Wizard" />
+            tools:text="Character Name" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginLeft="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/error"
+            android:id="@+id/race_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            tools:text="Character race" />
 
         <TextView
-            android:id="@+id/info"
+            android:id="@+id/classes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_marginLeft="10dp"
+            tools:text="Character class levels" />
     </LinearLayout>
 </LinearLayout>

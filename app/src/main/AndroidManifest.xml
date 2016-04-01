@@ -58,6 +58,46 @@
         </activity>
         <activity
             android:name=".views.imports.ImportActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\\_dnd.xml" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:pathPattern=".*\\_dnd.xml" />
+                <!--                <data android:host="*" />
+                -->
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <!-- for google drive -->
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="content" />
+                <data android:mimeType="text/xml" />
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <!-- for email -->
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="content" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".views.exports.ExportActivity"
             android:label="@string/app_name" />
 
         <meta-data
@@ -70,6 +110,15 @@
             android:name="AA_DB_VERSION"
             android:value="12" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.oakonell.dndcharacter.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <provider
             android:name="com.oakonell.dndcharacter.model.DnDContentProvider"
             android:authorities="com.oakonell.dndcharacter"

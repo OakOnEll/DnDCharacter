@@ -1,14 +1,14 @@
 @echo off
     echo Starting..
-del data.xml
+del all_data_dnd.xml
 set output=%cd%/data.out
 echo ^<root^> > %output%
 call :treeProcess
 echo ^</root^> >> %output%
 echo. >> %output%
 
-rename data.out data.xml
-xcopy /bvy  data.xml E:\RobDropBox\Dropbox\shared\dndAppData.xml
+rename data.out all_data_dnd.xml
+xcopy /bvy  all_data_dnd.xml E:\RobDropBox\Dropbox\shared\dndAppData_dnd.xml
 
 goto :eof
 

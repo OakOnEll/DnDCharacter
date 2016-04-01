@@ -3,27 +3,31 @@ package com.oakonell.dndcharacter.model;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.background.Background;
+import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.effect.Effect;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.model.spell.Spell;
+import com.oakonell.dndcharacter.utils.ProgressData;
+import com.oakonell.dndcharacter.utils.ProgressReportingInputStream;
+import com.oakonell.dndcharacter.utils.ProgressUpdater;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +43,14 @@ import java.util.List;
  */
 public class DataImporter {
     public static final int BYTE_BUFFER_SIZE = 4096;
+    private final Context context;
+    private final List<DataImporter.ImportRow> importRows = new ArrayList<>();
+
     boolean fileRead;
+
+    public DataImporter(Context context) {
+        this.context = context;
+    }
 
     public static class DataImportException extends RuntimeException {
         private final int messageResource;
@@ -78,13 +89,7 @@ public class DataImporter {
         importRows.clear();
     }
 
-    public interface LoadProgress {
-        void progress(long bytes, long total);
-
-        boolean isCancelled();
-    }
-
-    public void loadUrl(@NonNull Context context, @NonNull URL url, @NonNull LoadProgress progress) {
+    public void loadUrl(@NonNull Context context, @NonNull URL url, @NonNull final ProgressUpdater progress) {
         fileRead = false;
         InputStream input = null;
         OutputStream output = null;
@@ -123,11 +128,16 @@ public class DataImporter {
                 // publishing the progress....
                 if (fileLength > 0) {
                     // only if total length is known
-                    progress.progress(total, fileLength);
+                    ProgressData progressData = new ProgressData();
+                    progressData.progress = total;
+                    progressData.total = fileLength;
+                    progress.progress(progressData);
                 }
                 output.write(data, 0, count);
             }
-            loadFile(outputFile);
+
+
+            loadFile(Uri.fromFile(outputFile), progress);
             // delete the file when no longer needed..
             outputFile.delete();
         } catch (IOException e) {
@@ -147,9 +157,6 @@ public class DataImporter {
         }
     }
 
-    public interface ImportProgress {
-        void progress(ImportResult progress);
-    }
 
     public static boolean hasAtLeastMinimalData() {
         Cursor c = ActiveAndroid.getDatabase().rawQuery("SELECT COUNT(*) as total FROM race", null);
@@ -163,24 +170,25 @@ public class DataImporter {
 
     }
 
-    private final List<DataImporter.ImportRow> importRows = new ArrayList<>();
-
     @NonNull
     public List<ImportRow> getImportRows() {
         return importRows;
     }
 
-    public static class ImportResult {
-        public int failed = 0;
+    public static class ImportResult extends ProgressData {
         public int updated = 0;
         public int added = 0;
 
-        public UpdateCharacters.CharacterUpdateResult characterResult;
+        public boolean needToUpdateCharacters = false;
+
+
+        public ProgressData characterResult;
     }
 
     public static class ImportRow {
         public boolean imported;
         public String message;
+        public String info;
         public boolean shouldImport;
         public String type;
         @Nullable
@@ -188,16 +196,11 @@ public class DataImporter {
         public Element element;
     }
 
-    public void loadFile(@NonNull String filename) {
-        File file = new File(filename);
-        loadFile(file);
-    }
 
-
-    protected void loadFile(@NonNull File file) {
+    public void loadFile(@NonNull Uri uri, ProgressUpdater progress) {
         fileRead = false;
         importRows.clear();
-        Document doc = readDocument(file);
+        Document doc = readDocument(uri, progress);
         Element root = doc.getDocumentElement();
         List<Element> children = XmlUtils.getChildElements(root);
         for (Element each : children) {
@@ -206,7 +209,15 @@ public class DataImporter {
             ImportRow row = new ImportRow();
             row.name = name;
             row.type = type;
-            row.shouldImport = true;
+            if (row.type.toLowerCase().equals("character")) {
+                CharacterRow model = new Select().from(CharacterRow.class).where("name = ?", row.name).executeSingle();
+                row.shouldImport = model == null;
+                if (model != null) {
+                    row.info = context.getString(R.string.character_already_exists);
+                }
+            } else {
+                row.shouldImport = true;
+            }
             row.element = each;
             importRows.add(row);
         }
@@ -214,15 +225,25 @@ public class DataImporter {
     }
 
     @Nullable
-    private Document readDocument(@NonNull File file) {
-        FileInputStream in;
+    private Document readDocument(@NonNull Uri uri, ProgressUpdater progress) {
+        InputStream in = null;
         try {
-            in = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            throw new DataImportException(e, R.string.file_not_found);
+            in = new ProgressReportingInputStream(context.getContentResolver().openInputStream(uri), progress);
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading uri " + uri.toString(), e);
+        } catch (ProgressReportingInputStream.InputStreamCanceled e) {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e1) {
+                    Log.e("DataImporter", "Error while closing a canceled input stream read", e);
+                }
+            }
+            return null;
         }
         return XmlUtils.getDocument(in);
     }
+
 
     public int getNumberToImport() {
         int num = 0;
@@ -233,11 +254,20 @@ public class DataImporter {
     }
 
     @NonNull
-    public ImportResult importRows(@Nullable ImportProgress progress) {
+    public ImportResult importRows(@Nullable ProgressUpdater progress) {
         DataImporter.ImportResult result = new DataImporter.ImportResult();
 
         for (DataImporter.ImportRow each : importRows) {
             if (!each.shouldImport) continue;
+            result.total++;
+        }
+        result.needToUpdateCharacters = false;
+        for (DataImporter.ImportRow each : importRows) {
+            if (!each.shouldImport) continue;
+
+            if (progress.isCancelled()) {
+                return result;
+            }
 
             boolean success = true;
             Class<? extends AbstractComponentModel> modelClass;
@@ -245,29 +275,40 @@ public class DataImporter {
             switch (each.type.toLowerCase()) {
                 case "background":
                     modelClass = Background.class;
+                    result.needToUpdateCharacters = true;
                     break;
                 case "class":
                     modelClass = AClass.class;
+                    result.needToUpdateCharacters = true;
                     break;
                 case "race":
                     modelClass = Race.class;
+                    result.needToUpdateCharacters = true;
                     break;
                 case "item":
                     modelClass = ItemRow.class;
+                    result.needToUpdateCharacters = true;
                     break;
                 case "effect":
                     modelClass = Effect.class;
+                    result.needToUpdateCharacters = true;
                     break;
                 case "spell":
                     modelClass = Spell.class;
+                    result.needToUpdateCharacters = true;
                     break;
                 case "feat":
                     modelClass = Feat.class;
+                    result.needToUpdateCharacters = true;
+                    break;
+                case "character":
+                    // TODO warn about character overwrites..
+                    modelClass = CharacterRow.class;
                     break;
                 default:
                     each.message = "Not imported. Type not handled";
                     modelClass = null;
-                    result.failed++;
+                    result.error++;
                     success = false;
             }
 
@@ -286,10 +327,12 @@ public class DataImporter {
                     } else {
                         result.added++;
                     }
+                    result.progress++;
                     each.imported = true;
                     each.shouldImport = false;
                 } catch (Exception e) {
-                    result.failed++;
+                    result.error++;
+                    result.progress++;
                     each.message = "Error importing. " + e.getMessage();
                 }
             }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -14,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +35,12 @@ import com.oakonell.dndcharacter.BuildConfig;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.DataImporter;
 import com.oakonell.dndcharacter.model.UpdateCharacters;
+import com.oakonell.dndcharacter.utils.ProgressData;
+import com.oakonell.dndcharacter.utils.ProgressUpdater;
+import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,7 +58,7 @@ public class ImportActivity extends AppCompatActivity {
     private static final String PREF_LAST_IMPORT_TYPE = "lastImportType";
 
     @NonNull
-    private DataImporter importer = new DataImporter();
+    private DataImporter importer = new DataImporter(this);
 
     private Spinner importTypeSpinner;
     private TextView filenameText;
@@ -67,11 +73,13 @@ public class ImportActivity extends AppCompatActivity {
     private RecyclerView listView;
     private Button importRowsButton;
     private RecyclerView.Adapter<ImportRowViewHolder> listAdapter;
+    private int lastTypePosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import);
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setSubtitle(R.string.import_title);
@@ -107,15 +115,6 @@ public class ImportActivity extends AppCompatActivity {
         float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (importTypeSpinner.getPrompt().length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, importTypeSpinner.getResources().getDisplayMetrics());
         importTypeSpinner.setMinimumWidth((int) minWidth);
 
-        Button done = (Button) findViewById(R.id.done);
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-
         List<String> list = new ArrayList<>();
         list.add(getString(ImportType.FILE.getResourceId()));
         list.add(getString(ImportType.URL.getResourceId()));
@@ -125,18 +124,56 @@ public class ImportActivity extends AppCompatActivity {
         importTypeSpinner.setAdapter(dataAdapter);
 
 
+        Button done = (Button) findViewById(R.id.done);
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
         listAdapter = new ImportRowAdapter(this, importer.getImportRows());
         listView.setAdapter(listAdapter);
         listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listView.setHasFixedSize(false);
 
-        ImportInputs defaultedInputs = getDefaultedInputs(savedInstanceState);
 
-        int typeIndex = defaultedInputs.type == ImportType.FILE ? 0 : 1;
-        importTypeSpinner.setSelection(typeIndex);
-        filenameText.setText(defaultedInputs.name);
-        if (defaultedInputs.name != null && typeIndex == 0) {
-            attemptToLoadFile(defaultedInputs.name);
+        Intent intent = getIntent();
+        final Uri data = intent.getData();
+        if (data != null) {
+            Log.i("Import", "Importing from intent data..");
+            final String scheme = data.getScheme();
+            if (scheme.equals("content") || scheme.equals("file")) {
+                Log.i("Import", "Importing from 'file' data..");
+                int typeIndex = FILE_TYPE_INDEX;
+                importTypeSpinner.setSelection(typeIndex);
+                filenameText.setText(data.toString());
+                attemptToLoadFile(data);
+                importTypeSpinner.setEnabled(false);
+                searchButton.setVisibility(View.GONE);
+            } else if (scheme.equals("http")) {
+                Log.i("Import", "Importing from http data..");
+                int typeIndex = URL_TYPE_INDEX;
+                importTypeSpinner.setSelection(typeIndex);
+                filenameText.setText(data.toString());
+                loadUrl(data.toString());
+                importTypeSpinner.setEnabled(false);
+            } else {
+                // report an error? shouldn't get here, based on AndroidManifest Intent filters
+            }
+        } else {
+            Log.i("Import", "Importing from saved inputs..");
+            ImportInputs defaultedInputs = getDefaultedInputs(savedInstanceState);
+
+            int typeIndex = defaultedInputs.type == ImportType.FILE ? 0 : 1;
+            importTypeSpinner.setSelection(typeIndex);
+            filenameText.setText(defaultedInputs.name);
+            if (defaultedInputs.name != null && typeIndex == 0) {
+                File file = new File(defaultedInputs.name);
+                final Uri uri = Uri.fromFile(file);
+                attemptToLoadFile(uri);
+            }
         }
 
 
@@ -154,9 +191,12 @@ public class ImportActivity extends AppCompatActivity {
             }
         });
 
+        lastTypePosition = importTypeSpinner.getSelectedItemPosition();
         importTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (importTypeSpinner.getSelectedItemPosition() == lastTypePosition) return;
+
                 import_summary.setText("");
                 character_update_summary.setText("");
                 importer.clear();
@@ -165,8 +205,11 @@ public class ImportActivity extends AppCompatActivity {
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ImportActivity.this);
                     String filename = sharedPrefs.getString(EXTRA_FILE_PATH, null);
                     filenameText.setText(filename);
+                    File file = new File(filename);
+                    final Uri uri = Uri.fromFile(file);
+
                     if (filename != null) {
-                        attemptToLoadFile(filename);
+                        attemptToLoadFile(uri);
                     }
                 } else {
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ImportActivity.this);
@@ -174,6 +217,7 @@ public class ImportActivity extends AppCompatActivity {
                     filenameText.setText(filename);
                 }
                 updateViews();
+                lastTypePosition = position;
             }
 
             @Override
@@ -194,6 +238,7 @@ public class ImportActivity extends AppCompatActivity {
         downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                import_summary.setText("");
                 final String url = filenameText.getText().toString();
                 loadUrl(url);
             }
@@ -209,11 +254,11 @@ public class ImportActivity extends AppCompatActivity {
         updateViews();
     }
 
-    private void attemptToLoadFile(@NonNull final String filename) {
-        attemptToLoadFile(filename, null);
+    private void attemptToLoadFile(@NonNull final Uri uri) {
+        attemptToLoadFile(uri, null);
     }
 
-    private void attemptToLoadFile(@NonNull final String filename, @Nullable final Runnable uiContinuation) {
+    private void attemptToLoadFile(@NonNull final Uri uri, @Nullable final Runnable uiContinuation) {
         final ProgressDialog barProgressDialog = new ProgressDialog(this);
         barProgressDialog.setTitle(getString(R.string.loading_file_title));
         barProgressDialog.setMessage(getString(R.string.loading_file));
@@ -222,37 +267,7 @@ public class ImportActivity extends AppCompatActivity {
         barProgressDialog.show();
         barProgressDialog.setCancelable(false);
 
-        AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
-            @Nullable
-            @Override
-            protected String doInBackground(Void... params) {
-                try {
-                    importer.loadFile(filename);
-
-                } catch (DataImporter.DataImportException e) {
-                    return e.getMessageText(getResources());
-
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(@Nullable String result) {
-                barProgressDialog.dismiss();
-                if (result != null) {
-                    import_summary.setText(result);
-                } else {
-                    changingSelectState = true;
-                    select_all.setChecked(true);
-                    changingSelectState = false;
-                    if (uiContinuation != null) {
-                        uiContinuation.run();
-                    }
-                }
-                listAdapter.notifyDataSetChanged();
-                updateViews();
-            }
-        };
+        AsyncTask<Void, ProgressData, String> task = new LoadFileTask(uri, barProgressDialog, uiContinuation);
         task.execute();
     }
 
@@ -336,6 +351,7 @@ public class ImportActivity extends AppCompatActivity {
 
 
     private void importRows() {
+        import_summary.setText("");
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor edit = sharedPrefs.edit();
         edit.putInt(PREF_LAST_IMPORT_TYPE, importTypeSpinner.getSelectedItemPosition());
@@ -350,65 +366,8 @@ public class ImportActivity extends AppCompatActivity {
         barProgressDialog.show();
         barProgressDialog.setCancelable(false);
 
-        AsyncTask<Void, Integer, DataImporter.ImportResult> task = new AsyncTask<Void, Integer, DataImporter.ImportResult>() {
-            boolean scrollImportList = true;
-
-            @NonNull
-            @Override
-            protected DataImporter.ImportResult doInBackground(Void... params) {
-                DataImporter.ImportProgress progress = new DataImporter.ImportProgress() {
-                    @Override
-                    public void progress(@NonNull DataImporter.ImportResult progress) {
-                        publishProgress(progress.updated + progress.added, progress.failed);
-                    }
-                };
-                DataImporter.ImportResult result = importer.importRows(progress);
-                if (result.updated > 0) {
-                    // update any characters that may be affected by imported data
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            barProgressDialog.setMessage(getString(R.string.updating_characters));
-                            barProgressDialog.setMax(UpdateCharacters.getNumberCharacters());
-
-                        }
-                    });
-                    scrollImportList = false;
-                    UpdateCharacters.UpdateCharacterProgress charProgress = new UpdateCharacters.UpdateCharacterProgress() {
-                        @Override
-                        public void progress(int updated, int error) {
-                            publishProgress(updated, error);
-                        }
-                    };
-                    UpdateCharacters.CharacterUpdateResult charResult = UpdateCharacters.updateCharacters(ImportActivity.this, charProgress);
-                    result.characterResult = charResult;
-                }
-                return result;
-            }
-
-
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                barProgressDialog.setProgress(values[0]);
-                if (scrollImportList) {
-                    listView.smoothScrollToPosition(values[0] + values[1]);
-                }
-            }
-
-            @Override
-            protected void onPostExecute(@NonNull DataImporter.ImportResult importResult) {
-                import_summary.setText(getString(R.string.import_summary, importResult.added, importResult.updated, importResult.failed));
-                if (importResult.characterResult != null) {
-                    character_update_summary.setText(getString(R.string.character_update_summary, importResult.characterResult.updated, importResult.characterResult.failed));
-                }
-                barProgressDialog.dismiss();
-                listAdapter.notifyDataSetChanged();
-                updateViews();
-            }
-        };
+        AsyncTask<Void, ProgressData, DataImporter.ImportResult> task = new ImportTask(barProgressDialog);
         task.execute();
-
-
     }
 
     @Override
@@ -435,7 +394,9 @@ public class ImportActivity extends AppCompatActivity {
                     edit.apply();
                 }
             };
-            attemptToLoadFile(filename, uiContinuation);
+            File file = new File(filename);
+            final Uri uri = Uri.fromFile(file);
+            attemptToLoadFile(uri, uiContinuation);
             updateViews();
 
             // Do anything with file
@@ -443,7 +404,7 @@ public class ImportActivity extends AppCompatActivity {
     }
 
 
-    public static class ImportRowViewHolder extends RecyclerView.ViewHolder {
+    public static class ImportRowViewHolder extends BindableComponentViewHolder<DataImporter.ImportRow, ImportActivity, ImportRowAdapter> {
         @NonNull
         final CheckBox should_import;
         @NonNull
@@ -454,6 +415,7 @@ public class ImportActivity extends AppCompatActivity {
         final ImageView imported;
         @NonNull
         final TextView error;
+        private final TextView info;
 
         public ImportRowViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -461,8 +423,55 @@ public class ImportActivity extends AppCompatActivity {
             name = (TextView) itemView.findViewById(R.id.name);
             type = (TextView) itemView.findViewById(R.id.type);
             error = (TextView) itemView.findViewById(R.id.error);
+            info = (TextView) itemView.findViewById(R.id.info);
             imported = (ImageView) itemView.findViewById(R.id.imported);
 
+        }
+
+        @Override
+        public void bind(final ImportActivity activity, final ImportRowAdapter adapter, final DataImporter.ImportRow row) {
+            name.setText(row.name);
+            if (row.info != null) {
+                info.setText(row.info);
+                info.setVisibility(View.VISIBLE);
+            } else {
+                info.setVisibility(View.GONE);
+                info.setText("");
+            }
+            type.setText(row.type);
+            should_import.setOnCheckedChangeListener(null);
+            should_import.setChecked(row.shouldImport);
+            if (row.imported) {
+                should_import.setVisibility(View.GONE);
+                imported.setVisibility(View.VISIBLE);
+            } else {
+                should_import.setVisibility(View.VISIBLE);
+                imported.setVisibility(View.GONE);
+            }
+            if (row.message != null) {
+                error.setText(row.message);
+                error.setVisibility(View.VISIBLE);
+            } else {
+                error.setVisibility(View.GONE);
+                error.setText("");
+            }
+
+            should_import.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    row.shouldImport = isChecked;
+                    activity.importRowsButton.setEnabled(activity.importer.getNumberToImport() > 0);
+
+                    final boolean selectAllChecked = activity.select_all.isChecked();
+                    if (selectAllChecked && !isChecked) {
+                        activity.changingSelectState = true;
+                        activity.select_all.setChecked(false);
+                        activity.changingSelectState = false;
+                    }
+
+
+                }
+            });
         }
     }
 
@@ -486,39 +495,7 @@ public class ImportActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ImportRowViewHolder holder, int position) {
             final DataImporter.ImportRow row = getItem(position);
-            holder.name.setText(row.name);
-            holder.type.setText(row.type);
-            holder.should_import.setOnCheckedChangeListener(null);
-            holder.should_import.setChecked(row.shouldImport);
-            if (row.imported) {
-                holder.should_import.setVisibility(View.GONE);
-                holder.imported.setVisibility(View.VISIBLE);
-            } else {
-                holder.should_import.setVisibility(View.VISIBLE);
-                holder.imported.setVisibility(View.GONE);
-            }
-            if (row.message != null) {
-                holder.error.setText(row.message);
-            } else {
-                holder.error.setText("");
-            }
-
-            holder.should_import.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    row.shouldImport = isChecked;
-                    activity.importRowsButton.setEnabled(activity.importer.getNumberToImport() > 0);
-
-                    final boolean selectAllChecked = activity.select_all.isChecked();
-                    if (selectAllChecked && !isChecked) {
-                        activity.changingSelectState = true;
-                        activity.select_all.setChecked(false);
-                        activity.changingSelectState = false;
-                    }
-
-
-                }
-            });
+            holder.bind(activity, this, row);
         }
 
         public DataImporter.ImportRow getItem(int position) {
@@ -534,7 +511,7 @@ public class ImportActivity extends AppCompatActivity {
 
     // usually, subclasses of AsyncTask are declared inside the activity class.
 // that way, you can easily modify the UI thread from here
-    private class DownloadTask extends AsyncTask<String, Long, String> {
+    private class DownloadTask extends AsyncTask<String, ProgressData, String> {
         private Context context;
         private String urlString;
 
@@ -546,10 +523,10 @@ public class ImportActivity extends AppCompatActivity {
         @Nullable
         @Override
         protected String doInBackground(String... sUrl) {
-            DataImporter.LoadProgress progress = new DataImporter.LoadProgress() {
+            ProgressUpdater progress = new ProgressUpdater() {
                 @Override
-                public void progress(long bytes, long total) {
-                    publishProgress(bytes, total);
+                public void progress(ProgressData data) {
+                    publishProgress(data);
                 }
 
                 @Override
@@ -571,17 +548,21 @@ public class ImportActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(Long... progress) {
-            super.onProgressUpdate(progress);
+        protected void onProgressUpdate(ProgressData... progress) {
             // if we get here, length is known, now set indeterminate to false
             mUrlDownloadProgressDialog.setIndeterminate(false);
 
             // not going to be downloading gb files, I assume...
-            int downloaded = (int) (long) progress[0];
-            int total = (int) (long) progress[1];
+            int downloaded = (int) (long) progress[0].progress;
+            int total = (int) (long) progress[0].total;
 
             mUrlDownloadProgressDialog.setMax(total);
             mUrlDownloadProgressDialog.setProgress(downloaded);
+
+            final String message = progress[0].message;
+            if (message != null && message.trim().length() > 0) {
+                mUrlDownloadProgressDialog.setMessage(message);
+            }
         }
 
         @Override
@@ -622,6 +603,139 @@ public class ImportActivity extends AppCompatActivity {
         ImportType type;
         @Nullable
         String name;
+    }
+
+    private final class LoadFileTask extends AsyncTask<Void, ProgressData, String> {
+        private final ProgressDialog barProgressDialog;
+        private final Uri uri;
+        private final Runnable uiContinuation;
+
+        LoadFileTask(Uri uri, ProgressDialog barProgressDialog, Runnable uiContinuation) {
+            this.uri = uri;
+            this.barProgressDialog = barProgressDialog;
+            this.uiContinuation = uiContinuation;
+        }
+
+        @Nullable
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                importer.loadFile(uri, new ProgressUpdater() {
+                    @Override
+                    public void progress(ProgressData progress) {
+                        publishProgress(progress);
+                    }
+
+                    @Override
+                    public boolean isCancelled() {
+                        return LoadFileTask.this.isCancelled();
+                    }
+                });
+
+            } catch (DataImporter.DataImportException e) {
+                return e.getMessageText(getResources());
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(ProgressData... values) {
+            // TODO worry about size exceeding int storage bytes?
+            barProgressDialog.setIndeterminate(false);
+            barProgressDialog.setProgress((int) values[0].progress);
+            barProgressDialog.setMax((int) values[0].total);
+            final String message = values[0].message;
+            if (message != null && message.trim().length() > 0) {
+                barProgressDialog.setMessage(message);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(@Nullable String result) {
+            barProgressDialog.dismiss();
+            if (result != null) {
+                import_summary.setText(result);
+            } else {
+                changingSelectState = true;
+                select_all.setChecked(true);
+                changingSelectState = false;
+                if (uiContinuation != null) {
+                    uiContinuation.run();
+                }
+            }
+            listAdapter.notifyDataSetChanged();
+            updateViews();
+        }
+    }
+
+
+    private class ImportTask extends AsyncTask<Void, ProgressData, DataImporter.ImportResult> {
+        boolean scrollImportList = true;
+        private final ProgressDialog barProgressDialog;
+
+        ImportTask(ProgressDialog barProgressDialog) {
+            this.barProgressDialog = barProgressDialog;
+        }
+
+        @NonNull
+        @Override
+        protected DataImporter.ImportResult doInBackground(Void... params) {
+            ProgressUpdater progress = new ProgressUpdater() {
+                @Override
+                public void progress(@NonNull ProgressData progress) {
+                    publishProgress(progress);
+                }
+
+                @Override
+                public boolean isCancelled() {
+                    return ImportTask.this.isCancelled();
+                }
+            };
+            DataImporter.ImportResult result = importer.importRows(progress);
+            if (result.needToUpdateCharacters && result.updated > 0) {
+                // update any characters that may be affected by imported data
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        barProgressDialog.setMessage(getString(R.string.updating_characters));
+                        barProgressDialog.setMax(UpdateCharacters.getNumberCharacters());
+
+                    }
+                });
+                scrollImportList = false;
+                ProgressData charResult = UpdateCharacters.updateCharacters(ImportActivity.this, progress);
+                result.characterResult = charResult;
+            }
+            return result;
+        }
+
+
+        @Override
+        protected void onProgressUpdate(ProgressData... values) {
+            barProgressDialog.setProgress((int) values[0].progress);
+            if (scrollImportList) {
+                listView.smoothScrollToPosition((int) values[0].progress);
+            }
+            final String message = values[0].message;
+            if (message != null && message.trim().length() > 0) {
+                barProgressDialog.setMessage(message);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(@NonNull DataImporter.ImportResult importResult) {
+            import_summary.setText(getString(R.string.import_summary, importResult.added, importResult.updated, importResult.error));
+            if (importResult.characterResult != null) {
+                character_update_summary.setText(getString(R.string.character_update_summary, importResult.characterResult.progress, importResult.characterResult.error));
+            }
+            barProgressDialog.dismiss();
+            listAdapter.notifyDataSetChanged();
+            updateViews();
+
+            // TODO if characters were imported, finish this activity and go to the characters list if multiple, or THE character if one
+
+        }
     }
 
 }

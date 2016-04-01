@@ -70,4 +70,14 @@
     <string name="modifying_acs">Modifying ACs</string>
     <string name="unknown">[unknown]</string>
     <string name="save_dc_label">Spell Save DC</string>
+    <string name="cloud">Cloud</string>
+    <string name="export_button_lbl">Export</string>
+    <string name="characters_only_label">Characters Only</string>
+    <string name="email">Email</string>
+    <string name="export_to_file">File</string>
+    <string name="export_title">Export Characters</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="error_exporting">Error while exporting</string>
+    <string name="share_characters">Share Characters</string>
+    <string name="character_already_exists">Character already exists, will overwrite</string>
 </resources>

@@ -9,8 +9,10 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.simpleframework.xml.Serializer;
+import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -56,6 +58,24 @@ public class CharacterRow extends AbstractComponentModel {
     @Override
     public void setXml(String xml) {
         this.xml = xml;
+    }
+
+    // Used on an eg, import
+    public void setDocument(@Nullable Element doc) {
+        if (doc != null) {
+            setXml(XmlUtils.prettyPrint(doc));
+            setName(XmlUtils.getElementText(doc, "name"));
+
+            // TODO
+            classesString = "Will update after next save...";
+            race_display_name = "Will update after next save...";
+            hp = "Will update after next save...";
+            //hp = context.getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP());
+            last_updated = new Date();
+        } else {
+            setName("xml parse error- no name");
+        }
+
     }
 
     @NonNull
