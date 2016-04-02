@@ -4,19 +4,30 @@ import android.content.Context;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.utils.XmlUtils;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 import org.w3c.dom.Element;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
+
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 /**
  * Created by Rob on 11/2/2015.
@@ -61,21 +72,37 @@ public class CharacterRow extends AbstractComponentModel {
     }
 
     // Used on an eg, import
-    public void setDocument(@Nullable Element doc) {
+    public void setDocument(Context context, @Nullable Element doc) {
+        super.setDocument(context, doc);
         if (doc != null) {
-            setXml(XmlUtils.prettyPrint(doc));
-            setName(XmlUtils.getElementText(doc, "name"));
 
-            // TODO
-            classesString = "Will update after next save...";
-            race_display_name = "Will update after next save...";
-            hp = "Will update after next save...";
-            //hp = context.getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP());
+            Serializer serializer = new Persister();
+            InputStream input;
+            try {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                Source xmlSource = new DOMSource(doc);
+                Result outputTarget = new StreamResult(outputStream);
+                TransformerFactory.newInstance().newTransformer().transform(xmlSource, outputTarget);
+                InputStream is = new ByteArrayInputStream(outputStream.toByteArray());
+
+                Character character = serializer.read(Character.class, is);
+                is.close();
+
+                updateFromCharacter(context, character);
+            } catch (Exception e) {
+                classesString = "Had a serialization error...";
+                race_display_name = "Will update after next save...";
+                hp = "Will update after next save...";
+            }
+
             last_updated = new Date();
-        } else {
-            setName("xml parse error- no name");
         }
+    }
 
+    protected void updateFromCharacter(Context context, Character character) {
+        classesString = character.getClassesString();
+        race_display_name = character.getDisplayRaceName();
+        hp = context.getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP());
     }
 
     @NonNull
@@ -90,9 +117,7 @@ public class CharacterRow extends AbstractComponentModel {
             row = new CharacterRow();
             action = "Added";
         }
-        row.classesString = character.getClassesString();
-        row.race_display_name = character.getDisplayRaceName();
-        row.hp = context.getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP());
+        row.updateFromCharacter(context, character);
         row.name = character.getName();
         row.xml = xml;
         row.last_updated = new Date();

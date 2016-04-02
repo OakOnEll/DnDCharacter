@@ -327,7 +327,7 @@ public class DataImporter {
                         model = modelClass.newInstance();
                         isUpdated = false;
                     }
-                    model.setDocumentAndSave(each.element);
+                    model.setDocumentAndSave(context, each.element);
                     if (isUpdated) {
                         result.updated++;
                     } else {

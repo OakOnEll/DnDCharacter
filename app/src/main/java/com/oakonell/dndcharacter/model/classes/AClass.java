@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.classes;
 
+import android.content.Context;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -77,8 +78,8 @@ public class AClass extends AbstractComponentModel {
     }
 
     @Override
-    public void setDocument(@Nullable Element doc) {
-        super.setDocument(doc);
+    public void setDocument(Context context,@Nullable Element doc) {
+        super.setDocument(context,doc);
         if (doc == null) {
             setParentClass("XmlParseError");
         } else {

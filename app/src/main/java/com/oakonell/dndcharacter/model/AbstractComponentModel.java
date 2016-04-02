@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.Model;
@@ -19,7 +20,7 @@ public abstract class AbstractComponentModel extends Model {
 
     abstract public void setXml(String xml);
 
-    public void setDocument(@Nullable Element doc) {
+    public void setDocument(Context context, @Nullable Element doc) {
         if (doc != null) {
             setXml(XmlUtils.prettyPrint(doc));
             setName(XmlUtils.getElementText(doc, "name"));
@@ -29,8 +30,8 @@ public abstract class AbstractComponentModel extends Model {
 
     }
 
-    public void setDocumentAndSave(Element doc) {
-        setDocument(doc);
+    public void setDocumentAndSave(Context context, Element doc) {
+        setDocument(context, doc);
         save();
         addRelatedChildren(doc);
     }
