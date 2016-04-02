@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
 
     @DebugLog
     protected void updateViews(View rootView) {
+        Log.d("SheetFragment", "updateViews");
         Character character = getCharacter();
         if (character == null) {
             character_name_read_only.setText("");
@@ -121,6 +123,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
 
     public final View onCreateView(LayoutInflater inflater, ViewGroup container,
                                    @Nullable Bundle savedInstanceState) {
+        Log.d("SheetFragment", "onCreateView");
         View view = onCreateTheView(inflater, container, savedInstanceState);
         getMainActivity().addCharacterLoadLister(this);
         if (savedInstanceState != null) {
@@ -151,6 +154,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
     @DebugLog
     @Override
     public void onCharacterLoaded(@NonNull Character character) {
+        Log.d("SheetFragment", "onCharacterLoaded");
         if (getActivity() == null) return;
         character_name_read_only.setOnClickListener(new View.OnClickListener() {
             @Override

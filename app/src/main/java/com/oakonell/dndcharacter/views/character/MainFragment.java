@@ -4,6 +4,7 @@ package com.oakonell.dndcharacter.views.character;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class MainFragment extends AbstractSheetFragment {
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_sheet, container, false);
+        Log.d("Main", "onCreateTheView");
 
         superCreateViews(rootView);
         hp = (TextView) rootView.findViewById(R.id.hp);
@@ -172,9 +174,11 @@ public class MainFragment extends AbstractSheetFragment {
 
     protected void updateViews(@NonNull View rootView) {
         super.updateViews(rootView);
+        Log.d("Main", "updateViews");
         final Character character = getCharacter();
         if (character == null) {
 // TODO shouldn't be possible now...
+            Log.d("Main", "updateViews character = null");
             ac.setText("");
             initiative.setText("");
             hp.setText("0 / 0");
@@ -195,6 +199,8 @@ public class MainFragment extends AbstractSheetFragment {
             }
             return;
         }
+        Log.d("Main", "updateViews character != null");
+
         String acText = NumberUtils.formatNumber(character.getArmorClass());
         // if any TO_HIT context features, they kind of affect armor class, and will show up here
         // so that clicking will bring up the AC dialog for details
@@ -202,6 +208,7 @@ public class MainFragment extends AbstractSheetFragment {
             acText += "!";
         }
         if (ac == null) {
+            Log.d("Main", "ac = null");
             //odd state
             return;
         }

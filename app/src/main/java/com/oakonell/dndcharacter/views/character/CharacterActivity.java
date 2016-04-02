@@ -15,9 +15,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.vending.licensing.Policy;
@@ -89,11 +91,14 @@ public class CharacterActivity extends AbstractBaseActivity {
     private ViewPager mViewPager;
     private final List<OnCharacterLoaded> onCharacterLoadListeners = new ArrayList<>();
     private BackgroundCharacterLoader characterLoader;
+    private ContentLoadingProgressBar loading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        loading = (ContentLoadingProgressBar) findViewById(R.id.loading);
 
         checker.onCreate(this, new TheLicenseCheckerCallback());
         checker.doCheck(this);
@@ -298,6 +303,7 @@ public class CharacterActivity extends AbstractBaseActivity {
             if (savedId == -1) {
                 if (getIntent().getExtras().getBoolean(CREATE_CHARACTER)) {
                     createNewCharacter();
+                    loading.setVisibility(View.GONE);
                     return;
                 }
             }
@@ -310,6 +316,7 @@ public class CharacterActivity extends AbstractBaseActivity {
 
         if (savedId == -1) {
             createNewCharacter();
+            loading.setVisibility(View.GONE);
             return;
         }
         loadCharacter(savedId);
@@ -401,9 +408,11 @@ public class CharacterActivity extends AbstractBaseActivity {
         if (savedId == -1) {
             Toast.makeText(CharacterActivity.this, "Invalid Character id requested to load", Toast.LENGTH_SHORT).show();
             createNewCharacter();
+            loading.setVisibility(View.GONE);
             return;
         }
         characterLoader = new BackgroundCharacterLoader();
+        loading.setVisibility(View.VISIBLE);
         characterLoader.execute(savedId);
     }
 
@@ -462,6 +471,7 @@ public class CharacterActivity extends AbstractBaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            loading.setVisibility(View.GONE);
             if (isCancelled()) return;
 
             if (BuildConfig.DEBUG) {
