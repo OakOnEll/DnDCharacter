@@ -223,8 +223,6 @@ public abstract class AbstractBaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
             Intent intent = new Intent(this, ExportActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

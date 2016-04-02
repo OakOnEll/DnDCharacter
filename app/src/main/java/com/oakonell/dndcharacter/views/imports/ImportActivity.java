@@ -12,7 +12,6 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -37,9 +36,9 @@ import com.oakonell.dndcharacter.model.DataImporter;
 import com.oakonell.dndcharacter.model.UpdateCharacters;
 import com.oakonell.dndcharacter.utils.ProgressData;
 import com.oakonell.dndcharacter.utils.ProgressUpdater;
+import com.oakonell.dndcharacter.views.AbstractBaseActivity;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
-import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.characters.CharactersListActivity;
 
 import java.io.File;
@@ -48,7 +47,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportActivity extends AppCompatActivity {
+public class ImportActivity extends AbstractBaseActivity {
     public static final String EXTRA_FILE_PATH = "filepath";
     public static final String EXTRA_URL_PATH = "url";
     private static final int FILE_IMPORT_REQUEST = 1;
@@ -82,6 +81,7 @@ public class ImportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import);
 
+        configureCommon();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setSubtitle(R.string.import_title);
@@ -755,10 +755,7 @@ public class ImportActivity extends AppCompatActivity {
             final DataImporter.ImportRow importRow = importedCharacters.get(0);
             long characterId = importRow.importToId;
 
-            Intent intent = new Intent(ImportActivity.this, CharacterActivity.class);
-            intent.putExtra(CharacterActivity.CHARACTER_ID, characterId);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            openCharacter(characterId);
         }
     }
 

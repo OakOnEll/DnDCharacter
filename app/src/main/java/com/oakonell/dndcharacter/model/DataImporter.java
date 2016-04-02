@@ -235,7 +235,7 @@ public class DataImporter {
         try {
             in = new ProgressReportingInputStream(context.getContentResolver().openInputStream(uri), progress);
         } catch (IOException e) {
-            throw new RuntimeException("Error reading uri " + uri.toString(), e);
+            throw new DataImportException(e, R.string.error_reading_uri, uri.toString());
         } catch (ProgressReportingInputStream.InputStreamCanceled e) {
             if (in != null) {
                 try {

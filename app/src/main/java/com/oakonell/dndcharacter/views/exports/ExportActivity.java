@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +27,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.CharacterExporter;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.utils.FileUtils;
+import com.oakonell.dndcharacter.views.AbstractBaseActivity;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 
@@ -45,7 +45,7 @@ import io.fabric.sdk.android.Fabric;
 /**
  * Created by Rob on 3/29/2016.
  */
-public class ExportActivity extends AppCompatActivity {
+public class ExportActivity extends AbstractBaseActivity {
     public static final String CHECKED_IDS = "CHECKED_IDS";
     private static final int SAVE_FILE_RESULT_CODE = 1010;
     private RecyclerView listView;
@@ -58,6 +58,8 @@ public class ExportActivity extends AppCompatActivity {
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_export);
+
+        configureCommon();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setSubtitle(R.string.export_title);

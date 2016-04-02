@@ -80,4 +80,5 @@
     <string name="error_exporting">Error while exporting</string>
     <string name="share_characters">Share Characters</string>
     <string name="character_already_exists">Character already exists, will overwrite</string>
+    <string name="error_reading_uri">Error Reading URI %s</string>
 </resources>

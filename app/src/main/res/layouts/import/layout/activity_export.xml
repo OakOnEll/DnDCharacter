@@ -1,48 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.oakonell.dndcharacter.views.imports.ExportActivity">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-
-    <LinearLayout
+    <include
+        layout="@layout/app_bar_export"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="match_parent" />
 
-        <Button
-            android:id="@+id/export_rows"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/export_button_lbl" />
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/export_summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Added 19 rows, updated 5, 3 errors" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:listitem="@layout/export_row_item" />
-
-    <include layout="@layout/dialog_done" />
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>
