@@ -39,6 +39,8 @@ import com.oakonell.dndcharacter.utils.ProgressData;
 import com.oakonell.dndcharacter.utils.ProgressUpdater;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
+import com.oakonell.dndcharacter.views.characters.CharactersListActivity;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -713,11 +715,12 @@ public class ImportActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(ProgressData... values) {
-            barProgressDialog.setProgress((int) values[0].progress);
+            final ProgressData result = values[0];
+            barProgressDialog.setProgress((int) result.progress);
             if (scrollImportList) {
-                listView.smoothScrollToPosition((int) values[0].progress);
+                listView.smoothScrollToPosition((int) result.progress);
             }
-            final String message = values[0].message;
+            final String message = result.message;
             if (message != null && message.trim().length() > 0) {
                 barProgressDialog.setMessage(message);
             }
@@ -733,8 +736,29 @@ public class ImportActivity extends AppCompatActivity {
             listAdapter.notifyDataSetChanged();
             updateViews();
 
-            // TODO if characters were imported, finish this activity and go to the characters list if multiple, or THE character if one
+            if (importResult.error > 0) return;
+            if (importResult.characterResult != null && importResult.characterResult.error > 0) {
+                return;
+            }
 
+            // If only characters were imported, we can navigate to either character list, or the single character imported
+            if (importResult.rowsImportedByType.size() != 1) return;
+            final List<DataImporter.ImportRow> importedCharacters = importResult.rowsImportedByType.get("character");
+            if (importedCharacters == null) return;
+            if (importedCharacters.size() == 0) return;
+            if (importedCharacters.size() > 1) {
+                Intent intent = new Intent(ImportActivity.this, CharactersListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return;
+            }
+            final DataImporter.ImportRow importRow = importedCharacters.get(0);
+            long characterId = importRow.importToId;
+
+            Intent intent = new Intent(ImportActivity.this, CharacterActivity.class);
+            intent.putExtra(CharacterActivity.CHARACTER_ID, characterId);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 

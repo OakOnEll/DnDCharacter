@@ -35,8 +35,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rob on 3/11/2016.
@@ -180,6 +182,7 @@ public class DataImporter {
         public int added = 0;
 
         public boolean needToUpdateCharacters = false;
+        public Map<String, List<ImportRow>> rowsImportedByType = new HashMap<>();
 
 
         public ProgressData characterResult;
@@ -194,6 +197,8 @@ public class DataImporter {
         @Nullable
         public String name;
         public Element element;
+
+        public long importToId;
     }
 
 
@@ -272,7 +277,8 @@ public class DataImporter {
             boolean success = true;
             Class<? extends AbstractComponentModel> modelClass;
 
-            switch (each.type.toLowerCase()) {
+            final String type = each.type.toLowerCase();
+            switch (type) {
                 case "background":
                     modelClass = Background.class;
                     result.needToUpdateCharacters = true;
@@ -329,6 +335,13 @@ public class DataImporter {
                     }
                     result.progress++;
                     each.imported = true;
+                    each.importToId = model.getId();
+                    List<ImportRow> importedRows = result.rowsImportedByType.get(type);
+                    if (importedRows == null) {
+                        importedRows = new ArrayList<ImportRow>();
+                        result.rowsImportedByType.put(type, importedRows);
+                    }
+                    importedRows.add(each);
                     each.shouldImport = false;
                 } catch (Exception e) {
                     result.error++;
