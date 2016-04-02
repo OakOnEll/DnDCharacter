@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
@@ -20,9 +19,6 @@ import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.item.CreateCharacterArmorVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
-import com.oakonell.dndcharacter.utils.XmlUtils;
-
-import java.util.List;
 
 /**
  * Created by Rob on 3/18/2016.

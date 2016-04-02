@@ -20,7 +20,6 @@ import com.oakonell.dndcharacter.views.character.CustomNumericAdjustmentDialog;
 import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
-import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 
 import java.util.HashSet;
 import java.util.List;

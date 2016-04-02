@@ -71,17 +71,19 @@
             android:text="@string/roll_button_label" />
 
         <Button
+            android:id="@+id/cancel"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="X" />
+
+        <Button
             android:id="@+id/apply"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ok_button_label" />
 
-        <Button
-            android:id="@+id/cancel"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="X" />
+
     </LinearLayout>
 </LinearLayout>

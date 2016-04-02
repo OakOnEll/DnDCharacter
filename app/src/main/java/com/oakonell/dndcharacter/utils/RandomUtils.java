@@ -9,7 +9,7 @@ public class RandomUtils {
     private static final Random random = new Random();
 
 
-    public static int random(int low, int high) {
+    public static int random(@SuppressWarnings("SameParameterValue") int low, int high) {
         return random.nextInt((high - low) + 1) + low;
     }
 }

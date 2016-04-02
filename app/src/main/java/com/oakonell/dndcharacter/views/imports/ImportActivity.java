@@ -146,23 +146,30 @@ public class ImportActivity extends AbstractBaseActivity {
         if (data != null) {
             Log.i("Import", "Importing from intent data..");
             final String scheme = data.getScheme();
-            if (scheme.equals("content") || scheme.equals("file")) {
-                Log.i("Import", "Importing from 'file' data..");
-                int typeIndex = FILE_TYPE_INDEX;
-                importTypeSpinner.setSelection(typeIndex);
-                filenameText.setText(data.toString());
-                attemptToLoadFile(data);
-                importTypeSpinner.setEnabled(false);
-                searchButton.setVisibility(View.GONE);
-            } else if (scheme.equals("http")) {
-                Log.i("Import", "Importing from http data..");
-                int typeIndex = URL_TYPE_INDEX;
-                importTypeSpinner.setSelection(typeIndex);
-                filenameText.setText(data.toString());
-                loadUrl(data.toString());
-                importTypeSpinner.setEnabled(false);
-            } else {
-                // report an error? shouldn't get here, based on AndroidManifest Intent filters
+            switch (scheme) {
+                case "content":
+                case "file": {
+                    Log.i("Import", "Importing from 'file' data..");
+                    int typeIndex = FILE_TYPE_INDEX;
+                    importTypeSpinner.setSelection(typeIndex);
+                    filenameText.setText(data.toString());
+                    attemptToLoadFile(data);
+                    importTypeSpinner.setEnabled(false);
+                    searchButton.setVisibility(View.GONE);
+                    break;
+                }
+                case "http": {
+                    Log.i("Import", "Importing from http data..");
+                    int typeIndex = URL_TYPE_INDEX;
+                    importTypeSpinner.setSelection(typeIndex);
+                    filenameText.setText(data.toString());
+                    loadUrl(data.toString());
+                    importTypeSpinner.setEnabled(false);
+                    break;
+                }
+                default:
+                    // report an error? shouldn't get here, based on AndroidManifest Intent filters
+                    break;
             }
         } else {
             Log.i("Import", "Importing from saved inputs..");

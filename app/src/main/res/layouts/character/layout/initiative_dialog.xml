@@ -34,7 +34,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Modifiers" />
+                        android:text="@string/modifiers_title" />
 
                     <ImageView
                         android:id="@+id/add_adjustment"
@@ -65,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Total modifier"
+                        android:text="@string/total_modifier"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
 
                     <TextView

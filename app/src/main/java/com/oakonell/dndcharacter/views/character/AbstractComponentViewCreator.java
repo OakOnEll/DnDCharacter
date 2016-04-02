@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
@@ -53,7 +52,6 @@ import com.oakonell.dndcharacter.views.character.md.SearchOptionMD;
 import com.oakonell.dndcharacter.views.character.spell.SelectSpellDialogFragment;
 
 import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 
 import java.util.ArrayList;
 import java.util.HashSet;

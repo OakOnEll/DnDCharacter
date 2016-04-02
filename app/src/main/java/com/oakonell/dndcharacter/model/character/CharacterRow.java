@@ -4,14 +4,11 @@ import android.content.Context;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
-import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;

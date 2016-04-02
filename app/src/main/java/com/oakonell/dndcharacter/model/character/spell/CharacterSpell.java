@@ -88,7 +88,7 @@ public class CharacterSpell extends BaseCharacterComponent {
     @Element(required = false)
     boolean prepared;
 
-    public void setPreparable(boolean preparable) {
+    public void setPreparable(@SuppressWarnings("SameParameterValue") boolean preparable) {
         this.preparable = preparable;
     }
 

@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.classes;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -68,6 +69,7 @@ public class AbilityScoreImprovementViewCreator extends AbstractComponentViewCre
         }
     }
 
+    @SuppressLint("SetTextI18n")
     protected void updateStatIncreaseText(String statName, int num) {
         ViewGroup parent = getParent();
         int value = 0;

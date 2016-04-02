@@ -28,7 +28,6 @@ import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
-import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
@@ -489,7 +488,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 if (hasExtra) {
                     builder.append(", ");
                 }
-                builder.append("(" + item.getRange() + ")");
+                builder.append("(").append(item.getRange()).append(")");
                 hasExtra = true;
             }
             // TODO short for small screens?

@@ -3,12 +3,12 @@ package com.oakonell.dndcharacter.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.background.ApplyBackgroundToCharacterVisitor;
 import com.oakonell.dndcharacter.model.background.Background;
-import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterClass;
+import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
 import com.oakonell.dndcharacter.model.race.ApplyRaceToCharacterVisitor;

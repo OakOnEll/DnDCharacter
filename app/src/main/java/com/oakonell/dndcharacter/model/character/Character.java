@@ -270,7 +270,7 @@ public class Character {
                 name += "[" + subclass + "]";
             }
 
-            builder.append(name + " " + level);
+            builder.append(name).append(" ").append(level);
         }
         return builder.toString();
     }
@@ -452,7 +452,7 @@ public class Character {
         effects.remove(effect);
     }
 
-    public boolean anyContextFeats(FeatureContext context) {
+    public boolean anyContextFeats(@SuppressWarnings("SameParameterValue") FeatureContext context) {
         FeatureContextArgument withArg = new FeatureContextArgument(context);
         for (CharacterEffect each : getEffects()) {
             if (each.isInContext(withArg)) return true;
@@ -577,8 +577,7 @@ public class Character {
 
     public boolean hasAdjustments() {
         boolean isEmpty = true;
-        for (Iterator<CustomAdjustments> iter = adjustments.values().iterator(); iter.hasNext(); ) {
-            final CustomAdjustments adjustment = iter.next();
+        for (final CustomAdjustments adjustment : adjustments.values()) {
             if (adjustment.getAdjustments().isEmpty()) {
                 continue;
             }
@@ -1031,7 +1030,7 @@ public class Character {
             builder.append(each.getKey());
             final Proficient proficient = each.getValue();
             if (proficient.getMultiplier() != 1) {
-                builder.append("(" + proficient + ")");
+                builder.append("(").append(proficient).append(")");
             }
         }
         return comma;
@@ -1348,7 +1347,7 @@ public class Character {
         Iterator<HitDieRow> iter = dice.iterator();
         while (iter.hasNext()) {
             HitDieRow entry = iter.next();
-            builder.append("(" + entry.numDiceRemaining + "/" + entry.totalDice + ")" + "d" + entry.dieSides);
+            builder.append("(").append(entry.numDiceRemaining).append("/").append(entry.totalDice).append(")").append("d").append(entry.dieSides);
             if (iter.hasNext()) builder.append(", ");
         }
         return builder.toString();

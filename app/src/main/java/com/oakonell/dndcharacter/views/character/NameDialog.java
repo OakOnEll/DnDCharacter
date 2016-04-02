@@ -2,19 +2,13 @@ package com.oakonell.dndcharacter.views.character;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
@@ -29,7 +23,6 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
-import com.oakonell.dndcharacter.views.GridLayoutManager;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 import org.w3c.dom.Element;
@@ -327,7 +320,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             nameAdapter.notifyDataSetChanged();
         }
 
-        public static float convertDpToPixel(float dp) {
+        public static float convertDpToPixel(@SuppressWarnings("SameParameterValue") float dp) {
             DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
             float px = dp * (metrics.densityDpi / 160f);
             return Math.round(px);

@@ -1,13 +1,9 @@
 package com.oakonell.dndcharacter.model;
 
-import android.os.Bundle;
-
-import com.activeandroid.Model;
 import com.activeandroid.query.Select;
-import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.CharacterRow;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

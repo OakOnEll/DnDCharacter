@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
@@ -35,10 +34,11 @@ import java.util.Map;
  */
 public abstract class AbstractComponentListActivity<M extends AbstractComponentModel> extends AbstractBaseActivity {
     private static final int UNDO_DELAY = 5000;
-    private RecyclerView listView;
     private ComponentListAdapter adapter;
     private int loaderId;
-    private final Map<Long, Long> recordsBeingDeleted = new HashMap<>();
+
+    final Map<Long, Long> recordsBeingDeleted = new HashMap<>();
+    RecyclerView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +144,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
 
     protected abstract void deleteRow(long id);
 
-    public static class DeleteRowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> {
+    public static class DeleteRowViewHolderCursor<C extends AbstractComponentListActivity> extends CursorBindableRecyclerViewHolder<C> {
         @NonNull
         final TextView name;
         @NonNull
@@ -158,7 +158,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractComponentListActivity context, @NonNull final RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull final C context, @NonNull final RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
@@ -213,14 +213,14 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
     }
 
-    public static class ComponentListAdapter extends RecyclerView.Adapter<CursorBindableRecyclerViewHolder<? extends AbstractComponentListActivity>> implements ItemTouchHelperAdapter {
-        private final AbstractComponentListActivity<? extends Model> context;
+    public static class ComponentListAdapter<C extends AbstractComponentListActivity<M>, M extends AbstractComponentModel> extends RecyclerView.Adapter<CursorBindableRecyclerViewHolder<C>> implements ItemTouchHelperAdapter {
+        private final C context;
         private final int layout;
         Cursor cursor;
         @NonNull
         CursorIndexesByName cursorIndexesByName = new CursorIndexesByName();
 
-        public ComponentListAdapter(AbstractComponentListActivity<? extends Model> context, int layout) {
+        public ComponentListAdapter(C context, int layout) {
             this.context = context;
             this.layout = layout;
         }
@@ -243,7 +243,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
 
         @NonNull
         @Override
-        public CursorBindableRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public CursorBindableRecyclerViewHolder<C> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == 1) {
                 View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.component_deleted_item, parent, false);
                 return new DeleteRowViewHolderCursor(newView);
@@ -253,7 +253,7 @@ public abstract class AbstractComponentListActivity<M extends AbstractComponentM
         }
 
         @Override
-        public void onBindViewHolder(@NonNull CursorBindableRecyclerViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull CursorBindableRecyclerViewHolder<C> holder, int position) {
             cursor.moveToPosition(position);
             holder.bindTo(cursor, context, this, cursorIndexesByName);
         }

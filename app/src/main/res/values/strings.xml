@@ -48,7 +48,6 @@
     <string name="electrum_pieces_label">EP</string>
     <string name="gold_pieces_label">GP</string>
     <string name="platinum_pieces_label">PP</string>
-    <string name="add_button_label">Add</string>
     <string name="equipment_title">Equipment</string>
     <string name="use_button_label">Use</string>
     <string name="use_label">Use</string>
@@ -131,7 +130,6 @@
     <string name="final_xp">Final XP</string>
     <string name="import_path_hint">/file/path</string>
     <string name="import_from_hint">[Import From]</string>
-    <string name="export_to_hint">[Export To]</string>
     <string name="level_n">Level %d</string>
     <string name="increase_statname_by_to">Increase %1$s by %2$d to %3$d</string>
     <string name="fraction_d_slash_d">%1$d / %2$d</string>
@@ -169,9 +167,6 @@
     <string name="feats">Feats</string>
     <string name="effects">Effects</string>
     <string name="import_action">Import</string>
-    <string name="export">Export</string>
-    <string name="share">Share</string>
-    <string name="send">Send</string>
     <string name="short_rest">Short Rest</string>
     <string name="long_rest">Long Rest</string>
     <string name="add_effect">Add Effect</string>
@@ -374,7 +369,6 @@
     <string name="import_summary">Import added %1$d records, updated %2$d records, and had %3$d failed imports.</string>
     <string name="bad_http_return_code">Invalid HTTP return code %1$s: %2$s</string>
     <string name="io_exception">Encountered io error while reading from URL or writing to file: %s</string>
-    <string name="file_not_found">File not found</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="import_rows_progress_title">Importing rows…</string>
     <string name="import_rows_message">Import in progress …</string>

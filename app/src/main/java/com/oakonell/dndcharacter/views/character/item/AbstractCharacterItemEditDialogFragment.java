@@ -9,12 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Rob on 3/18/2016.

@@ -105,7 +105,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
         description = (TextView) view.findViewById(R.id.description);
         name = (TextView) view.findViewById(R.id.weapon_label);
-        edit_weapon = (View) view.findViewById(R.id.edit);
+        edit_weapon =  view.findViewById(R.id.edit);
         attack_bonus = (TextView) view.findViewById(R.id.attack_bonus);
         damage_descr = (TextView) view.findViewById(R.id.damage_descr);
         two_handed = (CheckBox) view.findViewById(R.id.two_handed);

@@ -292,7 +292,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
     }
 
-    protected int readIntegerAttribute(@NonNull Element actionElement, String attributeName, int defaultValue) {
+    protected int readIntegerAttribute(@NonNull Element actionElement, @SuppressWarnings("SameParameterValue") String attributeName, int defaultValue) {
         String stringValue = actionElement.getAttribute(attributeName);
         if (stringValue != null && stringValue.trim().length() > 0) {
             return Integer.parseInt(stringValue);

@@ -4,7 +4,6 @@ package com.oakonell.dndcharacter.views.character;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.oakonell.dndcharacter.model.character.AdjustmentComponentSource;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;

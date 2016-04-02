@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
@@ -30,8 +29,6 @@ import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Rob on 1/24/2016.

@@ -15,7 +15,6 @@ import com.oakonell.dndcharacter.model.character.AdjustmentComponentSource;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
-import com.oakonell.dndcharacter.model.character.CustomAdjustments;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 
 import java.util.List;

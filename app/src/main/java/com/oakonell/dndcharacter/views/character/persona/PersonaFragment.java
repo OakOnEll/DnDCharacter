@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views.character.persona;
 
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

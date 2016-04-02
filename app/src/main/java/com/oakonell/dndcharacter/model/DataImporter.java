@@ -64,7 +64,7 @@ public class DataImporter {
             this.arguments = arguments;
         }
 
-        DataImportException(int messageResource, String... arguments) {
+        DataImportException(@SuppressWarnings("SameParameterValue") int messageResource, String... arguments) {
             this.messageResource = messageResource;
             this.arguments = arguments;
         }
@@ -338,7 +338,7 @@ public class DataImporter {
                     each.importToId = model.getId();
                     List<ImportRow> importedRows = result.rowsImportedByType.get(type);
                     if (importedRows == null) {
-                        importedRows = new ArrayList<ImportRow>();
+                        importedRows = new ArrayList<>();
                         result.rowsImportedByType.put(type, importedRows);
                     }
                     importedRows.add(each);

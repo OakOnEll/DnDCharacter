@@ -19,7 +19,7 @@ public abstract class CharacterAbilityDeriver {
 
     }
 
-    public CharacterAbilityDeriver(boolean skipFeatures) {
+    public CharacterAbilityDeriver(@SuppressWarnings("SameParameterValue") boolean skipFeatures) {
         this.skipFeatures = skipFeatures;
     }
 

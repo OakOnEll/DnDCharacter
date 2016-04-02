@@ -217,7 +217,7 @@ public class GridLayoutManager extends android.support.v7.widget.GridLayoutManag
         setChildSize(DEFAULT_CHILD_SIZE);
     }
 
-    public void setChildSize(int childSize) {
+    public void setChildSize(@SuppressWarnings("SameParameterValue") int childSize) {
         hasChildSize = true;
         if (this.childSize != childSize) {
             this.childSize = childSize;
