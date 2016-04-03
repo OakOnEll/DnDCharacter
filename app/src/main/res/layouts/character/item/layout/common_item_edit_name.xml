@@ -2,21 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/item_name_hint"
-        android:minEms="12" />
+        android:orientation="horizontal">
 
-    <ImageButton
-        android:id="@+id/search"
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/item_name_hint"
+            android:minEms="12" />
+
+        <ImageButton
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search_primary_18dp" />
+
+    </LinearLayout>
+
+    <com.oakonell.dndcharacter.views.NoDefaultSpinner
+        android:id="@+id/category"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_search_primary_18dp" />
-
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

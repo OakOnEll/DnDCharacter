@@ -210,6 +210,11 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         getCharacter().addWeapon(item);
     }
 
+    @Override
+    protected ItemType getItemType() {
+        return ItemType.WEAPON;
+    }
+
     @NonNull
     @Override
     protected CharacterWeapon newCharacterItem() {

@@ -66,6 +66,11 @@ public class CharacterItemEditDialogFragment extends AbstractCharacterItemEditDi
         getCharacter().addItem(item);
     }
 
+    @Override
+    protected ItemType getItemType() {
+        return ItemType.EQUIPMENT;
+    }
+
     @NonNull
     @Override
     protected CharacterItem newCharacterItem() {

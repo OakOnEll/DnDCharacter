@@ -79,4 +79,7 @@
     <string name="modifiers_title">Modifiers</string>
     <string name="total_passive_perception">Total Passive Perception</string>
     <string name="total_modifier">Total modifier</string>
+    <string name="category_prompt">[Category]</string>
+    <string name="new_category_spinner_entry"><![CDATA[<New Category>]]></string>
+    <string name="enter_new_category">Enter new item category</string>
 </resources>
