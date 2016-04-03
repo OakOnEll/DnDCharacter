@@ -259,8 +259,8 @@ public class MoneyDialogFragment extends AbstractCharacterDialogFragment {
         @Override
         public String toString() {
             return super.toString();
-    }
         }
+    }
 
     class CoinInputWatcher implements TextWatcher {
         private final TextView result;
