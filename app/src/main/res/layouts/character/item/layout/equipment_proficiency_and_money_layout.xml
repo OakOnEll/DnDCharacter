@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -98,6 +99,20 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/money_title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/gem_summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_selector"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="10 gems: 100gp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -218,6 +233,7 @@
 
 
         </LinearLayout>
+
 
     </LinearLayout>
 

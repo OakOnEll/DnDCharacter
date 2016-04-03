@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.model.character;
 
 import android.content.res.Resources;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -93,7 +95,7 @@ public class Character {
     @Element(required = false)
     private BaseStatsType statsType;
     @Element(required = false)
-    private String notes="";
+    private String notes = "";
     @NonNull
     @ElementMap(entry = "hitDie", key = "die", value = "uses", required = false)
     private Map<Integer, Integer> hitDieUses = new HashMap<>();
@@ -133,6 +135,11 @@ public class Character {
     private int electrum;
     @Element(required = false)
     private int platinum;
+    @NonNull
+    @ElementList(required = false)
+    private List<Gem> gems = new ArrayList<>();
+
+
     @NonNull
     @ElementList(required = false)
     private List<CharacterEffect> effects = new ArrayList<>();
@@ -356,6 +363,22 @@ public class Character {
         this.platinum = platinum;
     }
 
+    public void addGem(Gem gem) {
+        gems.add(gem);
+    }
+
+    public List<Gem> getGems() {
+        return gems;
+    }
+
+    public MoneyValue getGemsValue() {
+        MoneyValue value = new MoneyValue();
+        for (Gem each : gems) {
+            value = value.add(each.value);
+        }
+        return value.simplified();
+    }
+
     @NonNull
     public Set<String> getLanguages() {
         Set<String> result = new HashSet<>();
@@ -516,7 +539,7 @@ public class Character {
         int prepared = 0;
         final List<SpellLevelInfo> spellInfos = getSpellInfos();
         for (SpellLevelInfo each : spellInfos) {
-            for (CharacterSpellWithSource spell: each.getSpellInfos()) {
+            for (CharacterSpellWithSource spell : each.getSpellInfos()) {
                 if (spell.getSpell().getSource() == ComponentType.CLASS && className.equals(spell.getSpell().getOwnerName())) {
                     if (spell.getSpell().isPrepared()) prepared++;
                 }
@@ -2633,6 +2656,65 @@ public class Character {
             add(new HasEffectFunction(character));
             add(new HasArmorFunction(character));
             add(new SpeedFunction(character));
+        }
+    }
+
+    public static class Gem implements Parcelable {
+        // Method to recreate a HpRow from a Parcel
+        @NonNull
+        public static Parcelable.Creator<Gem> CREATOR = new Parcelable.Creator<Gem>() {
+
+            @NonNull
+            @Override
+            public Gem createFromParcel(@NonNull Parcel source) {
+                return new Gem(source);
+            }
+
+            @NonNull
+            @Override
+            public Gem[] newArray(int size) {
+                return new Gem[size];
+            }
+
+        };
+        @Element(required = false)
+        String name;
+
+        @Element(required = false)
+        private MoneyValue value;
+
+        // For simple persistence FW
+        public Gem() {
+
+        }
+
+        public Gem(String name, MoneyValue value) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public Gem(Parcel source) {
+            name = source.readString();
+            value = source.readParcelable(ClassLoader.getSystemClassLoader());
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public MoneyValue getValue() {
+            return value;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
+            dest.writeString(name);
+            dest.writeParcelable(value, flags);
         }
     }
 }

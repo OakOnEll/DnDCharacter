@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="feature_columns">1</integer>
+    <integer name="gem_columns">2</integer>
+
     <bool name="large">false</bool>
 </resources>

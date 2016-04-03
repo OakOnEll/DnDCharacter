@@ -82,4 +82,14 @@
     <string name="category_prompt">[Category]</string>
     <string name="new_category_spinner_entry"><![CDATA[<New Category>]]></string>
     <string name="enter_new_category">Enter new item category</string>
+    <string name="gems_title">Gems (%s)</string>
+    <string name="no_gems_title">Gems</string>
+    <string name="gem_summary">%1$d Gems: %2$s</string>
+    <string name="add_a_gem">Add a Gem</string>
+    <string name="gem_type">Gem name</string>
+    <string name="gem_value">Gem Value</string>
+    <string name="unexpected_coin_type">Unexpected coin type %1$s in %2$s.</string>
+    <string name="duplicate_coin_type">Duplicate coin type %1$s in %2$s</string>
+    <string name="invalid_number_format">Invalid Number Format %1$s in %2$s</string>
+    <string name="invalid_money_value_format">Invalid value format %s</string>
 </resources>

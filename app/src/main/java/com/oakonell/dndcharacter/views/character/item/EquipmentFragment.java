@@ -59,6 +59,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private TextView silverPieces;
     private TextView electrumPieces;
     private TextView platinumPieces;
+    private TextView gem_summary;
+
     private EquipmentAdapter equipmentAdapter;
     private ArmorAdapter armorAdapter;
     private WeaponsAdapter weaponsAdapter;
@@ -95,6 +97,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         electrumPieces = (TextView) rootView.findViewById(R.id.electrum_pieces);
         goldPieces = (TextView) rootView.findViewById(R.id.gold_pieces);
         platinumPieces = (TextView) rootView.findViewById(R.id.platinum_pieces);
+        gem_summary = (TextView) rootView.findViewById(R.id.gem_summary);
 
         ViewGroup copperGroup = (ViewGroup) rootView.findViewById(R.id.copper_group);
         ViewGroup silverGroup = (ViewGroup) rootView.findViewById(R.id.silver_group);
@@ -138,7 +141,14 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 dialog.show(getFragmentManager(), "money_dialog");
             }
         });
+        gem_summary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoneyDialogFragment dialog = MoneyDialogFragment.createFragment(null);
+                dialog.show(getFragmentManager(), "money_dialog");
 
+            }
+        });
 
         armorView = (RecyclerView) rootView.findViewById(R.id.armor_list);
         armorItemsView = (ViewGroup) rootView.findViewById(R.id.armor_items_group);
@@ -310,6 +320,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
         silverPieces.setText(NumberUtils.formatNumber(character.getSilver()));
         electrumPieces.setText(NumberUtils.formatNumber(character.getElectrum()));
         platinumPieces.setText(NumberUtils.formatNumber(character.getPlatinum()));
+
+        gem_summary.setText(getString(R.string.gem_summary, character.getGems().size(), character.getGemsValue().asFormattedString()));
 
         armor_group.setOnClickListener(new View.OnClickListener() {
             @Override
