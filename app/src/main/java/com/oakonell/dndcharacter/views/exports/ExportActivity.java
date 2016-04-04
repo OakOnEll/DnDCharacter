@@ -12,6 +12,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,7 +176,8 @@ public class ExportActivity extends AbstractBaseActivity {
         writer.close();
 
         // let the FileProvider generate an URI for this private file
-        Uri contentUri = FileProvider.getUriForFile(this, FileUtils.getFileProviderName(), newFile);
+        Uri contentUri = FileUtils.uriFor(this, newFile); //FileProvider.getUriForFile(this, FileUtils.getFileProviderName(), newFile);
+        Log.i("ExportActivity", "contentUri = '" + contentUri.toString() + "'");
         // create an intent, so the user can choose which application he/she wants to use to share this file
         final Intent intent = ShareCompat.IntentBuilder.from(this)
                 .setType("text/xml")

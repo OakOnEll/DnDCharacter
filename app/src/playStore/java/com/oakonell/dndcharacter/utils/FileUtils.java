@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.utils;
 
 import android.content.Context;
+import android.net.Uri;
+import android.support.v4.content.FileProvider;
 
 import java.io.File;
 
@@ -15,5 +17,9 @@ public class FileUtils {
 
     public static String getFileProviderName() {
         return "com.oakonell.dndcharacter.fileprovider";
+    }
+
+    public static Uri uriFor(Context context, File newFile) {
+        return FileProvider.getUriForFile(context, FileUtils.getFileProviderName(), newFile);
     }
 }
