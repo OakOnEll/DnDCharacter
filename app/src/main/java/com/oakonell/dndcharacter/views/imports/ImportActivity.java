@@ -142,6 +142,12 @@ public class ImportActivity extends AbstractBaseActivity {
         listView.setHasFixedSize(false);
 
 
+        if (savedInstanceState != null) {
+            // TODO handle saved state-
+            //    file/content still exists- if not error
+            //    URL file still exists? if not, prompt to download again
+            // restore checked rows
+        }
         Intent intent = getIntent();
         final Uri data = intent.getData();
         if (data != null) {
