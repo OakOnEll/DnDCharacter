@@ -297,18 +297,62 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     @Override
     protected void visitProficiency(@NonNull Element element) {
         String category = element.getAttribute("category");
+        String level = element.getAttribute("level");
+        Proficient proficiency = null;
+        if (level != null && level.trim().length() > 0) {
+            proficiency = EnumHelper.stringToEnum(level, Proficient.class);
+        }
+
         if (category != null && category.trim().length() > 0) {
             TextView text = new TextView(parent.getContext());
             parent.addView(text);
-            text.setText(" *  [" + category + "]");
+            if (proficiency == null) {
+                text.setText(" *  [" + category + "]");
+            } else {
+                text.setText(" *  [" + category + "] - " + parent.getResources().getString(proficiency.getStringResId()));
+            }
 
         } else {
-            if (state == AbstractComponentVisitor.VisitState.SKILLS) {
+            if (state == VisitState.TOOLS) {
+                String toolName = element.getTextContent();
+                final List<Character.ToolProficiencyWithSource> toolProficiencies = getCharacter().deriveToolProficiencies(ProficiencyType.TOOL);
+
+                if (toolProficiencies.isEmpty()) {
+                    super.visitProficiency(element);
+                } else {
+                    TextView text = new TextView(parent.getContext());
+                    parent.addView(text);
+                    String name = element.getTextContent();
+
+                    String alreadyProficientString = null;
+                    double maxProfMult = 0;
+                    for (Character.ToolProficiencyWithSource each : toolProficiencies) {
+                        if (each.getSource().equals(currentComponent)) continue;
+                        // TODO handle tool category
+                        if (each.getProficiency().getName().equalsIgnoreCase(toolName)) {
+                            // TODO what about when the current component was actually changed
+                            if (each.getProficiency().getProficient().getMultiplier() > maxProfMult) {
+                                alreadyProficientString = parent.getResources().getString(R.string.already_proficient_from, parent.getResources().getString(each.getProficiency().getProficient().getStringResId()), each.getSourceString(parent.getResources()));
+                                maxProfMult = each.getProficiency().getProficient().getMultiplier();
+                            }
+                        }
+                    }
+                    if (alreadyProficientString != null) {
+                        name += " (" + alreadyProficientString + ")";
+                    }
+                    if (proficiency != null) {
+                        name = "[" + parent.getResources().getString(proficiency.getStringResId()) + "]" + name;
+                    }
+                    text.setText(" *  " + name);
+                }
+
+
+            } else if (state == VisitState.SKILLS) {
                 String skillName = element.getTextContent();
                 SkillType type = EnumHelper.stringToEnum(skillName, SkillType.class);
 
                 List<Character.ProficientWithSource> proficientWithSources = getCharacter().deriveSkillProciencies(type);
-                final boolean isPastChoice = choiceFilters.filters.contains(type.name().toUpperCase());
+                final boolean isPastChoice = choiceFilters != null ? choiceFilters.filters.contains(type.name().toUpperCase()) : false;
                 if (proficientWithSources.isEmpty() && !isPastChoice) {
                     super.visitProficiency(element);
 
@@ -333,11 +377,24 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     if (alreadyProficientString != null) {
                         name += " (" + alreadyProficientString + ")";
                     }
+                    if (proficiency != null) {
+                        name = "[" + parent.getResources().getString(proficiency.getStringResId()) + "]" + name;
+                    }
                     text.setText(" *  " + name);
                 }
 
             } else {
-                super.visitProficiency(element);
+                if (proficiency == null) {
+                    super.visitProficiency(element);
+                } else {
+                    String name = element.getTextContent();
+                    if (proficiency != null) {
+                        name = "[" + parent.getResources().getString(proficiency.getStringResId()) + "]" + name;
+                    }
+                    TextView text = new TextView(parent.getContext());
+                    parent.addView(text);
+                    text.setText(" *  " + name);
+                }
             }
         }
     }
