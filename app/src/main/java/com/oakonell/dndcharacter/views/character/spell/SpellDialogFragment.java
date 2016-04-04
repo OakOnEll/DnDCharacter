@@ -73,6 +73,8 @@ public class SpellDialogFragment extends RollableDialogFragment {
     private TextView attack_roll_final_total;
 
     private Spinner spell_slot_level;
+    private TextView spell_level;
+    private TextView spell_school;
 
     // these are persistence safe do to being initialized onCharacterLoad()
     private CharacterSpell spell;
@@ -148,6 +150,9 @@ public class SpellDialogFragment extends RollableDialogFragment {
                 context.saveCharacter();
             }
         });
+
+        spell_level = (TextView) view.findViewById(R.id.spell_level);
+        spell_school = (TextView) view.findViewById(R.id.spell_school);
 
 
         // TODO this is overriding the state
@@ -372,6 +377,8 @@ public class SpellDialogFragment extends RollableDialogFragment {
         final Character.SpellLevelInfo levelInfo = getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + spell.getLevel());
         cast_button.setEnabled(levelInfo.getSlotsAvailable() > 0);
 
+        spell_level.setText(getString(R.string.level_n_spell, spell.getLevel()));
+        spell_school.setText(spell.getSchool().getStringResId());
     }
 
     private void loadSpell(@NonNull Character character) {
