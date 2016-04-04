@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -32,6 +33,7 @@ import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
+import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.RollableDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
@@ -70,6 +72,8 @@ public class SpellDialogFragment extends RollableDialogFragment {
     private ViewGroup total_group;
     private TextView attack_roll_final_total;
 
+    private Spinner spell_slot_level;
+
     // these are persistence safe do to being initialized onCharacterLoad()
     private CharacterSpell spell;
     private int damageModifier = 2;
@@ -78,6 +82,8 @@ public class SpellDialogFragment extends RollableDialogFragment {
     private DamagesListAdapter damageListAdapter;
     @Nullable
     private AttackDamageInfo attackDamageInfo;
+    private ArrayList<String> spellLevels;
+    private Button cast_button;
 
 
     @NonNull
@@ -129,6 +135,20 @@ public class SpellDialogFragment extends RollableDialogFragment {
         damagesRecyclerView = (RecyclerView) view.findViewById(R.id.damages);
         total_group = (ViewGroup) view.findViewById(R.id.total_group);
         attack_roll_final_total = (TextView) view.findViewById(R.id.attack_roll_final_total);
+
+        spell_slot_level = (Spinner) view.findViewById(R.id.spell_slot_level);
+        cast_button = (Button) view.findViewById(R.id.cast_button);
+        cast_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharacterActivity context = SpellDialogFragment.this.getMainActivity();
+                int spell_level = spell_slot_level.getSelectedItemPosition() + spell.getLevel();
+                context.getCharacter().useSpellSlot(spell_level);
+                context.updateViews();
+                context.saveCharacter();
+            }
+        });
+
 
         // TODO this is overriding the state
         attack_roll_input.addTextChangedListener(new TextWatcher() {
@@ -306,6 +326,8 @@ public class SpellDialogFragment extends RollableDialogFragment {
         super.onCharacterLoaded(character);
 
         loadSpell(character);
+
+
         updateViews();
     }
 
@@ -347,6 +369,9 @@ public class SpellDialogFragment extends RollableDialogFragment {
 
         attack_roll_modifier.setText(NumberUtils.formatNumber(damageModifier));
 
+        final Character.SpellLevelInfo levelInfo = getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + spell.getLevel());
+        cast_button.setEnabled(levelInfo.getSlotsAvailable() > 0);
+
     }
 
     private void loadSpell(@NonNull Character character) {
@@ -370,6 +395,34 @@ public class SpellDialogFragment extends RollableDialogFragment {
 
         }
         spell = spells.get(0);
+
+        // update the spell slot drop down descriptions
+        ArrayAdapter spell_slot_levelAdapter = (ArrayAdapter) spell_slot_level.getAdapter();
+        if (spell_slot_levelAdapter == null) {
+            spellLevels = new ArrayList<>();
+            spell_slot_levelAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spellLevels);
+            spell_slot_level.setAdapter(spell_slot_levelAdapter);
+        }
+        spellLevels.clear();
+        for (Character.SpellLevelInfo each : getCharacter().getSpellInfos()) {
+            if (each.getLevel() == 0) continue;
+            if (each.getLevel() < spell.getLevel()) continue;
+            spellLevels.add(getString(R.string.spell_slot_level_and_uses, each.getLevel(), each.getSlotsAvailable()));
+        }
+        spell_slot_levelAdapter.notifyDataSetChanged();
+
+        spell_slot_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                final Character.SpellLevelInfo levelInfo = getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + spell.getLevel());
+                cast_button.setEnabled(levelInfo.getSlotsAvailable() > 0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
