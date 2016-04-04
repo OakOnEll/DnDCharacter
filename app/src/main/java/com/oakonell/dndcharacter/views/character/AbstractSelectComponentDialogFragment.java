@@ -23,12 +23,11 @@ import android.widget.TextView;
 import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.CursorBindableRecyclerViewHolder;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
 
 /**
  * Created by Rob on 1/24/2016.
@@ -62,7 +61,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
         listView = (RecyclerView) view.findViewById(R.id.list);
 
         listView.setHasFixedSize(true);
-        listView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity()));
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         listView.addItemDecoration(itemDecoration);

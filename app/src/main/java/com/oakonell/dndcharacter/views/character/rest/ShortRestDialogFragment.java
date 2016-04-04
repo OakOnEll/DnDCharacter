@@ -19,6 +19,7 @@ import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
@@ -119,7 +120,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         hitDiceListView.setAdapter(diceAdapter);
 
         hitDiceListView.setHasFixedSize(false);
-        hitDiceListView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        hitDiceListView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         hitDiceListView.addItemDecoration(itemDecoration);

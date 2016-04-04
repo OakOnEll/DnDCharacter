@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 
@@ -69,7 +70,7 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
             if (spellAdapter == null) {
                 spellAdapter = newAdapter(context, info);
                 list.setAdapter(spellAdapter);
-                list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(context.getActivity(), LinearLayoutManager.VERTICAL, false));
+                list.setLayoutManager(UIUtils.createLinearLayoutManager(context.getActivity(), LinearLayoutManager.VERTICAL, false));
                 list.setHasFixedSize(false);
 
                 DividerItemDecoration itemDecoration = new DividerItemDecoration(context.getActivity(), DividerItemDecoration.VERTICAL_LIST);

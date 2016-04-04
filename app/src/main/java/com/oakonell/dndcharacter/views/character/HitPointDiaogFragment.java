@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -28,14 +29,13 @@ import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.VulnerabilityType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -197,7 +197,7 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         hpListView.setAdapter(hpListAdapter);
 
         hpListView.setHasFixedSize(false);
-        hpListView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        hpListView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         hpListView.addItemDecoration(itemDecoration);

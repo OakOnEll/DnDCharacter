@@ -28,6 +28,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.CharacterExporter;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.utils.FileUtils;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.AbstractBaseActivity;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
@@ -113,7 +114,7 @@ public class ExportActivity extends AbstractBaseActivity {
 
         listAdapter = new ExportRowAdapter(this, new ArrayList<CharacterExporter.ExportRow>());
         listView.setAdapter(listAdapter);
-        listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        listView.setLayoutManager(UIUtils.createLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listView.setHasFixedSize(false);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);

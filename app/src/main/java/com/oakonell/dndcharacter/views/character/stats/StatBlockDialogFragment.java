@@ -17,6 +17,7 @@ import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.CustomNumericAdjustmentDialog;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
@@ -98,7 +99,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         adapter = new StatSourceAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
-        listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         listView.setHasFixedSize(false);
 
     }

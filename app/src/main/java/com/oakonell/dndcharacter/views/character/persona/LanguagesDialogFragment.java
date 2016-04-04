@@ -12,6 +12,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.RowWithSourceAdapter;
@@ -71,7 +72,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
         adapter = new LanguagesSourcesAdapter(this, listRetriever);
         listView.setAdapter(adapter);
 
-        listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         listView.setHasFixedSize(false);
 
     }

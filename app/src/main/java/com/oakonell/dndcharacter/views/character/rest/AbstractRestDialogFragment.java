@@ -24,6 +24,7 @@ import com.oakonell.dndcharacter.model.character.SpellSlotResetInfo;
 import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
@@ -153,7 +154,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         featureListView.setAdapter(featureResetAdapter);
 
         featureListView.setHasFixedSize(false);
-        featureListView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        featureListView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         featureListView.addItemDecoration(itemDecoration);
@@ -195,7 +196,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         spell_slot_list.setAdapter(spellSlotResetAdapter);
 
         spell_slot_list.setHasFixedSize(false);
-        spell_slot_list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        spell_slot_list.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         DividerItemDecoration horizontalDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL_LIST);
         spell_slot_list.addItemDecoration(horizontalDecoration);

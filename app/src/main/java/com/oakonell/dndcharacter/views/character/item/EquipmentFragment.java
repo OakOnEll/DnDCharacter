@@ -29,6 +29,7 @@ import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
@@ -193,7 +194,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         // armor
         armorAdapter = new ArmorAdapter(this, character);
         armorView.setAdapter(armorAdapter);
-        armorView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        armorView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         armorView.setHasFixedSize(false);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
@@ -205,7 +206,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 // weapons
         weaponsAdapter = new WeaponsAdapter(this, character);
         weaponsView.setAdapter(weaponsAdapter);
-        weaponsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        weaponsView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         weaponsView.setHasFixedSize(false);
         weaponsView.addItemDecoration(itemDecoration);
 
@@ -213,7 +214,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 // regular equipment
         equipmentAdapter = new EquipmentAdapter(this, character);
         itemsView.setAdapter(equipmentAdapter);
-        itemsView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        itemsView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         itemsView.setHasFixedSize(false);
         itemsView.addItemDecoration(itemDecoration);
 

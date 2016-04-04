@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/equipment_item_style"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -17,22 +17,22 @@
             android:layout_height="wrap_content"
             android:ems="2"
             android:gravity="right"
-            tools:text="1"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="1" />
 
         <TextView
             android:id="@+id/class_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Sorcerer"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="Sorcerer" />
 
         <TextView
             android:id="@+id/subclass_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Wild Magic"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            tools:text="Wild Magic" />
 
 
     </LinearLayout>
@@ -49,8 +49,8 @@
             android:layout_marginLeft="30dp"
             android:ems="2"
             android:gravity="right"
-            tools:text="6"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="6" />
 
         <TextView
             android:id="@+id/hit_dice"
@@ -58,8 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:gravity="right"
-            tools:text="/1d8+2"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="/1d8+2" />
 
         <TextView
             android:id="@+id/class_level"
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:ems="2"
             android:gravity="right"
-            tools:text="1"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="1" />
     </LinearLayout>
 </LinearLayout>

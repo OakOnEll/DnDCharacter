@@ -7,24 +7,23 @@
     android:orientation="horizontal">
 
 
-    <LinearLayout
-        android:id="@+id/use_group"
-        android:layout_width="wrap_content"
+    <uk.co.deanwild.flowtextview.FlowTextView
+        android:id="@+id/use_description"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        tools:text="This is the description">
 
 
         <Button
             android:id="@+id/use_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:text="@string/use_button_label" />
 
-        <TextView
-            android:id="@+id/use_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+
+    </uk.co.deanwild.flowtextview.FlowTextView>
 
 
     <LinearLayout

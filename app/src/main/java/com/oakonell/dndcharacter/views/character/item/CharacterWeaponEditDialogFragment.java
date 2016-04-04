@@ -27,6 +27,7 @@ import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
@@ -96,7 +97,7 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         damages.setAdapter(damagesAdapter);
 
         damages.setHasFixedSize(false);
-        damages.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        damages.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         damages.addItemDecoration(itemDecoration);
@@ -107,7 +108,7 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         versatile_damages.setAdapter(versatileDamagesAdapter);
 
         versatile_damages.setHasFixedSize(false);
-        versatile_damages.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        versatile_damages.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         versatile_damages.addItemDecoration(itemDecoration);
 

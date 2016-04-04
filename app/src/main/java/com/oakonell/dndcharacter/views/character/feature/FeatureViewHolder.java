@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.UseType;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
@@ -40,6 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import uk.co.deanwild.flowtextview.FlowTextView;
 
 /**
  * Created by Rob on 1/4/2016.
@@ -159,13 +164,14 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             actionsAdapter = new ActionAdapter(context);
             action_list.setAdapter(actionsAdapter);
 
-            action_list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            action_list.setLayoutManager(UIUtils.createLinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             action_list.setHasFixedSize(false);
 
             DividerItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
             action_list.addItemDecoration(itemDecoration);
         }
         actionsAdapter.setFeature(info, filter);
+        itemView.requestLayout();
 
 
         boolean hasLimitedUses = info.hasLimitedUses();
@@ -199,7 +205,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         @NonNull
         public final Button useButton;
         @NonNull
-        public final TextView use_description;
+        public final FlowTextView use_description;
         @NonNull
         public final TextView remaining_uses;
 
@@ -218,10 +224,12 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
 
             useButton = (Button) view.findViewById(R.id.use_button);
-            use_description = (TextView) view.findViewById(R.id.use_description);
+            use_description = (FlowTextView) view.findViewById(R.id.use_description);
+            // the default FlowTextView text size is not correct..
+            use_description.setTextSize(remaining_uses.getTextSize());
 
             pool_apply_group = (ViewGroup) view.findViewById(R.id.pool_apply_group);
-            use_group = (ViewGroup) view.findViewById(R.id.use_group);
+            use_group = (ViewGroup) view.findViewById(R.id.use_description);
             pool_value = (TextView) view.findViewById(R.id.pool_value);
             pool_apply_button = (ImageButton) view.findViewById(R.id.pool_apply_button);
             pool_cancel_button = (ImageButton) view.findViewById(R.id.pool_cancel_button);
@@ -234,7 +242,9 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
             int maxUses = info.evaluateMaxUses(context.getCharacter());
             final int usesRemaining = context.getCharacter().getUsesRemaining(info);
 
-            use_description.setText(action.getActionDescription());
+            final String description = action.getActionDescription();
+            Spanned html = Html.fromHtml(description == null ? "" : description);
+            use_description.setText(html);
 
             if (action.getCost() > 0 || maxUses == 0) {
                 // TODO get a short description? Possibly place the cost on the button?

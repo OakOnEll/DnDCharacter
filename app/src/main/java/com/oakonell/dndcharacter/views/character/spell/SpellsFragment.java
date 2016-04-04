@@ -17,6 +17,7 @@ import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.spell.ApplySpellToCharacterVisitor;
 import com.oakonell.dndcharacter.model.spell.Spell;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
 
@@ -73,7 +74,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
 
         casterInfoAdapter = new CasterInfoAdapter(this, character);
         caster_list.setAdapter(casterInfoAdapter);
-        caster_list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        caster_list.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         caster_list.setHasFixedSize(false);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
@@ -82,7 +83,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
 
         spellsAdapter = new SpellLevelsAdapter(this, character);
         spell_level_list.setAdapter(spellsAdapter);
-        spell_level_list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        spell_level_list.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         spell_level_list.setHasFixedSize(false);
 //
 //        spell_level_list.addItemDecoration(itemDecoration);
@@ -90,7 +91,7 @@ public class SpellsFragment extends AbstractSheetFragment implements SelectSpell
 
         cantripsAdapter = new CantripAdapter(this, character.getSpellInfos().get(0));
         cantrips.setAdapter(cantripsAdapter);
-        cantrips.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        cantrips.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         cantrips.setHasFixedSize(false);
 
         cantrips.addItemDecoration(itemDecoration);

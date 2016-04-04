@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -21,10 +22,10 @@ import android.widget.TextView;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.race.Race;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 
-import org.solovyev.android.views.llm.LinearLayoutManager;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
         nameTypes.setAdapter(nameTypeAdapter);
 
         nameTypes.setHasFixedSize(false);
-        nameTypes.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        nameTypes.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
 
         updateViews();
@@ -165,7 +166,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
     }
 
     private static class NameViewHolder {
-            //extends BindableComponentViewHolder<String, NameDialog, NameAdapter> {
+        //extends BindableComponentViewHolder<String, NameDialog, NameAdapter> {
         @NonNull
         private final TextView name;
 

@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.views.character.item;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +20,10 @@ import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
 import com.oakonell.dndcharacter.model.character.CustomAdjustments;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -142,7 +142,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         rootList.setAdapter(rootAcAdapter);
-        rootList.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        rootList.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rootList.setHasFixedSize(false);
 
 
@@ -158,7 +158,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
             modifyingArmorSaved = null;
         }
         modList.setAdapter(modifyingAcAdapter);
-        modList.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        modList.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         modList.setHasFixedSize(false);
 
         rootAcAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {

@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.views.character.feature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.oakonell.dndcharacter.model.character.CustomAdjustments;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
@@ -27,8 +29,6 @@ import com.oakonell.dndcharacter.views.character.feat.PassivePerceptionDialogFra
 import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.SpeedDialogFragment;
 import com.oakonell.dndcharacter.views.character.stats.StatBlockDialogFragment;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +172,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
                 list.setAdapter(listAdapter);
 
                 list.setHasFixedSize(false);
-                list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                list.setLayoutManager(UIUtils.createLinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
                 DividerItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
                 list.addItemDecoration(itemDecoration);
@@ -233,7 +233,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
                 list.setAdapter(listAdapter);
 
                 list.setHasFixedSize(false);
-                list.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                list.setLayoutManager(UIUtils.createLinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
                 DividerItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
                 list.addItemDecoration(itemDecoration);

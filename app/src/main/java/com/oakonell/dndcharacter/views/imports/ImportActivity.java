@@ -36,6 +36,7 @@ import com.oakonell.dndcharacter.model.DataImporter;
 import com.oakonell.dndcharacter.model.UpdateCharacters;
 import com.oakonell.dndcharacter.utils.ProgressData;
 import com.oakonell.dndcharacter.utils.ProgressUpdater;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.AbstractBaseActivity;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
@@ -137,7 +138,7 @@ public class ImportActivity extends AbstractBaseActivity {
 
         listAdapter = new ImportRowAdapter(this, importer.getImportRows());
         listView.setAdapter(listAdapter);
-        listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        listView.setLayoutManager(UIUtils.createLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listView.setHasFixedSize(false);
 
 

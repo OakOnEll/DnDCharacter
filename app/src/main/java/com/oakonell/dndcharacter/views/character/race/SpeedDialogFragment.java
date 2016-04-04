@@ -18,6 +18,7 @@ import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
 import com.oakonell.dndcharacter.model.character.SpeedType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
@@ -65,7 +66,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
         adapter = new SpeedTypeAdapter(this, character.getSpeedType());
         listView.setAdapter(adapter);
 
-        listView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         listView.setHasFixedSize(false);
     }
 
@@ -161,7 +162,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
                 sourceAdapter = new SpeedSourceAdapter(adapter, type);
                 speed_sources.setAdapter(sourceAdapter);
 
-                speed_sources.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+                speed_sources.setLayoutManager(UIUtils.createLinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 speed_sources.setHasFixedSize(false);
             } else {
                 sourceAdapter.setType(type);

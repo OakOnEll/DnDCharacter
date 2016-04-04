@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.oakonell.dndcharacter.DndCharacterApp;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;
@@ -27,8 +29,6 @@ import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragm
 import com.oakonell.dndcharacter.views.character.feature.ViewEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.ApplyRaceDialogFragment;
 import com.squareup.leakcanary.RefWatcher;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.List;
 
@@ -207,7 +207,7 @@ public abstract class AbstractSheetFragment extends Fragment implements OnCharac
 
 
         effectList.setHasFixedSize(false);
-        effectList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        effectList.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL_LIST);
         effectList.addItemDecoration(itemDecoration);

@@ -12,9 +12,8 @@ import com.oakonell.dndcharacter.DndCharacterApp;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
+import com.oakonell.dndcharacter.utils.UIUtils;
 import com.squareup.leakcanary.RefWatcher;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.Collections;
 import java.util.Set;
@@ -70,7 +69,7 @@ public abstract class AbstractCharacterDialogFragment extends AbstractDialogFrag
             context_list.setAdapter(contextualComponentAdapter);
             // decide on 1 or 2 columns based on screen size
             //int numColumns = getResources().getInteger(R.integer.feature_columns);
-            context_list.setLayoutManager(new LinearLayoutManager(getMainActivity(), android.support.v7.widget.LinearLayoutManager.VERTICAL, false));
+            context_list.setLayoutManager(UIUtils.createLinearLayoutManager(getMainActivity(), android.support.v7.widget.LinearLayoutManager.VERTICAL, false));
 
             if (contextualComponentAdapter.getItemCount() == 0) {
                 context_group.setVisibility(View.GONE);
