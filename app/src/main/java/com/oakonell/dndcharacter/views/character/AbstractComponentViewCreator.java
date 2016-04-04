@@ -91,6 +91,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     Set<String> hardCodedSpells = new HashSet<>();
     @NonNull
     Set<CategoryChoicesMD> chosenSpellMDs = new HashSet<>();
+    private ChoiceFilters choiceFilters;
 
     public AbstractComponentViewCreator(Character character, boolean handleSpells) {
         this.handleSpells = handleSpells;
@@ -307,7 +308,8 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                 SkillType type = EnumHelper.stringToEnum(skillName, SkillType.class);
 
                 List<Character.ProficientWithSource> proficientWithSources = getCharacter().deriveSkillProciencies(type);
-                if (proficientWithSources.isEmpty()) {
+                final boolean isPastChoice = choiceFilters.filters.contains(type.name().toUpperCase());
+                if (proficientWithSources.isEmpty() && !isPastChoice) {
                     super.visitProficiency(element);
 
                 } else {
@@ -324,6 +326,9 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                             alreadyProficientString = parent.getResources().getString(R.string.already_proficient_from, parent.getResources().getString(each.getProficient().getStringResId()), each.getSourceString(parent.getResources()));
                             maxProfMult = each.getProficient().getMultiplier();
                         }
+                    }
+                    if (alreadyProficientString == null && isPastChoice) {
+                        name += " (" + parent.getResources().getString(R.string.already_proficient_from_prev_choice) + ")";
                     }
                     if (alreadyProficientString != null) {
                         name += " (" + alreadyProficientString + ")";
@@ -616,6 +621,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             parent.addView(layout);
             parent = (ViewGroup) layout.findViewById(R.id.choices_view);
 
+            ChoiceFilters oldChoiceFilters = choiceFilters;
+            String filtersString = element.getAttribute("filters");
+            choiceFilters = new ChoiceFilters(filtersString).invoke();
+
             TextView numChoicesTextView = (TextView) layout.findViewById(R.id.num_choices);
             TextView chooseLabelView = (TextView) layout.findViewById(R.id.choose_label);
 
@@ -633,6 +642,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
             super.visitChoose(element);
             setCheckedEnabledStates(multipleChoicesMD);
+            choiceFilters = oldChoiceFilters;
         }
 
 
@@ -666,22 +676,9 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final List<SkillType> list = new ArrayList<>();
 
         String filtersString = element.getAttribute("filters");
-        Set<String> filters = new HashSet<>();
-        boolean filterExisting = false;
-        if (filtersString != null && filtersString.trim().length() > 0) {
-            String[] filtersArray = filtersString.split("\\s*,\\s*");
-            for (String each : filtersArray) {
-                if (each.equals("$existing")) {
-                    filterExisting = true;
-                    continue;
-                }
-                List<String> choicesFor = choices.getChoicesFor(each);
-                for (String eachChoice : choicesFor) {
-                    // TODO convert the choice string to the SkillType name
-                    filters.add(eachChoice.toUpperCase());
-                }
-            }
-        }
+        ChoiceFilters choiceFilters = new ChoiceFilters(filtersString).invoke();
+        Set<String> filters = choiceFilters.getFilters();
+        boolean filterExisting = choiceFilters.isFilterExisting();
 
         for (SkillType each : SkillType.values()) {
             // TODO existence check should only include up to the class level before this one, if this is a class
@@ -744,17 +741,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         List<ItemRow> toolRows = nameSelect.execute();
 
         String filtersString = element.getAttribute("filters");
-        Set<String> filters = new HashSet<>();
-        if (filtersString != null && filtersString.trim().length() > 0) {
-            String[] filtersArray = filtersString.split("\\s*,\\s*");
-            for (String each : filtersArray) {
-                List<String> choicesFor = choices.getChoicesFor(each);
-                for (String eachChoice : choicesFor) {
-                    // TODO convert the choice string to the item name
-                    filters.add(eachChoice.toUpperCase());
-                }
-            }
-        }
+        ChoiceFilters choiceFilters = new ChoiceFilters(filtersString).invoke();
+        Set<String> filters = choiceFilters.getFilters();
+        boolean filterExisting = choiceFilters.isFilterExisting();
+
 
         List<String> tools = new ArrayList<>();
         for (ItemRow each : toolRows) {
@@ -1165,4 +1155,41 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
 
+    private class ChoiceFilters {
+        private String filtersString;
+        private Set<String> filters;
+        private boolean filterExisting;
+
+        public ChoiceFilters(String filtersString) {
+            this.filtersString = filtersString;
+        }
+
+        public Set<String> getFilters() {
+            return filters;
+        }
+
+        public boolean isFilterExisting() {
+            return filterExisting;
+        }
+
+        public ChoiceFilters invoke() {
+            filters = new HashSet<>();
+            filterExisting = false;
+            if (filtersString != null && filtersString.trim().length() > 0) {
+                String[] filtersArray = filtersString.split("\\s*,\\s*");
+                for (String each : filtersArray) {
+                    if (each.equals("$existing")) {
+                        filterExisting = true;
+                        continue;
+                    }
+                    List<String> choicesFor = choices.getChoicesFor(each);
+                    for (String eachChoice : choicesFor) {
+                        // TODO convert the choice string to the SkillType name
+                        filters.add(eachChoice.toUpperCase());
+                    }
+                }
+            }
+            return this;
+        }
+    }
 }

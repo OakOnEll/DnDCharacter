@@ -93,4 +93,5 @@
     <string name="invalid_number_format">Invalid Number Format %1$s in %2$s</string>
     <string name="invalid_money_value_format">Invalid value format %s</string>
     <string name="level_n_spell">Level %d</string>
+    <string name="already_proficient_from_prev_choice">Already proficient from previous choice</string>
 </resources>

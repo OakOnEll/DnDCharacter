@@ -70,8 +70,7 @@
 
     <level value="1">
         <skills>
-            <!-- TODO filter to exclude/mention ones already chosen -->
-            <choose name="skills2" number="1">
+            <choose name="skills2" number="1" filters="skills">
                 <or name="acrobatics"><proficiency>Acrobatics</proficiency></or>
                 <or name="athletics"><proficiency>Athletics</proficiency></or>
                 <or name="deception"><proficiency>Deception</proficiency></or>
@@ -105,10 +104,7 @@
             <or name="skills">
                 <!-- TODO these are not including the skill above in same level :(  -->
                 <skills>
-                    <choose name="expert_skills" level="expert" number="2" filters="skills,skills2,$existing" >
-                        <!-- TODO handle referencing existing skills (eg, including background) -->
-                        <!-- TODO support this to increase skill to expert -->
-                    </choose>
+                    <choose name="expert_skills" level="expert" number="2" filters="skills,skills2,$existing" />
                 </skills>
                 <tools>
                     <proficiency>thieves' tools</proficiency>
@@ -116,10 +112,7 @@
             </or>
             <or name="tools">
                 <skills>
-                    <choose name="expert_skill" level="expert" number="1" filters="skills,skills2,$existing">
-                        <!-- TODO handle referencing existing skills (eg, including background) -->
-                        <!-- TODO support this to increase skill to expert -->
-                    </choose>
+                    <choose name="expert_skill" level="expert" number="1" filters="skills,skills2,$existing"/>
                 </skills>
                 <tools>
                     <proficiency level="expert">thieves' tools</proficiency>
@@ -170,10 +163,7 @@
             <or name="skills">
                 <skills>
                     <!-- TODO this includes skill already expert in! -->
-                    <choose name="expert_skills" level="expert" number="2" filters="$existing" >
-                        <!-- TODO handle referencing existing skills (eg, including background) -->
-                        <!-- TODO support this to increase skill to expert -->
-                    </choose>
+                    <choose name="expert_skills" level="expert" number="2" filters="$existing" />
                 </skills>
                 <tools>
                     <proficiency>thieves' tools</proficiency>
@@ -181,10 +171,7 @@
             </or>
             <or name="tools">
                 <skills>
-                    <choose name="expert_skill" level="expert" number="1" filters="$existing">
-                        <!-- TODO handle referencing existing skills (eg, including background) -->
-                        <!-- TODO support this to increase skill to expert -->
-                    </choose>
+                    <choose name="expert_skill" level="expert" number="1" filters="$existing"/>
                 </skills>
                 <tools>
                     <proficiency level="expert">thieves' tools</proficiency>
