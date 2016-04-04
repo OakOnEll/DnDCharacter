@@ -191,7 +191,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     @Override
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
-        // armor
+// armor
         armorAdapter = new ArmorAdapter(this, character);
         armorView.setAdapter(armorAdapter);
         armorView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -202,6 +202,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         armorItemsView.findViewById(R.id.equip).setVisibility(View.INVISIBLE);
         armorItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
+        armorItemsView.findViewById(R.id.delete).setVisibility(View.GONE);
 //        ((TextView)armorItemsView.findViewById(R.id.ac)).setText("AC/Mod");
 // weapons
         weaponsAdapter = new WeaponsAdapter(this, character);
@@ -211,6 +212,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         weaponsView.addItemDecoration(itemDecoration);
 
         weaponItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
+        weaponItemsView.findViewById(R.id.delete).setVisibility(View.GONE);
 // regular equipment
         equipmentAdapter = new EquipmentAdapter(this, character);
         itemsView.setAdapter(equipmentAdapter);
@@ -611,9 +613,10 @@ public class EquipmentFragment extends AbstractSheetFragment {
                 // horizontal swipe detection
                 if (Math.abs(deltaX) > MIN_DISTANCE) {
                     // left or right
-                    mDragStartListener.onStartSwipe(holder);
-                    lookForDrag = false;
-                    return false;
+                    //  eliminate swipes
+//                    mDragStartListener.onStartSwipe(holder);
+//                    lookForDrag = false;
+//                    return false;
                 } else if (Math.abs(deltaY) > MIN_DISTANCE) {
                     // vertical swipe
                     mDragStartListener.onStartDrag(holder);
@@ -632,23 +635,32 @@ public class EquipmentFragment extends AbstractSheetFragment {
         private final OnStartDragListener mDragStartListener;
         @NonNull
         final TextView name;
+        private final ImageView deleteView;
         private Drawable originalBackground;
 
         public AbstractItemViewHolder(@NonNull View view, OnStartDragListener mDragStartListener) {
             super(view);
             this.mDragStartListener = mDragStartListener;
             handleView = (ImageView) itemView.findViewById(R.id.handle);
+            deleteView = (ImageView) itemView.findViewById(R.id.delete);
             name = (TextView) view.findViewById(R.id.name);
         }
 
         @Override
-        public void bind(EquipmentFragment context, SubAdapter<I> adapter, @NonNull I item) {
+        public void bind(EquipmentFragment context, final SubAdapter<I> adapter, @NonNull I item) {
             name.setText(getNameString(item, context));
             // TODO force child classes to implement onClick
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                }
+            });
+
+            deleteView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapter.onItemDismiss(getAdapterPosition());
                 }
             });
 

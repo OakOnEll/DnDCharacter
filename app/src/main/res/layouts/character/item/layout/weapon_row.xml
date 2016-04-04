@@ -12,23 +12,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+
         <ImageView
             android:id="@+id/handle"
-            style="@style/handle_style"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            style="@style/handle_style" />
 
         <!-- these double as a header row -->
-        <TextView
-            android:id="@+id/name"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:lines="1"
-            android:maxLines="1"
-            android:text="@string/name_label" />
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxLines="1"
+                android:text="@string/name_label" />
+
+            <ImageView
+                android:id="@+id/delete"
+                style="@style/delete_style" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/hit_bonus"
@@ -47,10 +57,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ammunition_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
 
         <TextView
