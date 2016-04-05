@@ -404,6 +404,9 @@ public class Character {
     }
 
     public boolean isProficientWith(@NonNull CharacterArmor armor) {
+        // If armor includes rings and such, this works. Otherwise, we'll need an indicator whether
+        //    proficiency is applicable or not?
+        if (armor.getCategory() == null && !armor.isShield()) return true;
         return isProficientWithItem(ProficiencyType.ARMOR, armor);
     }
 
