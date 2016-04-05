@@ -480,7 +480,12 @@ public class SpellDialogFragment extends RollableDialogFragment {
 
         attack_roll1.setVisibility(View.VISIBLE);
 
-        damages.put(first, damages.get(first) + damageModifier);
+
+        Integer damage = damages.get(first);
+        if (damage == null) {
+            damage = 0;
+        }
+        damages.put(first, damage + damageModifier);
 
         attack_roll_total.setText(attackDamageInfo.getDescription(getResources()));
         add_another.setEnabled(true);
