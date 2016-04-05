@@ -242,7 +242,10 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
         public void bind(@NonNull ExperienceDialogFragment context, XpLevelAdapter adapter, @NonNull XpLevel info) {
             xp.setText(NumberUtils.formatNumber(info.xp));
             level.setText(NumberUtils.formatNumber(info.level));
-            int currentLevel = context.getCharacter().getCharacterLevel();
+            int currentLevel = -1;
+            if (context.getCharacter() != null) {
+                currentLevel = context.getCharacter().getCharacterLevel();
+            }
             int currentXp = context.getCharacter().getXp();
             comment.setText("");
             if (currentLevel == info.level) {

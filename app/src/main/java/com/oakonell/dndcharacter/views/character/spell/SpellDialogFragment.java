@@ -384,7 +384,11 @@ public class SpellDialogFragment extends RollableDialogFragment {
         }
 
         spell_level.setText(getString(R.string.level_n_spell, spell.getLevel()));
-        spell_school.setText(spell.getSchool().getStringResId());
+        if (spell.getSchool() != null) {
+            spell_school.setText(spell.getSchool().getStringResId());
+        } else {
+            spell_school.setText(R.string.unknown_school);
+        }
     }
 
     private void loadSpell(@NonNull Character character) {

@@ -61,6 +61,7 @@ public class NotesFragment extends AbstractSheetFragment {
     @Override
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
+        if (notes == null) return;
         if (getCharacter() == null) {
             notes.setText("");
         } else {
