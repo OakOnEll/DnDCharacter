@@ -144,8 +144,10 @@ public class SpellDialogFragment extends RollableDialogFragment {
             @Override
             public void onClick(View v) {
                 CharacterActivity context = SpellDialogFragment.this.getMainActivity();
-                int spell_level = spell_slot_level.getSelectedItemPosition() + spell.getLevel();
-                context.getCharacter().useSpellSlot(spell_level);
+                if (spell.getLevel() != 0) {
+                    int spell_level = spell_slot_level.getSelectedItemPosition() + spell.getLevel();
+                    context.getCharacter().useSpellSlot(spell_level);
+                }
                 context.updateViews();
                 context.saveCharacter();
             }
@@ -374,8 +376,12 @@ public class SpellDialogFragment extends RollableDialogFragment {
 
         attack_roll_modifier.setText(NumberUtils.formatNumber(damageModifier));
 
-        final Character.SpellLevelInfo levelInfo = getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + spell.getLevel());
-        cast_button.setEnabled(levelInfo.getSlotsAvailable() > 0);
+        if (spell.getLevel() == 0) {
+            spell_slot_level.setVisibility(View.GONE);
+        } else {
+            final Character.SpellLevelInfo levelInfo = getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + spell.getLevel());
+            cast_button.setEnabled(levelInfo.getSlotsAvailable() > 0);
+        }
 
         spell_level.setText(getString(R.string.level_n_spell, spell.getLevel()));
         spell_school.setText(spell.getSchool().getStringResId());
