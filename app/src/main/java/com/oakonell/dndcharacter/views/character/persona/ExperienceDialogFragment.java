@@ -243,10 +243,11 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
             xp.setText(NumberUtils.formatNumber(info.xp));
             level.setText(NumberUtils.formatNumber(info.level));
             int currentLevel = -1;
+            int currentXp = 0;
             if (context.getCharacter() != null) {
                 currentLevel = context.getCharacter().getCharacterLevel();
+                currentXp = context.getCharacter().getXp();
             }
-            int currentXp = context.getCharacter().getXp();
             comment.setText("");
             if (currentLevel == info.level) {
                 // TODO highlight background
