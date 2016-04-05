@@ -277,7 +277,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         StringBuilder knownBy = new StringBuilder();
         for (Character.LanguageWithSource each : languageWithSources) {
             if (!each.getLanguage().equals(language)) continue;
-            if (each.getSource().equals(currentComponent)) continue;
+            if (each.getSource() != null && each.getSource().equals(currentComponent)) continue;
 
             if (knownBy.length() > 0) {
                 knownBy.append(",");
@@ -327,7 +327,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     String alreadyProficientString = null;
                     double maxProfMult = 0;
                     for (Character.ToolProficiencyWithSource each : toolProficiencies) {
-                        if (each.getSource().equals(currentComponent)) continue;
+                        if (each.getSource() != null && each.getSource().equals(currentComponent)) continue;
                         // TODO handle tool category
                         if (each.getProficiency().getName().equalsIgnoreCase(toolName)) {
                             // TODO what about when the current component was actually changed
@@ -364,7 +364,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     String alreadyProficientString = null;
                     double maxProfMult = 0;
                     for (Character.ProficientWithSource each : proficientWithSources) {
-                        if (each.getSource().equals(currentComponent)) continue;
+                        if (each.getSource() != null && each.getSource().equals(currentComponent)) continue;
                         // TODO what about when the current component was actually changed
                         if (each.getProficient().getMultiplier() > maxProfMult) {
                             alreadyProficientString = parent.getResources().getString(R.string.already_proficient_from, parent.getResources().getString(each.getProficient().getStringResId()), each.getSourceString(parent.getResources()));
@@ -902,7 +902,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     if (each.getLevel() != 0) continue;
 
                     for (Character.CharacterSpellWithSource eachSpell : each.getSpellInfos()) {
-                        if (!eachSpell.getSource().equals(currentComponent)) {
+                        if (eachSpell.getSource() == null || !eachSpell.getSource().equals(currentComponent)) {
                             knownCantrips.add(eachSpell.getSpell().getName());
                         }
                     }
@@ -950,7 +950,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     if (each.getLevel() == 0) continue;
 
                     for (Character.CharacterSpellWithSource eachSpell : each.getSpellInfos()) {
-                        if (!eachSpell.getSource().equals(currentComponent)) {
+                        if (eachSpell.getSource() == null || !eachSpell.getSource().equals(currentComponent)) {
                             knownSpells.add(eachSpell.getSpell().getName());
                         }
                     }
