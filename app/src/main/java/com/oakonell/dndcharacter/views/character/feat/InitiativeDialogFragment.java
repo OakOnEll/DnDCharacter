@@ -161,5 +161,9 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
 
     }
 
+    protected boolean supportsCriticalRolls() {
+        return false;
+    }
+
 
 }
