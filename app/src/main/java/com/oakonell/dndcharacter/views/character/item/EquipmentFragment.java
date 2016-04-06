@@ -543,7 +543,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         public void bind(@NonNull final EquipmentFragment context, final SubAdapter<CharacterWeapon> adapter, @NonNull final CharacterWeapon item) {
             super.bind(context, adapter, item);
 
-            final CharacterWeapon.AttackModifiers attackModifiers = item.getAttackModifiers(context.getCharacter(), false);
+            final CharacterWeapon.AttackModifier attackModifiers = item.getBaseAttackModifier(context.getCharacter(), false);
             final int damageModifier = attackModifiers.getDamageModifier();
             String damageModString = "";
             if (damageModifier != 0) {

@@ -34,6 +34,9 @@ public class CharacterWeapon extends CharacterItem {
     @ElementList(required = false)
     private List<DamageFormula> damageFormulas = new ArrayList<>();
 
+    @ElementList(required = false)
+    private List<AttackModifier> bonusModifiers = new ArrayList<>();
+
     @NonNull
     @ElementList(required = false)
     private List<DamageFormula> versatileDamageFormulas = new ArrayList<>();
@@ -281,7 +284,7 @@ public class CharacterWeapon extends CharacterItem {
     }
 
     @NonNull
-    public AttackModifiers getAttackModifiers(@NonNull com.oakonell.dndcharacter.model.character.Character character, boolean useFinesse) {
+    public List<AttackModifier> getAttackModifiers(@NonNull com.oakonell.dndcharacter.model.character.Character character, boolean useFinesse) {
         StatBlock statBlock;
         if (useFinesse || isRanged()) {
             statBlock = character.getStatBlock(StatType.DEXTERITY);
@@ -294,7 +297,29 @@ public class CharacterWeapon extends CharacterItem {
         boolean isProficient = character.isProficientWith(this);
         int profBonus = isProficient ? character.getProficiency() : 0;
 
-        return new AttackModifiers(damageModifier + profBonus, damageModifier);
+        List<AttackModifier> result = new ArrayList<>();
+        result.add(new AttackModifier(damageModifier + profBonus, damageModifier));
+
+        // bonus weapon modifiers- eg, magic weapon
+        for (AttackModifier each : bonusModifiers) {
+            result.add(each);
+        }
+
+        return result;
+    }
+
+    @NonNull
+    public AttackModifier getBaseAttackModifier(@NonNull com.oakonell.dndcharacter.model.character.Character character, boolean useFinesse) {
+        List<AttackModifier> modifiers = getAttackModifiers(character, useFinesse);
+        int damage = 0;
+        int attackBonus = 0;
+        for (AttackModifier each : modifiers) {
+            damage += each.damageModifier;
+            attackBonus += each.attackBonus;
+        }
+
+        AttackModifier result = new AttackModifier(attackBonus, damage);
+        return result;
     }
 
     public void setAmmunition(String ammunition) {
@@ -342,11 +367,17 @@ public class CharacterWeapon extends CharacterItem {
         }
     }
 
-    public static class AttackModifiers {
-        final int attackBonus;
-        final int damageModifier;
+    public static class AttackModifier {
+        @Element(required = false)
+        int attackBonus;
+        @Element(required = false)
+        int damageModifier;
 
-        public AttackModifiers(int attackBonus, int damageModifier) {
+        public AttackModifier() {
+            // for Simple XML framework
+        }
+
+        public AttackModifier(int attackBonus, int damageModifier) {
             this.attackBonus = attackBonus;
             this.damageModifier = damageModifier;
         }
@@ -358,5 +389,14 @@ public class CharacterWeapon extends CharacterItem {
         public int getDamageModifier() {
             return damageModifier;
         }
+
+        public void setAttackBonus(int attackBonus) {
+            this.attackBonus = attackBonus;
+        }
     }
+
+    public List<AttackModifier> getBonusModifiers() {
+        return bonusModifiers;
+    }
+
 }

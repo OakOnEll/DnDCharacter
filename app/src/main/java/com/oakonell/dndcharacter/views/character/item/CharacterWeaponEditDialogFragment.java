@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
@@ -58,6 +60,7 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
     private EditText special_comment;
     private DamagesAdapter damagesAdapter;
     private DamagesAdapter versatileDamagesAdapter;
+    private EditText attack_bonus;
 
     @NonNull
     public static CharacterWeaponEditDialogFragment createAddDialog() {
@@ -119,6 +122,8 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
             }
         });
         //----
+
+        attack_bonus = (EditText) view.findViewById(R.id.attack_bonus);
 
         ranged = (CheckBox) view.findViewById(R.id.ranged);
         rangeText = (EditText) view.findViewById(R.id.range);
@@ -244,6 +249,11 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
     protected void updateViewsFromItem() {
         super.updateViewsFromItem();
 
+        final List<CharacterWeapon.AttackModifier> bonusModifiers = item.getBonusModifiers();
+        if (bonusModifiers.size() > 0) {
+            attack_bonus.setText(NumberUtils.formatNumber(bonusModifiers.get(0).getAttackBonus()));
+        }
+
         damagesAdapter.damages.clear();
         damagesAdapter.setDamages(item.getDamages());
 
@@ -281,6 +291,20 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         item.setIsVersatile(versatile.isChecked());
         item.getVersatileDamages().clear();
         item.getVersatileDamages().addAll(versatileDamagesAdapter.damages);
+
+        final String attackBonusString = attack_bonus.getText().toString();
+        if (attackBonusString != null && attackBonusString.trim().length() > 0) {
+            int attackBonusNum = Integer.parseInt(attackBonusString);
+            final List<CharacterWeapon.AttackModifier> bonusModifiers = item.getBonusModifiers();
+            if (bonusModifiers.size() > 0) {
+                bonusModifiers.get(0).setAttackBonus(attackBonusNum);
+            } else {
+                bonusModifiers.add(new CharacterWeapon.AttackModifier(attackBonusNum, 0));
+            }
+        } else {
+            item.getBonusModifiers().clear();
+        }
+
 
         item.setIsRanged(ranged.isChecked());
         if (ranged.isChecked()) {

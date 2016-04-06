@@ -337,9 +337,9 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
     private void updateViews() {
         Character character = getCharacter();
-        final CharacterWeapon.AttackModifiers attackModifiers = weapon.getAttackModifiers(character, use_dexterity.isChecked());
-        damageModifier = attackModifiers.getDamageModifier();
-        setModifier(attackModifiers.getAttackBonus());
+        final CharacterWeapon.AttackModifier attackModifier = weapon.getBaseAttackModifier(character, use_dexterity.isChecked());
+        damageModifier = attackModifier.getDamageModifier();
+        setModifier(attackModifier.getAttackBonus());
 
 
         // updateViews
@@ -372,7 +372,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
         description.setText(weapon.getDescriptionString());
-        attack_bonus.setText(NumberUtils.formatNumber(attackModifiers.getAttackBonus()));
+        attack_bonus.setText(NumberUtils.formatNumber(attackModifier.getAttackBonus()));
 
         name.setText(weapon.getName());
 
