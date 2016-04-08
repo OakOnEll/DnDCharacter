@@ -1,0 +1,39 @@
+<feat>
+    <!-- TODO this doesn't display properly
+    Ideally, would like the name under the choice, or at least modifiable from the choice-->
+    <name>Elemental Adept</name>
+    <choose name="elemental_type" title="Choose an Elemental damage type">
+        <or name="acid">
+            <name>Elemental Acid Adept</name>
+            <shortDescription>Prerequisite: Ability to cast at least one spell.
+                Spells you cast ignore resistance to the damage type of acid. In addition, when you roll damage for a spell you cast that deals acid damage, you can treat 1 a on a damage die as a 2.
+                You can select this feat multiple times. Each time you do so, you must choose a different damage type.</shortDescription>
+        </or>
+        <or name="cold">
+            <name>Elemental Cold Adept</name>
+            <shortDescription>Prerequisite: Ability to cast at least one spell.
+                Spells you cast ignore resistance to the damage type of cold. In addition, when you roll damage for a spell you cast that deals cold damage, you can treat 1 a on a damage die as a 2.
+                You can select this feat multiple times. Each time you do so, you must choose a different damage type.</shortDescription>
+        </or>
+        <or name="fire">
+            <name>Elemental Fire Adept</name>
+            <shortDescription>Prerequisite: Ability to cast at least one spell.
+                Spells you cast ignore resistance to the damage type of fire. In addition, when you roll damage for a spell you cast that deals fire damage, you can treat 1 a on a damage die as a 2.
+                You can select this feat multiple times. Each time you do so, you must choose a different damage type.</shortDescription>
+        </or>
+        <or name="lightning">
+            <name>Elemental Lightning Adept</name>
+            <shortDescription>Prerequisite: Ability to cast at least one spell.
+                Spells you cast ignore resistance to the damage type of lightning. In addition, when you roll damage for a spell you cast that deals lightning damage, you can treat 1 a on a damage die as a 2.
+                You can select this feat multiple times. Each time you do so, you must choose a different damage type.</shortDescription>
+        </or>
+        <or name="thunder">
+            <name>Elemental Thunder Adept</name>
+            <shortDescription>Prerequisite: Ability to cast at least one spell.
+                Spells you cast ignore resistance to the damage type of thunder. In addition, when you roll damage for a spell you cast that deals thunder damage, you can treat 1 a on a damage die as a 2.
+                You can select this feat multiple times. Each time you do so, you must choose a different damage type.</shortDescription>
+        </or>
+    </choose>
+
+    <context>SPELL_CAST</context>
+</feat>

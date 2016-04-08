@@ -1,0 +1,21 @@
+<feat>
+    <name>Lightly Armored</name>
+    <shortDescription>
+    You have trained to master the use of light armor, gaining the following benefits:
+    Increase your Strength or Dexterity score by 1, to a maximum of 20.
+    You gain proficiency with light armor.</shortDescription>
+    <armor>
+        <proficiency category="light armor"/>
+    </armor>
+    <stat>
+        <choose name="feat_stat">
+            <or name="strength">
+                <increase name="Strength">1</increase>
+            </or>
+            <or name="dexterity">
+                <increase name="Dexterity">1</increase>
+            </or>
+        </choose>
+    </stat>
+    <context>ARMOR_CLASS</context>
+</feat>

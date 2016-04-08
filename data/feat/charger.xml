@@ -1,0 +1,7 @@
+<feat>
+    <name>Charger</name>
+    <shortDescription>When you use your action to Dash, you can use a bonus action to make one melee weapon attack or to shove a creature.
+    If you move at least 10 feet in a straight line immediately before taking this bonus action, you either gain a +5 bonus to the attack's damage roll (if you choose to chose to make a melee attack and hit) or push the target up to 10 feet away from you (if you chose to shove and you succeed).
+    The target of the shove must be no more than one size larger than you. You make a Strength(Athletics) check contested by the target's Strength(Athletics) or Dexterity(Acrobatics) check.</shortDescription>
+    <context>WEAPON_ATTACK</context>
+</feat>
