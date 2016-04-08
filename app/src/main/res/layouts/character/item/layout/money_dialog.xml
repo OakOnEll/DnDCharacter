@@ -86,6 +86,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:imeOptions="actionNext"
                         android:inputType="numberSigned" />
 
                     <TextView
@@ -124,6 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:imeOptions="actionNext"
                         android:inputType="numberSigned" />
 
                     <TextView
@@ -162,6 +164,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:imeOptions="actionNext"
                         android:inputType="numberSigned" />
 
                     <TextView
@@ -199,6 +202,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:imeOptions="actionNext"
                         android:inputType="numberSigned" />
 
                     <TextView
@@ -236,6 +240,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:imeOptions="actionDone"
                         android:inputType="numberSigned" />
 
                     <TextView

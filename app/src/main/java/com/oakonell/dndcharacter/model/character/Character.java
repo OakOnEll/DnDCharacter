@@ -1736,7 +1736,7 @@ public class Character {
 
     public static class SpeedWithSource extends WithSource {
         private final int speed;
-        private boolean isActive;
+        private boolean active;
 
         SpeedWithSource(int speed, ComponentSource source) {
             super(source);
@@ -1748,13 +1748,13 @@ public class Character {
         }
 
         @Override
-        public void setActive(boolean active) {
-            isActive = active;
+        protected boolean privateIsActive() {
+            return active;
         }
 
         @Override
-        public boolean isActive() {
-            return isActive;
+        protected void privateSetActive(boolean active) {
+            this.active = active;
         }
     }
 
@@ -1810,18 +1810,25 @@ public class Character {
             return getSource() instanceof AdjustmentComponentSource;
         }
 
-        public boolean isActive() {
-            return isAdjustment() ? ((AdjustmentComponentSource) getSource()).adjustment.applied : true;
+        public final boolean isActive() {
+            return isAdjustment() ? ((AdjustmentComponentSource) getSource()).adjustment.applied : privateIsActive();
         }
 
-        public void setActive(boolean active) {
+        protected boolean privateIsActive() {
+            return true;
+        }
+
+        public final void setActive(boolean active) {
             if (isAdjustment()) {
                 ((AdjustmentComponentSource) getSource()).adjustment.applied = active;
             } else {
-                throw new RuntimeException("Shouldn't set the active state of a non-custom");
+                privateSetActive(active);
             }
         }
 
+        protected void privateSetActive(boolean active) {
+            throw new RuntimeException("Shouldn't set the active state of a non-custom");
+        }
     }
 
     public void addExperience(int xp) {

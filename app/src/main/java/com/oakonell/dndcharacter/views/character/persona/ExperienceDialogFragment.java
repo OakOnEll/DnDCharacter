@@ -6,9 +6,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -48,6 +50,10 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
         return getString(R.string.experience_title);
     }
 
+    protected boolean preventAutoSoftKeyboard() {
+        return false;
+    }
+
     @Override
     protected View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.xp_dialog, container);
@@ -72,6 +78,16 @@ public class ExperienceDialogFragment extends AbstractCharacterDialogFragment {
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         xp_levels.addItemDecoration(itemDecoration);
 
+
+        party_size.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    pressDone();
+                }
+                return true;
+            }
+        });
 
         return view;
     }

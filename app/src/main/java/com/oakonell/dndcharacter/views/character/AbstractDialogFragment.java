@@ -31,18 +31,15 @@ public abstract class AbstractDialogFragment extends AppCompatDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = onCreateTheView(inflater, container, savedInstanceState);
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if (preventAutoSoftKeyboard()) {
+            getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        }
         done = (Button) view.findViewById(R.id.done);
         if (done != null) {
             done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean valid = onDone();
-                    if (!valid) return;
-
-                    extraDoneActions();
-
-                    dismiss();
+                    pressDone();
                 }
             });
         }
@@ -62,6 +59,19 @@ public abstract class AbstractDialogFragment extends AppCompatDialogFragment {
             getDialog().setTitle(getTitle());
         }
         return view;
+    }
+
+    protected boolean preventAutoSoftKeyboard() {
+        return true;
+    }
+
+    protected void pressDone() {
+        boolean valid = onDone();
+        if (!valid) return;
+
+        extraDoneActions();
+
+        dismiss();
     }
 
     @Nullable

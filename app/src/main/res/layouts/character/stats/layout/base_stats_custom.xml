@@ -81,11 +81,12 @@
 
             <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/charisma"
+                android:imeOptions="actionDone"
+
                 style="@style/custom_stat_edit_style" />
 
             <TextView
                 style="@style/custom_stat_label_style"
-
                 android:text="@string/charisma" />
         </TableRow>
     </TableLayout>

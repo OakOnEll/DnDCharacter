@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/enter_comment"
+            android:imeOptions="actionNext"
             android:minEms="10" />
 
         <EditText
@@ -27,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/enter_value"
+            android:imeOptions="actionDone"
             android:inputType="numberSigned"
             android:minEms="10" />
 

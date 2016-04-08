@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/custom_ac_name"
+            android:imeOptions="actionNext"
             android:minEms="10" />
 
         <EditText
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/custom_ac_value"
             android:inputType="numberSigned"
+            android:imeOptions="actionDone"
             android:minEms="10" />
 
         <include layout="@layout/dialog_cancel_done" />

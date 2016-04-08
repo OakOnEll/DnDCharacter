@@ -5,11 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -143,7 +145,17 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         customInputs.put(StatType.CONSTITUTION, (EditText) view.findViewById(R.id.constitution));
         customInputs.put(StatType.INTELLIGENCE, (EditText) view.findViewById(R.id.intelligence));
         customInputs.put(StatType.WISDOM, (EditText) view.findViewById(R.id.wisdom));
-        customInputs.put(StatType.CHARISMA, (EditText) view.findViewById(R.id.charisma));
+        final EditText customCharismaInput = (EditText) view.findViewById(R.id.charisma);
+        customInputs.put(StatType.CHARISMA, customCharismaInput);
+        customCharismaInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    pressDone();
+                }
+                return true;
+            }
+        });
 
         //  add text watcher validation to custom edit texts (eg, only allow 3-18 inclusive)
         for (final EditText each : customInputs.values()) {

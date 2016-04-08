@@ -3,12 +3,15 @@ package com.oakonell.dndcharacter.views.character.item;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
@@ -55,12 +58,27 @@ public class CustomACDialog extends AbstractCharacterDialogFragment {
         }
     }
 
+    @Override
+    protected boolean preventAutoSoftKeyboard() {
+        return false;
+    }
+
     public View onCreateTheView(@NonNull LayoutInflater inflater, final ViewGroup container,
                                 @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.custom_ac_dialog, container);
 
         comment = (EditText) view.findViewById(R.id.comment);
         formula = (EditText) view.findViewById(R.id.formula);
+
+        formula.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    pressDone();
+                }
+                return true;
+            }
+        });
 
         return view;
     }

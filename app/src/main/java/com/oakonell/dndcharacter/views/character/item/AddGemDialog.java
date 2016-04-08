@@ -3,12 +3,15 @@ package com.oakonell.dndcharacter.views.character.item;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.*;
@@ -49,12 +52,26 @@ public class AddGemDialog extends AbstractCharacterDialogFragment {
         return getString(R.string.add_a_gem);
     }
 
+    protected boolean preventAutoSoftKeyboard() {
+        return false;
+    }
+
     public View onCreateTheView(@NonNull LayoutInflater inflater, final ViewGroup container,
                                 @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_gem_dialog, container);
 
         name = (EditText) view.findViewById(R.id.name);
         value = (EditText) view.findViewById(R.id.value);
+
+        value.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    pressDone();
+                }
+                return true;
+            }
+        });
 
         return view;
     }
