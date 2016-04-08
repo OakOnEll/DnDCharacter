@@ -1,0 +1,21 @@
+<feat>
+    <name>Athlete</name>
+    <shortDescription>You have undergone extensive physical training to gain the following benefits:
+        Increase your strength or dexterity score by 1, to a maximum of 20.
+        When you are prone, standing up uses only 5 feet of your movement.
+        Climbing doesn't have your speed.
+        You can make a running long jump or a running high jump after moving only 5 feet on foot, rather than 10 feet.</shortDescription>
+
+    <stat>
+        <choose name="feat_stat">
+            <or name="strength">
+                <increase name="Strength">1</increase>
+            </or>
+            <or name="dexterity">
+                <increase name="Dexterity">1</increase>
+            </or>
+        </choose>
+    </stat>
+
+    <context>SPEED, EFFECT(Prone)</context>
+</feat>

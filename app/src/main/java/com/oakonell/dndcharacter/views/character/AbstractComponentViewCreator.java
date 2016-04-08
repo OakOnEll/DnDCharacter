@@ -93,6 +93,12 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     Set<CategoryChoicesMD> chosenSpellMDs = new HashSet<>();
     private ChoiceFilters choiceFilters;
 
+    // feat related stuff
+    private LinearLayout featLayout;
+    ChooseMDTreeNode featMd;
+    private ChooseMDTreeNode featMdOwner;
+
+
     public AbstractComponentViewCreator(Character character, boolean handleSpells) {
         this.handleSpells = handleSpells;
         this.character = character;
@@ -104,6 +110,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     protected Character getCharacter() {
         return character;
+    }
+
+    public SavedChoices getChoices() {
+        return choices;
     }
 
     protected void setParent(ViewGroup parent) {
@@ -327,7 +337,8 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     String alreadyProficientString = null;
                     double maxProfMult = 0;
                     for (Character.ToolProficiencyWithSource each : toolProficiencies) {
-                        if (each.getSource() != null && each.getSource().equals(currentComponent)) continue;
+                        if (each.getSource() != null && each.getSource().equals(currentComponent))
+                            continue;
                         // TODO handle tool category
                         if (each.getProficiency().getName().equalsIgnoreCase(toolName)) {
                             // TODO what about when the current component was actually changed
@@ -364,7 +375,8 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     String alreadyProficientString = null;
                     double maxProfMult = 0;
                     for (Character.ProficientWithSource each : proficientWithSources) {
-                        if (each.getSource() != null && each.getSource().equals(currentComponent)) continue;
+                        if (each.getSource() != null && each.getSource().equals(currentComponent))
+                            continue;
                         // TODO what about when the current component was actually changed
                         if (each.getProficient().getMultiplier() > maxProfMult) {
                             alreadyProficientString = parent.getResources().getString(R.string.already_proficient_from, parent.getResources().getString(each.getProficient().getStringResId()), each.getSourceString(parent.getResources()));
@@ -860,6 +872,18 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     }
 
+    @Override
+    protected void visitFeats(@NonNull Element element) {
+        featMdOwner = getChoicesMD();
+        featLayout = (LinearLayout) LayoutInflater.from(getParent().getContext()).inflate(R.layout.empty_component_group, getParent(), false);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        featLayout.setLayoutParams(params);
+
+        super.visitFeats(element);
+
+        getParent().addView(featLayout);
+    }
+
     protected void visitFeatSearchChoices(int numChoices) {
         final int searchResId = R.string.search_for_feat;
         final String fragmentId = SELECT_FEAT_DIALOG;
@@ -874,6 +898,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                         String name = feat.getName();
                         // TODO verify if another feat onSearchClickListener same page is the same...
                         optionMD.setSelected(name);
+                        AbstractComponentViewCreator.this.featSelected(feat);
                         return true;
                     }
                 });
@@ -882,6 +907,36 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         };
 
         appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
+        // draw dynamic UI.. assuming only a single feat per component for now
+        List<String> choices = getChoices().getChoicesFor(getCurrentChooseMD().getChoiceName());
+        if (choices.size() == 0) return;
+        String featName = choices.get(0);
+
+        Feat feat = new Select().from(Feat.class).where("upper(name) = upper(?)", featName).executeSingle();
+        featSelected(feat);
+    }
+
+    protected void featSelected(Feat feat) {
+        featLayout.removeAllViews();
+        if (featMd != null) {
+            featMdOwner.getChildChoiceMDs().removeAll(featMd.getChildChoiceMDs());
+        }
+
+        AbstractComponentViewCreator visitor = new AbstractComponentViewCreator(getCharacter()) {
+            @Override
+            protected void visitShortDescription(@NonNull Element element) {
+                TextView featureText = new TextView(getParent().getContext());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                featureText.setLayoutParams(params);
+                featLayout.addView(featureText);
+                featureText.setText(element.getTextContent().trim());
+            }
+        };
+        Element element = XmlUtils.getDocument(feat.getXml()).getDocumentElement();
+
+        featMd = visitor.appendToLayout(element, activity, featLayout, getChoices(), getCurrentComponent());
+        featMdOwner.getChildChoiceMDs().addAll(featMd.getChildChoiceMDs());
+
     }
 
     public abstract static class SearchDialogCreator {
@@ -1021,14 +1076,27 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             }
 
             search.setOnClickListener(onSearchClickListener);
+            final VisitState theState = state;
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     optionMD.resetSelection(onSearchClickListener);
+                    onDelete(optionMD, theState);
                 }
             });
         }
     }
+
+
+    protected void onDelete(SearchOptionMD optionMD, VisitState state) {
+        if (state == VisitState.FEAT) {
+            featLayout.removeAllViews();
+            if (featMd != null) {
+                featMdOwner.getChildChoiceMDs().removeAll(featMd.getChildChoiceMDs());
+            }
+        }
+    }
+
 
     private void appendCategoryDropDowns(int numChoices, @NonNull CategoryChoicesMD categoryChoicesMD, @NonNull List<String> savedSelections, @NonNull List<String> choices, @NonNull String prompt) {
         appendCategoryDropDowns(numChoices, categoryChoicesMD, savedSelections, choices, null, prompt);

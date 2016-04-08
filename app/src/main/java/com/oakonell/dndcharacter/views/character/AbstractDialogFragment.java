@@ -31,7 +31,7 @@ public abstract class AbstractDialogFragment extends AppCompatDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = onCreateTheView(inflater, container, savedInstanceState);
-        if (preventAutoSoftKeyboard()) {
+        if (preventAutoSoftKeyboard() && getDialog() != null) {
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         }
         done = (Button) view.findViewById(R.id.done);
