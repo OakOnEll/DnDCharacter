@@ -2366,6 +2366,16 @@ public class Character {
         }
 
 
+        // apply default crawl, swim, climb, half of walk if missing base speed
+        if ((type == SpeedType.CLIMB || type == SpeedType.CRAWL || type == SpeedType.SWIM)
+                && (baseSpeeds.isEmpty() && !hasBaseZero)) {
+            int walkSpeed = (int) (getSpeed(SpeedType.WALK)/2.0);
+            CheatComponentSource source = new CheatComponentSource(R.string.base_speed);
+            SpeedWithSource speedWithSource = new SpeedWithSource(walkSpeed, source);
+            speedWithSource.setActive(true);
+            result.add(speedWithSource);
+        }
+
         // go through custom adjustments
         final CustomAdjustments customStats = getCustomAdjustments(type.getCustomType());
         for (CustomAdjustments.Adjustment each : customStats.getAdjustments()) {
@@ -2380,6 +2390,10 @@ public class Character {
                 each.setActive(false);
             }
         }
+
+
+
+
         return result;
     }
 

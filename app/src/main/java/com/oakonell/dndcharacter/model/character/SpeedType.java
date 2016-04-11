@@ -6,9 +6,9 @@ import com.oakonell.dndcharacter.R;
  * Created by Rob on 2/5/2016.
  */
 public enum SpeedType {
-    WALK(R.string.walk, CustomAdjustmentType.SPEED_WALK), FLY(R.string.fly, CustomAdjustmentType.SPEED_FLY),
-    SWIM(R.string.swim, CustomAdjustmentType.SPEED_SWIM), BURROW(R.string.burrow, CustomAdjustmentType.SPEED_BURROW),
-    CLIMB(R.string.climb, CustomAdjustmentType.SPEED_CLIMB), CRAWL(R.string.crawl, CustomAdjustmentType.SPEED_CRAWL);
+    WALK(R.string.walk, CustomAdjustmentType.SPEED_WALK),  SWIM(R.string.swim, CustomAdjustmentType.SPEED_SWIM),
+    CLIMB(R.string.climb, CustomAdjustmentType.SPEED_CLIMB), CRAWL(R.string.crawl, CustomAdjustmentType.SPEED_CRAWL),
+    FLY(R.string.fly, CustomAdjustmentType.SPEED_FLY),BURROW(R.string.burrow, CustomAdjustmentType.SPEED_BURROW),;
 
     private final int stringResId;
     private final CustomAdjustmentType customType;
