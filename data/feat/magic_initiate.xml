@@ -1,0 +1,11 @@
+<feat>
+    <name>Magic Initiate</name>
+    <shortDescription>Choose a class: bard, cleric, druid, sorcerer, warlock, or wizard. You learn two cantrips of your choice from that class's spell list.
+    In addition, choose one 1st-level spell from that same list. You learn that spell and can cast it at its lowest level. Once you cast it, you must finish a long rest before you can cast it again.
+    Your spellcasting ability for these spells depends on the class you choose: Charisma for bard, sorcerer, or warlock; Wisdom for cleric or druid; or Intelligence for wizard.</shortDescription>
+    <!-- TODO Perhaps break this into separate magic initiate feats, specific for the class?  to easily allow the searches for spells-->
+    <cantrips casterClass="bard" known="false" number="2"/>
+    <!-- TODO can only cast once per long rest. Does maxLevel currently work? -->
+    <spells casterClass="bard" known="false" maxLevel="1" />
+
+</feat>
