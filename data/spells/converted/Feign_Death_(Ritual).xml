@@ -11,7 +11,7 @@
     </classes>
     <durationType>HOUR</durationType>
     <duration>1</duration>
-    <range>Touch</range>
+    <rangeType>TOUCH</rangeType>
     <ritual>true</ritual>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>

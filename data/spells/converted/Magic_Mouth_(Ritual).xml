@@ -8,7 +8,8 @@
         <class>Wizard</class>
     </classes>
     <durationType>UNTIL_DISPELLED</durationType>
-    <range>30 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>30</range>
     <ritual>true</ritual>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>

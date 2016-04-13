@@ -10,7 +10,7 @@
     </classes>
     <durationType>ROUND</durationType>
     <duration>1</duration>
-    <range>Unlimited</range>
+    <rangeType>UNLIMITED</rangeType>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

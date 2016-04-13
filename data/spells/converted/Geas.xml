@@ -13,7 +13,8 @@
     <durationType>DAY</durationType>
     <duration>30</duration>
     <attackType>SAVING_THROW</attackType>
-    <range>60 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>60</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

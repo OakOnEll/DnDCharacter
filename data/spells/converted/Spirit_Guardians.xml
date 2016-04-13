@@ -10,7 +10,8 @@
     <duration>10</duration>
    <concentration>true</concentration>
     <attackType>SAVING_THROW</attackType>
-    <range>Self (15-foot-radius)</range>
+    <rangeType>SELF_SPHERE_FEET</rangeType>
+    <range>15</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

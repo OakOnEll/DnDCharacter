@@ -8,7 +8,7 @@
         <class>Ranger</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
-    <range>Self</range>
+    <rangeType>SELF</rangeType>
     <ritual>true</ritual>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>

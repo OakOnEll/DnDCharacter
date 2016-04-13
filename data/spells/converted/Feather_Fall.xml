@@ -10,7 +10,8 @@
     </classes>
     <durationType>MINUTE</durationType>
     <duration>1</duration>
-    <range>60 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>60</range>
     <castingTimeType>REACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

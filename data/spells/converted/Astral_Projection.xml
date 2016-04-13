@@ -9,7 +9,8 @@
         <class>Wizard</class>
     </classes>
     <durationType>SPECIAL</durationType>
-    <range>10 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>10</range>
     <castingTimeType>HOUR</castingTimeType>
     <castingTime>1</castingTime>
     <components>

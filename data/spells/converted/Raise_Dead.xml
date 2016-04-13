@@ -10,7 +10,7 @@
     </classes>
     <durationType>INSTANTANEOUS</durationType>
     <attackType>SAVING_THROW</attackType>
-    <range>Touch</range>
+    <rangeType>TOUCH</rangeType>
     <castingTimeType>HOUR</castingTimeType>
     <castingTime>1</castingTime>
     <components>

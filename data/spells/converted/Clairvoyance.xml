@@ -12,7 +12,8 @@
     <durationType>MINUTE</durationType>
     <duration>10</duration>
    <concentration>true</concentration>
-    <range>1 mile</range>
+    <rangeType>MILES</rangeType>
+    <range>1</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>10</castingTime>
     <components>

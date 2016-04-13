@@ -10,7 +10,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <attackType>SAVING_THROW</attackType>
-    <range>90 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>90</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

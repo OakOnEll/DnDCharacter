@@ -10,7 +10,7 @@
     <duration>10</duration>
    <concentration>true</concentration>
     <attackType>MELEE_ATTACK</attackType>
-    <range>Self</range>
+    <rangeType>SELF</rangeType>
     <castingTimeType>BONUS_ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

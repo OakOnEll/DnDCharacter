@@ -8,7 +8,8 @@
         <class>Wizard</class>
     </classes>
     <durationType>SPECIAL</durationType>
-    <range>30 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>30</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

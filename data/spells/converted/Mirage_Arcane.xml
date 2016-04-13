@@ -10,7 +10,7 @@
     </classes>
     <durationType>DAY</durationType>
     <duration>10</duration>
-    <range>Sight</range>
+    <rangeType>SIGHT</rangeType>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>10</castingTime>
     <components>

@@ -10,7 +10,7 @@
     <duration>6</duration>
    <concentration>true</concentration>
     <attackType>SAVING_THROW</attackType>
-    <range>Sight</range>
+    <rangeType>SIGHT</rangeType>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

@@ -9,7 +9,7 @@
         <class>Wizard</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
-    <range>Self</range>
+    <rangeType>SELF</rangeType>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>10</castingTime>
     <components>

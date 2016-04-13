@@ -9,7 +9,8 @@
     </classes>
     <durationType>INSTANTANEOUS</durationType>
     <attackType>SAVING_THROW</attackType>
-    <range>90 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>90</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

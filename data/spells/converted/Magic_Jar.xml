@@ -8,7 +8,7 @@
     </classes>
     <durationType>UNTIL_DISPELLED</durationType>
     <attackType>SAVING_THROW</attackType>
-    <range>Self</range>
+    <rangeType>SELF</rangeType>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

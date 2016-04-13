@@ -8,7 +8,8 @@
         <class>Druid</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
-    <range>30 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>30</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

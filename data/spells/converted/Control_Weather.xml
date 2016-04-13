@@ -11,7 +11,8 @@
     <durationType>HOUR</durationType>
     <duration>8</duration>
    <concentration>true</concentration>
-    <range>Self (5-mile radius)</range>
+    <rangeType>SELF_SPHERE_MILE</rangeType>
+    <range>5</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>10</castingTime>
     <components>

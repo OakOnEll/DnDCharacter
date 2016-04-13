@@ -9,7 +9,8 @@
     <durationType>MINUTE</durationType>
     <duration>10</duration>
    <concentration>true</concentration>
-    <range>Self (30-foot radius)</range>
+    <rangeType>SELF_SPHERE_FEET</rangeType>
+    <range>30</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

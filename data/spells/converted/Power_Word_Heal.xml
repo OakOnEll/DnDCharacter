@@ -7,7 +7,7 @@
         <class>Bard</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
-    <range>Touch</range>
+    <rangeType>TOUCH</rangeType>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

@@ -8,7 +8,7 @@
     </classes>
     <durationType>HOUR</durationType>
     <duration>1</duration>
-    <range>Self</range>
+    <rangeType>SELF</rangeType>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

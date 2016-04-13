@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.oakonell.dndcharacter.model.character.spell.CastingTimeType;
 import com.oakonell.dndcharacter.model.character.spell.SpellAttackType;
 import com.oakonell.dndcharacter.model.character.spell.SpellDurationType;
+import com.oakonell.dndcharacter.model.character.spell.SpellRange;
 
 import org.junit.Test;
 
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Rob on 2/21/2016.
@@ -105,15 +108,93 @@ public class ConvertSpellsToXml {
         ComponentInfo componentInfo = getComponentInfo(name, description, componentsString);
 
         // process range
-        boolean selfRange = range.contains("Self");
+        RangeInfo rangeInfo = getRangeInfo(range);
 
 
         boolean isRitual = name.contains("(Ritual)");
 
         assert readColumnValue(stringReader) == null;
 
-        writeXml(dir, name, schoolName, level, actionInfo, attackType, range, componentInfo, durationInfo, description, higherLevelDescription, source, spellClasses, isRitual);
+        writeXml(dir, name, schoolName, level, actionInfo, attackType, rangeInfo, componentInfo, durationInfo, description, higherLevelDescription, source, spellClasses, isRitual);
 
+    }
+
+    private RangeInfo getRangeInfo(String range) {
+        RangeInfo info = new RangeInfo();
+        range = range.trim();
+
+        if (range.equals("Sight")) {
+            info.rangeType = SpellRange.SIGHT;
+        } else if (range.equals("Touch")) {
+            info.rangeType = SpellRange.TOUCH;
+        } else if (range.equals("Special")) {
+            info.rangeType = SpellRange.SPECIAL;
+        } else if (range.contains("Self")) {
+            if (range.equals("Self")) {
+                info.rangeType = SpellRange.SELF;
+            } else {
+                final Pattern pattern = Pattern.compile("(\\d+)[- ](\\w+)([- ]radius)?( (\\w+))?");
+                final Matcher matcher = pattern.matcher(range);
+                if (matcher.find()) {
+                    int numeric = Integer.parseInt(matcher.group(1));
+                    String unitString = matcher.group(2);
+                    String radiusString = matcher.group(3);
+                    String shape = matcher.group(5);
+
+                    if ("cone".equals(shape)) {
+                        if (!unitString.equals("foot")) {
+                            throw new RuntimeException("Unexpected unit for cone:" + unitString);
+                        }
+                        info.rangeType = SpellRange.SELF_CONE_FEET;
+                        info.value = numeric;
+                    } else if ("cube".equals(shape)) {
+                        if (!unitString.equals("foot")) {
+                            throw new RuntimeException("Unexpected unit for cube:" + unitString);
+                        }
+                        info.rangeType = SpellRange.SELF_CUBE_FEET;
+                        info.value = numeric;
+                    } else if ("line".equals(shape)) {
+                        if (!unitString.equals("foot")) {
+                            throw new RuntimeException("Unexpected unit for line:" + unitString);
+                        }
+                        info.rangeType = SpellRange.SELF_LINE_FEET;
+                        info.value = numeric;
+                    } else if ("sphere".equals(shape) || "radius".equals(shape) || (radiusString != null && shape == null)) {
+                        if (unitString.equals("foot")) {
+                            info.rangeType = SpellRange.SELF_SPHERE_FEET;
+                            info.value = numeric;
+                        } else if (unitString.equals("mile")) {
+                            info.rangeType = SpellRange.SELF_SPHERE_MILE;
+                            info.value = numeric;
+                        } else {
+                            throw new RuntimeException("Unexpected unit: " + unitString);
+                        }
+                    } else if ("hemisphere".equals(shape)) {
+                        if (!unitString.equals("foot")) {
+                            throw new RuntimeException("Unexpected unit for hemisphere:" + unitString);
+                        }
+                        info.rangeType = SpellRange.SELF_HEMISPHERE_FEET;
+                        info.value = numeric;
+                    } else {
+                        throw new RuntimeException("Unexpected range shape: " + range);
+                    }
+                } else {
+                    throw new RuntimeException("Unexpected range shape: " + range);
+                }
+            }
+        } else if (range.equals("Unlimited")) {
+            info.rangeType = SpellRange.UNLIMITED;
+        } else if (range.contains("feet")) {
+            info.rangeType = SpellRange.FEET;
+            info.value = Integer.parseInt(range.substring(0, range.indexOf("feet")).trim());
+        } else if (range.contains("mile")) {
+            info.rangeType = SpellRange.MILES;
+            info.value = Integer.parseInt(range.substring(0, range.indexOf("mile")).trim());
+        } else {
+            throw new RuntimeException("Unexpected range shape: " + range);
+        }
+
+        return info;
     }
 
     private ComponentInfo getComponentInfo(String name, String description, String componentsString) {
@@ -383,7 +464,7 @@ Fire Bolt: You hurl a mote of fire at a creature or object within range. Make a 
 
     }
 
-    private void writeXml(File dir, String name, String schoolName, int level, ActionInfo action, SpellAttackType attackType, String range, ComponentInfo components, DurationInfo duration, String description, String higherLevelDescription, String source, SpellClasses spellClasses, boolean isRitual) throws IOException {
+    private void writeXml(File dir, String name, String schoolName, int level, ActionInfo action, SpellAttackType attackType, RangeInfo rangeInfo, ComponentInfo components, DurationInfo duration, String description, String higherLevelDescription, String source, SpellClasses spellClasses, boolean isRitual) throws IOException {
         System.out.println(level + " - " + name);
         String filename = name.replace(" ", "_").replace("'", "").replace("\\", "_").replace("/", "_");
         File outFile = new File(dir, filename + ".xml");
@@ -455,9 +536,14 @@ Fire Bolt: You hurl a mote of fire at a creature or object within range. Make a 
             writer.append("</attackType>\n");
         }
 
-        writer.append("    <range>");
-        writer.append(range);
-        writer.append("</range>\n");
+        writer.append("    <rangeType>");
+        writer.append(rangeInfo.rangeType.name());
+        writer.append("</rangeType>\n");
+        if (rangeInfo.value > 0) {
+            writer.append("    <range>");
+            writer.append(rangeInfo.value + "");
+            writer.append("</range>\n");
+        }
 
         if (isRitual) {
             writer.append("    <ritual>true</ritual>\n");
@@ -605,5 +691,10 @@ Fire Bolt: You hurl a mote of fire at a creature or object within range. Make a 
     private class ActionInfo {
         public CastingTimeType castingType;
         public int amount;
+    }
+
+    private class RangeInfo {
+        SpellRange rangeType;
+        int value;
     }
 }

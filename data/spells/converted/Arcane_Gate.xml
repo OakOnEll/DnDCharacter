@@ -11,7 +11,8 @@
     <durationType>MINUTE</durationType>
     <duration>10</duration>
    <concentration>true</concentration>
-    <range>500 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>500</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

@@ -8,7 +8,8 @@
     </classes>
     <durationType>HOUR</durationType>
     <duration>1</duration>
-    <range>30 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>30</range>
     <ritual>true</ritual>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>

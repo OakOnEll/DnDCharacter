@@ -10,7 +10,7 @@
     </classes>
     <durationType>HOUR</durationType>
     <duration>1</duration>
-    <range>Touch</range>
+    <rangeType>TOUCH</rangeType>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

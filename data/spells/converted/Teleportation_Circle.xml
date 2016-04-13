@@ -10,7 +10,8 @@
     </classes>
     <durationType>ROUND</durationType>
     <duration>1</duration>
-    <range>10 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>10</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

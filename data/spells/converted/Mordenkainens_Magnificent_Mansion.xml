@@ -9,7 +9,8 @@
     </classes>
     <durationType>HOUR</durationType>
     <duration>24</duration>
-    <range>300 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>300</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

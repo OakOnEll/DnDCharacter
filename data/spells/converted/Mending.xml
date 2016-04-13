@@ -11,7 +11,7 @@
         <class>Wizard</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
-    <range>Touch</range>
+    <rangeType>TOUCH</rangeType>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

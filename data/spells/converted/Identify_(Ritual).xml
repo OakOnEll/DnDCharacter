@@ -8,7 +8,7 @@
         <class>Wizard</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
-    <range>Touch</range>
+    <rangeType>TOUCH</rangeType>
     <ritual>true</ritual>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>

@@ -9,7 +9,8 @@
         <class>Wizard</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
-    <range>10 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>10</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

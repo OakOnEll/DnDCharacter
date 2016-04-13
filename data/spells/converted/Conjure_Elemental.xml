@@ -10,7 +10,8 @@
     <durationType>HOUR</durationType>
     <duration>1</duration>
    <concentration>true</concentration>
-    <range>90 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>90</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

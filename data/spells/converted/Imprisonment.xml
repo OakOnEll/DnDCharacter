@@ -9,7 +9,8 @@
     </classes>
     <durationType>UNTIL_DISPELLED</durationType>
     <attackType>SAVING_THROW</attackType>
-    <range>30 feet</range>
+    <rangeType>FEET</rangeType>
+    <range>30</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>

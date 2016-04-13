@@ -10,7 +10,7 @@
     <durationType>MINUTE</durationType>
     <duration>1</duration>
     <attackType>SAVING_THROW</attackType>
-    <range>Self</range>
+    <rangeType>SELF</rangeType>
     <ritual>true</ritual>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>

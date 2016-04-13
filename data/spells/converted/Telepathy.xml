@@ -8,7 +8,7 @@
     </classes>
     <durationType>HOUR</durationType>
     <duration>24</duration>
-    <range>Unlimited</range>
+    <rangeType>UNLIMITED</rangeType>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
     <components>

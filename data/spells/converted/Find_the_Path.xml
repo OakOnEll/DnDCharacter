@@ -11,7 +11,7 @@
     <durationType>DAY</durationType>
     <duration>1</duration>
    <concentration>true</concentration>
-    <range>Self</range>
+    <rangeType>SELF</rangeType>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>
     <components>
