@@ -7,7 +7,7 @@
         <class>Sorcerer</class>
         <class>Wizard</class>
     </classes>
-    <duration>Instantaneous or 1 hour (see below)</duration>
+    <durationType>SPECIAL</durationType>
     <range>30 feet </range>
     <castingTime>1 action </castingTime>
     <components>S</components>

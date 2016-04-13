@@ -10,7 +10,9 @@
         <class>Ranger</class>
         <class>Wizard</class>
     </classes>
-    <duration>Concentration, up to 1 hour</duration>
+    <durationType>HOUR</durationType>
+    <duration>1</duration>
+   <concentration>true</concentration>
     <range>Self</range>
     <castingTime>1 action</castingTime>
     <components>V, S, M (a bit of fur from a bloodhound)</components>

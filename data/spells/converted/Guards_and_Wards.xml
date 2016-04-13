@@ -6,7 +6,8 @@
         <class>Bard</class>
         <class>Wizard</class>
     </classes>
-    <duration>24 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>24</duration>
     <range>Touch</range>
     <castingTime>10 minutes</castingTime>
     <components>V, S, M (burning incense a small measure of brimstone and oil a knotted string a small amount of umber hulk blood and a small silver rod worth at least 10 gp)</components>

@@ -7,7 +7,7 @@
         <class>Druid</class>
         <class>Paladin</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>10 feet</range>
     <ritual>true</ritual>
     <castingTime>1 action</castingTime>

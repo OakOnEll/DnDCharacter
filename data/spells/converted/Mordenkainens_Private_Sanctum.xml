@@ -5,7 +5,8 @@
     <classes>
         <class>Wizard</class>
     </classes>
-    <duration>24 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>24</duration>
     <range>120 feet</range>
     <castingTime>10 minutes</castingTime>
     <components>V, S, M (a thin sheet of lead, a piece of opaque glass, a wad of cotton or cloth, and powdered chrysolite)</components>

@@ -7,7 +7,7 @@
         <class>Druid</class>
         <class>Ranger</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>Self</range>
     <ritual>true</ritual>
     <castingTime>1 action</castingTime>

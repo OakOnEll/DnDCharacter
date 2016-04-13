@@ -9,7 +9,8 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>Up to 8 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>8</duration>
     <range>Self</range>
     <castingTime>1 action</castingTime>
     <components>V, S</components>

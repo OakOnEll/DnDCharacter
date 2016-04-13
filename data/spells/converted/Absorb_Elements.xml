@@ -7,7 +7,8 @@
         <class>Ranger</class>
         <class>Wizard</class>
     </classes>
-    <duration>1 round</duration>
+    <durationType>ROUND</durationType>
+    <duration>1</duration>
     <range>Self</range>
     <castingTime>1 reaction, which you take when you take acid, cold, fire, lightning, or thunder damage</castingTime>
     <components>S </components>

@@ -7,7 +7,7 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>10 feet</range>
     <castingTime>1 minute</castingTime>
     <components>V, S, M (one clay pot filled with grave dirt, one clay pot filled with brackish water, and one 150 gp black onyx stone for each corpse.)</components>

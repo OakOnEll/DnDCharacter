@@ -7,7 +7,7 @@
         <class>Cleric</class>
         <class>Wizard</class>
     </classes>
-    <duration>Until dispelled or triggered</duration>
+    <durationType>UNTIL_DISPELLED_OR_TRIGGERED</durationType>
     <range>Touch</range>
     <castingTime>1 hour</castingTime>
     <components>V, S, M (incense and powdered diamond worth at least 200 gp, which the spell consumes)</components>

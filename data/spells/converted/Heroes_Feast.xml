@@ -6,7 +6,7 @@
         <class>Cleric</class>
         <class>Druid</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>30 feet</range>
     <castingTime>10 minutes</castingTime>
     <components>V, S, M (a gem-encrusted bowl worth at least 1,000 gp, which the spell consumes)</components>

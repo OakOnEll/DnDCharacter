@@ -5,7 +5,7 @@
     <classes>
         <class>Wizard</class>
     </classes>
-    <duration>Until dispelled</duration>
+    <durationType>UNTIL_DISPELLED</durationType>
     <range>Touch</range>
     <ritual>true</ritual>
     <castingTime>1 minute</castingTime>

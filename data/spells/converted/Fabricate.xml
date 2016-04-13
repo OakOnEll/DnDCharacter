@@ -5,7 +5,7 @@
     <classes>
         <class>Wizard</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>120 feet</range>
     <castingTime>10 minutes</castingTime>
     <components>V, S</components>

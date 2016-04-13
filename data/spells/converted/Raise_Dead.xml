@@ -7,7 +7,7 @@
         <class>Cleric</class>
         <class>Paladin</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>Touch</range>
     <castingTime>1 hour</castingTime>
     <components>V, S, M (a diamond worth at least 500 gp, which the spell consumes)</components>

@@ -7,7 +7,8 @@
         <class>Cleric</class>
         <class>Druid</class>
     </classes>
-    <duration>1 hour</duration>
+    <durationType>HOUR</durationType>
+    <duration>1</duration>
     <range>Touch</range>
     <castingTime>1 minute</castingTime>
     <components>V, S, M (a prayer wheel and holy water)</components>

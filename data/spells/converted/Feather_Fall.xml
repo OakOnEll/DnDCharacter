@@ -7,7 +7,8 @@
         <class>Sorcerer</class>
         <class>Wizard</class>
     </classes>
-    <duration>1 minute</duration>
+    <durationType>MINUTE</durationType>
+    <duration>1</duration>
     <range>60 feet</range>
     <castingTime>1 reaction, When you or a creature within 60 feet of you falls </castingTime>
     <components>V, M (a small feather or piece of down)</components>

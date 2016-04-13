@@ -6,7 +6,7 @@
         <class>Sorcerer</class>
         <class>Wizard</class>
     </classes>
-    <duration>Special</duration>
+    <durationType>SPECIAL</durationType>
     <range>30 feet</range>
     <castingTime>1 minute</castingTime>
     <components>V, S, M (a tiny piece of matter of the same type of the item you plan to create)</components>

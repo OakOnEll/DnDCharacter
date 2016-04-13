@@ -7,7 +7,8 @@
         <class>Druid</class>
         <class>Wizard</class>
     </classes>
-    <duration>10 days</duration>
+    <durationType>DAY</durationType>
+    <duration>10</duration>
     <range>Sight</range>
     <castingTime>10 minutes</castingTime>
     <components>V, S</components>

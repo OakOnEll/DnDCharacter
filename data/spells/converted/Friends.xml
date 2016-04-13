@@ -8,7 +8,9 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>Concentration up to 1 minute</duration>
+    <durationType>MINUTE</durationType>
+    <duration>1</duration>
+   <concentration>true</concentration>
     <range>Self</range>
     <castingTime>1 action</castingTime>
     <components>S, M (a small amount of makeup applied to the face as this spell is cast)</components>

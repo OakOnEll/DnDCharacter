@@ -7,7 +7,7 @@
         <class>Cleric</class>
         <class>Wizard</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>Self</range>
     <castingTime>10 minutes</castingTime>
     <components>V, S, M (incense worth at least 250 gp, which the spell consumes, and four ivory strips worth at least 50 gp each)</components>

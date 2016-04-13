@@ -6,7 +6,7 @@
         <class>Bard</class>
         <class>Wizard</class>
     </classes>
-    <duration>Until dispelled</duration>
+    <durationType>UNTIL_DISPELLED</durationType>
     <range>30 feet</range>
     <ritual>true</ritual>
     <castingTime>1 minute</castingTime>

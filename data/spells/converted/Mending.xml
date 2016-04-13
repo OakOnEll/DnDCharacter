@@ -9,7 +9,7 @@
         <class>Sorcerer</class>
         <class>Wizard</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>Touch</range>
     <castingTime>1 minute</castingTime>
     <components>V, S, M (two lodestones)</components>

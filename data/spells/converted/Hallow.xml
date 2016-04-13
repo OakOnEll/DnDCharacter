@@ -5,7 +5,7 @@
     <classes>
         <class>Cleric</class>
     </classes>
-    <duration>Until dispelled</duration>
+    <durationType>UNTIL_DISPELLED</durationType>
     <range>Touch</range>
     <castingTime>24 hours</castingTime>
     <components>V, S, M (herbs, oils, and incense worth at least 1,000 gp, which the spell consumes)</components>

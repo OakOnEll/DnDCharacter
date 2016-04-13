@@ -6,7 +6,9 @@
         <class>Bard</class>
         <class>Wizard</class>
     </classes>
-    <duration>Concentration up to 1min</duration>
+    <durationType>MINUTE</durationType>
+    <duration>1</duration>
+   <concentration>true</concentration>
     <range>30 feet</range>
     <castingTime>1 action</castingTime>
     <components>V, S, M (tiny tarts and a feather that waved in the air)</components>

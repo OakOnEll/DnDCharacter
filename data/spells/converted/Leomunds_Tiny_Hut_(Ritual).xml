@@ -6,7 +6,8 @@
         <class>Bard</class>
         <class>Wizard</class>
     </classes>
-    <duration>8 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>8</duration>
     <range>Self (10-foot-radius hemisphere)</range>
     <ritual>true</ritual>
     <castingTime>1 minute</castingTime>

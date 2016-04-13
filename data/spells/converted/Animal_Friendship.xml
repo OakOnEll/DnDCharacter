@@ -7,7 +7,8 @@
         <class>Druid</class>
         <class>Ranger</class>
     </classes>
-    <duration>24 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>24</duration>
     <range>30 feet</range>
     <castingTime>1 action</castingTime>
     <components>V, S, M (a morsel of food)</components>

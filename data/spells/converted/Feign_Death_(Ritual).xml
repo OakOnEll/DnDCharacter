@@ -8,7 +8,8 @@
         <class>Druid</class>
         <class>Wizard</class>
     </classes>
-    <duration>1 hour</duration>
+    <durationType>HOUR</durationType>
+    <duration>1</duration>
     <range>Touch</range>
     <ritual>true</ritual>
     <castingTime>1 action</castingTime>

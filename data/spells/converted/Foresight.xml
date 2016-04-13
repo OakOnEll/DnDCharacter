@@ -8,7 +8,8 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>8 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>8</duration>
     <range>Touch</range>
     <castingTime>1 minute</castingTime>
     <components>V, S, M (a hummingbird feather)</components>

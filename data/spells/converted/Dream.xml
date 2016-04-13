@@ -7,7 +7,8 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>8 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>8</duration>
     <range>Special</range>
     <castingTime>1 minute</castingTime>
     <components>V, S, M (a handful of sand a dab of ink and a writing quill plucked from a sleeping bird)</components>

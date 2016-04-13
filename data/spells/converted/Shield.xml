@@ -6,7 +6,8 @@
         <class>Sorcerer</class>
         <class>Wizard</class>
     </classes>
-    <duration>1 round</duration>
+    <durationType>ROUND</durationType>
+    <duration>1</duration>
     <range>Self</range>
     <castingTime>1 reaction</castingTime>
     <components>V, S</components>

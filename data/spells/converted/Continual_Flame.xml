@@ -6,7 +6,7 @@
         <class>Cleric</class>
         <class>Wizard</class>
     </classes>
-    <duration>Until dispelled</duration>
+    <durationType>UNTIL_DISPELLED</durationType>
     <range>Touch</range>
     <castingTime>1 action</castingTime>
     <components>V, S, M (ruby dust worth 50 gp, which the spell consumes)</components>

@@ -5,7 +5,8 @@
     <classes>
         <class>Cleric</class>
     </classes>
-    <duration>1 minute</duration>
+    <durationType>MINUTE</durationType>
+    <duration>1</duration>
     <range>Self</range>
     <ritual>true</ritual>
     <castingTime>1 minute</castingTime>

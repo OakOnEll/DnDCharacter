@@ -8,7 +8,8 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>1 minute</duration>
+    <durationType>MINUTE</durationType>
+    <duration>1</duration>
     <range>30 feet</range>
     <castingTime>1 action</castingTime>
     <components>S, M (a bit o f fleece)</components>

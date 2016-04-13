@@ -5,7 +5,7 @@
     <classes>
         <class>Paladin</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>30 feet</range>
     <castingTime>10 minutes</castingTime>
     <components>V, S</components>

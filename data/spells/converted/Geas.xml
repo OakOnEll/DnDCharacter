@@ -9,7 +9,8 @@
         <class>Paladin</class>
         <class>Wizard</class>
     </classes>
-    <duration>30 days</duration>
+    <durationType>DAY</durationType>
+    <duration>30</duration>
     <range>60 feet</range>
     <castingTime>1 minute</castingTime>
     <components>V</components>

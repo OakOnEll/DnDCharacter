@@ -7,7 +7,7 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>Special</duration>
+    <durationType>SPECIAL</durationType>
     <range>10 feet</range>
     <castingTime>1 hour</castingTime>
     <components>V, S, M (for each creature you affect with this spell, you must provide one jacinth worth at least 1,000 gp and one ornately carved bar of silver worth at least 100 gp, all of which the spell consumes)</components>

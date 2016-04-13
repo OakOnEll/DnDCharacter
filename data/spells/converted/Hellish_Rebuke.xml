@@ -5,7 +5,7 @@
     <classes>
         <class>Warlock</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>60 feet</range>
     <castingTime>1 reaction, you are being damaged by a creature within 60 feet of you that you can see</castingTime>
     <components>V, S</components>

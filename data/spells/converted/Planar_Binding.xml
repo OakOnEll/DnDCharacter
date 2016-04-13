@@ -8,7 +8,8 @@
         <class>Druid</class>
         <class>Wizard</class>
     </classes>
-    <duration>24 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>24</duration>
     <range>60 feet</range>
     <castingTime>1 hour</castingTime>
     <components>V, S, M (a jewel worth at least 1,000 gp, which the spell consumes)</components>

@@ -7,7 +7,9 @@
         <class>Druid</class>
         <class>Wizard</class>
     </classes>
-    <duration>Concentration, up to 8 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>8</duration>
+   <concentration>true</concentration>
     <range>Self (5-mile radius)</range>
     <castingTime>10 minutes</castingTime>
     <components>V, S, M (burning incense and bits of earth and wood mixed in water)</components>

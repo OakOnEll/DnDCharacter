@@ -1,5 +1,9 @@
 package dndcharacter.oakonell.com.ddcharacter;
 
+import android.support.annotation.NonNull;
+
+import com.oakonell.dndcharacter.model.character.spell.SpellDurationType;
+
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -8,6 +12,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Rob on 2/21/2016.
@@ -43,7 +49,14 @@ public class ConvertSpellsToXml {
         }
         reader.close();
         System.out.println("Read " + count + " rows");
+
+        System.out.println("Unique actions");
+        for (String each : actions) {
+            System.out.println(each);
+        }
     }
+
+    Set<String> actions = new HashSet<>();
 
     protected void convertRow(File dir, String columnsString) throws IOException {
 
@@ -65,24 +78,117 @@ public class ConvertSpellsToXml {
         String source = readColumnValue(stringReader);
         // skip favorite?
         readBoooleanColumnValue(stringReader);
-        boolean isBard = readBoooleanColumnValue(stringReader);
-        boolean isCleric = readBoooleanColumnValue(stringReader);
-        boolean isDruid = readBoooleanColumnValue(stringReader);
-        boolean isPaladin = readBoooleanColumnValue(stringReader);
-        boolean isRanger = readBoooleanColumnValue(stringReader);
-        boolean isSorceror = readBoooleanColumnValue(stringReader);
-        boolean isWarlock = readBoooleanColumnValue(stringReader);
-        boolean isWizard = readBoooleanColumnValue(stringReader);
+        SpellClasses spellClasses = new SpellClasses();
+        spellClasses.readFrom(stringReader);
+
+
+        String schoolName;
+        if (schoolLevel.contains("level")) {
+            // eg: 2nd level Transmutation
+            schoolName = schoolLevel.substring(schoolLevel.lastIndexOf(' ') + 1);
+        } else {
+            // cantrip: Conjuration Cantrip
+            schoolName = schoolLevel.substring(0, schoolLevel.indexOf(' '));
+        }
+
+        // process duration
+        DurationInfo durationInfo = getDurationInfo(duration);
+
+        ActionInfo actionInfo = getActionInfo(action);
+        // process range
+        boolean selfRange = range.contains("Self");
+
 
         boolean isRitual = name.contains("(Ritual)");
 
         assert readColumnValue(stringReader) == null;
 
-        writeXml(dir, name, schoolLevel, level, action, range, components, duration, description, higherLevelDescription, source, isBard, isCleric, isDruid, isPaladin, isRanger, isSorceror, isWarlock, isWizard, isRitual);
+        writeXml(dir, name, schoolName, level, action, range, components, durationInfo, description, higherLevelDescription, source, spellClasses, isRitual);
 
     }
 
-    private void writeXml(File dir, String name, String schoolLevel, int level, String action, String range, String components, String duration, String description, String higherLevelDescription, String source, boolean isBard, boolean isCleric, boolean isDruid, boolean isPaladin, boolean isRanger, boolean isSorceror, boolean isWarlock, boolean isWizard, boolean isRitual) throws IOException {
+
+    class SpellClasses {
+        private boolean isBard;
+        private boolean isCleric;
+        private boolean isDruid;
+        private boolean isPaladin;
+        private boolean isRanger;
+        private boolean isSorcerer;
+        private boolean isWarlock;
+        private boolean isWizard;
+
+        public void readFrom(StringReader stringReader) throws IOException {
+            isBard = readBoooleanColumnValue(stringReader);
+            isCleric = readBoooleanColumnValue(stringReader);
+            isDruid = readBoooleanColumnValue(stringReader);
+            isPaladin = readBoooleanColumnValue(stringReader);
+            isRanger = readBoooleanColumnValue(stringReader);
+            isSorcerer = readBoooleanColumnValue(stringReader);
+            isWarlock = readBoooleanColumnValue(stringReader);
+            isWizard = readBoooleanColumnValue(stringReader);
+        }
+    }
+
+
+    private ActionInfo getActionInfo(String action) {
+        actions.add(action);
+        return null;
+    }
+
+    @NonNull
+    private DurationInfo getDurationInfo(String duration) {
+        DurationInfo durationInfo = new DurationInfo();
+        durationInfo.requiresConcentration = duration.contains("Concentration");
+        if (durationInfo.requiresConcentration) {
+            final String upToString = "up to ";
+            int upToIndex = duration.indexOf(upToString);
+            duration = duration.substring(upToIndex + upToString.length());
+        }
+        // a few spells are "Up to".. just make duration the max limit?
+        final String upToString = "Up to ";
+        int upToIndex = duration.indexOf(upToString);
+        if (upToIndex >= 0) {
+            duration = duration.substring(upToIndex + upToString.length());
+        }
+        if (duration.equals("Instantaneous")) {
+            durationInfo.durationType = SpellDurationType.INSTANTANEOUS;
+        } else if (duration.equals("Special")) {
+            durationInfo.durationType = SpellDurationType.SPECIAL;
+        } else if (duration.equals("Until dispelled")) {
+            durationInfo.durationType = SpellDurationType.UNTIL_DISPELLED;
+        } else if (duration.equals("Until dispelled or triggered")) {
+            durationInfo.durationType = SpellDurationType.UNTIL_DISPELLED_OR_TRIGGERED;
+        } else if (duration.equals("Instantaneous or 1 hour (see below)")) {
+            durationInfo.durationType = SpellDurationType.SPECIAL;
+        } else if (duration.contains("day")) {
+            durationInfo.durationType = SpellDurationType.DAY;
+            durationInfo.durationAmount = Integer.parseInt(duration.substring(0, duration.indexOf(" ")));
+        } else if (duration.contains("hour")) {
+            durationInfo.durationType = SpellDurationType.HOUR;
+            durationInfo.durationAmount = Integer.parseInt(duration.substring(0, duration.indexOf(" ")));
+        } else if (duration.contains(" min")) {
+            durationInfo.durationType = SpellDurationType.MINUTE;
+            durationInfo.durationAmount = Integer.parseInt(duration.substring(0, duration.indexOf(" ")));
+        } else if (duration.contains("min")) {
+            durationInfo.durationType = SpellDurationType.MINUTE;
+            durationInfo.durationAmount = Integer.parseInt(duration.substring(0, duration.indexOf("min")));
+        } else if (duration.contains("round")) {
+            durationInfo.durationType = SpellDurationType.ROUND;
+            durationInfo.durationAmount = Integer.parseInt(duration.substring(0, duration.indexOf(" ")));
+        } else {
+            actions.add(duration);
+        }
+        return durationInfo;
+    }
+
+    class DurationInfo {
+        boolean requiresConcentration;
+        SpellDurationType durationType;
+        int durationAmount;
+    }
+
+    private void writeXml(File dir, String name, String schoolName, int level, String action, String range, String components, DurationInfo duration, String description, String higherLevelDescription, String source, SpellClasses spellClasses, boolean isRitual) throws IOException {
         System.out.println(level + " - " + name);
         String filename = name.replace(" ", "_").replace("'", "").replace("\\", "_").replace("/", "_");
         File outFile = new File(dir, filename + ".xml");
@@ -94,14 +200,7 @@ public class ConvertSpellsToXml {
         writer.append(name);
         writer.append("</name>\n");
 
-        String schoolName;
-        if (schoolLevel.contains("level")) {
-            // eg: 2nd level Transmutation
-            schoolName = schoolLevel.substring(schoolLevel.lastIndexOf(' ') + 1);
-        } else {
-            // cantrip: Conjuration Cantrip
-            schoolName = schoolLevel.substring(0, schoolLevel.indexOf(' '));
-        }
+
         writer.append("    <school>");
         writer.append(schoolName.trim());
         writer.append("</school>\n");
@@ -112,35 +211,44 @@ public class ConvertSpellsToXml {
 
         writer.append("    <classes>\n");
         //boolean isBard, boolean isCleric, boolean isDruid, boolean isPaladin, boolean isRanger, boolean isSorceror, boolean isWarlock, boolean isWizard
-        if (isBard) {
+        if (spellClasses.isBard) {
             writer.append("        <class>Bard</class>\n");
         }
-        if (isCleric) {
+        if (spellClasses.isCleric) {
             writer.append("        <class>Cleric</class>\n");
         }
-        if (isDruid) {
+        if (spellClasses.isDruid) {
             writer.append("        <class>Druid</class>\n");
         }
-        if (isPaladin) {
+        if (spellClasses.isPaladin) {
             writer.append("        <class>Paladin</class>\n");
         }
-        if (isRanger) {
+        if (spellClasses.isRanger) {
             writer.append("        <class>Ranger</class>\n");
         }
-        if (isSorceror) {
+        if (spellClasses.isSorcerer) {
             writer.append("        <class>Sorcerer</class>\n");
         }
-        if (isWarlock) {
+        if (spellClasses.isWarlock) {
             writer.append("        <class>Warlock</class>\n");
         }
-        if (isWizard) {
+        if (spellClasses.isWizard) {
             writer.append("        <class>Wizard</class>\n");
         }
         writer.append("    </classes>\n");
 
-        writer.append("    <duration>");
-        writer.append(duration);
-        writer.append("</duration>\n");
+        writer.append("    <durationType>");
+        writer.append(duration.durationType.name());
+        writer.append("</durationType>\n");
+        if (duration.durationType.hasValue()) {
+            writer.append("    <duration>");
+            writer.append(duration.durationAmount + "");
+            writer.append("</duration>\n");
+        }
+
+        if (duration.requiresConcentration) {
+            writer.append("   <concentration>true</concentration>\n");
+        }
 
         writer.append("    <range>");
         writer.append(range);
@@ -271,5 +379,8 @@ public class ConvertSpellsToXml {
             }
         }
         folder.delete();
+    }
+
+    private class ActionInfo {
     }
 }

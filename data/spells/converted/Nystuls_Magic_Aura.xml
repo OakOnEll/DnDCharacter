@@ -5,7 +5,8 @@
     <classes>
         <class>Wizard</class>
     </classes>
-    <duration>24 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>24</duration>
     <range>Touch</range>
     <castingTime>1 action</castingTime>
     <components>V, S, M (a small square of silk)</components>

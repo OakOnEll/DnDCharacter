@@ -6,7 +6,7 @@
         <class>Bard</class>
         <class>Wizard</class>
     </classes>
-    <duration>Until dispelled</duration>
+    <durationType>UNTIL_DISPELLED</durationType>
     <range>120 feet</range>
     <castingTime>1 action</castingTime>
     <components>V, S, M (a bit of fleece and jade dust worth at least 25 gp)</components>

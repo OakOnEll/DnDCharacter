@@ -6,7 +6,8 @@
         <class>Druid</class>
         <class>Warlock</class>
     </classes>
-    <duration>1 minute</duration>
+    <durationType>MINUTE</durationType>
+    <duration>1</duration>
     <range>Touch </range>
     <castingTime>1 bonus action</castingTime>
     <components>V, S </components>

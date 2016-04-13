@@ -5,7 +5,7 @@
     <classes>
         <class>Cleric</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>30 feet</range>
     <castingTime>1 bonus action</castingTime>
     <components>V</components>

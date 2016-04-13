@@ -5,7 +5,7 @@
     <classes>
         <class>Wizard</class>
     </classes>
-    <duration>Until dispelled</duration>
+    <durationType>UNTIL_DISPELLED</durationType>
     <range>Self</range>
     <castingTime>1 minute</castingTime>
     <components>V, S, M (a gem, crystal, reliquary, or some other ornamental container worth at least 500 gp)</components>

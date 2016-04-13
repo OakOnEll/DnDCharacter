@@ -6,7 +6,8 @@
         <class>Cleric</class>
         <class>Wizard</class>
     </classes>
-    <duration>10 days</duration>
+    <durationType>DAY</durationType>
+    <duration>10</duration>
     <range>Touch</range>
     <ritual>true</ritual>
     <castingTime>1 action</castingTime>

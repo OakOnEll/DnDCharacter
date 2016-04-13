@@ -8,7 +8,9 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>Concentration, up to 10 minutes</duration>
+    <durationType>MINUTE</durationType>
+    <duration>10</duration>
+   <concentration>true</concentration>
     <range>Touch</range>
     <castingTime>1 action</castingTime>
     <components>V, S, M (holy water or powdered silver and iron, which the spell consumes)</components>

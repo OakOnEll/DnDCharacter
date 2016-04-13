@@ -7,7 +7,9 @@
         <class>Cleric</class>
         <class>Ranger</class>
     </classes>
-    <duration>Concentration, up to 10 minutes</duration>
+    <durationType>MINUTE</durationType>
+    <duration>10</duration>
+   <concentration>true</concentration>
     <range>120 feet</range>
     <ritual>true</ritual>
     <castingTime>1 action</castingTime>

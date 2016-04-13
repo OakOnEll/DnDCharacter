@@ -5,7 +5,9 @@
     <classes>
         <class>Ranger</class>
     </classes>
-    <duration>Concentration up to 1 minute</duration>
+    <durationType>MINUTE</durationType>
+    <duration>1</duration>
+   <concentration>true</concentration>
     <range>Self</range>
     <castingTime>1 bonus action</castingTime>
     <components>V, S</components>

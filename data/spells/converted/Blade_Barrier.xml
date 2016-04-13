@@ -5,7 +5,9 @@
     <classes>
         <class>Cleric</class>
     </classes>
-    <duration>Concentration, up to 10 minutes</duration>
+    <durationType>MINUTE</durationType>
+    <duration>10</duration>
+   <concentration>true</concentration>
     <range>90 feet</range>
     <castingTime>1 action</castingTime>
     <components>V, S</components>

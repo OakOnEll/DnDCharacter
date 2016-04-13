@@ -6,7 +6,9 @@
         <class>Paladin</class>
         <class>Wizard</class>
     </classes>
-    <duration>Concentration, up to 1 hour</duration>
+    <durationType>HOUR</durationType>
+    <duration>1</duration>
+   <concentration>true</concentration>
     <range>Touch</range>
     <castingTime>1 bonus action</castingTime>
     <components>V, S</components>

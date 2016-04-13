@@ -5,7 +5,9 @@
     <classes>
         <class>Druid</class>
     </classes>
-    <duration>Concentration, up to 6 rounds</duration>
+    <durationType>ROUND</durationType>
+    <duration>6</duration>
+   <concentration>true</concentration>
     <range>Sight</range>
     <castingTime>1 minute</castingTime>
     <components>V, S</components>

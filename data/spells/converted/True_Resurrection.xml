@@ -6,7 +6,7 @@
         <class>Cleric</class>
         <class>Druid</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>Touch</range>
     <castingTime>1 hour</castingTime>
     <components>V, S, M (a sprinkle of holy water and diamonds worth at least 25,000 gp, which the spell consumes)</components>

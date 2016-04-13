@@ -8,7 +8,8 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>24 hours</duration>
+    <durationType>HOUR</durationType>
+    <duration>24</duration>
     <range>300 feet</range>
     <castingTime>10 minutes</castingTime>
     <components>V, S, M (a stone a twig and a bit of green plant)</components>

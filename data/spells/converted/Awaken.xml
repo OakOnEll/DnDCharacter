@@ -6,7 +6,7 @@
         <class>Bard</class>
         <class>Druid</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>Touch</range>
     <castingTime>8 hours</castingTime>
     <components>V, S, M (an agate worth at least 1000 gp which the spell consumes)</components>

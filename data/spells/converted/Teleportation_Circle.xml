@@ -7,7 +7,8 @@
         <class>Sorcerer</class>
         <class>Wizard</class>
     </classes>
-    <duration>1 round</duration>
+    <durationType>ROUND</durationType>
+    <duration>1</duration>
     <range>10 feet</range>
     <castingTime>1 minute</castingTime>
     <components>V, M (rare chalks and inks infused with precious gems with 50 gp which the spell consumes)</components>

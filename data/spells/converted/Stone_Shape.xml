@@ -7,7 +7,7 @@
         <class>Druid</class>
         <class>Wizard</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>Touch</range>
     <castingTime>1 action</castingTime>
     <components>V, S, M (soft clay, which must be worked into roughly the desired shape of the stone object)</components>

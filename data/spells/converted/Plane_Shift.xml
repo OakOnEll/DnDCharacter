@@ -9,7 +9,7 @@
         <class>Warlock</class>
         <class>Wizard</class>
     </classes>
-    <duration>Instantaneous</duration>
+    <durationType>INSTANTANEOUS</durationType>
     <range>Touch</range>
     <castingTime>1 action</castingTime>
     <components>V, S, M (a forked, metal rod worth at least 250 gp, attuned to a particular plane of existence)</components>
