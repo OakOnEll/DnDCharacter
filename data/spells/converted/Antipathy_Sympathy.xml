@@ -9,6 +9,7 @@
     </classes>
     <durationType>DAY</durationType>
     <duration>10</duration>
+    <attackType>SAVING_THROW</attackType>
     <range>60 feet</range>
     <castingTimeType>HOUR</castingTimeType>
     <castingTime>1</castingTime>

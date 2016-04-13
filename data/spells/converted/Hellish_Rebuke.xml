@@ -7,6 +7,7 @@
         <class>Warlock</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
+    <attackType>SAVING_THROW</attackType>
     <range>60 feet</range>
     <castingTimeType>REACTION</castingTimeType>
     <castingTime>1</castingTime>

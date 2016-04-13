@@ -8,6 +8,7 @@
     </classes>
     <durationType>MINUTE</durationType>
     <duration>1</duration>
+    <attackType>SAVING_THROW</attackType>
     <range>30 feet</range>
     <castingTimeType>BONUS_ACTION</castingTimeType>
     <castingTime>1</castingTime>

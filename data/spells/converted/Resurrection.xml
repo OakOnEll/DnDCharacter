@@ -8,6 +8,7 @@
         <class>Cleric</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
+    <attackType>SAVING_THROW</attackType>
     <range>Touch</range>
     <castingTimeType>HOUR</castingTimeType>
     <castingTime>1</castingTime>

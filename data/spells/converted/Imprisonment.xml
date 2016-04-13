@@ -8,6 +8,7 @@
         <class>Wizard</class>
     </classes>
     <durationType>UNTIL_DISPELLED</durationType>
+    <attackType>SAVING_THROW</attackType>
     <range>30 feet</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>

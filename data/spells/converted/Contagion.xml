@@ -9,6 +9,7 @@
     </classes>
     <durationType>DAY</durationType>
     <duration>7</duration>
+    <attackType>MELEE_ATTACK</attackType>
     <range>Touch</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>

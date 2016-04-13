@@ -9,6 +9,7 @@
     </classes>
     <durationType>MINUTE</durationType>
     <duration>1</duration>
+    <attackType>RANGED_ATTACK</attackType>
     <range>Touch </range>
     <castingTimeType>BONUS_ACTION</castingTimeType>
     <castingTime>1</castingTime>

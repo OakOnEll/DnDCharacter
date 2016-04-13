@@ -13,6 +13,7 @@
     <durationType>MINUTE</durationType>
     <duration>10</duration>
    <concentration>true</concentration>
+    <attackType>SAVING_THROW</attackType>
     <range>Self</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>10</castingTime>

@@ -11,6 +11,7 @@
     </classes>
     <durationType>HOUR</durationType>
     <duration>8</duration>
+    <attackType>SAVING_THROW</attackType>
     <range>Touch</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>

@@ -9,6 +9,7 @@
     <durationType>ROUND</durationType>
     <duration>6</duration>
    <concentration>true</concentration>
+    <attackType>SAVING_THROW</attackType>
     <range>Sight</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>

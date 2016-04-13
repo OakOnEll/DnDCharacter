@@ -10,6 +10,7 @@
         <class>Wizard</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
+    <attackType>SAVING_THROW</attackType>
     <range>Self (10-foot radius) </range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>

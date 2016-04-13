@@ -9,6 +9,7 @@
         <class>Wizard</class>
     </classes>
     <durationType>UNTIL_DISPELLED_OR_TRIGGERED</durationType>
+    <attackType>SAVING_THROW</attackType>
     <range>Touch</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>1</castingTime>

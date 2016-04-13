@@ -8,6 +8,7 @@
         <class>Druid</class>
     </classes>
     <durationType>INSTANTANEOUS</durationType>
+    <attackType>SAVING_THROW</attackType>
     <range>30 feet</range>
     <castingTimeType>MINUTE</castingTimeType>
     <castingTime>10</castingTime>

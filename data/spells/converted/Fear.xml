@@ -12,6 +12,7 @@
     <durationType>MINUTE</durationType>
     <duration>1</duration>
    <concentration>true</concentration>
+    <attackType>SAVING_THROW</attackType>
     <range>Self (30-foot cone)</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>

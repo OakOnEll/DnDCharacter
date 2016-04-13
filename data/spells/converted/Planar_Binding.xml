@@ -11,6 +11,7 @@
     </classes>
     <durationType>HOUR</durationType>
     <duration>24</duration>
+    <attackType>SAVING_THROW</attackType>
     <range>60 feet</range>
     <castingTimeType>HOUR</castingTimeType>
     <castingTime>1</castingTime>
