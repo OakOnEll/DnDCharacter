@@ -12,7 +12,11 @@
     <range>90 feet</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (a piece of ice or a small white rock chip)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <material>a piece of ice or a small white rock chip</material>
+    </components>
     <shortDescription>A flurry of magic snowballs erupts from a point you choose within range. Each creature in a 5-foot-radius sphere centered on that point must make a Dexterity saving throw. A creature takes 3d6 cold damage on a failed save, or half as much damage on a successful one.
 When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd.</shortDescription>
 </spell>

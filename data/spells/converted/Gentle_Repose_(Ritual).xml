@@ -13,7 +13,11 @@
     <ritual>true</ritual>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (a pinch of salt and one copper piece placed on each of the corpse's eyes, which must remain there for the duration)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <material>a pinch of salt and one copper piece placed on each of the corpse's eyes, which must remain there for the duration</material>
+    </components>
     <shortDescription>You touch a corpse or other remains. For the duration, the target is protected from decay and can't become undead. &lt;br>The spell also effectively extends the time limit on raising the target from the dead, since days spent under the influence of this spell don't count against the time limit of spells such as raise dead.
 -</shortDescription>
 </spell>

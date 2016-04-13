@@ -14,7 +14,11 @@
     <range>Touch</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (either a pinch of dried carrot or an agate)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <material>either a pinch of dried carrot or an agate</material>
+    </components>
     <shortDescription>You touch a willing creature to grant it the ability to see in the dark. For the duration, that creature has darkvision out to a range of 60 feet.
 -</shortDescription>
 </spell>

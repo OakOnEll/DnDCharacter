@@ -12,7 +12,11 @@
     <range>Self</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (a small amount of alcohol or distilled spirits)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <material>a small amount of alcohol or distilled spirits</material>
+    </components>
     <shortDescription>Bolstering yourself with a necromantic facsimile of life, you gain 1d4 + 4 temporary hit points for the duration. 
 When you cast this spell using a spell slot of 2nd level or higher, you gain 5 additional temporary hit points for each slot level above 1st.</shortDescription>
 </spell>

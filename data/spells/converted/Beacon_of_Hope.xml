@@ -13,7 +13,10 @@
     <range>30 feet</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+    </components>
     <shortDescription>This spell bestows hope and vitality. Choose any number of creatures within range. For the duration, each target has advantage on Wisdom saving throws and death saving throws, and regains the maximum number of hit points possible from any healing.
 -</shortDescription>
 </spell>

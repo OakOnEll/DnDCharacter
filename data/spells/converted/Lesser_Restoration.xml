@@ -14,7 +14,10 @@
     <range>Touch</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+    </components>
     <shortDescription>You touch a creature and can end either one disease or one condition afflicting it. The condition can be blinded, deafened, paralyzed, or poisoned.
 -</shortDescription>
 </spell>

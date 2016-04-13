@@ -16,7 +16,10 @@
     <range>Touch</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+    </components>
     <shortDescription>For the duration, the willing creature you touch has resistance to one damage type of your choice: acid, cold, fire, lightning, or thunder.
 -</shortDescription>
 </spell>

@@ -12,7 +12,11 @@
     <range>60 feet</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (a bit of pork rind or butter)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <material>a bit of pork rind or butter</material>
+    </components>
     <shortDescription>Slick grease covers the ground in a 10-foot square centered on a point within range and turns it into difficult terrain for the duration. &lt;br>When the grease appears, each creature standing in its area must succeed on a Dexterity saving throw or fall prone. A creature that enters the area or ends its turn there must also succeed on a Dexterity saving throw or fall prone.
 -</shortDescription>
 </spell>

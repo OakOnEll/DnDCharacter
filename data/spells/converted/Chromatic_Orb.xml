@@ -12,7 +12,11 @@
     <range>90 feet</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (a diamond worth at least 50 gp)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <specialMaterial>a diamond worth at least 50 gp</specialMaterial>
+    </components>
     <shortDescription>You hurl a 4-inch-diameter sphere of energy at a creature that you can see within range. You choose acid, cold, fire, lightning, poison, or thunder for the type of orb you create, and then make a ranged spell attack against the target. If the attack hits, the creature takes 3d8 damage of the type you chose. 
 When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d8 for each slot level above 1st.</shortDescription>
 </spell>

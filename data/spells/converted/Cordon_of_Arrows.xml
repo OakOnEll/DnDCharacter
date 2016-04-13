@@ -12,7 +12,11 @@
     <range>5 feet</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (four or more arrows or bolts)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <material>four or more arrows or bolts</material>
+    </components>
     <shortDescription>You plant four pieces of nonmagical ammunition - arrows or crossbow bolts - in the ground within range and lay magic upon them to protect an area. Until the spell ends whenever a creature other than you comes within 30 feet of the ammunition for the first time on a turn or ends its turn there one piece of ammunition flies up to strike it. The creature must succeed on a Dexterity saving throw or take 1d6 piercing damage. The piece of ammunition is then destroyed. The spell ends when no ammunition remains. &lt;br>When you cast this spell you can designate any creatures you choose, and the spell ignores them.
 When you cast this spell using a spell slot of 3rd level or higher, the amount of ammunition that can be affected increases by two for each slot level above 2nd.</shortDescription>
 </spell>

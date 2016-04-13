@@ -14,7 +14,10 @@
     <range>Touch</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+    </components>
     <shortDescription>You or a creature you touch becomes invisible until the spell ends. Anything the target is wearing or carrying is invisible as long as it is on the target's person.
 -</shortDescription>
 </spell>

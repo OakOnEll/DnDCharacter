@@ -11,7 +11,11 @@
     <range>Touch</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (diamonds worth 300 gp, which the spell consumes)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <specialMaterial>diamonds worth 300 gp, which the spell consumes</specialMaterial>
+    </components>
     <shortDescription>You touch a creature that has died within the last minute. That creature returns to life with 1 hit point. This spell can't return to life a creature that has died of old age, nor can it restore any missing body parts.
 -</shortDescription>
 </spell>

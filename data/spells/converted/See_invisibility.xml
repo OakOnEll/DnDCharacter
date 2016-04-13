@@ -13,7 +13,11 @@
     <range>Self</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (A pinch of Talc and a small sprinkling of powdered silver)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <material>A pinch of Talc and a small sprinkling of powdered silver</material>
+    </components>
     <shortDescription>For the duration you see invisible creatures and objects as if they were visible and you can see into the Ethereal Plane. Ethereal creatures and objects appear ghostly and translucent.
 -</shortDescription>
 </spell>

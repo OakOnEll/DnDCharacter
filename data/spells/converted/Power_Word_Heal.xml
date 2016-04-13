@@ -10,7 +10,10 @@
     <range>Touch</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+    </components>
     <shortDescription>A wave of healing energy washes over the creature you touch. The target regains all its hit points. If the creature is charmed frightened paralyzed or stunned the condition ends. If the creature is prone it can use its reaction to stand up. This spell has no effect on undead or constructs.
 -</shortDescription>
 </spell>

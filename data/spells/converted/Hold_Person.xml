@@ -18,7 +18,11 @@
     <range>60 feet</range>
     <castingTimeType>ACTION</castingTimeType>
     <castingTime>1</castingTime>
-    <components>V, S, M (a small, straight piece of iron)</components>
+    <components>
+      <verbal>true</verbal>
+      <somatic>true</somatic>
+      <material>a small, straight piece of iron</material>
+    </components>
     <shortDescription>Choose a humanoid that you can see within range. The target must succeed on a Wisdom saving throw or be paralyzed for the duration. At the end of each of its turns, the target can make another Wisdom saving throw. On a success, the spell ends on the target.
 When you cast this spell using a spell slot of 3rd level or higher, you can target on additional humanoid for each slot level above 2nd. The humanoids must be within 30 feet of each other when you target them.</shortDescription>
 </spell>

@@ -1,6 +1,5 @@
 package dndcharacter.oakonell.com.ddcharacter;
 
-import android.app.Notification;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.spell.CastingTimeType;
@@ -74,12 +73,12 @@ public class ConvertSpellsToXml {
         int level = readNumberColumnValue(stringReader);
         String action = readColumnValue(stringReader);
         String range = readColumnValue(stringReader);
-        String components = readColumnValue(stringReader);
+        String componentsString = readColumnValue(stringReader);
         String duration = readColumnValue(stringReader);
         String description = readColumnValue(stringReader);
         String higherLevelDescription = readColumnValue(stringReader);
         String source = readColumnValue(stringReader);
-        // skip favorite?
+        // skip favorite
         readBoooleanColumnValue(stringReader);
         SpellClasses spellClasses = new SpellClasses();
         spellClasses.readFrom(stringReader);
@@ -93,14 +92,18 @@ public class ConvertSpellsToXml {
             // cantrip: Conjuration Cantrip
             schoolName = schoolLevel.substring(0, schoolLevel.indexOf(' '));
         }
+
+
         //SpellAttackType;
         SpellAttackType attackType = getSpellAttackType(name, description);
-
 
         // process duration
         DurationInfo durationInfo = getDurationInfo(duration);
 
         ActionInfo actionInfo = getActionInfo(action);
+
+        ComponentInfo componentInfo = getComponentInfo(name, description, componentsString);
+
         // process range
         boolean selfRange = range.contains("Self");
 
@@ -109,8 +112,48 @@ public class ConvertSpellsToXml {
 
         assert readColumnValue(stringReader) == null;
 
-        writeXml(dir, name, schoolName, level, actionInfo, attackType, range, components, durationInfo, description, higherLevelDescription, source, spellClasses, isRitual);
+        writeXml(dir, name, schoolName, level, actionInfo, attackType, range, componentInfo, durationInfo, description, higherLevelDescription, source, spellClasses, isRitual);
 
+    }
+
+    private ComponentInfo getComponentInfo(String name, String description, String componentsString) {
+        ComponentInfo info = new ComponentInfo();
+        int indexOfParen = componentsString.indexOf("(");
+        String material = null;
+        if (indexOfParen >= 0) {
+            int lastIndexOfCloseParen = componentsString.lastIndexOf(")");
+            material = componentsString.substring(indexOfParen + 1, lastIndexOfCloseParen);
+            componentsString = componentsString.substring(0, indexOfParen);
+        }
+        final String[] strings = componentsString.split(",");
+
+        for (int index = 0; index < strings.length; index++) {
+            String string = strings[index].trim();
+            if ("V".equals(string)) {
+                info.usesVerbal = true;
+            } else if ("S".equals(string)) {
+                info.usesSomatic = true;
+            } else if (string.startsWith("M")) {
+                info.usesMaterial = true;
+                if (material.contains("gp")) {
+                    info.specialMaterial = material;
+                } else {
+                    info.material = material;
+                }
+            } else {
+                throw new RuntimeException("Unexpected component for " + name + ":" + componentsString + "=>" + string);
+            }
+        }
+
+//        if (!info.usesMaterial && material != null) {
+//            actions.add(name + ": " + componentsString);
+//        }
+//
+//        if (!info.usesVerbal && !info.usesSomatic && !info.usesMaterial) {
+//            actions.add(name + ": " + componentsString);
+//        }
+
+        return info;
     }
 
     private SpellAttackType getSpellAttackType(String name, String description) {
@@ -331,7 +374,16 @@ Fire Bolt: You hurl a mote of fire at a creature or object within range. Make a 
         int durationAmount;
     }
 
-    private void writeXml(File dir, String name, String schoolName, int level, ActionInfo action, SpellAttackType attackType, String range, String components, DurationInfo duration, String description, String higherLevelDescription, String source, SpellClasses spellClasses, boolean isRitual) throws IOException {
+    class ComponentInfo {
+        boolean usesVerbal;
+        boolean usesSomatic;
+        boolean usesMaterial;
+        String material;
+        String specialMaterial;
+
+    }
+
+    private void writeXml(File dir, String name, String schoolName, int level, ActionInfo action, SpellAttackType attackType, String range, ComponentInfo components, DurationInfo duration, String description, String higherLevelDescription, String source, SpellClasses spellClasses, boolean isRitual) throws IOException {
         System.out.println(level + " - " + name);
         String filename = name.replace(" ", "_").replace("'", "").replace("\\", "_").replace("/", "_");
         File outFile = new File(dir, filename + ".xml");
@@ -419,9 +471,22 @@ Fire Bolt: You hurl a mote of fire at a creature or object within range. Make a 
         writer.append(action.amount + "");
         writer.append("</castingTime>\n");
 
-        writer.append("    <components>");
-        writer.append(components);
-        writer.append("</components>\n");
+        writer.append("    <components>\n");
+        if (components.usesVerbal) {
+            writer.append("      <verbal>true</verbal>\n");
+        }
+        if (components.usesSomatic) {
+            writer.append("      <somatic>true</somatic>\n");
+        }
+        if (components.usesMaterial) {
+            if (components.specialMaterial != null) {
+                writer.append("      <specialMaterial>" + components.specialMaterial + "</specialMaterial>\n");
+            }
+            if (components.material != null) {
+                writer.append("      <material>" + components.material + "</material>\n");
+            }
+        }
+        writer.append("    </components>\n");
 
         writer.append("    <shortDescription>");
         writer.append(description.replaceAll("<", "&lt;") + "\n");
