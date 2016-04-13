@@ -18,5 +18,5 @@
       <specialMaterial>diamond dust worth 100 gp, which the spell consumes</specialMaterial>
     </components>
     <shortDescription>You imbue a creature you touch with positive energy to undo a debilitating effect. You can reduce the target's exhaustion level by one, or end one of the following effects on the target: &lt;br> * One effect that charmed or petrified the target. &lt;br> * One curse, including the target's attunement to a cursed magic item. &lt;br> * Any reduction to one of the target's ability scores. &lt;br> * One effect reducing the target's hit point maximum
--</shortDescription>
+</shortDescription>
 </spell>

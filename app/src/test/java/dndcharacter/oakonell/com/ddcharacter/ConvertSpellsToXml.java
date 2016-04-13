@@ -115,6 +115,10 @@ public class ConvertSpellsToXml {
 
         assert readColumnValue(stringReader) == null;
 
+        if (higherLevelDescription.trim().equals("-")) {
+            higherLevelDescription = "";
+        }
+
         writeXml(dir, name, schoolName, level, actionInfo, attackType, rangeInfo, componentInfo, durationInfo, description, higherLevelDescription, source, spellClasses, isRitual);
 
     }
@@ -576,8 +580,12 @@ Fire Bolt: You hurl a mote of fire at a creature or object within range. Make a 
 
         writer.append("    <shortDescription>");
         writer.append(description.replaceAll("<", "&lt;") + "\n");
-        writer.append(higherLevelDescription.replaceAll("<", "&lt;"));
         writer.append("</shortDescription>\n");
+        if (higherLevelDescription.trim().length() > 0) {
+            writer.append("    <higherLevelDescription>");
+            writer.append(higherLevelDescription.replaceAll("<", "&lt;"));
+            writer.append("</higherLevelDescription>\n");
+        }
 
 
         writer.append("</spell>\n");
