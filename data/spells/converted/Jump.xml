@@ -1,5 +1,6 @@
 <spell>
     <name>Jump</name>
+    <ref>PHB 254</ref>
     <school>Transmutation</school>
     <level>1</level>
     <classes>
@@ -11,7 +12,8 @@
     <durationType>MINUTE</durationType>
     <duration>1</duration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a grasshopper's hind leg)</components>
     <shortDescription>You touch a creature. The creature's jump distance is tripled until the spell ends.
 -</shortDescription>

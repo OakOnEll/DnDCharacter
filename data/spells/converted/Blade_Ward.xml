@@ -1,5 +1,6 @@
 <spell>
     <name>Blade Ward</name>
+    <ref>PHB 218</ref>
     <school>Abjuration</school>
     <level>0</level>
     <classes>
@@ -11,7 +12,8 @@
     <durationType>ROUND</durationType>
     <duration>1</duration>
     <range>Self</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>You extend your hand and trace a sigil of warding in the air. Until the end of your next turn you have resistance against bludgeoning piercing and slashing damage dealt by weapon attacks.
 -</shortDescription>

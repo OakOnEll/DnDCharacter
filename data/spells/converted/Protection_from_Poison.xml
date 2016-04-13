@@ -1,5 +1,6 @@
 <spell>
     <name>Protection from Poison</name>
+    <ref>PHB 270</ref>
     <school>Abjuration</school>
     <level>2</level>
     <classes>
@@ -11,7 +12,8 @@
     <durationType>HOUR</durationType>
     <duration>1</duration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>You touch a creature. If it is poisoned, you neutralize the poison. If more than one poison afflicts the target, you neutralize on poison that you know is present, or you neutralize one at random. For the duration, the target has advantage on saving throws against being poisoned, and it has resistance to poison damage.
 -</shortDescription>

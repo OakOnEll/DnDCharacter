@@ -1,5 +1,6 @@
 <spell>
     <name>See invisibility</name>
+    <ref>PHB 274</ref>
     <school>Divination</school>
     <level>2</level>
     <classes>
@@ -10,7 +11,8 @@
     <durationType>HOUR</durationType>
     <duration>1</duration>
     <range>Self</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (A pinch of Talc and a small sprinkling of powdered silver)</components>
     <shortDescription>For the duration you see invisible creatures and objects as if they were visible and you can see into the Ethereal Plane. Ethereal creatures and objects appear ghostly and translucent.
 -</shortDescription>

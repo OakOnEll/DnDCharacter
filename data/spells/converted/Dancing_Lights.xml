@@ -1,5 +1,6 @@
 <spell>
     <name>Dancing Lights</name>
+    <ref>PHB 230</ref>
     <school>Evocation</school>
     <level>0</level>
     <classes>
@@ -11,7 +12,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>120 feet</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a bit of phosphorus or wychwood, or a glowworm)</components>
     <shortDescription>You create up to four torch-sized lights within range making them appear as torches lanterns or glowing orbs that hover in the air for the duration. You can also combine the four lights into one glowing vaguely humanoid form of Medium size. Whichever form you choose each light sheds dim light in a 10-foot radius. &lt;br>As a bonus action on your turn you can move the lights up to 60 feet to a new spot within range. A light must be within 20 feet of another light created by this spell and a light winks out if it exceeds the spell's range.
 -</shortDescription>

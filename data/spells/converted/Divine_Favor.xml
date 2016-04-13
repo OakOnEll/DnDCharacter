@@ -1,5 +1,6 @@
 <spell>
     <name>Divine Favor</name>
+    <ref>PHB 234</ref>
     <school>Evocation</school>
     <level>1</level>
     <classes>
@@ -9,7 +10,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Self</range>
-    <castingTime>1 bonus action</castingTime>
+    <castingTimeType>BONUS_ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>Your prayer empowers you with divine radiance. Until the spell ends, your weapon attacks deal and extra 1d4 radiant damage on a hit.
 -</shortDescription>

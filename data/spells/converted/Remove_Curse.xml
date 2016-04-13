@@ -1,5 +1,6 @@
 <spell>
     <name>Remove Curse</name>
+    <ref>PHB 271</ref>
     <school>Abjuration</school>
     <level>3</level>
     <classes>
@@ -10,7 +11,8 @@
     </classes>
     <durationType>INSTANTANEOUS</durationType>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>At your touch, all curses affecting one creature or object end. If the object is a cursed magic item, its curse remains, but the spell breaks its owner's attunement to the object so it can be removed or discarded. 
 -</shortDescription>

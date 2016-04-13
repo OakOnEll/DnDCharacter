@@ -1,5 +1,6 @@
 <spell>
     <name>Mage Armor</name>
+    <ref>PHB 256</ref>
     <school>Abjuration</school>
     <level>1</level>
     <classes>
@@ -9,7 +10,8 @@
     <durationType>HOUR</durationType>
     <duration>8</duration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a piece of cured leather)</components>
     <shortDescription>You touch a willing creature who isn't wearing armor, and a protective magical force surrounds it until the spell ends. The target's base AC becomes 13 + its Dexterity modifier. The spell ends it if the target dons armor or if you dismiss the spell as an action.
 -</shortDescription>

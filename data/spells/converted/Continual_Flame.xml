@@ -1,5 +1,6 @@
 <spell>
     <name>Continual Flame</name>
+    <ref>PHB 227</ref>
     <school>Evocation</school>
     <level>2</level>
     <classes>
@@ -8,7 +9,8 @@
     </classes>
     <durationType>UNTIL_DISPELLED</durationType>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (ruby dust worth 50 gp, which the spell consumes)</components>
     <shortDescription>A flame, equivalent in brightness to a torch, springs forth from an object that you touch. The effect looks like a regular flame, but it creates no heat and doesn't use oxygen. A continual flame can be covered or hidden but not smothered or quenched. 
 -</shortDescription>

@@ -1,5 +1,6 @@
 <spell>
     <name>Expeditious Retreat</name>
+    <ref>PHB 238</ref>
     <school>Transmutation</school>
     <level>1</level>
     <classes>
@@ -11,7 +12,8 @@
     <duration>10</duration>
    <concentration>true</concentration>
     <range>Self</range>
-    <castingTime>1 bonus action</castingTime>
+    <castingTimeType>BONUS_ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>This spell allows you to move at an incredible pace. When you cast this spell, and then as a bonus action on each of your turns until the spell ends, you can take the Dash action.
 -</shortDescription>

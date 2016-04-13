@@ -1,5 +1,6 @@
 <spell>
     <name>Guardian of Faith</name>
+    <ref>PHB 246</ref>
     <school>Conjuration</school>
     <level>4</level>
     <classes>
@@ -8,7 +9,8 @@
     <durationType>HOUR</durationType>
     <duration>8</duration>
     <range>30 feet</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V</components>
     <shortDescription>A Large spectral guardian appears and hovers for the duration in an unoccupied space of your choice that you can see within range. The guardian occupies that space and is indistinct except for a gleaming sword and shield emblazoned with the symbol of your deity. &lt;br>Any creature hostile to you that moves to a space within 10 feet of the guardian for the first time on a turn must succeed on a Dexterity saving throw. The creature takes 20 radiant damage on a failed save, or half as much damage on a successful one. The guardian vanishes when it has dealt a total of 60 damage.
 -</shortDescription>

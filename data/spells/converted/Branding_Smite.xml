@@ -1,5 +1,6 @@
 <spell>
     <name>Branding Smite</name>
+    <ref>PHB 219</ref>
     <school>Evocation</school>
     <level>2</level>
     <classes>
@@ -9,7 +10,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Self</range>
-    <castingTime>1 bonus action</castingTime>
+    <castingTimeType>BONUS_ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V</components>
     <shortDescription>The next time you hit a creature with a weapon attack before this spell ends, the weapon gleams with astral radiance as you strike. The attack deals an extra 2d6 radiant damage to the target, which becomes visible if it is invisible, and the target sheds dim light in a 5-foot radius and can't become invisible until the spell ends. 
 When you cast this spell using a spell slot of 3rd level or higher, the extra damage increases by 1d6 for each slot level above 2nd.</shortDescription>

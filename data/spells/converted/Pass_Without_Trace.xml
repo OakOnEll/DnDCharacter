@@ -1,5 +1,6 @@
 <spell>
     <name>Pass Without Trace</name>
+    <ref>PHB 264</ref>
     <school>Abjuration</school>
     <level>2</level>
     <classes>
@@ -10,7 +11,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Self</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (ashes from a burned leaf of mistletoe and a sprig of spruce)</components>
     <shortDescription>A veil of shadows and silence radiates from you, masking you and your companions from detection. For the duration, each creature you choose within 30 feet of you (including you) has a +10 bonus to Dexterity (Stealth) checks and can't be tracked except by magical means. A creature that receives this bonus leaves behind no tracks or other traces of its passage.
 -</shortDescription>

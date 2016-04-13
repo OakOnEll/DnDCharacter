@@ -1,5 +1,6 @@
 <spell>
     <name>Maelstrom</name>
+    <ref>EE 20</ref>
     <school>evocation</school>
     <level>5</level>
     <classes>
@@ -9,7 +10,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>120 feet</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (paper or leaf in the shape of a funnel)</components>
     <shortDescription>A mass of 5-foot-deep water appears and swirls in a 30-foot radius centered on a point you can see within range. The point must be on ground or in a body of water. Until the spell ends, that area is difficult terrain, and any creature that starts its turn there must succeed on a Strength saving throw or take 6d6 bludgeoning damage and be pulled 10 feet toward the center.
 -</shortDescription>

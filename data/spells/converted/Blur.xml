@@ -1,5 +1,6 @@
 <spell>
     <name>Blur</name>
+    <ref>PHB 219</ref>
     <school>Illusion</school>
     <level>2</level>
     <classes>
@@ -10,7 +11,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Self</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V</components>
     <shortDescription>Your body becomes blurred, shifting and wavering to all who can see you. For the duration, any creature has disadvantage on attack rolls against you. An attacker is immune to this effect if it doesn't rely on sight, as with blindsight, or can see through illusions, as with truesight.
 -</shortDescription>

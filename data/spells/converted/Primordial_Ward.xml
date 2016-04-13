@@ -1,5 +1,6 @@
 <spell>
     <name>Primordial Ward</name>
+    <ref>EE 21</ref>
     <school>abjuration</school>
     <level>6</level>
     <classes>
@@ -9,7 +10,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Self </range>
-    <castingTime>1 action </castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>You have resistance to acid, cold, fire, lightning, and thunder damage for the spell's duration. When you take damage of one of those types, you can use your reaction to gain immunity to that type of damage, including against the triggering damage. If you do so, the resistances end, and you have the immunity until the end of your next turn, at which time the spell ends.
 -</shortDescription>

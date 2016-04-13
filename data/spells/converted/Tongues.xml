@@ -1,5 +1,6 @@
 <spell>
     <name>Tongues</name>
+    <ref>PHB 283</ref>
     <school>Divination</school>
     <level>3</level>
     <classes>
@@ -12,7 +13,8 @@
     <durationType>HOUR</durationType>
     <duration>1</duration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, M (a small clay model of a ziggurat)</components>
     <shortDescription>This spell grants the creature you touch the ability to understand any spoken language it hears. Moreover, when the target speaks, any creature that knows at least one language and can hear the target understands what it says. 
 -</shortDescription>

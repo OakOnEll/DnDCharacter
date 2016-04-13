@@ -1,5 +1,6 @@
 <spell>
     <name>Fly</name>
+    <ref>PHB 243</ref>
     <school>Transmutation</school>
     <level>3</level>
     <classes>
@@ -11,7 +12,8 @@
     <duration>10</duration>
    <concentration>true</concentration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a wing feather from any bird)</components>
     <shortDescription>You touch a willing creature. The target gains a flying speed of 60 feet for the duration. When the spell ends, the target falls if it is still aloft, unless it can stop the fall. 
 When you cast this spell using a spell slot of 4th level or higher, you can target one additional creature for each slot level above 3rd.</shortDescription>

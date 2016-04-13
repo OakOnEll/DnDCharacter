@@ -1,5 +1,6 @@
 <spell>
     <name>Beacon of Hope</name>
+    <ref>PHB 217</ref>
     <school>Abjuration</school>
     <level>3</level>
     <classes>
@@ -9,7 +10,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>30 feet</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>This spell bestows hope and vitality. Choose any number of creatures within range. For the duration, each target has advantage on Wisdom saving throws and death saving throws, and regains the maximum number of hit points possible from any healing.
 -</shortDescription>

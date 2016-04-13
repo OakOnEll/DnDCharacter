@@ -1,5 +1,6 @@
 <spell>
     <name>Divine Word</name>
+    <ref>PHB 234</ref>
     <school>Evocation</school>
     <level>7</level>
     <classes>
@@ -7,7 +8,8 @@
     </classes>
     <durationType>INSTANTANEOUS</durationType>
     <range>30 feet</range>
-    <castingTime>1 bonus action</castingTime>
+    <castingTimeType>BONUS_ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V</components>
     <shortDescription>You utter a divine word, imbued with the power that shaped the world at the dawn of creation. Choose any number of creatures you can see within range. Each creature that can hear you must make a Charisma saving throw. On a failed save, a creature suffers an effect based on its current hit points:  &lt;br> * 50 hit points or fewer: deafened for 1 minute. &lt;br> * 40 hit points or fewer: deafened and blinded for 10 minutes. &lt;br> * 30 hit points or fewer: blinded, deafened, and stunned for 1 hour. &lt;br> * 20 hit points or fewer: killed instantly &lt;br> Regardless of its current hit points, a celestial, an elemental, a fey, or a fiend that fails its save is forced back to its plane of origin (if it isn't there already) and can't return to your current plane for 24 hours by any means short of a wish spell.
 -</shortDescription>

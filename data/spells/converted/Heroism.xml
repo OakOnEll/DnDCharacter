@@ -1,5 +1,6 @@
 <spell>
     <name>Heroism</name>
+    <ref>PHB 250</ref>
     <school>Enchantment</school>
     <level>1</level>
     <classes>
@@ -10,7 +11,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>A willing creature you touch is imbued with bravery. Until the spell ends the creature is immune to being frightened and gains temporary hit points equal to your spellcasting ability modifier at the start of each of its turns. When the spell ends the target loses any remaining temporary hit points from this spell. 
 When you cast this spell using a spell slot of 2nd level or higher you can target one additional creature for each slot level above 1st.</shortDescription>

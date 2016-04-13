@@ -1,5 +1,6 @@
 <spell>
     <name>False Life</name>
+    <ref>PHB 239</ref>
     <school>Necromancy</school>
     <level>1</level>
     <classes>
@@ -9,7 +10,8 @@
     <durationType>HOUR</durationType>
     <duration>1</duration>
     <range>Self</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a small amount of alcohol or distilled spirits)</components>
     <shortDescription>Bolstering yourself with a necromantic facsimile of life, you gain 1d4 + 4 temporary hit points for the duration. 
 When you cast this spell using a spell slot of 2nd level or higher, you gain 5 additional temporary hit points for each slot level above 1st.</shortDescription>

@@ -1,7 +1,9 @@
 package dndcharacter.oakonell.com.ddcharacter;
 
+import android.app.Notification;
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.model.character.spell.CastingTimeType;
 import com.oakonell.dndcharacter.model.character.spell.SpellDurationType;
 
 import org.junit.Test;
@@ -103,7 +105,7 @@ public class ConvertSpellsToXml {
 
         assert readColumnValue(stringReader) == null;
 
-        writeXml(dir, name, schoolName, level, action, range, components, durationInfo, description, higherLevelDescription, source, spellClasses, isRitual);
+        writeXml(dir, name, schoolName, level, actionInfo, range, components, durationInfo, description, higherLevelDescription, source, spellClasses, isRitual);
 
     }
 
@@ -132,8 +134,32 @@ public class ConvertSpellsToXml {
 
 
     private ActionInfo getActionInfo(String action) {
-        actions.add(action);
-        return null;
+        ActionInfo info = new ActionInfo();
+        if (action.contains("reaction")) {
+            info.castingType = CastingTimeType.REACTION;
+            info.amount = Integer.parseInt(action.substring(0, action.indexOf(" ")));
+            if (info.amount !=1) {
+                throw new RuntimeException("Unexpected");
+            }
+        } else if (action.contains("bonus action")) {
+            info.castingType = CastingTimeType.BONUS_ACTION;
+            info.amount = Integer.parseInt(action.substring(0, action.indexOf(" ")));
+            if (info.amount !=1) {
+                throw new RuntimeException("Unexpected");
+            }
+        } else if (action.contains(" action")) {
+            info.castingType = CastingTimeType.ACTION;
+            info.amount = Integer.parseInt(action.substring(0, action.indexOf(" ")));
+        } else if (action.contains("minute")) {
+            info.castingType = CastingTimeType.MINUTE;
+            info.amount = Integer.parseInt(action.substring(0, action.indexOf(" ")));
+        } else if (action.contains("hour")) {
+            info.castingType = CastingTimeType.HOUR;
+            info.amount = Integer.parseInt(action.substring(0, action.indexOf(" ")));
+        } else {
+            throw new RuntimeException("Unexpected");
+        }
+        return info;
     }
 
     @NonNull
@@ -177,7 +203,7 @@ public class ConvertSpellsToXml {
             durationInfo.durationType = SpellDurationType.ROUND;
             durationInfo.durationAmount = Integer.parseInt(duration.substring(0, duration.indexOf(" ")));
         } else {
-            actions.add(duration);
+            throw new RuntimeException("Unexpected");
         }
         return durationInfo;
     }
@@ -188,7 +214,7 @@ public class ConvertSpellsToXml {
         int durationAmount;
     }
 
-    private void writeXml(File dir, String name, String schoolName, int level, String action, String range, String components, DurationInfo duration, String description, String higherLevelDescription, String source, SpellClasses spellClasses, boolean isRitual) throws IOException {
+    private void writeXml(File dir, String name, String schoolName, int level, ActionInfo action, String range, String components, DurationInfo duration, String description, String higherLevelDescription, String source, SpellClasses spellClasses, boolean isRitual) throws IOException {
         System.out.println(level + " - " + name);
         String filename = name.replace(" ", "_").replace("'", "").replace("\\", "_").replace("/", "_");
         File outFile = new File(dir, filename + ".xml");
@@ -199,6 +225,10 @@ public class ConvertSpellsToXml {
         writer.append("    <name>");
         writer.append(name);
         writer.append("</name>\n");
+
+        writer.append("    <ref>");
+        writer.append(source.toUpperCase());
+        writer.append("</ref>\n");
 
 
         writer.append("    <school>");
@@ -259,8 +289,11 @@ public class ConvertSpellsToXml {
         }
 
 
+        writer.append("    <castingTimeType>");
+        writer.append(action.castingType.name());
+        writer.append("</castingTimeType>\n");
         writer.append("    <castingTime>");
-        writer.append(action);
+        writer.append(action.amount+"");
         writer.append("</castingTime>\n");
 
         writer.append("    <components>");
@@ -382,5 +415,7 @@ public class ConvertSpellsToXml {
     }
 
     private class ActionInfo {
+        public CastingTimeType castingType;
+        public int amount;
     }
 }

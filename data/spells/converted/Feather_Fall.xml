@@ -1,5 +1,6 @@
 <spell>
     <name>Feather Fall</name>
+    <ref>PHB 239</ref>
     <school>Transmutation</school>
     <level>1</level>
     <classes>
@@ -10,7 +11,8 @@
     <durationType>MINUTE</durationType>
     <duration>1</duration>
     <range>60 feet</range>
-    <castingTime>1 reaction, When you or a creature within 60 feet of you falls </castingTime>
+    <castingTimeType>REACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, M (a small feather or piece of down)</components>
     <shortDescription>Choose up to five falling creatures within range. A falling creature's rate of descent slows to 60 feet per round until the spell ends. If the creature lands before the spell ends it takes no falling damage and can land on its feet and the spell ends for that creature.
 -</shortDescription>

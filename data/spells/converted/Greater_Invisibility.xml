@@ -1,5 +1,6 @@
 <spell>
     <name>Greater Invisibility</name>
+    <ref>PHB 246</ref>
     <school>Illusion</school>
     <level>4</level>
     <classes>
@@ -11,7 +12,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>You or a creature you touch becomes invisible until the spell ends. Anything the target is wearing or carrying is invisible as long as it is on the target's person.
 -</shortDescription>

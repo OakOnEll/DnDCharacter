@@ -1,5 +1,6 @@
 <spell>
     <name>Abi-Dalzim's Horrid Wilting</name>
+    <ref>EE 15</ref>
     <school>necromancy</school>
     <level>8</level>
     <classes>
@@ -8,7 +9,8 @@
     </classes>
     <durationType>INSTANTANEOUS</durationType>
     <range>150 feet</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a bit of sponge)</components>
     <shortDescription>You draw the moisture from every creature in a 30-foot cube centered on a point you choose within range. Each creature in that area must make a Constitution saving throw. Constructs and undead aren't affected, and plants and water elementals make this saving throw with disadvantage. A creature takes 10d8 necrotic damage on a failed save, or half as much damage on a successful one.
 -</shortDescription>

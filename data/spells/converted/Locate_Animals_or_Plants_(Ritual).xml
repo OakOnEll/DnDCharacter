@@ -1,5 +1,6 @@
 <spell>
     <name>Locate Animals or Plants (Ritual)</name>
+    <ref>PHB 256</ref>
     <school>Divination</school>
     <level>2</level>
     <classes>
@@ -10,7 +11,8 @@
     <durationType>INSTANTANEOUS</durationType>
     <range>Self</range>
     <ritual>true</ritual>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a bit of fur from a bloodhound)</components>
     <shortDescription>Describe or name a specific kind of beast or plant. Concentrating on the voice of nature in your surroundings you learn the direction and distance to the closest creature or plant of that kind within 5 miles if any are present.
 -</shortDescription>

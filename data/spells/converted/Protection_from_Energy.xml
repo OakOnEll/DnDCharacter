@@ -1,5 +1,6 @@
 <spell>
     <name>Protection from Energy</name>
+    <ref>PHB 270</ref>
     <school>Abjuration</school>
     <level>3</level>
     <classes>
@@ -13,7 +14,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>For the duration, the willing creature you touch has resistance to one damage type of your choice: acid, cold, fire, lightning, or thunder.
 -</shortDescription>

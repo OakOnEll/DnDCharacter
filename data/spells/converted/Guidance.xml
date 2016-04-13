@@ -1,5 +1,6 @@
 <spell>
     <name>Guidance</name>
+    <ref>PHB 248</ref>
     <school>Divination</school>
     <level>0</level>
     <classes>
@@ -10,7 +11,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>You touch one willing creature. Once before the spell ends, the target can roll a d4 and add the number rolled to one ability check of its choice. It can roll the die before or after making the ability check. The spell then ends.
 -</shortDescription>

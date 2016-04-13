@@ -1,5 +1,6 @@
 <spell>
     <name>Glibness</name>
+    <ref>PHB 245</ref>
     <school>Transmutation</school>
     <level>8</level>
     <classes>
@@ -9,7 +10,8 @@
     <durationType>HOUR</durationType>
     <duration>1</duration>
     <range>Self</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V</components>
     <shortDescription>Until the spell ends when you make a Charisma check you can replace the number you roll with a 15. Additionally no matter what you say magic that would determine if you are telling the truth indicates that you are being truthful.
 -</shortDescription>

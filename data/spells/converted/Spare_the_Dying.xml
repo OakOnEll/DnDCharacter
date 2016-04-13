@@ -1,5 +1,6 @@
 <spell>
     <name>Spare the Dying</name>
+    <ref>PHB 277</ref>
     <school>Necromancy</school>
     <level>0</level>
     <classes>
@@ -7,7 +8,8 @@
     </classes>
     <durationType>INSTANTANEOUS</durationType>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>You touch a living creature that has 0 hit points. The creature becomes stable. This spell has no effect on undead or constructs.
 -</shortDescription>

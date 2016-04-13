@@ -1,5 +1,6 @@
 <spell>
     <name>Foresight</name>
+    <ref>PHB 244</ref>
     <school>Divination</school>
     <level>9</level>
     <classes>
@@ -11,7 +12,8 @@
     <durationType>HOUR</durationType>
     <duration>8</duration>
     <range>Touch</range>
-    <castingTime>1 minute</castingTime>
+    <castingTimeType>MINUTE</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a hummingbird feather)</components>
     <shortDescription>You touch a willing creature and bestow a limited ability to see into the immediate future. For the duration the target can't be surprised and has advantage on attack rolls ability checks and saving throws. Additionally other creatures have disadvantage on attack rolls against the target for the duration. &lt;br>This spell immediately ends if you cast it again before its duration ends.
 -</shortDescription>

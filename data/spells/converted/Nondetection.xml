@@ -1,5 +1,6 @@
 <spell>
     <name>Nondetection</name>
+    <ref>PHB 263</ref>
     <school>Abjuration</school>
     <level>3</level>
     <classes>
@@ -10,7 +11,8 @@
     <durationType>HOUR</durationType>
     <duration>8</duration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a pinch of diamond dust worth 25 gp sprinkled over the target, which the spell consumes)</components>
     <shortDescription>For the duration, you hide a target that you touch from divination magic. The target can be a willing creature or a place or an object no larger than 10 feet in any dimension. The target can't be targeted by any divination magic or perceived through magical scrying sensors.
 -</shortDescription>

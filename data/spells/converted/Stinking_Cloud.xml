@@ -1,5 +1,6 @@
 <spell>
     <name>Stinking Cloud</name>
+    <ref>PHB 278</ref>
     <school>Conjuration</school>
     <level>3</level>
     <classes>
@@ -11,7 +12,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>90 feet</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a rotten egg or several skunk cabbage leaves)</components>
     <shortDescription>You create a 20-foot-radius sphere of yellow nauseating gas centered on a point within range. The cloud spreads around corners and its area is heavily obscured. The cloud lingers in the air for the duration. Each creature that is completely within the cloud at the start of its turn must make a Constitution saving throw against poison. On a failed save the creature spends its action that turn retching and reeling. Creatures that don't need to breathe or are immune to poison automatically succeed on this saving throw. A moderate wind (at least 10 miles per hour) disperses the cloud after 4 rounds. A strong wind (at least 20 miles per hour) disperses it after 1 round.
 -</shortDescription>

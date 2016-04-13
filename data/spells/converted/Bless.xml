@@ -1,5 +1,6 @@
 <spell>
     <name>Bless</name>
+    <ref>PHB 219</ref>
     <school>Enchantment</school>
     <level>1</level>
     <classes>
@@ -10,7 +11,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>30 feet</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (a sprinkling of holy water)</components>
     <shortDescription>You bless up to three creatures of your choice within range. Whenever a target makes an attack roll or a saving throw before the spell ends, the target can roll a d4 and add the number rolled to the attack roll or saving throw.
 When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st.</shortDescription>

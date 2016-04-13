@@ -1,5 +1,6 @@
 <spell>
     <name>Earthbind</name>
+    <ref>EE 17</ref>
     <school>transmutation</school>
     <level>2</level>
     <classes>
@@ -12,7 +13,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>300 feet </range>
-    <castingTime>1 action </castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V</components>
     <shortDescription>Choose one creature you can see within range. Yellow strips of magical energy loop around the creature. The target must succeed on a Strength saving throw or its flying speed (if any) is reduced to 0 feet for the spell's duration. An airborne creature affected by this spell descends at 60 feet per round until it reaches the ground or the spell ends.
 -</shortDescription>

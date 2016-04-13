@@ -1,5 +1,6 @@
 <spell>
     <name>Divination (Ritual)</name>
+    <ref>PHB 234</ref>
     <school>Divination</school>
     <level>4</level>
     <classes>
@@ -8,7 +9,8 @@
     <durationType>INSTANTANEOUS</durationType>
     <range>Self</range>
     <ritual>true</ritual>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (incense and a sacrificial offering appropriate to your religion, together worth at least 25 gp, which the spell consumes)</components>
     <shortDescription>Your magic and an offering put you in contact with a god or a god's servants. You ask a single question concerning a specific goal, event, or activity to occur within 7 days. The DM offers a truthful reply. The reply might be a short phrase, a cryptic rhyme, or an omen. &lt;br>The spell doesn't take into account any possible circumstances that might change the outcome, such as the casting of additional spells or the loss or gain of a companion. &lt;br>If you cast this spell two or more times before finishing your next long rest, there is a cumulative 25 percent chance for each casting after the first that you get a random reading. The DM makes this roll in secret.
 -</shortDescription>

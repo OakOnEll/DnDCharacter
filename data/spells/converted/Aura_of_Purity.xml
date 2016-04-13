@@ -1,5 +1,6 @@
 <spell>
     <name>Aura of Purity</name>
+    <ref>PHB 216</ref>
     <school>Abjuration</school>
     <level>4</level>
     <classes>
@@ -9,7 +10,8 @@
     <duration>10</duration>
    <concentration>true</concentration>
     <range>Self (30-foot radius)</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V</components>
     <shortDescription>Purifying energy radiates from you in an aura with a 30-foot radius. Until the spell ends, the aura moves with you, centered on you. Each nonhostile creature in the aura (including you) can't become diseased, has resistance to poison damage, and has advantage on saving throws against effects that cause any of the following conditions: blinded, charmed, deafened, frightened, paralyzed, poisoned, and stunned.
 -</shortDescription>

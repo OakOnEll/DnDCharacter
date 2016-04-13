@@ -1,5 +1,6 @@
 <spell>
     <name>Ray of Sickness</name>
+    <ref>PHB 271</ref>
     <school>Necromancy</school>
     <level>1</level>
     <classes>
@@ -8,7 +9,8 @@
     </classes>
     <durationType>INSTANTANEOUS</durationType>
     <range>60 feet</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S</components>
     <shortDescription>A ray of sickening greenish energy lashes out toward a creature within range. Make a ranged spell attack against the target. On a hit, the target takes 2d8 poison damage and must make a Constitution saving throw. On a failed save, it is also poisoned until the end of your next turn. 
 When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d8 for each slot level above 1st. </shortDescription>

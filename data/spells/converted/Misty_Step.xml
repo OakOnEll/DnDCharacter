@@ -1,5 +1,6 @@
 <spell>
     <name>Misty Step</name>
+    <ref>PHB 260</ref>
     <school>Conjuration</school>
     <level>2</level>
     <classes>
@@ -9,7 +10,8 @@
     </classes>
     <durationType>INSTANTANEOUS</durationType>
     <range>Self</range>
-    <castingTime>1 bonus action</castingTime>
+    <castingTimeType>BONUS_ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V</components>
     <shortDescription>Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space that you can see.
 -</shortDescription>

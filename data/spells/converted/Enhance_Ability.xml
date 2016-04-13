@@ -1,5 +1,6 @@
 <spell>
     <name>Enhance Ability</name>
+    <ref>PHB 237</ref>
     <school>Transmutation</school>
     <level>2</level>
     <classes>
@@ -12,7 +13,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>Touch</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>V, S, M (fur or a feather from a beast)</components>
     <shortDescription>You touch a creature and bestow upon it a magical enhancement. Choose one of the following effects: the target gains the effect until the spell ends. &lt;br>&lt;b>&lt;i>Bear's Endurance.&lt;/b>&lt;/i> The target has advantage on Constitution checks. It also gains 2d6 temporary hit points, which are lost when the spell ends. &lt;br>&lt;b>&lt;i>Bull's Strength.&lt;/b>&lt;/i> The target has advantage on Strength checks, and his or her carrying capacity doubles. &lt;br>&lt;b>&lt;i>Cat's Grace.&lt;/b>&lt;/i> The target has advantage on Dexterity checks. It also doesn't take damage from falling 20 feet or less if it isn't incapacitated. &lt;br>&lt;b>&lt;i>Eagle's Splendor.&lt;/b>&lt;/i> The target has advantage on Charisma checks.&lt;br>&lt;b>&lt;i>Fox's Cunning.&lt;/b>&lt;/i> The target has advantage on Intelligence checks.&lt;br>&lt;b>&lt;i>Owl's Wisdom.&lt;/b>&lt;/i> The target has advantage on Wisdom checks.
 When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.</shortDescription>

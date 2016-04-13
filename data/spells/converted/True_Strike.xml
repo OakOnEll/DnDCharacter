@@ -1,5 +1,6 @@
 <spell>
     <name>True Strike</name>
+    <ref>PHB 284</ref>
     <school>Divination</school>
     <level>0</level>
     <classes>
@@ -12,7 +13,8 @@
     <duration>1</duration>
    <concentration>true</concentration>
     <range>30 feet</range>
-    <castingTime>1 action</castingTime>
+    <castingTimeType>ACTION</castingTimeType>
+    <castingTime>1</castingTime>
     <components>S</components>
     <shortDescription>You extend your hand and point a finger at a target in range. Your magic grants you a brief insight into the target's defenses. On your next turn you gain advantage on your first attack roll against the target provided that this spell hasn't ended.
 -</shortDescription>
