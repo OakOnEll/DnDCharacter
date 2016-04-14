@@ -579,11 +579,11 @@ Fire Bolt: You hurl a mote of fire at a creature or object within range. Make a 
         writer.append("    </components>\n");
 
         writer.append("    <shortDescription>");
-        writer.append(description.replaceAll("<", "&lt;") + "\n");
+        writer.append(description.replaceAll("<br>", "\n").replaceAll("<", "&lt;") + "\n");
         writer.append("</shortDescription>\n");
         if (higherLevelDescription.trim().length() > 0) {
             writer.append("    <higherLevelDescription>");
-            writer.append(higherLevelDescription.replaceAll("<", "&lt;"));
+            writer.append(higherLevelDescription.replaceAll("<br>", "\n").replaceAll("<", "&lt;"));
             writer.append("</higherLevelDescription>\n");
         }
 
