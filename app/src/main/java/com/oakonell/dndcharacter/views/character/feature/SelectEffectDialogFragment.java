@@ -1,9 +1,13 @@
 package com.oakonell.dndcharacter.views.character.feature;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
@@ -18,6 +22,7 @@ import com.oakonell.dndcharacter.views.character.CharacterActivity;
  */
 public class SelectEffectDialogFragment extends AbstractSelectComponentDialogFragment<AbstractSelectComponentDialogFragment.RowViewHolder> {
     private EffectSelectedListener listener;
+
 
     public void setListener(EffectSelectedListener listener) {
         this.listener = listener;
@@ -37,6 +42,26 @@ public class SelectEffectDialogFragment extends AbstractSelectComponentDialogFra
     @Override
     protected String getTitle() {
         return getString(R.string.add_effect);
+    }
+
+    protected int getDialogResource() {
+        return R.layout.effect_search_dialog;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateTheView(inflater, container, savedInstanceState);
+        View custom_effect = view.findViewById(R.id.custom_effect);
+        custom_effect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomEffectDialogFragment dialog = CustomEffectDialogFragment.createDialog();
+                dialog.show(getFragmentManager(), "custom_effect");
+                dismiss();
+            }
+        });
+        return view;
     }
 
     @NonNull
@@ -99,6 +124,7 @@ public class SelectEffectDialogFragment extends AbstractSelectComponentDialogFra
 
             return true;
         }
+
     }
 
 }
