@@ -31,6 +31,7 @@ import com.oakonell.dndcharacter.model.item.CreateCharacterArmorVisitor;
 import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
+import com.oakonell.dndcharacter.model.spell.ApplySpellToCharacterVisitor;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -487,9 +488,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
             ApplyChangesToGenericComponent.applyToCharacter(context, root, null, characterSpell, null, false);
             characterSpell.setLevel(spell.getLevel());
-            characterSpell.setSchool(spell.getSchool());
-            //String castingTime = XmlUtils.getElementText(element, "castingTime");
-            //characterSpell.setCastingTime();
+            ApplySpellToCharacterVisitor.populateCommonSpellProperties(characterSpell, root);
 
             // TODO
             if (component instanceof CharacterClass) {
@@ -594,7 +593,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             characterSpell = new CharacterSpell();
             final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
             ApplyChangesToGenericComponent.applyToCharacter(context, root, null, characterSpell, null, false);
-            characterSpell.setSchool(spell.getSchool());
+            ApplySpellToCharacterVisitor.populateCommonSpellProperties(characterSpell, root);
 
             // TODO
             if (component instanceof CharacterClass) {

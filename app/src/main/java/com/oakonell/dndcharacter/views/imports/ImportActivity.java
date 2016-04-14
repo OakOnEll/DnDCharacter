@@ -12,6 +12,7 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -720,7 +721,7 @@ public class ImportActivity extends AbstractBaseActivity {
                     }
                 });
                 scrollImportList = false;
-                ProgressData charResult = UpdateCharacters.updateCharacters(ImportActivity.this, progress);
+                DataImporter.CharacterUpdateProgress charResult = UpdateCharacters.updateCharacters(ImportActivity.this, progress);
                 result.characterResult = charResult;
             }
             return result;
@@ -741,10 +742,33 @@ public class ImportActivity extends AbstractBaseActivity {
         }
 
         @Override
-        protected void onPostExecute(@NonNull DataImporter.ImportResult importResult) {
+        protected void onPostExecute(@NonNull final DataImporter.ImportResult importResult) {
             import_summary.setText(getString(R.string.import_summary, importResult.added, importResult.updated, importResult.error));
             if (importResult.characterResult != null) {
                 character_update_summary.setText(getString(R.string.character_update_summary, importResult.characterResult.progress, importResult.characterResult.error));
+                if (!importResult.characterResult.errors.isEmpty()) {
+                    character_update_summary.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ImportActivity.this);
+                            builder.setNeutralButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            StringBuilder stringBuilder = new StringBuilder();
+                            // TODO string localization... errors are likely not localized anyway..
+                            builder.setTitle("Errors in Character updates");
+                            for (String each : importResult.characterResult.errors) {
+                                stringBuilder.append(each);
+                                stringBuilder.append("\n");
+                            }
+                            builder.setMessage(stringBuilder.toString());
+                            builder.show();
+                        }
+                    });
+                }
             }
             barProgressDialog.dismiss();
             listAdapter.notifyDataSetChanged();

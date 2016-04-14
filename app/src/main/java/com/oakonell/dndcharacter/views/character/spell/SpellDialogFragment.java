@@ -27,6 +27,7 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
+import com.oakonell.dndcharacter.model.character.spell.SpellAttackType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.UIUtils;
@@ -61,6 +62,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
     private NoDefaultSpinner attack_roll_input_type;
 
     private TextView description;
+    private TextView higher_levels;
     private TextView name;
     private TextView attack_bonus;
     private TextView save_dc;
@@ -86,6 +88,11 @@ public class SpellDialogFragment extends RollableDialogFragment {
     private AttackDamageInfo attackDamageInfo;
     private ArrayList<String> spellLevels;
     private Button cast_button;
+    private TextView components;
+    private TextView casting_time;
+    private TextView range;
+    private TextView duration;
+    private View attack_roll_layout;
 
 
     @NonNull
@@ -108,6 +115,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
         superCreateView(view, savedInstanceState);
 
         description = (TextView) view.findViewById(R.id.description);
+        higher_levels = (TextView) view.findViewById(R.id.higher_levels);
         name = (TextView) view.findViewById(R.id.weapon_label);
         attack_bonus = (TextView) view.findViewById(R.id.attack_bonus);
         save_dc = (TextView) view.findViewById(R.id.save_dc);
@@ -119,6 +127,8 @@ public class SpellDialogFragment extends RollableDialogFragment {
         attack_roll_total = (TextView) view.findViewById(R.id.attack_roll_total);
         attack_roll_input = (EditText) view.findViewById(R.id.attack_roll_input);
         damage_input = (ViewGroup) view.findViewById(R.id.damage_input);
+
+        attack_roll_layout = view.findViewById(R.id.attack_roll_layout);
 
         attack_roll_input_type = (NoDefaultSpinner) view.findViewById(R.id.attack_roll_input_type);
         float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (attack_roll_input_type.getPrompt().length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, attack_roll_input_type.getResources().getDisplayMetrics());
@@ -156,6 +166,10 @@ public class SpellDialogFragment extends RollableDialogFragment {
         spell_level = (TextView) view.findViewById(R.id.spell_level);
         spell_school = (TextView) view.findViewById(R.id.spell_school);
 
+        casting_time = (TextView) view.findViewById(R.id.casting_time);
+        range = (TextView) view.findViewById(R.id.range);
+        duration = (TextView) view.findViewById(R.id.duration);
+        components = (TextView) view.findViewById(R.id.components);
 
         // TODO this is overriding the state
         attack_roll_input.addTextChangedListener(new TextWatcher() {
@@ -370,6 +384,11 @@ public class SpellDialogFragment extends RollableDialogFragment {
 
 
         description.setText(spell.getDescription());
+        if (spell.getHigherLevelDescription() != null) {
+            higher_levels.setText(spell.getHigherLevelDescription());
+        } else {
+            higher_levels.setVisibility(View.GONE);
+        }
         attack_bonus.setText(NumberUtils.formatNumber(modifier + character.getProficiency()));
 
         name.setText(spell.getName());
@@ -389,6 +408,16 @@ public class SpellDialogFragment extends RollableDialogFragment {
         } else {
             spell_school.setText(R.string.unknown_school);
         }
+
+        casting_time.setText(spell.getCastingTimeString(getResources()));
+        range.setText(spell.getRangeString(getResources()));
+        duration.setText(spell.getDurationString(getResources()));
+        components.setText(spell.getComponentString());
+
+        if (spell.getAttackType() == null || !(spell.getAttackType() == SpellAttackType.MELEE_ATTACK || spell.getAttackType() == SpellAttackType.RANGED_ATTACK)) {
+            attack_roll_layout.setVisibility(View.GONE);
+        }
+
     }
 
     private void loadSpell(@NonNull Character character) {

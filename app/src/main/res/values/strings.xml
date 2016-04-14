@@ -377,4 +377,83 @@
     <string name="limit_to_proficient">Limit to Items Proficient with</string>
     <string name="select_deselect_all">Select/Deselect All</string>
     <string name="components_menu_label">Components</string>
+
+    <string name="range_feet">%d feet</string>
+    <string name="range_self">Self</string>
+    <string name="range_sight">Sight</string>
+    <string name="range_touch">Touch</string>
+    <string name="range_target">Target</string>
+    <string name="range_special">Special</string>
+    <string name="range_unlimited">Unlimited</string>
+    <plurals name="range_feet">
+        <item quantity="one">1 foot</item>
+        <item quantity="other">%d feet</item>
+    </plurals>
+    <plurals name="range_miles">
+        <item quantity="one">1 mile</item>
+        <item quantity="other">%d miles</item>
+    </plurals>
+    <plurals name="range_cone_feet">
+        <item quantity="other">Self (%d-foot cone)</item>
+    </plurals>
+    <plurals name="range_cube_feet">
+        <item quantity="other">Self (%d-foot cube)</item>
+    </plurals>
+    <plurals name="range_line_feet">
+        <item quantity="other">Self (%d-foot line)</item>
+    </plurals>
+    <plurals name="range_sphere_feet">
+        <item quantity="other">Self (%d-foot-radius sphere)</item>
+    </plurals>
+    <plurals name="range_sphere_mile">
+        <item quantity="other">Self (%d-mile-radius sphere)</item>
+    </plurals>
+    <plurals name="range_hemisphere_feet">
+        <item quantity="other">Self (%d-foot-radius sphere)</item>
+    </plurals>
+
+    <plurals name="cast_time_action">
+        <item quantity="one">1 action</item>
+        <item quantity="other">%d actions</item>
+    </plurals>
+    <plurals name="cast_time_bonus_action">
+        <item quantity="one">1 bonus action</item>
+        <item quantity="other">%d bonus actions</item>
+    </plurals>
+    <plurals name="cast_time_hour">
+        <item quantity="one">1 hour</item>
+        <item quantity="many">%d hours</item>
+    </plurals>
+    <plurals name="cast_time_minute">
+        <item quantity="one">1 minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="cast_time_reaction">
+        <item quantity="one">1 reaction</item>
+        <item quantity="other">%d reactions</item>
+    </plurals>
+
+    <string name="instantaneous">Instantaneous</string>
+    <string name="duration_special">Special</string>
+    <string name="duration_until_dispelled">Until Dispelled</string>
+    <string name="duration_until_dispelled_or_triggered">Until Dispelled or Triggered</string>
+    <plurals name="duration_day">
+        <item quantity="one">1 day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="duration_hour">
+        <item quantity="one">1 hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="duration_minute">
+        <item quantity="one">1 minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="duration_round">
+        <item quantity="one">1 round</item>
+        <item quantity="other">%d rounds</item>
+    </plurals>
+
+
+
 </resources>

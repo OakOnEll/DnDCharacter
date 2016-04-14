@@ -185,7 +185,11 @@ public class DataImporter {
         public Map<String, List<ImportRow>> rowsImportedByType = new HashMap<>();
 
 
-        public ProgressData characterResult;
+        public CharacterUpdateProgress characterResult;
+    }
+
+    public static class CharacterUpdateProgress extends ProgressData {
+        public List<String> errors = new ArrayList<>();
     }
 
     public static class ImportRow {

@@ -31,8 +31,8 @@ public class UpdateCharacters {
         return new Select().from(CharacterRow.class).count();
     }
 
-    public static ProgressData updateCharacters(Context context, ProgressUpdater progress) {
-        ProgressData result = new ProgressData();
+    public static DataImporter.CharacterUpdateProgress updateCharacters(Context context, ProgressUpdater progress) {
+        DataImporter.CharacterUpdateProgress result = new DataImporter.CharacterUpdateProgress();
         final List<CharacterRow> list = new Select().from(CharacterRow.class).execute();
         Serializer serializer = new Persister();
         result.total = list.size();
@@ -91,6 +91,7 @@ public class UpdateCharacters {
                 }
             } catch (Exception e) {
                 Log.e("UpdateCharacters", "Error updating character " + each.getName() + ": " + e.getMessage(), e);
+                result.errors.add("Error updating character " + each.getName() + ": " + e.getMessage());
                 result.error++;
             }
             result.progress++;

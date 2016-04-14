@@ -1,12 +1,15 @@
 package com.oakonell.dndcharacter.model.character.spell;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
+import com.oakonell.dndcharacter.utils.NumberUtils;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -18,7 +21,7 @@ import java.util.List;
 /**
  * Created by Rob on 1/13/2016.
  */
-@Root(strict=false)
+@Root(strict = false)
 public class CharacterSpell extends BaseCharacterComponent {
     @Element(required = false)
     private String ownerName;
@@ -36,6 +39,11 @@ public class CharacterSpell extends BaseCharacterComponent {
     private SpellRange rangeType;
     @Element(required = false)
     private int range;
+
+    @Element(required = false)
+    private String higherLevelDescription;
+
+
     @Element(required = false)
     private int numberTargets;
 
@@ -43,7 +51,7 @@ public class CharacterSpell extends BaseCharacterComponent {
     @Element(required = false)
     private CastingTimeType castingType;
     @Element(required = false)
-    private String castingTime;
+    private int castingTimeValue;
 
     @Element(required = false)
     private SpellDurationType durationType;
@@ -54,11 +62,16 @@ public class CharacterSpell extends BaseCharacterComponent {
     @Element(required = false)
     private boolean usesVerbal;
     @Element(required = false)
-    private boolean usesSemantic;
+    private boolean usesSomatic;
     @Element(required = false)
     private boolean usesMaterial;
+
     @Element(required = false)
     private String component;
+
+
+    @Element(required = false)
+    private String specialComponent;
 
 
     @Element(required = false)
@@ -141,8 +154,8 @@ public class CharacterSpell extends BaseCharacterComponent {
         return castingType;
     }
 
-    public String getCastingTime() {
-        return castingTime;
+    public int getCastingTime() {
+        return castingTimeValue;
     }
 
     public SpellDurationType getDurationType() {
@@ -157,8 +170,8 @@ public class CharacterSpell extends BaseCharacterComponent {
         return usesVerbal;
     }
 
-    public boolean isUsesSemantic() {
-        return usesSemantic;
+    public boolean isUsesSomatic() {
+        return usesSomatic;
     }
 
     public boolean isUsesMaterial() {
@@ -167,6 +180,30 @@ public class CharacterSpell extends BaseCharacterComponent {
 
     public String getComponent() {
         return component;
+    }
+
+    public String getComponentString() {
+        String result = "";
+        boolean useComma = false;
+        if (usesVerbal) {
+            result += "V";
+            useComma = true;
+        }
+        if (usesSomatic) {
+            if (useComma) result += ",";
+            result += "S";
+            useComma = true;
+        }
+        if (usesMaterial) {
+            if (useComma) result += ",";
+            result += "M";
+            useComma = true;
+            result += " (";
+            if (component != null) result += component;
+            if (specialComponent != null) result += specialComponent;
+            result += ")";
+        }
+        return result;
     }
 
     public boolean isConcentration() {
@@ -212,8 +249,8 @@ public class CharacterSpell extends BaseCharacterComponent {
         this.castingType = castingType;
     }
 
-    public void setCastingTime(String castingTime) {
-        this.castingTime = castingTime;
+    public void setCastingTime(int castingTime) {
+        this.castingTimeValue = castingTime;
     }
 
     public void setDurationType(SpellDurationType durationType) {
@@ -228,8 +265,8 @@ public class CharacterSpell extends BaseCharacterComponent {
         this.usesVerbal = usesVerbal;
     }
 
-    public void setUsesSemantic(boolean usesSemantic) {
-        this.usesSemantic = usesSemantic;
+    public void setUsesSomatic(boolean usesSomatic) {
+        this.usesSomatic = usesSomatic;
     }
 
     public void setUsesMaterial(boolean usesMaterial) {
@@ -286,4 +323,94 @@ public class CharacterSpell extends BaseCharacterComponent {
     public ComponentType getSource() {
         return source;
     }
+
+    public String getRangeString(Resources resources) {
+        switch (rangeType) {
+            case FEET:
+                return resources.getQuantityString(R.plurals.range_feet, range, range);
+            case MILES:
+                return resources.getQuantityString(R.plurals.range_miles, range, range);
+            case SELF:
+                return resources.getString(R.string.range_self);
+            case SIGHT:
+                return resources.getString(R.string.range_sight);
+            case TOUCH:
+                return resources.getString(R.string.range_touch);
+            case TARGET:
+                return resources.getString(R.string.range_target);
+            case SPECIAL:
+                return resources.getString(R.string.range_special);
+            case UNLIMITED:
+                return resources.getString(R.string.range_unlimited);
+            case SELF_CONE_FEET:
+                return resources.getQuantityString(R.plurals.range_cone_feet, range, range);
+            case SELF_CUBE_FEET:
+                return resources.getQuantityString(R.plurals.range_cube_feet, range, range);
+            case SELF_LINE_FEET:
+                return resources.getQuantityString(R.plurals.range_line_feet, range, range);
+            case SELF_SPHERE_FEET:
+                return resources.getQuantityString(R.plurals.range_sphere_feet, range, range);
+            case SELF_SPHERE_MILE:
+                return resources.getQuantityString(R.plurals.range_sphere_mile, range, range);
+            case SELF_HEMISPHERE_FEET:
+                return resources.getQuantityString(R.plurals.range_hemisphere_feet, range, range);
+        }
+        return "??";
+    }
+
+    public String getDurationString(Resources resources) {
+        switch (getDurationType()) {
+            case INSTANTANEOUS:
+                return resources.getString(R.string.instantaneous);
+            case DAY:
+                return resources.getQuantityString(R.plurals.duration_day, durationTime, durationTime);
+            case HOUR:
+                return resources.getQuantityString(R.plurals.duration_hour, durationTime, durationTime);
+            case MINUTE:
+                return resources.getQuantityString(R.plurals.duration_minute, durationTime, durationTime);
+            case ROUND:
+                return resources.getQuantityString(R.plurals.duration_round, durationTime, durationTime);
+            case SPECIAL:
+                return resources.getString(R.string.duration_special);
+            case UNTIL_DISPELLED:
+                return resources.getString(R.string.duration_until_dispelled);
+            case UNTIL_DISPELLED_OR_TRIGGERED:
+                return resources.getString(R.string.duration_until_dispelled_or_triggered);
+        }
+        return "??";
+    }
+
+    public String getCastingTimeString(Resources resources) {
+        switch (castingType) {
+            case ACTION:
+                return resources.getQuantityString(R.plurals.cast_time_action, castingTimeValue, castingTimeValue);
+            case BONUS_ACTION:
+                return resources.getQuantityString(R.plurals.cast_time_bonus_action, castingTimeValue, castingTimeValue);
+            case REACTION:
+                return resources.getQuantityString(R.plurals.cast_time_reaction, castingTimeValue, castingTimeValue);
+
+            case HOUR:
+                return resources.getQuantityString(R.plurals.cast_time_hour, castingTimeValue, castingTimeValue);
+            case MINUTE:
+                return resources.getQuantityString(R.plurals.cast_time_minute, castingTimeValue, castingTimeValue);
+        }
+        return "??";
+    }
+
+    public String getHigherLevelDescription() {
+        return higherLevelDescription;
+    }
+
+    public void setHigherLevelDescription(String higherLevelDescription) {
+        this.higherLevelDescription = higherLevelDescription;
+    }
+
+    public String getSpecialComponent() {
+        return specialComponent;
+    }
+
+    public void setSpecialComponent(String specialComponent) {
+        this.specialComponent = specialComponent;
+    }
+
 }

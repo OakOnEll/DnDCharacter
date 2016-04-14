@@ -49,7 +49,7 @@ public class ApplyBackgroundToCharacterVisitor extends AbstractBackgroundVisitor
 
         superVisit.run();
 
-        if (savedChoices.getChoicesFor(choiceName).contains("custom")) {
+        if (customChoices != null && savedChoices.getChoicesFor(choiceName).contains("custom")) {
             String text = customChoices.get(choiceName);
             applyTrait.applyTrait(text);
         }
