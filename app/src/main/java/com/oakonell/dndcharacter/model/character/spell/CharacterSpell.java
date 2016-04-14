@@ -325,6 +325,9 @@ public class CharacterSpell extends BaseCharacterComponent {
     }
 
     public String getRangeString(Resources resources) {
+        if (rangeType == null) {
+            return "??";
+        }
         switch (rangeType) {
             case FEET:
                 return resources.getQuantityString(R.plurals.range_feet, range, range);
@@ -359,6 +362,9 @@ public class CharacterSpell extends BaseCharacterComponent {
     }
 
     public String getDurationString(Resources resources) {
+        if (getDurationType() == null) {
+            return "??";
+        }
         switch (getDurationType()) {
             case INSTANTANEOUS:
                 return resources.getString(R.string.instantaneous);
@@ -381,6 +387,9 @@ public class CharacterSpell extends BaseCharacterComponent {
     }
 
     public String getCastingTimeString(Resources resources) {
+        if (castingType == null) {
+            return "??";
+        }
         switch (castingType) {
             case ACTION:
                 return resources.getQuantityString(R.plurals.cast_time_action, castingTimeValue, castingTimeValue);
