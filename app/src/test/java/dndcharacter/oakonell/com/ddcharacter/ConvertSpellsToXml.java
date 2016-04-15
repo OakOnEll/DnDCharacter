@@ -578,6 +578,86 @@ Fire Bolt: You hurl a mote of fire at a creature or object within range. Make a 
         }
         writer.append("    </components>\n");
 
+        Set<String> notDirectRollSpells = new HashSet<>();
+        notDirectRollSpells.add("Web");
+        notDirectRollSpells.add("Wish");
+        notDirectRollSpells.add("Alter Self");
+        notDirectRollSpells.add("Absorb Elements");
+        notDirectRollSpells.add("Enlarge/Reduce");
+        notDirectRollSpells.add("Animate Objects");
+        notDirectRollSpells.add("Aura of Vitality");
+        notDirectRollSpells.add("Banishing Smite");
+        notDirectRollSpells.add("Bestow Curse");
+        notDirectRollSpells.add("Blade Barrier");
+        notDirectRollSpells.add("Blinding Smite");
+        notDirectRollSpells.add("Branding Smite");
+        notDirectRollSpells.add("Cloudkill");
+        notDirectRollSpells.add("Cloud of Daggers");
+        notDirectRollSpells.add("Control Water");
+        notDirectRollSpells.add("Cordon of Arrows");
+        notDirectRollSpells.add("Crusader's Mantle");
+        notDirectRollSpells.add("Delayed Blast Fireball");
+        notDirectRollSpells.add("Divine Favor");
+        notDirectRollSpells.add("Ensnaring Strike");
+        notDirectRollSpells.add("Evard's Black Tentacles");
+        notDirectRollSpells.add("Fire Shield");
+        notDirectRollSpells.add("Flame Arrows");
+        notDirectRollSpells.add("Flame Blade");
+        notDirectRollSpells.add("Forbiddance (Ritual)");
+        notDirectRollSpells.add("Geas");
+        notDirectRollSpells.add("Glyph of Warding");
+        notDirectRollSpells.add("Hail of Thorns");
+        notDirectRollSpells.add("Heroes' Feast");
+        notDirectRollSpells.add("Hex");
+        notDirectRollSpells.add("Hunger of Hadar");
+        notDirectRollSpells.add("Hunter's Mark");
+        notDirectRollSpells.add("Investiture of Flame");
+        notDirectRollSpells.add("Investiture of Ice");
+        notDirectRollSpells.add("Investiture of Wind");
+        notDirectRollSpells.add("Lightning Arrow");
+        notDirectRollSpells.add("Maelstrom");
+        notDirectRollSpells.add("Magic Stone");
+        notDirectRollSpells.add("Meld into Stone (Ritual)");
+        notDirectRollSpells.add("Mordenkainen's Faithful Hound");
+        notDirectRollSpells.add("Phantasmal Killer");
+        notDirectRollSpells.add("Searing Smite");
+        notDirectRollSpells.add("Spike Growth");
+        notDirectRollSpells.add("Spirit Guardians");
+        notDirectRollSpells.add("Staggering Smite");
+        notDirectRollSpells.add("Thunderous Smite");
+        notDirectRollSpells.add("Weird");
+        notDirectRollSpells.add("Wrathful Smite");
+
+
+        if (!notDirectRollSpells.contains(name)) {
+            Pattern diePattern = Pattern.compile("\\d+\\s*d\\d+");
+            final Matcher matcher = diePattern.matcher(description);
+            if (matcher.find()) {
+                writer.append("      <directRoll>true</directRoll>\n");
+            } else {
+
+                Pattern unprefixedDiePattern = Pattern.compile("d\\d+");
+                final Matcher unprefixedMatcher = unprefixedDiePattern.matcher(description);
+                if (unprefixedMatcher.find()) {
+                /*  these spells have a d\\d+ mentioned, but don't actually have damage from the spell directly
+                Mirror Image
+                Shillelagh
+                Reincarnate
+                Resistance
+                Guidance
+                Confusion
+                Blink
+                Slow
+                Bless
+                Bane
+                 */
+                    //actions.add(name );
+                }
+
+            }
+        }
+
+
         writer.append("    <shortDescription>");
         writer.append(description.replaceAll("<br>", "\n").replaceAll("<", "&lt;") + "\n");
         writer.append("</shortDescription>\n");

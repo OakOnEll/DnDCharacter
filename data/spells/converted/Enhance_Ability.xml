@@ -20,6 +20,7 @@
       <somatic>true</somatic>
       <material>fur or a feather from a beast</material>
     </components>
+      <directRoll>true</directRoll>
     <shortDescription>You touch a creature and bestow upon it a magical enhancement. Choose one of the following effects: the target gains the effect until the spell ends. 
 &lt;b>&lt;i>Bear's Endurance.&lt;/b>&lt;/i> The target has advantage on Constitution checks. It also gains 2d6 temporary hit points, which are lost when the spell ends. 
 &lt;b>&lt;i>Bull's Strength.&lt;/b>&lt;/i> The target has advantage on Strength checks, and his or her carrying capacity doubles. 
