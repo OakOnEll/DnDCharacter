@@ -367,23 +367,27 @@ public class CharacterSpell extends BaseCharacterComponent {
         if (getDurationType() == null) {
             return "??";
         }
+        String concentrationString = "";
+        if (isConcentration()) {
+            concentrationString = resources.getString(R.string.concentration_duration_suffix);
+        }
         switch (getDurationType()) {
             case INSTANTANEOUS:
-                return resources.getString(R.string.instantaneous);
+                return resources.getString(R.string.instantaneous) + concentrationString;
             case DAY:
-                return resources.getQuantityString(R.plurals.duration_day, durationTime, durationTime);
+                return resources.getQuantityString(R.plurals.duration_day, durationTime, durationTime) + concentrationString;
             case HOUR:
-                return resources.getQuantityString(R.plurals.duration_hour, durationTime, durationTime);
+                return resources.getQuantityString(R.plurals.duration_hour, durationTime, durationTime) + concentrationString;
             case MINUTE:
-                return resources.getQuantityString(R.plurals.duration_minute, durationTime, durationTime);
+                return resources.getQuantityString(R.plurals.duration_minute, durationTime, durationTime) + concentrationString;
             case ROUND:
-                return resources.getQuantityString(R.plurals.duration_round, durationTime, durationTime);
+                return resources.getQuantityString(R.plurals.duration_round, durationTime, durationTime) + concentrationString;
             case SPECIAL:
-                return resources.getString(R.string.duration_special);
+                return resources.getString(R.string.duration_special) + concentrationString;
             case UNTIL_DISPELLED:
-                return resources.getString(R.string.duration_until_dispelled);
+                return resources.getString(R.string.duration_until_dispelled) + concentrationString;
             case UNTIL_DISPELLED_OR_TRIGGERED:
-                return resources.getString(R.string.duration_until_dispelled_or_triggered);
+                return resources.getString(R.string.duration_until_dispelled_or_triggered) + concentrationString;
         }
         return "??";
     }

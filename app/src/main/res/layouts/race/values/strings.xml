@@ -98,4 +98,17 @@
     <string name="base_speed">Base speed</string>
     <string name="new_custom_effect">New Custom Effect</string>
     <string name="spell_main_roll">Roll</string>
+    <string name="create_effect_for_spell">Create Effect for %s?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="spell_effect">Spell Effect: %s</string>
+    <string name="spell_cast_level">Spell cast at level %d</string>
+    <string name="spell_concentration">Concentrating on %s</string>
+    <string name="concentration_duration_suffix"> (Concentration)</string>
+    <string name="concentration_postfix">\n\n
+* You lose concentration on a spell if you cast another spell that requires concentration. You can’t concentrate on two spells at once.\n
+* Whenever you take damage while you are concentrating on a spell, you must make a Constitution saving throw to maintain your concentration. The DC equals 10 or half the damage you take, whichever number is higher. If you take damage from multiple sources, such as an arrow and a dragon’s breath, you make a separate saving throw for each source of damage.\n
+* You lose concentration on a spell if you are incapacitated or if you die.\n</string>
+    <string name="range_label">* Range:</string>
+    <string name="duration_label">* Duration:</string>
 </resources>

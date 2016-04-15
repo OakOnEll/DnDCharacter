@@ -1,11 +1,13 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -24,10 +26,12 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.spell.SpellAttackType;
+import com.oakonell.dndcharacter.model.character.spell.SpellDurationType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.UIUtils;
@@ -155,13 +159,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
         cast_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharacterActivity context = SpellDialogFragment.this.getMainActivity();
-                if (spell.getLevel() != 0) {
-                    int spell_level = spell_slot_level.getSelectedItemPosition() + spell.getLevel();
-                    context.getCharacter().useSpellSlot(spell_level);
-                }
-                context.updateViews();
-                context.saveCharacter();
+                castSpell();
             }
         });
 
@@ -271,6 +269,75 @@ public class SpellDialogFragment extends RollableDialogFragment {
 
 
         return view;
+    }
+
+    protected void castSpell() {
+        final CharacterActivity context = SpellDialogFragment.this.getMainActivity();
+        int spell_level_temp = 0;
+        if (spell.getLevel() != 0) {
+            spell_level_temp = spell_slot_level.getSelectedItemPosition() + spell.getLevel();
+            context.getCharacter().useSpellSlot(spell_level_temp);
+        }
+        final int spell_level = spell_level_temp;
+        if (spell.getDurationType() == SpellDurationType.INSTANTANEOUS) {
+            context.updateViews();
+            context.saveCharacter();
+            return;
+        }
+        if (spell.isConcentration()) {
+            addSpellAsEffect(context, spell_level, true);
+            return;
+        }
+        // ask if want to create an effect
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        addSpellAsEffect(context, spell_level, false);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(getString(R.string.create_effect_for_spell, spell.getName())).setPositiveButton(R.string.yes, dialogClickListener)
+                .setNegativeButton(R.string.no, dialogClickListener).show();
+    }
+
+    private void addSpellAsEffect(CharacterActivity context, int spell_level, boolean concentration) {
+        CharacterEffect effect = new CharacterEffect();
+        String name;
+        if (concentration) {
+            name = getString(R.string.spell_concentration, spell.getName());
+        } else {
+            name = getString(R.string.spell_effect, spell.getName());
+        }
+        effect.setName(name);
+        String description = getString(R.string.range_label) + spell.getRangeString(getResources());
+        description += "\n";
+        description += getString(R.string.duration_label) + spell.getDurationString(getResources());
+        description += "\n";
+        description += spell.getDescription();
+        if (spell.getHigherLevelDescription() != null) {
+            description += "\n\n--\n" + spell.getHigherLevelDescription();
+        }
+        if (spell_level > 0) {
+            description += "\n\n" + getString(R.string.spell_cast_level, spell_level);
+        }
+        if (concentration) {
+            description += context.getString(R.string.concentration_postfix);
+        }
+
+        effect.setDescription(description);
+        getCharacter().addEffect(effect);
+        context.updateViews();
+        context.saveCharacter();
     }
 
     @Override
