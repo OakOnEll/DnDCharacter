@@ -93,6 +93,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
     private TextView range;
     private TextView duration;
     private View attack_roll_layout;
+    private View main_roll;
 
 
     @NonNull
@@ -129,6 +130,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
         damage_input = (ViewGroup) view.findViewById(R.id.damage_input);
 
         attack_roll_layout = view.findViewById(R.id.attack_roll_layout);
+        main_roll = view.findViewById(R.id.main_roll);
 
         attack_roll_input_type = (NoDefaultSpinner) view.findViewById(R.id.attack_roll_input_type);
         float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (attack_roll_input_type.getPrompt().length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, attack_roll_input_type.getResources().getDisplayMetrics());
@@ -416,6 +418,11 @@ public class SpellDialogFragment extends RollableDialogFragment {
 
         if (spell.getAttackType() == null || !(spell.getAttackType() == SpellAttackType.MELEE_ATTACK || spell.getAttackType() == SpellAttackType.RANGED_ATTACK)) {
             attack_roll_layout.setVisibility(View.GONE);
+        }
+        if (spell.hasDirectRoll()) {
+            main_roll.setVisibility(View.VISIBLE);
+        } else {
+            main_roll.setVisibility(View.GONE);
         }
 
     }

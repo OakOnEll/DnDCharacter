@@ -97,4 +97,5 @@
     <string name="unknown_school">Unknown School</string>
     <string name="base_speed">Base speed</string>
     <string name="new_custom_effect">New Custom Effect</string>
+    <string name="spell_main_roll">Roll</string>
 </resources>

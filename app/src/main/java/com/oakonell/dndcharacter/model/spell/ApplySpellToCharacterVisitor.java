@@ -150,6 +150,8 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
             charSpell.setHigherLevelDescription(higherLevelDescription);
         }
 
+        String directRoll = XmlUtils.getElementText(element, "directRoll");
+        charSpell.setHasDirectRoll("true".equals(directRoll));
     }
 
 }

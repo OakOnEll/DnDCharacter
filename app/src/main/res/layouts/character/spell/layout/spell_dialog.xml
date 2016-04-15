@@ -268,17 +268,29 @@
                             android:textAppearance="?android:attr/textAppearanceLarge" />
 
                         <include layout="@layout/skill_roll_layout" />
+
+
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/main_roll"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/damage_roll"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                        android:orientation="vertical">
 
-                    <include layout="@layout/attack_roll_layout" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/spell_main_roll"
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                        <include layout="@layout/attack_roll_layout" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
+
 
                 <include layout="@layout/feature_context" />
             </LinearLayout>
