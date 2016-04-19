@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
 
     android:paddingBottom="@dimen/dialog_vertical_margin"
@@ -28,11 +28,20 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="v1.0" />
 
+
     <include
+        android:id="@+id/done_layout"
         layout="@layout/dialog_done"
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/done_layout"
         android:layout_below="@id/version" />
 
     <ImageView

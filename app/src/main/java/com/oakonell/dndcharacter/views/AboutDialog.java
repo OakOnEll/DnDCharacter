@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -46,6 +47,9 @@ public class AboutDialog extends AbstractDialogFragment {
         } catch (Exception e) {
             versiontext.setText(e.getLocalizedMessage());
         }
+
+        WebView webView = (WebView) view.findViewById(R.id.webview);
+        webView.loadUrl("file:///android_asset/about.html");
 
         return view;
 
