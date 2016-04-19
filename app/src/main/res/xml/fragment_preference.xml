@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_category_title">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="sound_fx"
+            android:summary="@string/pref_sound_fx_summary"
+            android:title="@string/pref_sound_fx_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

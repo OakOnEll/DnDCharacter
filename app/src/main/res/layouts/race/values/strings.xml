@@ -111,4 +111,9 @@
 * You lose concentration on a spell if you are incapacitated or if you die.\n</string>
     <string name="range_label">* Range:</string>
     <string name="duration_label">* Duration:</string>
+    <string name="preference_title"><![CDATA[D&D Character Preferences]]></string>
+    <string name="preference_summary">Preferences</string>
+    <string name="pref_sound_fx_summary">Audible Dice rolls</string>
+    <string name="pref_sound_fx_title">Enable Sound Effects</string>
+    <string name="pref_category_title">Settings</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
+import com.oakonell.dndcharacter.utils.SoundFXUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +120,8 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
     }
 
     private void roll() {
+        SoundFXUtils.playDiceRoll(getActivity());
+
         int roll = RandomUtils.random(1, 20);
         int roll2 = RandomUtils.random(1, 20);
 
@@ -166,9 +170,11 @@ public abstract class RollableDialogFragment extends AbstractCharacterDialogFrag
         // TODO treat natural 20/1 special? (or what about 19 for attack rolls with special feat/feature)
         if (supportsCriticalRolls()) {
             if (total == 1) {
+                SoundFXUtils.playCriticalFail(getActivity());
                 critical_label.setText(R.string.critical_failure);
                 critical_label.setTextColor(getResources().getColor(android.R.color.holo_red_light));
             } else if (total == 20) {
+                SoundFXUtils.playCriticalSuccess(getActivity());
                 critical_label.setText(R.string.critical_success);
                 critical_label.setTextColor(getResources().getColor(android.R.color.holo_green_light));
             } else {

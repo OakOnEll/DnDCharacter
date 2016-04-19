@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.rest;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
+import com.oakonell.dndcharacter.utils.SoundFXUtils;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
@@ -325,6 +327,8 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             roll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SoundFXUtils.playDiceRoll(context.getActivity());
+
                     int value = RandomUtils.random(1, row.dieSides);
                     hit_die_val.setText(NumberUtils.formatNumber(value));
                     apply.setEnabled(true);
@@ -361,7 +365,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         public HitDieUseViewHolder(@NonNull View view) {
             super(view);
             value = (TextView) view.findViewById(R.id.value);
-            deleteButton =  view.findViewById(R.id.delete_button);
+            deleteButton = view.findViewById(R.id.delete_button);
         }
 
         @Override

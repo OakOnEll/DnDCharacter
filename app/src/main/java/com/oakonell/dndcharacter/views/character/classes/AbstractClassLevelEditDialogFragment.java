@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.classes;
 
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -25,6 +26,7 @@ import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
+import com.oakonell.dndcharacter.utils.SoundFXUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
@@ -274,6 +276,8 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     rollButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            SoundFXUtils.playDiceRoll(getActivity());
+
                             int rollValue = RandomUtils.random(1, maxHp);
                             hpRoll.setError(null);
                             hpRoll.setText(NumberUtils.formatNumber(rollValue));

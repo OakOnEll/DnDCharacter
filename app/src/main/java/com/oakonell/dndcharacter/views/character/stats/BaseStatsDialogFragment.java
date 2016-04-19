@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.stats;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ import com.oakonell.dndcharacter.model.character.stats.BaseStatsType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
+import com.oakonell.dndcharacter.utils.SoundFXUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.ApplyAbstractComponentDialogFragment;
 
@@ -260,6 +262,8 @@ public class BaseStatsDialogFragment extends AbstractCharacterDialogFragment {
         roll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundFXUtils.playDiceRoll(getActivity());
+
                 rollStats();
             }
         });

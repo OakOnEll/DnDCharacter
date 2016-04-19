@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.views.character.item;
 
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -30,6 +31,7 @@ import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.utils.SoundFXUtils;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
@@ -407,6 +409,8 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
     private void rollAttack() {
+        SoundFXUtils.playDiceRoll(getActivity());
+
         attack_roll_total.setVisibility(View.VISIBLE);
         damage_input.setVisibility(View.GONE);
         // this need to come before the creation/assignment below

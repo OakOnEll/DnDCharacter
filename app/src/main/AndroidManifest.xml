@@ -103,6 +103,11 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".views.settings.SettingsActivity"
+            android:label="Preferences"
+            ></activity>
+
         <meta-data
             android:name="AA_MODELS"
             android:value="com.oakonell.dndcharacter.model.background.Background, com.oakonell.dndcharacter.model.classes.AClass, com.oakonell.dndcharacter.model.item.ItemRow, com.oakonell.dndcharacter.model.race.Race, com.oakonell.dndcharacter.model.character.CharacterRow, com.oakonell.dndcharacter.model.effect.Effect, com.oakonell.dndcharacter.model.spell.Spell, com.oakonell.dndcharacter.model.spell.SpellClass, com.oakonell.dndcharacter.model.feat.Feat" />

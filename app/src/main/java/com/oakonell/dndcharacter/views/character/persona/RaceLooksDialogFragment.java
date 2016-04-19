@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.character.persona;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.utils.SoundFXUtils;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
@@ -241,6 +243,8 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
             height_roll_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SoundFXUtils.playDiceRoll(getActivity());
+
                     int roll = getCharacter().evaluateFormula(heightModifier, null);
                     random_height_roll.setText(NumberUtils.formatNumber(roll));
                 }
@@ -301,6 +305,8 @@ public class RaceLooksDialogFragment extends AbstractCharacterDialogFragment {
             weight_roll_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SoundFXUtils.playDiceRoll(getActivity());
+
                     int roll = getCharacter().evaluateFormula(weightModifier, null);
                     random_weight_roll.setText(NumberUtils.formatNumber(roll));
                 }

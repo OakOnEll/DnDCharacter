@@ -42,6 +42,7 @@ import com.oakonell.dndcharacter.views.character.rest.ShortRestDialogFragment;
 import com.oakonell.dndcharacter.views.character.spell.SpellsFragment;
 import com.oakonell.dndcharacter.views.character.stats.BaseStatsDialogFragment;
 import com.oakonell.dndcharacter.views.imports.ImportActivity;
+import com.oakonell.dndcharacter.views.settings.SettingsActivity;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -192,7 +193,9 @@ public class CharacterActivity extends AbstractBaseActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(this, "Clicked settings ", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.setClassName(this, SettingsActivity.class.getName());
+            startActivity(intent);
             return true;
         }
         if (id == R.id.action_about) {
