@@ -13,7 +13,6 @@
             </or>
         </choose>
     </stat>
-    <!-- TODO test -->
     <weapons>
         <choose number="4"/>
     </weapons>
