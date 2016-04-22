@@ -1,0 +1,22 @@
+<feat>
+    <name>Moderately Armored</name>
+    <shortDescription>Prerequisite: Proficiency with Light Armor
+    You have trained to master the use of medium armor and shields, gaining the following benefits:
+    * Increase your strength or Dexterity score by 1, to a maximum of 20
+    * You gain proficiency with medium armor and shields.
+    </shortDescription>
+    <armor>
+        <proficiency category="medium armor"/>
+    </armor>
+    <stat>
+        <choose name="feat_stat">
+            <or name="strength">
+                <increase name="Strength">1</increase>
+            </or>
+            <or name="dexterity">
+                <increase name="Dexterity">1</increase>
+            </or>
+        </choose>
+    </stat>
+    <context>ARMOR_CLASS</context>
+</feat>

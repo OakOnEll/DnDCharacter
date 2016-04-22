@@ -21,4 +21,6 @@ public interface ComponentSource {
 
 
     String getAsSourceString(Resources resources);
+
+    boolean originatesFrom(ComponentSource currentComponent);
 }

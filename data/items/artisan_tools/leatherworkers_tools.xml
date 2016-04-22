@@ -1,6 +1,7 @@
 <item>
     <name>Leatherworker's Tools</name>
     <itemType>EQUIPMENT</itemType>
+    <canBeProficient>true</canBeProficient>
     <category>artisan tool</category>
     <weight>5</weight>
     <cost>5gp</cost>

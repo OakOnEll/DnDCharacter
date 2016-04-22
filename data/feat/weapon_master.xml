@@ -1,0 +1,20 @@
+<feat>
+    <name>Weapon Master</name>
+    <shortDescription>You have practiced extensively with a variety of weapons, gaining the following benefits:
+    * Increase your Strength or Dexterity score by 1, to a  maximum of 20.
+    * You gain proficiency with four weapons of your choice.</shortDescription>
+    <stat>
+        <choose name="feat_stat">
+            <or name="strength">
+                <increase name="Strength">1</increase>
+            </or>
+            <or name="dexterity">
+                <increase name="Dexterity">1</increase>
+            </or>
+        </choose>
+    </stat>
+    <!-- TODO test -->
+    <weapons>
+        <choose number="4"/>
+    </weapons>
+</feat>

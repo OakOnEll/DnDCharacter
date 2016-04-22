@@ -1,6 +1,7 @@
 <item>
     <name>Horn</name>
     <itemType>EQUIPMENT</itemType>
+    <canBeProficient>true</canBeProficient>
     <category>Musical Instrument</category>
     <weight>2</weight>
     <cost>3gp</cost>

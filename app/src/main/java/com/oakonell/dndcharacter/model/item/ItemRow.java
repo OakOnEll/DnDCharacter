@@ -25,6 +25,8 @@ public class ItemRow extends AbstractComponentModel {
     private String xml;
     @Column
     private ItemType itemType;
+    @Column
+    private boolean canBeProficientIn;
     @Nullable
     @Column
     private String cost;
@@ -65,9 +67,26 @@ public class ItemRow extends AbstractComponentModel {
         this.category = category;
     }
 
+    public boolean isCanBeProficientIn() {
+        return canBeProficientIn;
+    }
+
+    public void setCanBeProficientIn(boolean canBeProficientIn) {
+        this.canBeProficientIn = canBeProficientIn;
+    }
+
+    @Nullable
+    public String getCost() {
+        return cost;
+    }
+
+    public void setCost(@Nullable String cost) {
+        this.cost = cost;
+    }
+
     @Override
-    public void setDocument(Context context,@Nullable Element doc) {
-        super.setDocument(context,doc);
+    public void setDocument(Context context, @Nullable Element doc) {
+        super.setDocument(context, doc);
         String category;
         ItemType type;
         String cost;
@@ -86,6 +105,11 @@ public class ItemRow extends AbstractComponentModel {
         }
         setCategory(category);
         setItemType(type);
+        if (type == ItemType.ARMOR || type == ItemType.ARMOR) {
+            setCanBeProficientIn(true);
+        } else {
+            setCanBeProficientIn("true".equals(XmlUtils.getElementText(doc, "canBeProficient")));
+        }
         this.cost = cost;
     }
 

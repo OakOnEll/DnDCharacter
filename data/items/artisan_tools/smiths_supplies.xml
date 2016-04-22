@@ -1,6 +1,7 @@
 <item>
     <name>Smith's Tools</name>
     <itemType>EQUIPMENT</itemType>
+    <canBeProficient>true</canBeProficient>
     <category>artisan tool</category>
     <weight>8</weight>
     <cost>20gp</cost>

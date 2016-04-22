@@ -1,8 +1,8 @@
 <item>
-    <name>Dulcimer</name>
+    <name>Disguise Kit</name>
     <itemType>EQUIPMENT</itemType>
     <canBeProficient>true</canBeProficient>
-    <category>Musical Instrument</category>
-    <weight>10</weight>
+    <category></category>
+    <weight>3</weight>
     <cost>25gp</cost>
 </item>

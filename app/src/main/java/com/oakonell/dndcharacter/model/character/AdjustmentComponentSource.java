@@ -31,6 +31,11 @@ public class AdjustmentComponentSource implements ComponentSource {
         return resources.getString(getType().getStringResId()) + ": " + adjustment.comment;
     }
 
+    @Override
+    public boolean originatesFrom(ComponentSource currentComponent) {
+        return false;
+    }
+
     @Nullable
     @Override
     public ComponentType getType() {

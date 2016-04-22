@@ -1,6 +1,7 @@
 <item>
     <name>Cook's Utensils</name>
     <itemType>EQUIPMENT</itemType>
+    <canBeProficient>true</canBeProficient>
     <category>artisan tool</category>
     <weight>8</weight>
     <cost>8gp</cost>

@@ -1,8 +1,8 @@
 <item>
-    <name>Caligrapher's Supplies</name>
+    <name>Forgery Kit</name>
     <itemType>EQUIPMENT</itemType>
     <canBeProficient>true</canBeProficient>
-    <category>artisan tool</category>
+    <category></category>
     <weight>5</weight>
-    <cost>10gp</cost>
+    <cost>15gp</cost>
 </item>

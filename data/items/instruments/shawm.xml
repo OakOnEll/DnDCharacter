@@ -1,6 +1,7 @@
 <item>
     <name>Shawm</name>
     <itemType>EQUIPMENT</itemType>
+    <canBeProficient>true</canBeProficient>
     <category>Musical Instrument</category>
     <weight>1</weight>
     <cost>2gp</cost>

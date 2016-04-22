@@ -1,8 +1,8 @@
 <item>
-    <name>Drum</name>
+    <name>Herbalism Kit</name>
     <itemType>EQUIPMENT</itemType>
     <canBeProficient>true</canBeProficient>
-    <category>Musical Instrument</category>
+    <category></category>
     <weight>3</weight>
-    <cost>6gp</cost>
+    <cost>5gp</cost>
 </item>

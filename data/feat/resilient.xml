@@ -1,0 +1,63 @@
+<feat>
+    <name>Resilient</name>
+    <shortDescription>Choose an ability score. You gain the following benefits:
+    * Increase the chosen ability score by 1, to a maximum of 20.
+    * You gain proficiency in saving throws using the chosen ability.</shortDescription>
+
+        <choose name="feat_stat">
+            <or name="strength">
+                <stat>
+                <increase name="Strength">1</increase>
+                </stat>
+                <savingThrows>
+                    <proficiency>Strength</proficiency>
+                </savingThrows>
+                <context>SAVING_THROW(strength),STAT_BLOCK(strength)</context>
+            </or>
+            <or name="dexterity">
+                <stat>
+                    <increase name="Dexterity">1</increase>
+                </stat>
+                <savingThrows>
+                    <proficiency>Dexterity</proficiency>
+                </savingThrows>
+                <context>SAVING_THROW(dexterity),STAT_BLOCK(dexterity)</context>
+            </or>
+            <or name="constitution">
+                <stat>
+                    <increase name="Constitution">1</increase>
+                </stat>
+                <savingThrows>
+                    <proficiency>Constitution</proficiency>
+                </savingThrows>
+                <context>SAVING_THROW(constitution),STAT_BLOCK(constitution)</context>
+            </or>
+            <or name="intelligence">
+                <stat>
+                    <increase name="Intelligence">1</increase>
+                </stat>
+                <savingThrows>
+                    <proficiency>Intelligence</proficiency>
+                </savingThrows>
+                <context>SAVING_THROW(intelligence),STAT_BLOCK(intelligence)</context>
+            </or>
+            <or name="wisdom">
+                <stat>
+                    <increase name="Wisdom">1</increase>
+                </stat>
+                <savingThrows>
+                    <proficiency>Wisdom</proficiency>
+                </savingThrows>
+                <context>SAVING_THROW(wisdom),STAT_BLOCK(wisdom)</context>
+            </or>
+            <or name="charisma">
+                <stat>
+                    <increase name="Charisma">1</increase>
+                </stat>
+                <savingThrows>
+                    <proficiency>Charisma</proficiency>
+                </savingThrows>
+                <context>SAVING_THROW(charisma),STAT_BLOCK(charisma)</context>
+            </or>
+        </choose>
+</feat>

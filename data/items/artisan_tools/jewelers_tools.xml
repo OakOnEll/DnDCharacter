@@ -1,6 +1,7 @@
 <item>
     <name>Jeweler's Tools</name>
     <itemType>EQUIPMENT</itemType>
+    <canBeProficient>true</canBeProficient>
     <category>artisan tool</category>
     <weight>2</weight>
     <cost>25gp</cost>

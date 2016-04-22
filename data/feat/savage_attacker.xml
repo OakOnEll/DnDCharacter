@@ -1,0 +1,5 @@
+<feat>
+    <name>Savage Attacker</name>
+    <shortDescription>Once per turn when you roll damage for a melee weapon attack, you can reroll the weapon's damage dice and use either total.</shortDescription>
+    <context>WEAPON_ATTACK</context>
+</feat>

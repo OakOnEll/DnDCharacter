@@ -357,4 +357,9 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         throw new RuntimeException("SHouldn't get here?");
     }
 
+    @Override
+    public boolean originatesFrom(ComponentSource currentComponent) {
+        if (equals(currentComponent)) return true;
+        return getSource().originatesFrom(currentComponent);
+    }
 }

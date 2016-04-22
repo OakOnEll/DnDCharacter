@@ -1,0 +1,20 @@
+<feat>
+    <name>Observant</name>
+    <shortDescription>Quick to notice details of your environment, you gain the following benefits:
+    * Increase your Intelligence or Wisdom score by 1, to a maximum of 20
+    * If you can see a creature's mouth while it is speaking a language you understand, you can interpret what it is saying by reading its lips.
+    * You have a +5 bonus to your passive Wisdom (Perception) and passive Intelligence(Investigation) scores.</shortDescription>
+    <stat>
+        <choose name="feat_stat">
+            <or name="strength">
+                <increase name="Intelligence">1</increase>
+            </or>
+            <or name="dexterity">
+                <increase name="Wisdom">1</increase>
+            </or>
+        </choose>
+    </stat>
+    <!-- TODO passive intelligence? -->
+    <passivePerception>5</passivePerception>
+    <context>PASSIVE_PERCEPTION, STAT_BLOCK(wisdom),STAT_BLOCK(intelligence)</context>
+</feat>

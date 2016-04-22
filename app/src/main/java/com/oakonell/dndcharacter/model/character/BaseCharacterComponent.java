@@ -160,7 +160,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
 
     @NonNull
     public String getSourceString(@NonNull Resources resources) {
-        return resources.getString(getType().getStringResId())  + ": " + getName();
+        return resources.getString(getType().getStringResId()) + ": " + getName();
     }
 
 
@@ -338,5 +338,10 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
 
     public void setPassivePerceptionModFormula(String passivePerceptionModFormula) {
         this.passivePerceptionModFormula = passivePerceptionModFormula;
+    }
+
+    @Override
+    public boolean originatesFrom(ComponentSource currentComponent) {
+        return equals(currentComponent);
     }
 }

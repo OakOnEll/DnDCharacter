@@ -2434,9 +2434,9 @@ public class Character {
 
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
-                int initiative = component.getPassivePerceptionMod(Character.this);
-                if (initiative == 0) return;
-                PassivePerceptionWithSource passivePerceptionWithSource = new PassivePerceptionWithSource(initiative, component);
+                int perception = component.getPassivePerceptionMod(Character.this);
+                if (perception == 0) return;
+                PassivePerceptionWithSource passivePerceptionWithSource = new PassivePerceptionWithSource(perception, component);
                 result.add(passivePerceptionWithSource);
             }
         };
@@ -2516,6 +2516,11 @@ public class Character {
         @Override
         public String getAsSourceString(Resources resources) {
             return getName();
+        }
+
+        @Override
+        public boolean originatesFrom(ComponentSource currentComponent) {
+            return false;
         }
 
         @Nullable

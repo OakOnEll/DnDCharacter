@@ -109,7 +109,8 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     protected Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
-        filter.add(new FeatureContextArgument(FeatureContext.SKILL_ROLL));
+        filter.add(new FeatureContextArgument(FeatureContext.SKILL_ROLL, getType().name()));
+        filter.add(new FeatureContextArgument(FeatureContext.STAT_BLOCK, getType().name()));
         return filter;
     }
 

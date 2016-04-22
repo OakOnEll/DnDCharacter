@@ -1,8 +1,8 @@
 <item>
-    <name>Dulcimer</name>
+    <name>Thieves' tools</name>
     <itemType>EQUIPMENT</itemType>
     <canBeProficient>true</canBeProficient>
-    <category>Musical Instrument</category>
-    <weight>10</weight>
+    <category></category>
+    <weight>1</weight>
     <cost>25gp</cost>
 </item>

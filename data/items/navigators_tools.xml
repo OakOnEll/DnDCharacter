@@ -1,8 +1,8 @@
 <item>
-    <name>Pan Flute</name>
+    <name>Navigator's tools</name>
     <itemType>EQUIPMENT</itemType>
     <canBeProficient>true</canBeProficient>
-    <category>Musical Instrument</category>
+    <category></category>
     <weight>2</weight>
-    <cost>12gp</cost>
+    <cost>25gp</cost>
 </item>

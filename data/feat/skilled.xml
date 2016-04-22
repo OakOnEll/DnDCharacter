@@ -1,0 +1,43 @@
+<feat>
+    <name>Skilled</name>
+    <shortDescription>You gain proficiency in any combination of three skills or tools of your choice.</shortDescription>
+    <choose name="feat_skill_or_tool1">
+        <or name="feat_skill1">
+            <skills>
+                <choose name="feat_skills1" number="1" />
+            </skills>
+        </or>
+        <or name="feat_tool1">
+            <tools>
+                <choose name="feat_tools1" number="1" />
+            </tools>
+        </or>
+    </choose>
+
+    <choose name="feat_skill_or_tool2">
+        <or name="feat_skill2">
+            <skills>
+                <choose name="feat_skills2" number="1" />
+            </skills>
+        </or>
+        <or name="feat_tool2">
+            <tools>
+                <choose name="feat_tools2" number="1" />
+            </tools>
+        </or>
+    </choose>
+
+    <choose name="feat_skill_or_tool3">
+        <or name="feat_skill3">
+            <skills>
+                <choose name="feat_skills3" number="1" />
+            </skills>
+        </or>
+        <or name="feat_tool3">
+            <tools>
+                <choose name="feat_tools3" number="1" />
+            </tools>
+        </or>
+    </choose>
+
+</feat>

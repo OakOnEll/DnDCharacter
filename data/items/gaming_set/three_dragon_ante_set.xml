@@ -1,6 +1,7 @@
 <item>
     <name>Three-Dragon Ante Set</name>
     <itemType>EQUIPMENT</itemType>
+    <canBeProficient>true</canBeProficient>
     <category>Gaming Set</category>
     <weight>0</weight>
     <cost>1gp</cost>

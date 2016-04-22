@@ -34,6 +34,7 @@ import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
+import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.utils.NumberUtils;
@@ -54,6 +55,7 @@ import com.oakonell.dndcharacter.views.character.spell.SelectSpellDialogFragment
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -337,7 +339,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     String alreadyProficientString = null;
                     double maxProfMult = 0;
                     for (Character.ToolProficiencyWithSource each : toolProficiencies) {
-                        if (each.getSource() != null && each.getSource().equals(currentComponent))
+                        if (each.getSource() != null && each.getSource().originatesFrom(currentComponent))
                             continue;
                         // TODO handle tool category
                         if (each.getProficiency().getName().equalsIgnoreCase(toolName)) {
@@ -723,8 +725,10 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void categoryChoices(@NonNull Element element, int numChoices) {
         if (state == VisitState.LANGUAGES) {
             visitLanguageCategoryChoices(numChoices);
-        } else if (state == VisitState.TOOLS || state == VisitState.EQUIPMENT || state == VisitState.ARMOR) {
-            visitToolCategoryChoices(element, numChoices);
+        } else if (state == VisitState.TOOLS || state == VisitState.EQUIPMENT) {
+            visitToolCategoryChoices(element, numChoices, ItemType.EQUIPMENT);
+        } else if (state == VisitState.ARMOR) {
+            visitToolCategoryChoices(element, numChoices, ItemType.ARMOR);
         } else if (state == VisitState.FEAT) {
             visitFeatSearchChoices(numChoices);
         } else if (state == VisitState.SKILLS) {
@@ -791,7 +795,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     }
 
 
-    private void visitToolCategoryChoices(@NonNull Element element, int numChoices) {
+    private void visitToolCategoryChoices(@NonNull Element element, int numChoices, ItemType itemType) {
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
@@ -800,13 +804,33 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         if (title == null || title.trim().length() == 0) {
             title = category;
         }
+        if (title == null || title.trim().length() == 0) {
+            title = activity.getString(R.string.tool);
+        }
         String conditional = element.getAttribute("conditional");
         if (conditional != null && conditional.trim().length() == 0) {
             conditional = null;
         }
-        From nameSelect = new Select()
-                .from(ItemRow.class).orderBy("name");
-        nameSelect = nameSelect.where("UPPER(category)= ?", category.toUpperCase());
+
+        From nameSelect = new Select().from(ItemRow.class).orderBy("name");
+
+        boolean limitToProficientable = false;
+        if (state == VisitState.TOOLS) limitToProficientable = true;
+
+        // TODO itemType might be armor!?
+        if (category != null && category.trim().length() > 0) {
+            if (limitToProficientable) {
+                nameSelect = nameSelect.where("canBeProficientIn = ? AND UPPER(category)= ? AND itemType = ?", true, category.toUpperCase(), itemType);
+            } else {
+                nameSelect = nameSelect.where("UPPER(category)= ? AND itemType = ?", category.toUpperCase(), itemType);
+            }
+        } else {
+            if (limitToProficientable) {
+                nameSelect = nameSelect.where("canBeProficientIn = ? AND itemType = ?", true, itemType);
+            } else {
+                nameSelect = nameSelect.where("itemType = ?", itemType);
+            }
+        }
         List<ItemRow> toolRows = nameSelect.execute();
 
         String filtersString = element.getAttribute("filters");
@@ -815,9 +839,15 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         boolean filterExisting = choiceFilters.isFilterExisting();
 
 
+        List<Character.ToolProficiencyWithSource> toolProficiencies = Collections.emptyList();
+        if (state == VisitState.TOOLS) {
+            toolProficiencies = getCharacter().deriveToolProficiencies(ProficiencyType.TOOL);
+        }
+
         List<String> tools = new ArrayList<>();
         for (ItemRow each : toolRows) {
             if (filters.contains(each.getName().toUpperCase())) continue;
+
             if (conditional != null) {
                 XPathFactory factory = XPathFactory.newInstance();
                 XPath xPath = factory.newXPath();
@@ -829,7 +859,30 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                     Log.e(AbstractComponentViewCreator.class.getSimpleName(), "Error applying conditional to item document:" + e.getMessage());
                 }
             }
-            tools.add(each.getName());
+
+            if (!toolProficiencies.isEmpty()) {
+                boolean isProficient = false;
+                for (Character.ToolProficiencyWithSource eachProf : toolProficiencies) {
+                    if (eachProf.getSource() != null && (eachProf.getSource().originatesFrom(currentComponent))) {
+                        continue;
+                    }
+                    final String profName = eachProf.getProficiency().getName();
+                    if (profName != null && profName.equalsIgnoreCase(each.getName())) {
+                        isProficient = true;
+                        break;
+                    }
+                    final String profCategory = eachProf.getProficiency().getCategory();
+                    if (profCategory != null && profCategory.equals(each.getCategory())) {
+                        isProficient = true;
+                        break;
+                    }
+                }
+                if (!isProficient) {
+                    tools.add(each.getName());
+                }
+            } else {
+                tools.add(each.getName());
+            }
         }
 
         appendCategoryDropDowns(numChoices, categoryChoicesMD, selections, tools, title);

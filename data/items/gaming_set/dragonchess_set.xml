@@ -1,6 +1,7 @@
 <item>
     <name>Dragonchess Set</name>
     <itemType>EQUIPMENT</itemType>
+    <canBeProficient>true</canBeProficient>
     <category>Gaming Set</category>
     <weight>1/2</weight>
     <cost>1gp</cost>

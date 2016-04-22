@@ -1,8 +1,8 @@
 <item>
-    <name>Tinker's Tools</name>
+    <name>Poisoner's kit</name>
     <itemType>EQUIPMENT</itemType>
     <canBeProficient>true</canBeProficient>
-    <category>artisan tool</category>
-    <weight>10</weight>
+    <category></category>
+    <weight>2</weight>
     <cost>50gp</cost>
 </item>
