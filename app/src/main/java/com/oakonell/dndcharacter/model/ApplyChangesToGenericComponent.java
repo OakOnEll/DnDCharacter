@@ -693,7 +693,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     currentComponent.addToolProficiency(ProficiencyType.ARMOR, selection, Proficient.PROFICIENT);
                     break;
                 case WEAPONS:
-                    currentComponent.addToolCategoryProficiency(ProficiencyType.WEAPON, selection, Proficient.PROFICIENT);
+                    //currentComponent.addToolCategoryProficiency(ProficiencyType.WEAPON, selection, Proficient.PROFICIENT);
+                    currentComponent.addToolProficiency(ProficiencyType.WEAPON, selection, Proficient.PROFICIENT);
                     break;
                 case EQUIPMENT:
                     addItem(selection);

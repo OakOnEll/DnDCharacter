@@ -729,6 +729,8 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             visitToolCategoryChoices(element, numChoices, ItemType.EQUIPMENT);
         } else if (state == VisitState.ARMOR) {
             visitToolCategoryChoices(element, numChoices, ItemType.ARMOR);
+        } else if (state == VisitState.WEAPONS) {
+            visitToolCategoryChoices(element, numChoices, ItemType.WEAPON);
         } else if (state == VisitState.FEAT) {
             visitFeatSearchChoices(numChoices);
         } else if (state == VisitState.SKILLS) {
@@ -842,6 +844,9 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         List<Character.ToolProficiencyWithSource> toolProficiencies = Collections.emptyList();
         if (state == VisitState.TOOLS) {
             toolProficiencies = getCharacter().deriveToolProficiencies(ProficiencyType.TOOL);
+        }
+        if (state == VisitState.WEAPONS) {
+            toolProficiencies = getCharacter().deriveToolProficiencies(ProficiencyType.WEAPON);
         }
 
         List<String> tools = new ArrayList<>();
