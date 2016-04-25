@@ -7,5 +7,26 @@
     * You learn one cantrip that requires an attack roll.
     Choose the cantrip from the bard, cleric, druid, sorcerer, warlock, or wizard spell list. You spellcasting ability for this cantrip depends on the spell list you chose from: Charisma for bard, sorcerer, or warlock; Widsom for cleric or druid; or Intelligence for wizard.</shortDescription>
     <context>SPELL_CAST</context>
-    <!-- TODO add cantrip choice -->
+    <!-- TODO test, need spell cast ability, not a known spell-->
+    <choose name="caster" title="Choose a caster class cantrip">
+        <or name="cleric" title="Cleric">
+            <cantrips casterClass="cleric" stat="wisdom" known="false"/>
+        </or>
+        <or name="druid" title="Druid">
+            <cantrips casterClass="druid" stat="wisdom" known="false"/>
+        </or>
+        <or name="bard" title="Bard">
+            <cantrips casterClass="bard" stat="charisma" known="false"/>
+        </or>
+        <or name="sorcerer" title="Sorcerer">
+            <cantrips casterClass="sorcerer" stat="charisma" known="false"/>
+        </or>
+        <or name="warlock" title="Warlock">
+            <cantrips casterClass="warlock" stat="charisma" known="false"/>
+        </or>
+        <or name="wizard" title="Wizard">
+            <cantrips casterClass="wizard" stat="intelligence" known="false"/>
+        </or>
+    </choose>
+
 </feat>

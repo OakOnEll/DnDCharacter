@@ -964,6 +964,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             }
         };
 
+        //TODO filter out feats already selected previously
         appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
         // draw dynamic UI.. assuming only a single feat per component for now
         List<String> choices = getChoices().getChoicesFor(getCurrentChooseMD().getChoiceName());
