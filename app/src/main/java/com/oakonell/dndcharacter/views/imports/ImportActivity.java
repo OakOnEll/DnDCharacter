@@ -222,10 +222,9 @@ public class ImportActivity extends AbstractBaseActivity {
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ImportActivity.this);
                     String filename = sharedPrefs.getString(EXTRA_FILE_PATH, null);
                     filenameText.setText(filename);
-                    File file = new File(filename);
-                    final Uri uri = Uri.fromFile(file);
-
                     if (filename != null) {
+                        File file = new File(filename);
+                        final Uri uri = Uri.fromFile(file);
                         attemptToLoadFile(uri);
                     }
                 } else {

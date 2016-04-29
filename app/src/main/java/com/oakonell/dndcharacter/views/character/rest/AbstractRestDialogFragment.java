@@ -81,6 +81,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle resets = new Bundle();
+        if (featureResetAdapter == null || featureResetAdapter.resets == null) return;
         for (FeatureResetInfo each : featureResetAdapter.resets) {
             Bundle reset = new Bundle();
             reset.putByte(RESET, (byte) (each.reset ? 1 : 0));

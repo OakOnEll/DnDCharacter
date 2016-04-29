@@ -105,8 +105,11 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
         } else {
             Log.e("SpellToCharacter", "missing casting time type? for spell " + charSpell.getName());
         }
-        int castingTime = Integer.parseInt(XmlUtils.getElementText(element, "castingTime"));
-        charSpell.setCastingTime(castingTime);
+        final String castingTimeString = XmlUtils.getElementText(element, "castingTime");
+        if (castingTimeString != null && castingTimeString.trim().length() > 0) {
+            int castingTime = Integer.parseInt(castingTimeString);
+            charSpell.setCastingTime(castingTime);
+        }
 
 
         // duration
