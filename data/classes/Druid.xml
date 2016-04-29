@@ -25,7 +25,7 @@
                 <item>Wooden Shield</item>
             </or>
             <or name="simpleweapon">
-                <choose name="weapon_weapon" category="simple weapons" />
+                <choose name="weapon_weapon" category="simple weapons" itemType="WEAPON" />
             </or>
         </choose>
 
@@ -34,7 +34,7 @@
                 <item>Scimitar</item>
             </or>
             <or name="simpleweapon">
-                <choose name="weapon_weapon" category="simple weapons" title="Choose a Simple Melee Weapon" conditional="/item[not(ranged='true')]"/>
+                <choose name="weapon_weapon" category="simple weapons" itemType="WEAPON" title="Choose a Simple Melee Weapon" conditional="/item[not(ranged='true')]"/>
             </or>
         </choose>
 

@@ -45,7 +45,7 @@
                 <item count="20">crossbow bolt</item>
             </or>
             <or name="simple">
-                <choose name="weapon_weapon" category="simple weapons" />
+                <choose name="weapon_weapon" category="simple weapons" itemType="WEAPON" />
             </or>
         </choose>
 

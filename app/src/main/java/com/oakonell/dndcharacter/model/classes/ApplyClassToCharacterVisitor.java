@@ -188,7 +188,9 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
     @Override
     protected void visitCantrips(@NonNull Element element) {
         String known = XmlUtils.getElementText(element, "known");
-        charClass.setCantripsKnownFormula(known);
+        if (known != null && known.trim().length()>0) {
+            charClass.setCantripsKnownFormula(known);
+        }
     }
 
     @Override

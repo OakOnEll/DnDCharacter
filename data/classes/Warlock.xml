@@ -20,7 +20,7 @@
     </skills>
     <equipment>
         <item>leather armor</item>
-        <choose name="simple_weapon" category="simple weapons" />
+        <choose name="simple_weapon" category="simple weapons"  itemType="WEAPON"/>
         <item count="2">Dagger</item>
         <choose name="weapon">
             <or name="crossbow">
@@ -28,7 +28,7 @@
                 <item count="20">crossbow bolt</item>
             </or>
             <or name="simple">
-                <choose name="weapon_weapon" category="simple weapons" />
+                <choose name="weapon_weapon" category="simple weapons"  itemType="WEAPON"/>
             </or>
         </choose>
         <choose name="magic">

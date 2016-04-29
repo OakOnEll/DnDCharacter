@@ -2099,6 +2099,11 @@ public class Character {
 
         public RefreshType spellSlotRefresh;
 
+
+        public CastingClassInfo(){
+            // for finding usages
+        }
+
         public String getOwningClassName() {
             return owningClassName;
         }

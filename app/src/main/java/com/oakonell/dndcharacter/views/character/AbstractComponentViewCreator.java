@@ -725,7 +725,14 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
     protected void categoryChoices(@NonNull Element element, int numChoices) {
         if (state == VisitState.LANGUAGES) {
             visitLanguageCategoryChoices(numChoices);
-        } else if (state == VisitState.TOOLS || state == VisitState.EQUIPMENT) {
+        } else if (state == VisitState.EQUIPMENT) {
+            String itemTypeString = element.getAttribute("itemType");
+            ItemType itemType = ItemType.EQUIPMENT;
+            if (itemTypeString != null && itemTypeString.trim().length() > 0) {
+                itemType = EnumHelper.stringToEnum(itemTypeString, ItemType.class);
+            }
+            visitToolCategoryChoices(element, numChoices, itemType);
+        } else if (state == VisitState.TOOLS) {
             visitToolCategoryChoices(element, numChoices, ItemType.EQUIPMENT);
         } else if (state == VisitState.ARMOR) {
             visitToolCategoryChoices(element, numChoices, ItemType.ARMOR);

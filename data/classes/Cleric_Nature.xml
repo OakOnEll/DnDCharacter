@@ -4,7 +4,7 @@
 
     <level value="1">
         <!-- TODO prefer to use a choose <choose stat="Wisdom" casterClass="druid"/> -->
-        <cantrips casterClass="druid" stat="Wisdom"/>
+        <cantrips casterClass="druid" stat="Wisdom" known="false"/>
         <armor>
             <proficiency category="heavy armor"/>
         </armor>
@@ -17,7 +17,7 @@
         </skills>
         <spells>
             <spell>Animal Friendship</spell>
-            <spell>Speak with Animals</spell>
+            <spell>Speak with Animals (Ritual)</spell>
         </spells>
     </level>
 

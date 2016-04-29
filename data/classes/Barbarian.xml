@@ -28,7 +28,7 @@
                 <item>Greataxe</item>
             </or>
             <or name="weapon">
-                <choose name="weapon_weapon" category="martial weapons" />
+                <choose name="weapon_weapon" category="martial weapons" itemType="WEAPON"/>
             </or>
         </choose>
 
@@ -37,7 +37,7 @@
                 <item count="2">handaxe</item>
             </or>
             <or name="simple">
-                <choose name="otherWeapon_weapon" category="simple weapons" />
+                <choose name="otherWeapon_weapon" category="simple weapons" itemType="WEAPON" />
             </or>
         </choose>
         <item>explorer's pack</item>

@@ -497,7 +497,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     characterSpell.setPreparable(true);
                 }
                 if (stat == null) {
-                    stat = info.getCastingStat();
+                    stat = ((CharacterClass) component).getCasterStat();
                 }
             }
 
@@ -597,9 +597,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
             // TODO
             if (component instanceof CharacterClass) {
-                Character.CastingClassInfo info = character.getCasterClassInfoFor(component.getName());
                 if (stat == null) {
-                    stat = info.getCastingStat();
+                    CharacterClass characterClass = (CharacterClass) component;
+                    stat = characterClass.getCasterStat();
                 }
             }
 

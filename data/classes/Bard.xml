@@ -22,7 +22,7 @@
                 <item>Longsword</item>
             </or>
             <or name="simple">
-                <choose name="otherWeapon_weapon" category="simple weapons" />
+                <choose name="otherWeapon_weapon" category="simple weapons" itemType="WEAPON"  />
             </or>
         </choose>
 

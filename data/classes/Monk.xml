@@ -34,7 +34,7 @@
                 <item>Shortsword</item>
             </or>
             <or name="weapon">
-                <choose name="weapon2" category="simple weapons"/>
+                <choose name="weapon2" category="simple weapons" itemType="WEAPON"/>
             </or>
         </choose>
         <choose name="pack">
