@@ -3,7 +3,6 @@
     <parent>Cleric</parent>
 
     <level value="1">
-        <!-- TODO prefer to use a choose <choose stat="Wisdom" casterClass="druid"/> -->
         <cantrips casterClass="druid" stat="Wisdom" known="false"/>
         <armor>
             <proficiency category="heavy armor"/>

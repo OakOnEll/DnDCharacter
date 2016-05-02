@@ -241,7 +241,6 @@
         <feature>
             <name>Primal Champion</name>
             <shortDescription>You embody the power of the wilds. Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24.</shortDescription>
-            <!-- TODO allow max/cap on increases -->
             <stat>
                 <increase name="Strength">4</increase>
                 <increase name="Constitution">4</increase>
