@@ -126,6 +126,7 @@ public class DiceRollerFragment extends AbstractDialogFragment {
                             });
                             return;
                         }
+                        saveFormula(dialog, name);
                     }
                 });
                 b.setNegativeButton(R.string.cancel_button_label, new DialogInterface.OnClickListener() {
