@@ -22,6 +22,12 @@
         android:title="@string/add_effect"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_dice_roller"
+        android:icon="@drawable/ic_drawing_box"
+        android:orderInCategory="103"
+        android:title="@string/dice_roller"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_level_up"
         android:title="@string/level_up"
         app:showAsAction="never" />

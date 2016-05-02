@@ -116,4 +116,9 @@
     <string name="pref_sound_fx_summary">Audible Dice rolls</string>
     <string name="pref_sound_fx_title">Enable Sound Effects</string>
     <string name="pref_category_title">Settings</string>
+    <string name="dice_roller">Dice Roller</string>
+    <string name="enter_formula_name">Enter Formula Name</string>
+    <string name="invalid_dice_formula">Invalid Dice Formula</string>
+    <string name="saved_dice_formula_prompt">[Dice Formula]</string>
+    <string name="overwrite_existing_formula">Overwrite existing formula?</string>
 </resources>

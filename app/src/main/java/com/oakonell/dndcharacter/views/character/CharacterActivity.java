@@ -67,7 +67,7 @@ public class CharacterActivity extends AbstractBaseActivity {
     public static final String BASE_STATS_FRAG = "base_stats";
     private static final String NAME_FRAG = "name_frag";
 
-    private static final String MyPREFERENCES = "prefs";
+    public static final String MyPREFERENCES = "prefs";
 
     com.oakonell.dndcharacter.views.character.LicenseChecker checker = new com.oakonell.dndcharacter.views.character.LicenseChecker();
 
@@ -211,6 +211,11 @@ public class CharacterActivity extends AbstractBaseActivity {
         if (id == R.id.action_add_effect) {
             SelectEffectDialogFragment dialog = SelectEffectDialogFragment.createDialog(new SelectEffectDialogFragment.AddEffectToCharacterListener(this));
             dialog.show(getSupportFragmentManager(), ADD_EFFECT_DIALOG);
+            return true;
+        }
+        if (id == R.id.action_dice_roller) {
+            DiceRollerFragment dialog = DiceRollerFragment.createDialog();
+            dialog.show(getSupportFragmentManager(), "dice_roller");
             return true;
         }
         if (id == R.id.action_short_rest) {
