@@ -208,8 +208,9 @@ public class Character {
         int conMod = conBlock.getModifier();
 
         for (CharacterClass each : classes) {
-            hp += each.getHpRoll();
-            hp += conMod;
+            // You always gain at least 1 HP per level
+            int gain = each.getHpRoll() + conMod;
+            hp += Math.max(gain, 1);
         }
         // TODO what about race, like dwarf, that effects hp
         final int value[] = new int[]{hp};
@@ -2100,7 +2101,7 @@ public class Character {
         public RefreshType spellSlotRefresh;
 
 
-        public CastingClassInfo(){
+        public CastingClassInfo() {
             // for finding usages
         }
 
@@ -2374,7 +2375,7 @@ public class Character {
         // apply default crawl, swim, climb, half of walk if missing base speed
         if ((type == SpeedType.CLIMB || type == SpeedType.CRAWL || type == SpeedType.SWIM)
                 && (baseSpeeds.isEmpty() && !hasBaseZero)) {
-            int walkSpeed = (int) (getSpeed(SpeedType.WALK)/2.0);
+            int walkSpeed = (int) (getSpeed(SpeedType.WALK) / 2.0);
             CheatComponentSource source = new CheatComponentSource(R.string.base_speed);
             SpeedWithSource speedWithSource = new SpeedWithSource(walkSpeed, source);
             speedWithSource.setActive(true);
@@ -2395,8 +2396,6 @@ public class Character {
                 each.setActive(false);
             }
         }
-
-
 
 
         return result;

@@ -270,7 +270,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
 
                     // set the current values
                     hpRoll.setText(NumberUtils.formatNumber(hp));
-                    hp_increase.setText(NumberUtils.formatNumber(hp + conModifier));
+                    hp_increase.setText(NumberUtils.formatNumber(Math.max(hp + conModifier, 1)));
 
 
                     rollButton.setOnClickListener(new View.OnClickListener() {
@@ -346,7 +346,7 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
                     if (overrideChoices != null) {
                         addSubclassTextView(dynamic);
                     }
-                    final ChooseMDTreeNode treeNode = visitor.appendToLayout(getMainActivity(), dynamic, getClassLevel(), rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices,getCharacterClass());
+                    final ChooseMDTreeNode treeNode = visitor.appendToLayout(getMainActivity(), dynamic, getClassLevel(), rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices, getCharacterClass());
                     if (overrideChoices != null) {
                         subclassChooseMDs = treeNode;
                         return new RootChoiceMDNode();

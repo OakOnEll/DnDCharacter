@@ -17,6 +17,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
+import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.RandomUtils;
@@ -259,6 +260,8 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
         @NonNull
         final EditText hit_die_val;
         @NonNull
+        private final TextView con_mod_text;
+        @NonNull
         final Button roll;
         @NonNull
         final Button apply;
@@ -277,6 +280,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
 
             use_hit_die_group = (ViewGroup) view.findViewById(R.id.use_hit_die_group);
             hit_die_val = (EditText) view.findViewById(R.id.hit_die_val);
+            con_mod_text = (TextView) view.findViewById(R.id.con_mod_text);
             roll = (Button) view.findViewById(R.id.roll);
             apply = (Button) view.findViewById(R.id.apply);
             cancel = (Button) view.findViewById(R.id.cancel);
@@ -312,7 +316,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                 useButton.setEnabled(false);
                 useButton.setOnClickListener(null);
             }
-
+            con_mod_text.setText(context.getString(R.string.con_mod_hit_die, NumberUtils.formatSignedNumber(context.getCharacter().getStatBlock(StatType.CONSTITUTION).getModifier())));
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -341,6 +345,14 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                     String valueString = hit_die_val.getText().toString();
                     if (valueString.trim().length() > 0) {
                         int value = Integer.parseInt(valueString);
+                        int conMod = context.getCharacter().getStatBlock(StatType.CONSTITUTION).getModifier();
+                        value = value + conMod;
+                        if (value <= 0) {
+                            // you gain at least 1 HP from using a hit die during a short rest!
+                            // https://twitter.com/mikemearls/status/713776373018402816
+                            value = 1;
+                        }
+
                         // TODO validate value < max
                         row.rolls.add(value);
                         row.numDiceRemaining--;

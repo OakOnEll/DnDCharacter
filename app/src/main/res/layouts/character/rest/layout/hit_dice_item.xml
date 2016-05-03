@@ -63,6 +63,12 @@
             android:ems="4"
             android:inputType="number" />
 
+        <TextView
+            android:id="@+id/con_mod_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="+3 (Con)"/>
+
         <Button
             android:id="@+id/roll"
             style="?android:attr/buttonStyleSmall"

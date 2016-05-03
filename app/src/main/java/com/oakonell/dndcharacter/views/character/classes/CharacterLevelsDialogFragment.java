@@ -241,7 +241,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
                     context.recordsBeingDeleted.remove(item);
                     // actually delete the record, now
                     classes.remove(item);
-                    if (activity.getCharacter().getHP()> activity.getCharacter().getMaxHP()) {
+                    if (activity.getCharacter().getHP() > activity.getCharacter().getMaxHP()) {
                         activity.getCharacter().setHP(activity.getCharacter().getMaxHP());
                     }
                     notifyItemRemoved(position);
@@ -320,7 +320,7 @@ public class CharacterLevelsDialogFragment extends AbstractCharacterDialogFragme
             class_name.setText(item.getName());
             class_level.setText(NumberUtils.formatNumber(item.getLevel()));
             final int conModifier = context.getCharacter().getStatBlock(StatType.CONSTITUTION).getModifier();
-            hp.setText(NumberUtils.formatNumber((item.getHpRoll() + conModifier)));
+            hp.setText(NumberUtils.formatNumber(Math.max(item.getHpRoll() + conModifier, 1)));
             String conModStr = "";
             if (conModifier > 0) {
                 conModStr = " + " + conModifier;
