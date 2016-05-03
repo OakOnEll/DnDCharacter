@@ -31,14 +31,18 @@
 
         <feature>
             <name>Bladesong</name>
-            <shortDescription>You can invoke a secret elven magic called the Bladesong, provided that you aren't wearing medium or heavy armor or using a shield. You can use a bonus action to start the Bladesong which lasts for 1 minute. It ends early if you are incapacitated, if you don medium or heavy armor or a shield, or if you use two hands to make an attack with a weapon. You can also dismiss the Bladesong at any time you choose, no action required.</shortDescription>
+            <shortDescription>You can invoke a secret elven magic called the Bladesong, provided that you aren't wearing medium or heavy armor or using a shield. You can use a bonus action to start the Bladesong which lasts for 1 minute. It ends early if you are incapacitated, if you don medium or heavy armor or a shield, or if you use two hands to make an attack with a weapon. You can also dismiss the Bladesong at any time you choose, no action required.
+                You gain: AC bonus = Int modifier, Walking speed +10, Advantage on Dexterity(Acrobatics), Con saving throw bonus = Int modifier</shortDescription>
             <effect uses="1">
                 <name>Bladesong</name>
                 <shortDescription>You gain the following benefits
                 * You gain a bonus to your AC equal to your Intelligence modifier (minimum of +1)
                 * Your walking speed increases by 10 feet
                 * You have advantage on Dexterity (Acrobatics) checks
-                * You gain a bonus to any Constitution saving throw you make to maintain your concentration on a spell. The bonus equals your Intelligence modifier (minimum of +1)</shortDescription>
+                * You gain a bonus to any Constitution saving throw you make to maintain your concentration on a spell. The bonus equals your Intelligence modifier (minimum of +1)
+
+                This Bladesong effect lasts for 1 minute. It ends early if you are incapacitated, if you don medium or heavy armor or a shield, or if you use two hands to make an attack with a weapon. You can also dismiss the Bladesong at any time you choose, no action required.
+                </shortDescription>
                 <ac>+max(intelligenceMod,1)</ac>
                 <speed>+10</speed>
                 <context>SPEED,ARMOR_CLASS,SKILL_ROLL(acrobatics),SAVING_THROW(constitution)</context>
