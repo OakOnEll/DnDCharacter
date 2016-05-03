@@ -22,7 +22,7 @@ android {
             applicationId
             "com.oakonell.dndcharacter"
             versionCode 22
-            versionName "1.22a"
+            versionName "1.22"
 
 
             dependencies {
