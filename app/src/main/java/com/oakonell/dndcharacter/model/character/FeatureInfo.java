@@ -90,7 +90,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
 
 
     public boolean hasLimitedUses() {
-        if (getFeature().getUsesFormula() != null && getFeature().getUsesFormula().length() > 0) {
+        if (getFeature().getUsesFormula() != null && getFeature().getUsesFormula().length() > 0 && !"0".equals(getFeature().getUsesFormula())) {
             return true;
         }
         if (extendedFeature != null) return extendedFeature.hasLimitedUses();
