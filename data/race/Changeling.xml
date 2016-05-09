@@ -22,6 +22,16 @@
     <feature>
         <name>Shapechanger</name>
         <shortDescription>As an action, you can polymorph into any humanoid of your size that you have seen, or back into your true form. However, your equipment does not change with you. If you die, you revert to your natural appearance.</shortDescription>
+        <effect actionName="Polymorph" >
+            <id>Polymorph</id>
+            <name>Polymorph: $shape</name>
+            <variable name="shape" prompt="Choose humanoid"/>
+            <shortDescription>You are polymorphed into [a/n] $shape. However, your equipment does not change with you. If you die, you revert to your natural appearance.
+                You can use an action to turn back into your true form.
+            </shortDescription>
+        </effect>
+        <uses>0</uses>
+        <refreshes>short rest</refreshes>
         <description></description>
     </feature>
     <languages>
