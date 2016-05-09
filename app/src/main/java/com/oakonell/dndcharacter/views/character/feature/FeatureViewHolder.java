@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -49,7 +50,7 @@ import uk.co.deanwild.flowtextview.FlowTextView;
 /**
  * Created by Rob on 1/4/2016.
  */
-public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, CharacterActivity, RecyclerView.Adapter<?>> {
+public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, CharacterActivity, RecyclerView.Adapter<?>> implements FeatureViewInterface {
     @NonNull
     public final TextView name;
     @NonNull
@@ -107,14 +108,19 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     public void bind(@NonNull final CharacterActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info) {
         final int position = getAdapterPosition();
 
+//        itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FeatureViewDialogFragment dialog = FeatureViewDialogFragment.createDialog(info);
+//                dialog.show(context.getSupportFragmentManager(), "feature");
+//            }
+//        });
+
+
         name.setText(info.getName());
-        source.setText(info.getSourceString(context.getResources()));
-        source.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ComponentLaunchHelper.editComponent(context, info.getSource(), false);
-            }
-        });
+        FeatureViewHelper viewHelper = new FeatureViewHelper(context, this);
+        viewHelper.bind(info);
+
 
 
         if (info.usesSpellSlot()) {
@@ -173,33 +179,40 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         actionsAdapter.setFeature(info, filter);
         itemView.requestLayout();
 
-
-        boolean hasLimitedUses = info.hasLimitedUses();
-        if (!hasLimitedUses) {
-            limited_uses_group.setVisibility(View.GONE);
-        } else {
-            limited_uses_group.setVisibility(View.VISIBLE);
-            bindLimitedUseViews(context, adapter, info, position);
-            if (info.getUseType() == UseType.PER_USE) {
-                uses_label.setText(R.string.uses);
-            } else {
-                uses_label.setText(R.string.pool);
-            }
-        }
-
-        shortDescription.setText(info.getShortDescription());
     }
 
-    protected void bindLimitedUseViews(@NonNull final CharacterActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info, final int position) {
-        int maxUses = info.evaluateMaxUses(context.getCharacter());
-        final int usesRemaining = context.getCharacter().getUsesRemaining(info);
+    @Override
+    public TextView getSourceTextView() {
+        return source;
+    }
 
-        uses_remaining.setText(context.getString(R.string.fraction_d_slash_d, usesRemaining, maxUses));
-        refreshes_label.setText(context.getString(R.string.refreshes_on_s, context.getString(info.getRefreshesOn().getStringResId())));
+    @Override
+    public ViewGroup getLimitedUsesGroupViewGroup() {
+        return limited_uses_group;
+    }
+
+    @Override
+    public TextView getUsesLabelTextView() {
+        return uses_label;
+    }
+
+    @Override
+    public TextView getShortDescriptionTextView() {
+        return shortDescription;
+    }
+
+    @Override
+    public TextView getUsesRemainingTextView() {
+        return uses_remaining;
+    }
+
+    @Override
+    public TextView getRefreshesLabelTextView() {
+        return refreshes_label;
     }
 
 
-    private static class ActionViewHolder extends BindableComponentViewHolder<IFeatureAction, CharacterActivity, ActionAdapter> {
+    public static class ActionViewHolder extends BindableComponentViewHolder<IFeatureAction, CharacterActivity, ActionAdapter> {
         @NonNull
         public final ViewGroup use_group;
         @NonNull
@@ -393,7 +406,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     }
 
 
-    private static class ActionAdapter extends RecyclerView.Adapter<ActionViewHolder> {
+    public static class ActionAdapter extends RecyclerView.Adapter<ActionViewHolder> {
         private final CharacterActivity context;
         private FeatureInfo info;
         private List<IFeatureAction> list;
