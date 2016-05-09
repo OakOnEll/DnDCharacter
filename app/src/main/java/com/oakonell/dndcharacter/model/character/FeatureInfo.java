@@ -325,6 +325,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     @Override
     public void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull Character character) {
         getFeature().addExtraFormulaVariables(extraVariables, character);
+        getSource().addExtraFormulaVariables(extraVariables, character);
         if (extendedFeature != null)
             extendedFeature.addExtraFormulaVariables(extraVariables, character);
     }

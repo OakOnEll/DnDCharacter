@@ -216,7 +216,9 @@ public class Character {
         final int value[] = new int[]{hp};
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
-                value[0] += evaluateFormula(component.getHpFormula(), null);
+                SimpleVariableContext variableContext = new SimpleVariableContext();
+                component.addExtraFormulaVariables(variableContext, Character.this);
+                value[0] += evaluateFormula(component.getHpFormula(), variableContext);
             }
         };
         deriver.derive(this, "hp mods");
@@ -457,6 +459,22 @@ public class Character {
 
     public CharacterBackground getBackground() {
         return background;
+    }
+
+    public FeatureInfo getFeatureNamed(String name) {
+
+        List<FeatureInfo> matchingFeatures = new ArrayList<>();
+        for (FeatureInfo each : getFeatureInfos()) {
+            if (each.getName().equals(name)) {
+                matchingFeatures.add(each);
+            }
+        }
+        if (matchingFeatures.isEmpty()) return null;
+        if (matchingFeatures.size() > 1) {
+            // report an error, or just return the first?
+            //throw new RuntimeException("Multiple effects named '" + name + "'!");
+        }
+        return matchingFeatures.get(0);
     }
 
     @Nullable
