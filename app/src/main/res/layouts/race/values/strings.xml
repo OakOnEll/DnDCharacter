@@ -122,4 +122,5 @@
     <string name="saved_dice_formula_prompt">[Dice Formula]</string>
     <string name="overwrite_existing_formula">Overwrite existing formula?</string>
     <string name="con_mod_hit_die">%s (Con)</string>
+    <string name="fraction_slash_d">/ %d</string>
 </resources>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/short_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="Regain hp.. yada yada..." />
+
+
+    <LinearLayout
+        android:id="@+id/limited_uses_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/uses_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Uses" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="5dp">
+
+                    <Button
+                        android:id="@+id/add_use"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="+"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <Button
+                        android:id="@+id/subtract_use"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/remaining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minEms="3"
+                    android:paddingLeft="5dp"
+                    tools:text="5" />
+
+                <TextView
+                    android:id="@+id/remaining_readonly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    tools:text="5" />
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    tools:text="/10" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/refreshes_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="Refreshes on Short Rest" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <!--  <LinearLayout
+          android:id="@+id/limited_uses_group"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:id="@+id/uses_label"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  tools:text="Uses" />
+
+              <TextView
+                  android:id="@+id/remaining"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingLeft="5dp"
+                  tools:text="5" />
+
+              <TextView
+                  android:id="@+id/total"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+
+                  tools:text="/10" />
+
+              <TextView
+                  android:id="@+id/refreshes_label"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="right"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  tools:text="Refreshes on Short Rest" />
+
+          </LinearLayout>
+
+
+      </LinearLayout>
+  -->
+    <LinearLayout
+        android:id="@+id/spell_slot_use_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/use_spell_slot"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/use_spell_slot" />
+
+        <Spinner
+            android:id="@+id/spell_slot_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/actions_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/feature_action_row" />
+
+
+</LinearLayout>

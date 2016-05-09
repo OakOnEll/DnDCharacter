@@ -1288,6 +1288,13 @@ public class Character {
         return feature.evaluateMaxUses(this) - getUses(feature.getName());
     }
 
+
+    public void setUsesRemaining(@NonNull FeatureInfo feature, int remaining) {
+        int max = feature.evaluateMaxUses(this);
+        int used = max - remaining;
+        usedFeatures.put(feature.getName(), used);
+    }
+
     public void useFeature(@NonNull FeatureInfo feature, int amount) {
         // TODO apply known effects from feature
         int uses = getUses(feature.getName());

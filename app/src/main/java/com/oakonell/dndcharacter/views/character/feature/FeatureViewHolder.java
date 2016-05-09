@@ -63,22 +63,26 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
     @NonNull
     public final TextView uses_label;
+    private final Button add_use;
+    private final Button subtract_use;
     @NonNull
-    public final TextView uses_remaining;
+    public final EditText uses_remaining;
+    private final TextView uses_remaining_readonly;
+    private final TextView uses_total;
 
     @NonNull
     public final TextView refreshes_label;
 
-    @NonNull
-    public final RecyclerView action_list;
     private final Button use_spell_slot;
     private final Spinner spell_slot_level;
     private final ViewGroup spell_slot_use_group;
 
     private Set<FeatureContextArgument> filter;
 
+    @NonNull
+    public final RecyclerView action_list;
     private ActionAdapter actionsAdapter;
-    private ArrayList<String> spellLevels;
+    private ArrayList<String> spellLevels = new ArrayList<>();
 
 
     public FeatureViewHolder(@NonNull View view) {
@@ -90,7 +94,11 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         action_list = (RecyclerView) view.findViewById(R.id.actions_list);
 
         uses_label = (TextView) view.findViewById(R.id.uses_label);
-        uses_remaining = (TextView) view.findViewById(R.id.remaining);
+        uses_remaining = (EditText) view.findViewById(R.id.remaining);
+        uses_remaining_readonly = (TextView) view.findViewById(R.id.remaining_readonly);
+        add_use = (Button) view.findViewById(R.id.add_use);
+        subtract_use = (Button) view.findViewById(R.id.subtract_use);
+        uses_total = (TextView) view.findViewById(R.id.total);
         shortDescription = (TextView) view.findViewById(R.id.short_description);
         refreshes_label = (TextView) view.findViewById(R.id.refreshes_label);
 
@@ -108,63 +116,18 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     public void bind(@NonNull final CharacterActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info) {
         final int position = getAdapterPosition();
 
-//        itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FeatureViewDialogFragment dialog = FeatureViewDialogFragment.createDialog(info);
-//                dialog.show(context.getSupportFragmentManager(), "feature");
-//            }
-//        });
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FeatureViewDialogFragment dialog = FeatureViewDialogFragment.createDialog(info);
+                dialog.show(context.getSupportFragmentManager(), "feature");
+            }
+        });
 
 
         name.setText(info.getName());
         FeatureViewHelper viewHelper = new FeatureViewHelper(context, this);
         viewHelper.bind(info);
-
-
-
-        if (info.usesSpellSlot()) {
-            spell_slot_use_group.setVisibility(View.VISIBLE);
-
-            ArrayAdapter spell_slot_levelAdapter = (ArrayAdapter) spell_slot_level.getAdapter();
-            if (spell_slot_levelAdapter == null) {
-                spellLevels = new ArrayList<>();
-                spell_slot_levelAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spellLevels);
-                spell_slot_level.setAdapter(spell_slot_levelAdapter);
-            }
-            spellLevels.clear();
-            for (Character.SpellLevelInfo each : context.getCharacter().getSpellInfos()) {
-                if (each.getLevel() == 0) continue;
-                spellLevels.add(context.getString(R.string.spell_slot_level_and_uses, each.getLevel(), each.getSlotsAvailable()));
-            }
-            spell_slot_levelAdapter.notifyDataSetChanged();
-
-            spell_slot_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    final Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
-                    use_spell_slot.setEnabled(levelInfo.getSlotsAvailable() > 0);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-
-            final Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
-            use_spell_slot.setEnabled(levelInfo.getSlotsAvailable() > 0);
-            use_spell_slot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.getCharacter().useSpellSlot(spell_slot_level.getSelectedItemPosition() + 1);
-                    context.saveCharacter();
-                    context.updateViews();
-                }
-            });
-        } else {
-            spell_slot_use_group.setVisibility(View.GONE);
-        }
 
         if (actionsAdapter == null) {
             actionsAdapter = new ActionAdapter(context);
@@ -201,14 +164,59 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         return shortDescription;
     }
 
+
     @Override
-    public TextView getUsesRemainingTextView() {
+    public TextView getUsesTotalTextView() {
+        return uses_total;
+    }
+
+    @Override
+    public EditText getUsesRemainingEditText() {
         return uses_remaining;
+    }
+
+    @Override
+    public TextView getUsesRemainingReadOnlyTextView() {
+        return uses_remaining_readonly;
     }
 
     @Override
     public TextView getRefreshesLabelTextView() {
         return refreshes_label;
+    }
+
+    @Override
+    public Spinner getSpellSlotLevelSpinner() {
+        return spell_slot_level;
+    }
+
+    @Override
+    public Button getUseSpellSlotButton() {
+        return use_spell_slot;
+    }
+
+    @Override
+    public ViewGroup getSpellSlotUseGroup() {
+        return spell_slot_use_group;
+    }
+
+    @Override
+    public ArrayList<String> getSpellLevels() {
+        return spellLevels;
+    }
+
+    @Override
+    public Button getAddUseButton() {
+        return add_use;
+    }
+
+    @Override
+    public Button getSubtractUseButton() {
+        return subtract_use;
+    }
+
+    public boolean isReadOnly() {
+        return true;
     }
 
 
