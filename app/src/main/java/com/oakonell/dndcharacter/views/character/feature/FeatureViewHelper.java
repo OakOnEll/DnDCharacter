@@ -169,7 +169,7 @@ public class FeatureViewHelper {
         spellLevels.clear();
         for (Character.SpellLevelInfo each : context.getCharacter().getSpellInfos()) {
             if (each.getLevel() == 0) continue;
-            spellLevels.add(context.getString(R.string.spell_slot_level_and_uses, each.getLevel(), each.getSlotsAvailable()));
+            spellLevels.add(context.getString(R.string.spell_slot_level_and_uses, each.getLevel(), view.getSpellSlotsAvailable(each)));
         }
         spell_slot_levelAdapter.notifyDataSetChanged();
 
@@ -177,7 +177,7 @@ public class FeatureViewHelper {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 final Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
-                use_spell_slot.setEnabled(levelInfo.getSlotsAvailable() > 0);
+                use_spell_slot.setEnabled(FeatureViewHelper.this.view.getSpellSlotsAvailable(levelInfo) > 0);
             }
 
             @Override
@@ -186,15 +186,13 @@ public class FeatureViewHelper {
             }
         });
 
-        final Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
-        use_spell_slot.setEnabled(levelInfo.getSlotsAvailable() > 0);
+        Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
+        use_spell_slot.setEnabled(view.getSpellSlotsAvailable(levelInfo) > 0);
         use_spell_slot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO actually use, or commit only on done depending on 'view' context
-                context.getCharacter().useSpellSlot(spell_slot_level.getSelectedItemPosition() + 1);
-                context.saveCharacter();
-                context.updateViews();
+                final Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
+                view.useSpellSlot(context, levelInfo);
             }
         });
 

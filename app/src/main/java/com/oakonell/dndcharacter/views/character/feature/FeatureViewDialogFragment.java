@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -336,6 +337,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         updateViews();
     }
 
+
     @Override
     public int getUsesRemaining(CharacterActivity context, FeatureInfo info) {
         try {
@@ -343,6 +345,89 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
             return remaining;
         } catch (Exception e) {
             return 0;
+        }
+    }
+
+    @Override
+    public int getSpellSlotsAvailable(Character.SpellLevelInfo levelInfo) {
+        //  adjust this for pending spell slot uses
+        int used = 0;
+        for (IPendingUse each : pendingActions) {
+            if (each instanceof PendingSpellSlotUse) {
+                final PendingSpellSlotUse pendingSpellSlotUse = (PendingSpellSlotUse) each;
+                if (pendingSpellSlotUse.spellLevel == levelInfo.getLevel()) used++;
+            }
+        }
+        return levelInfo.getSlotsAvailable() - used;
+    }
+
+    @Override
+    public void useSpellSlot(CharacterActivity context, Character.SpellLevelInfo levelInfo) {
+        PendingSpellSlotUse pendingUse = new PendingSpellSlotUse(levelInfo.getLevel());
+        pendingActions.add(pendingUse);
+        pendingActionsAdapter.notifyDataSetChanged();
+
+        FeatureInfo info = getCharacter().getFeatureNamed(getNameArgument());
+        viewHelper.bindSpellSlotViews(info);
+
+        updateViews();
+
+    }
+
+    public static class PendingSpellSlotUse implements IPendingUse {
+        // Method to recreate a HpRow from a Parcel
+        @NonNull
+        public static Creator<PendingSpellSlotUse> CREATOR = new Creator<PendingSpellSlotUse>() {
+
+            @NonNull
+            @Override
+            public PendingSpellSlotUse createFromParcel(@NonNull Parcel source) {
+                return new PendingSpellSlotUse(source);
+            }
+
+            @NonNull
+            @Override
+            public PendingSpellSlotUse[] newArray(int size) {
+                return new PendingSpellSlotUse[size];
+            }
+
+        };
+
+        private final int spellLevel;
+
+        PendingSpellSlotUse(int spellLevel) {
+            this.spellLevel = spellLevel;
+        }
+
+        @Override
+        public void apply(Character character, FeatureInfo info) {
+            character.useSpellSlot(spellLevel);
+        }
+
+        @Override
+        public String getText(Resources resources, FeatureInfo info) {
+            return "Use spell slot level " + spellLevel;
+        }
+
+        @Override
+        public void undo(FeatureViewDialogFragment dialog, FeatureInfo info) {
+            dialog.viewHelper.bindSpellSlotViews(info);
+        }
+
+
+        // Parcelable methods
+        public PendingSpellSlotUse(Parcel source) {
+            this.spellLevel = source.readInt();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            out.writeInt(spellLevel);
         }
     }
 

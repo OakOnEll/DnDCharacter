@@ -10,7 +10,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.FeatureInfo;
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
@@ -188,6 +189,16 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     }
 
     @Override
+    public int getUsesRemaining(CharacterActivity context, FeatureInfo info) {
+        return context.getCharacter().getUsesRemaining(info);
+    }
+
+    @Override
+    public int getSpellSlotsAvailable(Character.SpellLevelInfo each) {
+        return each.getSlotsAvailable();
+    }
+
+    @Override
     public void useAction(final CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<String, String> values) {
         context.getCharacter().useFeatureAction(info, action, values);
         shortDescription.postDelayed(new Runnable() {
@@ -212,9 +223,17 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         }, 10);
     }
 
+
     @Override
-    public int getUsesRemaining(CharacterActivity context, FeatureInfo info) {
-        return context.getCharacter().getUsesRemaining(info);
+    public void useSpellSlot(final CharacterActivity context, Character.SpellLevelInfo levelInfo) {
+        context.getCharacter().useSpellSlot(levelInfo.getLevel());
+        shortDescription.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                context.updateViews();
+                context.saveCharacter();
+            }
+        }, 10);
     }
 
     public boolean isReadOnly() {

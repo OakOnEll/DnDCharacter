@@ -7,7 +7,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.model.character.FeatureInfo;
+import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
@@ -55,9 +56,13 @@ public interface FeatureViewInterface {
 
     Set<FeatureContextArgument> getActionFilter();
 
+    int getUsesRemaining(CharacterActivity context, FeatureInfo info);
+
+    int getSpellSlotsAvailable(Character.SpellLevelInfo each);
+
     void useAction(CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<String, String> values);
 
     void useFeature(CharacterActivity context, FeatureInfo info, int value);
 
-    int getUsesRemaining(CharacterActivity context, FeatureInfo info);
+    void useSpellSlot(final CharacterActivity context, Character.SpellLevelInfo levelInfo);
 }
