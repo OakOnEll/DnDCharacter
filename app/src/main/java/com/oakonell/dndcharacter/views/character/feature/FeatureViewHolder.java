@@ -188,7 +188,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     }
 
     @Override
-    public void useAction(final CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<Feature.FeatureEffectVariable, String> values) {
+    public void useAction(final CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<String, String> values) {
         context.getCharacter().useFeatureAction(info, action, values);
         shortDescription.postDelayed(new Runnable() {
             @Override

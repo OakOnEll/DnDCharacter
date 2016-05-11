@@ -1302,7 +1302,7 @@ public class Character {
         usedFeatures.put(feature.getName(), uses);
     }
 
-    public void useFeatureAction(@NonNull FeatureInfo feature, @NonNull IFeatureAction action, Map<Feature.FeatureEffectVariable, String> variableValues) {
+    public void useFeatureAction(@NonNull FeatureInfo feature, @NonNull IFeatureAction action, Map<String, String> variableValues) {
         useFeature(feature, action.getCost());
         action.applyToCharacter(this, variableValues);
     }

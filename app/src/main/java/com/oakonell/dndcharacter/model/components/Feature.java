@@ -246,7 +246,7 @@ public class Feature extends AbstractContextualComponent {
         }
 
         @Override
-        public void applyToCharacter(com.oakonell.dndcharacter.model.character.Character character, Map<FeatureEffectVariable, String> promptValues) {
+        public void applyToCharacter(com.oakonell.dndcharacter.model.character.Character character, Map<String, String> promptValues) {
             // do nothing
         }
 
@@ -370,15 +370,15 @@ public class Feature extends AbstractContextualComponent {
 
 
         @Override
-        public void applyToCharacter(@NonNull Character character, @NonNull Map<FeatureEffectVariable, String> variableValues) {
+        public void applyToCharacter(@NonNull Character character, @NonNull Map<String, String> variableValues) {
             // TODO create a clone, so that specialized variables can be applied?
             if (!variableValues.isEmpty()) {
                 try {
                     CharacterEffect newEffect = (CharacterEffect) clone();
                     String theName = getName();
                     String theDescription = getDescription();
-                    for (Map.Entry<FeatureEffectVariable, String> entry : variableValues.entrySet()) {
-                        String variablePattern = "\\$" + entry.getKey().name;
+                    for (Map.Entry<String, String> entry : variableValues.entrySet()) {
+                        String variablePattern = "\\$" + entry.getKey();
                         String value = entry.getValue();
                         theName = theName.replaceAll(variablePattern, value);
                         if (theDescription != null) {

@@ -25,7 +25,7 @@ public interface IFeatureAction {
 
     boolean hasVariables();
 
-    void applyToCharacter(Character character, Map<Feature.FeatureEffectVariable, String> promptValues);
+    void applyToCharacter(Character character, Map<String, String> promptValues);
 
     String getActionDescription();
 

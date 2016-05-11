@@ -363,4 +363,15 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         if (equals(currentComponent)) return true;
         return getSource().originatesFrom(currentComponent);
     }
+
+    public IFeatureAction getActionNamed(String actionName) {
+        List<IFeatureAction> matching = new ArrayList<>();
+        for (IFeatureAction action : getActionsAndEffects()) {
+            if (action.getName().equals(actionName)) matching.add(action);
+        }
+        if (matching.isEmpty()) return null;
+        if (matching.size() == 1) return matching.get(0);
+        Log.e("FeatureInfo", "Found multiple actions named " + actionName);
+        throw new RuntimeException("Found multiple actions named " + actionName);
+    }
 }

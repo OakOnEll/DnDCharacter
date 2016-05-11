@@ -2,6 +2,8 @@ package com.oakonell.dndcharacter.views.character.feature;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,8 +31,10 @@ import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +45,8 @@ import java.util.Set;
  */
 public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment implements FeatureViewInterface {
     public static final String NAME = "name";
+    private static final String PENDING_ACTIONS = "pending_actions";
+    private static final java.lang.String REMAINING_USES = "remaining_uses";
     private TextView source;
     private TextView shortDescription;
 
@@ -62,11 +68,12 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
     private FeatureViewHelper viewHelper;
 
     // TODO handle rotate/savestate for these pending actions
-    List<IPendingUse> pendingActions = new ArrayList<>();
+    ArrayList<IPendingUse> pendingActions = new ArrayList<>();
 
     private ViewGroup pending_actions_group;
     private RecyclerView pending_actions_list;
     private PendingActionAdapter pendingActionsAdapter;
+    private String savedRemainingUses;
 
 
     @NonNull
@@ -123,6 +130,11 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         pending_actions_list = (RecyclerView) view.findViewById(R.id.pending_actions_list);
 
 
+        if (savedInstanceState != null) {
+            pendingActions = savedInstanceState.getParcelableArrayList(PENDING_ACTIONS);
+            savedRemainingUses = savedInstanceState.getString(REMAINING_USES);
+        }
+
         return view;
     }
 
@@ -132,6 +144,18 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         viewHelper = new FeatureViewHelper(getMainActivity(), this);
         FeatureInfo info = character.getFeatureNamed(getNameArgument());
         viewHelper.bind(info);
+        if (savedRemainingUses != null) {
+            final int maxUses = info.evaluateMaxUses(getCharacter());
+            uses_remaining.setText(savedRemainingUses);
+            uses_remaining_readonly.setText(savedRemainingUses);
+            try {
+                int remainingUses = Integer.parseInt(savedRemainingUses);
+                viewHelper.updateView(maxUses, remainingUses);
+            } catch (NumberFormatException e) {
+                // ignore
+            }
+            savedRemainingUses = null;
+        }
 
         pendingActionsAdapter = new PendingActionAdapter(this);
         pending_actions_list.setAdapter(pendingActionsAdapter);
@@ -171,7 +195,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
     private void commitChanges(FeatureInfo info, int value) {
         for (IPendingUse each : pendingActions) {
-            each.apply(getCharacter());
+            each.apply(getCharacter(), info);
         }
         getCharacter().setUsesRemaining(info, value);
 
@@ -186,7 +210,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
 
     private void updateViews() {
-        if (pendingActions.isEmpty()) {
+        if (pendingActions == null || pendingActions.isEmpty()) {
             pending_actions_group.setVisibility(View.GONE);
         } else {
             pending_actions_group.setVisibility(View.VISIBLE);
@@ -279,7 +303,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
 
     @Override
-    public void useAction(final CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<Feature.FeatureEffectVariable, String> values) {
+    public void useAction(final CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<String, String> values) {
         final int maxUses = info.evaluateMaxUses(context.getCharacter());
         if (maxUses > 0) {
             int value = Integer.parseInt(uses_remaining.getText().toString());
@@ -289,10 +313,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
             viewHelper.updateView(maxUses, value);
         }
 
-        PendingAction pendingAction = new PendingAction();
-        pendingAction.action = action;
-        pendingAction.info = info;
-        pendingAction.values = values;
+        PendingAction pendingAction = new PendingAction(action.getName(), values);
         pendingActions.add(pendingAction);
         pendingActionsAdapter.notifyDataSetChanged();
         updateViews();
@@ -309,9 +330,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
             viewHelper.updateView(maxUses, remaining);
         }
-        PendingFeatureUse pendingUse = new PendingFeatureUse();
-        pendingUse.info = info;
-        pendingUse.value = value;
+        PendingFeatureUse pendingUse = new PendingFeatureUse(value);
         pendingActions.add(pendingUse);
         pendingActionsAdapter.notifyDataSetChanged();
         updateViews();
@@ -319,29 +338,55 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
     @Override
     public int getUsesRemaining(CharacterActivity context, FeatureInfo info) {
-        int remaining = Integer.parseInt(uses_remaining.getText().toString());
-        return remaining;
+        try {
+            int remaining = Integer.parseInt(uses_remaining.getText().toString());
+            return remaining;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public static class PendingAction implements IPendingUse {
-        FeatureInfo info;
-        IFeatureAction action;
-        Map<Feature.FeatureEffectVariable, String> values;
+        // Method to recreate a HpRow from a Parcel
+        @NonNull
+        public static Creator<PendingAction> CREATOR = new Creator<PendingAction>() {
+
+            @NonNull
+            @Override
+            public PendingAction createFromParcel(@NonNull Parcel source) {
+                return new PendingAction(source);
+            }
+
+            @NonNull
+            @Override
+            public PendingAction[] newArray(int size) {
+                return new PendingAction[size];
+            }
+
+        };
+
+        private final String actionName;
+        private final Map<String, String> values;
+
+        PendingAction(String actionName, Map<String, String> values) {
+            this.actionName = actionName;
+            this.values = values;
+        }
 
         @Override
-        public void apply(Character character) {
+        public void apply(Character character, FeatureInfo info) {
+            IFeatureAction action = info.getActionNamed(actionName);
             character.useFeatureAction(info, action, values);
         }
 
         @Override
-        public String getText(Resources resources) {
+        public String getText(Resources resources, FeatureInfo info) {
             if (values != null && values.size() > 0) {
                 StringBuilder builder = new StringBuilder("(");
-                for (Iterator<Map.Entry<Feature.FeatureEffectVariable, String>> iter = values.entrySet().iterator(); iter.hasNext(); ) {
-                    Map.Entry<Feature.FeatureEffectVariable, String> each = iter.next();
-                    Feature.FeatureEffectVariable key = each.getKey();
+                for (Iterator<Map.Entry<String, String>> iter = values.entrySet().iterator(); iter.hasNext(); ) {
+                    Map.Entry<String, String> each = iter.next();
                     String value = each.getValue();
-                    String name = key.getName();
+                    String name = each.getKey();
                     builder.append(name);
                     builder.append("='");
                     builder.append(value);
@@ -351,16 +396,17 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
                     }
                 }
                 builder.append(")");
-                return "Use " + action.getName() + " with " + builder.toString();
+                return "Use " + actionName + " with " + builder.toString();
             }
-            return "Use " + action.getName();
+            return "Use " + actionName;
         }
 
         @Override
-        public void undo(FeatureViewDialogFragment dialog) {
+        public void undo(FeatureViewDialogFragment dialog, FeatureInfo info) {
             final int maxUses = info.evaluateMaxUses(dialog.getCharacter());
             int value = 0;
             if (maxUses > 0) {
+                IFeatureAction action = info.getActionNamed(actionName);
                 value = Integer.parseInt(dialog.uses_remaining.getText().toString());
                 value = Math.min(value + action.getCost(), maxUses);
                 dialog.uses_remaining.setText(NumberUtils.formatNumber(value));
@@ -368,19 +414,67 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
             }
             dialog.viewHelper.updateView(maxUses, value);
         }
+
+
+        // Parcelable methods
+        public PendingAction(Parcel source) {
+            this.actionName = source.readString();
+            int size = source.readInt();
+            values = new HashMap<>();
+            for (int i = 0; i < size; i++) {
+                String key = source.readString();
+                String value = source.readString();
+                values.put(key, value);
+            }
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            out.writeInt(values.size());
+            for (Map.Entry<String, String> entry : values.entrySet()) {
+                out.writeString(entry.getKey());
+                out.writeString(entry.getValue());
+            }
+        }
     }
 
     public static class PendingFeatureUse implements IPendingUse {
-        FeatureInfo info;
-        int value;
+        // Method to recreate a HpRow from a Parcel
+        @NonNull
+        public static Creator<PendingFeatureUse> CREATOR = new Creator<PendingFeatureUse>() {
+
+            @NonNull
+            @Override
+            public PendingFeatureUse createFromParcel(@NonNull Parcel source) {
+                return new PendingFeatureUse(source);
+            }
+
+            @NonNull
+            @Override
+            public PendingFeatureUse[] newArray(int size) {
+                return new PendingFeatureUse[size];
+            }
+
+        };
+
+        private final int value;
+
+        public PendingFeatureUse(int value) {
+            this.value = value;
+        }
 
         @Override
-        public void apply(Character character) {
+        public void apply(Character character, FeatureInfo info) {
             character.useFeature(info, value);
         }
 
         @Override
-        public String getText(Resources resources) {
+        public String getText(Resources resources, FeatureInfo info) {
             if (info.getUseType() == UseType.POOL) {
                 return "Use " + info.getName() + " for " + value;
             }
@@ -388,7 +482,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         }
 
         @Override
-        public void undo(FeatureViewDialogFragment dialog) {
+        public void undo(FeatureViewDialogFragment dialog, FeatureInfo info) {
             int remaining = Integer.parseInt(dialog.uses_remaining.getText().toString());
             final int maxUses = info.evaluateMaxUses(dialog.getCharacter());
 
@@ -398,14 +492,31 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
             dialog.viewHelper.updateView(maxUses, remaining);
         }
+
+        // Parcelable methods
+        public PendingFeatureUse(Parcel source) {
+            this.value = source.readInt();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
+            dest.writeInt(value);
+        }
+
     }
 
-    interface IPendingUse {
-        void apply(Character character);
 
-        String getText(Resources resources);
+    interface IPendingUse extends Parcelable {
+        void apply(Character character, FeatureInfo info);
 
-        void undo(FeatureViewDialogFragment dialog);
+        String getText(Resources resources, FeatureInfo info);
+
+        void undo(FeatureViewDialogFragment dialog, FeatureInfo info);
     }
 
 
@@ -420,12 +531,13 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         }
 
         public void bind(@NonNull final CharacterActivity context, @NonNull final PendingActionAdapter adapter, @NonNull final IPendingUse action) {
-            pending_action.setText(action.getText(context.getResources()));
+            final FeatureInfo info = adapter.dialog.getCharacter().getFeatureNamed(adapter.dialog.getNameArgument());
+            pending_action.setText(action.getText(context.getResources(), info));
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     adapter.dialog.pendingActions.remove(action);
-                    action.undo(adapter.dialog);
+                    action.undo(adapter.dialog, info);
                     adapter.notifyDataSetChanged();
                     adapter.dialog.updateViews();
                 }
@@ -462,4 +574,10 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(PENDING_ACTIONS, pendingActions);
+        outState.putString(REMAINING_USES, uses_remaining.getText().toString());
+    }
 }

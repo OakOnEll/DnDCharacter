@@ -55,7 +55,7 @@ public interface FeatureViewInterface {
 
     Set<FeatureContextArgument> getActionFilter();
 
-    void useAction(CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<Feature.FeatureEffectVariable, String> values);
+    void useAction(CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<String, String> values);
 
     void useFeature(CharacterActivity context, FeatureInfo info, int value);
 

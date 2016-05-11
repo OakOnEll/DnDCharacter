@@ -232,7 +232,12 @@ public class FeatureViewHelper {
         add_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int value = Integer.parseInt(uses_remaining.getText().toString());
+                int value = 0;
+                try {
+                    value = Integer.parseInt(uses_remaining.getText().toString());
+                } catch (Exception e) {
+                    // ignore
+                }
                 value = value + 1;
                 uses_remaining.setText(NumberUtils.formatNumber(value));
                 uses_remaining_readonly.setText(NumberUtils.formatNumber(value));
@@ -401,7 +406,11 @@ public class FeatureViewHelper {
                         Runnable continuation = new Runnable() {
                             @Override
                             public void run() {
-                                adapter.viewHelper.useAction(info, action, values);
+                                Map<String, String> stringValueMap = new HashMap<String, String>();
+                                for (Map.Entry<Feature.FeatureEffectVariable, String> entry : values.entrySet()) {
+                                    stringValueMap.put(entry.getKey().getName(), entry.getValue());
+                                }
+                                adapter.viewHelper.useAction(info, action, stringValueMap);
                             }
                         };
                         if (!action.hasVariables()) {
@@ -519,7 +528,7 @@ public class FeatureViewHelper {
         view.useFeature(context, info, value);
     }
 
-    private void useAction(FeatureInfo info, IFeatureAction action, Map<Feature.FeatureEffectVariable, String> values) {
+    private void useAction(FeatureInfo info, IFeatureAction action, Map<String, String> values) {
         view.useAction(context, info, action, values);
     }
 
