@@ -13,6 +13,7 @@ import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
+import com.oakonell.dndcharacter.views.character.feature.FeatureViewHelper;
 import com.oakonell.dndcharacter.views.character.feature.FeatureViewHolder;
 
 import org.w3c.dom.Element;
@@ -81,7 +82,7 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
                     if (continuation != null) continuation.run();
                 }
             };
-            FeatureViewHolder.prompt(variables, variableValues, 0, context, variableContinuation );
+            FeatureViewHelper.prompt(variables, variableValues, 0, context, variableContinuation);
             return characterEffect;
         }
 

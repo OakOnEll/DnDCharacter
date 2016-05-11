@@ -33,6 +33,24 @@
                 <include layout="@layout/feature_inc_layout" />
 
 
+                <LinearLayout
+                    android:id="@+id/pending_actions_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pending_uses_lbl" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/pending_actions_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/feature_action_row" />
+                </LinearLayout>
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

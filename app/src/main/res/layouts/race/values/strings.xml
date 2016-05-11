@@ -123,4 +123,5 @@
     <string name="overwrite_existing_formula">Overwrite existing formula?</string>
     <string name="con_mod_hit_die">%s (Con)</string>
     <string name="fraction_slash_d">/ %d</string>
+    <string name="pending_uses_lbl">Pending Uses</string>
 </resources>
