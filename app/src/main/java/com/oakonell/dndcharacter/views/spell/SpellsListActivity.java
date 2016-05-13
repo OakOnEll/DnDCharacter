@@ -6,9 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.spell.Spell;
+import com.oakonell.dndcharacter.model.spell.SpellClass;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
@@ -56,6 +60,9 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
 
     @Override
     protected void deleteRow(long id) {
+        // delete spell class rows first
+        final From delete = new Delete().from(SpellClass.class).where("spell = ?", id);
+        delete.execute();
         Spell.delete(Spell.class, id);
     }
 
