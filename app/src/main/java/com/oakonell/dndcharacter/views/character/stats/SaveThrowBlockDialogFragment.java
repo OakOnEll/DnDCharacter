@@ -66,7 +66,8 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @Override
     protected String getTitle() {
-        return getString(R.string.saving_throw);
+        return getString(R.string.statname_saving_throw_title, getString(getType().getStringResId()));
+        //return getString(R.string.saving_throw);
     }
 
 
@@ -102,6 +103,11 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         return filter;
     }
 
+    @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.SAVING_THROW, getType().name());
+    }
+
     private void updateView(@NonNull StatBlock statBlock) {
         setModifier(statBlock.getSaveModifier());
 
@@ -116,7 +122,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
         statModLabel.setText(getString(R.string.statname_modifier_label, getString(statBlock.getType().getStringResId())));
         statMod.setText(NumberUtils.formatNumber(statBlock.getModifier()));
-        getDialog().setTitle(getString(R.string.statname_saving_throw_title, getString(statBlock.getType().getStringResId())));
+        //getDialog().setTitle(getString(R.string.statname_saving_throw_title, getString(statBlock.getType().getStringResId())));
         total.setText(NumberUtils.formatNumber(statBlock.getSaveModifier()));
     }
 

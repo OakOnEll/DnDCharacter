@@ -188,6 +188,11 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.ARMOR_CLASS);
+    }
+
+    @Override
     public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
         rootAcAdapter.reloadList(character);

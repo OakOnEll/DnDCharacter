@@ -301,6 +301,11 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
         return filter;
     }
 
+    @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.HIT_POINTS);
+    }
+
     private void updateView() {
         Character character = getCharacter();
         int currentHp = character.getHP();

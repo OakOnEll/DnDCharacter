@@ -81,6 +81,11 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
     }
 
     @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.PASSIVE_PERCEPTION);
+    }
+
+    @Override
     public void onCharacterLoaded(Character character) {
         super.onCharacterLoaded(character);
         RowWithSourceAdapter.ListRetriever<Character.PassivePerceptionWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.PassivePerceptionWithSource>() {

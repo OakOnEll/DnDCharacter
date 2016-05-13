@@ -80,7 +80,8 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     @Override
     protected String getTitle() {
-        return getString(R.string.skill_proficiency);
+        return getString(type.getStringResId());
+        //return getString(R.string.skill_proficiency);
     }
 
 
@@ -116,6 +117,11 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         return filter;
     }
 
+    @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.SKILL_ROLL, type.getStatType().name());
+    }
+
     private void updateView(Character character) {
         setModifier(skillBlock.getBonus());
 
@@ -131,7 +137,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         statModLabel.setText(getString(R.string.statname_modifier_label, getString(skillBlock.getType().getStatType().getStringResId())));
         statMod.setText(NumberUtils.formatNumber(skillBlock.getStatModifier()));
         statLabel.setText(skillBlock.getType().getStatType().getStringResId());
-        getDialog().setTitle(skillBlock.getType().getStringResId());
+        //getDialog().setTitle(skillBlock.getType().getStringResId());
         total.setText(NumberUtils.formatNumber(skillBlock.getBonus()));
     }
 

@@ -80,6 +80,11 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
     }
 
     @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.INITIATIVE);
+    }
+
+    @Override
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
         RowWithSourceAdapter.ListRetriever<Character.InitiativeWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.InitiativeWithSource>() {

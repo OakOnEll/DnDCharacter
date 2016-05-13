@@ -79,6 +79,11 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.SPEED);
+    }
+
+    @Override
     protected boolean onDone() {
         boolean isValid = super.onDone();
         //getCharacter().getSpeedType();

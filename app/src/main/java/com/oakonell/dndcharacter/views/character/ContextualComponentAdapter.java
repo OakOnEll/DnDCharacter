@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
+import com.oakonell.dndcharacter.model.character.ContextNote;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
@@ -27,8 +29,13 @@ import java.util.Set;
 /**
  * Created by Rob on 1/4/2016.
  */
-public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, CharacterActivity,ContextualComponentAdapter>> {
+public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<IContextualComponent, CharacterActivity, ContextualComponentAdapter>> {
     private static final int UNDO_DELAY = 5000;
+    private static final int FEATURE = 0;
+    private static final int DELETED_EFFECT = 2;
+    private static final int EFFECT = 1;
+    private static final int NOTE = 3;
+
     @NonNull
     private final CharacterActivity context;
     private final Set<FeatureContextArgument> filter;
@@ -69,9 +76,15 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         if (filter == null) {
             result.addAll(character.getFeatureInfos());
             result.addAll(character.getEffects());
+            // no context notes if no filter?
             return result;
         }
         for (FeatureInfo each : character.getFeatureInfos()) {
+            if (each.isInContext(filter)) {
+                result.add(each);
+            }
+        }
+        for (ContextNote each : character.getContextNotes()) {
             if (each.isInContext(filter)) {
                 result.add(each);
             }
@@ -101,35 +114,43 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     public int getItemViewType(int position) {
         IContextualComponent item = getItem(position);
         // TODO extract the unique view type into the interface
+        if (item instanceof ContextNote) {
+            return NOTE;
+        }
         if (item instanceof FeatureInfo) {
-            return 1;
+            return FEATURE;
         }
         if (item instanceof CharacterEffect) {
             if (deletedEffects.containsKey(((CharacterEffect) item).getName())) {
-                return 2;
+                return DELETED_EFFECT;
             }
-            return 0;
+            return EFFECT;
         }
         throw new RuntimeException("Unknown component type " + item.getClass());
     }
 
     @NonNull
     @Override
-    public BindableComponentViewHolder<IContextualComponent, CharacterActivity,ContextualComponentAdapter> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BindableComponentViewHolder<IContextualComponent, CharacterActivity, ContextualComponentAdapter> onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if (viewType == 1) {
+        if (viewType == FEATURE) {
             View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
             BindableComponentViewHolder holder = new FeatureViewHolder(view, filter);
             return holder;
         }
-        if (viewType == 0) {
+        if (viewType == EFFECT) {
             View view = LayoutInflater.from(context).inflate(R.layout.effect_context_layout, parent, false);
             BindableComponentViewHolder holder = new EffectContextViewHolder(view);
             return holder;
         }
-        if (viewType == 2) {
+        if (viewType == DELETED_EFFECT) {
             View view = LayoutInflater.from(context).inflate(R.layout.effect_deleted_context_layout, parent, false);
             BindableComponentViewHolder holder = new DeletedEffectContextViewHolder(view);
+            return holder;
+        }
+        if (viewType == NOTE) {
+            View view = LayoutInflater.from(context).inflate(R.layout.context_note_layout, parent, false);
+            BindableComponentViewHolder holder = new ContextNoteViewHolder(view);
             return holder;
         }
 
@@ -137,7 +158,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final BindableComponentViewHolder<IContextualComponent, CharacterActivity,ContextualComponentAdapter> viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull final BindableComponentViewHolder<IContextualComponent, CharacterActivity, ContextualComponentAdapter> viewHolder, final int position) {
         final IContextualComponent info = getItem(position);
         viewHolder.bind(context, this, info);
     }
@@ -224,6 +245,66 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
                             }
                         }
                     }, UNDO_DELAY);
+
+                }
+            });
+        }
+    }
+
+    private static class ContextNoteViewHolder extends BindableComponentViewHolder<ContextNote, CharacterActivity, ContextualComponentAdapter> {
+        private final TextView text;
+        private final ImageView delete;
+        private final View note_group;
+
+        public ContextNoteViewHolder(@NonNull View view) {
+            super(view);
+            note_group = view.findViewById(R.id.note_group);
+            text = (TextView) view.findViewById(R.id.text);
+            delete = (ImageView) view.findViewById(R.id.delete);
+        }
+
+        @Override
+        public void bind(@NonNull final CharacterActivity context, @NonNull final ContextualComponentAdapter componentAdapter, @NonNull final ContextNote info) {
+            note_group.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO pop up an edit box, and change the text
+                }
+            });
+            text.setText(info.getText());
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO support delayed deletion...
+                    context.getCharacter().getContextNotes(info.getContext().getContext()).remove(info);
+                    componentAdapter.reloadList(context.getCharacter());
+
+//                    final String name = info.getName();
+//                    if (componentAdapter.deletedEffects.containsKey(name)) {
+//                        // actually delete the record, now
+//                        componentAdapter.context.getCharacter().removeEffect(info);
+//                        componentAdapter.deletedEffects.remove(name);
+//                        componentAdapter.notifyItemRemoved(getAdapterPosition());
+//                    }
+//
+//                    componentAdapter.deletedEffects.put(name, System.currentTimeMillis());
+//                    componentAdapter.notifyItemChanged(getAdapterPosition());
+//
+//                    end_effect.postDelayed(new Runnable() {
+//                        public void run() {
+//                            // may have been deleted, undone, and then redeleted
+//                            Long deletedTime = componentAdapter.deletedEffects.get(name);
+//                            if (deletedTime == null) return;
+//                            if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
+//                                // actually delete the record, now
+//                                componentAdapter.context.getCharacter().removeEffect(info);
+//                                componentAdapter.deletedEffects.remove(name);
+//                                context.updateViews();
+//                                context.saveCharacter();
+//                                //adapter.notifyItemRemoved(getAdapterPosition());
+//                            }
+//                        }
+//                    }, UNDO_DELAY);
 
                 }
             });

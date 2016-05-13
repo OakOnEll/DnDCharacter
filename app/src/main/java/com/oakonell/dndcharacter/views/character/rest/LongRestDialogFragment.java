@@ -101,6 +101,11 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.LONG_REST);
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle diceRestoreBundle = new Bundle();

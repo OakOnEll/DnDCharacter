@@ -86,6 +86,11 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
     }
 
     @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.SHORT_REST);
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(DICE_COUNTS, diceAdapter.diceCounts);

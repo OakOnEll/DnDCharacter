@@ -76,7 +76,8 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @Override
     protected String getTitle() {
-        return getString(R.string.stat_title);
+        return getString(getType().getStringResId());
+        //return getString(R.string.stat_title);
     }
 
 
@@ -114,8 +115,14 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         return filter;
     }
 
+    @Override
+    protected FeatureContextArgument getNoteContext() {
+        return new FeatureContextArgument(FeatureContext.STAT_BLOCK, getType().name());
+    }
+
+
     private void updateView(@NonNull StatBlock statBlock) {
-        getDialog().setTitle(statBlock.getType().getStringResId());
+        //getDialog().setTitle(statBlock.getType().getStringResId());
 
         setModifier(statBlock.getModifier());
         total.setText(NumberUtils.formatNumber(statBlock.getValue()));

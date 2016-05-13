@@ -29,6 +29,7 @@ import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.model.item.ItemRow;
+import com.oakonell.dndcharacter.views.character.IContextualComponent;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.expression.Expression;
 import com.oakonell.expression.ExpressionContext;
@@ -182,6 +183,10 @@ public class Character {
     @NonNull
     @ElementMap(entry = "adjustment", key = "key", value = "value", required = false)
     private Map<CustomAdjustmentType, CustomAdjustments> adjustments = new HashMap<>();
+
+    @NonNull
+    @ElementMap(entry = "note", key = "key", value = "value", required = false)
+    private Map<FeatureContext, ContextNotes> contextNotes = new HashMap<>();
 
     public Character() {
     }
@@ -1309,6 +1314,10 @@ public class Character {
 
     public String getNotes() {
         return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public void longRest(@NonNull LongRestRequest request) {
@@ -2596,6 +2605,24 @@ public class Character {
             this.adjustments.put(type, adjustments);
         }
         return adjustments;
+    }
+
+
+    public List<ContextNote> getContextNotes() {
+        List<ContextNote> notes = new ArrayList<>();
+        for (ContextNotes childNotes : contextNotes.values()) {
+            notes.addAll(childNotes.getNotes());
+        }
+        return notes;
+    }
+
+    public List<ContextNote> getContextNotes(FeatureContext context) {
+        ContextNotes notes = this.contextNotes.get(context);
+        if (notes == null) {
+            notes = new ContextNotes(context);
+            contextNotes.put(context, notes);
+        }
+        return notes.getNotes();
     }
 
     private static class HasEffectFunction implements ExpressionFunction {

@@ -124,4 +124,5 @@
     <string name="con_mod_hit_die">%s (Con)</string>
     <string name="fraction_slash_d">/ %d</string>
     <string name="pending_uses_lbl">Pending Uses</string>
+    <string name="enter_a_note">Enter a note for %s</string>
 </resources>

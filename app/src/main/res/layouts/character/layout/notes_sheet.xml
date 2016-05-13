@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -21,12 +22,13 @@
             android:text="@string/notes"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button
-            android:id="@+id/to_xml"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="To XML" />
+        <!--        <Button
+                    android:id="@+id/to_xml"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To XML" />
+                -->
 
         <com.oakonell.dndcharacter.views.MyEditText
             android:id="@+id/notes"
@@ -35,5 +37,13 @@
             android:gravity="top|left"
             android:hint="@string/enter_note_hint"
             android:minLines="10" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/notes_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:listitem="@layout/context_note_layout" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
