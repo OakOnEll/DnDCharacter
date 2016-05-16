@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -28,6 +29,9 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
     private final Button use_button;
     @NonNull
     private final ViewGroup slots_group;
+    private final ImageView sort;
+    private final CheckBox prepared_only;
+
 
     public SpellsViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -36,6 +40,9 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
         total_slots = (TextView) itemView.findViewById(R.id.total_slots);
         use_button = (Button) itemView.findViewById(R.id.use_button);
         slots_group = (ViewGroup) itemView.findViewById(R.id.slots_group);
+
+        sort = (ImageView) itemView.findViewById(R.id.sort);
+        prepared_only = (CheckBox) itemView.findViewById(R.id.prepared_only);
     }
 
     @Override
@@ -61,6 +68,52 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
                 slotEditDialog.show(context.getFragmentManager(), SLOT_EDIT_FRAGMENT);
             }
         });
+
+        sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                info.setDisplaySortOrder(info.getDisplaySortOrder().next());
+                prepared_only.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        context.getMainActivity().saveCharacter();
+                    }
+                }, 10);
+                updateSortView(info);
+                reloadList(info);
+            }
+        });
+        updateSortView(info);
+
+        prepared_only.setOnCheckedChangeListener(null);
+        prepared_only.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                info.setShowPreparedOnly(isChecked);
+                prepared_only.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        context.getMainActivity().saveCharacter();
+                    }
+                }, 10);
+                reloadList(info);
+            }
+        });
+        prepared_only.setChecked(info.isShowPreparedOnly());
+    }
+
+    protected void updateSortView(@NonNull Character.SpellLevelInfo info) {
+        switch (info.getDisplaySortOrder()) {
+            case NONE:
+                sort.setImageResource(R.drawable.ic_sort_alphabetical_black_24dp);
+                break;
+            case UP:
+                sort.setImageResource(R.drawable.ic_sort_up_alphabetical_black_24dp);
+                break;
+            case DOWN:
+                sort.setImageResource(R.drawable.ic_sort_down_alphabetical_black_24dp);
+                break;
+        }
     }
 
     @NonNull

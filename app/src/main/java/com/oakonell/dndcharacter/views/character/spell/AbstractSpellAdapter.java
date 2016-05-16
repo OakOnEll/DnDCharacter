@@ -20,11 +20,11 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
 
     AbstractSpellAdapter(SpellsFragment context, @NonNull Character.SpellLevelInfo spellLevelInfo) {
         this.context = context;
-        this.spellInfos = spellLevelInfo.getSpellInfos();
+        this.spellInfos = spellLevelInfo.getDisplaySpellInfos();
     }
 
     public void reloadList(@NonNull Character.SpellLevelInfo spellLevelInfo) {
-        this.spellInfos = spellLevelInfo.getSpellInfos();
+        this.spellInfos = spellLevelInfo.getDisplaySpellInfos();
         notifyDataSetChanged();
     }
 
@@ -59,7 +59,11 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
 
         @Override
         public void bind(@NonNull final SpellsFragment context, @NonNull final AbstractSpellAdapter adapter, @NonNull final Character.CharacterSpellWithSource info) {
-            name.setText(info.getSpell().getName());
+            if (info.getSpell().isRitual()) {
+                name.setText(context.getString(R.string.ritual_suffix, info.getSpell().getName()));
+            } else {
+                name.setText(info.getSpell().getName());
+            }
             if (info.getSpell().getSchool() != null) {
                 school.setText(context.getString(info.getSpell().getSchool().getStringResId()));
             } else {

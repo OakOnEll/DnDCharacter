@@ -81,6 +81,10 @@ public class SpellLevelsAdapter extends RecyclerView.Adapter<SpellLevelsAdapter.
         }
 
 
+        protected void reloadList(@NonNull final Character.SpellLevelInfo info) {
+            spellAdapter.reloadList(info);
+        }
+
         @NonNull
         protected abstract AbstractSpellAdapter newAdapter(SpellsFragment context, Character.SpellLevelInfo info);
     }

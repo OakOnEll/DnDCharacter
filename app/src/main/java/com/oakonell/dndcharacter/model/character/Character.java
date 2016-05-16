@@ -188,6 +188,12 @@ public class Character {
     @ElementMap(entry = "note", key = "key", value = "value", required = false)
     private Map<FeatureContext, ContextNotes> contextNotes = new HashMap<>();
 
+    @ElementMap(entry = "displayOrder", key = "level", value = "value", required = false)
+    private Map<Integer, SpellSort> displayOrderSpellsByLevel = new HashMap<>();
+    @ElementMap(entry = "preparedOnly", key = "level", value = "value", required = false)
+    private Map<Integer, Boolean> showOnlyPreparedSpellsByLevel = new HashMap<>();
+
+
     public Character() {
     }
 
@@ -1894,7 +1900,7 @@ public class Character {
     public List<SpellLevelInfo> getSpellInfos() {
         // cantrips can come from random components- background, race
         final List<SpellLevelInfo> spellsLevels = new ArrayList<>();
-        final SpellLevelInfo cantrips = new SpellLevelInfo();
+        final SpellLevelInfo cantrips = new SpellLevelInfo(this, 0);
 
         CharacterAbilityDeriver cantripDeriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
@@ -1950,8 +1956,7 @@ public class Character {
             final CastingClassInfo casterInfo = casterClassInfo.iterator().next();
             maxSlotLevel = casterInfo.getMaxSpellLevel();
             for (int i = 1; i <= maxSlotLevel; i++) {
-                SpellLevelInfo level = new SpellLevelInfo();
-                level.level = i;
+                SpellLevelInfo level = new SpellLevelInfo(this, i);
                 final String slots = casterInfo.getSlotMap().get(i);
                 if (slots != null) {
                     SimpleVariableContext variableContext = new SimpleVariableContext();
@@ -2028,59 +2033,361 @@ public class Character {
 
     private void addMulticlassSpellSlotLevels(@NonNull List<SpellLevelInfo> result, int effectiveCasterLevel, @NonNull List<CastingClassInfo> specialSlotClasses) {
         if (effectiveCasterLevel == 1) {
-            SpellLevelInfo level = new SpellLevelInfo();
-            level.level = 1;
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
             level.maxSlots = 2;
             result.add(level);
         } else if (effectiveCasterLevel == 2) {
-            SpellLevelInfo level = new SpellLevelInfo();
-            level.level = 1;
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
             level.maxSlots = 3;
             result.add(level);
         } else if (effectiveCasterLevel == 3) {
-            SpellLevelInfo level = new SpellLevelInfo();
-            level.level = 1;
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
             level.maxSlots = 4;
             result.add(level);
 
-            level = new SpellLevelInfo();
-            level.level = 2;
+            level = new SpellLevelInfo(this, 2);
             level.maxSlots = 2;
             result.add(level);
         } else if (effectiveCasterLevel == 4) {
-            SpellLevelInfo level = new SpellLevelInfo();
-            level.level = 1;
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
             level.maxSlots = 4;
             result.add(level);
 
-            level = new SpellLevelInfo();
-            level.level = 2;
+            level = new SpellLevelInfo(this, 2);
             level.maxSlots = 3;
             result.add(level);
         } else if (effectiveCasterLevel == 5) {
-            SpellLevelInfo level = new SpellLevelInfo();
-            level.level = 1;
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
             level.maxSlots = 4;
             result.add(level);
 
-            level = new SpellLevelInfo();
-            level.level = 2;
+            level = new SpellLevelInfo(this, 2);
             level.maxSlots = 3;
             result.add(level);
 
-            level = new SpellLevelInfo();
-            level.level = 3;
+            level = new SpellLevelInfo(this, 3);
             level.maxSlots = 2;
             result.add(level);
-        }// TODO ...
+        } else if (effectiveCasterLevel == 6) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+        } else if (effectiveCasterLevel == 7) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 1;
+            result.add(level);
+        } else if (effectiveCasterLevel == 8) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 2;
+            result.add(level);
+        } else if (effectiveCasterLevel == 9) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 5);
+            level.maxSlots = 1;
+            result.add(level);
+        } else if (effectiveCasterLevel == 10) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 5);
+            level.maxSlots = 2;
+            result.add(level);
+        } else if (effectiveCasterLevel == 11 || effectiveCasterLevel == 12) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 5);
+            level.maxSlots = 2;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 6);
+            level.maxSlots = 1;
+            result.add(level);
+        } else if (effectiveCasterLevel == 13 || effectiveCasterLevel == 14) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 5);
+            level.maxSlots = 2;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 6);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 7);
+            level.maxSlots = 1;
+            result.add(level);
+        } else if (effectiveCasterLevel == 15 || effectiveCasterLevel == 16) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 5);
+            level.maxSlots = 2;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 6);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 7);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 8);
+            level.maxSlots = 1;
+            result.add(level);
+        } else if (effectiveCasterLevel == 17) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 5);
+            level.maxSlots = 2;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 6);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 7);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 8);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 9);
+            level.maxSlots = 1;
+            result.add(level);
+        } else if (effectiveCasterLevel == 18) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 5);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 6);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 7);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 8);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 9);
+            level.maxSlots = 1;
+            result.add(level);
+        } else if (effectiveCasterLevel == 19) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 5);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 6);
+            level.maxSlots = 2;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 7);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 8);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 9);
+            level.maxSlots = 1;
+            result.add(level);
+        } else if (effectiveCasterLevel == 20) {
+            SpellLevelInfo level = new SpellLevelInfo(this, 1);
+            level.maxSlots = 4;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 2);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 3);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 4);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 5);
+            level.maxSlots = 3;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 6);
+            level.maxSlots = 2;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 7);
+            level.maxSlots = 2;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 8);
+            level.maxSlots = 1;
+            result.add(level);
+
+            level = new SpellLevelInfo(this, 9);
+            level.maxSlots = 1;
+            result.add(level);
+        }
 
         for (CastingClassInfo specialCastingClass : specialSlotClasses) {
             for (Map.Entry<Integer, String> each : specialCastingClass.getSlotMap().entrySet()) {
                 int level = each.getKey();
                 String slots = each.getValue();
                 while (level >= result.size()) {
-                    SpellLevelInfo levelInfo = new SpellLevelInfo();
-                    levelInfo.level = result.size();
+                    SpellLevelInfo levelInfo = new SpellLevelInfo(this, result.size());
                     result.add(levelInfo);
                 }
                 final SpellLevelInfo levelInfo = result.get(level);
@@ -2090,13 +2397,40 @@ public class Character {
 
     }
 
+    public enum SpellSort {
+        NONE, UP, DOWN;
+
+        public SpellSort next() {
+            if (this == NONE) return UP;
+            if (this == UP) return DOWN;
+            return NONE;
+        }
+    }
+
     public static class SpellLevelInfo {
-        int level;
+        final Character character;
+        final int level;
         int slotsAvailable;
         int maxSlots;
 
         @NonNull
         private List<CharacterSpellWithSource> spellInfos = new ArrayList<>();
+
+        private boolean showPreparedOnly;
+        private SpellSort displaySortOrder;
+
+        SpellLevelInfo(Character character, int level) {
+            this.character = character;
+            this.level = level;
+
+            Boolean charPreparedOnly = character.showOnlyPreparedSpellsByLevel.get(level);
+            if (charPreparedOnly == null) charPreparedOnly = Boolean.FALSE;
+            showPreparedOnly = charPreparedOnly;
+
+            SpellSort charSort = character.displayOrderSpellsByLevel.get(level);
+            if (charSort == null) charSort = SpellSort.NONE;
+            displaySortOrder = charSort;
+        }
 
         @NonNull
         public List<CharacterSpellWithSource> getSpellInfos() {
@@ -2114,6 +2448,68 @@ public class Character {
         public int getMaxSlots() {
             return maxSlots;
         }
+
+        public void setShowPreparedOnly(boolean showPreparedOnly) {
+            this.showPreparedOnly = showPreparedOnly;
+            character.setSpellShowPreparedOnly(level, showPreparedOnly);
+        }
+
+        public boolean isShowPreparedOnly() {
+            return showPreparedOnly;
+        }
+
+        public SpellSort getDisplaySortOrder() {
+            return displaySortOrder;
+        }
+
+        public void setDisplaySortOrder(SpellSort displaySortOrder) {
+            this.displaySortOrder = displaySortOrder;
+            character.setSpellShowSortOrder(level, displaySortOrder);
+        }
+
+        public List<CharacterSpellWithSource> getDisplaySpellInfos() {
+            List<CharacterSpellWithSource> result = new ArrayList<>();
+            if (showPreparedOnly) {
+                for (CharacterSpellWithSource each : spellInfos) {
+                    if (each.getSpell().isAlwaysPrepared() || !each.getSpell().isPreparable() || each.getSpell().isPrepared() || each.getSpell().isRitual()) {
+                        result.add(each);
+                    }
+                }
+            } else {
+                result.addAll(spellInfos);
+            }
+
+            Comparator<CharacterSpellWithSource> spellSorter = null;
+            if (displaySortOrder == SpellSort.UP) {
+                spellSorter = new Comparator<CharacterSpellWithSource>() {
+                    @Override
+                    public int compare(CharacterSpellWithSource lhs, CharacterSpellWithSource rhs) {
+                        return lhs.getSpell().getName().compareToIgnoreCase(rhs.getSpell().getName());
+                    }
+                };
+            } else if (displaySortOrder == SpellSort.DOWN) {
+                spellSorter = new Comparator<CharacterSpellWithSource>() {
+                    @Override
+                    public int compare(CharacterSpellWithSource lhs, CharacterSpellWithSource rhs) {
+                        return -lhs.getSpell().getName().compareToIgnoreCase(rhs.getSpell().getName());
+                    }
+                };
+            }
+            if (spellSorter != null) {
+                Collections.sort(result, spellSorter);
+            }
+
+            return result;
+        }
+    }
+
+    private void setSpellShowSortOrder(int level, SpellSort displaySortOrder) {
+        displayOrderSpellsByLevel.put(level, displaySortOrder);
+    }
+
+
+    private void setSpellShowPreparedOnly(int level, boolean showPreparedOnly) {
+        showOnlyPreparedSpellsByLevel.put(level, showPreparedOnly);
     }
 
     public static class CastingClassInfo {
