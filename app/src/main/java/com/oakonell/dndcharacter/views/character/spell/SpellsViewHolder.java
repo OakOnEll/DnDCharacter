@@ -94,21 +94,27 @@ public class SpellsViewHolder extends SpellLevelsAdapter.AbstractSpellLevelViewH
         @Override
         public void bind(@NonNull final SpellsFragment context, @NonNull AbstractSpellAdapter adapter, @NonNull final Character.CharacterSpellWithSource info) {
             super.bind(context, adapter, info);
-            if (!info.getSpell().isPreparable()) {
-                prepared.setVisibility(View.INVISIBLE);
-            } else {
+            if (info.getSpell().isPreparable() || info.getSpell().isAlwaysPrepared()) {
                 prepared.setVisibility(View.VISIBLE);
+            } else {
+                prepared.setVisibility(View.INVISIBLE);
             }
             prepared.setOnCheckedChangeListener(null);
-            prepared.setChecked(info.getSpell().isPrepared());
-            prepared.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    info.getSpell().setPrepared(isChecked);
-                    context.updateViews();
-                    context.getMainActivity().saveCharacter();
-                }
-            });
+            if (info.getSpell().isAlwaysPrepared()) {
+                prepared.setChecked(true);
+                prepared.setEnabled(false);
+            } else {
+                prepared.setEnabled(true);
+                prepared.setChecked(info.getSpell().isPrepared());
+                prepared.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        info.getSpell().setPrepared(isChecked);
+                        context.updateViews();
+                        context.getMainActivity().saveCharacter();
+                    }
+                });
+            }
         }
     }
 }

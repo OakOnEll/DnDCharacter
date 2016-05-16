@@ -102,6 +102,7 @@ public class CharacterSpell extends BaseCharacterComponent {
     boolean prepared;
     @Element(required = false)
     private boolean hasDirectRoll;
+    private boolean alwaysPrepared;
 
     public void setPreparable(@SuppressWarnings("SameParameterValue") boolean preparable) {
         this.preparable = preparable;
@@ -434,5 +435,13 @@ public class CharacterSpell extends BaseCharacterComponent {
 
     public void setHasDirectRoll(boolean hasDirectRoll) {
         this.hasDirectRoll = hasDirectRoll;
+    }
+
+    public void setAlwaysPrepared(boolean alwaysPrepared) {
+        this.alwaysPrepared = alwaysPrepared;
+    }
+
+    public boolean isAlwaysPrepared() {
+        return alwaysPrepared;
     }
 }

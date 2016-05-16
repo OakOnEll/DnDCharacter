@@ -173,4 +173,8 @@ public class CharacterClass extends BaseCharacterComponent {
     public String getSpellClassFilter() {
         return spellClassFilter;
     }
+
+    public boolean usesPreparedSpells() {
+        return preparedSpellsFormula != null && preparedSpellsFormula.length() > 0;
+    }
 }

@@ -72,8 +72,6 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
         int level = Integer.parseInt(levelString);
         charSpell.setLevel(level);
 
-        String name = XmlUtils.getElementText(element, "name");
-        charSpell.setName(name);
 
         populateCommonSpellProperties(charSpell, element);
     }
@@ -86,6 +84,9 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
 
 
     public static void populateCommonSpellProperties(CharacterSpell charSpell, Element element) {
+        String name = XmlUtils.getElementText(element, "name");
+        charSpell.setName(name);
+
         String school = XmlUtils.getElementText(element, "school");
         charSpell.setSchool(EnumHelper.stringToEnum(school, SpellSchool.class));
 

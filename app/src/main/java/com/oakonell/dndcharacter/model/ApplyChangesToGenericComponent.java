@@ -426,10 +426,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                     stat = EnumHelper.stringToEnum(statString, StatType.class);
                 }
                 for (String each : spells) {
-                    addSpell(each, stat, countsAsKnown);
+                    addSpell(each, stat, countsAsKnown, false);
                 }
                 for (String each : addedSpells) {
-                    addSpell(each, stat, countsAsKnown);
+                    addSpell(each, stat, countsAsKnown, false);
                 }
             }
             List<Element> spellList = XmlUtils.getChildElements(element, "spell");
@@ -448,7 +448,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                         List<String> specificAddedSpell = savedChoices.getChoicesFor(spellPrefix + "_addedSpell" + addedSpellIndex);
                         StatType stat = null;
                         for (String eachSavedSpell : specificAddedSpell) {
-                            addSpell(eachSavedSpell, stat, countsAsKnown);
+                            addSpell(eachSavedSpell, stat, countsAsKnown, false);
                         }
                     }
                     addedSpellIndex++;
@@ -472,10 +472,11 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
             stat = EnumHelper.stringToEnum(statString, StatType.class);
         }
         boolean countsAsKnown = true;
-        addSpell(spellName, stat, countsAsKnown);
+        boolean alwaysKnown = true;
+        addSpell(spellName, stat, countsAsKnown, alwaysKnown);
     }
 
-    private void addSpell(@NonNull String spellName, StatType stat, boolean countsAsKnown) {
+    private void addSpell(@NonNull String spellName, StatType stat, boolean countsAsKnown, boolean alwaysPrepared) {
         List<Spell> spells = new Select()
                 .from(Spell.class).where("UPPER(name) = ?", spellName.toUpperCase()).execute();
         CharacterSpell characterSpell = null;
@@ -492,22 +493,24 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
             // TODO
             if (component instanceof CharacterClass) {
-                Character.CastingClassInfo info = character.getCasterClassInfoFor(component.getName());
-                if (info != null && info.usesPreparedSpells()) {
+                // TODO info is null on adding a 1st level class... makes it look like this works
+                // get cast info not from character, in case first class, not added yet
+                // check alwaysPrepared attribute
+                if (alwaysPrepared) {
+                    characterSpell.setAlwaysPrepared(true);
+                } else if (((CharacterClass) component).usesPreparedSpells()) {
                     characterSpell.setPreparable(true);
                 }
                 if (stat == null) {
                     stat = ((CharacterClass) component).getCasterStat();
                 }
             }
-
-
         } else {
             characterSpell = new CharacterSpell();
             characterSpell.setLevel(1);
+            characterSpell.setName(spellName);
         }
         characterSpell.countsAsKnown(countsAsKnown);
-        characterSpell.setName(spellName);
         characterSpell.setCastingStat(stat);
         // TODO need to store the caster class, if different from owner name?
         characterSpell.setOwnerName(currentComponent.getName());
@@ -605,10 +608,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
         } else {
             characterSpell = new CharacterSpell();
+            characterSpell.setName(cantripName);
         }
         characterSpell.setLevel(0);
         characterSpell.countsAsKnown(countsAsKnown);
-        characterSpell.setName(cantripName);
         characterSpell.setCastingStat(stat);
         // TODO need to store the caster class, if different from owner name?
         characterSpell.setOwnerName(currentComponent.getName());
