@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +27,7 @@ import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
+import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
@@ -270,7 +270,7 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, @NonNull AbstractSelectComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(Cursor cursor, AbstractSelectComponentDialogFragment context, CursorComponentListAdapter adapter, CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String rawItemTypeString = cursor.getString(cursorIndexesByName.getIndex(cursor, "itemType"));
             final String category = cursor.getString(cursorIndexesByName.getIndex(cursor, "category"));

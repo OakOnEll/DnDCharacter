@@ -7,7 +7,7 @@ import android.view.View;
 /**
  * Created by Rob on 1/4/2016.
  */
-public abstract class BindableComponentViewHolder<T, C, A extends RecyclerView.Adapter<?>> extends RecyclerView.ViewHolder {
+public abstract class BindableComponentViewHolder<T, C, A extends RecyclerView.Adapter<?>> extends BindableViewHolder<C, A> {
     public BindableComponentViewHolder(@NonNull View itemView) {
         super(itemView);
     }

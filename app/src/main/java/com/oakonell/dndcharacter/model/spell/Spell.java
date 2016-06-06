@@ -39,6 +39,8 @@ public class Spell extends AbstractComponentModel {
     @Column
     private SpellSchool school;
 
+    @Column
+    private String description;
 
     @Override
     public String getXml() {
@@ -140,6 +142,8 @@ public class Spell extends AbstractComponentModel {
             } else {
                 setLevel(-1);
             }
+            String desc= XmlUtils.getElementText(doc, "shortDescription");
+            description = desc;
         } else {
             setSchool(null);
             setConcentration(false);
@@ -165,5 +169,13 @@ public class Spell extends AbstractComponentModel {
         }
     }
 
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
@@ -57,7 +58,7 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         ItemRow.delete(ItemRow.class, id);
     }
 
-    protected static class ItemRowViewHolderCursor extends RowViewHolderCursor {
+    protected static class ItemRowViewHolderCursor extends RowViewHolderCursor<AbstractComponentModel> {
         @NonNull
         public final TextView category;
 
@@ -67,7 +68,7 @@ public class ItemsListActivity extends AbstractComponentListActivity<ItemRow> {
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, @NonNull AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, ComponentListAdapter<AbstractComponentListActivity<AbstractComponentModel>, AbstractComponentModel> adapter, CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String categoryString = cursor.getString(cursorIndexesByName.getIndex(cursor, "category"));
             category.setText(categoryString);

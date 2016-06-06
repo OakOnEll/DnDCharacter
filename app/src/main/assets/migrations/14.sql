@@ -1,0 +1,1 @@
+ALTER TABLE spell ADD COLUMN description TEXT;

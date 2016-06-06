@@ -8,25 +8,30 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.DnDContentProvider;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.utils.NumberUtils;
+import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -407,11 +412,18 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         @NonNull
         private final TextView ritualTextView;
 
+        @NonNull
+        private final TextView description;
+        @NonNull
+        private final ImageView expand;
+
         public SpellRowViewHolder(@NonNull View itemView) {
             super(itemView);
             schoolTextView = (TextView) itemView.findViewById(R.id.school);
             levelTextView = (TextView) itemView.findViewById(R.id.level);
             ritualTextView = (TextView) itemView.findViewById(R.id.ritual);
+            description = (TextView) itemView.findViewById(R.id.description);
+            expand = (ImageView) itemView.findViewById(R.id.expand);
         }
 
 
@@ -421,7 +433,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, @NonNull AbstractSelectComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(final Cursor cursor, AbstractSelectComponentDialogFragment context, final CursorComponentListAdapter adapter, CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
             final int ritualInt = cursor.getInt(cursorIndexesByName.getIndex(cursor, "ritual"));
@@ -430,7 +442,35 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             } else {
                 ritualTextView.setVisibility(View.GONE);
             }
+            String text = cursor.getString(cursorIndexesByName.getIndex(cursor, "description"));
+            if (text == null) text = "";
+            description.setText(text);
 
+            final int position = cursor.getPosition();
+            boolean isExpanded = adapter.isExpanded(cursor.getPosition());
+            if (isExpanded) {
+                description.setEllipsize(null);
+                description.setLines(5);
+                description.setMaxLines(Integer.MAX_VALUE);
+                expand.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapter.setExpanded(position, false);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            } else {
+                description.setEllipsize(TextUtils.TruncateAt.END);
+                description.setLines(1);
+                description.setMaxLines(1);
+                expand.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapter.setExpanded(position, true);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
 
             final int level = cursor.getInt(cursorIndexesByName.getIndex(cursor, "level"));
             String levelString;

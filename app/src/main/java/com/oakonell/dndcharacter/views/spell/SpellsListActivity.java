@@ -10,6 +10,7 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.model.spell.SpellClass;
@@ -66,7 +67,7 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
         Spell.delete(Spell.class, id);
     }
 
-    protected static class SpellRowViewHolderCursor extends RowViewHolderCursor {
+    protected static class SpellRowViewHolderCursor extends RowViewHolderCursor<AbstractComponentModel> {
         @NonNull
         private final TextView levelTextView;
         @NonNull
@@ -82,7 +83,7 @@ public class SpellsListActivity extends AbstractComponentListActivity<Spell> {
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, @NonNull AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, ComponentListAdapter<AbstractComponentListActivity<AbstractComponentModel>, AbstractComponentModel> adapter, CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final int level = cursor.getInt(cursorIndexesByName.getIndex(cursor, "level"));
             String levelString;

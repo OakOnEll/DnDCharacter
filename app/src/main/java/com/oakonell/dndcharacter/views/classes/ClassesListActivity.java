@@ -2,12 +2,12 @@ package com.oakonell.dndcharacter.views.classes;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
@@ -58,7 +58,7 @@ public class ClassesListActivity extends AbstractComponentListActivity {
         AClass.delete(AClass.class, id);
     }
 
-    protected static class ClassRowViewHolderCursor extends RowViewHolderCursor {
+    protected static class ClassRowViewHolderCursor extends RowViewHolderCursor<AbstractComponentModel> {
         @NonNull
         public final TextView parentClass;
 
@@ -68,7 +68,7 @@ public class ClassesListActivity extends AbstractComponentListActivity {
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, @NonNull AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(Cursor cursor, AbstractComponentListActivity context, ComponentListAdapter<AbstractComponentListActivity<AbstractComponentModel>, AbstractComponentModel> adapter, CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
             final String parentName = cursor.getString(cursorIndexesByName.getIndex(cursor, "parentClass"));
             parentClass.setText(parentName);

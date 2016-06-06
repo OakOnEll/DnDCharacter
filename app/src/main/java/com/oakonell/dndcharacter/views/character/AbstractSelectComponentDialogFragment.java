@@ -24,17 +24,21 @@ import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.utils.UIUtils;
+import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorBindableRecyclerViewHolder;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Rob on 1/24/2016.
  */
 public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSelectComponentDialogFragment.RowViewHolder> extends AbstractDialogFragment {
     private RecyclerView listView;
-    private ComponentListAdapter<V> adapter;
+    private CursorComponentListAdapter<V> adapter;
     private int loaderId;
     @Nullable
     private LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks;
@@ -66,7 +70,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         listView.addItemDecoration(itemDecoration);
 
-        adapter = new ComponentListAdapter<>(this, getListItemResource());
+        adapter = new CursorComponentListAdapter<>(this, getListItemResource());
         listView.setAdapter(adapter);
 
         final EditText searchTerms = (EditText) view.findViewById(R.id.search_terms);
@@ -202,7 +206,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
     }
 
 
-    public static class RowViewHolder extends CursorBindableRecyclerViewHolder<AbstractSelectComponentDialogFragment> implements ItemTouchHelperViewHolder {
+    public static class RowViewHolder extends CursorBindableRecyclerViewHolder<AbstractSelectComponentDialogFragment, CursorComponentListAdapter> implements ItemTouchHelperViewHolder {
         @NonNull
         final TextView name;
         //TextView description;
@@ -214,7 +218,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractSelectComponentDialogFragment context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(final Cursor cursor, final AbstractSelectComponentDialogFragment context, CursorComponentListAdapter adapter, CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, getIdColumnName()));
@@ -249,14 +253,14 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
 
     abstract protected boolean applyAction(long id);
 
-    public static class ComponentListAdapter<V extends CursorBindableRecyclerViewHolder<AbstractSelectComponentDialogFragment>> extends RecyclerView.Adapter<V> {
+    public static class CursorComponentListAdapter<V extends AbstractSelectComponentDialogFragment.RowViewHolder> extends RecyclerView.Adapter<V> {
         private final AbstractSelectComponentDialogFragment context;
         private final int layout;
         Cursor cursor;
         @NonNull
         CursorIndexesByName cursorIndexesByName = new CursorIndexesByName();
 
-        public ComponentListAdapter(AbstractSelectComponentDialogFragment context, int layout) {
+        public CursorComponentListAdapter(AbstractSelectComponentDialogFragment context, int layout) {
             this.context = context;
             this.layout = layout;
         }
@@ -286,6 +290,23 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
         public int getItemCount() {
             if (cursor == null) return 0;
             return cursor.getCount();
+        }
+
+
+        private Map<Integer, Boolean> expandedPositions = new HashMap<Integer, Boolean>();
+
+        public boolean isExpanded(int position) {
+            Boolean result = expandedPositions.get(position);
+            if (result == null) return false;
+            return result;
+        }
+
+        public void setExpanded(int position, boolean expanded) {
+            if (!expanded) {
+                expandedPositions.remove(position);
+            } else {
+                expandedPositions.put(position, true);
+            }
         }
 
 

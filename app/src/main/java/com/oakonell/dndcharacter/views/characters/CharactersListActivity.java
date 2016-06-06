@@ -61,7 +61,7 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
         return R.layout.character_list_item;
     }
 
-    protected static class CharacterRowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity> {
+    protected static class CharacterRowViewHolderCursor extends CursorBindableRecyclerViewHolder<AbstractComponentListActivity, ComponentListAdapter> {
         @NonNull
         public final TextView name;
         @NonNull
@@ -80,7 +80,7 @@ public class CharactersListActivity extends AbstractComponentListActivity<Charac
         }
 
         @Override
-        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractComponentListActivity context, RecyclerView.Adapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(@NonNull Cursor cursor, @NonNull final AbstractComponentListActivity context, ComponentListAdapter adapter, @NonNull CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, BaseColumns._ID));
