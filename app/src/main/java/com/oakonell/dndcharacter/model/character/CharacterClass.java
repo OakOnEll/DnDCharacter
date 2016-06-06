@@ -177,4 +177,20 @@ public class CharacterClass extends BaseCharacterComponent {
     public boolean usesPreparedSpells() {
         return preparedSpellsFormula != null && preparedSpellsFormula.length() > 0;
     }
+
+
+    private ReplacedSpell replacedSpell;
+
+    public void setReplacedSpell(int knownLevel, int levelIndex, String newSpellName) {
+        replacedSpell = new ReplacedSpell();
+        replacedSpell.knownLevel = knownLevel;
+        replacedSpell.index = levelIndex;
+        replacedSpell.name = newSpellName;
+    }
+
+    class ReplacedSpell {
+        int knownLevel;
+        int index;
+        String name;
+    }
 }
