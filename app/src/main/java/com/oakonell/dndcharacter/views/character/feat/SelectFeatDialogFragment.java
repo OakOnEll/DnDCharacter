@@ -1,10 +1,18 @@
 package com.oakonell.dndcharacter.views.character.feat;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.feat.Feat;
+import com.oakonell.dndcharacter.model.spell.SpellSchool;
+import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
@@ -36,6 +44,17 @@ public class SelectFeatDialogFragment extends AbstractSelectComponentDialogFragm
         return getString(R.string.select_feat);
     }
 
+    protected int getListItemResource() {
+        return R.layout.feat_list_item;
+    }
+
+    @NonNull
+    @Override
+    public RowViewHolder newRowViewHolder(@NonNull View newView) {
+        return new FeatRowViewHolder(newView);
+    }
+
+
     @NonNull
     @Override
     public Class<? extends Model> getComponentClass() {
@@ -50,46 +69,54 @@ public class SelectFeatDialogFragment extends AbstractSelectComponentDialogFragm
         throw new RuntimeException("No Listener!");
     }
 
-//
-//    @NonNull
-//    @Override
-//    public RowViewHolder newRowViewHolder(View newView) {
-//        return new RowViewHolder(newView);
-//    }
+    public static class FeatRowViewHolder extends RowViewHolder {
 
+        @NonNull
+        private final TextView description;
+        @NonNull
+        private final ImageView expand;
 
-    public static class AddFeatToCharacterListener implements FeatSelectedListener {
-
-        private final CharacterActivity activity;
-
-        public AddFeatToCharacterListener(CharacterActivity activity) {
-            this.activity = activity;
+        public FeatRowViewHolder(@NonNull View itemView) {
+            super(itemView);
+            description = (TextView) itemView.findViewById(R.id.description);
+            expand = (ImageView) itemView.findViewById(R.id.expand);
         }
+
 
         @Override
-        public boolean featSelected(long id) {
-//            Effect effect = Effect.load(Effect.class, id);
-//
-//            final String name = effect.getName();
-//            final CharacterEffect existingEffect = activity.getCharacter().getEffectNamed(name);
-//            if (existingEffect != null) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//                builder.setTitle(activity.getString(R.string.already_has_effect, name));
-//                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(@NonNull DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                builder.show();
-//                return false;
-//            }
-//
-//            CharacterEffect charEffect = AddEffectToCharacterVisitor.applyToCharacter(effect, activity.getCharacter());
-//            activity.updateViews();
-//            activity.saveCharacter();
+        public void bindTo(final Cursor cursor, AbstractSelectComponentDialogFragment context, final CursorComponentListAdapter adapter, CursorIndexesByName cursorIndexesByName) {
+            super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
-            return true;
+            String text = cursor.getString(cursorIndexesByName.getIndex(cursor, "description"));
+            if (text == null) text = "";
+            description.setText(text);
+
+            final int position = cursor.getPosition();
+            boolean isExpanded = adapter.isExpanded(cursor.getPosition());
+            if (isExpanded) {
+                description.setEllipsize(null);
+                description.setLines(5);
+                description.setMaxLines(Integer.MAX_VALUE);
+                expand.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapter.setExpanded(position, false);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            } else {
+                description.setEllipsize(TextUtils.TruncateAt.END);
+                description.setLines(1);
+                description.setMaxLines(1);
+                expand.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapter.setExpanded(position, true);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
         }
     }
+
 }

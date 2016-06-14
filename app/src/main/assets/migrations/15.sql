@@ -1,0 +1,1 @@
+ALTER TABLE feat ADD COLUMN description TEXT;

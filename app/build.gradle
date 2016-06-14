@@ -42,6 +42,7 @@ android {
                     [
                             'src/main/res/layouts/character/armorclass',
                             'src/main/res/layouts/character/classes',
+                            'src/main/res/layouts/character/feat',
                             'src/main/res/layouts/character/hitpoints',
                             'src/main/res/layouts/character/feature',
                             'src/main/res/layouts/character/item',

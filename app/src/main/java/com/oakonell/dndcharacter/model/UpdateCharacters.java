@@ -33,7 +33,7 @@ public class UpdateCharacters {
 
     public static DataImporter.CharacterUpdateProgress updateCharacters(Context context, ProgressUpdater progress) {
         DataImporter.CharacterUpdateProgress result = new DataImporter.CharacterUpdateProgress();
-        final List<CharacterRow> list = new Select().from(CharacterRow.class).execute();
+        final List<CharacterRow> list = new Select().from(CharacterRow.class).orderBy("last_updated").execute();
         Serializer serializer = new Persister();
         result.total = list.size();
 
