@@ -25,7 +25,7 @@ public class ApplySpellToCharacterVisitor extends AbstractSpellVisitor {
 
     private final CharacterSpell charSpell;
 
-    private ApplySpellToCharacterVisitor(CharacterSpell charSpell) {
+    public ApplySpellToCharacterVisitor(CharacterSpell charSpell) {
         this.charSpell = charSpell;
     }
 

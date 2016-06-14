@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views.character.classes;
 
-import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
@@ -31,9 +31,11 @@ import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractComponentViewCreator;
 import com.oakonell.dndcharacter.views.character.ApplyAbstractComponentDialogFragment;
+import com.oakonell.dndcharacter.views.character.md.CategoryChoicesMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;
 import com.oakonell.dndcharacter.views.character.md.RootChoiceMDNode;
+import com.oakonell.dndcharacter.views.character.md.SearchOptionMD;
 
 import org.w3c.dom.Element;
 
@@ -326,39 +328,79 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         final Element spells = XmlUtils.getElement(levelElement, "spells");
         final Element cantrips = XmlUtils.getElement(levelElement, "cantrips");
 
-        if (spellCastingStat != null && (spells != null || cantrips != null)) {
-/*
-                    <cantrips>
-        <known>4</known>
-    </cantrips>
-    <spells>
-        <known>3</known>
-        <slots>
-            <level value="1">3</level>
-        </slots>
-    </spells>
-             */
-            Page<AClass> spellPage = new Page<AClass>() {
-                @NonNull
-                @Override
-                public ChooseMDTreeNode appendToLayout(AClass model, @NonNull ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
-                    SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator(getCharacter());
-                    if (overrideChoices != null) {
-                        addSubclassTextView(dynamic);
+        if (spellCastingStat != null) {
+            boolean hasPreviouslyKnownSpells = false;
+            Character.CastingClassInfo classInfo = getCharacter().getCasterClassInfoFor(getModel().getName(), getCharacterLevel() - 1);
+            if (classInfo != null) {
+                final String maxKnownSpellsFormula = classInfo.getKnownSpells();
+                if (maxKnownSpellsFormula != null && maxKnownSpellsFormula.length() > 0) {
+                    int maxKnown = getCharacter().evaluateFormula(maxKnownSpellsFormula, null);
+                    if (maxKnown > 0) {
+                        hasPreviouslyKnownSpells = true;
                     }
-                    final ChooseMDTreeNode treeNode = visitor.appendToLayout(getMainActivity(), dynamic, getClassLevel(), rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices, getCharacterClass());
-                    if (overrideChoices != null) {
-                        subclassChooseMDs = treeNode;
-                        return new RootChoiceMDNode();
-                    }
-
-                    return treeNode;
                 }
-            };
-            pages.add(spellPage);
+            }
+            if (spells != null || cantrips != null || hasPreviouslyKnownSpells) {
+                Page<AClass> spellPage = new Page<AClass>() {
+                    @Override
+                    public boolean validate(ViewGroup viewGroup, List<ChooseMD<?>> childChoiceMDs) {
+                        // can override
+                        CategoryChoicesMD replacedSpellMD = null;
+                        CategoryChoicesMD replaceWithSpellMD = null;
+                        for (ChooseMD<?> each : childChoiceMDs) {
+                            if (each.getChoiceName().equals("replace_spell")) {
+                                replacedSpellMD = (CategoryChoicesMD) each;
+                                continue;
+                            }
+                            if (each.getChoiceName().equals("new_spell")) {
+                                replaceWithSpellMD = (CategoryChoicesMD) each;
+                                continue;
+                            }
+                        }
+                        if (replacedSpellMD == null || replaceWithSpellMD == null) {
+                            return true;
+                        }
+                        SearchOptionMD replacedSpellSearchMD = (SearchOptionMD) replacedSpellMD.getOptions().get(0);
+                        SearchOptionMD replaceWithSpellSearchMD = (SearchOptionMD) replaceWithSpellMD.getOptions().get(0);
 
+                        if (replacedSpellSearchMD.isPopulated() && replaceWithSpellSearchMD.isPopulated()) {
+                            return true;
+                        }
+                        if (!replacedSpellSearchMD.isPopulated() && !replaceWithSpellSearchMD.isPopulated()) {
+                            return true;
+                        }
+                        if (!replacedSpellSearchMD.isPopulated()) {
+                            replacedSpellSearchMD.showRequiredError(viewGroup);
+                        }
+                        if (!replaceWithSpellSearchMD.isPopulated()) {
+                            replaceWithSpellSearchMD.showRequiredError(viewGroup);
+                        }
+                        return false;
+                    }
+
+                    @NonNull
+                    @Override
+                    public ChooseMDTreeNode appendToLayout(AClass model, @NonNull ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
+                        SpellCastingClassInfoViewCreator visitor = new SpellCastingClassInfoViewCreator(getCharacter());
+                        if (overrideChoices != null) {
+                            addSubclassTextView(dynamic);
+                        }
+                        final ChooseMDTreeNode treeNode = visitor.appendToLayout(getMainActivity(), dynamic, getClassLevel(), rootClassElement, spells, cantrips, overrideChoices == null ? savedChoices : overrideChoices, getCharacterClass(), getCharacterLevel());
+                        if (overrideChoices != null) {
+                            subclassChooseMDs = treeNode;
+                            return new RootChoiceMDNode();
+                        }
+
+                        return treeNode;
+                    }
+                };
+                pages.add(spellPage);
+            }
         }
     }
+
+    protected abstract int getCharacterLevel();
+
 
     @Nullable
     protected abstract CharacterClass getCharacterClass();

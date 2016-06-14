@@ -476,7 +476,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         addSpell(spellName, stat, countsAsKnown, alwaysKnown);
     }
 
-    private void addSpell(@NonNull String spellName, StatType stat, boolean countsAsKnown, boolean alwaysPrepared) {
+    private  void addSpell(@NonNull String spellName, StatType stat, boolean countsAsKnown, boolean alwaysPrepared) {
         List<Spell> spells = new Select()
                 .from(Spell.class).where("UPPER(name) = ?", spellName.toUpperCase()).execute();
         CharacterSpell characterSpell = null;
@@ -517,6 +517,8 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         characterSpell.setSource(currentComponent.getType());
         currentComponent.getSpells().add(characterSpell);
     }
+
+
 
     @Override
     protected void visitCantrips(@NonNull Element element) {

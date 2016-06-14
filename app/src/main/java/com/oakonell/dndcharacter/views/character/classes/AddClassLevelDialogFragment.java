@@ -92,6 +92,11 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
     }
 
     @Override
+    protected int getCharacterLevel() {
+        return getCharacter().getCharacterLevel() + 1;
+    }
+
+    @Override
     protected int getClassLevel() {
         return classLevel;
     }

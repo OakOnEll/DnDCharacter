@@ -21,7 +21,6 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractChoiceComponentVisitor;
-import com.oakonell.dndcharacter.model.AbstractComponentVisitor;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
@@ -955,14 +954,14 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @NonNull
             @Override
-            AbstractSelectComponentDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
+            public AbstractSelectComponentDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
                 SelectFeatDialogFragment dialog = SelectFeatDialogFragment.createDialog(new SelectFeatDialogFragment.FeatSelectedListener() {
                     @Override
                     public boolean featSelected(long id) {
                         Feat feat = Feat.load(Feat.class, id);
                         String name = feat.getName();
                         // TODO verify if another feat onSearchClickListener same page is the same...
-                        optionMD.setSelected(name);
+                        optionMD.setSelected(name, getCharacter(), null);
                         AbstractComponentViewCreator.this.featSelected(feat);
                         return true;
                     }
@@ -1007,7 +1006,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
 
     public abstract static class SearchDialogCreator {
         @NonNull
-        abstract AbstractSelectComponentDialogFragment createDialog(SearchOptionMD optionMD);
+        public abstract AbstractDialogFragment createDialog(SearchOptionMD optionMD);
     }
 
     protected void visitCantripsSearchChoices(@NonNull final String casterClass, int numChoices) {
@@ -1016,7 +1015,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @NonNull
             @Override
-            AbstractSelectComponentDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
+            public AbstractSelectComponentDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
                 // TODO ignore cantrips from the other choices in the same component's dialog (eg, class/subclass..)
                 List<String> knownCantrips = new ArrayList<>();
                 for (Character.SpellLevelInfo each : character.getSpellInfos()) {
@@ -1047,7 +1046,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                         Spell spell = Spell.load(Spell.class, id);
                         String name = spell.getName();
                         // TODO verify if another spell onSearchClickListener same page is the same...
-                        optionMD.setSelected(name);
+                        optionMD.setSelected(name, getCharacter(), null);
                         return true;
                     }
                 }, knownCantrips);
@@ -1064,31 +1063,8 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
             @NonNull
             @Override
-            AbstractSelectComponentDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
-                // TODO ignore spells from the other choices in the same component's dialog (eg, class/subclass..)
-                List<String> knownSpells = new ArrayList<>();
-                for (Character.SpellLevelInfo each : character.getSpellInfos()) {
-                    if (each.getLevel() == 0) continue;
-
-                    for (Character.CharacterSpellWithSource eachSpell : each.getSpellInfos()) {
-                        if (eachSpell.getSource() == null || !eachSpell.getSource().equals(currentComponent)) {
-                            knownSpells.add(eachSpell.getSpell().getName());
-                        }
-                    }
-                }
-
-
-                for (String each : hardCodedSpells) {
-                    knownSpells.add(each);
-                }
-                for (CategoryChoicesMD eachChooseMD : chosenSpellMDs) {
-                    for (CategoryOptionMD each : eachChooseMD.getOptions()) {
-                        String text = each.getText();
-                        if (text != null && text.trim().length() > 0) {
-                            knownSpells.add(text);
-                        }
-                    }
-                }
+            public AbstractSelectComponentDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
+                List<String> knownSpells = getKnownSpellNames();
 
 
                 return SelectSpellDialogFragment.createDialog(casterClass, maxLevel, schoolNames, limitToRitual, new SelectSpellDialogFragment.SpellSelectedListener() {
@@ -1097,7 +1073,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
                         Spell spell = Spell.load(Spell.class, id);
                         String name = spell.getName();
                         // TODO verify if another spell onSearchClickListener same page is the same...
-                        optionMD.setSelected(name);
+                        optionMD.setSelected(name, getCharacter(), null);
                         return true;
                     }
                 }, knownSpells);
@@ -1108,7 +1084,49 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
         appendSearches(numChoices, searchResId, fragmentId, dialogCreator);
     }
 
-    private void appendSearches(int numChoices, int searchResId, final String fragmentId, @NonNull final SearchDialogCreator dialogCreator) {
+    @NonNull
+    protected List<String> getKnownSpellNames() {
+        // TODO ignore spells from the other choices in the same component's dialog (eg, class/subclass..)
+        List<String> knownSpells = new ArrayList<>();
+        for (Character.SpellLevelInfo each : character.getSpellInfos()) {
+            if (each.getLevel() == 0) continue;
+
+            for (Character.CharacterSpellWithSource eachSpell : each.getSpellInfos()) {
+                if (eachSpell.getSource() == null || !eachSpell.getSource().equals(currentComponent)) {
+                    knownSpells.add(eachSpell.getSpell().getName());
+                }
+            }
+        }
+
+
+        for (String each : hardCodedSpells) {
+            knownSpells.add(each);
+        }
+        for (CategoryChoicesMD eachChooseMD : chosenSpellMDs) {
+            for (CategoryOptionMD each : eachChooseMD.getOptions()) {
+                String text = each.getText();
+                if (text != null && text.trim().length() > 0) {
+                    knownSpells.add(text);
+                }
+            }
+        }
+        return knownSpells;
+    }
+
+    public interface SearchOptionMDCreator {
+        SearchOptionMD createSearchOptionMD(CategoryChoicesMD categoryChoicesMD, ImageView search, TextView text, ImageView delete);
+    }
+
+    protected void appendSearches(int numChoices, int searchResId, final String fragmentId, @NonNull final SearchDialogCreator dialogCreator) {
+        appendSearches(numChoices, searchResId, fragmentId, dialogCreator, new SearchOptionMDCreator() {
+            @Override
+            public SearchOptionMD createSearchOptionMD(CategoryChoicesMD categoryChoicesMD, ImageView search, TextView text, ImageView delete) {
+                return new SearchOptionMD(categoryChoicesMD, search, text, delete);
+            }
+        }, null);
+    }
+
+    protected void appendSearches(int numChoices, int searchResId, final String fragmentId, @NonNull final SearchDialogCreator dialogCreator, SearchOptionMDCreator searchMDCreator, String extra) {
         CategoryChoicesMD categoryChoicesMD = (CategoryChoicesMD) currentChooseMD;
         List<String> selections = choices.getChoicesFor(categoryChoicesMD.getChoiceName());
 
@@ -1119,7 +1137,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             final TextView text = (TextView) layout.findViewById(R.id.text);
             final ImageView delete = (ImageView) layout.findViewById(R.id.delete);
 
-            final SearchOptionMD optionMD = new SearchOptionMD(categoryChoicesMD, search, text, delete);
+            final SearchOptionMD optionMD = searchMDCreator.createSearchOptionMD(categoryChoicesMD, search, text, delete);
             categoryChoicesMD.addOption(optionMD);
 
             text.setHint(parent.getResources().getString(searchResId));
@@ -1128,7 +1146,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             final View.OnClickListener onSearchClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AbstractSelectComponentDialogFragment dialog = dialogCreator.createDialog(optionMD);
+                    AbstractDialogFragment dialog = dialogCreator.createDialog(optionMD);
                     // TODO how to relate the current feat index, for the restart set listener
                     featSearchIndex = index;
                     dialog.show(activity.getSupportFragmentManager(), fragmentId);
@@ -1136,7 +1154,7 @@ public class AbstractComponentViewCreator extends AbstractChoiceComponentVisitor
             };
             if (selections.size() > i) {
                 String selected = selections.get(i);
-                optionMD.setSelected(selected);
+                optionMD.setSelected(selected, getCharacter(), extra);
             } else {
                 optionMD.resetSelection(onSearchClickListener);
             }

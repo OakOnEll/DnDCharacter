@@ -1983,8 +1983,29 @@ public class Character {
             }
         }
 
+        final Map<String, List<CharacterClass.ReplacedSpell>> replacedSpells = new HashMap<>();
+        final Map<CharacterClass.ReplacedSpell, CharacterClass> replacedSpellComponent = new HashMap<>();
+        for (CharacterClass each : getClasses()) {
+            CharacterClass.ReplacedSpell spell = each.getReplacedSpell();
+            if (spell != null) {
+                List<CharacterClass.ReplacedSpell> spells = replacedSpells.get(each.getName());
+                if (spells == null) {
+                    spells = new ArrayList<>();
+                    replacedSpells.put(each.getName(), spells);
+                }
+                spells.add(spell);
+                replacedSpellComponent.put(spell, each);
+            }
+        }
+
         CharacterAbilityDeriver spellDeriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
+                List<CharacterClass.ReplacedSpell> classReplacedSpells = replacedSpells.get(component.getName());
+                int classLevel = 0;
+                if (component instanceof CharacterClass) {
+                    classLevel = ((CharacterClass) component).getLevel();
+                }
+                int index = 0;
                 for (CharacterSpell each : component.getSpells()) {
                     int level = each.getLevel();
                     if (level == 0) {
@@ -1992,7 +2013,20 @@ public class Character {
                         level = 1;
                     }
                     SpellLevelInfo levelInfo = result.get(level);
-                    levelInfo.getSpellInfos().add(new CharacterSpellWithSource(each, component));
+                    boolean replaced = false;
+                    if (classReplacedSpells != null) {
+                        for (CharacterClass.ReplacedSpell replacedSpell : classReplacedSpells) {
+                            if (replacedSpell.knownLevel != classLevel) continue;
+                            if (replacedSpell.index != index) continue;
+                            replaced = true;
+                            final CharacterClass characterClass = replacedSpellComponent.get(replacedSpell);
+                            levelInfo.getSpellInfos().add(new CharacterSpellWithSource(replacedSpell.spell, characterClass));
+                        }
+                    }
+                    if (!replaced) {
+                        levelInfo.getSpellInfos().add(new CharacterSpellWithSource(each, component));
+                    }
+                    index++;
                 }
             }
         };
@@ -2590,22 +2624,30 @@ public class Character {
     }
 
     public CastingClassInfo getCasterClassInfoFor(String owningClassName) {
+        return getCasterClassInfoFor(owningClassName, null);
+    }
+
+    public CastingClassInfo getCasterClassInfoFor(String owningClassName, Integer characterLevelInt) {
         // TODO optimize this
-        Map<String, CastingClassInfo> classInfoMap = getCastingClassInfoMap();
+        Map<String, CastingClassInfo> classInfoMap = getCastingClassInfoMap(characterLevelInt);
         return classInfoMap.get(owningClassName);
     }
 
     @NonNull
     public Collection<CastingClassInfo> getCasterClassInfo() {
-        Map<String, CastingClassInfo> classInfoMap = getCastingClassInfoMap();
+        Map<String, CastingClassInfo> classInfoMap = getCastingClassInfoMap(null);
         return classInfoMap.values();
     }
 
     @NonNull
-    protected Map<String, CastingClassInfo> getCastingClassInfoMap() {
+    protected Map<String, CastingClassInfo> getCastingClassInfoMap(Integer characterLevelInt) {
         Map<String, CastingClassInfo> classInfoMap = new HashMap<>();
 
+        int maxLevel = characterLevelInt == null ? 9999 : characterLevelInt;
+        int charLevel = 0;
         for (CharacterClass each : classes) {
+            charLevel++;
+            if (charLevel > maxLevel) break;
             StatType castingStat = each.getCasterStat();
             CastingClassInfo info = classInfoMap.get(each.getName());
 
@@ -2644,13 +2686,13 @@ public class Character {
                 }
                 info.knownSpells = spellsKnown;
             }
-            int maxLevel = 0;
+            int maxSpellLevel = 0;
             Map<Integer, String> slotMap = each.getSpellLevelSlotFormulas();
             if (slotMap != null) {
                 for (Integer level : slotMap.keySet()) {
-                    if (level > maxLevel) maxLevel = level;
+                    if (level > maxSpellLevel) maxSpellLevel = level;
                 }
-                info.maxSpellLevel = maxLevel;
+                info.maxSpellLevel = maxSpellLevel;
                 info.slotMap = slotMap;
             }
             // allow this to be overwritten with each class level processed, in order

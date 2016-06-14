@@ -169,6 +169,9 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
                     invalid++;
                 }
             }
+            if (!pages.get(pageIndex).validate(dynamicView, chooseMDs.getChildChoiceMDs())) {
+                invalid++;
+            }
         }
         return invalid == 0;
     }
@@ -338,6 +341,11 @@ public abstract class ApplyAbstractComponentDialogFragment<M extends AbstractCom
 
         public void saveChoices(M model, ViewGroup dynamic, SavedChoices savedChoices, Map<String, String> customChoices) {
             // can override
+        }
+
+        public boolean validate(ViewGroup viewGroup, List<ChooseMD<?>> childChoiceMDs) {
+            // can override
+            return true;
         }
     }
 }

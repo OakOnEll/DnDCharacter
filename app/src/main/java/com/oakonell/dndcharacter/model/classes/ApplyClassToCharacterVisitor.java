@@ -5,13 +5,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
+import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
+import com.oakonell.dndcharacter.model.spell.ApplySpellToCharacterVisitor;
+import com.oakonell.dndcharacter.model.spell.Spell;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -124,7 +128,15 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             if (multiclassCasterFactor != null) {
                 newMe.visitMulticlassCasterFactor(multiclassCasterFactor);
             }
+
         }
+
+        List<String> replaceSpellLevelIndex = savedChoices.getChoicesFor("replace_spell");
+        List<String> newSpell = savedChoices.getChoicesFor("new_spell");
+        if (replaceSpellLevelIndex != null && replaceSpellLevelIndex.size() > 0) {
+            replaceSpell(context, charClass, replaceSpellLevelIndex, newSpell, character);
+        }
+
 
         if (subClass != null) {
             Element subClassLevelElement = AClass.findLevelElement(subClassRootElement, classLevel);
@@ -150,6 +162,45 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         }
 
         return charClass;
+    }
+
+    private static void replaceSpell(Context context, CharacterClass charClass, List<String> replaceSpellLevelIndex, List<String> newSpell, Character character) {
+        String levelAndIndexStrings[] = replaceSpellLevelIndex.get(0).split(",");
+        if (levelAndIndexStrings.length != 2) {
+            throw new RuntimeException("Error on replace spell search MD");
+        }
+        int knownLevel = Integer.parseInt(levelAndIndexStrings[0]);
+        int levelIndex = Integer.parseInt(levelAndIndexStrings[1]);
+
+        String newSpellName = newSpell.get(0);
+
+
+
+        List<Spell> spells = new Select()
+                .from(Spell.class).where("UPPER(name) = ?", newSpellName.toUpperCase()).execute();
+        CharacterSpell characterSpell = null;
+        if (!spells.isEmpty()) {
+            if (spells.size() > 1) {
+                throw new RuntimeException("Too many spells named " + newSpellName);
+            }
+            final Spell spell = spells.get(0);
+
+             characterSpell = new CharacterSpell();
+
+            final Element root = XmlUtils.getDocument(spell.getXml()).getDocumentElement();
+            ApplyChangesToGenericComponent.applyToCharacter(context, root, null, characterSpell, character, false);
+
+            ApplySpellToCharacterVisitor newMe = new ApplySpellToCharacterVisitor(characterSpell);
+            newMe.visit(spell);
+
+
+        } else {
+            characterSpell = new CharacterSpell();
+            characterSpell.setLevel(1);
+            characterSpell.setName(newSpellName);
+        }
+        charClass.setReplacedSpell(knownLevel, levelIndex, newSpellName, characterSpell);
+
     }
 
 
@@ -188,7 +239,7 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
     @Override
     protected void visitCantrips(@NonNull Element element) {
         String known = XmlUtils.getElementText(element, "known");
-        if (known != null && known.trim().length()>0) {
+        if (known != null && known.trim().length() > 0) {
             charClass.setCantripsKnownFormula(known);
         }
     }

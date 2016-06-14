@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="replace_spell">Replaced Spell</string>
+    <string name="replace_spell_with">Replace With</string>
+    <string name="select_known_spell">Select known spell</string>
+    <string name="known_spell_level">Spell taken at level %d.</string>
+</resources>

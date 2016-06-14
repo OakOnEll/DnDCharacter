@@ -104,6 +104,8 @@ public class CharacterSpell extends BaseCharacterComponent {
     private boolean hasDirectRoll;
     private boolean alwaysPrepared;
 
+    public CharacterSpell(){}
+
     public void setPreparable(@SuppressWarnings("SameParameterValue") boolean preparable) {
         this.preparable = preparable;
     }

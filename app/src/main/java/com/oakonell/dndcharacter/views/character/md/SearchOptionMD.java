@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 
 import java.util.List;
@@ -43,7 +45,7 @@ public class SearchOptionMD extends CategoryOptionMD {
         delete.setEnabled(enabled);
     }
 
-    public void setSelected(String selected) {
+    public void setSelected(String selected, Character character, String extra) {
         text.setText(selected);
         search.setVisibility(View.INVISIBLE);
         delete.setVisibility(View.VISIBLE);

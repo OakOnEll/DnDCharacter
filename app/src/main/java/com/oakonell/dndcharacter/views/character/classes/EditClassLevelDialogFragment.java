@@ -103,6 +103,12 @@ public class EditClassLevelDialogFragment extends AbstractClassLevelEditDialogFr
     }
 
     @Override
+    protected int getCharacterLevel() {
+        return classIndex + 1;
+    }
+
+
+    @Override
     protected int getClassLevel() {
         return characterClass.getLevel();
     }

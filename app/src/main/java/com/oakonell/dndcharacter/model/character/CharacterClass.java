@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.model.character;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.expression.context.SimpleVariableContext;
@@ -181,16 +182,22 @@ public class CharacterClass extends BaseCharacterComponent {
 
     private ReplacedSpell replacedSpell;
 
-    public void setReplacedSpell(int knownLevel, int levelIndex, String newSpellName) {
+    public void setReplacedSpell(int knownLevel, int levelIndex, String newSpellName, CharacterSpell characterSpell) {
         replacedSpell = new ReplacedSpell();
         replacedSpell.knownLevel = knownLevel;
         replacedSpell.index = levelIndex;
         replacedSpell.name = newSpellName;
+        replacedSpell.spell = characterSpell;
+    }
+
+    public ReplacedSpell getReplacedSpell() {
+        return replacedSpell;
     }
 
     class ReplacedSpell {
         int knownLevel;
         int index;
         String name;
+        CharacterSpell spell;
     }
 }

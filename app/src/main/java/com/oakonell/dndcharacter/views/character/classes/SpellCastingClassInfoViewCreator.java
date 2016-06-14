@@ -3,11 +3,14 @@ package com.oakonell.dndcharacter.views.character.classes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
+import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.utils.XmlUtils;
@@ -16,6 +19,9 @@ import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.md.CategoryChoicesMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMD;
 import com.oakonell.dndcharacter.views.character.md.ChooseMDTreeNode;
+import com.oakonell.dndcharacter.views.character.md.ReplaceSpellSearchOptionMD;
+import com.oakonell.dndcharacter.views.character.md.SearchOptionMD;
+import com.oakonell.dndcharacter.views.character.spell.SelectKnownSpellDialogFragment;
 
 import org.w3c.dom.Element;
 
@@ -32,7 +38,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         super(character, false);
     }
 
-    public ChooseMDTreeNode appendToLayout(@NonNull CharacterActivity characterActivity, @NonNull ViewGroup parent, int classLevel, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices, CharacterClass charClass) {
+    public ChooseMDTreeNode appendToLayout(@NonNull CharacterActivity characterActivity, @NonNull ViewGroup parent, int classLevel, @NonNull Element rootClassElement, @Nullable Element spells, @Nullable Element cantrips, @NonNull SavedChoices savedChoices, CharacterClass charClass, int charLevel) {
         setCurrentComponent(charClass);
         setParent(parent);
         setChoices(savedChoices);
@@ -71,12 +77,12 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         }
 
         handleCantrips(characterActivity, classLevel, cantrips, savedChoices, mainGroup, ownerClassName, casterClassName);
-        handleSpells(characterActivity, classLevel, spells, mainGroup, ownerClassName, casterClassName);
+        handleSpells(characterActivity, classLevel, spells, mainGroup, ownerClassName, casterClassName, charLevel);
 
         return getChoicesMD();
     }
 
-    protected void handleSpells(@NonNull CharacterActivity characterActivity, int classLevel, @Nullable Element spells, ViewGroup mainGroup, String ownerClassName, @Nullable String casterClassName) {
+    protected void handleSpells(@NonNull CharacterActivity characterActivity, int classLevel, @Nullable Element spells, ViewGroup mainGroup, String ownerClassName, @Nullable String casterClassName, int charLevel) {
         if (spells == null) return;
 //            <known>3</known>
 //            <slots>
@@ -119,10 +125,14 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
 
                 boolean limitToRitual = false;
                 visitSpellSearchChoices(casterClassName, maxLevel, numSpellsCanAdd, null, limitToRitual);
+                // TODO display if this known spell was replaced in a later level
                 popChooseMD(oldChooseMD);
             }
 
         }
+
+        // TODO support replacing spells.. some issues
+        // addReplaceKnownSpell(spellGroup, casterClassName, charLevel, maxLevel);
 
         for (Element each : levelElems) {
             String level = each.getAttribute("value");
@@ -164,6 +174,79 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
 
         setParent(mainGroup);
 
+    }
+
+    private void addReplaceKnownSpell(ViewGroup spellGroup, final String casterClassName, final int charLevel, final int maxSpellLevel) {
+        Character.CastingClassInfo classInfo = getCharacter().getCasterClassInfoFor(casterClassName, charLevel - 1);
+        if (classInfo == null) return;
+        final String maxKnownSpellsFormula = classInfo.getKnownSpells();
+        if (maxKnownSpellsFormula == null || maxKnownSpellsFormula.length() == 0) return;
+
+        int maxKnown = getCharacter().evaluateFormula(maxKnownSpellsFormula, null);
+        if (maxKnown == 0) return;
+
+        TextView labelText = new TextView(spellGroup.getContext());
+        spellGroup.addView(labelText);
+        labelText.setText("Optionally replace a previously known spell");
+
+
+        ChooseMD<?> old = pushChooseMD(new CategoryChoicesMD("replace_spell", 1, 0));
+        final SearchDialogCreator dialogCreator = new SearchDialogCreator() {
+            @NonNull
+            @Override
+            public SelectKnownSpellDialogFragment createDialog(@NonNull final SearchOptionMD optionMD) {
+                List<SelectKnownSpellDialogFragment.KnownClassSpell> knownSpells = getKnownCharacterSpells(casterClassName, charLevel);
+
+                return SelectKnownSpellDialogFragment.createDialog(knownSpells, new SelectKnownSpellDialogFragment.SpellSelectedListener() {
+                    @Override
+                    public boolean spellSelected(SelectKnownSpellDialogFragment.KnownClassSpell spell) {
+                        // current component could be null, eg on an add :(
+                        optionMD.setSelected(spell.levelKnown + "," + spell.levelIndex, getCharacter(), casterClassName);
+                        return true;
+                    }
+                });
+            }
+        };
+
+        appendSearches(1, R.string.replace_spell, "replace_frag_id", dialogCreator, new SearchOptionMDCreator() {
+            @Override
+            public SearchOptionMD createSearchOptionMD(CategoryChoicesMD categoryChoicesMD, ImageView search, TextView text, ImageView delete) {
+                return new ReplaceSpellSearchOptionMD(categoryChoicesMD, search, text, delete);
+            }
+        }, casterClassName);
+        popChooseMD(old);
+
+        old = pushChooseMD(new CategoryChoicesMD("new_spell", 1, 0));
+        visitSpellSearchChoices(casterClassName, maxSpellLevel, 1, null, false);
+        popChooseMD(old);
+
+    }
+
+    private List<SelectKnownSpellDialogFragment.KnownClassSpell> getKnownCharacterSpells(String casterClassName, int charLevel) {
+        List<SelectKnownSpellDialogFragment.KnownClassSpell> spells = new ArrayList<>();
+
+        for (Character.SpellLevelInfo each : getCharacter().getSpellInfos()) {
+            int index = 0;
+            for (Character.CharacterSpellWithSource spell : each.getSpellInfos()) {
+                if (spell.getSource().getType() != ComponentType.CLASS) continue;
+                CharacterClass charClass = (CharacterClass) spell.getSource();
+                if (!charClass.getName().equals(casterClassName)) continue;
+                if (charClass.getLevel() >= charLevel) continue;
+
+                SelectKnownSpellDialogFragment.KnownClassSpell knownSpell = new SelectKnownSpellDialogFragment.KnownClassSpell();
+                knownSpell.spellName = spell.getSpell().getName();
+                knownSpell.spellLevel = spell.getSpell().getLevel();
+                knownSpell.school = spell.getSpell().getSchool();
+                knownSpell.isRitual = spell.getSpell().isRitual();
+                knownSpell.levelKnown = charClass.getLevel();
+                knownSpell.levelIndex = index;
+                spells.add(knownSpell);
+                index++;
+            }
+        }
+
+
+        return spells;
     }
 
     protected void handleCantrips(@NonNull CharacterActivity characterActivity, int classLevel, @Nullable Element cantrips, @NonNull SavedChoices savedChoices, @NonNull ViewGroup mainGroup, String ownerClassName, @Nullable String casterClassName) {
