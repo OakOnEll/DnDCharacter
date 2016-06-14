@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -16,7 +17,7 @@ import org.w3c.dom.Element;
  * Created by Rob on 11/22/2015.
  */
 @Table(name = "item", id = BaseColumns._ID)
-public class ItemRow extends AbstractComponentModel {
+public class ItemRow extends AbstractDescriptionComponentModel {
     @Column
     private String name;
     @Column
@@ -30,6 +31,9 @@ public class ItemRow extends AbstractComponentModel {
     @Nullable
     @Column
     private String cost;
+
+    @Column
+    private String description;
 
     @Override
     public String getName() {
@@ -117,4 +121,14 @@ public class ItemRow extends AbstractComponentModel {
         // TODO better way to mark packs, to avoid hitting DB for each item encountered?
         return itemName.toUpperCase().contains(" PACK");
     }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

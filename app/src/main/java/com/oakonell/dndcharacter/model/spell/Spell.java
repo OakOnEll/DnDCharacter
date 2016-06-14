@@ -11,6 +11,7 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by Rob on 1/12/2016.
  */
 @Table(name = "spell", id = BaseColumns._ID)
-public class Spell extends AbstractComponentModel {
+public class Spell extends AbstractDescriptionComponentModel {
     @Column
     private String name;
     @Column
@@ -142,8 +143,6 @@ public class Spell extends AbstractComponentModel {
             } else {
                 setLevel(-1);
             }
-            String desc= XmlUtils.getElementText(doc, "shortDescription");
-            description = desc;
         } else {
             setSchool(null);
             setConcentration(false);

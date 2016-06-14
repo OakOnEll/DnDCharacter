@@ -66,7 +66,7 @@ public class SelectEffectDialogFragment extends AbstractSelectComponentDialogFra
 
     @NonNull
     @Override
-    public Class<? extends Model> getComponentClass() {
+    public Class<? extends Effect> getComponentClass() {
         return Effect.class;
     }
 
@@ -76,13 +76,6 @@ public class SelectEffectDialogFragment extends AbstractSelectComponentDialogFra
             return listener.effectSelected(id);
         }
         throw new RuntimeException("No Listener!");
-    }
-
-
-    @NonNull
-    @Override
-    public RowViewHolder newRowViewHolder(@NonNull View newView) {
-        return new RowViewHolder(newView);
     }
 
 

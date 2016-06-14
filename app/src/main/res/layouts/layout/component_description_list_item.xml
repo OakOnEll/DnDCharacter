@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/list_item_style"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -22,7 +23,7 @@
             android:lines="1"
             android:maxLines="1"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            tools:text="Feat name" />
+            tools:text="Name" />
 
 
 

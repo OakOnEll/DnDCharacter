@@ -13,16 +13,19 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorBindableRecyclerViewHolder;
@@ -192,11 +195,11 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
     }
 
     @NonNull
-    public abstract Class<? extends Model> getComponentClass();
+    public abstract Class<? extends AbstractDescriptionComponentModel> getComponentClass();
 
     @SuppressWarnings("SameReturnValue")
     protected int getListItemResource() {
-        return R.layout.component_list_item;
+        return R.layout.component_description_list_item;
     }
 
     @NonNull
@@ -212,13 +215,21 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
         //TextView description;
         private Drawable originalBackground;
 
+        @NonNull
+        private final TextView description;
+        @NonNull
+        private final ImageView expand;
+
+
         public RowViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
+            description = (TextView) itemView.findViewById(R.id.description);
+            expand = (ImageView) itemView.findViewById(R.id.expand);
         }
 
         @Override
-        public void bindTo(final Cursor cursor, final AbstractSelectComponentDialogFragment context, CursorComponentListAdapter adapter, CursorIndexesByName cursorIndexesByName) {
+        public void bindTo(final Cursor cursor, final AbstractSelectComponentDialogFragment context, final CursorComponentListAdapter adapter, CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
             final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, getIdColumnName()));
@@ -232,6 +243,41 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
                     }
                 }
             });
+
+            String text = cursor.getString(cursorIndexesByName.getIndex(cursor, "description"));
+            if (text == null) text = "";
+            description.setText(text);
+
+            if (text.trim().equals("")) {
+                expand.setVisibility(View.GONE);
+            } else {
+                expand.setVisibility(View.VISIBLE);
+                final int position = cursor.getPosition();
+                boolean isExpanded = adapter.isExpanded(cursor.getPosition());
+                if (isExpanded) {
+                    description.setEllipsize(null);
+                    description.setLines(5);
+                    description.setMaxLines(Integer.MAX_VALUE);
+                    expand.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            adapter.setExpanded(position, false);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                } else {
+                    description.setEllipsize(TextUtils.TruncateAt.END);
+                    description.setLines(1);
+                    description.setMaxLines(1);
+                    expand.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            adapter.setExpanded(position, true);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            }
         }
 
         @NonNull

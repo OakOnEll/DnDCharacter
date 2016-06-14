@@ -160,7 +160,7 @@ public class SelectItemDialogFragment extends AbstractSelectComponentDialogFragm
 
     @NonNull
     @Override
-    public Class<? extends Model> getComponentClass() {
+    public Class<? extends ItemRow> getComponentClass() {
         return ItemRow.class;
     }
 

@@ -412,18 +412,12 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         @NonNull
         private final TextView ritualTextView;
 
-        @NonNull
-        private final TextView description;
-        @NonNull
-        private final ImageView expand;
 
         public SpellRowViewHolder(@NonNull View itemView) {
             super(itemView);
             schoolTextView = (TextView) itemView.findViewById(R.id.school);
             levelTextView = (TextView) itemView.findViewById(R.id.level);
             ritualTextView = (TextView) itemView.findViewById(R.id.ritual);
-            description = (TextView) itemView.findViewById(R.id.description);
-            expand = (ImageView) itemView.findViewById(R.id.expand);
         }
 
 
@@ -441,35 +435,6 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
                 ritualTextView.setVisibility(View.VISIBLE);
             } else {
                 ritualTextView.setVisibility(View.GONE);
-            }
-            String text = cursor.getString(cursorIndexesByName.getIndex(cursor, "description"));
-            if (text == null) text = "";
-            description.setText(text);
-
-            final int position = cursor.getPosition();
-            boolean isExpanded = adapter.isExpanded(cursor.getPosition());
-            if (isExpanded) {
-                description.setEllipsize(null);
-                description.setLines(5);
-                description.setMaxLines(Integer.MAX_VALUE);
-                expand.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        adapter.setExpanded(position, false);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            } else {
-                description.setEllipsize(TextUtils.TruncateAt.END);
-                description.setLines(1);
-                description.setMaxLines(1);
-                expand.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        adapter.setExpanded(position, true);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
             }
 
             final int level = cursor.getInt(cursorIndexesByName.getIndex(cursor, "level"));

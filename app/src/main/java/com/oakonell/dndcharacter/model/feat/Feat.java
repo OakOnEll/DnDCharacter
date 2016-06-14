@@ -7,8 +7,7 @@ import android.support.annotation.Nullable;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
-import com.oakonell.dndcharacter.model.EnumHelper;
-import com.oakonell.dndcharacter.model.spell.SpellSchool;
+import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
@@ -18,7 +17,7 @@ import org.w3c.dom.Element;
  */
 @Table(name = "feat", id = BaseColumns._ID)
 
-public class Feat extends AbstractComponentModel {
+public class Feat extends AbstractDescriptionComponentModel {
     @Column
     private String name;
     @Column
@@ -47,17 +46,6 @@ public class Feat extends AbstractComponentModel {
         this.name = name;
     }
 
-    @Override
-    public void setDocument(Context context, @Nullable Element doc) {
-        super.setDocument(context, doc);
-
-        if (doc != null) {
-            String desc = XmlUtils.getElementText(doc, "shortDescription");
-            description = desc;
-        } else {
-            description = "";
-        }
-    }
 
     public String getDescription() {
         return description;

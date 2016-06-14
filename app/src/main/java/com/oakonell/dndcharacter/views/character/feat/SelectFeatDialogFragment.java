@@ -44,20 +44,10 @@ public class SelectFeatDialogFragment extends AbstractSelectComponentDialogFragm
         return getString(R.string.select_feat);
     }
 
-    protected int getListItemResource() {
-        return R.layout.feat_list_item;
-    }
 
     @NonNull
     @Override
-    public RowViewHolder newRowViewHolder(@NonNull View newView) {
-        return new FeatRowViewHolder(newView);
-    }
-
-
-    @NonNull
-    @Override
-    public Class<? extends Model> getComponentClass() {
+    public Class<? extends Feat> getComponentClass() {
         return Feat.class;
     }
 
@@ -69,54 +59,5 @@ public class SelectFeatDialogFragment extends AbstractSelectComponentDialogFragm
         throw new RuntimeException("No Listener!");
     }
 
-    public static class FeatRowViewHolder extends RowViewHolder {
-
-        @NonNull
-        private final TextView description;
-        @NonNull
-        private final ImageView expand;
-
-        public FeatRowViewHolder(@NonNull View itemView) {
-            super(itemView);
-            description = (TextView) itemView.findViewById(R.id.description);
-            expand = (ImageView) itemView.findViewById(R.id.expand);
-        }
-
-
-        @Override
-        public void bindTo(final Cursor cursor, AbstractSelectComponentDialogFragment context, final CursorComponentListAdapter adapter, CursorIndexesByName cursorIndexesByName) {
-            super.bindTo(cursor, context, adapter, cursorIndexesByName);
-
-            String text = cursor.getString(cursorIndexesByName.getIndex(cursor, "description"));
-            if (text == null) text = "";
-            description.setText(text);
-
-            final int position = cursor.getPosition();
-            boolean isExpanded = adapter.isExpanded(cursor.getPosition());
-            if (isExpanded) {
-                description.setEllipsize(null);
-                description.setLines(5);
-                description.setMaxLines(Integer.MAX_VALUE);
-                expand.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        adapter.setExpanded(position, false);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            } else {
-                description.setEllipsize(TextUtils.TruncateAt.END);
-                description.setLines(1);
-                description.setMaxLines(1);
-                expand.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        adapter.setExpanded(position, true);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        }
-    }
 
 }
