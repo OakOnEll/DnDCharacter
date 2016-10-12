@@ -35,6 +35,7 @@ public class AddClassLevelDialogFragment extends AbstractClassLevelEditDialogFra
 
     @Override
     protected void modelChanged() {
+        super.modelChanged();
         Integer currentLevel = getCharacter().getClassLevels().get(getModel().getName());
         if (currentLevel == null) currentLevel = 0;
         classLevel = currentLevel + 1;

@@ -589,4 +589,8 @@ public abstract class AbstractClassLevelEditDialogFragment extends ApplyAbstract
         }
     }
 
+    protected void modelChanged() {
+        super.modelChanged();
+        subclass = null;
+    }
 }
