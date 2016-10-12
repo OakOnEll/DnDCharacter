@@ -1,2 +1,2 @@
 include ':app', ':lib'
-include ':play_licensing'
+//include ':play_licensing'

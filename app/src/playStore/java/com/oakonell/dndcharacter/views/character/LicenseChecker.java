@@ -4,16 +4,17 @@ import android.app.Activity;
 import android.os.Handler;
 import android.provider.Settings;
 
-import com.google.android.vending.licensing.AESObfuscator;
+/*import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.ServerManagedPolicy;
-
+*/
 /**
  * Created by Rob on 3/14/2016.
  */
 public class LicenseChecker {
-    public static final int RETRY_REASON = Policy.RETRY;
+    public static final int RETRY_REASON = 0;
+/*    public static final int RETRY_REASON = Policy.RETRY;
     private LicenseCheckerCallback mLicenseCheckerCallback;
     private com.google.android.vending.licensing.LicenseChecker mChecker;
     private Handler mHandler;
@@ -26,8 +27,7 @@ public class LicenseChecker {
     private LicenseCallback callback;
     private Activity context;
 
-
-    public interface LicenseCallback {
+*/    public interface LicenseCallback {
 
         void applicationError(int errorCode);
 
@@ -35,8 +35,8 @@ public class LicenseChecker {
 
         void dontAllow(int reason);
     }
-
     public void onCreate(Activity activity, LicenseCallback callback) {
+/*
         mHandler = new Handler();
         this.callback = callback;
         this.context = activity;
@@ -49,18 +49,19 @@ public class LicenseChecker {
                 new AESObfuscator(SALT, activity.getPackageName(), deviceId)),
                 BASE64_PUBLIC_KEY  // Your public licensing key.
         );
-    }
+*/    }
 
     public void doCheck(Activity activity) {
-        activity.setProgressBarIndeterminateVisibility(true);
+  /*      activity.setProgressBarIndeterminateVisibility(true);
         mChecker.checkAccess(mLicenseCheckerCallback);
+        */
     }
 
     public void onDestroy(CharacterActivity characterActivity) {
-        mChecker.onDestroy();
+        /* mChecker.onDestroy(); */
     }
 
-    private class MyLicenseCheckerCallback implements LicenseCheckerCallback {
+/*    private class MyLicenseCheckerCallback implements LicenseCheckerCallback {
 
         public void allow(final int reason) {
             mHandler.post(new Runnable() {
@@ -87,4 +88,5 @@ public class LicenseChecker {
             callback.applicationError(errorCode);
         }
     }
+*/
 }

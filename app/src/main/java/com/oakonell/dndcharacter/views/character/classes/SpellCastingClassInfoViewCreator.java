@@ -132,7 +132,7 @@ public class SpellCastingClassInfoViewCreator extends AbstractComponentViewCreat
         }
 
         // TODO support replacing spells.. some issues
-        // addReplaceKnownSpell(spellGroup, casterClassName, charLevel, maxLevel);
+         addReplaceKnownSpell(spellGroup, casterClassName, charLevel, maxLevel);
 
         for (Element each : levelElems) {
             String level = each.getAttribute("value");
