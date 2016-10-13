@@ -259,7 +259,7 @@ public class CharacterActivity extends AbstractBaseActivity {
         characterSaver.execute();
     }
 
-    public class BackgroundCharacterSaver extends AsyncTask<Void, Void, String> {
+    public class BackgroundCharacterSaver extends AsyncTask<Void, Void, CharacterRow.SaveResult> {
         private final Runnable post;
 
         public BackgroundCharacterSaver(Runnable post) {
@@ -268,24 +268,28 @@ public class CharacterActivity extends AbstractBaseActivity {
 
         @Nullable
         @Override
-        protected String doInBackground(Void... params) {
+        protected CharacterRow.SaveResult doInBackground(Void... params) {
             Serializer serializer = new Persister();
             if (character == null) {
-                return "not saved... nonexistent?";
+                CharacterRow.SaveResult result = new CharacterRow.SaveResult();
+                result.action = "not saved... nonexistent?";
+                result.id = -1;
+                return result;
             }
-            String action = CharacterRow.saveCharacter(CharacterActivity.this, serializer, character, id);
+            CharacterRow.SaveResult saveResult = CharacterRow.saveCharacter(CharacterActivity.this, serializer, character, id);
 
             SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putLong(CHARACTER_ID, id);
             editor.apply();
-            return action;
+            return saveResult;
         }
 
 
         @Override
-        protected void onPostExecute(String action) {
-            Toast.makeText(CharacterActivity.this, "Character '" + character.getName() + "' " + action, Toast.LENGTH_SHORT).show();
+        protected void onPostExecute(CharacterRow.SaveResult saveResult) {
+            Toast.makeText(CharacterActivity.this, "Character '" + character.getName() + "' " + saveResult.action, Toast.LENGTH_SHORT).show();
+            id = saveResult.id;
             populateRecentCharacters();
             if (post != null) {
                 post.run();

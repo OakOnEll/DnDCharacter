@@ -102,8 +102,13 @@ public class CharacterRow extends AbstractComponentModel {
         hp = context.getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP());
     }
 
+    public static class SaveResult {
+        public String action;
+        public long id;
+    }
+
     @NonNull
-    public static String saveCharacter(Context context, Serializer serializer, Character character, long id) {
+    public static SaveResult saveCharacter(Context context, Serializer serializer, Character character, long id) {
         String xml = characterToXmlString(serializer, character);
         CharacterRow row;
         String action;
@@ -119,8 +124,10 @@ public class CharacterRow extends AbstractComponentModel {
         row.xml = xml;
         row.last_updated = new Date();
 
-        id = row.save();
-        return action;
+        SaveResult result = new SaveResult();
+        result.id = row.save();
+        result.action = action;
+        return result;
     }
 
     public static String characterToXmlString(Serializer serializer, Character character) {
