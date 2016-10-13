@@ -10,7 +10,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 26
-        versionName "1.26a"
+        versionName "1.26"
     }
 
     compileOptions {
