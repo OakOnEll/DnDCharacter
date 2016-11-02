@@ -77,13 +77,8 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         charClass.setHpRoll(hpRoll);
         charClass.setLevel(classLevel);
 
-        Element levelElement = AClass.findLevelElement(rootClassElement, classLevel);
-        if (levelElement != null) {
-            ApplyChangesToGenericComponent.applyToCharacter(context, levelElement, savedChoices, charClass, character, false);
 
-            ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
-            newMe.visitChildren(levelElement);
-        }
+        Element levelElement = AClass.findLevelElement(rootClassElement, classLevel);
 
         Element subClassRootElement = null;
         if (subClass != null) {
@@ -128,8 +123,16 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
             if (multiclassCasterFactor != null) {
                 newMe.visitMulticlassCasterFactor(multiclassCasterFactor);
             }
-
         }
+
+
+        if (levelElement != null) {
+            ApplyChangesToGenericComponent.applyToCharacter(context, levelElement, savedChoices, charClass, character, false);
+
+            ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(savedChoices, customChoices, charClass);
+            newMe.visitChildren(levelElement);
+        }
+
 
         List<String> replaceSpellLevelIndex = savedChoices.getChoicesFor("replace_spell");
         List<String> newSpell = savedChoices.getChoicesFor("new_spell");
@@ -141,11 +144,11 @@ public class ApplyClassToCharacterVisitor extends AbstractClassVisitor {
         if (subClass != null) {
             Element subClassLevelElement = AClass.findLevelElement(subClassRootElement, classLevel);
             if (subClassLevelElement != null) {
-                ApplyChangesToGenericComponent.applyToCharacter(context, subClassLevelElement, subclassSavedChoices, charClass, character, false);
                 ApplyClassToCharacterVisitor newMe = new ApplyClassToCharacterVisitor(subclassSavedChoices, null, charClass);
                 newMe.visitChildren(subClassLevelElement);
                 charClass.setSubclassName(subClass.getName());
                 charClass.setSubClassChoices(subclassSavedChoices);
+                ApplyChangesToGenericComponent.applyToCharacter(context, subClassLevelElement, subclassSavedChoices, charClass, character, false);
             }
         }
 

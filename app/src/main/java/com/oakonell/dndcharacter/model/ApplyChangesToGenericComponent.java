@@ -496,9 +496,10 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 // TODO info is null on adding a 1st level class... makes it look like this works
                 // get cast info not from character, in case first class, not added yet
                 // check alwaysPrepared attribute
+                final Character.CastingClassInfo classInfo = character.getCasterClassInfoFor(component.getName());
                 if (alwaysPrepared) {
                     characterSpell.setAlwaysPrepared(true);
-                } else if (((CharacterClass) component).usesPreparedSpells()) {
+                } else if (((CharacterClass) component).usesPreparedSpells() || (classInfo != null && classInfo.usesPreparedSpells())) {
                     characterSpell.setPreparable(true);
                 }
                 if (stat == null) {
