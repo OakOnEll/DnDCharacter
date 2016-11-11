@@ -326,7 +326,7 @@ public class FeatureViewHelper {
 
         public void setFeature(@NonNull FeatureInfo info, @Nullable Set<FeatureContextArgument> filter) {
             list = new ArrayList<>();
-            for (IFeatureAction each : info.getActionsAndEffects()) {
+            for (IFeatureAction each : info.getActionsAndEffects(context.getCharacter())) {
                 if (filter == null || (!each.hasActionContext() || each.isActionInContext(filter))) {
                     list.add(each);
                 }
@@ -387,14 +387,14 @@ public class FeatureViewHelper {
             Spanned html = Html.fromHtml(description == null ? "" : description);
             use_description.setText(html);
 
-            if (action.getCost() > 0 || maxUses == 0) {
+            if (action.getCost() >= 0 || maxUses == 0) {
                 // TODO get a short description? Possibly place the cost on the button?
                 if (action.getCost() != 1) {
                     useButton.setText(context.getString(R.string.action_with_cost, action.getAction(), action.getCost()));
                 } else {
                     useButton.setText(action.getAction());
                 }
-                useButton.setEnabled(usesRemaining >= action.getCost() || maxUses == 0);
+                useButton.setEnabled(action.getCost() == 0 || usesRemaining >= action.getCost() || maxUses == 0);
                 // simple use action
                 useButton.setOnClickListener(new View.OnClickListener() {
                     @Override

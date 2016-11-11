@@ -460,7 +460,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
         @Override
         public void apply(Character character, FeatureInfo info) {
-            IFeatureAction action = info.getActionNamed(actionName);
+            IFeatureAction action = info.getActionNamed(character,actionName);
             character.useFeatureAction(info, action, values);
         }
 
@@ -491,7 +491,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
             final int maxUses = info.evaluateMaxUses(dialog.getCharacter());
             int value = 0;
             if (maxUses > 0) {
-                IFeatureAction action = info.getActionNamed(actionName);
+                IFeatureAction action = info.getActionNamed(dialog.getCharacter(),actionName);
                 value = Integer.parseInt(dialog.uses_remaining.getText().toString());
                 value = Math.min(value + action.getCost(), maxUses);
                 dialog.uses_remaining.setText(NumberUtils.formatNumber(value));

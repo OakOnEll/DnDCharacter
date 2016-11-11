@@ -115,6 +115,7 @@ public class AddEffectToCharacterVisitor extends AbstractEffectVisitor {
         if (contextsString != null) {
             String[] contexts = contextsString.split(",");
             for (String each : contexts) {
+                if (each.trim().length()==0) continue;
                 String contextString = each.trim();
                 final FeatureContextArgument featureContextArgument = AbstractContextualComponent.parseFeatureContext(contextString);
                 characterEffect.addContext(featureContextArgument);

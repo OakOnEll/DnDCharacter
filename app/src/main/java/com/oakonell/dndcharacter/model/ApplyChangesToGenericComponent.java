@@ -115,6 +115,11 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     protected void visitEffect(@NonNull Element effectElement) {
         final Feature.FeatureCharacterEffect effect = new Feature.FeatureCharacterEffect();
         AddEffectToCharacterVisitor.readEffect(context, effectElement, effect);
+
+        final String appliesFormula = effectElement.getAttribute("applies");
+        effect.setAppliesFormula(appliesFormula);
+
+
         int cost = readIntegerAttribute(effectElement, "uses", 1);
         effect.setCost(cost);
         String actionName = effectElement.getAttribute("actionName");
@@ -174,6 +179,9 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         String actionName = XmlUtils.getElementText(actionElement, "name");
         String shortDescription = XmlUtils.getElementText(actionElement, "shortDescription");
         Feature.FeatureAction action = new Feature.FeatureAction();
+
+        final String appliesFormula = actionElement.getAttribute("applies");
+        action.setAppliesFormula(appliesFormula);
 
         String actionExtensionTypeString = actionElement.getAttribute("extension");
         FeatureExtensionType actionExtensionType = null;
@@ -276,7 +284,6 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
         final String appliesFormula = element.getAttribute("applies");
         feature.setAppliesFormula(appliesFormula);
-
 
         final String ac = XmlUtils.getElementText(element, "ac");
         feature.setAcFormula(ac);

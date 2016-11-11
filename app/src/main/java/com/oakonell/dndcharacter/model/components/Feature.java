@@ -180,6 +180,10 @@ public class Feature extends AbstractContextualComponent {
         @ElementList(required = false)
         private Set<FeatureContextArgument> contexts = new HashSet<>();
 
+        @Element(required = false)
+        private String appliesFormula;
+
+
         public void addContext(FeatureContextArgument featureContextArgument) {
             contexts.add(featureContextArgument);
         }
@@ -268,6 +272,27 @@ public class Feature extends AbstractContextualComponent {
         public boolean replacesPrevious() {
             return extensionType == FeatureExtensionType.REPLACE;
         }
+
+        public boolean applies(@NonNull Character character) {
+            if (appliesFormula == null || appliesFormula.trim().length() == 0) return true;
+
+            // TODO can't construct the normal context variables, as it looks on features!
+            //    possibly calculate variables without this feature, in some contextual way
+            SimpleVariableContext variableContext = new SimpleVariableContext();
+            variableContext.setNumber("level", character.getClasses().size());
+
+            try {
+                Expression<Boolean> expression = Expression.parse(appliesFormula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+                return expression.evaluate();
+            } catch (Exception e) {
+                // should be done at formula save time...
+                return false;
+            }
+        }
+
+        public void setAppliesFormula(String appliesFormula) {
+            this.appliesFormula = appliesFormula;
+        }
     }
 
     public static class FeatureEffectVariable {
@@ -304,6 +329,9 @@ public class Feature extends AbstractContextualComponent {
     public static class FeatureCharacterEffect extends CharacterEffect implements IFeatureAction, Cloneable {
         @Element(required = false)
         private String action;
+
+        @Element(required = false)
+        private String appliesFormula;
 
         @Element(required = false)
         int cost;
@@ -421,6 +449,27 @@ public class Feature extends AbstractContextualComponent {
         @Override
         public List<FeatureEffectVariable> getVariables() {
             return variables;
+        }
+
+        public boolean applies(@NonNull Character character) {
+            if (appliesFormula == null || appliesFormula.trim().length() == 0) return true;
+
+            // TODO can't construct the normal context variables, as it looks on features!
+            //    possibly calculate variables without this feature, in some contextual way
+            SimpleVariableContext variableContext = new SimpleVariableContext();
+            variableContext.setNumber("level", character.getClasses().size());
+
+            try {
+                Expression<Boolean> expression = Expression.parse(appliesFormula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+                return expression.evaluate();
+            } catch (Exception e) {
+                // should be done at formula save time...
+                return false;
+            }
+        }
+
+        public void setAppliesFormula(String appliesFormula) {
+            this.appliesFormula = appliesFormula;
         }
     }
 }

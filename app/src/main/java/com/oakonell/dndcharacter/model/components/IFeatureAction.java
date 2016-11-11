@@ -35,4 +35,6 @@ public interface IFeatureAction {
 
     @NonNull
     List<Feature.FeatureEffectVariable> getVariables();
+
+    boolean applies(Character character);
 }
