@@ -1,0 +1,80 @@
+<race>
+    <ref>VGM p.106</ref>
+    <name>Firbolg</name>
+    <age>As humanoids related to the fey, firbolg have long lifespans. A firblog reaches adulthood around 30, and the oldest of them can live for 500 years.</age>
+    <height>Firbolg are between 7 and 8 feet tall.</height>
+    <weight>Firbolg weigh between 240 and 300 pounds</weight>
+    <baseHeight>74</baseHeight>
+    <baseWeight>175</baseWeight>
+    <heightModifier>2d12</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+    <size>medium</size>
+    <speed>=30</speed>
+
+    <!-- TODO reason for adventurering-->
+
+    <names>
+        <list typeLabel="Child Names"> Ara, Bryn, Del, Eryn, Faen, Innil,Lael, Mella, Naill, Naeris, Phann, Rael, Rinn, Sai,Syllin, Thia, Vall</list>
+        <list typeLabel="Male Adult Names">Adran, Aelar, Aramil, Arannis, Aust, Beiro, Berrian, Carric, Enialis, Erdan, Erevan, Galinndan, Hadarai, Heian, Himo, Immeral, Ivellios, Laucian, Mindartis, Paelias, Peren, Quarion, Riardon, Rolen, Soveliss, Thamior, Tharivol, Theren, Varis</list>
+        <list typeLabel="Female Adult Names">Adrie, Althaea, Anastrianna, Andraste, Antinua, Bethrynna, Birel, Caelynn, Drusilia, Enna, Felosial, Ielenia, Jelenneth, Keyleth, Leshanna, Lia, Meriele, Mialee, Naivara, Quelenna, Quillathe, Sariel, Shanairra, Shava, Silaqui, Theirastra, Thia, Vadania, Valanthe, Xanaphia</list>
+        <list typeLabel="Family Names">Amakiir (Gemflower), Amastacia (Starflower), Galanodel (Moonwhisper), Holimion (Diamonddew), Ilphelkiir (Gemblossom), Liadon (Silverfrond), Meliamne (Oakenheel), Naïlo (Nightbreeze), Siannodel (Moonbrook), Xiloscient (Goldpetal)</list>
+    </names>
+
+    <feature>
+        <name>Firblog Magic - Detect Magic</name>
+        <shortDescription>For 10 minutes while concentrating, you sense the presence of magic within 30 feet of you.</shortDescription>
+        <refreshes>short rest</refreshes>
+        <uses>1</uses>
+        <effect uses="1">
+            <name>Detect Magic</name>
+            <shortDescription>For 10 minutes while concentrating, you sense the presence of magic within 30 feet of you. If you sense magic in this way, you can use your action to see a faint aura around any visible creature or object in the area that bears magic, and you learn its school of magic, if any.
+                The spell can penetrate most barriers, but is blocked by 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt.</shortDescription>
+        </effect>
+        <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+    </feature>
+
+    <feature>
+        <name>Firblog Magic - Disguise Self</name>
+        <shortDescription>You make yourself—including your clothing, armor, weapons, and other belongings on your person—look different for 1 hour or until you use your action to dismiss it. Uses Wisdom as spellcasting ability.</shortDescription>
+        <refreshes>short rest</refreshes>
+        <uses>1</uses>
+        <effect uses="1">
+            <name>Disguise Self</name>
+            <shortDescription>You make yourself—including your clothing, armor, weapons, and other belongings on your person—look different for 1 hour or until you use your action to dismiss it. You can seem 3 foot shorter or taller and can appear thin, fat, or in between. You can't change your body type, so you must adopt a form that has the same basic arrangement of limbs. Otherwise, the extent of the illusion is up to you.
+                The changes wrought by this spell fail to hold up to physical inspection. For example, if you use this spell to add a hat to your outfit, objects pass through the hat, and anyone who touches it would feel nothing or would feel your head and hair. If you use this spell to appear thinner than you are, the hand of someone who reaches out to touch you would bump into you while it was seemingly still in midair.
+                To discern that you are disguised, a creature can use its action to inspect your appearance and must succeed on an Intelligence (Investigation) check against your Wisdom spell save DC.</shortDescription>
+        </effect>
+        <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+    </feature>
+
+    <feature>
+        <name>Hidden Step</name>
+        <shortDescription>As a bonus action, you can magically turn invisible until the start of your next turn or until you attack, make a damage roll, or force someone to make a saving throw. Once you use this trait, you can't use it again until you finish a short or long rest.</shortDescription>
+        <refreshes>short rest</refreshes>
+        <uses>1</uses>
+        <context>WEAPON_ATTACK,SKILL_ROLL,SPEED</context>
+    </feature>
+
+    <feature>
+        <name>Powerful Build</name>
+        <shortDescription>You count as one size larger when determining your carry capacity and the weight you can push, drag, or lift.</shortDescription>
+        <description></description>
+    </feature>
+
+    <feature>
+        <name>Speech of Beast and Leaf</name>
+        <shortDescription>You have the ability to communicate in a limited manner with beasts and plants. They can understand the meaning of your words, though you have no special ability to understand them in return. You have advantage on all Charisma checks you make to influence them.</shortDescription>
+        <description></description>
+        <context>SKILL_ROLL(charisma),LANGUAGES</context>
+    </feature>
+
+    <languages>
+        <language>Common</language>
+        <language>Elvish</language>
+        <language>Giant</language>
+    </languages>
+    <stat>
+        <increase name="Strength">1</increase>
+        <increase name="Wisdom">2</increase>
+    </stat>
+</race>

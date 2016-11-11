@@ -1,0 +1,49 @@
+<race>
+    <ref>VGM p.119</ref>
+    <name>Bugbear</name>
+    <size>medium</size>
+    <speed>=30</speed>
+
+    <age>Bugbears reach adulthood at age 16 and live up to 80 years.</age>
+    <height>Bugbears are between 6 and 8 feet tall.</height>
+    <weight>Bugbears weigh between 250 and 350 pounds.</weight>
+
+    <baseHeight>72</baseHeight>
+    <baseWeight>200</baseWeight>
+    <heightModifier>2d12</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>You  can see in dim light within 60 feet of you as if it were  bright light, and in darkness as if it were dim light.  You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Long-Limbed</name>
+        <shortDescription>When you make a melee attack on your turn, your reach for it is 5 feet greater than normal.</shortDescription>
+        <description></description>
+        <context>WEAPON_ATTACK</context>
+    </feature>
+    <skills>
+        <proficiency>Stealth</proficiency>
+    </skills>
+    <feature>
+        <name>Powerful Build</name>
+        <shortDescription>You count as one size larger when determining your carry capacity and the weight you can push, drag, or lift.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Surprise Attack</name>
+        <shortDescription>If you surprise a creature and hit it with an attack on your first turn in combat, the attack deals an extra 2d6 damage to it. You can use this trait only once per combat.</shortDescription>
+        <description></description>
+    </feature>
+
+    <languages>
+        <language>Goblin</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Strength">2</increase>
+        <increase name="Dexterity">1</increase>
+    </stat>
+</race>

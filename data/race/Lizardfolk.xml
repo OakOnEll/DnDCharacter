@@ -1,0 +1,82 @@
+<race>
+    <ref>VGM p.111</ref>
+    <name>Lizardfolk</name>
+    <age>Lizardfolk reach maturity round age 14 and rarely live longer than 60 years.</age>
+    <height>Lizardfolk are a little taller than humans, and their colorful frills make them appear even larger.</height>
+    <weight>Lizardfolk are a little bulkier than humans.</weight>
+
+    <baseHeight>57</baseHeight>
+    <baseWeight>120</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d6</weightMultiplier>
+
+    <size>medium</size>
+    <speed>=30</speed>
+    <speed type="swim">=30</speed>
+
+    <names>
+        <list typeLabel="Names">Achuak(green), Ayrte(war), Baeshra(animal), Darastrix(dragon), Garurt(axe), Irhtos(secret), Jhank(hammer), Kepesk(storm), Kethend(gem), Kroth(danger), Kosj(small), Othokent(smart), Sauriv(eye), Throden(many), Thurkear(night), Usk(iron), Valignat(burn), Vargach(battle), Vertica(mountain), Vutha(black), Vyth(steel)</list>
+    </names>
+
+    <!-- TODO personality quirk -->
+
+    <languages>
+        <language>Common</language>
+        <language>Draconic</language>
+    </languages>
+    <stat>
+        <increase name="Wisdom">1</increase>
+        <increase name="Constitution">2</increase>
+    </stat>
+
+    <skills>
+        <choose name="skills" number="2">
+            <or name="animal_handling"><proficiency>Animal Handling</proficiency></or>
+            <or name="nature"><proficiency>Nature</proficiency></or>
+            <or name="perception"><proficiency>Perception</proficiency></or>
+            <or name="stealth"><proficiency>Stealth</proficiency></or>
+            <or name="survival"><proficiency>Survival</proficiency></or>
+        </choose>
+    </skills>
+    <feature>
+        <name>Hold Breath</name>
+        <shortDescription>You can hold your breath for up to 15 minutes at a time.</shortDescription>
+        <description></description>
+    </feature>
+
+    <feature>
+        <name>Natural Armor</name>
+        <ac>=13 + dexterityMod</ac>
+        <shortDescription>You have tough, scaly skin. When you aren't wearing armor, your AC is 13 + your Dexterity modifier. You can use your natural armor to determine your AC if the armor would leave you with a lower AC. A shield's benefits apply as normal while you use your natural armor.</shortDescription>
+        <context>ARMOR_CLASS</context>
+    </feature>
+
+    <feature>
+        <name>Bite</name>
+        <shortDescription>Your fanged maw is a natural weapon, which you can use to make unarmed strikes. If you hit with it, you deal piercing damage equal to 1d6 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.</shortDescription>
+        <description></description>
+        <context>WEAPON_ATTACK</context>
+    </feature>
+
+    <feature>
+        <name>Cunning Artisan</name>
+        <shortDescription>As part of a short rest, you can harvest bone and hide from a slain beast, construct, dragon, monstrosity, or plant creature of size Small or larger to create one of the following items:
+    a shield
+    a club
+    a javelin
+    or 1d4 darts or blowgun needles.
+        To use this trait you need a blade, such as a dagger, or appropriate artisan's tools, such as leatherworker's tools.</shortDescription>
+        <description></description>
+        <context>SHORT_REST</context>
+    </feature>
+    <feature>
+        <name>Hungry Jaws</name>
+        <shortDescription>In battle, you cna throw yourself into a vicious feeding frenzy. As a bonus action, you can make a special attack with your bite. If the attack hits, it deals its normal damage, and you gain temporary hit points (minimum of 1) equal to your Constitution modifier, and you can't use this trait again until you finish a short or long rest.</shortDescription>
+        <refreshes>long rest</refreshes>
+        <uses>1</uses>
+        <context>WEAPON_ATTACK</context>
+        <description></description>
+    </feature>
+
+
+</race>

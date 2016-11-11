@@ -13,7 +13,7 @@
             <uses>1</uses>
             <context>SHORT_REST</context>
         </feature>
-        <cantrips casterClass="druid" />
+        <cantrips casterClass="druid"  known="false"/>
     </level>
 
     <level value="3">

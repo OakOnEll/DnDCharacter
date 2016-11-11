@@ -1,0 +1,54 @@
+<race>
+    <ref>VGM p.119</ref>
+    <name>Kobold</name>
+    <size>small</size>
+    <speed>=30</speed>
+
+    <age>Kobolds reach adulthood at age 6 and can live up to 120 years but rarely do so.</age>
+    <height>Kobolds are between 2 and 3 feet tall.</height>
+    <weight>Kobolds weigh between 25 and 35 pounds.</weight>
+
+    <baseHeight>25</baseHeight>
+    <baseWeight>25</baseWeight>
+    <heightModifier>2d4</heightModifier>
+    <weightMultiplier>1</weightMultiplier>
+
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>You  can see in dim light within 60 feet of you as if it were  bright light, and in darkness as if it were dim light.  You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+
+
+    <feature>
+        <name>Grovel, Cower, and beg</name>
+        <shortDescription>As an action on your turn, you can cower pathetically to distract nearby foes. Until the end of your next turn, your allies gain advantage on attack rolls against enemies within 10 feet of you that can see you.
+        Once you use this trait, you can't use it again until you finish a short or long rest.</shortDescription>
+        <refreshes>short rest</refreshes>
+        <uses>1</uses>
+        <description></description>
+        <context></context>
+    </feature>
+
+    <feature>
+        <name>Pack Tactics</name>
+        <shortDescription>You have advantage on an attack roll against a creature if at least one of your allies is within 5 feet of the creature and the ally isn't incapacitated.</shortDescription>
+        <description></description>
+        <context>WEAPON_ATTACK,SPELL_CAST</context>
+    </feature>
+    <feature>
+        <name>Sunlight sensitivity</name>
+        <shortDescription>You have disadvantage on attack rolls and Wisdom(Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight.</shortDescription>
+        <description></description>
+        <context>WEAPON_ATTACK,SPELL_CAST,SKILL_ROLL(perception)</context>
+    </feature>
+
+    <languages>
+        <language>Draconic</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Strength">-2</increase>
+        <increase name="Dexterity">2</increase>
+    </stat>
+</race>

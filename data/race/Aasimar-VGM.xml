@@ -1,0 +1,46 @@
+<race>
+    <ref>VGM p.104</ref>
+    <name>Aasimar-VGM</name>
+    <age>Aasimar mature at the same rate as humans, but they can live up to 160 years.</age>
+    <height>Aasimar have the same range of height as humans.</height>
+    <weight>Aasimar have the same range of weight as humans.</weight>
+
+    <baseHeight>56</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <size>medium</size>
+    <speed>=30</speed>
+
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>Blessed with a radiant soul, your vision can easily cut through darkness. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Celestial Resistance</name>
+        <shortDescription>You have resistance to necrotic and radiant damage.</shortDescription>
+        <context>HIT_POINTS</context>
+    </feature>
+
+    <feature>
+        <name>Healing Hands</name>
+        <shortDescription>As an action, you can touch a creature and cause it to regain a number of hit points equal to your level. Once you use this trait, you can't use it again until you finish a long rest.</shortDescription>
+        <refreshes>long rest</refreshes>
+        <uses>1</uses>
+        <!-- <context>WEAPON_ATTACK,SKILL_ROLL</context> -->
+    </feature>
+    <cantrips>
+            <cantrip stat="Charisma">Light</cantrip>
+    </cantrips>
+
+    <languages>
+        <language>Common</language>
+        <language>Celestial</language>
+    </languages>
+    <stat>
+        <increase name="Charisma">2</increase>
+    </stat>
+
+</race>

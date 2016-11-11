@@ -1,0 +1,44 @@
+<race>
+    <ref>VGM p.119</ref>
+    <name>Goblin</name>
+    <size>small</size>
+    <speed>=30</speed>
+
+    <age>Goblins reach adulthood at age 8 and live up to 60 years.</age>
+    <height>Goblins are between 3 and 4 feet tall.</height>
+    <weight>Goblins weigh between 40 and 80 pounds.</weight>
+
+    <baseHeight>41</baseHeight>
+    <baseWeight>35</baseWeight>
+    <heightModifier>2d4</heightModifier>
+    <weightMultiplier>1</weightMultiplier>
+
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>You  can see in dim light within 60 feet of you as if it were  bright light, and in darkness as if it were dim light.  You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Fury of the Small</name>
+        <shortDescription>When you damage a creature with an attack or a spell and the creature's size is larger than yours, you can cause the attack or spell to deal extra damage to the creature. The extra damage equals your level. Once you use this trait, you can't use it again until you finish a short or long rest.</shortDescription>
+        <refreshes>short rest</refreshes>
+        <uses>1</uses>
+        <description></description>
+        <context>WEAPON_ATTACK,SPELL_CAST</context>
+    </feature>
+
+    <feature>
+        <name>Nimble Escape</name>
+        <shortDescription>You can take the Disengage or Hide action as a bonus action on each of your turns.</shortDescription>
+        <description></description>
+    </feature>
+
+    <languages>
+        <language>Goblin</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Constitution">1</increase>
+        <increase name="Dexterity">2</increase>
+    </stat>
+</race>

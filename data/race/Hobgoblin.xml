@@ -1,0 +1,47 @@
+<race>
+    <ref>VGM p.119</ref>
+    <name>Hobgoblin</name>
+    <size>medium</size>
+    <speed>=30</speed>
+
+    <age>Hobgoblins mature at the same rate as humans, and have lifespans similar in length to theirs.</age>
+    <height>Hobgoblins are between 5 and 6 feet tall.</height>
+    <weight>Hobgoblins weight between 150 and 200 pounds.</weight>
+
+    <baseHeight>54</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>You can see in dim light within 60 feet of you as if it were  bright light, and in darkness as if it were dim light.  You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+
+    <weapons>
+        <choose name="weaponProf" category="martial weapons" number="2"/>
+    </weapons>
+    <armor>
+        <proficiency category="light armor"/>
+    </armor>
+
+    <feature>
+        <name>Saving Face</name>
+        <shortDescription>Hobgoblins are careful not to show weakness in front of their allies, for fear of losing status. If you miss with an attack roll or fail an ability check or a saving throw, you can gain a bonus to the roll equal to the number of allies you can see within 30 feet of you (maximum bonus +5).
+            Once you use this trait, you can't use it again until you finish a short or long rest.</shortDescription>
+        <refreshes>short rest</refreshes>
+        <uses>1</uses>
+        <description></description>
+        <context>WEAPON_ATTACK,SPELL_CAST,SKILL_ROLL,SAVING_THROW</context>
+    </feature>
+
+    <languages>
+        <language>Goblin</language>
+        <language>Common</language>
+    </languages>
+    <stat>
+        <increase name="Constitution">2</increase>
+        <increase name="Intelligence">1</increase>
+    </stat>
+</race>

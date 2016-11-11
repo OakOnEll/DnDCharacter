@@ -1,0 +1,84 @@
+<race>
+    <ref>VGM p.116</ref>
+    <name>Triton</name>
+    <age>Tritons reach maturity around age 15 and can live up to 200 years.</age>
+    <height>Tritons are slightly shorter than humans, averaging about 5 feet.</height>
+    <weight></weight>
+
+    <baseHeight>54</baseHeight>
+    <baseWeight>90</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <!-- TODO Triton quirks -->
+
+    <names>
+        <list typeLabel="Female">Aryn, Belthyn, Duthyn, Feloren, Otanyn, Shalryn, Vlaryn, Wolyn</list>
+        <list typeLabel="Male">Corus, Delnis, Jhimas, Keros, Molos, Nalos, Vodos, Zunis</list>
+        <list typeLabel="Surname">Ahlorsath, Pumanath, Vuuvaxath</list>
+    </names>
+
+    <size>medium</size>
+    <speed>=30</speed>
+    <speed type="swim">=30</speed>
+
+    <feature>
+        <name>Amphibious</name>
+        <shortDescription>You can breathe air and water.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Control Air and Water</name>
+        <shortDescription>A child of the sea, you can call on the magic of elemental air and water. You can cast various spells with this trait. Charisma is your spellcasting ability for these spells.
+        Once you cast a spell with this trait, you can't do so again until you finish a long rest.</shortDescription>
+        <description></description>
+
+        <effect actionName="Fog Cloud">
+            <name>Fog Cloud</name>
+            <actionDescription>You create a 20-foot-radius sphere of fog centered on a point within 120 feet. </actionDescription>
+            <shortDescription>You create a 20-foot-radius sphere of fog centered on a point within 120 feet. The sphere spreads around corners, and its area is heavily obscured. It lasts for one hour or until a wind of moderate or greater speed (at least 10 miles per hour) disperses it.</shortDescription>
+        </effect>
+
+        <effect actionName="Gust of Wind" applies="level>=3">
+            <name>Gust of Wind</name>
+            <actionDescription>A line of strong wind 60 feet long and 10 feet wide blasts from you in a direction you choose for the spell's duration of 1 minute.</actionDescription>
+            <shortDescription>A line of strong wind 60 feet long and 10 feet wide blasts from you in a direction you choose for the spell's duration of 1 minute. Each creature that starts its turn in the line must succeed on a Strength saving throw or be pushed 15 feet away from you in a direction following the line.
+                Any creature in the line must spend 2 feet of movement for every 1 foot it moves when moving closer to you.
+                The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in the area. It causes protected flames, such as those of lanterns, to dance wildly and has a 50 percent chance to extinguish them.
+                As a bonus action on each of your turns before the spell ends, you can change the direction in which the line blasts from you.</shortDescription>
+        </effect>
+
+        <effect actionName="Wall of Water" applies="level>=5">
+            <name>Wall of Water</name>
+            <actionDescription>You conjure up a wall of water on the ground at a point you can see within 60 feet, 10 feet high, and 1 foot thick, or you cna make a ringed wall up to 20 feet in diameter, 20 feet high, and 1 foot thick for ten minutes while concentrating.</actionDescription>
+            <shortDescription>You conjure up a wall of water on the ground at a point you can see within 60 feet, 10 feet high, and 1 foot thick, or you cna make a ringed wall up to 20 feet in diameter, 20 feet high, and 1 foot thick. The wall vanishes when the spell ends after 10 minutes or when concentration fails. The wall's space is difficult terrain.
+            Any ranged weapon attack that enters the wall's space has disadvantage on the attack roll, and fire damage is halved if the fire effect passes through the wall to reach its target. Spells that deal cold damage that pass through the wall cause the area of the wall they pass through to freeze solid (at least a 5-foot square section is frozen). Each 5-foot square frozen section has AC 5 and 15 hit points. Reducing a frozen section to 0 hit points destroys it. When a section is destroyed, the wall's water doesn't fill it in.</shortDescription>
+        </effect>
+
+
+        <refreshes>long rest</refreshes>
+        <uses>1</uses>
+    </feature>
+    <feature>
+        <name>Emissary of the Sea</name>
+        <shortDescription>Aquatic beasts have an extraordinary affinity with your people. You can communicate simple ideas with beasts that can breathe water. They can understand the meaning of your words, though you have no special ability to understand them in return.</shortDescription>
+        <description></description>
+        <context>LANGUAGES</context>
+    </feature>
+    <feature>
+        <name>Guardians of the Depths</name>
+        <shortDescription>Adapted to even the most extreme ocean depths, you have resistance to cold damage, and you ignore any of the drawbacks caused by a deep, underwater environment.</shortDescription>
+        <description></description>
+    </feature>
+    <stat>
+        <increase name="Strength">1</increase>
+        <increase name="Constitution">1</increase>
+        <increase name="Charisma">1</increase>
+    </stat>
+
+    <languages>
+        <language>Common</language>
+        <language>Primordial</language>
+    </languages>
+
+</race>

@@ -1,0 +1,27 @@
+<race>
+    <ref>VGEM p.105</ref>
+    <name>Protector Aasimar</name>
+    <parent>Aasimar-VGM</parent>
+
+    <stat>
+        <increase name="Wisdom">1</increase>
+    </stat>
+
+    <feature applies="level>=3">
+        <name>Radiant Soul</name>
+        <shortDescription>Starting at 3rd level, you can use your action to unleash the divine energy within yourself, causing your eyes to glimmer and two luminous, incorporeal wings to sprout from your back.</shortDescription>
+        Your transformation lasts for 1 minute or until you end it as a bonus action. During it, you have a flying speed of 30 feet, and once on each of your turns, you can deal extra radiant damage to one target when you deal damage to it with an attack or a spell. The extra radiant damage equals your level.
+        Once you use this trait, you can't use it again until you finish a long rest.
+        <refreshes>long rest</refreshes>
+        <effect actionName="Radiant Soul">
+            <name>Radiant Soul</name>
+            <speed type="fly">=30</speed>
+            <shortDescription>For 1 minute, your eyes to glimmer and two luminous, incorporeal wings to sprout from your back.
+                You can fly at 30 feet/turn.
+                Once on each of your turns, you can deal extra radiant damage to one target when you deal damage to it with an attack or a spell. The extra radiant damage equals your level.</shortDescription>
+            <context>WEAPON_ATTACK,SPELL_CAST</context>
+        </effect>
+        <uses>1</uses>
+    </feature>
+
+</race>

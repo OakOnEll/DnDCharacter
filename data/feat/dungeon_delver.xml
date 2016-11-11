@@ -5,5 +5,5 @@
     You have advantage on saving throws made to avoid or resist traps.
     You have resistance to the damage dealt by traps.
     You can search for traps while traveling at a normal pace, instead of only a slow pace.</shortDescription>
-    <context>SPEED, HIT_POINTS,SAVING_THROW,SKILL(perception),SKILL(investigation)</context>
+    <context>SPEED, HIT_POINTS,SAVING_THROW,SKILL_ROLL(perception),SKILL_ROLL(investigation)</context>
 </feat>

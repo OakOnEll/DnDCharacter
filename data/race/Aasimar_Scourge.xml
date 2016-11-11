@@ -1,0 +1,26 @@
+<race>
+    <ref>VGEM p.105</ref>
+    <name>Scourge Aasimar</name>
+    <parent>Aasimar-VGM</parent>
+
+    <stat>
+        <increase name="Constitution">1</increase>
+    </stat>
+
+    <feature applies="level>=3">
+        <name>Radiant Consumption</name>
+        <shortDescription>Starting at 3rd level, you can use your action to unleash the divine energy within yourself, causing a searing light to radiate from you, pour out of your eyes and mouth, and threaten to char you.
+            Your transformation lasts for 1 minute or until you end it as a bonus action. During it, you shed bright light in a 10-foot radius and dim light for an additional 10 feet, and at the end of each of your turns, you and each creature within 10 feet of you take radiant damage equal to half your level (rounded up). In addition, once each of your turns, you can deal extra radiant damage to one target when you deal damage to it with an attack or a spell. The extra radiant damage equals your level.
+        Once you use this trait, you can't use it again until you finish a long rest.</shortDescription>
+        <refreshes>long rest</refreshes>
+        <effect actionName="Radiant Consumption">
+            <name>Radiant Consumption</name>
+            <speed type="fly">=30</speed>
+            <shortDescription>For 1 minute, you shed bright light in a 10-foot radius and dim light for an additional 10 feet, and at the end of each of your turns, you and each creature within 10 feet of you take radiant damage equal to half your level (rounded up). In addition, once each of your turns, you can deal extra radiant damage to one target when you deal damage to it with an attack or a spell. The extra radiant damage equals your level.
+                </shortDescription>
+            <context>WEAPON_ATTACK,SPELL_CAST</context>
+        </effect>
+        <uses>1</uses>
+    </feature>
+    
+</race>

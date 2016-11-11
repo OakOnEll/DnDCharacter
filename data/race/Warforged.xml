@@ -21,7 +21,6 @@
         <description></description>
     </feature>
 
-    <!-- shifting feature is 'pushed down' to the subraces, to easily specify the special feature there -->
     <stat>
         <increase name="Strength">1</increase>
         <increase name="Constitution">1</increase>

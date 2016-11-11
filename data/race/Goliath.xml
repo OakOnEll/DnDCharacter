@@ -1,5 +1,5 @@
 <race>
-    <ref>EE p.11</ref>
+    <ref>VGM p.108,EE p.11</ref>
     <name>Goliath</name>
     <size>medium</size>
     <speed>=30</speed>
@@ -7,12 +7,16 @@
     <height>Goliaths are between 7 and 8 feet tall.</height>
     <weight>Goliaths weigh between 280 and 340 pounds.</weight>
 
-    <!-- shamelessly borrowed from http://www.enworld.org/forum/showthread.php?103101-Goliath-Vital-Statistics -->
-    <baseHeight>76</baseHeight>
-    <baseWeight>220</baseWeight>
+    <baseHeight>74</baseHeight>
+    <baseWeight>200</baseWeight>
     <heightModifier>2d10</heightModifier>
-    <weightMultiplier>2d8</weightMultiplier>
+    <weightMultiplier>2d6</weightMultiplier>
 
+    <names>
+        <list typeLabel="Birth Names">Aukan, Eglath, Gae-Al, Gauthak, Ilikan, Keohti, Kuori, Lo-Kag, Manneo, Maveith, Nalla, Orilo, Paavu, Pethani, Thalai, Thotham, Uthal, Vaunea, Vimak</list>
+        <list typeLabel="Nicknames">Bearkiller, Dawncaller, Fearless, Flintfinder, Horncarver, Keeneye, Lonehunter, Longleaper, Rootsmasher, Skywatcher, Steadyhand, Threadtwister, Twice-Orphaned, Twistedlimb, Wordpainter</list>
+        <list typeLabel="Clan Names">Anakalathai, Elanithino, Gathakanathi, Kalagiano, Kath-Olavi, Kolae-Gileana, Ogolakanu, Thuliaga, Thunukalathi, Vaimei-Laga</list>
+    </names>
     <skills>
         <proficiency>Athletics</proficiency>
     </skills>
@@ -21,7 +25,7 @@
         <shortDescription>You can focus yourself to occasionally shrug off injury. When you take damage, you can use your reaction to roll a d12. Add your Constitution modifier to the number rolled, and reduce the damage by that total. After you use this trait, you can’t use it again until you finish a short or long rest.</shortDescription>
         <description></description>
         <uses>1</uses>
-        <refreshes>long rest</refreshes>
+        <refreshes>short rest</refreshes>
         <context>HIT_POINTS</context>
     </feature>
     <feature>
@@ -37,7 +41,8 @@
     <languages>
         <language>Giant</language>
         <language>Common</language>
-    </languages>    <stat>
+    </languages>
+    <stat>
         <increase name="Strength">2</increase>
         <increase name="Constitution">1</increase>
     </stat>

@@ -1,0 +1,57 @@
+<race>
+    <ref>VGM p.113</ref>
+    <name>Tabaxi</name>
+    <age>Tabaxi have lifespans equivalent to humans.</age>
+    <height>Tabaxi are taller on average than humans.</height>
+    <weight>Tabaxi are relatively more slender than humans</weight>
+
+    <baseHeight>58</baseHeight>
+    <baseWeight>90</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <size>medium</size>
+    <speed>=30</speed>
+    <speed type="climb">=20</speed>
+
+    <names>
+        <list typeLabel="Names">Cloud on the Mountaintop(Cloud), Five Timber(Timber), Jade Shoe(Jade), Left-handed Hummingbird(Bird), Seven Thundercloud(Thunder), Skirt of Snakes(Snake), Smoking Mirror(Smoke)</list>
+        <list typeLabel="Clans">Bright Cliffs, Distant Rain, Mountain Tree, Rumbling River, Snoring Mountain</list>
+    </names>
+
+    <!-- TODO personality obsession and quirk -->
+
+    <stat>
+        <increase name="Charisma">1</increase>
+        <increase name="Dexterity">2</increase>
+    </stat>
+
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>You have a cat's keen senses, especially in the dark. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+    <feature>
+        <name>Feline Agility</name>
+        <shortDescription>Your reflexes and agility allow you to move with a burst of speed. When you move on your turn in combat, you can double your speed until the end of your turn. Once you use this trait, you can't use it again until you move 0 feet on one of your turns.</shortDescription>
+        <context>SPEED</context>
+    </feature>
+
+    <skills>
+        <proficiency>Perception</proficiency>
+        <proficiency>Stealth</proficiency>
+    </skills>
+    <languages>
+        <language>Common</language>
+        <choose name="language"/>
+    </languages>
+
+
+    <feature>
+        <name>Cat's claws</name>
+        <shortDescription>Because of your claws, you have a climbing speed of 20 feet. In addition, your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.</shortDescription>
+        <context>WEAPON_ATTACK</context>
+    </feature>
+
+
+</race>

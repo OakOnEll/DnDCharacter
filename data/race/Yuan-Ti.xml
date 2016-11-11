@@ -1,0 +1,94 @@
+<race>
+    <ref>VGM p.120</ref>
+    <name>Yuan-Ti</name>
+    <age>Yuan-Ti purebloods mature at the same rate as humans and have lifespans similar in length to theirs.</age>
+    <height>Yuan-Ti match humans in average height.</height>
+    <weight>Yuan-Ti match humans in average weight.</weight>
+
+    <baseHeight>56</baseHeight>
+    <baseWeight>110</baseWeight>
+    <heightModifier>2d10</heightModifier>
+    <weightMultiplier>2d4</weightMultiplier>
+
+    <size>medium</size>
+    <speed>=30</speed>
+
+    <!-- TODO personality obsession and quirk -->
+
+    <stat>
+        <increase name="Charisma">2</increase>
+        <increase name="Intelligence">1</increase>
+    </stat>
+
+    <feature>
+        <name>Darkvision</name>
+        <shortDescription>You have a cat's keen senses, especially in the dark. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.</shortDescription>
+        <description></description>
+    </feature>
+
+    <feature>
+        <name>Magic Resistance</name>
+        <shortDescription>You have advantage on saving throws against spells and other magical effects.</shortDescription>
+        <context>SAVING_THROW</context>
+    </feature>
+
+    <cantrips>
+        <cantrip stat="Charisma">Poison Spray</cantrip>
+    </cantrips>
+
+    <feature>
+        <name>Innate Spellcasting</name>
+        <shortDescription>You know the poison spray cantrip.
+            You can cast animal friendship an unlimited number of times with this trait, but you can target only snakes with it.
+            Starting at 3rd level, you can also cast suggestion with this trait. Once you cast it, you can't do so again until you finish a long rest. Charisma is your spellcasting ability for these spells.
+        </shortDescription>
+
+        <action uses="0">
+            <name>Poison Spray</name>
+            <shortDescription>You extend your hand toward a creature you can see within range and project a puff of noxious gas from your palm. The creature must succeed on a Constitution saving throw (DC 8 + proficiency + Charisma modifier) or take 1d12 poison damage.</shortDescription>
+        </action>
+
+        <effect actionName="Snake Friendship" uses="0">
+            <name>Snake Friendship</name>
+            <actionDescription>You convince a snake that you mean it no harm.</actionDescription>
+            <shortDescription>You convince a snake that you mean it no harm. Choose a snake that you can see within 30 feet. It must see and hear you. If the snake's Intelligence is 4 or higher, the spell fails. Otherwise, the snake must succeed on a Wisdom saving throw (DC 8 + proficiency + Charisma modifier) or be charmed by you for the spell's duration of 24 hours. If you or one of your companions harms the target, the spell ends.</shortDescription>
+        </effect>
+
+        <effect actionName="Suggestion" applies="level>=3" uses="1">
+            <name>Suggestion</name>
+            <actionDescription>You suggest a course of activity (limited to a sentence or two) and magically influence a creature you can see within 30 feet that can hear and understand you.</actionDescription>
+            <shortDescription>You suggest a course of activity (limited to a sentence or two) and magically influence a creature you can see within 30 feet that can hear and understand you. Creatures that can't be charmed are immune to this effect. The suggestion must be worded in such a manner as to make the course of action sound reasonable. Asking the creature to stab itself, throw itself onto a spear, immolate itself, or do some other obviously harmful act ends the spell. The target must make a Wisdom saving throw (DC 8 + proficiency + Charisma modifier) . On a failed save, it purses the course of action you described to the best of its ability. The suggested course of action can continue for the entire duration of 8 hours. If the suggested activity can be completed in a shorter time, the spell ends when the subject finishes what it was asked to do. You can also specify conditions that will trigger a special activity during the duration. For example, you might suggest that a knight give her warhorse to the first beggar she meets. If the condition isn't met before the spell expires, the activity isn't preformed. If you or any of your companions damage the target, the spell ends.</shortDescription>
+        </effect>
+        <refreshes>long rest</refreshes>
+        <uses>1</uses>
+    </feature>
+
+<!--
+    <feature applies="level>=3" >
+        <name>Greater Innate Spellcasting</name>
+        <shortDescription>
+            Starting at 3rd level, you can cast suggestion with this trait. Once you cast it, you can't do so again until you finish a long rest. Charisma is your spellcasting ability for this spell.
+            You suggest a course of activity (limited to a sentence or two) and magically influence a creature you can see within 30 feet that can hear and understand you.
+        </shortDescription>
+        <effect uses="1" actionName="Suggestion">
+            <name>Suggestion</name>
+            <shortDescription>You suggest a course of activity (limited to a sentence or two) and magically influence a creature you can see within 30 feet that can hear and understand you. Creatures that can't be charmed are immune to this effect. The suggestion must be worded in such a manner as to make the course of action sound reasonable. Asking the creature to stab itself, throw itself onto a spear, immolate itself, or do some other obviously harmful act ends the spell. The target must make a Wisdom saving throw (DC 8 + proficiency + Charisma modifier) . On a failed save, it purses the course of action you described to the best of its ability. The suggested course of action can continue for the entire duration of 8 hours. If the suggested activity can be completed in a shorter time, the spell ends when the subject finishes what it was asked to do. You can also specify conditions that will trigger a special activity during the duration. For example, you might suggest that a knight give her warhorse to the first beggar she meets. If the condition isn't met before the spell expires, the activity isn't preformed. If you or any of your companions damage the target, the spell ends.</shortDescription>
+        </effect>
+        <refreshes>long rest</refreshes>
+        <uses>1</uses>
+    </feature>
+-->
+    <feature>
+        <name>Poison Immunity</name>
+        <shortDescription>You are immune to poison damage and the poisoned condition.</shortDescription>
+        <context>HIT_POINTS,SAVING_THROW(constitution)</context>
+    </feature>
+
+    <languages>
+        <language>Common</language>
+        <language>Abyssal</language>
+        <language>Draconic</language>
+    </languages>
+
+
+</race>
