@@ -196,7 +196,13 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
     private void commitChanges(FeatureInfo info, int value) {
         for (IPendingUse each : pendingActions) {
-            each.apply(getCharacter(), info);
+            CharacterEffect effect = each.apply(getCharacter(), info);
+            if (effect != null) {
+                // Possible multiple effects, don't show any?
+                // TODO open effect dialog, if one was added
+                //ViewEffectDialogFragment dialog = ViewEffectDialogFragment.createDialog(effect);
+                //dialog.show(getFragmentManager(), "effect_dialog");
+            }
         }
         getCharacter().setUsesRemaining(info, value);
 
@@ -400,8 +406,10 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         }
 
         @Override
-        public void apply(Character character, FeatureInfo info) {
+        public CharacterEffect apply(Character character, FeatureInfo info) {
             character.useSpellSlot(spellLevel);
+            // TODO handle viewing created effects
+            return null;
         }
 
         @Override
@@ -459,9 +467,9 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         }
 
         @Override
-        public void apply(Character character, FeatureInfo info) {
+        public CharacterEffect apply(Character character, FeatureInfo info) {
             IFeatureAction action = info.getActionNamed(character,actionName);
-            character.useFeatureAction(info, action, values);
+            return character.useFeatureAction(info, action, values);
         }
 
         @Override
@@ -554,8 +562,10 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         }
 
         @Override
-        public void apply(Character character, FeatureInfo info) {
+        public CharacterEffect apply(Character character, FeatureInfo info) {
             character.useFeature(info, value);
+            // TODO handle viewing created effects
+            return null;
         }
 
         @Override
@@ -597,7 +607,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
 
     interface IPendingUse extends Parcelable {
-        void apply(Character character, FeatureInfo info);
+        CharacterEffect apply(Character character, FeatureInfo info);
 
         String getText(Resources resources, FeatureInfo info);
 

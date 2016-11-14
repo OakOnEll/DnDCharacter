@@ -250,8 +250,9 @@ public class Feature extends AbstractContextualComponent {
         }
 
         @Override
-        public void applyToCharacter(com.oakonell.dndcharacter.model.character.Character character, Map<String, String> promptValues) {
+        public CharacterEffect applyToCharacter(com.oakonell.dndcharacter.model.character.Character character, Map<String, String> promptValues) {
             // do nothing
+            return null;
         }
 
         @Override
@@ -398,7 +399,7 @@ public class Feature extends AbstractContextualComponent {
 
 
         @Override
-        public void applyToCharacter(@NonNull Character character, @NonNull Map<String, String> variableValues) {
+        public CharacterEffect applyToCharacter(@NonNull Character character, @NonNull Map<String, String> variableValues) {
             // TODO create a clone, so that specialized variables can be applied?
             if (!variableValues.isEmpty()) {
                 try {
@@ -418,12 +419,14 @@ public class Feature extends AbstractContextualComponent {
                     newEffect.setId(getId());
                     newEffect.setDescription(theDescription);
                     character.addEffect(newEffect);
+                    return newEffect;
                 } catch (CloneNotSupportedException e) {
                     character.addEffect(this);
-
+                    return this;
                 }
             } else {
                 character.addEffect(this);
+                return this;
             }
         }
 

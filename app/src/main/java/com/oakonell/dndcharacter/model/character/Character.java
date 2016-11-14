@@ -1332,9 +1332,9 @@ public class Character {
         usedFeatures.put(feature.getName(), uses);
     }
 
-    public void useFeatureAction(@NonNull FeatureInfo feature, @NonNull IFeatureAction action, Map<String, String> variableValues) {
+    public CharacterEffect useFeatureAction(@NonNull FeatureInfo feature, @NonNull IFeatureAction action, Map<String, String> variableValues) {
         useFeature(feature, action.getCost());
-        action.applyToCharacter(this, variableValues);
+        return action.applyToCharacter(this, variableValues);
     }
 
     public String getNotes() {

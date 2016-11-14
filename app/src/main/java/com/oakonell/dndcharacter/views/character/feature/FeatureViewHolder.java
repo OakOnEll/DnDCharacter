@@ -200,7 +200,12 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
     @Override
     public void useAction(final CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<String, String> values) {
-        context.getCharacter().useFeatureAction(info, action, values);
+        CharacterEffect effect = context.getCharacter().useFeatureAction(info, action, values);
+        if (effect != null) {
+            // TODO open effect dialog, if one was added
+            ViewEffectDialogFragment dialog = ViewEffectDialogFragment.createDialog(effect);
+            dialog.show(context.getSupportFragmentManager(), "effect_dialog");
+        }
         shortDescription.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -214,6 +219,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     @Override
     public void useFeature(final CharacterActivity context, FeatureInfo info, int value) {
         context.getCharacter().useFeature(info, value);
+        // TODO open effect dialog, if one was added
         shortDescription.postDelayed(new Runnable() {
             @Override
             public void run() {
