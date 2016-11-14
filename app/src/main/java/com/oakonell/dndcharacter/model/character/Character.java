@@ -1137,7 +1137,7 @@ public class Character {
         CharacterAbilityDeriver deriver = new CharacterAbilityDeriver() {
             protected void visitComponent(@NonNull ICharacterComponent component) {
                 int value = component.getStatModifier(type);
-                if (value > 0) {
+                if (value != 0) {
                     ModifierWithSource base = new ModifierWithSource(value, component);
                     result.add(base);
                 }
