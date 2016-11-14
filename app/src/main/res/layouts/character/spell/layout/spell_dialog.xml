@@ -70,7 +70,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Casting Time" />
+                            android:text="@string/casting_time" />
 
                         <TextView
                             android:id="@+id/casting_time"
@@ -90,7 +90,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Range" />
+                            android:text="@string/range" />
 
                         <TextView
                             android:id="@+id/range"
@@ -117,7 +117,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Components" />
+                            android:text="@string/components" />
 
                         <TextView
                             android:id="@+id/components"
@@ -136,7 +136,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Duration" />
+                            android:text="@string/duration" />
 
                         <TextView
                             android:id="@+id/duration"

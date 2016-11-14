@@ -1,15 +1,21 @@
 package com.oakonell.dndcharacter.views.character.spell;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rob on 1/24/2016.
@@ -48,6 +54,21 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
         private final TextView source;
         @NonNull
         private final View delete;
+        @NonNull
+        private final View expand;
+        @NonNull
+        private final TextView description;
+        @NonNull
+        private final View expanded;
+        @NonNull
+        private final TextView casting_time;
+        @NonNull
+        private final TextView range;
+        @NonNull
+        private final TextView duration;
+        @NonNull
+        private final TextView components;
+
 
         public AbstractSpellViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +76,15 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
             source = (TextView) itemView.findViewById(R.id.source);
             school = (TextView) itemView.findViewById(R.id.school);
             delete = itemView.findViewById(R.id.delete);
+            expand = itemView.findViewById(R.id.expand);
+            description = (TextView) itemView.findViewById(R.id.description);
+            expanded = itemView.findViewById(R.id.expanded);
+
+            casting_time = (TextView) itemView.findViewById(R.id.casting_time);
+            range = (TextView) itemView.findViewById(R.id.range);
+            duration = (TextView) itemView.findViewById(R.id.duration);
+            components = (TextView) itemView.findViewById(R.id.components);
+
         }
 
         @Override
@@ -69,12 +99,20 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
             } else {
                 school.setText(R.string.unknown);
             }
-            if (context.getResources().getBoolean(R.bool.large)) {
-                source.setText(info.getSourceString(context.getResources()));
+            final Resources resources = context.getResources();
+            if (resources.getBoolean(R.bool.large)) {
+                source.setText(info.getSourceString(resources));
             } else {
                 // TODO short
-                source.setText(info.getShortSourceString(context.getResources()));
+                source.setText(info.getShortSourceString(resources));
             }
+            description.setText(info.getSpell().getDescription());
+            CharacterSpell spell = info.getSpell();
+            casting_time.setText(spell.getCastingTimeString(resources));
+            range.setText(spell.getRangeString(resources));
+            duration.setText(spell.getDurationString(resources));
+            components.setText(spell.getComponentString());
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,6 +137,48 @@ public abstract class AbstractSpellAdapter<V extends AbstractSpellAdapter.Abstra
                 delete.setVisibility(View.GONE);
                 delete.setOnClickListener(null);
             }
+
+            final int position = getAdapterPosition();
+            boolean isExpanded = adapter.isExpanded(position);
+            if (isExpanded) {
+                expanded.setVisibility(View.VISIBLE);
+                description.setEllipsize(null);
+                description.setLines(5);
+                description.setMaxLines(Integer.MAX_VALUE);
+                expand.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapter.setExpanded(position, false);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            } else {
+                expanded.setVisibility(View.GONE);
+                description.setEllipsize(TextUtils.TruncateAt.END);
+                description.setLines(1);
+                description.setMaxLines(1);
+                expand.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapter.setExpanded(position, true);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
         }
+    }
+
+    private void setExpanded(int position, boolean expanded) {
+        if (expanded) {
+            expandedSpellPositions.add(position);
+        } else {
+            expandedSpellPositions.remove(position);
+        }
+    }
+
+    private Set<Integer> expandedSpellPositions = new HashSet<>();
+
+    private boolean isExpanded(int position) {
+        return expandedSpellPositions.contains(position);
     }
 }

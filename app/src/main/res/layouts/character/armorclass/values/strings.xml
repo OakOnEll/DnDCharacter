@@ -4,4 +4,12 @@
     <string name="replace_spell_with">Replace With</string>
     <string name="select_known_spell">Select known spell</string>
     <string name="known_spell_level">Spell taken at level %d.</string>
+    <string name="casting_time_colon">Casting Time:</string>
+    <string name="range_colon">Range:</string>
+    <string name="components_colon">Components:</string>
+    <string name="duration_colon">Duration:</string>
+    <string name="duration">Duration</string>
+    <string name="components">Components</string>
+    <string name="range">Range</string>
+    <string name="casting_time">Casting Time</string>
 </resources>
