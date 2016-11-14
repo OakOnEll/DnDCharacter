@@ -211,6 +211,9 @@ public class DataImporter {
         fileRead = false;
         importRows.clear();
         Document doc = readDocument(uri, progress);
+        if (doc == null) {
+            throw new DataImportException(R.string.unexpected_error,uri.toString(), "Document null");
+        }
         Element root = doc.getDocumentElement();
         List<Element> children = XmlUtils.getChildElements(root);
         for (Element each : children) {

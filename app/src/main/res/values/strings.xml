@@ -368,6 +368,7 @@
     <string name="download_url_data"><![CDATA[Downloading D&D data]]></string>
     <string name="import_summary">Import added %1$d records, updated %2$d records, and had %3$d failed imports.</string>
     <string name="bad_http_return_code">Invalid HTTP return code %1$s: %2$s</string>
+    <string name="unexpected_error">Encountered unexpected error while reading from URL or writing to file: %1$s. (%2$s)</string>
     <string name="io_exception">Encountered io error while reading from URL or writing to file: %s</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="import_rows_progress_title">Importing rows…</string>
