@@ -69,6 +69,7 @@
         <name>Guardians of the Depths</name>
         <shortDescription>Adapted to even the most extreme ocean depths, you have resistance to cold damage, and you ignore any of the drawbacks caused by a deep, underwater environment.</shortDescription>
         <description></description>
+        <context>HIT_POINTS</context>
     </feature>
     <stat>
         <increase name="Strength">1</increase>
