@@ -715,33 +715,52 @@ public class Character {
     }
 
 
+    interface RootArmorClassDeriver {
+        void derive(FeatureInfo info);
+    }
+
     @NonNull
     public List<ArmorClassWithSource> deriveRootAcs(List<ArmorClassWithSource> modifyingAcs) {
-        List<ArmorClassWithSource> result = new ArrayList<>();
+        final List<ArmorClassWithSource> result = new ArrayList<>();
         String baseFormula = "10 + dexterityMod";
         int baseValue = evaluateFormula(baseFormula, null);
         ArmorClassWithSource unarmored = new ArmorClassWithSource(baseFormula, baseValue, null, false, false);
         result.add(unarmored);
 
-        // multiple here will really just take the highest ?? at runtime
-        for (CharacterClass eachClass : classes) {
-            for (FeatureInfo each : eachClass.getFeatures(this)) {
-                if (!each.isBaseArmor()) continue;
+        RootArmorClassDeriver addRootAc = new RootArmorClassDeriver() {
 
+            @Override
+            public void derive(FeatureInfo each) {
                 String acFormula = each.getBaseAcFormula();
                 if (acFormula != null) {
                     SimpleVariableContext variableContext = new SimpleVariableContext();
-                    each.getSource().addExtraFormulaVariables(variableContext, this);
+                    each.getSource().addExtraFormulaVariables(variableContext, Character.this);
                     int value = evaluateFormula(acFormula, variableContext);
                     ArmorClassWithSource featureAc = new ArmorClassWithSource(acFormula, value, each, false, false);
 
                     result.add(featureAc);
                 }
             }
+        };
+
+        for (FeatureInfo each : getRace().getFeatures(this)) {
+            if (!each.isBaseArmor()) continue;
+
+            addRootAc.derive(each);
+        }
+
+        // multiple here will really just take the highest ?? at runtime
+        for (CharacterClass eachClass : classes) {
+            for (FeatureInfo each : eachClass.getFeatures(this)) {
+                if (!each.isBaseArmor()) continue;
+
+                addRootAc.derive(each);
+            }
         }
         for (CharacterEffect each : getEffects()) {
             if (!each.isBaseArmor()) continue;
 
+            // this is not a "sourcable" component
             String acFormula = each.getBaseAcFormula();
             if (acFormula != null) {
                 SimpleVariableContext variableContext = new SimpleVariableContext();
