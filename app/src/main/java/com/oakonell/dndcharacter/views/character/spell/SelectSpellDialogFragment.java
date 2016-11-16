@@ -33,6 +33,7 @@ import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFr
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -57,6 +58,12 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
     private boolean ritualOnly;
     @Nullable
     private ArrayList<String> ignoreSpellNamesList;
+
+
+    private NoDefaultSpinner schoolFilterSpinner;
+    private NoDefaultSpinner levelFilterSpinner;
+    private ArrayAdapter<String> schoolFilterAdapter;
+    private ArrayAdapter<String> levelFilterAdapter;
 
     public void setListener(SpellSelectedListener listener) {
         this.listener = listener;
@@ -166,6 +173,16 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (prompt.length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, classNameSpinner.getResources().getDisplayMetrics());
         classNameSpinner.setMinimumWidth((int) minWidth);
 
+        schoolFilterSpinner = (NoDefaultSpinner) view.findViewById(R.id.school_filter);
+        schoolFilterAdapter = new ArrayAdapter<>(getContext(), R.layout.large_spinner_text, new ArrayList<String>());
+        schoolFilterAdapter.setDropDownViewResource(R.layout.large_spinner_text);
+        schoolFilterSpinner.setAdapter(schoolFilterAdapter);
+
+        levelFilterSpinner = (NoDefaultSpinner) view.findViewById(R.id.level_filter);
+        levelFilterAdapter = new ArrayAdapter<>(getContext(), R.layout.large_spinner_text, new ArrayList<String>());
+        levelFilterAdapter.setDropDownViewResource(R.layout.large_spinner_text);
+        levelFilterSpinner.setAdapter(levelFilterAdapter);
+
 
         List<ClassChoice> classChoices = getArguments().getParcelableArrayList(CASTER_CLASSES);
         cantrips = getArguments().getBoolean(CANTRIPS);
@@ -189,9 +206,12 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
 
             TextView schoolsTextView = (TextView) view.findViewById(R.id.schools);
             schoolsTextView.setText(namesList);
+            updateSchoolFilterChoices(schoolsFilter);
         } else {
             view.findViewById(R.id.schools_group).setVisibility(View.GONE);
+            updateSchoolFilterChoices(Arrays.asList(SpellSchool.values()));
         }
+
 
         ignoreSpellNamesList = getArguments().getStringArrayList(IGNORE_LIST);
 
@@ -209,12 +229,14 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
             classNameSpinner.setEnabled(false);
             ClassChoice selectedItem = (ClassChoice) classNameSpinner.getSelectedItem();
             max_spell_level.setText(NumberUtils.formatNumber(selectedItem.maxLevel));
+            updateLevelFilterChoices(selectedItem.maxLevel);
         } else {
             classNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     final ClassChoice selectedItem = (ClassChoice) classNameSpinner.getSelectedItem();
                     max_spell_level.setText(NumberUtils.formatNumber(selectedItem.maxLevel));
+                    updateLevelFilterChoices(selectedItem.maxLevel);
                     search();
                 }
 
@@ -229,6 +251,60 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         return view;
     }
 
+    private void updateLevelFilterChoices(int maxLevel) {
+        levelFilterAdapter.clear();
+        if (!cantrips && maxLevel > 1) {
+            levelFilterSpinner.setVisibility(View.VISIBLE);
+            // TODO
+            levelFilterAdapter.add("Any Level");
+            for (int level =1; level <= maxLevel; level++) {
+                levelFilterAdapter.add(Integer.toString(level));
+            }
+        } else {
+            levelFilterSpinner.setVisibility(View.GONE);
+        }
+        levelFilterAdapter.notifyDataSetChanged();
+
+        levelFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                search();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void updateSchoolFilterChoices(List<SpellSchool> schoolsFilter) {
+        schoolFilterAdapter.clear();
+        if (schoolsFilter.size() > 1) {
+            schoolFilterSpinner.setVisibility(View.VISIBLE);
+            // TODO
+            schoolFilterAdapter.add("Any School");
+            for (SpellSchool each : schoolsFilter) {
+                schoolFilterAdapter.add(getContext().getString(each.getStringResId()));
+            }
+        } else {
+            schoolFilterSpinner.setVisibility(View.GONE);
+        }
+        schoolFilterAdapter.notifyDataSetChanged();
+
+        schoolFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                search();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
     @Override
     protected boolean canSearch() {
         return classNameSpinner != null && classNameSpinner.getSelectedItemPosition() >= 0;
@@ -241,7 +317,14 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
         if (classNameSpinner.getSelectedItem() == null) return null;
 
         String schoolsFilterString = "";
-        if (schoolsFilter != null) {
+        if (schoolFilterSpinner.getSelectedItemPosition() > 0) {
+            StringBuilder builder = new StringBuilder(" and school =");
+            String school = (String) schoolFilterSpinner.getSelectedItem();
+            builder.append("'");
+            builder.append(EnumHelper.stringToEnum(school, SpellSchool.class).name());
+            builder.append("' ");
+            schoolsFilterString = builder.toString();
+        } else if (schoolsFilter != null) {
             // TODO cache this filter string
             StringBuilder builder = new StringBuilder(" and school in (");
             boolean isFirst = true;
@@ -254,7 +337,7 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
                 builder.append("'");
                 isFirst = false;
             }
-            builder.append(")");
+            builder.append(") ");
             schoolsFilterString = builder.toString();
         }
 
@@ -269,19 +352,29 @@ public class SelectSpellDialogFragment extends AbstractSelectComponentDialogFrag
                 notInStringBuilder.append("'");
                 first = false;
             }
-            notInStringBuilder.append(")");
+            notInStringBuilder.append(") ");
             notInString = notInStringBuilder.toString();
         }
 
         String ritualFilter = "";
         if (ritualOnly) {
-            ritualFilter = " AND ritual = 1";
+            ritualFilter = " AND ritual = 1 ";
         }
+
+        String levelFilterString = "";
+        if (levelFilterSpinner.getSelectedItemPosition() > 0) {
+            StringBuilder builder = new StringBuilder(" and level = ");
+            int level =  levelFilterSpinner.getSelectedItemPosition();
+            builder.append(level);
+            builder.append(" ");
+            levelFilterString = builder.toString();
+        }
+
         // doing a join for performance
         if (cantrips) {
-            return " upper(aClass) = ? and level = 0 " + schoolsFilterString + ritualFilter + notInString;
+            return " upper(aClass) = ? and level = 0 " + schoolsFilterString + ritualFilter + notInString + levelFilterString;
         } else {
-            return " upper(aClass) = ? and level > 0 and level <= ? " + schoolsFilterString + ritualFilter + notInString;
+            return " upper(aClass) = ? and level > 0 and level <= ? " + schoolsFilterString + ritualFilter + notInString + levelFilterString;
         }
     }
 

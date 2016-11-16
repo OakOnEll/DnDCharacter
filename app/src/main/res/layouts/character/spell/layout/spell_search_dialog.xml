@@ -26,22 +26,36 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
-                android:id="@+id/schools_group"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/schools_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/schools_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/schools_label" />
+
+                    <TextView
+                        android:id="@+id/schools"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Abjuration, Evocation" />
+                </LinearLayout>
+
+                <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                    android:id="@+id/school_filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/schools_label"
-                    android:id="@+id/schools_lbl" />
+                    android:layout_weight="1"
+                    tools:text="School - any" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Abjuration, Evocation"
-                    android:id="@+id/schools" />
             </LinearLayout>
 
             <LinearLayout
@@ -61,7 +75,15 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     tools:text="9" />
+
+                <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                    android:id="@+id/level_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:text="Level- any" />
             </LinearLayout>
+
 
             <com.oakonell.dndcharacter.views.MyEditText
                 android:id="@+id/search_terms"
