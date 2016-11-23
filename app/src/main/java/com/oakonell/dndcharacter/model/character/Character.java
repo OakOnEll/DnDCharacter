@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.EnumHelper;
+import com.oakonell.dndcharacter.model.character.companion.Companion;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
@@ -178,6 +179,9 @@ public class Character {
 
     @Element(required = false)
     private long itemIdSequence;
+
+    @ElementList(required = false)
+    private List<Companion> companions = new ArrayList<>();
 
 
     @NonNull
@@ -743,10 +747,12 @@ public class Character {
             }
         };
 
-        for (FeatureInfo each : getRace().getFeatures(this)) {
-            if (!each.isBaseArmor()) continue;
+        if (getRace()!= null) {
+            for (FeatureInfo each : getRace().getFeatures(this)) {
+                if (!each.isBaseArmor()) continue;
 
-            addRootAc.derive(each);
+                addRootAc.derive(each);
+            }
         }
 
         // multiple here will really just take the highest ?? at runtime
@@ -3258,5 +3264,10 @@ public class Character {
             dest.writeString(name);
             dest.writeParcelable(value, flags);
         }
+    }
+
+    @NonNull
+    public List<Companion> getCompanions() {
+        return companions;
     }
 }
