@@ -12,4 +12,5 @@
     <string name="components">Components</string>
     <string name="range">Range</string>
     <string name="casting_time">Casting Time</string>
+    <string name="companion_tab_title">Companions</string>
 </resources>

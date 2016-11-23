@@ -31,6 +31,7 @@ import com.oakonell.dndcharacter.views.AboutDialog;
 import com.oakonell.dndcharacter.views.AbstractBaseActivity;
 import com.oakonell.dndcharacter.views.character.background.ApplyBackgroundDialogFragment;
 import com.oakonell.dndcharacter.views.character.classes.AddClassLevelDialogFragment;
+import com.oakonell.dndcharacter.views.character.companion.CompanionsFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeaturesFragment;
 import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.item.EquipmentFragment;
@@ -540,6 +541,9 @@ public class CharacterActivity extends AbstractBaseActivity {
 
             }
             if (position == 5) {
+                return new CompanionsFragment();
+            }
+            if (position == 6) {
                 return new NotesFragment();
             }
             throw new RuntimeException("Not a valid tab");
@@ -550,7 +554,7 @@ public class CharacterActivity extends AbstractBaseActivity {
 
         @Override
         public int getCount() {
-            return 6;
+            return 7;
         }
 
         @Nullable
@@ -568,6 +572,8 @@ public class CharacterActivity extends AbstractBaseActivity {
                 case 4:
                     return getString(R.string.persona_tab_title);
                 case 5:
+                    return getString(R.string.companion_tab_title);
+                case 6:
                     return getString(R.string.notes_tab_title);
             }
             return null;
