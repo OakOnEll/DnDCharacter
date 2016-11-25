@@ -13,4 +13,6 @@
     <string name="range">Range</string>
     <string name="casting_time">Casting Time</string>
     <string name="companion_tab_title">Companions</string>
+    <string name="companions_title">Companions</string>
+    <string name="features_title">Features</string>
 </resources>

@@ -2,12 +2,10 @@ package com.oakonell.dndcharacter.model.character.companion;
 
 import android.support.annotation.NonNull;
 
-import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.CharacterAbilityDeriver;
-import com.oakonell.dndcharacter.model.character.CharacterClass;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
-import com.oakonell.dndcharacter.model.character.ICharacterComponent;
+import com.oakonell.dndcharacter.model.character.SpeedType;
 import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
 import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
 import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
@@ -16,26 +14,23 @@ import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
-import com.oakonell.expression.context.SimpleVariableContext;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementMap;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Rob on 10/31/2016.
  */
 
-public class Companion {
+public class Companion extends AbstractCharacter {
     @Element(required = false)
-    public String name;
+    private String name;
 
     @Element(required = false)
-    public String race;
+    private String race;
 
     @Element(required = false)
     private int hp;
@@ -59,6 +54,10 @@ public class Companion {
 
     @ElementMap(entry = "stat", key = "name", value = "value", required = false)
     private Map<StatType, Integer> baseStats = new HashMap<>();
+
+    @Element(required = false)
+    private boolean deleting;
+
 
     public int getArmorClass() {
         return 10;
@@ -172,7 +171,7 @@ public class Companion {
     public int getMaxHP() {
         int hp = 0;
         StatBlock conBlock = getStatBlock(StatType.CONSTITUTION);
-        int conMod = conBlock.getModifier();
+        //int conMod = conBlock.getModifier();
 
 //        for (CharacterClass each : classes) {
 //            // You always gain at least 1 HP per level
@@ -292,4 +291,47 @@ public class Companion {
     }
 
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
+    }
+
+    public boolean isDeleting() {
+        return deleting;
+    }
+
+    public void setDeleting(boolean deleting) {
+        this.deleting = deleting;
+    }
+
+    public SpeedType getSpeedType() {
+        return SpeedType.WALK;
+    }
+
+    public long getSpeed(SpeedType speedType) {
+        return 30;
+    }
+
+    public int getTempHp() {
+        return tempHp;
+    }
+
+    public boolean isStable() {
+        return stable;
+    }
+
+    public void stabilize() {
+        stable = true;
+    }
 }

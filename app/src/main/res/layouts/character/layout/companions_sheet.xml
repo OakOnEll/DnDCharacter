@@ -15,6 +15,652 @@
 
         <include layout="@layout/common_character_section" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/companions_title"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageView
+                android:id="@+id/add_companion"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/list_selector"
+                android:src="@drawable/ic_add_circle_outline_primary_18dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ac_style"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/companions_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/companion_item_layout" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/companion_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    tools:text="Snowball" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/ac_group"
+                    style="@style/ac_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <!--                <ImageView
+                                        android:id="@+id/imageView4"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/ac" />
+                    -->
+                    <TextView
+                        android:id="@+id/ac_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/short_armor_class_label"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/ac"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ac_lbl"
+                        android:layout_centerHorizontal="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        tools:text="11" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/speed_group"
+                    style="@style/ac_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <!--                <ImageView
+                                        android:id="@+id/imageView5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/speed" />
+                    -->
+                    <TextView
+                        android:id="@+id/speed_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/speed_label"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/speed_lbl"
+                        android:layout_centerHorizontal="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        tools:text="25" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/initiative_group"
+                    style="@style/ac_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/initiative_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/initiative_label"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/initiative"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/initiative_lbl"
+                        android:layout_centerHorizontal="true"
+
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        tools:text="2" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/death_save_layout"
+                    style="@style/hitpoints_style"
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <include layout="@layout/death_saves" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/hp_layout"
+
+                    style="@style/hitpoints_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <!--                <ImageView
+                                        android:id="@+id/imageView2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/hp" />
+                    -->
+                    <TextView
+                        android:id="@+id/hp_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/hit_point_label"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/hp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/hp_lbl"
+                        android:layout_centerHorizontal="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        tools:text="8 / 8" />
+
+                    <TextView
+                        android:id="@+id/stable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/hp_lbl"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/hp"
+                        android:text="@string/stable"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/temp_hp_layout"
+                    style="@style/hitpoints_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/temp_hp_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/temp_hp"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/temp_hp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/temp_hp_lbl"
+                        android:layout_centerHorizontal="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        tools:text="8 / 8" />
+
+                    <!--                <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/hp" />-->
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:stretchColumns="0,2,4">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                        <!-- Strength -->
+                        <com.oakonell.dndcharacter.views.character.stats.StatBlockView
+                            android:id="@+id/strength_stat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
+
+                        <!-- dexterity -->
+                        <com.oakonell.dndcharacter.views.character.stats.StatBlockView
+                            android:id="@+id/dexterity_stat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
+
+                        <!-- Constitution -->
+                        <com.oakonell.dndcharacter.views.character.stats.StatBlockView
+                            android:id="@+id/constitution_stat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
+
+                        <!-- Intelligence -->
+                        <com.oakonell.dndcharacter.views.character.stats.StatBlockView
+                            android:id="@+id/intelligence_stat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
+
+                        <!-- Wisdom -->
+                        <com.oakonell.dndcharacter.views.character.stats.StatBlockView
+                            android:id="@+id/wisdom_stat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
+
+                        <!-- Charisma -->
+                        <com.oakonell.dndcharacter.views.character.stats.StatBlockView
+                            android:id="@+id/charisma_stat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </com.oakonell.dndcharacter.views.character.stats.StatBlockView>
+
+
+                        <RelativeLayout
+                            android:id="@+id/passive_perception_group"
+                            style="@style/ac_style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <!--                <ImageView
+                                                android:id="@+id/imageView4"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerInParent="true"
+                                                android:scaleType="fitCenter"
+                                                android:src="@drawable/ac" />
+                            -->
+                            <TextView
+                                android:id="@+id/passive_perception_lbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/short_passive_perception_label"
+                                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/passive_perception"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/passive_perception_lbl"
+                                android:layout_centerHorizontal="true"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                tools:text="11" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            style="@style/ac_style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <!--                <ImageView
+                                                android:id="@+id/imageView4"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerInParent="true"
+                                                android:scaleType="fitCenter"
+                                                android:src="@drawable/ac" />
+                            -->
+                            <TextView
+                                android:id="@+id/proficiency_lbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/proficiency"
+                                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                            <TextView
+                                android:id="@+id/proficiency"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/proficiency_lbl"
+                                android:layout_centerHorizontal="true"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                tools:text="2" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/saving_throws_block"
+                            style="@style/saves_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <!-- Saving throws -->
+                            <TextView
+                                android:id="@+id/saving_throw_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/saving_throws_title"
+                                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
+                                android:id="@+id/strength_save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/saving_throw_label" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
+                                android:id="@+id/dexterity_save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/strength_save" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
+                                android:id="@+id/constitution_save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/dexterity_save" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
+                                android:id="@+id/intelligence_save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/constitution_save" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
+                                android:id="@+id/wisdom_save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/intelligence_save" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView
+                                android:id="@+id/charisma_save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/wisdom_save" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/skills_block"
+                            style="@style/skills_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/skill_block">
+                            <!-- Skills -->
+                            <TextView
+                                android:id="@+id/skills_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/skills_title"
+                                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/acrobatics_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/skills_label" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/animal_handling_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/acrobatics_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/arcana_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/animal_handling_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/athletics_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/arcana_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/deception_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/athletics_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/history_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/deception_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/insight_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/history_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/intimidation_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/insight_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/investigation_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/intimidation_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/medicine_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/investigation_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/nature_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/medicine_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/perception_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/nature_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/performance_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/perception_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/persuasion_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/performance_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/religion_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/persuasion_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/sleight_of_hand_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/religion_skill" />
+
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/stealth_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/sleight_of_hand_skill" />
+
+                            <com.oakonell.dndcharacter.views.character.stats.SkillBlockView
+                                android:id="@+id/survival_skill"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/acrobatics_skill"
+                                android:layout_below="@id/stealth_skill" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/features_title"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/features"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="auto_fit"
+                tools:listitem="@layout/feature_layout" />
+
+        </LinearLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

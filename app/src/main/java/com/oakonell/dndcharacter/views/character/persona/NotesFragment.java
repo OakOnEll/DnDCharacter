@@ -86,7 +86,9 @@ public class NotesFragment extends AbstractSheetFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                getCharacter().setNotes(s.toString());
+                if (getCharacter() != null) {
+                    getCharacter().setNotes(s.toString());
+                }
             }
         });
         return rootView;
@@ -100,6 +102,9 @@ public class NotesFragment extends AbstractSheetFragment {
             notes.setText("");
         } else {
             notes.setText(getCharacter().getNotes());
+            if (adapter != null) {
+                adapter.reloadList(getCharacter());
+            }
         }
     }
 

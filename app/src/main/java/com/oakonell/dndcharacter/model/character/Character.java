@@ -64,7 +64,7 @@ import java.util.TreeMap;
 /**
  * Created by Rob on 10/21/2015.
  */
-public class Character {
+public class Character extends AbstractCharacter{
     // more fluid data
     @Element(required = false)
     private int hp;
@@ -182,6 +182,8 @@ public class Character {
 
     @ElementList(required = false)
     private List<Companion> companions = new ArrayList<>();
+    @Element(required = false)
+    private int displayedCompanionIndex = -1;
 
 
     @NonNull
@@ -747,7 +749,7 @@ public class Character {
             }
         };
 
-        if (getRace()!= null) {
+        if (getRace() != null) {
             for (FeatureInfo each : getRace().getFeatures(this)) {
                 if (!each.isBaseArmor()) continue;
 
@@ -3268,6 +3270,25 @@ public class Character {
 
     @NonNull
     public List<Companion> getCompanions() {
+        if (companions == null) {
+            companions = new ArrayList<>();
+        }
         return companions;
+    }
+
+    public Companion getDisplayedCompanion() {
+        if (displayedCompanionIndex < 0) return null;
+        if (companions.size() == 0) return null;
+        if (displayedCompanionIndex >= companions.size()) {
+            displayedCompanionIndex = companions.size() - 1;
+        }
+        return companions.get(displayedCompanionIndex);
+    }
+
+    public int getDisplayedCompanionIndex() {
+        return displayedCompanionIndex;
+    }
+    public void setDisplayedCompanion(int index) {
+        displayedCompanionIndex = index;
     }
 }
