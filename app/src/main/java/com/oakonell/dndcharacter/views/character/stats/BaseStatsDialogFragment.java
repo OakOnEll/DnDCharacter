@@ -1,6 +1,5 @@
 package com.oakonell.dndcharacter.views.character.stats;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
