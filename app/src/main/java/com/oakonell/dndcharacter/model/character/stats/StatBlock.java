@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.model.character.stats;
 
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 
@@ -11,10 +12,10 @@ import java.util.List;
  * Created by Rob on 10/21/2015.
  */
 public class StatBlock {
-    private final com.oakonell.dndcharacter.model.character.Character character;
+    private final com.oakonell.dndcharacter.model.character.AbstractCharacter character;
     private final StatType type;
 
-    public StatBlock(Character character, StatType type) {
+    public StatBlock(AbstractCharacter character, StatType type) {
         this.character = character;
         this.type = type;
     }
@@ -64,7 +65,7 @@ public class StatBlock {
         return builder.toString();
     }
 
-    public Character getCharacter() {
+    public AbstractCharacter getCharacter() {
         return character;
     }
 

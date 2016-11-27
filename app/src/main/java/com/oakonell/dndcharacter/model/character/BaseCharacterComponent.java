@@ -136,7 +136,8 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
         return new ArrayList<>(map.values());
     }
 
-    public void addFeatureInfo(@NonNull Map<String, FeatureInfo> map, @NonNull Character character) {
+    @Override
+    public void addFeatureInfo(@NonNull Map<String, FeatureInfo> map, @NonNull AbstractCharacter character) {
         for (Feature each : features) {
             if (!each.applies(character)) continue;
             FeatureExtensionType type = each.getExtensionType();
@@ -213,7 +214,8 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
         return wrappedList.proficiencies;
     }
 
-    public void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull Character character) {
+    @Override
+    public void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull AbstractCharacter character) {
         // do nothing, let subclasses override
     }
 
@@ -282,7 +284,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     }
 
     @Override
-    public int getSpeed(@NonNull Character character, SpeedType type) {
+    public int getSpeed(@NonNull AbstractCharacter character, SpeedType type) {
         String val = speeds.get(type);
         if (val == null) return 0;
         val = val.trim();
@@ -319,7 +321,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     }
 
     @Override
-    public int getInitiativeMod(@NonNull Character character) {
+    public int getInitiativeMod(@NonNull AbstractCharacter character) {
         return character.evaluateFormula(initiativeModFormula, null);
     }
 
@@ -332,7 +334,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     }
 
     @Override
-    public int getPassivePerceptionMod(@NonNull Character character) {
+    public int getPassivePerceptionMod(@NonNull AbstractCharacter character) {
         return character.evaluateFormula(passivePerceptionModFormula, null);
     }
 

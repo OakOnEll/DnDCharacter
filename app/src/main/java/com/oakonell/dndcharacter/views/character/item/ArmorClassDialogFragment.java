@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.AdjustmentComponentSource;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentType;
@@ -323,7 +324,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         }
 
         public void updateDueToAChange() {
-            Character.modifyRootAcs(fragment.getCharacter(), fragment.modifyingAcAdapter.list, list);
+            AbstractCharacter.modifyRootAcs(fragment.getCharacter(), fragment.modifyingAcAdapter.list, list);
             notifyDataSetChanged();
         }
 

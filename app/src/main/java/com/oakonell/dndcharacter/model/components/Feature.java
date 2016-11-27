@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.model.components;
 
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.AbstractContextualComponent;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
@@ -128,13 +129,13 @@ public class Feature extends AbstractContextualComponent {
         return result;
     }
 
-    public boolean applies(@NonNull Character character) {
+    public boolean applies(@NonNull AbstractCharacter character) {
         if (appliesFormula == null || appliesFormula.trim().length() == 0) return true;
 
         // TODO can't construct the normal context variables, as it looks on features!
         //    possibly calculate variables without this feature, in some contextual way
         SimpleVariableContext variableContext = new SimpleVariableContext();
-        variableContext.setNumber("level", character.getClasses().size());
+        character.addExtraFormulaVariables(variableContext);
 
         try {
             Expression<Boolean> expression = Expression.parse(appliesFormula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
@@ -250,7 +251,7 @@ public class Feature extends AbstractContextualComponent {
         }
 
         @Override
-        public CharacterEffect applyToCharacter(com.oakonell.dndcharacter.model.character.Character character, Map<String, String> promptValues) {
+        public CharacterEffect applyToCharacter(com.oakonell.dndcharacter.model.character.AbstractCharacter character, Map<String, String> promptValues) {
             // do nothing
             return null;
         }
@@ -399,7 +400,7 @@ public class Feature extends AbstractContextualComponent {
 
 
         @Override
-        public CharacterEffect applyToCharacter(@NonNull Character character, @NonNull Map<String, String> variableValues) {
+        public CharacterEffect applyToCharacter(@NonNull AbstractCharacter character, @NonNull Map<String, String> variableValues) {
             // TODO create a clone, so that specialized variables can be applied?
             if (!variableValues.isEmpty()) {
                 try {

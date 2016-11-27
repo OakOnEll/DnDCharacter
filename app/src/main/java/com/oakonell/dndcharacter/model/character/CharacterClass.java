@@ -89,9 +89,9 @@ public class CharacterClass extends BaseCharacterComponent {
     }
 
     @Override
-    public void addExtraFormulaVariables(@NonNull SimpleVariableContext variableContext, @NonNull Character character) {
+    public void addExtraFormulaVariables(@NonNull SimpleVariableContext variableContext, @NonNull AbstractCharacter character) {
         super.addExtraFormulaVariables(variableContext, character);
-        variableContext.setNumber("classLevel", character.getClassLevels().get(getName()));
+        variableContext.setNumber("classLevel", ((Character) character).getClassLevels().get(getName()));
     }
 
     public String getSubclassName() {

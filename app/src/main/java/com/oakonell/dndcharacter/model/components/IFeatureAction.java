@@ -2,6 +2,7 @@ package com.oakonell.dndcharacter.model.components;
 
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
@@ -26,7 +27,7 @@ public interface IFeatureAction {
 
     boolean hasVariables();
 
-    CharacterEffect applyToCharacter(Character character, Map<String, String> promptValues);
+    CharacterEffect applyToCharacter(AbstractCharacter character, Map<String, String> promptValues);
 
     String getActionDescription();
 

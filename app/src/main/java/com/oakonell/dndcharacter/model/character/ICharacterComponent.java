@@ -17,7 +17,7 @@ import java.util.Map;
  * Created by Rob on 2/11/2016.
  */
 public interface ICharacterComponent extends ComponentSource {
-    void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull Character character);
+    void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull AbstractCharacter character);
 
     String getName();
 
@@ -56,13 +56,13 @@ public interface ICharacterComponent extends ComponentSource {
     List<CharacterSpell> getSpells();
 
 
-    int getSpeed(Character character, SpeedType type);
+    int getSpeed(AbstractCharacter character, SpeedType type);
 
     Boolean isBaseSpeed(SpeedType type);
 
-    int getInitiativeMod(Character character);
+    int getInitiativeMod(AbstractCharacter character);
 
-    int getPassivePerceptionMod(Character character);
+    int getPassivePerceptionMod(AbstractCharacter character);
 
-    void addFeatureInfo(Map<String, FeatureInfo> map, Character character);
+    void addFeatureInfo(Map<String, FeatureInfo> map, AbstractCharacter character);
 }

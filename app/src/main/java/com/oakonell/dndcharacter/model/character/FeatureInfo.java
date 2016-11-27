@@ -112,7 +112,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return feature;
     }
 
-    public int evaluateMaxUses(@NonNull Character character) {
+    public int evaluateMaxUses(@NonNull AbstractCharacter character) {
         if (feature.getUsesFormula() != null) {
             SimpleVariableContext variableContext = new SimpleVariableContext();
             source.addExtraFormulaVariables(variableContext, character);
@@ -179,7 +179,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
 
 
     @Override
-    public int getSpeed(@NonNull Character character, SpeedType type) {
+    public int getSpeed(@NonNull AbstractCharacter character, SpeedType type) {
         int speed = getFeature().getSpeed(character, type);
         if (speed != 0) {
             return speed;
@@ -199,7 +199,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public int getInitiativeMod(@NonNull Character character) {
+    public int getInitiativeMod(@NonNull AbstractCharacter character) {
         if (getFeature().getInitiativeModFormula() != null) {
             return getFeature().getInitiativeMod(character);
         }
@@ -208,7 +208,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public int getPassivePerceptionMod(@NonNull Character character) {
+    public int getPassivePerceptionMod(@NonNull AbstractCharacter character) {
         if (getFeature().getPassivePerceptionModFormula() != null) {
             return getFeature().getPassivePerceptionMod(character);
         }
@@ -326,7 +326,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull Character character) {
+    public void addExtraFormulaVariables(SimpleVariableContext extraVariables, @NonNull AbstractCharacter character) {
         getFeature().addExtraFormulaVariables(extraVariables, character);
         getSource().addExtraFormulaVariables(extraVariables, character);
         if (extendedFeature != null)
@@ -357,7 +357,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public void addFeatureInfo(Map<String, FeatureInfo> map, Character character) {
+    public void addFeatureInfo(Map<String, FeatureInfo> map, AbstractCharacter character) {
         throw new RuntimeException("SHouldn't get here?");
     }
 
