@@ -81,7 +81,7 @@ public class NameDialog extends AbstractCharacterDialogFragment {
             raceElem = XmlUtils.getDocument(subrace.getXml()).getDocumentElement();
             nameElems = XmlUtils.getChildElements(raceElem, "names");
         }
-        if (nameElems.isEmpty()) {
+        if (nameElems.isEmpty() && raceName != null) {
             Race race = new Select().from(Race.class).where("name = ? ", raceName).executeSingle();
             raceElem = XmlUtils.getDocument(race.getXml()).getDocumentElement();
             nameElems = XmlUtils.getChildElements(raceElem, "names");
