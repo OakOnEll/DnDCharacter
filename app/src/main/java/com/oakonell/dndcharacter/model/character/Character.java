@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
-import com.oakonell.dndcharacter.model.character.companion.Companion;
+import com.oakonell.dndcharacter.model.character.companion.CharacterCompanion;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
@@ -126,7 +126,7 @@ public class Character extends AbstractCharacter {
 
 
     @ElementList(required = false)
-    private List<Companion> companions = new ArrayList<>();
+    private List<CharacterCompanion> companions = new ArrayList<>();
     @Element(required = false)
     private int displayedCompanionIndex = -1;
 
@@ -460,6 +460,7 @@ public class Character extends AbstractCharacter {
         effects.remove(effect);
     }
 
+    @Override
     public boolean anyContextFeats(@SuppressWarnings("SameParameterValue") FeatureContext context) {
         FeatureContextArgument withArg = new FeatureContextArgument(context);
         for (CharacterEffect each : getEffects()) {
@@ -1915,14 +1916,14 @@ public class Character extends AbstractCharacter {
     }
 
     @NonNull
-    public List<Companion> getCompanions() {
+    public List<CharacterCompanion> getCompanions() {
         if (companions == null) {
             companions = new ArrayList<>();
         }
         return companions;
     }
 
-    public Companion getDisplayedCompanion() {
+    public CharacterCompanion getDisplayedCompanion() {
         if (displayedCompanionIndex < 0) return null;
         if (companions.size() == 0) return null;
         if (displayedCompanionIndex >= companions.size()) {

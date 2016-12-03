@@ -1,0 +1,31 @@
+<companion>
+    <ref>PHB p.304</ref>
+    <name>Bat</name>
+    <ac>12</ac>
+    <hp>1,d4-1</hp>
+    <speed>5</speed>
+    <speed type="fly">30</speed>
+    <stats>
+        <strength>2</strength>
+        <dexterity>15</dexterity>
+        <constitution>8</constitution>
+        <intelligence>2</intelligence>
+        <wisdom>12</wisdom>
+        <charisma>4</charisma>
+    </stats>
+    <skills></skills>
+    <senses>blindsight 60 ft, passive perception 11</senses>
+    <languages></languages>
+    <cr>0</cr>
+
+    <feature name="Echolocation"><description>While it can't hear, the bat has no blindsight.</description></feature>
+    <feature name="Keen hearing"><description>The bat has advantage on Wisdom(Perception) checks that rely on hearing.</description></feature>
+
+    <actions>
+        <action name="Bite">
+            <description>+0 to hit, reach 5ft, one-creature.
+                Hit: 1 piercing damage.</description>
+        </action>
+    </actions>
+
+</companion>

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
@@ -19,7 +20,7 @@ import com.oakonell.dndcharacter.utils.NumberUtils;
  * Created by Rob on 10/26/2015.
  */
 public class SavingThrowBlockView extends LinearLayout {
-    Character character;
+    AbstractCharacter character;
     StatType type;
 
     ImageView proficiency;
@@ -86,7 +87,7 @@ public class SavingThrowBlockView extends LinearLayout {
     }
 
 
-    public void setCharacter(Character character) {
+    public void setCharacter(AbstractCharacter character) {
         this.character = character;
         if (type != null) {
             updateViews();

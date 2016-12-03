@@ -1020,6 +1020,8 @@ public abstract class AbstractCharacter {
     public void addExtraFormulaVariables(SimpleVariableContext variableContext) {
     }
 
+    public abstract boolean anyContextFeats(FeatureContext toHit);
+
     interface RootArmorClassDeriver {
         void derive(FeatureInfo info);
     }

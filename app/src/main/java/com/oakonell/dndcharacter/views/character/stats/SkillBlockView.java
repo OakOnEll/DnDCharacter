@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.stats.SkillBlock;
@@ -23,7 +24,7 @@ public class SkillBlockView extends LinearLayout {
     ImageView proficiency;
     TextView skill_label;
     TextView bonus;
-    Character character;
+    AbstractCharacter character;
 
 
     public SkillBlockView(Context context) {
@@ -85,7 +86,7 @@ public class SkillBlockView extends LinearLayout {
     }
 
 
-    public void setCharacter(Character character) {
+    public void setCharacter(AbstractCharacter character) {
         this.character = character;
         if (type != null) {
             updateViews();
