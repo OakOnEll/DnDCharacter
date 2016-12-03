@@ -116,7 +116,7 @@
             android:value="character.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="17" />
+            android:value="18" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

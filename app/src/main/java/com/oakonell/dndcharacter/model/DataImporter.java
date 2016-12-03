@@ -14,6 +14,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.background.Background;
 import com.oakonell.dndcharacter.model.character.CharacterRow;
 import com.oakonell.dndcharacter.model.classes.AClass;
+import com.oakonell.dndcharacter.model.companion.Companion;
 import com.oakonell.dndcharacter.model.effect.Effect;
 import com.oakonell.dndcharacter.model.feat.Feat;
 import com.oakonell.dndcharacter.model.item.ItemRow;
@@ -318,6 +319,9 @@ public class DataImporter {
                 case "character":
                     // TODO warn about character overwrites..
                     modelClass = CharacterRow.class;
+                    break;
+                case "companion":
+                    modelClass = Companion.class;
                     break;
                 default:
                     each.message = "Not imported. Type not handled";

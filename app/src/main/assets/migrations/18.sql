@@ -1,0 +1,1 @@
+ALTER TABLE companion ADD COLUMN description TEXT;

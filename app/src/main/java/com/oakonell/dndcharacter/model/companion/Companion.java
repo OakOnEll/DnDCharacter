@@ -11,6 +11,7 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
+import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
 import com.oakonell.dndcharacter.model.spell.SpellClass;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
@@ -25,11 +26,14 @@ import java.util.List;
  * Created by Rob on 11/10/2015.
  */
 @Table(name = "companion", id = BaseColumns._ID)
-public class Companion extends AbstractComponentModel {
+public class Companion extends AbstractDescriptionComponentModel {
     @Column
     public String name;
     @Column
     public String xml;
+
+    @Column
+    private String description;
 
     @Override
     public String getXml() {
@@ -54,16 +58,16 @@ public class Companion extends AbstractComponentModel {
 
     @NonNull
     public List<String> getUsableByTypes() {
-        List<SpellClass> spellClasses = new Select().from(CompanionType.class).where("companion = ?", getId()).execute();
+        List<CompanionType> spellClasses = new Select().from(CompanionType.class).where("companion = ?", getId()).execute();
         List<String> result = new ArrayList<>();
-        for (SpellClass each : spellClasses) {
-            result.add(each.getAClass());
+        for (CompanionType each : spellClasses) {
+            result.add(each.getType());
         }
         return result;
     }
 
     public void setUsableByTypes(@NonNull List<String> types) {
-        final From query = new Delete().from(SpellClass.class).where("companion = ?", getId());
+        final From query = new Delete().from(CompanionType.class).where("companion = ?", getId());
 //        int count = query.count();
 //        Log.i("Spell", "Deleted " + count + " spellClass rows for spell = " + getName());
         query.execute();
@@ -94,6 +98,14 @@ public class Companion extends AbstractComponentModel {
         } else {
             setUsableByTypes(Collections.<String>emptyList());
         }
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
