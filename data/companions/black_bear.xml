@@ -1,0 +1,47 @@
+<companion>
+    <ref>PHB p.304</ref>
+    <size>medium</size>
+    <name>Black Bear</name>
+    <ac>11</ac>
+    <hp>19,3d8+6</hp>
+    <speed>40</speed>
+    <speed type="climb">30</speed>
+    <types>
+        <type>wildShape</type>
+    </types>
+
+    <stats>
+        <strength>15</strength>
+        <dexterity>10</dexterity>
+        <constitution>14</constitution>
+        <intelligence>2</intelligence>
+        <wisdom>12</wisdom>
+        <charisma>7</charisma>
+    </stats>
+    <skills>
+        <proficiency>Perception</proficiency>
+    </skills>
+    <senses>passive perception 13</senses>
+    <languages></languages>
+    <cr>1/2</cr>
+
+    <feature>
+        <name>Keen Smell</name>
+        <shortDescription>The bear has advantage on Wisdom(Perception) checks that rely on smell.</shortDescription>
+    </feature>
+
+    <actions>
+        <action name="Multiattack">
+            <description>The bear makes two attacks, one with its bite and one with its claws.</description>
+        </action>
+        <action name="Bite">
+            <description>+3 to hit, reach 5ft, one-target.
+                Hit: 5 (1d6+2) piercing damage.</description>
+        </action>
+        <action name="Claws">
+            <description>+3 to hit, reach 5ft, one-target.
+                Hit: 7 (2d4+2) slashing damage.</description>
+        </action>
+    </actions>
+
+</companion>

@@ -1,0 +1,41 @@
+<companion>
+    <ref>PHB p.304</ref>
+    <name>Cat</name>
+    <size>tiny</size>
+    <ac>12</ac>
+    <hp>2,d4</hp>
+    <speed>40</speed>
+    <speed type="climb">30</speed>
+    <types>
+        <type>familiar</type>
+    </types>
+
+    <stats>
+        <strength>3</strength>
+        <dexterity>15</dexterity>
+        <constitution>10</constitution>
+        <intelligence>3</intelligence>
+        <wisdom>12</wisdom>
+        <charisma>7</charisma>
+    </stats>
+    <skills>
+        <proficiency>Perception</proficiency>
+        <proficiency>Stealth</proficiency>
+    </skills>
+    <senses>passive perception 13</senses>
+    <languages></languages>
+    <cr>0</cr>
+
+    <feature>
+        <name>Keen Smell</name>
+        <shortDescription>The cat has advantage on Wisdom(Perception) checks that rely on smell.</shortDescription>
+    </feature>
+
+    <actions>
+        <action name="Claws">
+            <description>+0 to hit, reach 5ft, one-target.
+                Hit: 1 slashing damage.</description>
+        </action>
+    </actions>
+
+</companion>

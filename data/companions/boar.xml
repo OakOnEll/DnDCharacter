@@ -1,0 +1,50 @@
+<companion>
+    <ref>PHB p.304</ref>
+    <name>Boar</name>
+    <size>medium</size>
+    <ac>11</ac>
+    <hp>11,2d8+2</hp>
+    <speed>40</speed>
+    <types>
+        <type>wildShape</type>
+    </types>
+
+    <stats>
+        <strength>13</strength>
+        <dexterity>11</dexterity>
+        <constitution>12</constitution>
+        <intelligence>2</intelligence>
+        <wisdom>9</wisdom>
+        <charisma>5</charisma>
+    </stats>
+    <skills>
+    </skills>
+    <senses>passive perception 9</senses>
+    <languages></languages>
+    <cr>1/4</cr>
+
+    <feature>
+        <name>Charge</name>
+        <shortDescription>If the boar moves at least 20 feet straight toward a creature right befor ehitting it with a tusk attack, the target takes an extra 3 (1d6) slashing damagge and must succeed on a DC 11 Strength saving throw or be knocked prone.</shortDescription></feature>
+    <feature>
+        <name>Relentless</name>
+        <refreshes>short rest</refreshes>
+        <uses>1</uses>
+        <shortDescription>If the boar takes damage that reduces it to 0 hit points, unless the damage is 7 or more or from a critical hit, it drops to 1 hit point instead.</shortDescription>
+    </feature>
+
+    <actions>
+        <action name="Multiattack">
+            <description>The bear makes two attacks, one with its bite and one with its claws.</description>
+        </action>
+        <action name="Bite">
+            <description>+3 to hit, reach 5ft, one-target.
+                Hit: 5 (1d6+2) piercing damage.</description>
+        </action>
+        <action name="Claws">
+            <description>+3 to hit, reach 5ft, one-target.
+                Hit: 7 (2d4+2) slashing damage.</description>
+        </action>
+    </actions>
+
+</companion>

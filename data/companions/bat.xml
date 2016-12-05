@@ -1,10 +1,11 @@
 <companion>
     <ref>PHB p.304</ref>
     <name>Bat</name>
+    <size>tiny</size>
     <ac>12</ac>
     <hp>1,d4-1</hp>
     <speed>5</speed>
-    <speed type="fly">30</speed>
+    <speed type="fly" default="true">30</speed>
     <types>
         <type>familiar</type>
     </types>
@@ -22,8 +23,14 @@
     <languages></languages>
     <cr>0</cr>
 
-    <feature name="Echolocation"><description>While it can't hear, the bat has no blindsight.</description></feature>
-    <feature name="Keen hearing"><description>The bat has advantage on Wisdom(Perception) checks that rely on hearing.</description></feature>
+    <feature>
+        <name>Echolocation</name>
+        <shortDescription>While it can't hear, the bat has no blindsight.</shortDescription>
+    </feature>
+    <feature>
+        <name>Keen hearing</name>
+        <shortDescription>The bat has advantage on Wisdom(Perception) checks that rely on hearing.</shortDescription>
+    </feature>
 
     <actions>
         <action name="Bite">
