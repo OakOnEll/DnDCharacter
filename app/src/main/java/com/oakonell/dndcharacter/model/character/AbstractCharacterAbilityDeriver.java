@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Rob on 11/27/2016.
  */
 
-public class AbstractCharacterAbilityDeriver<A extends AbstractCharacter> {
+public abstract class AbstractCharacterAbilityDeriver<A extends AbstractCharacter> {
     private final ComponentVisitor visitor;
     boolean skipFeatures;
 
@@ -27,7 +27,7 @@ public class AbstractCharacterAbilityDeriver<A extends AbstractCharacter> {
     }
 
     //@DebugLog
-    void derive(@NonNull A character, String comment) {
+    protected void derive(@NonNull A character, String comment) {
         List<CharacterEffect> effects = character.getEffects();
         if (effects != null) {
             for (CharacterEffect each : effects) {

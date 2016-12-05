@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
@@ -64,12 +65,12 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
         RowWithSourceAdapter.ListRetriever<Character.LanguageWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.LanguageWithSource>() {
             @NonNull
             @Override
-            public List<Character.LanguageWithSource> getList(@NonNull Character character) {
-                return character.deriveLanguages();
+            public List<Character.LanguageWithSource> getList(@NonNull AbstractCharacter character) {
+                return ((Character) character).deriveLanguages();
             }
         };
 
-        adapter = new LanguagesSourcesAdapter(this, listRetriever);
+        adapter = new LanguagesSourcesAdapter(this, listRetriever, isForCompanion());
         listView.setAdapter(adapter);
 
         listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -106,8 +107,8 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     public static class LanguagesSourcesAdapter extends RowWithSourceAdapter<Character.LanguageWithSource, LanguageSourceViewHolder> {
-        LanguagesSourcesAdapter(@NonNull LanguagesDialogFragment fragment, @NonNull ListRetriever<Character.LanguageWithSource> listRetriever) {
-            super(fragment.getMainActivity(), listRetriever);
+        LanguagesSourcesAdapter(@NonNull LanguagesDialogFragment fragment, @NonNull ListRetriever<Character.LanguageWithSource> listRetriever, boolean isForCompanion) {
+            super(fragment.getMainActivity(), listRetriever, isForCompanion);
         }
 
 

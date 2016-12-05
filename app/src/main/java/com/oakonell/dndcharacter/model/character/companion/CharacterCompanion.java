@@ -1,8 +1,15 @@
 package com.oakonell.dndcharacter.model.character.companion;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.oakonell.dndcharacter.model.character.AbstractCharacter;
+import com.oakonell.dndcharacter.model.character.AbstractCharacterAbilityDeriver;
+import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterAbilityDeriver;
+import com.oakonell.dndcharacter.model.character.CharacterEffect;
+import com.oakonell.dndcharacter.model.character.ComponentVisitor;
+import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.simpleframework.xml.Element;
@@ -14,7 +21,7 @@ import org.simpleframework.xml.Element;
 public class CharacterCompanion extends AbstractCharacter {
 
     @Element(required = false)
-    private String race;
+    private CompanionRace race;
 
     @Element(required = false)
     private boolean deleting;
@@ -25,15 +32,21 @@ public class CharacterCompanion extends AbstractCharacter {
     @Element(required = false)
     private boolean isActive;
 
+    @Element(required = false)
+    private int rootAc;
 
     // not stored
     @Nullable
     private AbstractCompanionType type;
+    private Character character;
 
+    public CharacterCompanion() {
+
+    }
 
     @Override
     public int getMaxHP() {
-        return 0;
+        return getType().getMaxHp(character);
     }
 
     @Override
@@ -41,11 +54,11 @@ public class CharacterCompanion extends AbstractCharacter {
         return 0;
     }
 
-    public String getRace() {
+    public CompanionRace getRace() {
         return race;
     }
 
-    public void setRace(String race) {
+    public void setRace(CompanionRace race) {
         this.race = race;
     }
 
@@ -91,4 +104,25 @@ public class CharacterCompanion extends AbstractCharacter {
         return false;
     }
 
+    public boolean isProficientWith(CharacterArmor characterArmor) {
+        return true;
+    }
+
+    public void removeEffect(CharacterEffect effect) {
+        // no op..
+    }
+
+    public void setBaseAC(int ac) {
+        this.rootAc = ac;
+    }
+
+    @Override
+    public CompanionAbilityDeriver getAbilityDeriver(ComponentVisitor visitor, boolean skipFeatures) {
+        return new CompanionAbilityDeriver(visitor, skipFeatures);
+    }
+
+    @NonNull
+    protected String getBaseACString() {
+        return rootAc + "";
+    }
 }

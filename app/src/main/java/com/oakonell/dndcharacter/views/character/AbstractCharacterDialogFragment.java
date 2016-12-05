@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.oakonell.dndcharacter.DndCharacterApp;
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ContextNote;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
@@ -30,11 +31,27 @@ import hugo.weaving.DebugLog;
  * Created by Rob on 12/24/2015.
  */
 public abstract class AbstractCharacterDialogFragment extends AbstractDialogFragment implements OnCharacterLoaded, CharacterChangedListener {
+    protected static final String COMPANION_ARG = "isForCompanion";
     private RecyclerView context_list;
 
     private ContextualComponentAdapter contextualComponentAdapter;
     private ViewGroup context_group;
     private ImageView add_note;
+
+
+    protected boolean isForCompanion() {
+        Bundle args = getArguments();
+        return args.getBoolean(COMPANION_ARG, false);
+    }
+
+
+    protected AbstractCharacter getDisplayedCharacter() {
+        AbstractCharacter character = getCharacter();
+        if (isForCompanion()) {
+            character = getCharacter().getDisplayedCompanion();
+        }
+        return character;
+    }
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +70,7 @@ public abstract class AbstractCharacterDialogFragment extends AbstractDialogFrag
 
     protected void extraDoneActions() {
         if (contextualComponentAdapter != null) {
-            contextualComponentAdapter.deletePendingEffects(getCharacter());
+            contextualComponentAdapter.deletePendingEffects(getDisplayedCharacter());
         }
 
         getMainActivity().updateViews();
@@ -79,9 +96,9 @@ public abstract class AbstractCharacterDialogFragment extends AbstractDialogFrag
                 add_note.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final List<ContextNote> notes = character.getContextNotes(getNoteContext().getContext());
+                        final List<ContextNote> notes = getDisplayedCharacter().getContextNotes(getNoteContext().getContext());
                         addNote(notes, getNoteContext());
-                        contextualComponentAdapter.reloadList(character);
+                        contextualComponentAdapter.reloadList(getDisplayedCharacter());
                     }
                 });
             } else {
@@ -119,7 +136,7 @@ public abstract class AbstractCharacterDialogFragment extends AbstractDialogFrag
             public void onClick(@NonNull DialogInterface dialog, int which) {
                 dialog.dismiss();
                 notes.add(new ContextNote(noteContext, input.getText().toString()));
-                contextualComponentAdapter.reloadList(getCharacter());
+                contextualComponentAdapter.reloadList(getDisplayedCharacter());
             }
         });
         b.show();
@@ -128,7 +145,7 @@ public abstract class AbstractCharacterDialogFragment extends AbstractDialogFrag
     @DebugLog
     public void onCharacterChanged(@NonNull Character character) {
         if (contextualComponentAdapter != null) {
-            contextualComponentAdapter.reloadList(character);
+            contextualComponentAdapter.reloadList(getDisplayedCharacter());
             if (contextualComponentAdapter.getItemCount() == 0 && getNoteContext() == null) {
                 context_group.setVisibility(View.GONE);
             } else {

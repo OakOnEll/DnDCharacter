@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.ContextNote;
@@ -37,19 +38,24 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     private static final int NOTE = 3;
 
     @NonNull
-    private final CharacterActivity context;
+    //private final CharacterActivity context;
+    AbstractCharacterDialogFragment fragment;
     private final Set<FeatureContextArgument> filter;
     private List<IContextualComponent> list;
     private final Map<String, Long> deletedEffects = new HashMap<>();
 
 
     public ContextualComponentAdapter(@NonNull AbstractCharacterDialogFragment context, Set<FeatureContextArgument> filter) {
-        this.context = context.getMainActivity();
         this.filter = filter;
-        list = filterList(context.getCharacter());
+        this.fragment = context;
+        list = filterList(context.getDisplayedCharacter());
     }
 
-    public void reloadList(@NonNull Character character) {
+    public AbstractCharacter getDisplayedCharacter() {
+        return fragment.getDisplayedCharacter();
+    }
+
+    public void reloadList(@NonNull AbstractCharacter character) {
         if (filter == null) {
 //                list = context.getCharacter().getFeatureInfos();
         } else {
@@ -58,7 +64,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
         notifyDataSetChanged();
     }
 
-    public void deletePendingEffects(@NonNull Character character) {
+    public void deletePendingEffects(@NonNull AbstractCharacter character) {
         for (Iterator<Map.Entry<String, Long>> iter = deletedEffects.entrySet().iterator(); iter.hasNext(); ) {
             final Map.Entry<String, Long> next = iter.next();
             iter.remove();
@@ -70,7 +76,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     }
 
     @NonNull
-    private List<IContextualComponent> filterList(@NonNull Character character) {
+    private List<IContextualComponent> filterList(@NonNull AbstractCharacter character) {
         List<IContextualComponent> result = new ArrayList<>();
 
         if (filter == null) {
@@ -99,14 +105,14 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
 
     @Override
     public int getItemCount() {
-        if (context.getCharacter() == null) return 0;
+        if (fragment.getDisplayedCharacter() == null) return 0;
         return list.size();
     }
 
 
     @Nullable
     public IContextualComponent getItem(int position) {
-        if (context.getCharacter() == null) return null;
+        if (fragment.getDisplayedCharacter() == null) return null;
         return list.get(position);
     }
 
@@ -134,22 +140,22 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     public BindableComponentViewHolder<IContextualComponent, CharacterActivity, ContextualComponentAdapter> onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == FEATURE) {
-            View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
+            View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.feature_layout, parent, false);
             BindableComponentViewHolder holder = new FeatureViewHolder(view, filter);
             return holder;
         }
         if (viewType == EFFECT) {
-            View view = LayoutInflater.from(context).inflate(R.layout.effect_context_layout, parent, false);
+            View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.effect_context_layout, parent, false);
             BindableComponentViewHolder holder = new EffectContextViewHolder(view);
             return holder;
         }
         if (viewType == DELETED_EFFECT) {
-            View view = LayoutInflater.from(context).inflate(R.layout.effect_deleted_context_layout, parent, false);
+            View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.effect_deleted_context_layout, parent, false);
             BindableComponentViewHolder holder = new DeletedEffectContextViewHolder(view);
             return holder;
         }
         if (viewType == NOTE) {
-            View view = LayoutInflater.from(context).inflate(R.layout.context_note_layout, parent, false);
+            View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.context_note_layout, parent, false);
             BindableComponentViewHolder holder = new ContextNoteViewHolder(view);
             return holder;
         }
@@ -160,7 +166,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
     @Override
     public void onBindViewHolder(@NonNull final BindableComponentViewHolder<IContextualComponent, CharacterActivity, ContextualComponentAdapter> viewHolder, final int position) {
         final IContextualComponent info = getItem(position);
-        viewHolder.bind(context, this, info);
+        viewHolder.bind(fragment.getMainActivity(), this, info);
     }
 
     private static class DeletedEffectContextViewHolder extends BindableComponentViewHolder<CharacterEffect, CharacterActivity, ContextualComponentAdapter> {
@@ -222,9 +228,11 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
                     final String name = info.getName();
                     if (componentAdapter.deletedEffects.containsKey(name)) {
                         // actually delete the record, now
-                        componentAdapter.context.getCharacter().removeEffect(info);
+                        componentAdapter.getDisplayedCharacter().removeEffect(info);
                         componentAdapter.deletedEffects.remove(name);
                         componentAdapter.notifyItemRemoved(getAdapterPosition());
+                        context.updateViews();
+                        context.saveCharacter();
                     }
 
                     componentAdapter.deletedEffects.put(name, System.currentTimeMillis());
@@ -237,7 +245,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
                             if (deletedTime == null) return;
                             if (System.currentTimeMillis() - deletedTime >= UNDO_DELAY) {
                                 // actually delete the record, now
-                                componentAdapter.context.getCharacter().removeEffect(info);
+                                componentAdapter.getDisplayedCharacter().removeEffect(info);
                                 componentAdapter.deletedEffects.remove(name);
                                 context.updateViews();
                                 context.saveCharacter();
@@ -276,8 +284,8 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
                 @Override
                 public void onClick(View v) {
                     // TODO support delayed deletion...
-                    context.getCharacter().getContextNotes(info.getContext().getContext()).remove(info);
-                    componentAdapter.reloadList(context.getCharacter());
+                    componentAdapter.getDisplayedCharacter().getContextNotes(info.getContext().getContext()).remove(info);
+                    componentAdapter.reloadList(componentAdapter.getDisplayedCharacter());
 
 //                    final String name = info.getName();
 //                    if (componentAdapter.deletedEffects.containsKey(name)) {

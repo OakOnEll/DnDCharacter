@@ -321,16 +321,16 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
                         case MODIFYING_ACS:
                         case ROOT_ACS:
-                            ArmorClassDialogFragment acDialog = ArmorClassDialogFragment.createDialog();
+                            ArmorClassDialogFragment acDialog = ArmorClassDialogFragment.createDialog(false);
                             acDialog.show(adapter.context.getSupportFragmentManager(), "ac");
                             break;
 
                         case PASSIVE_PERCEPTION:
-                            PassivePerceptionDialogFragment percDialog = PassivePerceptionDialogFragment.create();
+                            PassivePerceptionDialogFragment percDialog = PassivePerceptionDialogFragment.create(false);
                             percDialog.show(adapter.context.getSupportFragmentManager(), "passivePerception");
                             break;
                         case INITIATIVE:
-                            InitiativeDialogFragment initDialog = InitiativeDialogFragment.create();
+                            InitiativeDialogFragment initDialog = InitiativeDialogFragment.create(false);
                             initDialog.show(adapter.context.getSupportFragmentManager(), "initiative");
                             break;
 
@@ -340,7 +340,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
                         case SPEED_FLY:
                         case SPEED_SWIM:
                         case SPEED_WALK:
-                            SpeedDialogFragment speedDialog = SpeedDialogFragment.create();
+                            SpeedDialogFragment speedDialog = SpeedDialogFragment.create(false);
                             speedDialog.show(adapter.context.getSupportFragmentManager(), "speed");
                             break;
 
@@ -369,7 +369,8 @@ public class FeaturesFragment extends AbstractSheetFragment {
         }
 
         protected void launchStatDialog(AdjustmentTypeAdapter adapter, StatType statType) {
-            StatBlockDialogFragment statDialog = StatBlockDialogFragment.create(adapter.context.getCharacter().getStatBlock(statType));
+            // TODO for companions?
+            StatBlockDialogFragment statDialog = StatBlockDialogFragment.create(adapter.context.getCharacter().getStatBlock(statType), false);
             statDialog.show(adapter.context.getSupportFragmentManager(), statType.toString());
         }
     }

@@ -1946,7 +1946,12 @@ public class Character extends AbstractCharacter {
 
 
     @Override
-    public AbstractCharacterAbilityDeriver getAbilityDeriver(ComponentVisitor visitor, boolean skipFeatures) {
+    public CharacterAbilityDeriver getAbilityDeriver(ComponentVisitor visitor, boolean skipFeatures) {
         return new CharacterAbilityDeriver(visitor, skipFeatures);
+    }
+
+    @NonNull
+    protected String getBaseACString() {
+        return "10 + dexterityMod";
     }
 }

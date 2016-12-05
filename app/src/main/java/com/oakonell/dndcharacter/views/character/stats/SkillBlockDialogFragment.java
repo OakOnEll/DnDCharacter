@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.Proficient;
@@ -95,12 +96,12 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
             @NonNull
             @Override
-            public List<Character.ProficientWithSource> getList(@NonNull Character character) {
+            public List<Character.ProficientWithSource> getList(@NonNull AbstractCharacter character) {
                 return character.getSkillBlock(type).getProficiencies();
             }
         };
 
-        adapter = new SkillSourceAdapter(this, listRetriever);
+        adapter = new SkillSourceAdapter(this, listRetriever, isForCompanion());
         listView.setAdapter(adapter);
 
         listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -176,8 +177,8 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     }
 
     public static class SkillSourceAdapter extends RowWithSourceAdapter<Character.ProficientWithSource, SkillProfWithSourceViewHolder> {
-        SkillSourceAdapter(@NonNull SkillBlockDialogFragment fragment, @NonNull ListRetriever<Character.ProficientWithSource> listRetriever) {
-            super(fragment.getMainActivity(), listRetriever);
+        SkillSourceAdapter(@NonNull SkillBlockDialogFragment fragment, @NonNull ListRetriever<Character.ProficientWithSource> listRetriever, boolean isForCompanion) {
+            super(fragment.getMainActivity(), listRetriever,isForCompanion);
         }
 
 

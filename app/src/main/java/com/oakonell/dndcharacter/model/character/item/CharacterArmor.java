@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
@@ -29,7 +30,7 @@ public class CharacterArmor extends CharacterItem {
         return equipped;
     }
 
-    public void setEquipped(@NonNull Resources resources, @NonNull Character character, boolean equipped) {
+    public void setEquipped(@NonNull Resources resources, @NonNull AbstractCharacter character, boolean equipped) {
         this.equipped = equipped;
         if (equipped) {
             if (!character.isProficientWith(this) && !hasNonproficientArmorEffect(character, resources)) {
@@ -48,17 +49,17 @@ public class CharacterArmor extends CharacterItem {
         }
     }
 
-    private static void removeNonproficientArmorEffect(@NonNull Character character, @NonNull Resources resources) {
+    private static void removeNonproficientArmorEffect(@NonNull AbstractCharacter character, @NonNull Resources resources) {
         CharacterEffect effect = character.getEffectNamed(resources.getString(R.string.nonproficient_armor_effect_name));
         character.removeEffect(effect);
     }
 
-    private static boolean hasNonproficientArmorEffect(@NonNull Character character, @NonNull Resources resources) {
+    private static boolean hasNonproficientArmorEffect(@NonNull AbstractCharacter character, @NonNull Resources resources) {
         CharacterEffect effect = character.getEffectNamed(resources.getString(R.string.nonproficient_armor_effect_name));
         return effect != null;
     }
 
-    private static void addNonproficientArmorEffect(@NonNull Character character, @NonNull Resources resources) {
+    private static void addNonproficientArmorEffect(@NonNull AbstractCharacter character, @NonNull Resources resources) {
         CharacterEffect effect = new CharacterEffect();
         effect.setName(resources.getString(R.string.nonproficient_armor_effect_name));
         effect.setDescription(resources.getString(R.string.nonproficient_armor_effect_description));

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
@@ -37,8 +38,12 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
     TextView initiative_modifier;
 
     @NonNull
-    public static InitiativeDialogFragment create() {
-        return new InitiativeDialogFragment();
+    public static InitiativeDialogFragment create(boolean forCompanion) {
+        final InitiativeDialogFragment fragment = new InitiativeDialogFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, forCompanion);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -57,7 +62,7 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
         add_adjustment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(getString(R.string.add_initiative_adjustment), CustomAdjustmentType.INITIATIVE);
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(getString(R.string.add_initiative_adjustment), CustomAdjustmentType.INITIATIVE, isForCompanion());
                 dialog.show(getFragmentManager(), INITIATIVE_ADJUSTMENT_FRAG);
             }
         });
@@ -90,16 +95,16 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
         RowWithSourceAdapter.ListRetriever<Character.InitiativeWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.InitiativeWithSource>() {
             @NonNull
             @Override
-            public List<Character.InitiativeWithSource> getList(@NonNull Character character) {
-                return character.deriveInitiative();
+            public List<Character.InitiativeWithSource> getList(@NonNull AbstractCharacter character) {
+                return getDisplayedCharacter().deriveInitiative();
             }
         };
 
-        final int initiative = character.getInitiative();
+        final int initiative = getDisplayedCharacter().getInitiative();
         setModifier(initiative);
         initiative_modifier.setText(NumberUtils.formatNumber(initiative));
 
-        adapter = new InitiativeSourcesAdapter(this, listRetriever);
+        adapter = new InitiativeSourcesAdapter(this, listRetriever, isForCompanion());
         listView.setAdapter(adapter);
 
         listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -109,9 +114,9 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
     @Override
     public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
-        adapter.reloadList(character);
+        adapter.reloadList(getDisplayedCharacter());
 
-        final int initiative = character.getInitiative();
+        final int initiative = getDisplayedCharacter().getInitiative();
         setModifier(initiative);
         initiative_modifier.setText(NumberUtils.formatNumber(initiative));
     }
@@ -140,8 +145,8 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
     }
 
     public static class InitiativeSourcesAdapter extends RowWithSourceAdapter<Character.InitiativeWithSource, InitiativeSourceViewHolder> {
-        InitiativeSourcesAdapter(@NonNull InitiativeDialogFragment fragment, @NonNull ListRetriever<Character.InitiativeWithSource> listRetriever) {
-            super(fragment.getMainActivity(), listRetriever);
+        InitiativeSourcesAdapter(@NonNull InitiativeDialogFragment fragment, @NonNull ListRetriever<Character.InitiativeWithSource> listRetriever, boolean isForCompanion) {
+            super(fragment.getMainActivity(), listRetriever, isForCompanion);
         }
 
         @Override

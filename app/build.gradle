@@ -57,6 +57,7 @@ android {
                             'src/main/res/layouts/character/rest',
                             'src/main/res/layouts/character/spell',
                             'src/main/res/layouts/character/stats',
+                            'src/main/res/layouts/character/companion',
                             'src/main/res/layouts/character',
 
                             'src/main/res/layouts/characters',

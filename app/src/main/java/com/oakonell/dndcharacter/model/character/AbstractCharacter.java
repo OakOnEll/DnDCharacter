@@ -278,7 +278,7 @@ public abstract class AbstractCharacter {
     @NonNull
     public List<ArmorClassWithSource> deriveRootAcs(List<ArmorClassWithSource> modifyingAcs) {
         final List<ArmorClassWithSource> result = new ArrayList<>();
-        String baseFormula = "10 + dexterityMod";
+        String baseFormula = getBaseACString();
         int baseValue = evaluateFormula(baseFormula, null);
         ArmorClassWithSource unarmored = new ArmorClassWithSource(baseFormula, baseValue, null, false, false);
         result.add(unarmored);
@@ -346,6 +346,9 @@ public abstract class AbstractCharacter {
 
         return result;
     }
+
+    @NonNull
+    protected abstract String getBaseACString();
 
     protected void addAdditionalACRoots(RootArmorClassDeriver addRootAc) {
     }
@@ -1022,6 +1025,10 @@ public abstract class AbstractCharacter {
 
     public abstract boolean anyContextFeats(FeatureContext toHit);
 
+    public abstract boolean isProficientWith(CharacterArmor characterArmor);
+
+    public abstract void removeEffect(CharacterEffect effect);
+
     interface RootArmorClassDeriver {
         void derive(FeatureInfo info);
     }
@@ -1070,7 +1077,7 @@ public abstract class AbstractCharacter {
             return isArmor;
         }
 
-        public void setEquipped(Resources resources, Character character, boolean equipped) {
+        public void setEquipped(Resources resources, AbstractCharacter character, boolean equipped) {
             if (getSource() instanceof CharacterArmor) {
                 ((CharacterArmor) getSource()).setEquipped(resources, character, equipped);
             } else if (getSource() instanceof AdjustmentComponentSource) {
@@ -1435,8 +1442,6 @@ public abstract class AbstractCharacter {
         return weapons;
     }
 
-    public AbstractCharacterAbilityDeriver getAbilityDeriver(ComponentVisitor visitor, boolean skipFeatures) {
-        return new AbstractCharacterAbilityDeriver(visitor, skipFeatures);
-    }
+    public abstract AbstractCharacterAbilityDeriver getAbilityDeriver(ComponentVisitor visitor, boolean skipFeatures);
 
 }

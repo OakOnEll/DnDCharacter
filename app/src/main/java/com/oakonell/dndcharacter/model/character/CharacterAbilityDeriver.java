@@ -20,7 +20,7 @@ public class CharacterAbilityDeriver extends AbstractCharacterAbilityDeriver<Cha
 
     //@DebugLog
     @Override
-    void derive(@NonNull Character character, String comment) {
+    protected void derive(@NonNull Character character, String comment) {
         CharacterBackground background = character.getBackground();
         if (background != null) {
             getVisitor().visitComponent(background);

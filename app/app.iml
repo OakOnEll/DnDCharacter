@@ -18,7 +18,7 @@
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res/layouts/character/armorclass" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res/layouts/character/armorclass;file://$MODULE_DIR$/src/main/res/layouts/character/hitpoints;file://$MODULE_DIR$/src/main/res/layouts/character/feature;file://$MODULE_DIR$/src/main/res/layouts/character/item;file://$MODULE_DIR$/src/main/res/layouts/character/main;file://$MODULE_DIR$/src/main/res/layouts/character/persona;file://$MODULE_DIR$/src/main/res/layouts/character/speed;file://$MODULE_DIR$/src/main/res/layouts/character/rest;file://$MODULE_DIR$/src/main/res/layouts/character/spell;file://$MODULE_DIR$/src/main/res/layouts/character/stats;file://$MODULE_DIR$/src/main/res/layouts/character;file://$MODULE_DIR$/src/main/res/layouts/characters;file://$MODULE_DIR$/src/main/res/layouts/import;file://$MODULE_DIR$/src/main/res/layouts/race;file://$MODULE_DIR$/src/main/res/layouts/spell;file://$MODULE_DIR$/src/main/res/layouts;file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/playStore/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res/layouts/character/armorclass;file://$MODULE_DIR$/src/main/res/layouts/character/hitpoints;file://$MODULE_DIR$/src/main/res/layouts/character/feature;file://$MODULE_DIR$/src/main/res/layouts/character/item;file://$MODULE_DIR$/src/main/res/layouts/character/main;file://$MODULE_DIR$/src/main/res/layouts/character/persona;file://$MODULE_DIR$/src/main/res/layouts/character/speed;file://$MODULE_DIR$/src/main/res/layouts/character/rest;file://$MODULE_DIR$/src/main/res/layouts/character/spell;file://$MODULE_DIR$/src/main/res/layouts/character/stats;file://$MODULE_DIR$/src/main/res/layouts/character/companion;file://$MODULE_DIR$/src/main/res/layouts/character;file://$MODULE_DIR$/src/main/res/layouts/characters;file://$MODULE_DIR$/src/main/res/layouts/import;file://$MODULE_DIR$/src/main/res/layouts/race;file://$MODULE_DIR$/src/main/res/layouts/spell;file://$MODULE_DIR$/src/main/res/layouts;file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/playStore/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
     </facet>
@@ -111,6 +111,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/res/layouts/character/rest" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res/layouts/character/spell" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res/layouts/character/stats" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/res/layouts/character/companion" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res/layouts/character" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res/layouts/characters" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res/layouts/import" type="java-resource" />

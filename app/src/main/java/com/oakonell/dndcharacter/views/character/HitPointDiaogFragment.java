@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.VulnerabilityType;
@@ -60,15 +61,21 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     private Button add_another;
     private RecyclerView hpListView;
 
+
     @Nullable
     private HitPointsAdapter hpListAdapter;
     @Nullable
     private ArrayList<HpRow> hpList = new ArrayList<>();
 
     @NonNull
-    public static HitPointDiaogFragment createDialog() {
-        return new HitPointDiaogFragment();
+    public static HitPointDiaogFragment createDialog(boolean forCompanion) {
+        HitPointDiaogFragment dialog = new HitPointDiaogFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, forCompanion);
+        dialog.setArguments(args);
+        return dialog;
     }
+
 
     @Override
     public void onCharacterChanged(@NonNull Character character) {
@@ -307,7 +314,8 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
     }
 
     private void updateView() {
-        Character character = getCharacter();
+        AbstractCharacter character = getDisplayedCharacter();
+
         int currentHp = character.getHP();
         int tempHp = character.getTempHp();
         String startHptext = getString(R.string.fraction_d_slash_d, currentHp, character.getMaxHP());
@@ -360,7 +368,8 @@ public class HitPointDiaogFragment extends AbstractCharacterDialogFragment {
 
     @Override
     protected boolean onDone() {
-        Character character = getCharacter();
+        AbstractCharacter character = getDisplayedCharacter();
+
         HpType hpType = getHpType();
 
         if (hpType == HpType.DAMAGE) {

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.Proficient;
@@ -63,12 +64,12 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
         RowWithSourceAdapter.ListRetriever<Character.ToolProficiencyWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ToolProficiencyWithSource>() {
             @NonNull
             @Override
-            public List<Character.ToolProficiencyWithSource> getList(@NonNull Character character) {
-                return character.deriveToolProficiencies(proficiencyType);
+            public List<Character.ToolProficiencyWithSource> getList(@NonNull AbstractCharacter character) {
+                return ((Character)character).deriveToolProficiencies(proficiencyType);
             }
         };
 
-        adapter = new ToolProficiencySourceAdapter(this, listRetriever);
+        adapter = new ToolProficiencySourceAdapter(this, listRetriever, false);
         listView.setAdapter(adapter);
 
         listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -125,8 +126,8 @@ public class ToolProficiencyDialogFragment extends AbstractCharacterDialogFragme
     }
 
     public static class ToolProficiencySourceAdapter extends RowWithSourceAdapter<Character.ToolProficiencyWithSource, ToolProfViewHolder> {
-        ToolProficiencySourceAdapter(@NonNull ToolProficiencyDialogFragment fragment, @NonNull ListRetriever<Character.ToolProficiencyWithSource> listRetriever) {
-            super(fragment.getMainActivity(), listRetriever);
+        ToolProficiencySourceAdapter(@NonNull ToolProficiencyDialogFragment fragment, @NonNull ListRetriever<Character.ToolProficiencyWithSource> listRetriever, boolean isForCompanion) {
+            super(fragment.getMainActivity(), listRetriever, isForCompanion);
         }
 
 

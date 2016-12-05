@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
@@ -41,9 +42,10 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     private StatSourceAdapter adapter;
 
     @NonNull
-    public static StatBlockDialogFragment create(@NonNull StatBlock block) {
+    public static StatBlockDialogFragment create(@NonNull StatBlock block, boolean isForCompanion) {
         StatBlockDialogFragment frag = new StatBlockDialogFragment();
         frag.setStatTypeArg(block);
+        frag.setIsForCompanion(isForCompanion);
 
         return frag;
     }
@@ -64,7 +66,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
             @Override
             public void onClick(View v) {
                 String title = getString(R.string.add_stat_adjustment, getString(getType().getStringResId()));
-                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, getType().getCustomType());
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, getType().getCustomType(), isForCompanion());
                 dialog.show(getFragmentManager(), STAT_ADJUSTMENT_FRAG);
             }
         });
@@ -92,12 +94,12 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ModifierWithSource>() {
             @NonNull
             @Override
-            public List<Character.ModifierWithSource> getList(Character character) {
+            public List<Character.ModifierWithSource> getList(AbstractCharacter character) {
                 return getStatBlock().getModifiers();
             }
         };
 
-        adapter = new StatSourceAdapter(this, listRetriever);
+        adapter = new StatSourceAdapter(this, listRetriever, isForCompanion());
         listView.setAdapter(adapter);
 
         listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -136,7 +138,12 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         StatBlock statBlock = setStatBlock(character);
         updateView(statBlock);
 
-        adapter.reloadList(character);
+        AbstractCharacter source = character;
+        if (isForCompanion()) {
+            source = character.getDisplayedCompanion();
+        }
+
+        adapter.reloadList(source);
     }
 
     public static class StatSourceViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.ModifierWithSource> {
@@ -164,8 +171,8 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     public static class StatSourceAdapter extends RowWithSourceAdapter<Character.ModifierWithSource, StatSourceViewHolder> {
         final private StatType type;
 
-        StatSourceAdapter(@NonNull StatBlockDialogFragment fragment, @NonNull ListRetriever<Character.ModifierWithSource> listRetriever) {
-            super(fragment.getMainActivity(), listRetriever);
+        StatSourceAdapter(@NonNull StatBlockDialogFragment fragment, @NonNull ListRetriever<Character.ModifierWithSource> listRetriever, boolean isForCompanion) {
+            super(fragment.getMainActivity(), listRetriever, isForCompanion);
             type = fragment.getType();
         }
 
@@ -181,7 +188,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
         }
 
         @Override
-        protected void launchNoSource(@NonNull CharacterActivity activity, Character character) {
+        protected void launchNoSource(@NonNull CharacterActivity activity, AbstractCharacter character) {
             BaseStatsDialogFragment dialog = BaseStatsDialogFragment.createDialog();
             dialog.show(activity.getSupportFragmentManager(), "base_stats");
         }

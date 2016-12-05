@@ -52,7 +52,7 @@ public class AdjustmentComponentSource implements ComponentSource {
         return adjustment;
     }
 
-    public void setEquipped(Resources resources, Character character, boolean equipped) {
+    public void setEquipped(Resources resources, AbstractCharacter character, boolean equipped) {
         adjustment.applied = equipped;
     }
 }

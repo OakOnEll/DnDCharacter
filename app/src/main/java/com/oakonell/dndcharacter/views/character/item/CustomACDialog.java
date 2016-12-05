@@ -26,17 +26,19 @@ public class CustomACDialog extends AbstractCharacterDialogFragment {
     private EditText formula;
 
     @NonNull
-    public static CustomACDialog createRootACDialog() {
+    public static CustomACDialog createRootACDialog(boolean isForCompanion) {
         CustomACDialog dialog = new CustomACDialog();
         Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, isForCompanion);
         args.putBoolean(IS_ROOT, true);
         dialog.setArguments(args);
         return dialog;
     }
 
-    public static CustomACDialog createModifyingACDialog() {
+    public static CustomACDialog createModifyingACDialog(boolean isForCompanion) {
         CustomACDialog dialog = new CustomACDialog();
         Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, isForCompanion);
         args.putBoolean(IS_ROOT, false);
         dialog.setArguments(args);
         return dialog;
@@ -103,9 +105,9 @@ public class CustomACDialog extends AbstractCharacterDialogFragment {
         if (isValid) {
             final int intVal = Integer.parseInt(formulaString);
             if (isRoot()) {
-                getCharacter().getCustomAdjustments(CustomAdjustmentType.ROOT_ACS).addAdjustment(commentString, "=" + formulaString, intVal);
+                getDisplayedCharacter().getCustomAdjustments(CustomAdjustmentType.ROOT_ACS).addAdjustment(commentString, "=" + formulaString, intVal);
             } else {
-                getCharacter().getCustomAdjustments(CustomAdjustmentType.MODIFYING_ACS).addAdjustment(commentString, formulaString, intVal);
+                getDisplayedCharacter().getCustomAdjustments(CustomAdjustmentType.MODIFYING_ACS).addAdjustment(commentString, formulaString, intVal);
             }
         }
         return super.onDone();

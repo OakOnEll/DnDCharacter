@@ -52,8 +52,12 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     private View add_modifying_adjustment;
 
     @NonNull
-    public static ArmorClassDialogFragment createDialog() {
-        return new ArmorClassDialogFragment();
+    public static ArmorClassDialogFragment createDialog(boolean isForCompanion) {
+        final ArmorClassDialogFragment fragment = new ArmorClassDialogFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, isForCompanion);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public View onCreateTheView(@NonNull LayoutInflater inflater, final ViewGroup container,
@@ -77,14 +81,14 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         add_base_adjustment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomACDialog dialog = CustomACDialog.createRootACDialog();
+                CustomACDialog dialog = CustomACDialog.createRootACDialog(isForCompanion());
                 dialog.show(getFragmentManager(), "custom_ac");
             }
         });
         add_modifying_adjustment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomACDialog dialog = CustomACDialog.createModifyingACDialog();
+                CustomACDialog dialog = CustomACDialog.createModifyingACDialog(isForCompanion());
                 dialog.show(getFragmentManager(), "custom_ac");
             }
         });
@@ -118,10 +122,10 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     @Override
     protected boolean onDone() {
         for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
-            each.setEquipped(getResources(), getCharacter(), each.isEquipped());
+            each.setEquipped(getResources(), getDisplayedCharacter(), each.isEquipped());
         }
         for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
-            each.setEquipped(getResources(), getCharacter(), each.isEquipped());
+            each.setEquipped(getResources(), getDisplayedCharacter(), each.isEquipped());
         }
         return super.onDone();
     }
@@ -130,7 +134,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
-        rootAcAdapter = new RootAcAdapter(this, character);
+        rootAcAdapter = new RootAcAdapter(this, getDisplayedCharacter());
         if (baseArmorSaved != null) {
             for (Character.ArmorClassWithSource each : rootAcAdapter.list) {
                 if (each.getSourceString(getResources()).equals(baseArmorSaved)) {
@@ -147,7 +151,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         rootList.setHasFixedSize(false);
 
 
-        modifyingAcAdapter = new ModifyingAcAdapter(this, character);
+        modifyingAcAdapter = new ModifyingAcAdapter(this, getDisplayedCharacter());
         if (modifyingArmorSaved != null) {
             for (Character.ArmorClassWithSource each : modifyingAcAdapter.list) {
                 if (modifyingArmorSaved.contains(each.getSourceString(getResources()))) {
@@ -196,8 +200,8 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     @Override
     public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
-        rootAcAdapter.reloadList(character);
-        modifyingAcAdapter.reloadList(character);
+        rootAcAdapter.reloadList(getDisplayedCharacter());
+        modifyingAcAdapter.reloadList(getDisplayedCharacter());
         updateAC();
     }
 
@@ -298,7 +302,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        CustomAdjustments adjustments = context.getCharacter().getCustomAdjustments(CustomAdjustmentType.ROOT_ACS);
+                        CustomAdjustments adjustments = context.getDisplayedCharacter().getCustomAdjustments(CustomAdjustmentType.ROOT_ACS);
                         adjustments.delete(((AdjustmentComponentSource) row.getSource()).getAdjustment());
                         context.getMainActivity().updateViews();
                     }
@@ -313,18 +317,18 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         List<Character.ArmorClassWithSource> list;
         final ArmorClassDialogFragment fragment;
 
-        RootAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, @NonNull Character character) {
+        RootAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, @NonNull AbstractCharacter character) {
             list = character.deriveRootAcs();
             this.fragment = armorClassDialogFragment;
         }
 
-        public void reloadList(@NonNull Character character) {
+        public void reloadList(@NonNull AbstractCharacter character) {
             list = character.deriveRootAcs();
             notifyDataSetChanged();
         }
 
         public void updateDueToAChange() {
-            AbstractCharacter.modifyRootAcs(fragment.getCharacter(), fragment.modifyingAcAdapter.list, list);
+            AbstractCharacter.modifyRootAcs(fragment.getDisplayedCharacter(), fragment.modifyingAcAdapter.list, list);
             notifyDataSetChanged();
         }
 
@@ -351,12 +355,12 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
         List<Character.ArmorClassWithSource> list;
         final ArmorClassDialogFragment fragment;
 
-        ModifyingAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, @NonNull Character character) {
+        ModifyingAcAdapter(ArmorClassDialogFragment armorClassDialogFragment, @NonNull AbstractCharacter character) {
             list = character.deriveModifyingAcs();
             this.fragment = armorClassDialogFragment;
         }
 
-        public void reloadList(@NonNull Character character) {
+        public void reloadList(@NonNull AbstractCharacter character) {
             list = character.deriveModifyingAcs();
             notifyDataSetChanged();
         }
@@ -401,7 +405,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
                 holder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        CustomAdjustments adjustments = fragment.getCharacter().getCustomAdjustments(CustomAdjustmentType.MODIFYING_ACS);
+                        CustomAdjustments adjustments = fragment.getDisplayedCharacter().getCustomAdjustments(CustomAdjustmentType.MODIFYING_ACS);
                         adjustments.delete(((AdjustmentComponentSource) row.getSource()).getAdjustment());
                         fragment.getMainActivity().updateViews();
                     }

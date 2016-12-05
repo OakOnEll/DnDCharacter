@@ -34,9 +34,10 @@ public class CustomNumericAdjustmentDialog extends AbstractCharacterDialogFragme
     }
 
     @NonNull
-    public static CustomNumericAdjustmentDialog createDialog(String title, CustomAdjustmentType type) {
+    public static CustomNumericAdjustmentDialog createDialog(String title, CustomAdjustmentType type, boolean isForCompanion) {
         CustomNumericAdjustmentDialog dialog = new CustomNumericAdjustmentDialog();
         Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, isForCompanion);
         args.putString(TITLE, title);
         args.putString(TYPE, type.name());
         dialog.setArguments(args);
@@ -76,7 +77,6 @@ public class CustomNumericAdjustmentDialog extends AbstractCharacterDialogFragme
 
     @Override
     protected boolean onDone() {
-
         final String commentString = comment.getText().toString().trim();
         boolean isValid = true;
         if (commentString.length() == 0) {
@@ -102,7 +102,7 @@ public class CustomNumericAdjustmentDialog extends AbstractCharacterDialogFragme
             isValid = false;
         }
         if (isValid) {
-            getCharacter().getCustomAdjustments(getType()).addAdjustment(commentString, intVal);
+            getDisplayedCharacter().getCustomAdjustments(getType()).addAdjustment(commentString, intVal);
             getMainActivity().updateViews();
             getMainActivity().saveCharacter();
         }

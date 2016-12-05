@@ -353,7 +353,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         ac_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArmorClassDialogFragment dialog = ArmorClassDialogFragment.createDialog();
+                ArmorClassDialogFragment dialog = ArmorClassDialogFragment.createDialog(false);
                 dialog.show(getFragmentManager(), "ac");
             }
         });

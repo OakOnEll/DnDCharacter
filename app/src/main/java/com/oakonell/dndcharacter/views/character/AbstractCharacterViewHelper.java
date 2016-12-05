@@ -58,9 +58,11 @@ public class AbstractCharacterViewHelper {
     private TextView speed_lbl;
 
     private AbstractSheetFragment mainFragment;
+    private boolean isForCompanion;
 
-    public AbstractCharacterViewHelper(AbstractSheetFragment mainFragment) {
+    public AbstractCharacterViewHelper(AbstractSheetFragment mainFragment, boolean isForCompanion) {
         this.mainFragment = mainFragment;
+        this.isForCompanion = isForCompanion;
     }
 
 
@@ -79,13 +81,16 @@ public class AbstractCharacterViewHelper {
 
         proficiency = (TextView) rootView.findViewById(R.id.proficiency);
 
+        // TODO connect the dialogs to the possible character companion!!!
+
+
         speed = (TextView) rootView.findViewById(R.id.speed);
         speed_lbl = (TextView) rootView.findViewById(R.id.speed_lbl);
         rootView.findViewById(R.id.speed_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO open a speed dialog, to select speed type to display, and to show sources of speed
-                SpeedDialogFragment dialog = SpeedDialogFragment.create();
+                SpeedDialogFragment dialog = SpeedDialogFragment.create(isForCompanion);
                 dialog.show(getFragmentManager(), "speed");
             }
         });
@@ -95,7 +100,7 @@ public class AbstractCharacterViewHelper {
         rootView.findViewById(R.id.ac_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArmorClassDialogFragment dialog = ArmorClassDialogFragment.createDialog();
+                ArmorClassDialogFragment dialog = ArmorClassDialogFragment.createDialog(isForCompanion);
                 dialog.show(getFragmentManager(), "ac");
             }
         });
@@ -104,7 +109,7 @@ public class AbstractCharacterViewHelper {
         rootView.findViewById(R.id.initiative_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InitiativeDialogFragment dialog = InitiativeDialogFragment.create();
+                InitiativeDialogFragment dialog = InitiativeDialogFragment.create(isForCompanion);
                 dialog.show(getFragmentManager(), "initiative");
             }
         });
@@ -113,7 +118,7 @@ public class AbstractCharacterViewHelper {
         rootView.findViewById(R.id.passive_perception_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PassivePerceptionDialogFragment dialog = PassivePerceptionDialogFragment.create();
+                PassivePerceptionDialogFragment dialog = PassivePerceptionDialogFragment.create(isForCompanion);
                 dialog.show(getFragmentManager(), "passive_perception");
             }
         });
@@ -123,7 +128,7 @@ public class AbstractCharacterViewHelper {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
-                HitPointDiaogFragment hpFragment = HitPointDiaogFragment.createDialog();
+                HitPointDiaogFragment hpFragment = HitPointDiaogFragment.createDialog(isForCompanion);
                 hpFragment.show(fm, "fragment_hp");
             }
         };
@@ -168,6 +173,7 @@ public class AbstractCharacterViewHelper {
     }
 
     public void updateViews(View rootView, final AbstractCharacter character) {
+        if (rootView == null) return;
         if (character == null) {
 // TODO shouldn't be possible now...
             Log.d("Main", "updateViews character = null");
@@ -249,7 +255,7 @@ public class AbstractCharacterViewHelper {
             death_saves_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DeathSaveDialogFragment dialog = DeathSaveDialogFragment.create();
+                    DeathSaveDialogFragment dialog = DeathSaveDialogFragment.create(isForCompanion);
                     dialog.show(getFragmentManager(), "death_save");
                 }
             });
@@ -272,7 +278,7 @@ public class AbstractCharacterViewHelper {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    StatBlockDialogFragment dialog = StatBlockDialogFragment.create(character.getStatBlock(entry.getKey()));
+                    StatBlockDialogFragment dialog = StatBlockDialogFragment.create(character.getStatBlock(entry.getKey()), isForCompanion);
                     dialog.show(getFragmentManager(), "stat_frag");
                 }
             });
@@ -284,7 +290,7 @@ public class AbstractCharacterViewHelper {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SaveThrowBlockDialogFragment dialog = SaveThrowBlockDialogFragment.create(character.getStatBlock(entry.getKey()));
+                    SaveThrowBlockDialogFragment dialog = SaveThrowBlockDialogFragment.create(character.getStatBlock(entry.getKey()), isForCompanion);
                     dialog.show(getFragmentManager(), "save_throw_frag");
                 }
             });

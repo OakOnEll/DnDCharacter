@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.Proficient;
@@ -41,9 +42,10 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     private SaveThrowSourcesAdapter adapter;
 
     @NonNull
-    public static SaveThrowBlockDialogFragment create(@NonNull StatBlock block) {
+    public static SaveThrowBlockDialogFragment create(@NonNull StatBlock block, boolean isForCompanion) {
         SaveThrowBlockDialogFragment frag = new SaveThrowBlockDialogFragment();
         frag.setStatTypeArg(block);
+        frag.setForCompanion(isForCompanion);
         return frag;
     }
 
@@ -82,12 +84,12 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.ProficientWithSource>() {
             @NonNull
             @Override
-            public List<Character.ProficientWithSource> getList(Character character) {
+            public List<Character.ProficientWithSource> getList(AbstractCharacter character) {
                 return getStatBlock().getSaveProficiencies();
             }
         };
 
-        adapter = new SaveThrowSourcesAdapter(this, listRetriever);
+        adapter = new SaveThrowSourcesAdapter(this, listRetriever, isForCompanion());
         listView.setAdapter(adapter);
 
         listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -133,7 +135,13 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
         StatBlock statBlock = setStatBlock(character);
 
         updateView(statBlock);
-        adapter.reloadList(character);
+
+        AbstractCharacter source = character;
+        if (isForCompanion()) {
+            source = character.getDisplayedCompanion();
+        }
+
+        adapter.reloadList(source);
     }
 
     public static class SaveThrowSourceViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.ProficientWithSource> {
@@ -157,8 +165,8 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     public static class SaveThrowSourcesAdapter extends RowWithSourceAdapter<Character.ProficientWithSource, SaveThrowSourceViewHolder> {
-        SaveThrowSourcesAdapter(@NonNull SaveThrowBlockDialogFragment fragment, @NonNull ListRetriever<Character.ProficientWithSource> listRetriever) {
-            super(fragment.getMainActivity(), listRetriever);
+        SaveThrowSourcesAdapter(@NonNull SaveThrowBlockDialogFragment fragment, @NonNull ListRetriever<Character.ProficientWithSource> listRetriever, boolean isForCompanion) {
+            super(fragment.getMainActivity(), listRetriever,isForCompanion);
         }
 
 

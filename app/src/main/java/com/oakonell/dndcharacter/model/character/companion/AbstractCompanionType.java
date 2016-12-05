@@ -1,5 +1,7 @@
 package com.oakonell.dndcharacter.model.character.companion;
 
+import com.oakonell.dndcharacter.model.character.Character;
+
 /**
  * Created by Rob on 11/27/2016.
  */
@@ -30,5 +32,9 @@ public abstract class AbstractCompanionType {
 
     public boolean onlyOneActiveAllowed() {
         return effectsSelf();
+    }
+
+    public int getMaxHp(Character character) {
+        return 10;
     }
 }

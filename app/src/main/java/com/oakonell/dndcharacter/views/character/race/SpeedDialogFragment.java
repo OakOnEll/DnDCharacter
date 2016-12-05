@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,12 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
 import com.oakonell.dndcharacter.model.character.SpeedType;
+import com.oakonell.dndcharacter.model.character.companion.CharacterCompanion;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.UIUtils;
@@ -39,8 +42,11 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
     private SpeedTypeAdapter adapter;
 
     @NonNull
-    public static SpeedDialogFragment create() {
+    public static SpeedDialogFragment create(boolean isForCompanion) {
         SpeedDialogFragment frag = new SpeedDialogFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, isForCompanion);
+        frag.setArguments(args);
         return frag;
     }
 
@@ -63,7 +69,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
 
-        adapter = new SpeedTypeAdapter(this, character.getSpeedType());
+        adapter = new SpeedTypeAdapter(this, getDisplayedCharacter().getSpeedType(), isForCompanion());
         listView.setAdapter(adapter);
 
         listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -87,20 +93,22 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
     protected boolean onDone() {
         boolean isValid = super.onDone();
         //getCharacter().getSpeedType();
-        getCharacter().setSpeedType(adapter.selectedType);
+        getDisplayedCharacter().setSpeedType(adapter.selectedType);
         return isValid;
     }
 
     @Override
     public void onCharacterChanged(@NonNull Character character) {
-        adapter.reloadList(character);
+        adapter.reloadList(getDisplayedCharacter());
     }
 
     private static class SpeedTypeListRetriever implements RowWithSourceAdapter.ListRetriever<Character.SpeedWithSource> {
+        private final boolean isForCompanion;
         private SpeedType type;
 
-        protected SpeedTypeListRetriever(SpeedType type) {
+        protected SpeedTypeListRetriever(SpeedType type, boolean isForCompanion) {
             this.type = type;
+            this.isForCompanion = isForCompanion;
         }
 
         public void setType(SpeedType type) {
@@ -109,7 +117,12 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
 
         @NonNull
         @Override
-        public List<Character.SpeedWithSource> getList(@NonNull Character character) {
+        public List<Character.SpeedWithSource> getList(@NonNull AbstractCharacter character) {
+            if (character instanceof CharacterCompanion) {
+                Log.i("Speed", "Passed a companion");
+            } else {
+                Log.i("Speed", "Pass main character");
+            }
             return character.deriveSpeeds(type);
         }
     }
@@ -143,7 +156,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
                 public void onClick(View v) {
                     // TODO
                     String title = activity.getString(R.string.add_speed_type_adjustment, activity.getString(type.getStringResId()));
-                    CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, type.getCustomType());
+                    CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, type.getCustomType(), adapter.isForCompanion);
                     dialog.show(activity.getSupportFragmentManager(), ADJUSTMENT_FRAG);
                 }
             });
@@ -163,15 +176,18 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
                 }
             });
             if (sourceAdapter == null) {
-
-                sourceAdapter = new SpeedSourceAdapter(adapter, type);
+                sourceAdapter = new SpeedSourceAdapter(adapter, type, adapter.isForCompanion);
                 speed_sources.setAdapter(sourceAdapter);
 
                 speed_sources.setLayoutManager(UIUtils.createLinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 speed_sources.setHasFixedSize(false);
             } else {
                 sourceAdapter.setType(type);
-                sourceAdapter.reloadList(activity.getCharacter());
+                AbstractCharacter source = activity.getCharacter();
+                if (adapter.isForCompanion) {
+                    source = activity.getCharacter().getDisplayedCompanion();
+                }
+                sourceAdapter.reloadList(source);
             }
         }
     }
@@ -181,11 +197,13 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
         private final SpeedDialogFragment fragment;
         private final SpeedType[] speeds;
         private SpeedType selectedType;
+        private boolean isForCompanion;
 
-        SpeedTypeAdapter(@NonNull SpeedDialogFragment fragment, SpeedType selectedType) {
+        SpeedTypeAdapter(@NonNull SpeedDialogFragment fragment, SpeedType selectedType, boolean isForCompanion) {
             this.fragment = fragment;
             speeds = SpeedType.values();
             this.selectedType = selectedType;
+            this.isForCompanion = isForCompanion;
         }
 
         @NonNull
@@ -206,7 +224,7 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
             return speeds.length;
         }
 
-        public void reloadList(Character character) {
+        public void reloadList(AbstractCharacter character) {
             notifyDataSetChanged();
         }
     }
@@ -232,8 +250,8 @@ public class SpeedDialogFragment extends AbstractCharacterDialogFragment {
     public static class SpeedSourceAdapter extends RowWithSourceAdapter<Character.SpeedWithSource, SpeedViewHolder> {
         private SpeedType type;
 
-        SpeedSourceAdapter(@NonNull SpeedTypeAdapter adapter, SpeedType type) {
-            super(adapter.fragment.getMainActivity(), new SpeedTypeListRetriever(type));
+        SpeedSourceAdapter(@NonNull SpeedTypeAdapter adapter, SpeedType type, boolean isForCompanion) {
+            super(adapter.fragment.getMainActivity(), new SpeedTypeListRetriever(type, isForCompanion), isForCompanion);
             this.type = type;
         }
 

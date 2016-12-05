@@ -37,7 +37,7 @@ import java.util.Map;
  */
 public class MainFragment extends AbstractSheetFragment {
 
-    AbstractCharacterViewHelper characterViewHelper = new AbstractCharacterViewHelper(this);
+    AbstractCharacterViewHelper characterViewHelper = new AbstractCharacterViewHelper(this, false);
 
     TextView hitDice;
 

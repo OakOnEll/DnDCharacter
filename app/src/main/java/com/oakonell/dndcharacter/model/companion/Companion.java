@@ -33,6 +33,12 @@ public class Companion extends AbstractDescriptionComponentModel {
     public String xml;
 
     @Column
+    private String cr;
+
+    @Column
+    private String creature_size;
+
+    @Column
     private String description;
 
     @Override
@@ -108,4 +114,37 @@ public class Companion extends AbstractDescriptionComponentModel {
         this.description = description;
     }
 
+
+    @Override
+    public void setDocument(Context context, @Nullable Element doc) {
+        super.setDocument(context, doc);
+
+        if (doc != null) {
+            String cr = XmlUtils.getElementText(doc, "cr");
+            setCr(cr);
+
+            String size = XmlUtils.getElementText(doc, "size");
+            setSize(size);
+        } else {
+            setCr("");
+            setSize("");
+        }
+    }
+
+    public String getCr() {
+        return cr;
+    }
+
+    public void setCr(String cr) {
+        this.cr = cr;
+    }
+
+
+    public String getSize() {
+        return creature_size;
+    }
+
+    public void setSize(String creature_size) {
+        this.creature_size = creature_size;
+    }
 }

@@ -39,7 +39,9 @@ import hugo.weaving.DebugLog;
  */
 public abstract class AbstractSheetFragment extends Fragment implements OnCharacterLoaded, CharacterChangedListener {
     public static final String ADD_EFFECT_DIALOG = "add_effect_dialog";
+    public static final String ADD_COMPANION_DIALOG = "add_companion_dialog";
     private static final String NAME_FRAG = "name_frag";
+
     private TextView classes;
     private TextView race;
     private TextView background;

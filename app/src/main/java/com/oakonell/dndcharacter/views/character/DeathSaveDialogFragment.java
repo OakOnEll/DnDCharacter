@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.DeathSaveResult;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
@@ -31,8 +32,12 @@ public class DeathSaveDialogFragment extends RollableDialogFragment {
     private List<DeathSaveResult> deathSaveResultValues;
 
     @NonNull
-    public static DeathSaveDialogFragment create() {
-        return new DeathSaveDialogFragment();
+    public static DeathSaveDialogFragment create(boolean isForCompanion) {
+        final DeathSaveDialogFragment fragment = new DeathSaveDialogFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, isForCompanion);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -94,8 +99,8 @@ public class DeathSaveDialogFragment extends RollableDialogFragment {
 
     @Override
     protected void rollResult(int total) {
-        if (total == 0 ) {
-            return ;
+        if (total == 0) {
+            return;
         }
         if (total <= 1) {
             death_save_result.setSelection(deathSaveResultValues.indexOf(DeathSaveResult.CRIT_FAIL));
@@ -116,7 +121,10 @@ public class DeathSaveDialogFragment extends RollableDialogFragment {
             death_save_result.startAnimation(shake);
             return false;
         }
-        final Character character = getCharacter();
+        AbstractCharacter character = getCharacter();
+        if (isForCompanion()) {
+            character = getCharacter().getDisplayedCompanion();
+        }
         int position = death_save_result.getSelectedItemPosition();
         final DeathSaveResult result = deathSaveResultValues.get(position);
         switch (result) {

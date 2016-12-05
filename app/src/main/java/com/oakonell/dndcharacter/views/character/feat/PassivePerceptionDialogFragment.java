@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
@@ -38,8 +39,12 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
     TextView perception_total;
 
     @NonNull
-    public static PassivePerceptionDialogFragment create() {
-        return new PassivePerceptionDialogFragment();
+    public static PassivePerceptionDialogFragment create(boolean isForCompanion) {
+        final PassivePerceptionDialogFragment fragment = new PassivePerceptionDialogFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, isForCompanion);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -57,7 +62,7 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
             @Override
             public void onClick(View v) {
                 String title = getString(R.string.add_passive_perception_adjustment);
-                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, CustomAdjustmentType.PASSIVE_PERCEPTION);
+                CustomNumericAdjustmentDialog dialog = CustomNumericAdjustmentDialog.createDialog(title, CustomAdjustmentType.PASSIVE_PERCEPTION, isForCompanion());
                 dialog.show(getFragmentManager(), ADJUSTMENT_FRAG);
             }
         });
@@ -91,12 +96,12 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
         RowWithSourceAdapter.ListRetriever<Character.PassivePerceptionWithSource> listRetriever = new RowWithSourceAdapter.ListRetriever<Character.PassivePerceptionWithSource>() {
             @NonNull
             @Override
-            public List<Character.PassivePerceptionWithSource> getList(@NonNull Character character) {
-                return character.derivePassivePerception();
+            public List<Character.PassivePerceptionWithSource> getList(@NonNull AbstractCharacter character) {
+                return getDisplayedCharacter().derivePassivePerception();
             }
         };
 
-        adapter = new PassivePerceptionSourcesAdapter(this, listRetriever);
+        adapter = new PassivePerceptionSourcesAdapter(this, listRetriever, isForCompanion());
         listView.setAdapter(adapter);
 
         listView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -109,8 +114,8 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
     @Override
     public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
-        adapter.reloadList(character);
-        perception_total.setText(NumberUtils.formatNumber(character.getPassivePerception()));
+        adapter.reloadList(getDisplayedCharacter());
+        perception_total.setText(NumberUtils.formatNumber(getDisplayedCharacter().getPassivePerception()));
     }
 
     public static class PassivePerceptionSourceViewHolder extends RowWithSourceAdapter.WithSourceViewHolder<Character.PassivePerceptionWithSource> {
@@ -136,8 +141,8 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
     }
 
     public static class PassivePerceptionSourcesAdapter extends RowWithSourceAdapter<Character.PassivePerceptionWithSource, PassivePerceptionSourceViewHolder> {
-        PassivePerceptionSourcesAdapter(@NonNull PassivePerceptionDialogFragment fragment, @NonNull ListRetriever<Character.PassivePerceptionWithSource> listRetriever) {
-            super(fragment.getMainActivity(), listRetriever);
+        PassivePerceptionSourcesAdapter(@NonNull PassivePerceptionDialogFragment fragment, @NonNull ListRetriever<Character.PassivePerceptionWithSource> listRetriever, boolean isForCompanion) {
+            super(fragment.getMainActivity(), listRetriever, isForCompanion);
         }
 
 

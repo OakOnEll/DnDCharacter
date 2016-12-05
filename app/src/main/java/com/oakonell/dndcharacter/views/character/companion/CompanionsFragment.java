@@ -17,6 +17,7 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.SpeedType;
 import com.oakonell.dndcharacter.model.character.companion.CharacterCompanion;
+import com.oakonell.dndcharacter.model.character.companion.CompanionRace;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
@@ -32,6 +33,7 @@ import com.oakonell.dndcharacter.views.character.MainFragment;
 import com.oakonell.dndcharacter.views.character.feat.InitiativeDialogFragment;
 import com.oakonell.dndcharacter.views.character.feat.PassivePerceptionDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.SpeedDialogFragment;
 import com.oakonell.dndcharacter.views.character.stats.SaveThrowBlockDialogFragment;
@@ -59,7 +61,7 @@ public class CompanionsFragment extends AbstractSheetFragment {
 
     private TextView nameView;
 
-    AbstractCharacterViewHelper characterViewHelper = new AbstractCharacterViewHelper(this);
+    AbstractCharacterViewHelper characterViewHelper = new AbstractCharacterViewHelper(this, true);
 
 
 
@@ -83,12 +85,8 @@ public class CompanionsFragment extends AbstractSheetFragment {
         addCompanion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final List<CharacterCompanion> companions = getCharacter().getCompanions();
-                CharacterCompanion companion = new CharacterCompanion();
-                companion.setName("Companion " + companions.size());
-                companions.add(companion);
-
-                updateViews(rootView);
+                SelectCompanionDialogFragment dialog = SelectCompanionDialogFragment.createDialog(new SelectCompanionDialogFragment.AddCompanionToCharacterListener((getMainActivity())));
+                dialog.show(getFragmentManager(), ADD_COMPANION_DIALOG);
             }
         });
 
@@ -204,7 +202,12 @@ public class CompanionsFragment extends AbstractSheetFragment {
         @Override
         public void bind(final CharacterActivity context, final CompanionsAdapter adapter, final CharacterCompanion info) {
             name.setText(info.getName());
-            race.setText(info.getRace());
+            final CompanionRace race = info.getRace();
+            if (race != null) {
+                this.race.setText(race.getName());
+            } else {
+                this.race.setText("Unknown");
+            }
             //type.setText(info.getType());
 
             itemView.setOnClickListener(new View.OnClickListener() {

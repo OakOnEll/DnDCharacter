@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.AdjustmentComponentSource;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ComponentSource;
@@ -27,17 +28,27 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
     private final CharacterActivity activity;
     @NonNull
     private final ListRetriever<C> listRetriever;
+    private final boolean isCompanion;
     private List<C> list;
 
-    public RowWithSourceAdapter(@NonNull CharacterActivity activity, @NonNull ListRetriever<C> listRetriever) {
+    public RowWithSourceAdapter(@NonNull CharacterActivity activity, @NonNull ListRetriever<C> listRetriever, boolean isCompanion) {
         this.listRetriever = listRetriever;
-        this.list = listRetriever.getList(activity.getCharacter());
         this.activity = activity;
+        this.isCompanion = isCompanion;
+        this.list = listRetriever.getList(getCharacter());
     }
 
-    public void reloadList(Character character) {
+    public void reloadList(AbstractCharacter character) {
         list = listRetriever.getList(character);
         notifyDataSetChanged();
+    }
+
+    protected AbstractCharacter getCharacter() {
+        Character character = activity.getCharacter();
+        if (isCompanion) {
+            return character.getDisplayedCompanion();
+        }
+        return character;
     }
 
     @NonNull
@@ -79,7 +90,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
         return R.layout.skill_prof_row;
     }
 
-    protected void launchNoSource(CharacterActivity activity, Character character) {
+    protected void launchNoSource(CharacterActivity activity, AbstractCharacter character) {
     }
 
     @NonNull
@@ -92,7 +103,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
 
     public interface ListRetriever<C> {
         @NonNull
-        List<C> getList(Character character);
+        List<C> getList(AbstractCharacter character);
     }
 
     public static class WithSourceViewHolder<C extends Character.WithSource> extends BindableComponentViewHolder<C, CharacterActivity, RowWithSourceAdapter<C, WithSourceViewHolder<C>>> {
@@ -123,7 +134,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Character character = activity.getCharacter();
+                    final AbstractCharacter character = adapter.getCharacter();
                     if (source == null) {
                         adapter.launchNoSource(activity, character);
                     } else {
@@ -150,7 +161,7 @@ public abstract class RowWithSourceAdapter<C extends Character.WithSource, V ext
                             // TODO
                             CustomAdjustmentType adjustmentType = adapter.getAdjustmentType();
                             if (adjustmentType != null) {
-                                activity.getCharacter().getCustomAdjustments(adjustmentType).delete(((AdjustmentComponentSource) item.getSource()).getAdjustment());
+                                adapter.getCharacter().getCustomAdjustments(adjustmentType).delete(((AdjustmentComponentSource) item.getSource()).getAdjustment());
                                 activity.updateViews();
                                 activity.saveCharacter();
                             }
