@@ -264,6 +264,7 @@
     <string name="vulnerable">Vulnerable</string>
     <string name="resistant">Resistant</string>
     <string name="race_component">Race</string>
+    <string name="companion_race_component">Companion Race</string>
     <string name="background_component">Background</string>
     <string name="class_component">Class</string>
     <string name="item_component">Item</string>
