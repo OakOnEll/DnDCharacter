@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.EnumHelper;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.utils.XmlUtils;
@@ -22,7 +23,7 @@ public class CreateCharacterWeaponVisitor extends AbstractWeaponVisitor {
     }
 
     @NonNull
-    public static CharacterWeapon createWeapon(@NonNull Context context, @NonNull ItemRow row, @NonNull com.oakonell.dndcharacter.model.character.Character character) {
+    public static CharacterWeapon createWeapon(@NonNull Context context, @NonNull ItemRow row, @NonNull AbstractCharacter character) {
         CharacterWeapon weapon = new CharacterWeapon();
 
         ApplyChangesToGenericComponent.applyToCharacter(context, XmlUtils.getDocument(row.getXml()).getDocumentElement(), null, weapon, character, false);

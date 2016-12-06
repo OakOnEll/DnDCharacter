@@ -1,16 +1,21 @@
 package com.oakonell.dndcharacter.views.character.companion;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
@@ -24,6 +29,7 @@ import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
+import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterViewHelper;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
@@ -33,8 +39,14 @@ import com.oakonell.dndcharacter.views.character.MainFragment;
 import com.oakonell.dndcharacter.views.character.feat.InitiativeDialogFragment;
 import com.oakonell.dndcharacter.views.character.feat.PassivePerceptionDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.FeaturesFragment;
 import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
+import com.oakonell.dndcharacter.views.character.item.CharacterArmorEditDialogFragment;
+import com.oakonell.dndcharacter.views.character.item.CharacterItemEditDialogFragment;
+import com.oakonell.dndcharacter.views.character.item.CharacterWeaponEditDialogFragment;
+import com.oakonell.dndcharacter.views.character.item.EquipmentFragment;
+import com.oakonell.dndcharacter.views.character.item.EquipmentFragmentHelper;
 import com.oakonell.dndcharacter.views.character.race.SpeedDialogFragment;
 import com.oakonell.dndcharacter.views.character.stats.SaveThrowBlockDialogFragment;
 import com.oakonell.dndcharacter.views.character.stats.SavingThrowBlockView;
@@ -52,7 +64,8 @@ import java.util.Map;
  * Created by Rob on 10/26/2015.
  */
 public class CompanionsFragment extends AbstractSheetFragment {
-    //    Button toXml;
+    private static final String EQUIPMENT_FRAG = "companion_equipment_frag";
+
     private View addCompanion;
 
     private CompanionsAdapter adapter;
@@ -63,6 +76,10 @@ public class CompanionsFragment extends AbstractSheetFragment {
 
     AbstractCharacterViewHelper characterViewHelper = new AbstractCharacterViewHelper(this, true);
 
+    private FeaturesFragment.FeatureAdapter featureAdapter;
+    private RecyclerView featureGridView;
+
+    private EquipmentFragmentHelper fragHelper = new EquipmentFragmentHelper(this, true);
 
 
     private static final int UNDO_DELAY = 5000;
@@ -80,8 +97,6 @@ public class CompanionsFragment extends AbstractSheetFragment {
 
         superCreateViews(rootView);
 
-        updateViews(rootView);
-
         addCompanion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +105,14 @@ public class CompanionsFragment extends AbstractSheetFragment {
             }
         });
 
+
+        // features
+        featureGridView = (RecyclerView) rootView.findViewById(R.id.features);
+
+
+        fragHelper.onCreateTheView(rootView);
+
+        updateViews(rootView);
 
         return rootView;
     }
@@ -112,6 +135,8 @@ public class CompanionsFragment extends AbstractSheetFragment {
             if (adapter != null) {
                 adapter.reloadList(getCharacter());
             }
+
+            fragHelper.updateViews(rootView);
         }
 
     }
@@ -120,6 +145,9 @@ public class CompanionsFragment extends AbstractSheetFragment {
         nameView.setText(companion.getName());
 
         characterViewHelper.updateViews(rootView, companion);
+        if (featureAdapter != null) {
+            featureAdapter.reloadList(companion);
+        }
 
 
         return false;
@@ -139,6 +167,15 @@ public class CompanionsFragment extends AbstractSheetFragment {
         companions_list.addItemDecoration(itemDecoration);
 
         companions_list.setHasFixedSize(false);
+
+        // features
+        featureAdapter = new FeaturesFragment.FeatureAdapter((CharacterActivity) this.getActivity(), character.getDisplayedCompanion());
+        featureGridView.setAdapter(featureAdapter);
+        // decide on 1 or 2 columns based on screen size
+        int numColumns = getResources().getInteger(R.integer.feature_columns);
+        featureGridView.setLayoutManager(new StaggeredGridLayoutManager(numColumns, StaggeredGridLayoutManager.VERTICAL));
+
+        fragHelper.onCharacterLoaded(character);
 
         updateViews();
     }
@@ -184,6 +221,8 @@ public class CompanionsFragment extends AbstractSheetFragment {
 
         private final TextView name;
         private final TextView race;
+        private final CheckBox activeView;
+
         private final TextView type;
         private final TextView description;
         @NonNull
@@ -195,6 +234,7 @@ public class CompanionsFragment extends AbstractSheetFragment {
             type = (TextView) itemView.findViewById(R.id.type);
             race = (TextView) itemView.findViewById(R.id.race);
             description = (TextView) itemView.findViewById(R.id.description);
+            activeView = (CheckBox) itemView.findViewById(R.id.active);
 
             delete = itemView.findViewById(R.id.delete);
         }
@@ -208,7 +248,47 @@ public class CompanionsFragment extends AbstractSheetFragment {
             } else {
                 this.race.setText("Unknown");
             }
-            //type.setText(info.getType());
+            type.setText(info.getType().getStringResId());
+
+            activeView.setChecked(info.isActive());
+            activeView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        int size = adapter.getItemCount();
+                        if (info.getType().onlyOneActiveAllowed()) {
+                            for (int i = 0; i < size; i++) {
+                                if (getAdapterPosition() == i) continue;
+                                final CharacterCompanion each = adapter.getItem(i);
+                                if (each.getType().onlyOneActiveAllowed() && each.getType().equals(info.getType()) && each.isActive()) {
+                                    each.setActive(false);
+                                    adapter.notifyItemChanged(i);
+                                }
+                            }
+                        }
+                        if (info.getType().effectsSelf()) {
+                            // there may be multiple types that effect self, they all should be unchecked
+                            for (int i = 0; i < size; i++) {
+                                if (getAdapterPosition() == i) continue;
+                                final CharacterCompanion each = adapter.getItem(i);
+                                if (each.getType().effectsSelf() && each.isActive()) {
+                                    each.setActive(false);
+                                    adapter.notifyItemChanged(i);
+                                }
+                            }
+                        }
+                    }
+                    info.setActive(isChecked);
+
+                    // TODO handle if the companion is exclusive, and reset all other exclusive ones to not active
+                }
+            });
+
+            if (getAdapterPosition() == context.getCharacter().getDisplayedCompanionIndex()) {
+                itemView.setBackgroundColor(Color.LTGRAY);
+            } else {
+                itemView.setBackgroundColor(0);
+            }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -332,5 +412,20 @@ public class CompanionsFragment extends AbstractSheetFragment {
 
     }
 
+
+    private void addWeapon() {
+        CharacterWeaponEditDialogFragment dialog = CharacterWeaponEditDialogFragment.createAddDialog(true);
+        dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
+    }
+
+    private void addArmor() {
+        CharacterArmorEditDialogFragment dialog = CharacterArmorEditDialogFragment.createAddDialog(true);
+        dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
+    }
+
+    private void addEquipment() {
+        CharacterItemEditDialogFragment fragment = CharacterItemEditDialogFragment.createAddDialog(true);
+        fragment.show(getFragmentManager(), EQUIPMENT_FRAG);
+    }
 
 }

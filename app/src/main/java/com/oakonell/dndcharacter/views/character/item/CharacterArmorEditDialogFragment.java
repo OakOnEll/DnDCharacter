@@ -29,10 +29,11 @@ public class CharacterArmorEditDialogFragment extends AbstractCharacterItemEditD
     private EditText armor_class;
 
     @NonNull
-    public static CharacterArmorEditDialogFragment createAddDialog() {
+    public static CharacterArmorEditDialogFragment createAddDialog(boolean isForCompanion) {
         CharacterArmorEditDialogFragment newMe = new CharacterArmorEditDialogFragment();
         Bundle args = new Bundle();
         args.putBoolean(ADD, true);
+        args.putBoolean(COMPANION_ARG, isForCompanion);
         newMe.setArguments(args);
 
         return newMe;
@@ -75,12 +76,12 @@ public class CharacterArmorEditDialogFragment extends AbstractCharacterItemEditD
 
     @Override
     protected CharacterArmor getItemById(long id) {
-        return getCharacter().getArmorById(id);
+        return getDisplayedCharacter().getArmorById(id);
     }
 
     @Override
     protected void addItem(CharacterArmor item) {
-        getCharacter().addArmor(item);
+        getDisplayedCharacter().addArmor(item);
     }
 
     @Override
@@ -109,7 +110,7 @@ public class CharacterArmorEditDialogFragment extends AbstractCharacterItemEditD
                 updateViewsFromItem();
                 return true;
             }
-        }, ItemType.ARMOR, getCharacter().deriveToolProficiencies(ProficiencyType.ARMOR));
+        }, ItemType.ARMOR, getDisplayedCharacter().deriveToolProficiencies(ProficiencyType.ARMOR));
     }
 
     @Override
@@ -122,7 +123,7 @@ public class CharacterArmorEditDialogFragment extends AbstractCharacterItemEditD
     @Override
     protected void setItemProperties(CharacterArmor item) {
         super.setItemProperties(item);
-        item.setEquipped(getResources(), getCharacter(), equipped.isChecked());
+        item.setEquipped(getResources(), getDisplayedCharacter(), equipped.isChecked());
         item.setAcFormula(armor_class.getText().toString());
     }
 

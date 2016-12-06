@@ -37,4 +37,16 @@ public abstract class AbstractCompanionType {
     public int getMaxHp(Character character) {
         return 10;
     }
+
+    public abstract int getStringResId();
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass().equals(this.getClass());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
@@ -48,7 +49,7 @@ import java.util.Map;
  */
 public class EquipmentFragment extends AbstractSheetFragment {
     private static final int UNDO_DELAY = 5000;
-    private static final String EQUIPMENT_FRAG = "equipment_frag";
+
     private TextView armor_proficiency;
     private TextView weapon_proficiency;
     private TextView tools_proficiency;
@@ -62,22 +63,10 @@ public class EquipmentFragment extends AbstractSheetFragment {
     private TextView platinumPieces;
     private TextView gem_summary;
 
-    private EquipmentAdapter equipmentAdapter;
-    private ArmorAdapter armorAdapter;
-    private WeaponsAdapter weaponsAdapter;
+
     private View rootView;
 
-    private RecyclerView armorView;
-    private TextView armor_class;
-    private View ac_title;
-    private ViewGroup armorItemsView;
-
-    private RecyclerView weaponsView;
-    private ViewGroup weaponItemsView;
-    private RecyclerView itemsView;
-
-    private final Map<CharacterItem, Long> beingDeleted = new HashMap<>();
-
+    private EquipmentFragmentHelper fragHelper = new EquipmentFragmentHelper(this, false);
 
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
@@ -151,39 +140,8 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
-        armorView = (RecyclerView) rootView.findViewById(R.id.armor_list);
-        armorItemsView = (ViewGroup) rootView.findViewById(R.id.armor_items_group);
-        armor_class = (TextView) rootView.findViewById(R.id.armor_class);
-        ac_title = rootView.findViewById(R.id.ac_title);
-        weaponsView = (RecyclerView) rootView.findViewById(R.id.weapons_list);
-        weaponItemsView = (ViewGroup) rootView.findViewById(R.id.weapons_items_group);
-        itemsView = (RecyclerView) rootView.findViewById(R.id.items_list);
+        fragHelper.onCreateTheView(rootView);
 
-
-        View addArmor = rootView.findViewById(R.id.addArmor);
-        addArmor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addArmor();
-            }
-        });
-
-
-        View addWeapon = rootView.findViewById(R.id.addWeapon);
-        addWeapon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addWeapon();
-            }
-        });
-
-        View addEquipment = rootView.findViewById(R.id.addItem);
-        addEquipment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addEquipment();
-            }
-        });
 
         return rootView;
     }
@@ -191,101 +149,13 @@ public class EquipmentFragment extends AbstractSheetFragment {
     @Override
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
-// armor
-        armorAdapter = new ArmorAdapter(this, character);
-        armorView.setAdapter(armorAdapter);
-        armorView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        armorView.setHasFixedSize(false);
 
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-        armorView.addItemDecoration(itemDecoration);
-
-        armorItemsView.findViewById(R.id.equip).setVisibility(View.INVISIBLE);
-        armorItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
-        armorItemsView.findViewById(R.id.delete).setVisibility(View.GONE);
-//        ((TextView)armorItemsView.findViewById(R.id.ac)).setText("AC/Mod");
-// weapons
-        weaponsAdapter = new WeaponsAdapter(this, character);
-        weaponsView.setAdapter(weaponsAdapter);
-        weaponsView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        weaponsView.setHasFixedSize(false);
-        weaponsView.addItemDecoration(itemDecoration);
-
-        weaponItemsView.findViewById(R.id.handle).setVisibility(View.INVISIBLE);
-        weaponItemsView.findViewById(R.id.delete).setVisibility(View.GONE);
-// regular equipment
-        equipmentAdapter = new EquipmentAdapter(this, character);
-        itemsView.setAdapter(equipmentAdapter);
-        itemsView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        itemsView.setHasFixedSize(false);
-        itemsView.addItemDecoration(itemDecoration);
-
+        fragHelper.onCharacterLoaded(character);
 
         updateViews(rootView);
 
-        ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback(equipmentAdapter, true, false);
-        final ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(itemsView);
-        equipmentAdapter.setOnStartDrag(new OnStartDragListener() {
-            @Override
-            public void onStartDrag(AbstractItemViewHolder viewHolder) {
-                touchHelper.startDrag(viewHolder);
-            }
-
-            @Override
-            public void onStartSwipe(AbstractItemViewHolder holder) {
-                touchHelper.startSwipe(holder);
-            }
-        });
-
-        ItemTouchHelper.Callback armorCallback =
-                new SimpleItemTouchHelperCallback(armorAdapter, true, false);
-        final ItemTouchHelper armorTouchHelper = new ItemTouchHelper(armorCallback);
-        armorTouchHelper.attachToRecyclerView(armorView);
-        armorAdapter.setOnStartDrag(new OnStartDragListener() {
-            @Override
-            public void onStartDrag(AbstractItemViewHolder viewHolder) {
-                armorTouchHelper.startDrag(viewHolder);
-            }
-
-            @Override
-            public void onStartSwipe(AbstractItemViewHolder holder) {
-                armorTouchHelper.startSwipe(holder);
-            }
-        });
-
-        ItemTouchHelper.Callback weaponsCallback =
-                new SimpleItemTouchHelperCallback(weaponsAdapter, true, false);
-        final ItemTouchHelper weaponsTouchHelper = new ItemTouchHelper(weaponsCallback);
-        weaponsTouchHelper.attachToRecyclerView(weaponsView);
-        weaponsAdapter.setOnStartDrag(new OnStartDragListener() {
-            @Override
-            public void onStartDrag(AbstractItemViewHolder viewHolder) {
-                weaponsTouchHelper.startDrag(viewHolder);
-            }
-
-            @Override
-            public void onStartSwipe(AbstractItemViewHolder holder) {
-                weaponsTouchHelper.startSwipe(holder);
-            }
-        });
     }
 
-    private void addWeapon() {
-        CharacterWeaponEditDialogFragment dialog = CharacterWeaponEditDialogFragment.createAddDialog();
-        dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
-    }
-
-    private void addArmor() {
-        CharacterArmorEditDialogFragment dialog = CharacterArmorEditDialogFragment.createAddDialog();
-        dialog.show(getFragmentManager(), EQUIPMENT_FRAG);
-    }
-
-    private void addEquipment() {
-        CharacterItemEditDialogFragment fragment = CharacterItemEditDialogFragment.createAddDialog();
-        fragment.show(getFragmentManager(), EQUIPMENT_FRAG);
-    }
 
     @Override
     protected void updateViews(View rootView) {
@@ -348,19 +218,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             }
         });
 
-        armor_class.setText(getString(R.string.armor_class_paren_value, character.getArmorClass()));
-
-        ac_title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArmorClassDialogFragment dialog = ArmorClassDialogFragment.createDialog(false);
-                dialog.show(getFragmentManager(), "ac");
-            }
-        });
-
-        equipmentAdapter.reloadList(character);
-        armorAdapter.reloadList(character);
-        weaponsAdapter.reloadList(character);
+        fragHelper.updateViews(rootView);
     }
 
     public interface OnStartDragListener {
@@ -385,7 +243,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(final EquipmentFragment context, SubAdapter<CharacterItem> adapter, @NonNull final CharacterItem item) {
+        public void bind(final AbstractSheetFragment context, SubAdapter<CharacterItem> adapter, @NonNull final CharacterItem item) {
             super.bind(context, adapter, item);
             if (item.getCount() != 1) {
                 count.setText("(" + item.getCount() + ")");
@@ -427,7 +285,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(@NonNull final EquipmentFragment context, final SubAdapter<CharacterArmor> adapter, @NonNull final CharacterArmor item) {
+        public void bind(@NonNull final AbstractSheetFragment context, final SubAdapter<CharacterArmor> adapter, @NonNull final CharacterArmor item) {
             super.bind(context, adapter, item);
 
             String acString = "?";
@@ -494,7 +352,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        protected String getNameString(@NonNull CharacterWeapon item, @NonNull EquipmentFragment context) {
+        protected String getNameString(@NonNull CharacterWeapon item, @NonNull AbstractSheetFragment context) {
             String base = super.getNameString(item, context);
             StringBuilder builder = new StringBuilder(" [");
             boolean hasExtra = false;
@@ -540,7 +398,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(@NonNull final EquipmentFragment context, final SubAdapter<CharacterWeapon> adapter, @NonNull final CharacterWeapon item) {
+        public void bind(@NonNull final AbstractSheetFragment context, final SubAdapter<CharacterWeapon> adapter, @NonNull final CharacterWeapon item) {
             super.bind(context, adapter, item);
 
             final CharacterWeapon.AttackModifier attackModifiers = item.getBaseAttackModifier(context.getCharacter(), false);
@@ -571,7 +429,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     }
 
-    public abstract static class BindableRecyclerViewHolder<I extends CharacterItem> extends BindableComponentViewHolder<I, EquipmentFragment, SubAdapter<I>> {
+    public abstract static class BindableRecyclerViewHolder<I extends CharacterItem> extends BindableComponentViewHolder<I, AbstractSheetFragment, SubAdapter<I>> {
 
         public BindableRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -629,7 +487,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
     }
 
-    static class AbstractItemViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> implements ItemTouchHelperViewHolder {
+    public static class AbstractItemViewHolder<I extends CharacterItem> extends BindableRecyclerViewHolder<I> implements ItemTouchHelperViewHolder {
         @NonNull
         private final ImageView handleView;
         private final OnStartDragListener mDragStartListener;
@@ -647,7 +505,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(EquipmentFragment context, final SubAdapter<I> adapter, @NonNull I item) {
+        public void bind(AbstractSheetFragment context, final SubAdapter<I> adapter, @NonNull I item) {
             name.setText(getNameString(item, context));
             // TODO force child classes to implement onClick
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -667,7 +525,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             handleView.setOnTouchListener(new SwipeOrDragListener(mDragStartListener, this));
         }
 
-        protected String getNameString(@NonNull I item, EquipmentFragment context) {
+        protected String getNameString(@NonNull I item, AbstractSheetFragment context) {
             return item.getName();
         }
 
@@ -700,7 +558,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(final EquipmentFragment context, @NonNull final SubAdapter<I> adapter, @NonNull final I item) {
+        public void bind(final AbstractSheetFragment context, @NonNull final SubAdapter<I> adapter, @NonNull final I item) {
             name.setText(item.getName());
             undo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -716,7 +574,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
     public abstract static class SubAdapter<I extends CharacterItem> extends RecyclerView.Adapter<BindableRecyclerViewHolder<I>> implements ItemTouchHelperAdapter {
         protected final Context context;
         @NonNull
-        protected final EquipmentFragment fragment;
+        protected final EquipmentFragmentHelper fragment;
         protected List<I> list;
         @NonNull
         final ListRetriever<I> listRetriever;
@@ -724,17 +582,17 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         interface ListRetriever<I> {
             @NonNull
-            List<I> getList(Character character);
+            List<I> getList(AbstractCharacter character);
         }
 
-        public SubAdapter(@NonNull EquipmentFragment fragment, @NonNull ListRetriever<I> listRetriever) {
+        public SubAdapter(@NonNull EquipmentFragmentHelper fragment, @NonNull ListRetriever<I> listRetriever) {
             this.context = fragment.getContext();
             this.fragment = fragment;
             this.listRetriever = listRetriever;
-            this.list = listRetriever.getList(fragment.getCharacter());
+            this.list = listRetriever.getList(fragment.getDisplayedCharacter());
         }
 
-        public void reloadList(Character character) {
+        public void reloadList(AbstractCharacter character) {
             this.list = listRetriever.getList(character);
             notifyDataSetChanged();
         }
@@ -784,7 +642,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         @Override
         public void onBindViewHolder(@NonNull BindableRecyclerViewHolder<I> holder, int position) {
-            holder.bind(fragment, this, getItem(position));
+            holder.bind(fragment.getFragment(), this, getItem(position));
         }
 
         @Override
@@ -801,7 +659,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
             beingDeleted.put(item, System.currentTimeMillis());
             notifyItemChanged(position);
 
-            fragment.getView().postDelayed(new Runnable() {
+            fragment.getFragment().getView().postDelayed(new Runnable() {
                 public void run() {
                     // may have been deleted, undone, and then redeleted
                     Long deletedTime = beingDeleted.get(item);
@@ -843,11 +701,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     public static class ArmorAdapter extends SubAdapter<CharacterArmor> {
-        public ArmorAdapter(@NonNull EquipmentFragment fragment, Character character) {
+        public ArmorAdapter(@NonNull EquipmentFragmentHelper fragment, AbstractCharacter character) {
             super(fragment, new ListRetriever<CharacterArmor>() {
                 @NonNull
                 @Override
-                public List<CharacterArmor> getList(@NonNull Character character) {
+                public List<CharacterArmor> getList(@NonNull AbstractCharacter character) {
+                    if (character == null) return Collections.emptyList();
                     return character.getArmor();
                 }
             });
@@ -863,11 +722,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
     }
 
     public static class WeaponsAdapter extends SubAdapter<CharacterWeapon> {
-        public WeaponsAdapter(@NonNull EquipmentFragment fragment, Character character) {
+        public WeaponsAdapter(@NonNull EquipmentFragmentHelper fragment, AbstractCharacter character) {
             super(fragment, new ListRetriever<CharacterWeapon>() {
                 @NonNull
                 @Override
-                public List<CharacterWeapon> getList(@NonNull Character character) {
+                public List<CharacterWeapon> getList(@NonNull AbstractCharacter character) {
+                    if (character == null) return Collections.emptyList();
                     return character.getWeapons();
                 }
             });
@@ -883,11 +743,12 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
     public static class EquipmentAdapter extends SubAdapter<CharacterItem> {
 
-        public EquipmentAdapter(@NonNull EquipmentFragment fragment, Character character) {
+        public EquipmentAdapter(@NonNull EquipmentFragmentHelper fragment, AbstractCharacter character) {
             super(fragment, new ListRetriever<CharacterItem>() {
                 @NonNull
                 @Override
-                public List<CharacterItem> getList(@NonNull Character character) {
+                public List<CharacterItem> getList(@NonNull AbstractCharacter character) {
+                    if (character == null) return Collections.emptyList();
                     return character.getItems();
                 }
             });
@@ -902,7 +763,7 @@ public class EquipmentFragment extends AbstractSheetFragment {
 
         @Override
         public void onBindViewHolder(@NonNull BindableRecyclerViewHolder<CharacterItem> holder, int position) {
-            holder.bind(fragment, this, getItem(position));
+            holder.bind(fragment.getFragment(), this, getItem(position));
         }
 
     }

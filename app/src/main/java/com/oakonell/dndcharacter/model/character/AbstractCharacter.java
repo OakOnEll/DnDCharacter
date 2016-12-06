@@ -19,6 +19,8 @@ import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
+import com.oakonell.dndcharacter.model.components.Proficiency;
+import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.expression.Expression;
 import com.oakonell.expression.ExpressionContext;
@@ -1443,5 +1445,24 @@ public abstract class AbstractCharacter {
     }
 
     public abstract AbstractCharacterAbilityDeriver getAbilityDeriver(ComponentVisitor visitor, boolean skipFeatures);
+
+    @NonNull
+    public List<Character.ToolProficiencyWithSource> deriveToolProficiencies(@NonNull final ProficiencyType type) {
+        final List<Character.ToolProficiencyWithSource> result = new ArrayList<>();
+
+
+        ComponentVisitor deriver = new ComponentVisitor() {
+            public void visitComponent(@NonNull ICharacterComponent component) {
+                List<Proficiency> profs = component.getToolProficiencies(type);
+                for (Proficiency each : profs) {
+                    Character.ToolProficiencyWithSource newRow = new Character.ToolProficiencyWithSource(each, component);
+                    result.add(newRow);
+                }
+            }
+        };
+        getAbilityDeriver(deriver, false).derive(this, "tools profs " + type.name());
+
+        return result;
+    }
 
 }

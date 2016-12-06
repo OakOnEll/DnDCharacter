@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.AbstractContextualComponent;
 import com.oakonell.dndcharacter.model.character.BaseCharacterComponent;
 import com.oakonell.dndcharacter.model.character.Character;
@@ -50,14 +51,14 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
     private boolean addItems;
 
     @Nullable
-    private final com.oakonell.dndcharacter.model.character.Character character;
+    private final AbstractCharacter character;
     private final Context context;
     private String currentChoiceName;
 
     @Nullable
     private String spellPrefix = "";
 
-    protected ApplyChangesToGenericComponent(Context context, SavedChoices savedChoices, C component, @Nullable Character character) {
+    protected ApplyChangesToGenericComponent(Context context, SavedChoices savedChoices, C component, @Nullable AbstractCharacter character) {
         this.context = context;
         this.component = component;
         currentComponent = component;
@@ -75,7 +76,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         }
     }
 
-    public static <C extends BaseCharacterComponent> void applyToCharacter(@NonNull Context context, @NonNull Element element, SavedChoices savedChoices, @NonNull C component, @Nullable Character character, boolean deleteEquipment) {
+    public static <C extends BaseCharacterComponent> void applyToCharacter(@NonNull Context context, @NonNull Element element, SavedChoices savedChoices, @NonNull C component, @Nullable AbstractCharacter character, boolean deleteEquipment) {
         if (deleteEquipment && character != null) {
             // first clear any equipment from this type previous value
             ComponentType componentType = component.getType();
@@ -483,7 +484,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         addSpell(spellName, stat, countsAsKnown, alwaysKnown);
     }
 
-    private  void addSpell(@NonNull String spellName, StatType stat, boolean countsAsKnown, boolean alwaysPrepared) {
+    private void addSpell(@NonNull String spellName, StatType stat, boolean countsAsKnown, boolean alwaysPrepared) {
         List<Spell> spells = new Select()
                 .from(Spell.class).where("UPPER(name) = ?", spellName.toUpperCase()).execute();
         CharacterSpell characterSpell = null;
@@ -503,7 +504,7 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
                 // TODO info is null on adding a 1st level class... makes it look like this works
                 // get cast info not from character, in case first class, not added yet
                 // check alwaysPrepared attribute
-                final Character.CastingClassInfo classInfo = character.getCasterClassInfoFor(component.getName());
+                final Character.CastingClassInfo classInfo = ((Character) character).getCasterClassInfoFor(component.getName());
                 if (alwaysPrepared) {
                     characterSpell.setAlwaysPrepared(true);
                 } else if (((CharacterClass) component).usesPreparedSpells() || (classInfo != null && classInfo.usesPreparedSpells())) {
@@ -525,7 +526,6 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
         characterSpell.setSource(currentComponent.getType());
         currentComponent.getSpells().add(characterSpell);
     }
-
 
 
     @Override

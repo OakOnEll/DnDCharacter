@@ -60,6 +60,8 @@ public class MainFragment extends AbstractSheetFragment {
         final Character character = getCharacter();
         characterViewHelper.updateViews(rootView, character);
 
+        if (hitDice == null) return;
+
         hitDice.setText(character.getHitDiceString());
 
 

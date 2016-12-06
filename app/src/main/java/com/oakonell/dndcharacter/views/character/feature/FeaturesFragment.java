@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CustomAdjustments;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
@@ -68,7 +69,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
         super.onCharacterLoaded(character);
         if (getActivity() == null) return;
 
-        adapter = new FeatureAdapter((CharacterActivity) this.getActivity());
+        adapter = new FeatureAdapter((CharacterActivity) this.getActivity(), getCharacter());
         gridView.setAdapter(adapter);
         // decide on 1 or 2 columns based on screen size
         int numColumns = getResources().getInteger(R.integer.feature_columns);
@@ -78,34 +79,42 @@ public class FeaturesFragment extends AbstractSheetFragment {
     }
 
 
-    public class FeatureAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>>> {
+    public static class FeatureAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>>> {
         @NonNull
         private final CharacterActivity context;
+        private AbstractCharacter character;
         private List<FeatureInfo> list;
 
-        public FeatureAdapter(@NonNull CharacterActivity context) {
+        public FeatureAdapter(@NonNull CharacterActivity context, AbstractCharacter character) {
             this.context = context;
-            list = new ArrayList<>(context.getCharacter().getFeatureInfos());
+            this.character = character;
+            if (character == null) return;
+            list = new ArrayList<>(character.getFeatureInfos());
         }
 
 
-        public void reloadList(@NonNull Character character) {
-            list = new ArrayList<>(character.getFeatureInfos());
+        public void reloadList(@NonNull AbstractCharacter character) {
+            this.character = character;
+            if (character != null) {
+                list = new ArrayList<>(character.getFeatureInfos());
+            } else {
+                list = new ArrayList<>();
+            }
             notifyDataSetChanged();
         }
 
         @Override
         public int getItemCount() {
-            if (context.getCharacter() == null) return 0;
+            if (character == null) return 0;
             int numFeatures = list.size();
-            if (getCharacter().hasAdjustments()) return numFeatures + 1;
+            if (character.hasAdjustments()) return numFeatures + 1;
             return numFeatures;
         }
 
 
         @Nullable
         public FeatureInfo getItem(int position) {
-            if (context.getCharacter() == null) return null;
+            if (character == null) return null;
             return list.get(position);
         }
 
@@ -126,7 +135,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
         @Override
         public int getItemViewType(int position) {
             if (position == list.size()) {
-                if (getCharacter().hasAdjustments()) {
+                if (character.hasAdjustments()) {
                     return ADJUSTMENT_VIEW;
                 }
             }
@@ -136,11 +145,11 @@ public class FeaturesFragment extends AbstractSheetFragment {
         @Override
         public void onBindViewHolder(@NonNull final BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>> viewHolder, final int position) {
             if (position == list.size()) {
-                if (getCharacter().hasAdjustments()) {
+                if (character.hasAdjustments()) {
                     // slightly ugly...
                     BindableComponentViewHolder genericHolder = viewHolder;
                     AdjustmentsViewHolder featureViewHolder = (AdjustmentsViewHolder) genericHolder;
-                    featureViewHolder.bind(context, this, getCharacter());
+                    featureViewHolder.bind(context, this, character);
                 }
                 return;
             }
@@ -156,7 +165,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
     }
 
-    public static class AdjustmentsViewHolder extends BindableComponentViewHolder<Character, CharacterActivity, RecyclerView.Adapter<?>> {
+    public static class AdjustmentsViewHolder extends BindableComponentViewHolder<AbstractCharacter, CharacterActivity, RecyclerView.Adapter<?>> {
         RecyclerView list;
         AdjustmentsAdapter listAdapter;
 
@@ -166,7 +175,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
         }
 
         @Override
-        public void bind(CharacterActivity context, RecyclerView.Adapter<?> adapter, Character character) {
+        public void bind(CharacterActivity context, RecyclerView.Adapter<?> adapter, AbstractCharacter character) {
             if (listAdapter == null) {
                 listAdapter = new AdjustmentsAdapter(context, character);
                 list.setAdapter(listAdapter);
@@ -185,14 +194,14 @@ public class FeaturesFragment extends AbstractSheetFragment {
 
     private static class AdjustmentsAdapter extends RecyclerView.Adapter<AdjustmentTypeViewHolder> {
         CharacterActivity context;
-        private Character character;
+        private AbstractCharacter character;
 
-        public AdjustmentsAdapter(CharacterActivity context, Character character) {
+        public AdjustmentsAdapter(CharacterActivity context, AbstractCharacter character) {
             this.context = context;
             this.character = character;
         }
 
-        public void setCharacter(Character character) {
+        public void setCharacter(AbstractCharacter character) {
             this.character = character;
         }
 

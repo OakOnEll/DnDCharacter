@@ -63,10 +63,11 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
     private EditText attack_bonus;
 
     @NonNull
-    public static CharacterWeaponEditDialogFragment createAddDialog() {
+    public static CharacterWeaponEditDialogFragment createAddDialog(boolean isForCompanion) {
         CharacterWeaponEditDialogFragment newMe = new CharacterWeaponEditDialogFragment();
         Bundle args = new Bundle();
         args.putBoolean(ADD, true);
+        args.putBoolean(COMPANION_ARG, isForCompanion);
         newMe.setArguments(args);
 
         return newMe;
@@ -213,7 +214,7 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
 
     @Override
     protected void addItem(CharacterWeapon item) {
-        getCharacter().addWeapon(item);
+        getDisplayedCharacter().addWeapon(item);
     }
 
     @Override
@@ -242,7 +243,7 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
                 updateViewsFromItem();
                 return true;
             }
-        }, ItemType.WEAPON, getCharacter().deriveToolProficiencies(ProficiencyType.WEAPON));
+        }, ItemType.WEAPON, getDisplayedCharacter().deriveToolProficiencies(ProficiencyType.WEAPON));
     }
 
     @Override
@@ -378,7 +379,7 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
                 }
             }
             try {
-                getCharacter().evaluateFormula(formula, null);
+                getDisplayedCharacter().evaluateFormula(formula, null);
             } catch (Exception e) {
                 Log.e("CharacterWeaponEdit", "Error parsing weapon damage '" + formula + "'", e);
                 versatile_damages.scrollToPosition(index);
@@ -501,7 +502,7 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
                     String text = damage.getText().toString().trim();
                     if (text.length() > 0) {
                         try {
-                            context.getCharacter().evaluateFormula(text, null);
+                            context.getDisplayedCharacter().evaluateFormula(text, null);
                         } catch (Exception e) {
                             Log.e("CharacterWeaponEdit", "Error parsing weapon damage '" + text + "'", e);
                             damage.setError(e.getMessage());
@@ -562,6 +563,6 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
 
     @Override
     protected CharacterWeapon getItemById(long id) {
-        return getCharacter().getWeaponById(id);
+        return getDisplayedCharacter().getWeaponById(id);
     }
 }

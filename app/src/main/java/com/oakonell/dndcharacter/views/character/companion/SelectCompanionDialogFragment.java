@@ -207,7 +207,7 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
             CompanionRace race = new CompanionRace();
 
             // TODO
-            //ApplyChangesToGenericComponent.applyToCharacter(activity, root, null, race, charCompanion, false);
+            ApplyChangesToGenericComponent.applyToCharacter(activity, root, null, race, charCompanion, false);
 
             final List<Element> speeds = XmlUtils.getChildElements(root, "speed");
             SpeedType defaultType = SpeedType.WALK;

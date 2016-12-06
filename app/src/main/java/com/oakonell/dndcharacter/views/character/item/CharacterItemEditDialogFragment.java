@@ -21,10 +21,11 @@ import com.oakonell.dndcharacter.utils.XmlUtils;
 public class CharacterItemEditDialogFragment extends AbstractCharacterItemEditDialogFragment<CharacterItem> {
 
     @NonNull
-    public static CharacterItemEditDialogFragment createAddDialog() {
+    public static CharacterItemEditDialogFragment createAddDialog(boolean isForCompanion) {
         CharacterItemEditDialogFragment newMe = new CharacterItemEditDialogFragment();
         Bundle args = new Bundle();
         args.putBoolean(ADD, true);
+        args.putBoolean(COMPANION_ARG, isForCompanion);
         newMe.setArguments(args);
 
         return newMe;
@@ -63,7 +64,7 @@ public class CharacterItemEditDialogFragment extends AbstractCharacterItemEditDi
 
 
     protected void addItem(CharacterItem item) {
-        getCharacter().addItem(item);
+        getDisplayedCharacter().addItem(item);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class CharacterItemEditDialogFragment extends AbstractCharacterItemEditDi
 
     protected void updateItem(ItemRow itemRow) {
         item.setName(itemRow.getName());
-        ApplyChangesToGenericComponent.applyToCharacter(getMainActivity(), XmlUtils.getDocument(itemRow.getXml()).getDocumentElement(), null, item, getCharacter(), false);
+        ApplyChangesToGenericComponent.applyToCharacter(getMainActivity(), XmlUtils.getDocument(itemRow.getXml()).getDocumentElement(), null, item, getDisplayedCharacter(), false);
     }
 
     @NonNull
@@ -97,6 +98,6 @@ public class CharacterItemEditDialogFragment extends AbstractCharacterItemEditDi
 
     @Override
     protected CharacterItem getItemById(long id) {
-        return getCharacter().getItemById(id);
+        return getDisplayedCharacter().getItemById(id);
     }
 }

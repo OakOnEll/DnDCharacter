@@ -581,5 +581,10 @@
     <string name="fraction_slash_d">/ %d</string>
     <string name="pending_uses_lbl">Pending Uses</string>
     <string name="enter_a_note">Enter a note for %s</string>
+    <string name="companion_familiar">Familiar</string>
+    <string name="companion_wildshape">Wildshape</string>
+    <string name="companion_mount">Mount</string>
+    <string name="companion_polymorph">Polymorph</string>
+    <string name="companion_ranger_companion">Ranger Companion</string>
 
 </resources>

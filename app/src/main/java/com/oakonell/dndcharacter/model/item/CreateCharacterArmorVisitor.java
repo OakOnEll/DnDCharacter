@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
@@ -20,7 +21,7 @@ public class CreateCharacterArmorVisitor extends AbstractArmorVisitor {
     }
 
     @NonNull
-    public static CharacterArmor createArmor(@NonNull Context context, @NonNull ItemRow row, @NonNull com.oakonell.dndcharacter.model.character.Character character) {
+    public static CharacterArmor createArmor(@NonNull Context context, @NonNull ItemRow row, @NonNull AbstractCharacter character) {
         CharacterArmor armor = new CharacterArmor();
 
         final Element root = XmlUtils.getDocument(row.getXml()).getDocumentElement();

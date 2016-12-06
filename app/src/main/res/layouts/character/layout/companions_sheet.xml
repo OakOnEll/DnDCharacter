@@ -662,5 +662,8 @@
                 tools:listitem="@layout/feature_layout" />
 
         </LinearLayout>
+
+        <include layout="@layout/items_include" />
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

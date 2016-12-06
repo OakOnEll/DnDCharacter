@@ -827,24 +827,6 @@ public class Character extends AbstractCharacter {
         background.setTraitSavedChoiceToCustom(trait);
     }
 
-    @NonNull
-    public List<ToolProficiencyWithSource> deriveToolProficiencies(@NonNull final ProficiencyType type) {
-        final List<ToolProficiencyWithSource> result = new ArrayList<>();
-
-
-        ComponentVisitor deriver = new ComponentVisitor() {
-            public void visitComponent(@NonNull ICharacterComponent component) {
-                List<Proficiency> profs = component.getToolProficiencies(type);
-                for (Proficiency each : profs) {
-                    ToolProficiencyWithSource newRow = new ToolProficiencyWithSource(each, component);
-                    result.add(newRow);
-                }
-            }
-        };
-        getAbilityDeriver(deriver, false).derive(this, "tools profs " + type.name());
-
-        return result;
-    }
 
 
     public static class LanguageWithSource extends WithSource {
