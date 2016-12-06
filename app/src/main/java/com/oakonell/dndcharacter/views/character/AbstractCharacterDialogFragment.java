@@ -41,6 +41,7 @@ public abstract class AbstractCharacterDialogFragment extends AbstractDialogFrag
 
     protected boolean isForCompanion() {
         Bundle args = getArguments();
+        if (args == null) return false;
         return args.getBoolean(COMPANION_ARG, false);
     }
 
