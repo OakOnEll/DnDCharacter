@@ -174,6 +174,11 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
     }
 
 
+    @NonNull
+    protected String getIdColumnName() {
+        return "companion";
+    }
+
     protected int getDialogResource() {
         return R.layout.companion_search_dialog;
     }
@@ -268,8 +273,9 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
                 String descr = "";
                 if (index >= 0) {
                     AbstractCompanionType type = companionTypes.get(index);
-                    descr = getString(type.getDescriptionResId());
+                    descr = getString(type.getShortDescriptionResId());
                 }
+                // TODO on click, show the full description
                 descrTextView.setText(descr);
                 search();
             }

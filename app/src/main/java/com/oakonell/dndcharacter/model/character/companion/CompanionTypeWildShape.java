@@ -34,6 +34,11 @@ public class CompanionTypeWildShape extends AbstractCompanionType {
     }
 
     @Override
+    public int getShortDescriptionResId() {
+        return R.string.wildshape_short_description;
+    }
+
+    @Override
     public String getCrLimit(Character character) {
         return character.getCharacterLevel() + "";
     }

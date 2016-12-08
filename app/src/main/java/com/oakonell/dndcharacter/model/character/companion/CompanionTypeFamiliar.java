@@ -32,6 +32,11 @@ public class CompanionTypeFamiliar extends AbstractCompanionType {
     }
 
     @Override
+    public int getShortDescriptionResId() {
+        return R.string.familiar_short_description;
+    }
+
+    @Override
     public String getCrLimit(Character character) {
         return null;
     }

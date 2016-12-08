@@ -18,6 +18,7 @@
     <string name="add_companion">Add Companion</string>
     <string name="companion_type_prompt">Companion Type</string>
     <string name="choose_companion_type_error">Choose Companion Type</string>
+
     <string name="familiar_description">You gain the service of a familiar, a spirit that takes an animal form you choose: bat, cat, crab, frog (toad), hawk. lizard, octopus, owl, poisonous snake, fish (quipper), rat, raven, sea horse, spider, or weasel.
         Appearing in an unoccupied space within 10 feet, the familiar has the statistics of the chosen form, though it is a celestial, fey or fiend (your choice) instead of a beast.
 Your familiar acts independently of you, but it always obeys your commands. In combat, it rolls its own initiative and acts on its own turn. A familiar can\'t attack, but it can take other actions as normal.
@@ -26,13 +27,20 @@ While your familiar is within 100 feet of you, you can communicate with it telep
 As an action, you can temporarily dismiss your familiar. It disappears into a pocket dimension where it awaits you summons. Alternatively, you can dismiss it forever. As an action while it is temporarily dismissed, you can cause it to reappear in any unoccupied space within 30 feet of you.
 You can\'t have more than one familiar at a time. If you cast this spell while you already have a familiar, you instead cause it to adopt a new form. Choose one of the forms from the above list. Your familiar transforms into the chosen creature.
 Finally, when you cast a spell with a range of touch, your familiar can deliver the spell as if it had cast the spell. Your familiar must be within 100 feet of you, and it must use its reaction to deliver the spell when you cast it. If the spell requires an attack roll, you use your attack modifier for the roll.</string>
+
+
     <string name="mount_description">Mount ... yada yada</string>
+
+
     <string name="polymorph_description">You are polymorphed into a new form. The transformation lasts for the duration of the spell used, or until you drop to 0 hit points or dies. The new form can be any beast whose challenge rating is equal to or less than the target\'s (or the target\'s level, if it doesn\'t have a challenge rating). The target\'s game statistics, including mental ability scores, are replaced by the statistics of the chosen beast. It retains its alignment and personality. The target assumes the hit points of its new form. When it reverts to its normal form, the creature returns to the number of hit points it had before it transformed. If it reverts as a result of dropping to 0 hit points, any excess damage carries over to its normal form. As long as the excess damage doesn\'t reduce the creature\'s normal form to 0 hit points, it isn\'t knocked unconscious. The creature is limited in the actions it can perform by the nature of its new form, and it can\'t speak, cast spells, or take any other action that requires hands or speech. The target\'s gear melds into the new form. The creature can\'t activate, use, wield, or otherwise benefit from any of its equipment.
 This spell can\'t affect a target that has 0 hit points.</string>
+
     <string name="ranger_companion_description">You gain a beast companion that accompanies you on you adventures and is trained to fight alongside you. Choose a beast that is no larger than Medium and that has a challenge rating of 1/4 or lower. Add your proficiency bonus to the beast\'s AC, attack rolls, and damage rolls, as well as to any saving throws and skills it is proficient in. Its hit point maximum equals its normal maximum or four times your ranger level, whichever is higher.
                 The beast obeys your commands as best as it can. It takes its turn on your initiative, though it doesn\'t an action unless you command it to. On your turn, you can verbally command the beast where to move (no action required by you). You can use your action to verbally command it to take the Attack, Dash, Disengage, Dodge,, or Help action. Once you have the Extra Attack feature, you can make one attack yourself when you command the beast to take the Attack action.
                 While traveling through your favored terrain with only the beast, you can move stealthily at a normal pace.
                 If the beast dies, you can obtain another one by spending 8 hours magically bonding with another beast that isn\'t hostile to you, either the same type of beast as before or a different one.</string>
+
+
     <string name="wildshape_description">You can use your action to magically assume the shape of a beast you have seen before.
         You can stay in a beast shape for a number of hours equal to half your druid level (rounded down). You then revert to your normal form unless you expend another use of this feature. You can revert to your normal form earlier by using a bonus action on your turn. You automatically revert if you fall unconscious, drop to 0 hit points, or die. While you are transformed, the following rules apply:
                     • Your game statistics are replaced by the statistics of the beast, but you retain your alignment, personality, and Intelligence, Wisdom, and Charisma scores. You also retain all of your skill and saving throw proficiencies, in addition to gaining those of the creature. If the creature has the same proficiency as you and the bonus in its stat block is higher than yours, use the creature’s bonus instead of yours. If the creature has any legendary or lair actions, you can’t use them.
@@ -40,6 +48,14 @@ This spell can\'t affect a target that has 0 hit points.</string>
                     • You can’t cast spells, and your ability to speak or take any action that requires hands is limited to the capabilities of your beast form. Transforming doesn’t break your concentration on a spell you’ve already cast, however, or prevent you from taking actions that are part of a spell, such as call lightning, that you’ve already cast.
                     • You retain the benefit of any features from your class, race, or other source and can use them if the new form is physically capable of doing so. However, you can’t use any of your special senses, such as darkvision, unless your new form also has that sense.
                     • You choose whether your equipment falls to the ground in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it is practical for the new form to wear a piece of equipment, based on the creature’s shape and size. Your equipment doesn’t change size or shape to match the new form, and any equipment that the new form can’t wear must either fall to the ground or merge with it. Equipment that merges with the form has no effect until you leave the form</string>
+
+    <string name="mount_short_description">Mount ... yada yada</string>
+    <string name="polymorph_short_description">You are polymorphed into a new form. The transformation lasts for the duration of the spell used, or until you drop to 0 hit points or dies. All stats are taken from the target polymorphed creature.</string>
+    <string name="ranger_short_description">You gain a beast companion that accompanies you on you adventures and is trained to fight alongside you. </string>
+    <string name="wildshape_short_description">You can use your action to magically assume the shape of a beast you have seen before. Your game statistics are replaced by the statistics of the beast, but you retain your alignment, personality, and Intelligence, Wisdom, and Charisma scores. You also retain all of your skill and saving throw proficiencies, in addition to gaining those of the creature.</string>
+    <string name="familiar_short_description">You gain a single spirit familiar that takes a beast form. It can act independently, can communicate telepathically, and can extend your "touch" spells\' range.</string>
+
+
     <string name="limit_by_cr">Limit by CR</string>
     <string name="challenge_rating">Challenge Rating</string>
     <string name="cr_required_error">Challenge Rating Required</string>

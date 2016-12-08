@@ -35,6 +35,8 @@ public abstract class AbstractCompanionType {
 
     public abstract int getDescriptionResId();
 
+    public abstract int getShortDescriptionResId();
+
     @Override
     public boolean equals(Object obj) {
         return obj.getClass().equals(this.getClass());

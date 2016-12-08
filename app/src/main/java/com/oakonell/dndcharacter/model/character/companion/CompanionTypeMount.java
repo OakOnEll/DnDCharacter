@@ -24,6 +24,11 @@ public class CompanionTypeMount extends AbstractCompanionType {
     }
 
     @Override
+    public int getShortDescriptionResId() {
+        return R.string.mount_short_description;
+    }
+
+    @Override
     public String getCrLimit(Character character) {
         return null;
     }

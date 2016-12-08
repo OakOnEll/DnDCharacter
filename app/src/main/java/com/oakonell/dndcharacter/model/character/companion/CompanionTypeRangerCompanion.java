@@ -33,6 +33,11 @@ public class CompanionTypeRangerCompanion extends AbstractCompanionType {
     }
 
     @Override
+    public int getShortDescriptionResId() {
+        return R.string.ranger_short_description;
+    }
+
+    @Override
     public String getCrLimit(Character character) {
         return null;
     }

@@ -27,6 +27,11 @@ public class CompanionTypePolymorph extends AbstractCompanionType {
     }
 
     @Override
+    public int getShortDescriptionResId() {
+        return R.string.polymorph_short_description;
+    }
+
+    @Override
     public String getCrLimit(Character character) {
         return character.getCharacterLevel() + "";
     }
