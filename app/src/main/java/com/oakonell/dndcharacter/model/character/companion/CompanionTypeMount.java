@@ -32,4 +32,9 @@ public class CompanionTypeMount extends AbstractCompanionType {
     public String getCrLimit(Character character) {
         return null;
     }
+
+    public boolean usesLimitedRaces() {
+        return false;
+    }
+
 }

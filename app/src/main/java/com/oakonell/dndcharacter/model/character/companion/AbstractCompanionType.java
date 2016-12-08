@@ -62,4 +62,8 @@ public abstract class AbstractCompanionType {
     }
 
     public abstract String getCrLimit(Character character);
+
+    public boolean usesLimitedRaces() {
+        return false;
+    }
 }

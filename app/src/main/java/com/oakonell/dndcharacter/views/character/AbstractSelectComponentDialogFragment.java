@@ -236,7 +236,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
         public void bindTo(final Cursor cursor, final AbstractSelectComponentDialogFragment context, final CursorComponentListAdapter adapter, CursorIndexesByName cursorIndexesByName) {
             super.bindTo(cursor, context, adapter, cursorIndexesByName);
 
-            final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, getIdColumnName()));
+            final long id = cursor.getInt(cursorIndexesByName.getIndex(cursor, getIdColumnName(adapter)));
             final String nameString = cursor.getString(cursorIndexesByName.getIndex(cursor, "name"));
             name.setText(nameString);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -285,7 +285,7 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
         }
 
         @NonNull
-        protected String getIdColumnName() {
+        protected String getIdColumnName(CursorComponentListAdapter adapter) {
             return BaseColumns._ID;
         }
 
@@ -359,7 +359,9 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
             }
         }
 
-
+        public AbstractSelectComponentDialogFragment getContext() {
+            return context;
+        }
     }
 
     @NonNull

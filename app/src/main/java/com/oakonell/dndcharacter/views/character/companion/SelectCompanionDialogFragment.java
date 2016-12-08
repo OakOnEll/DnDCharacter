@@ -83,6 +83,16 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
             final String size = cursor.getString(cursorIndexesByName.getIndex(cursor, "creature_size"));
             sizeTextView.setText(size);
         }
+
+        @NonNull
+        @Override
+        protected String getIdColumnName(CursorComponentListAdapter adapter) {
+            boolean limitRacesToType = ((SelectCompanionDialogFragment) adapter.getContext()).limitRacesToType();
+            if (limitRacesToType) {
+                return "companion";
+            }
+            return super.getIdColumnName(adapter);
+        }
     }
 
     public void setListener(SelectCompanionDialogFragment.CompanionSelectedListener listener) {
@@ -105,14 +115,23 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
         return getString(R.string.add_companion);
     }
 
-    protected Uri getContentProviderUri() {
-        final StringBuilder uri = new StringBuilder();
-        uri.append("content://");
-        uri.append(DnDContentProvider.sAuthority);
-        uri.append("/");
-        uri.append(DnDContentProvider.COMPANION_AND_TYPES);
+    protected boolean limitRacesToType() {
+        AbstractCompanionType type = companionTypes.get(typeSpinner.getSelectedItemPosition());
+        return type.usesLimitedRaces();
+    }
 
-        return Uri.parse(uri.toString());
+    protected Uri getContentProviderUri() {
+        if (typeSpinner != null) {
+            if (limitRacesToType()) {
+                final StringBuilder uri = new StringBuilder();
+                uri.append("content://");
+                uri.append(DnDContentProvider.sAuthority);
+                uri.append("/");
+                uri.append(DnDContentProvider.COMPANION_AND_TYPES);
+                return Uri.parse(uri.toString());
+            }
+        }
+        return super.getContentProviderUri();
     }
 
     @Override
@@ -143,15 +162,20 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
         if (typeSpinner == null) return null;
         if (typeSpinner.getSelectedItem() == null) return null;
 
-        String crLimitFilter = "";
+        String filter = "";
+
+        if (limitRacesToType()) {
+            filter += " upper(type) = ? ";
+        }
+
         if (limit_by_cr.isChecked()) {
             // TODO
             String cr = (String) crSpinner.getSelectedItem();
             double value = Companion.getCRRealValue(cr);
-            crLimitFilter = " AND cr_value <= ? ";
+            filter += " AND cr_value <= ? ";
         }
 
-        return " upper(type) = ? " + crLimitFilter;
+        return filter;
     }
 
     @Nullable
@@ -162,22 +186,22 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
 
         AbstractCompanionType type = companionTypes.get(typeSpinner.getSelectedItemPosition());
 
+        List<String> args = new ArrayList<>();
+
+        if (limitRacesToType()) {
+            args.add(type.getType().toUpperCase());
+        }
+
         if (limit_by_cr.isChecked()) {
             // TODO
             String cr = (String) crSpinner.getSelectedItem();
             double value = Companion.getCRRealValue(cr);
-            return new String[]{type.getType().toUpperCase(), Double.toString(value)};
+            args.add(Double.toString(value));
         }
 
-
-        return new String[]{type.getType().toUpperCase()};
+        return args.toArray(new String[args.size()]);
     }
 
-
-    @NonNull
-    protected String getIdColumnName() {
-        return "companion";
-    }
 
     protected int getDialogResource() {
         return R.layout.companion_search_dialog;

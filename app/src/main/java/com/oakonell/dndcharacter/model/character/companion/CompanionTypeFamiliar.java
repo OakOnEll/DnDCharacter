@@ -41,4 +41,8 @@ public class CompanionTypeFamiliar extends AbstractCompanionType {
         return null;
     }
 
+    public boolean usesLimitedRaces() {
+        return true;
+    }
+
 }

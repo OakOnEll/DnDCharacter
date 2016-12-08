@@ -42,4 +42,8 @@ public class CompanionTypeRangerCompanion extends AbstractCompanionType {
         return null;
     }
 
+    public boolean usesLimitedRaces() {
+        return true;
+    }
+
 }
