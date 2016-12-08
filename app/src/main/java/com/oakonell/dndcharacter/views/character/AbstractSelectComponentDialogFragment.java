@@ -163,7 +163,11 @@ public abstract class AbstractSelectComponentDialogFragment<V extends AbstractSe
     }
 
     protected void search() {
-        if (!canSearch()) return;
+        if (!canSearch()) {
+            listView.setVisibility(View.GONE);
+            return;
+        }
+        listView.setVisibility(View.VISIBLE);
         if (loaderId > 0) {
             getLoaderManager().getLoader(loaderId).forceLoad();
         } else {

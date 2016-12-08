@@ -1,6 +1,7 @@
 package com.oakonell.dndcharacter.model.character.companion;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.Character;
 
 /**
  * Created by Rob on 11/27/2016.
@@ -8,7 +9,7 @@ import com.oakonell.dndcharacter.R;
 
 public class CompanionTypePolymorph extends AbstractCompanionType {
     @Override
-    String getType() {
+    public String getType() {
         return "polymorph";
     }
 
@@ -20,5 +21,13 @@ public class CompanionTypePolymorph extends AbstractCompanionType {
         return R.string.companion_polymorph;
     }
 
+    @Override
+    public int getDescriptionResId() {
+        return R.string.polymorph_description;
+    }
 
+    @Override
+    public String getCrLimit(Character character) {
+        return character.getCharacterLevel() + "";
+    }
 }

@@ -13,10 +13,12 @@ import com.activeandroid.content.ContentProvider;
  */
 public class DnDContentProvider extends ContentProvider {
     public static final String SPELL_AND_CLASSES = "spellAndClasses";
+    public static final String COMPANION_AND_TYPES = "companionAndTypes";
     public static String sAuthority;
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     private static final int JOINED_SPELL_CLASSES = 10001;
+    private static final int JOINED_COMPANION_TYPES = 10002;
 
     @Override
     public boolean onCreate() {
@@ -24,6 +26,7 @@ public class DnDContentProvider extends ContentProvider {
 
         sAuthority = getAuthority();
         URI_MATCHER.addURI(sAuthority, SPELL_AND_CLASSES, JOINED_SPELL_CLASSES);
+        URI_MATCHER.addURI(sAuthority, COMPANION_AND_TYPES, JOINED_COMPANION_TYPES);
 
         return true;
     }
@@ -35,17 +38,31 @@ public class DnDContentProvider extends ContentProvider {
 
 
         StringBuilder mimeType = new StringBuilder();
-        mimeType.append("vnd");
-        mimeType.append(".");
-        mimeType.append(sAuthority);
-        mimeType.append(".");
-        mimeType.append("dir");
-        mimeType.append("/");
-        mimeType.append("vnd");
-        mimeType.append(".");
-        mimeType.append(sAuthority);
-        mimeType.append(".");
-        mimeType.append(SPELL_AND_CLASSES);
+        if (match == JOINED_SPELL_CLASSES) {
+            mimeType.append("vnd");
+            mimeType.append(".");
+            mimeType.append(sAuthority);
+            mimeType.append(".");
+            mimeType.append("dir");
+            mimeType.append("/");
+            mimeType.append("vnd");
+            mimeType.append(".");
+            mimeType.append(sAuthority);
+            mimeType.append(".");
+            mimeType.append(SPELL_AND_CLASSES);
+        } else if (match == JOINED_COMPANION_TYPES) {
+            mimeType.append("vnd");
+            mimeType.append(".");
+            mimeType.append(sAuthority);
+            mimeType.append(".");
+            mimeType.append("dir");
+            mimeType.append("/");
+            mimeType.append("vnd");
+            mimeType.append(".");
+            mimeType.append(sAuthority);
+            mimeType.append(".");
+            mimeType.append(COMPANION_AND_TYPES);
+        }
 
         return mimeType.toString();
     }
@@ -53,9 +70,20 @@ public class DnDContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         final int match = URI_MATCHER.match(uri);
-        if (match ==JOINED_SPELL_CLASSES) {
+        if (match == JOINED_SPELL_CLASSES) {
             final Cursor cursor = Cache.openDatabase().query(
                     "spell JOIN spell_class ON spell._id = spell_class.spell",
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder);
+
+            return cursor;
+        } else if (match == JOINED_COMPANION_TYPES) {
+            final Cursor cursor = Cache.openDatabase().query(
+                    "companion JOIN companion_type ON companion._id = companion_type.companion",
                     projection,
                     selection,
                     selectionArgs,

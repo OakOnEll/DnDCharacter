@@ -15,32 +15,73 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <com.oakonell.dndcharacter.views.NoDefaultSpinner
-            android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/type_descr"
-            tools:text="Familiar is ... blah blah... limited to CR &lt; 1/4..."/>
+            android:orientation="vertical">
 
-        <com.oakonell.dndcharacter.views.MyEditText
-            android:id="@+id/search_terms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/component_search_hint"
-            android:text="" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/typeInvisibleError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
+
+            </LinearLayout>
+
+            <TextView
+
+                android:id="@+id/type_descr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Familiar is ... blah blah... limited to CR &lt; 1/4..." />
 
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/limit_by_cr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/limit_by_cr"
+                    tools:text="Limit by CR" />
+
+                <com.oakonell.dndcharacter.views.NoDefaultSpinner
+                    android:id="@+id/cr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/crInvisibleError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
+
+            </LinearLayout>
+
+            <com.oakonell.dndcharacter.views.MyEditText
+                android:id="@+id/search_terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/component_search_hint"
+                android:text="" />
+
+
+        </LinearLayout>
 
 
         <android.support.v7.widget.RecyclerView

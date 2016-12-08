@@ -2,28 +2,21 @@ package com.oakonell.dndcharacter.model.character.companion;
 
 import com.oakonell.dndcharacter.model.character.Character;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Rob on 11/27/2016.
  */
 
 public abstract class AbstractCompanionType {
-    abstract String getType();
+    public abstract String getType();
 
     public static AbstractCompanionType fromString(String typeString) {
-        switch (typeString) {
-            case "familiar":
-                return new CompanionTypeFamiliar();
-            case "mount":
-                return new CompanionTypeMount();
-            case "polymorph":
-                return new CompanionTypeFamiliar();
-            case "wildShape":
-                return new CompanionTypeWildShape();
-            case "rangerCompanion":
-                return new CompanionTypeRangerCompanion();
-            default:
-                throw new RuntimeException("Unknown companion type: " + typeString);
+        for (AbstractCompanionType each : values()) {
+            if (each.getType().equals(typeString)) return each;
         }
+        throw new RuntimeException("Unknown companion type: " + typeString);
     }
 
     public boolean effectsSelf() {
@@ -40,6 +33,8 @@ public abstract class AbstractCompanionType {
 
     public abstract int getStringResId();
 
+    public abstract int getDescriptionResId();
+
     @Override
     public boolean equals(Object obj) {
         return obj.getClass().equals(this.getClass());
@@ -49,4 +44,20 @@ public abstract class AbstractCompanionType {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    static List<AbstractCompanionType> types = new ArrayList<>();
+
+    static {
+        types.add(new CompanionTypeFamiliar());
+        types.add(new CompanionTypeMount());
+        types.add(new CompanionTypePolymorph());
+        types.add(new CompanionTypeWildShape());
+        types.add(new CompanionTypeRangerCompanion());
+    }
+
+    public static List<AbstractCompanionType> values() {
+        return types;
+    }
+
+    public abstract String getCrLimit(Character character);
 }

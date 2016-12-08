@@ -2,19 +2,28 @@ package com.oakonell.dndcharacter.views.character.companion;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
+import com.oakonell.dndcharacter.model.DnDContentProvider;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.character.SpeedType;
 import com.oakonell.dndcharacter.model.character.companion.AbstractCompanionType;
@@ -23,15 +32,15 @@ import com.oakonell.dndcharacter.model.character.companion.CompanionRace;
 import com.oakonell.dndcharacter.model.character.stats.BaseStatsType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.companion.Companion;
-import com.oakonell.dndcharacter.model.spell.SpellSchool;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
+import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
-import com.oakonell.dndcharacter.views.character.spell.SelectSpellDialogFragment;
 
 import org.w3c.dom.Element;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +51,13 @@ import java.util.Map;
 
 public class SelectCompanionDialogFragment extends AbstractSelectComponentDialogFragment<AbstractSelectComponentDialogFragment.RowViewHolder> {
     private SelectCompanionDialogFragment.CompanionSelectedListener listener;
-
+    private NoDefaultSpinner typeSpinner;
+    private List<AbstractCompanionType> companionTypes;
+    private TextView typeInvisibleErrorTextView;
+    private TextView descrTextView;
+    private NoDefaultSpinner crSpinner;
+    private TextView crInvisibleErrorTextView;
+    private CheckBox limit_by_cr;
 
     private static class CompanionRowViewHolder extends RowViewHolder {
 
@@ -75,7 +90,7 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
     }
 
     public interface CompanionSelectedListener {
-        boolean companionSelected(long id);
+        boolean companionSelected(long id, AbstractCompanionType type);
     }
 
     @NonNull
@@ -89,6 +104,75 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
     protected String getTitle() {
         return getString(R.string.add_companion);
     }
+
+    protected Uri getContentProviderUri() {
+        final StringBuilder uri = new StringBuilder();
+        uri.append("content://");
+        uri.append(DnDContentProvider.sAuthority);
+        uri.append("/");
+        uri.append(DnDContentProvider.COMPANION_AND_TYPES);
+
+        return Uri.parse(uri.toString());
+    }
+
+    @Override
+    protected boolean canSearch() {
+        if (typeSpinner == null || limit_by_cr == null) return false;
+        int typeIndex = typeSpinner.getSelectedItemPosition();
+        if (typeIndex < 0) {
+            Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+            typeSpinner.startAnimation(shake);
+            typeInvisibleErrorTextView.setError(getString(R.string.choose_companion_type_error));
+            return false;
+        }
+
+        if (limit_by_cr.isChecked()) {
+            if (crSpinner.getSelectedItemPosition() < 0) {
+                Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+                crSpinner.startAnimation(shake);
+                crInvisibleErrorTextView.setError(getString(R.string.cr_required_error));
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Nullable
+    @Override
+    protected String getSelection() {
+        if (typeSpinner == null) return null;
+        if (typeSpinner.getSelectedItem() == null) return null;
+
+        String crLimitFilter = "";
+        if (limit_by_cr.isChecked()) {
+            // TODO
+            String cr = (String) crSpinner.getSelectedItem();
+            double value = Companion.getCRRealValue(cr);
+            crLimitFilter = " AND cr_value <= ? ";
+        }
+
+        return " upper(type) = ? " + crLimitFilter;
+    }
+
+    @Nullable
+    @Override
+    protected String[] getSelectionArgs() {
+        if (typeSpinner == null) return null;
+        if (typeSpinner.getSelectedItem() == null) return null;
+
+        AbstractCompanionType type = companionTypes.get(typeSpinner.getSelectedItemPosition());
+
+        if (limit_by_cr.isChecked()) {
+            // TODO
+            String cr = (String) crSpinner.getSelectedItem();
+            double value = Companion.getCRRealValue(cr);
+            return new String[]{type.getType().toUpperCase(), Double.toString(value)};
+        }
+
+
+        return new String[]{type.getType().toUpperCase()};
+    }
+
 
     protected int getDialogResource() {
         return R.layout.companion_search_dialog;
@@ -110,7 +194,91 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
     public View onCreateTheView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateTheView(inflater, container, savedInstanceState);
 
+
+        limit_by_cr = (CheckBox) view.findViewById(R.id.limit_by_cr);
+        crSpinner = (NoDefaultSpinner) view.findViewById(R.id.cr);
+        crInvisibleErrorTextView = (TextView) view.findViewById(R.id.crInvisibleError);
+        String crPrompt = getString(R.string.challenge_rating);
+        crSpinner.setPrompt("[" + crPrompt + "]");
+        float minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (crPrompt.length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, crSpinner.getResources().getDisplayMetrics());
+        crSpinner.setMinimumWidth((int) minWidth);
+
+        List<String> crValues = new ArrayList<>();
+        crValues.add("0");
+        crValues.add("1/8");
+        crValues.add("1/4");
+        crValues.add("1/2");
+        for (int i = 1; i < 20; i++) {
+            crValues.add(i + "");
+        }
+
+        ArrayAdapter<String> crAdapter = new ArrayAdapter<>(getContext(),
+                R.layout.large_spinner_text, crValues);
+        crAdapter.setDropDownViewResource(R.layout.large_spinner_text);
+        crSpinner.setAdapter(crAdapter);
+
+        limit_by_cr.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                search();
+            }
+        });
+
+        crSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                crInvisibleErrorTextView.setError(null);
+                search();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                descrTextView.setText("");
+            }
+        });
+
+
         // TODO handle filter by companion type
+        typeSpinner = (NoDefaultSpinner) view.findViewById(R.id.type);
+        typeInvisibleErrorTextView = (TextView) view.findViewById(R.id.typeInvisibleError);
+        descrTextView = (TextView) view.findViewById(R.id.type_descr);
+
+        String prompt = getString(R.string.companion_type_prompt);
+
+        typeSpinner.setPrompt("[" + prompt + "]");
+        minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, (prompt.length() + 2) * NoDefaultSpinner.SPINNER_TEXT_SP, typeSpinner.getResources().getDisplayMetrics());
+        typeSpinner.setMinimumWidth((int) minWidth);
+
+        companionTypes = AbstractCompanionType.values();
+        List<String> typeLabels = new ArrayList<>();
+        for (AbstractCompanionType each : companionTypes) {
+            typeLabels.add(getString(each.getStringResId()));
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
+                R.layout.large_spinner_text, typeLabels);
+        dataAdapter.setDropDownViewResource(R.layout.large_spinner_text);
+        typeSpinner.setAdapter(dataAdapter);
+
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                typeInvisibleErrorTextView.setError(null);
+                int index = typeSpinner.getSelectedItemPosition();
+                String descr = "";
+                if (index >= 0) {
+                    AbstractCompanionType type = companionTypes.get(index);
+                    descr = getString(type.getDescriptionResId());
+                }
+                descrTextView.setText(descr);
+                search();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                descrTextView.setText("");
+            }
+        });
 
         return view;
     }
@@ -124,7 +292,15 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
     @Override
     protected boolean applyAction(long id) {
         if (listener != null) {
-            return listener.companionSelected(id);
+            int typeIndex = typeSpinner.getSelectedItemPosition();
+            if (typeIndex < 0) {
+                Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+                typeSpinner.startAnimation(shake);
+                typeInvisibleErrorTextView.setError(getString(R.string.choose_companion_type_error));
+                return false;
+            }
+            AbstractCompanionType type = companionTypes.get(typeIndex);
+            return listener.companionSelected(id, type);
         }
         throw new RuntimeException("No Listener!");
     }
@@ -139,14 +315,13 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
         }
 
         @Override
-        public boolean companionSelected(long id) {
+        public boolean companionSelected(long id, final AbstractCompanionType type) {
             final Companion companion = Companion.load(Companion.class, id);
 
             // prompt for name TODO make a more standard dialog
-            final String type = "rangerCompanion";
 
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setTitle("Name of new " + type + " " + companion.getName());
+            builder.setTitle("Name of new " + activity.getString(type.getStringResId()) + " " + companion.getName());
 
 // Set up the input
             final EditText input = new EditText(activity);
@@ -176,7 +351,7 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
             return true;
         }
 
-        protected void addCompanion(Companion companion, String name, String type) {
+        protected void addCompanion(Companion companion, String name, AbstractCompanionType type) {
             final Element root = XmlUtils.getDocument(companion.getXml()).getDocumentElement();
             Map<StatType, Integer> baseStats = new HashMap<>();
             Element stats = XmlUtils.getElement(root, "stats");
@@ -188,7 +363,8 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
             // TODO set the type from the search filter
             CharacterCompanion charCompanion = new CharacterCompanion();
             charCompanion.setName(name);
-            charCompanion.setType(AbstractCompanionType.fromString(type));
+
+            charCompanion.setType(type);
 
             charCompanion.setStatsType(BaseStatsType.CUSTOM);
 

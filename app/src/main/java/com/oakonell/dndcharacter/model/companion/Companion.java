@@ -10,11 +10,8 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
-import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
-import com.oakonell.dndcharacter.model.spell.SpellClass;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.w3c.dom.Element;
 
@@ -34,6 +31,9 @@ public class Companion extends AbstractDescriptionComponentModel {
 
     @Column
     private String cr;
+
+    @Column
+    private double cr_value;
 
     @Column
     private String creature_size;
@@ -123,6 +123,8 @@ public class Companion extends AbstractDescriptionComponentModel {
             String cr = XmlUtils.getElementText(doc, "cr");
             setCr(cr);
 
+            setCrValue(getCRRealValue(cr));
+
             String size = XmlUtils.getElementText(doc, "size");
             setSize(size);
         } else {
@@ -146,5 +148,27 @@ public class Companion extends AbstractDescriptionComponentModel {
 
     public void setSize(String creature_size) {
         this.creature_size = creature_size;
+    }
+
+    public double getCrValue() {
+        return cr_value;
+    }
+
+    public void setCrValue(double crValue) {
+        this.cr_value = crValue;
+    }
+
+    public static double getCRRealValue(String cr) {
+        if (cr.contains("/")) {
+            String[] parts = cr.split("/");
+            if (parts.length != 2) {
+                throw new RuntimeException("Invalid CR text : " + cr);
+            }
+            int numerator = Integer.parseInt(parts[0]);
+            int denom = Integer.parseInt(parts[1]);
+            double value = ((double) numerator) / denom;
+            return value;
+        }
+        return Integer.parseInt(cr);
     }
 }
