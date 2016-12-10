@@ -40,6 +40,19 @@ public class CompanionTypeWildShape extends AbstractCompanionType {
 
     @Override
     public String getCrLimit(Character character) {
-        return character.getCharacterLevel() + "";
+        // TODO don't like hard coding this druid class name...
+        //  TODO nor the criteria for levels either... could make new companion types from class meta-data?
+        Integer druidLevel = character.getClassLevels().get("Druid");
+        if (druidLevel == null) return "0";
+        // TODO also... what about flying, swimming.. restrictions
+        if (druidLevel >= 2) return "1/4";
+        if (druidLevel >= 4) return "1/2";
+        if (druidLevel >= 8) return "1";
+        return "0";
+    }
+
+    public boolean applies(Character character) {
+        return true;
+        //return character.getClassLevels().get("Druid") != null;
     }
 }

@@ -37,13 +37,13 @@ public class CompanionTypeRangerCompanion extends AbstractCompanionType {
         return R.string.ranger_short_description;
     }
 
-    @Override
-    public String getCrLimit(Character character) {
-        return null;
-    }
 
     public boolean usesLimitedRaces() {
         return true;
     }
 
+    public boolean applies(Character character) {
+        return true;
+        //return character.getClassLevels().get("Ranger") != null;
+    }
 }

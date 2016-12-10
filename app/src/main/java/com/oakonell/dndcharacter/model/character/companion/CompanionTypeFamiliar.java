@@ -36,13 +36,17 @@ public class CompanionTypeFamiliar extends AbstractCompanionType {
         return R.string.familiar_short_description;
     }
 
-    @Override
-    public String getCrLimit(Character character) {
-        return null;
-    }
 
     public boolean usesLimitedRaces() {
         return true;
     }
+
+    public boolean applies(Character character) {
+        return true;
+//        return character.getClassLevels().get("Wizard") != null
+//                ||
+//                character.getClassLevels().get("Warlock") != null;
+    }
+
 
 }
