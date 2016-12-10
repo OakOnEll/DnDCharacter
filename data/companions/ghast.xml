@@ -1,0 +1,48 @@
+<companion>
+    <ref>MM p.148</ref>
+    <name>Ghast</name>
+    <size>medium</size>
+    <ac>13</ac>
+    <hp>36,8d8</hp>
+    <speed>30</speed>
+    <types>
+        <type>undead</type>
+    </types>
+
+    <stats>
+        <strength>16</strength>
+        <dexterity>17</dexterity>
+        <constitution>10</constitution>
+        <intelligence>11</intelligence>
+        <wisdom>10</wisdom>
+        <charisma>8</charisma>
+    </stats>
+    <senses>Darkvision 60ft, passive perception 10</senses>
+    <languages>Common</languages>
+    <cr>2</cr>
+
+    <feature>
+        <name>Damage resistance/vulnerability</name>
+        <shortDescription>The ghast resistent to necrotic damage, and immune to poison. It is also immune to the conditions: charmed, exhaustion, and poisoned.</shortDescription>
+    </feature>
+    <feature>
+        <name>Stench</name>
+        <shortDescription>Any creature that starts its turn within 5 feet of the ghast must succeed on a DC 10 Constitution saving throw or be poisoned until the start of its next turn. On a successful saving throw, the creature is immune to the ghast's Stench for 24 hours.</shortDescription>
+    </feature>
+    <feature>
+        <name>Turning Defence</name>
+        <shortDescription>The ghast and any ghouls within 30 feet of it have advantage on saving throws against effects that turn undead.</shortDescription>
+    </feature>
+
+    <actions>
+        <action name="bite">
+            <description>+3 to hit, reach 5ft, one-target.
+                Hit: 12 (2d8 + 3) piercing damage.</description>
+        </action>
+        <action name="claws">
+            <description>+5 to hit, reach 5ft, one-target.
+                Hit: 10 (2d6 + 3) slashing damage. If the target is a creature other than an elf or undead, it must succeed on a DC 10 Constitution saving throw or be paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.</description>
+        </action>
+    </actions>
+
+</companion>

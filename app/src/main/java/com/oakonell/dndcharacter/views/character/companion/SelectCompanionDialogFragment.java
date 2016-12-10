@@ -241,7 +241,7 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
             crValues.add(i + "");
         }
 
-        ArrayAdapter<String> crAdapter = new ArrayAdapter<>(getContext(),
+        final ArrayAdapter<String> crAdapter = new ArrayAdapter<>(getContext(),
                 R.layout.large_spinner_text, crValues);
         crAdapter.setDropDownViewResource(R.layout.large_spinner_text);
         crSpinner.setAdapter(crAdapter);
@@ -249,6 +249,7 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
         limit_by_cr.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                crInvisibleErrorTextView.setError(null);
                 search();
             }
         });
@@ -281,7 +282,9 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
         companionTypes = AbstractCompanionType.values();
         List<String> typeLabels = new ArrayList<>();
         for (AbstractCompanionType each : companionTypes) {
-            typeLabels.add(getString(each.getStringResId()));
+            if (each.applies(getCharacter())) {
+                typeLabels.add(getString(each.getStringResId()));
+            }
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
@@ -298,9 +301,28 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
                 if (index >= 0) {
                     AbstractCompanionType type = companionTypes.get(index);
                     descr = getString(type.getShortDescriptionResId());
+
+                    final String crLimit = type.getCrLimit(getCharacter());
+                    if (crLimit != null && crLimit.trim().length() > 0) {
+                        limit_by_cr.setChecked(true);
+                        int crIndex = -1;
+                        for (int i = 0; i < crAdapter.getViewTypeCount(); i++) {
+                            String val = crAdapter.getItem(i);
+                            if (val.equals(crLimit)) {
+                                crIndex = i;
+                                break;
+                            }
+                        }
+                        crSpinner.setSelection(crIndex);
+                    } else {
+                        limit_by_cr.setChecked(false);
+                        crSpinner.setNoSelection();
+                    }
                 }
                 // TODO on click, show the full description
                 descrTextView.setText(descr);
+
+
                 search();
             }
 
@@ -448,5 +470,14 @@ public class SelectCompanionDialogFragment extends AbstractSelectComponentDialog
         }
 
     }
+
+    @Nullable
+    public final com.oakonell.dndcharacter.model.character.Character getCharacter() {
+        if (getActivity() instanceof CharacterActivity) {
+            return ((CharacterActivity) getActivity()).getCharacter();
+        }
+        return null;
+    }
+
 
 }

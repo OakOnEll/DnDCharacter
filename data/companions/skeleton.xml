@@ -1,0 +1,44 @@
+<companion>
+    <ref>MM p.272</ref>
+    <name>Skeleton</name>
+    <size>medium</size>
+    <ac>13</ac>
+    <hp>13,2d8+4</hp>
+    <speed>30</speed>
+    <types>
+        <type>undead</type>
+    </types>
+
+    <stats>
+        <strength>10</strength>
+        <dexterity>14</dexterity>
+        <constitution>15</constitution>
+        <intelligence>6</intelligence>
+        <wisdom>8</wisdom>
+        <charisma>5</charisma>
+    </stats>
+    <senses>Darkvision 60ft, passive perception 9</senses>
+    <languages></languages>
+    <cr>1/4</cr>
+
+    <feature>
+        <name>Damage resistance/vulnerability</name>
+        <shortDescription>The skeleton is vulnerable to bludgeoning, but immune to poison. It is also immune to the conditions: exhaustion and poisoned.</shortDescription>
+    </feature>
+    <feature>
+        <name>Undead Nature</name>
+        <shortDescription>The skeleton doesn't require air, food, drink, or sleep.</shortDescription>
+    </feature>
+
+    <actions>
+        <action name="shortsword">
+            <description>+4 to hit, reach 5ft, one-target.
+                Hit: 5 (1d6 + 2) piercing damage.</description>
+        </action>
+        <action name="shortbow">
+            <description>+4 to hit, RANGE 80/320 FT, one-target.
+                Hit: 5 (1d6 + 2) piercing damage.</description>
+        </action>
+    </actions>
+
+</companion>

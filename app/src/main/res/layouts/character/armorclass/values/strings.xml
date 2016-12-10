@@ -59,4 +59,10 @@ This spell can\'t affect a target that has 0 hit points.</string>
     <string name="limit_by_cr">Limit by CR</string>
     <string name="challenge_rating">Challenge Rating</string>
     <string name="cr_required_error">Challenge Rating Required</string>
+    <string name="companion_pet">Pet</string>
+    <string name="pet_description">A pet.</string>
+    <string name="pet_short_description">A pet.</string>
+    <string name="companion_undead">Undead</string>
+    <string name="undead_description">Undead created from a necromancy spell.</string>
+    <string name="undead_short_description">Undead created from a necromancy spell.</string>
 </resources>

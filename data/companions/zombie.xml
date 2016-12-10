@@ -1,0 +1,36 @@
+<companion>
+    <ref>MM p.316</ref>
+    <name>Zombie</name>
+    <size>medium</size>
+    <ac>8</ac>
+    <hp>22,3d8+9</hp>
+    <speed>20</speed>
+    <types>
+        <type>undead</type>
+    </types>
+
+    <stats>
+        <strength>13</strength>
+        <dexterity>6</dexterity>
+        <constitution>16</constitution>
+        <intelligence>3</intelligence>
+        <wisdom>6</wisdom>
+        <charisma>5</charisma>
+    </stats>
+    <senses>Darkvision 60ft, passive perception 8</senses>
+    <languages></languages>
+    <cr>1/4</cr>
+
+    <feature>
+        <name>Undead Fortitude</name>
+        <shortDescription>If damage reduces the zombie to 0 hit points, it must make a Constitution saving throw with a DC of 5 + the damage taken, unless the damage is radiant or from a critical hit. On a success, the zombie drops to 1 hit point instead.</shortDescription>
+    </feature>
+
+    <actions>
+        <action name="slam">
+            <description>+3 to hit, reach 5ft, one-target.
+                Hit: 4 (1d6 + 1) bludgeoning damage.</description>
+        </action>
+    </actions>
+
+</companion>

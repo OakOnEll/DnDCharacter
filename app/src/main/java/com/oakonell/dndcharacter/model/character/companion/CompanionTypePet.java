@@ -7,25 +7,25 @@ import com.oakonell.dndcharacter.model.character.Character;
  * Created by Rob on 11/27/2016.
  */
 
-public class CompanionTypeMount extends AbstractCompanionType {
+public class CompanionTypePet extends AbstractCompanionType {
     @Override
     public String getType() {
-        return "mount";
+        return "pet";
     }
 
     @Override
     public int getStringResId() {
-        return R.string.companion_mount;
+        return R.string.companion_pet;
     }
 
     @Override
     public int getDescriptionResId() {
-        return R.string.mount_description;
+        return R.string.pet_description;
     }
 
     @Override
     public int getShortDescriptionResId() {
-        return R.string.mount_short_description;
+        return R.string.pet_short_description;
     }
 
 

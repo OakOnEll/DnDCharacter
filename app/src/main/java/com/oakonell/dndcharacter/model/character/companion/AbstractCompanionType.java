@@ -12,13 +12,6 @@ import java.util.List;
 public abstract class AbstractCompanionType {
     public abstract String getType();
 
-    public static AbstractCompanionType fromString(String typeString) {
-        for (AbstractCompanionType each : values()) {
-            if (each.getType().equals(typeString)) return each;
-        }
-        throw new RuntimeException("Unknown companion type: " + typeString);
-    }
-
     public boolean effectsSelf() {
         return false;
     }
@@ -37,6 +30,19 @@ public abstract class AbstractCompanionType {
 
     public abstract int getShortDescriptionResId();
 
+    public String getCrLimit(Character character) {
+        return null;
+    }
+
+    public boolean usesLimitedRaces() {
+        return false;
+    }
+
+    public boolean applies(Character character) {
+        return true;
+    }
+
+    // object management
     @Override
     public boolean equals(Object obj) {
         return obj.getClass().equals(this.getClass());
@@ -47,12 +53,17 @@ public abstract class AbstractCompanionType {
         return getClass().hashCode();
     }
 
+
+    // ---------------- all types, as classes for now
+
     static List<AbstractCompanionType> types = new ArrayList<>();
 
     static {
         types.add(new CompanionTypeFamiliar());
         types.add(new CompanionTypeMount());
+        types.add(new CompanionTypePet());
         types.add(new CompanionTypePolymorph());
+        types.add(new CompanionTypeUndead());
         types.add(new CompanionTypeWildShape());
         types.add(new CompanionTypeRangerCompanion());
     }
@@ -61,9 +72,12 @@ public abstract class AbstractCompanionType {
         return types;
     }
 
-    public abstract String getCrLimit(Character character);
 
-    public boolean usesLimitedRaces() {
-        return false;
+    public static AbstractCompanionType fromString(String typeString) {
+        for (AbstractCompanionType each : values()) {
+            if (each.getType().equals(typeString)) return each;
+        }
+        throw new RuntimeException("Unknown companion type: " + typeString);
     }
+
 }
