@@ -5,9 +5,6 @@
     <ac>13</ac>
     <hp>36,8d8</hp>
     <speed>30</speed>
-    <types>
-        <type>undead</type>
-    </types>
 
     <stats>
         <strength>16</strength>

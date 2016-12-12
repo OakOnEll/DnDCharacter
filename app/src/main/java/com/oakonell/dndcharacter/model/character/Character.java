@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.query.Select;
+import com.oakonell.dndcharacter.model.character.companion.AbstractCompanionType;
 import com.oakonell.dndcharacter.model.character.companion.CharacterCompanion;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
@@ -165,10 +166,40 @@ public class Character extends AbstractCharacter {
         return value[0];
     }
 
+    public Collection<? extends AbstractCompanionType> getCompanionTypes() {
+        final List<AbstractCompanionType> types = new ArrayList<>();
+
+        ComponentVisitor visitor = new ComponentVisitor() {
+            @Override
+            public void visitComponent(ICharacterComponent component) {
+                types.addAll(component.getCompanionTypes());
+            }
+        };
+
+        CharacterAbilityDeriver deriver = getAbilityDeriver(visitor, false);
+        deriver.derive(this, "Deriving companion types");
+
+        final List<SpellLevelInfo> spellInfos = getSpellInfos();
+        for (SpellLevelInfo eachInfo : spellInfos) {
+            final List<CharacterSpellWithSource> spells = eachInfo.getSpellInfos();
+            for (CharacterSpellWithSource spell : spells) {
+                types.addAll(spell.getSpell().getCompanionTypes());
+            }
+        }
+
+        return types;
+    }
+
+//    static class CompanionTypeDeriver extends CharacterAbilityDeriver {
+//        public CompanionTypeDeriver(ComponentVisitor visitor) {
+//            super(visitor);
+//        }
+//    }
+
     @NonNull
     protected SimpleVariableContext getPopulatedVariableContext(@Nullable SimpleVariableContext variableContext) {
         variableContext = super.getPopulatedVariableContext(variableContext);
-        variableContext.setNumber("level", getClasses().size());
+        variableContext.setNumber("level", getCharacterLevel());
         return variableContext;
     }
 
@@ -826,8 +857,6 @@ public class Character extends AbstractCharacter {
     public void setTraitSavedChoiceToCustom(String trait) {
         background.setTraitSavedChoiceToCustom(trait);
     }
-
-
 
     public static class LanguageWithSource extends WithSource {
         private final String language;

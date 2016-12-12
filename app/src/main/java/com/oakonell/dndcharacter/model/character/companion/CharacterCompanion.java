@@ -35,6 +35,9 @@ public class CharacterCompanion extends AbstractCharacter {
     @Element(required = false)
     private int rootAc;
 
+    @Element(required = false)
+    private CompanionTypeComponent softType;
+
     // not stored
     @Nullable
     private AbstractCompanionType type;
@@ -46,7 +49,12 @@ public class CharacterCompanion extends AbstractCharacter {
 
     @Override
     public int getMaxHP() {
-        return getType().getMaxHp(character);
+        return getType().getMaxHp(character, this);
+    }
+
+    public int getRawMaxHP() {
+        // TODO
+        return 10;
     }
 
     @Override
@@ -72,12 +80,14 @@ public class CharacterCompanion extends AbstractCharacter {
 
     public AbstractCompanionType getType() {
         if (type != null) return type;
-        if (typeString == null || typeString.trim().length() == 0) {
-            // dev upgrade safe
-            type = new CompanionTypePolymorph();
-        } else {
-            type = AbstractCompanionType.fromString(typeString);
+        if (typeString != null && typeString.trim().length() > 0) {
+            type = AbstractHardCompanionType.fromString(typeString);
+            return type;
         }
+        if (softType == null) {
+            throw new RuntimeException("Invalid companion type");
+        }
+        type = softType;
         return type;
     }
 
@@ -85,10 +95,19 @@ public class CharacterCompanion extends AbstractCharacter {
         if (type == null) {
             this.type = null;
             this.typeString = null;
+            this.softType = null;
             return;
         }
         this.type = type;
-        typeString = type.getType();
+        if (type instanceof AbstractHardCompanionType) {
+            typeString = type.getType();
+            return;
+        }
+        if (type instanceof CompanionTypeComponent) {
+            softType = (CompanionTypeComponent) type;
+            return;
+        }
+        throw new RuntimeException("Invalid companion type");
     }
 
     public boolean isActive() {

@@ -12,7 +12,7 @@ import com.oakonell.dndcharacter.model.character.Character;
           Hp is higher of normal max or 4×char level
 
  */
-public class CompanionTypeRangerCompanion extends AbstractCompanionType {
+public class CompanionTypeRangerCompanion extends AbstractHardCompanionType {
     @Override
     public String getType() {
         return "rangerCompanion";
@@ -42,8 +42,5 @@ public class CompanionTypeRangerCompanion extends AbstractCompanionType {
         return true;
     }
 
-    public boolean applies(Character character) {
-        return true;
-        //return character.getClassLevels().get("Ranger") != null;
-    }
+
 }

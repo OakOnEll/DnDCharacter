@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.oakonell.dndcharacter.model.character.companion.CompanionTypeComponent;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
@@ -70,6 +71,10 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     private List<CharacterSpell> spells = new ArrayList<>();
     @Element(required = false)
     private String passivePerceptionModFormula;
+
+    @NonNull
+    @ElementList(required = false)
+    private List<CompanionTypeComponent> companionTypes = new ArrayList<>();
 
     @Override
     public String getName() {
@@ -345,5 +350,10 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     @Override
     public boolean originatesFrom(ComponentSource currentComponent) {
         return equals(currentComponent);
+    }
+
+    @Override
+    public List<CompanionTypeComponent> getCompanionTypes() {
+        return companionTypes;
     }
 }

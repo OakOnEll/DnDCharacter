@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.oakonell.dndcharacter.model.character.companion.CompanionTypeComponent;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
@@ -367,7 +368,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return getSource().originatesFrom(currentComponent);
     }
 
-    public IFeatureAction getActionNamed(@NonNull  Character character, String actionName) {
+    public IFeatureAction getActionNamed(@NonNull Character character, String actionName) {
         List<IFeatureAction> matching = new ArrayList<>();
         for (IFeatureAction action : getActionsAndEffects(character)) {
             if (action.getName().equals(actionName)) matching.add(action);
@@ -377,4 +378,15 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         Log.e("FeatureInfo", "Found multiple actions named " + actionName);
         throw new RuntimeException("Found multiple actions named " + actionName);
     }
+
+    @Override
+    public List<CompanionTypeComponent> getCompanionTypes() {
+        List<CompanionTypeComponent> result = new ArrayList<>();
+        result.addAll(getFeature().getCompanionTypes());
+        if (extendedFeature != null) {
+            result.addAll(extendedFeature.getCompanionTypes());
+        }
+        return result;
+    }
+
 }

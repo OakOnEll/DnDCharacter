@@ -6,9 +6,6 @@
     <hp>1,d4-1</hp>
     <speed>5</speed>
     <speed type="fly" default="true">30</speed>
-    <types>
-        <type>familiar</type>
-    </types>
 
     <stats>
         <strength>2</strength>

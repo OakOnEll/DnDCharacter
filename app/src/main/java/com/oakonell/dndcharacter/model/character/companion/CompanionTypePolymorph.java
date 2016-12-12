@@ -7,7 +7,7 @@ import com.oakonell.dndcharacter.model.character.Character;
  * Created by Rob on 11/27/2016.
  */
 
-public class CompanionTypePolymorph extends AbstractCompanionType {
+public class CompanionTypePolymorph extends AbstractHardCompanionType {
     @Override
     public String getType() {
         return "polymorph";

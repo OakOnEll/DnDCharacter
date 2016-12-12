@@ -1,0 +1,59 @@
+<companion>
+    <ref>PHB p.306</ref>
+    <name>Imp</name>
+    <size>tiny</size>
+    <ac>13</ac>
+    <hp>10,3d4+3</hp>
+    <speed>20</speed>
+    <speed type="fly">40</speed>
+
+    <stats>
+        <strength>6</strength>
+        <dexterity>17</dexterity>
+        <constitution>13</constitution>
+        <intelligence>11</intelligence>
+        <wisdom>12</wisdom>
+        <charisma>14</charisma>
+    </stats>
+    <skills>
+        <proficiency>Deception</proficiency>
+        <proficiency>Insight</proficiency>
+        <proficiency>Persuasion</proficiency>
+        <proficiency>Stealth</proficiency>
+    </skills>
+    <senses>Darkvision 120ft,passive perception 11</senses>
+    <languages>Infernal,Common</languages>
+    <cr>1</cr>
+
+    <feature>
+        <name>Damage resistance/vulnerability</name>
+        <shortDescription>The imp has resistance to: cold, and bludgeoning, piercing, and slashing from nonmagical weapons that aren't silvered.
+        The imp is immune to fire, and poison damage. It is also immune to the poisoned condition.</shortDescription>
+    </feature>
+
+    <feature>
+        <name>Shapechanger</name>
+        <shortDescription>The imp can use its action to polymorph into the beast form of a ract, a raven, or a spider, or into its devil form. Its statistics are the same in each form, although its attack is different in some of them. Any equipment it carries is not transformed. If slain, the imp reverts to its devil form.</shortDescription>
+    </feature>
+
+    <feature>
+        <name>Devil Sight</name>
+        <shortDescription>Magical darkness doesn't impede the imp's darkvision.</shortDescription>
+    </feature>
+
+    <feature>
+        <name>Magic resistance</name>
+        <shortDescription>The imp has advantage on saving throws against spells and other magical effects.</shortDescription>
+    </feature>
+
+    <actions>
+        <action name="Sting (Bite in beast form)">
+            <description>+5 to hit, reach 5ft, one-target.
+                Hit: 5 (1d4+3) piercing damage, and the target must make a DC 11 Constitution saving throw, taking 10 (3d6) poison damage on a failed save, or half as much damage on a successful one.</description>
+        </action>
+        <action name="Invisibilty">
+            <description>The imp turns invisible until it attacks or until its concentration ends. Anything the invisible imp is carrying or wearing is invisible as long as it remains in contact with the imp.</description>
+        </action>
+    </actions>
+
+</companion>

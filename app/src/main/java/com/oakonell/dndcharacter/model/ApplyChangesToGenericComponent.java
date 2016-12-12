@@ -15,6 +15,7 @@ import com.oakonell.dndcharacter.model.character.FeatureExtensionType;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.character.SpeedType;
+import com.oakonell.dndcharacter.model.character.companion.CompanionTypeComponent;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
@@ -38,8 +39,11 @@ import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import ch.qos.logback.core.joran.spi.XMLUtil;
 
 /**
  * Created by Rob on 11/18/2015.
@@ -731,6 +735,29 @@ public class ApplyChangesToGenericComponent<C extends BaseCharacterComponent> ex
 
     }
 
+
+    @Override
+    protected void visitCompanionType(Element element) {
+        CompanionTypeComponent type = new CompanionTypeComponent();
+        type.setName(XmlUtils.getElementText(element, "name"));
+        type.setType(XmlUtils.getElementText(element, "type"));
+        type.setShortDescription(XmlUtils.getElementText(element, "shortDescription"));
+        type.setDescription(XmlUtils.getElementText(element, "Description"));
+        type.setEffectsSelf("true".equals(XmlUtils.getElementText(element, "effectsSelf")));
+        type.setCrLimit(XmlUtils.getElementText(element, "crLimit"));
+
+        String limitedRacesString = XmlUtils.getElementText(element, "limitedRaces");
+        if (limitedRacesString != null && limitedRacesString.trim().length() > 0) {
+            final String[] racesArray = limitedRacesString.split(", *");
+            final Collection<String> limitedRaces = type.getLimitedRaces();
+            for (String each : racesArray) {
+                limitedRaces.add(each);
+            }
+        }
+        type.setOnlyOneActiveAllowed("true".equals(XmlUtils.getElementText(element, "onlyOneActiveAllowed")));
+
+        currentComponent.getCompanionTypes().add(type);
+    }
 
     @Override
     protected void visitOr(@NonNull Element element) {

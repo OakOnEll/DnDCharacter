@@ -248,7 +248,7 @@ public class CompanionsFragment extends AbstractSheetFragment {
             } else {
                 this.race.setText("Unknown");
             }
-            type.setText(info.getType().getStringResId());
+            type.setText(info.getType().getName(context.getResources()));
 
             activeView.setChecked(info.isActive());
             activeView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

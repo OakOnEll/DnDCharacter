@@ -95,6 +95,8 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
             case "feat":
                 visitFeat(element);
                 break;
+            case "companionType":
+                visitCompanionType(element);
             default:
                 wasVisited = false;
                 break;
@@ -102,6 +104,10 @@ public class AbstractComponentVisitor extends AbstractNameDescriptionVisitor {
         if (!wasVisited) {
             super.visit(element);
         }
+    }
+
+    protected void visitCompanionType(Element element) {
+        visitGroup(element);
     }
 
     protected void visitReference(@NonNull Element element) {

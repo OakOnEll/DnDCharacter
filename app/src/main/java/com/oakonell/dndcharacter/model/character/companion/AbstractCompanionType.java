@@ -1,8 +1,12 @@
 package com.oakonell.dndcharacter.model.character.companion;
 
+import android.content.res.Resources;
+
 import com.oakonell.dndcharacter.model.character.Character;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,6 +16,12 @@ import java.util.List;
 public abstract class AbstractCompanionType {
     public abstract String getType();
 
+    public abstract String getName(Resources resources);
+
+    public abstract String getDescription(Resources resources);
+
+    public abstract String getShortDescription(Resources resources);
+
     public boolean effectsSelf() {
         return false;
     }
@@ -20,15 +30,10 @@ public abstract class AbstractCompanionType {
         return effectsSelf();
     }
 
-    public int getMaxHp(Character character) {
-        return 10;
+    public int getMaxHp(Character character, CharacterCompanion companion) {
+        return companion.getRawMaxHP();
     }
 
-    public abstract int getStringResId();
-
-    public abstract int getDescriptionResId();
-
-    public abstract int getShortDescriptionResId();
 
     public String getCrLimit(Character character) {
         return null;
@@ -38,46 +43,21 @@ public abstract class AbstractCompanionType {
         return false;
     }
 
-    public boolean applies(Character character) {
-        return true;
-    }
 
     // object management
     @Override
     public boolean equals(Object obj) {
-        return obj.getClass().equals(this.getClass());
+        if (!(obj instanceof AbstractCompanionType)) return false;
+        return ((AbstractCompanionType) obj).getType().equals(this.getType());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return getType().hashCode();
     }
 
 
-    // ---------------- all types, as classes for now
-
-    static List<AbstractCompanionType> types = new ArrayList<>();
-
-    static {
-        types.add(new CompanionTypeFamiliar());
-        types.add(new CompanionTypeMount());
-        types.add(new CompanionTypePet());
-        types.add(new CompanionTypePolymorph());
-        types.add(new CompanionTypeUndead());
-        types.add(new CompanionTypeWildShape());
-        types.add(new CompanionTypeRangerCompanion());
+    public Collection<String> getLimitedRaces() {
+        return null;
     }
-
-    public static List<AbstractCompanionType> values() {
-        return types;
-    }
-
-
-    public static AbstractCompanionType fromString(String typeString) {
-        for (AbstractCompanionType each : values()) {
-            if (each.getType().equals(typeString)) return each;
-        }
-        throw new RuntimeException("Unknown companion type: " + typeString);
-    }
-
 }

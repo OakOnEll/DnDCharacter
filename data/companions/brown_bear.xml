@@ -6,9 +6,6 @@
     <hp>34,4d10+12</hp>
     <speed>40</speed>
     <speed type="climb">30</speed>
-    <types>
-        <type>wildShape</type>
-    </types>
 
     <stats>
         <strength>19</strength>

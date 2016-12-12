@@ -7,7 +7,7 @@ import com.oakonell.dndcharacter.model.character.Character;
  * Created by Rob on 11/27/2016.
  */
 
-public class CompanionTypeMount extends AbstractCompanionType {
+public class CompanionTypeMount extends AbstractHardCompanionType {
     @Override
     public String getType() {
         return "mount";

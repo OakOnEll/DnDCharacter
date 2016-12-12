@@ -5,9 +5,6 @@
     <ac>11</ac>
     <hp>11,2d8+2</hp>
     <speed>40</speed>
-    <types>
-        <type>wildShape</type>
-    </types>
 
     <stats>
         <strength>13</strength>

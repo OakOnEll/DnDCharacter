@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.model.character;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.oakonell.dndcharacter.model.character.companion.CompanionTypeComponent;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.model.character.stats.SkillType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
@@ -65,4 +66,6 @@ public interface ICharacterComponent extends ComponentSource {
     int getPassivePerceptionMod(AbstractCharacter character);
 
     void addFeatureInfo(Map<String, FeatureInfo> map, AbstractCharacter character);
+
+    List<CompanionTypeComponent> getCompanionTypes();
 }
