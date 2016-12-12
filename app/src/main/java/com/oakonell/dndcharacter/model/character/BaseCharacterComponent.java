@@ -353,7 +353,7 @@ public abstract class BaseCharacterComponent implements ICharacterComponent {
     }
 
     @Override
-    public List<CompanionTypeComponent> getCompanionTypes() {
+    public Collection<CompanionTypeComponent> getCompanionTypes() {
         return companionTypes;
     }
 }

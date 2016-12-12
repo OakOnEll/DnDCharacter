@@ -4,6 +4,7 @@ import com.oakonell.expression.ExpressionFunctionContext;
 import com.oakonell.expression.functions.ExpressionFunction;
 import com.oakonell.expression.functions.MaxFunction;
 import com.oakonell.expression.functions.MinFunction;
+import com.oakonell.expression.functions.NumberToStringFunction;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,13 +15,14 @@ import java.util.Set;
 /**
  * Created by Rob on 12/23/2015.
  */
-public class SimpleFunctionContext implements ExpressionFunctionContext{
+public class SimpleFunctionContext implements ExpressionFunctionContext {
     private static final Set<ExpressionFunction> STANDARD_FUNCTIONS;
 
     static {
         Set<ExpressionFunction> functions = new HashSet<>();
         functions.add(new MaxFunction());
         functions.add(new MinFunction());
+        functions.add(new NumberToStringFunction());
         STANDARD_FUNCTIONS = Collections.unmodifiableSet(functions);
     }
 

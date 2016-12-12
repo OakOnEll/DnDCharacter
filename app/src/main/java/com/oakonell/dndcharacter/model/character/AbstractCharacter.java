@@ -621,6 +621,21 @@ public abstract class AbstractCharacter {
         return expression.evaluate();
     }
 
+    public String evaluateStringFormula(@Nullable String formula, @Nullable SimpleVariableContext variableContext) {
+        // TODO formula might reference stats and such
+        if (formula == null || formula.length() == 0) return "";
+        variableContext = getPopulatedVariableContext(variableContext);
+
+        try {
+            Expression<String> expression = Expression.parse(formula, ExpressionType.STRING_TYPE, new ExpressionContext(getFunctionContext(), variableContext));
+            return expression.evaluate();
+        } catch (Exception e) {
+            // should be done at formula save time...
+            return formula;
+        }
+    }
+
+
     @NonNull
     protected SimpleFunctionContext getFunctionContext() {
         return new AbstractCharacter.CharacterFunctionContext(this);

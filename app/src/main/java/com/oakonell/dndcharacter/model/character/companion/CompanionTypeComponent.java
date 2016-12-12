@@ -87,7 +87,12 @@ public class CompanionTypeComponent extends AbstractCompanionType {
 
 
     public String getCrLimit(Character character) {
-        return crLimit;
+        if (crLimit == null || crLimit.trim().length() == 0) {
+            return null;
+        }
+        SimpleVariableContext context = new SimpleVariableContext();
+        context.setNumber("level", character.getCharacterLevel());
+        return character.evaluateStringFormula(crLimit, context);
     }
 
     public boolean usesLimitedRaces() {

@@ -11,6 +11,7 @@ import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.expression.context.SimpleVariableContext;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -67,5 +68,5 @@ public interface ICharacterComponent extends ComponentSource {
 
     void addFeatureInfo(Map<String, FeatureInfo> map, AbstractCharacter character);
 
-    List<CompanionTypeComponent> getCompanionTypes();
+    Collection<CompanionTypeComponent> getCompanionTypes();
 }

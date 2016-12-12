@@ -203,6 +203,18 @@ public class ExpressionTest {
         assertEquals("can't", evaluateString("'can''t'"));
     }
 
+    @Test
+    public void testStringAndNumberVariable() throws IOException {
+        SimpleVariableContext variableContext = new SimpleVariableContext();
+        variableContext.registerNumber("x");
+
+        Expression<String> expr = Expression.parse("numToString(x / 5)", ExpressionType.STRING_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
+        assertEquals("0", expr.evaluate());
+
+        variableContext.setNumber("x", 5);
+        assertEquals("1", expr.evaluate());
+    }
+
     private int evaluateMath(String formula) throws IOException {
         Expression<Integer> expression = Expression.parse(formula, ExpressionType.NUMBER_TYPE, emptyContext());
         return expression.evaluate();

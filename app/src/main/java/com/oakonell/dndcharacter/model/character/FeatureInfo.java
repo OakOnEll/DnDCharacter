@@ -380,13 +380,20 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
     }
 
     @Override
-    public List<CompanionTypeComponent> getCompanionTypes() {
-        List<CompanionTypeComponent> result = new ArrayList<>();
-        result.addAll(getFeature().getCompanionTypes());
-        if (extendedFeature != null) {
-            result.addAll(extendedFeature.getCompanionTypes());
+    public Collection<CompanionTypeComponent> getCompanionTypes() {
+        Map<String, CompanionTypeComponent> resultByType = new HashMap<>();
+        for (CompanionTypeComponent each :getFeature().getCompanionTypes()) {
+            resultByType.put(each.getType(), each);
         }
-        return result;
+        if (extendedFeature != null) {
+            for (CompanionTypeComponent each :getFeature().getCompanionTypes()) {
+                if (resultByType.get(each.getType()) == null) {
+                    // don't overwrite
+                    resultByType.put(each.getType(), each);
+                }
+            }
+        }
+        return resultByType.values();
     }
 
 }
