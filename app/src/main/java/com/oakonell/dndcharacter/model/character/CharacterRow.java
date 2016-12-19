@@ -72,6 +72,7 @@ public class CharacterRow extends AbstractComponentModel {
     public void setDocument(Context context, @Nullable Element doc) {
         super.setDocument(context, doc);
         if (doc != null) {
+            last_updated = new Date();
 
             Serializer serializer = new Persister();
             InputStream input;
@@ -90,9 +91,8 @@ public class CharacterRow extends AbstractComponentModel {
                 classesString = "Had a serialization error...";
                 race_display_name = "Will update after next save...";
                 hp = "Will update after next save...";
+                throw new RuntimeException("Error saving character from xml doc",e);
             }
-
-            last_updated = new Date();
         }
     }
 

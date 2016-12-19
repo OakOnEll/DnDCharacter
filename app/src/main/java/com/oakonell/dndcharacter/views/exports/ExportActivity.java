@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.views.exports;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -132,7 +135,7 @@ public class ExportActivity extends AbstractBaseActivity {
     }
 
     private void exportRows() {
-        List<CharacterExporter.ExportRow> toExport = new ArrayList<>();
+        final List<CharacterExporter.ExportRow> toExport = new ArrayList<>();
         for (CharacterExporter.ExportRow each : exporter.exportRows) {
             if (!each.shouldExport) continue;
 
@@ -144,6 +147,36 @@ public class ExportActivity extends AbstractBaseActivity {
             fileName = toExport.get(0).name + "_dnd.xml";
         }
 
+        // TODO prompt for file name
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Export character(s) in file named");
+
+// Set up the input
+        final EditText input = new EditText(this);
+        input.setText(fileName);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = input.getText().toString();
+                shareViaFilename(toExport, name);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void shareViaFilename(List<CharacterExporter.ExportRow> toExport, String fileName) {
         File charactersPath = FileUtils.getCharactersDirectory(this);
         File newFile = new File(charactersPath, fileName);
         // write to the file here...
