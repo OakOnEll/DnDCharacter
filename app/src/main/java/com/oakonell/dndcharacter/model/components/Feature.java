@@ -135,7 +135,7 @@ public class Feature extends AbstractContextualComponent {
         // TODO can't construct the normal context variables, as it looks on features!
         //    possibly calculate variables without this feature, in some contextual way
         SimpleVariableContext variableContext = new SimpleVariableContext();
-        character.addExtraFormulaVariables(variableContext);
+        character.getPopulatedVariableContext(variableContext);
 
         try {
             Expression<Boolean> expression = Expression.parse(appliesFormula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
@@ -275,14 +275,14 @@ public class Feature extends AbstractContextualComponent {
             return extensionType == FeatureExtensionType.REPLACE;
         }
 
-        public boolean applies(@NonNull Character character) {
+        @Override
+        public boolean applies(@NonNull AbstractCharacter character) {
             if (appliesFormula == null || appliesFormula.trim().length() == 0) return true;
 
             // TODO can't construct the normal context variables, as it looks on features!
             //    possibly calculate variables without this feature, in some contextual way
             SimpleVariableContext variableContext = new SimpleVariableContext();
-            variableContext.setNumber("level", character.getClasses().size());
-
+            variableContext = character.getPopulatedVariableContext(variableContext);
             try {
                 Expression<Boolean> expression = Expression.parse(appliesFormula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
                 return expression.evaluate();
@@ -455,14 +455,13 @@ public class Feature extends AbstractContextualComponent {
             return variables;
         }
 
-        public boolean applies(@NonNull Character character) {
+        public boolean applies(@NonNull AbstractCharacter character) {
             if (appliesFormula == null || appliesFormula.trim().length() == 0) return true;
 
             // TODO can't construct the normal context variables, as it looks on features!
             //    possibly calculate variables without this feature, in some contextual way
             SimpleVariableContext variableContext = new SimpleVariableContext();
-            variableContext.setNumber("level", character.getClasses().size());
-
+            variableContext = character.getPopulatedVariableContext(variableContext);
             try {
                 Expression<Boolean> expression = Expression.parse(appliesFormula, ExpressionType.BOOLEAN_TYPE, new ExpressionContext(new SimpleFunctionContext(), variableContext));
                 return expression.evaluate();

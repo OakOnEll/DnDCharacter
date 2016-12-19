@@ -26,6 +26,7 @@ import java.util.Set;
  * Created by Rob on 1/4/2016.
  */
 public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, CharacterActivity, RecyclerView.Adapter<?>> implements FeatureViewInterface {
+    boolean isForCompanion;
     @NonNull
     public final TextView name;
     @NonNull
@@ -57,10 +58,12 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
     @NonNull
     public final RecyclerView action_list;
     private ArrayList<String> spellLevels = new ArrayList<>();
+    private RecyclerView.Adapter<?> adapter;
 
 
-    public FeatureViewHolder(@NonNull View view) {
+    public FeatureViewHolder(@NonNull View view, boolean isForCompanion) {
         super(view);
+        this.isForCompanion = isForCompanion;
         name = (TextView) view.findViewById(R.id.name);
         source = (TextView) view.findViewById(R.id.source);
 
@@ -81,26 +84,26 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         use_spell_slot = (Button) view.findViewById(R.id.use_spell_slot);
     }
 
-    public FeatureViewHolder(@NonNull View view, Set<FeatureContextArgument> filter) {
-        this(view);
+    public FeatureViewHolder(@NonNull View view, Set<FeatureContextArgument> filter, boolean isForCompanion) {
+        this(view, isForCompanion);
         this.filter = filter;
     }
 
     @Override
     public void bind(@NonNull final CharacterActivity context, final RecyclerView.Adapter<?> adapter, @NonNull final FeatureInfo info) {
         final int position = getAdapterPosition();
-
+        this.adapter = adapter;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FeatureViewDialogFragment dialog = FeatureViewDialogFragment.createDialog(info);
+                FeatureViewDialogFragment dialog = FeatureViewDialogFragment.createDialog(info, isForCompanion);
                 dialog.show(context.getSupportFragmentManager(), "feature");
             }
         });
 
 
         name.setText(info.getName());
-        FeatureViewHelper viewHelper = new FeatureViewHelper(context, this);
+        FeatureViewHelper viewHelper = new FeatureViewHelper(context, this, isForCompanion);
         viewHelper.bind(info);
 
         itemView.requestLayout();
@@ -190,7 +193,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
     @Override
     public int getUsesRemaining(CharacterActivity context, FeatureInfo info) {
-        return context.getCharacter().getUsesRemaining(info);
+        return getCharacter(context).getUsesRemaining(info);
     }
 
     @Override
@@ -200,7 +203,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
     @Override
     public void useAction(final CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<String, String> values) {
-        CharacterEffect effect = context.getCharacter().useFeatureAction(info, action, values);
+        CharacterEffect effect = getCharacter(context).useFeatureAction(info, action, values);
         if (effect != null) {
             // TODO open effect dialog, if one was added
             ViewEffectDialogFragment dialog = ViewEffectDialogFragment.createDialog(effect);
@@ -218,7 +221,7 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
 
     @Override
     public void useFeature(final CharacterActivity context, FeatureInfo info, int value) {
-        context.getCharacter().useFeature(info, value);
+        getCharacter(context).useFeature(info, value);
         // TODO open effect dialog, if one was added
         shortDescription.postDelayed(new Runnable() {
             @Override
@@ -229,10 +232,18 @@ public class FeatureViewHolder extends BindableComponentViewHolder<FeatureInfo, 
         }, 10);
     }
 
+    private AbstractCharacter getCharacter(CharacterActivity context) {
+        Character character = context.getCharacter();
+        if (isForCompanion) {
+            return character.getDisplayedCompanion();
+        }
+        return character;
+    }
+
 
     @Override
     public void useSpellSlot(final CharacterActivity context, Character.SpellLevelInfo levelInfo) {
-        context.getCharacter().useSpellSlot(levelInfo.getLevel());
+        ((Character) getCharacter(context)).useSpellSlot(levelInfo.getLevel());
         shortDescription.postDelayed(new Runnable() {
             @Override
             public void run() {

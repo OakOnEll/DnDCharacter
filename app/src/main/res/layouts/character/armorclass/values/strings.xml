@@ -65,4 +65,5 @@ This spell can\'t affect a target that has 0 hit points.</string>
     <string name="companion_undead">Undead</string>
     <string name="undead_description">Undead created from a necromancy spell.</string>
     <string name="undead_short_description">Undead created from a necromancy spell.</string>
+    <string name="companion_resets_title">Companion Resets</string>
 </resources>

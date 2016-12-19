@@ -134,6 +134,29 @@
 
                 <include layout="@layout/feature_reset_layout" />
 
+                <LinearLayout
+                    android:id="@+id/companion_resets"
+                    style="@style/ac_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/companion_resets_title"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/companion_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        tools:listitem="@layout/companion_rest_layout" />
+
+                </LinearLayout>
+
                 <include layout="@layout/feature_context" />
 
             </LinearLayout>

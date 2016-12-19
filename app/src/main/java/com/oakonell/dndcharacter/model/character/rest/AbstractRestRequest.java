@@ -11,6 +11,7 @@ import java.util.Map;
 public class AbstractRestRequest {
     final Map<String, Integer> featureResets = new HashMap<>();
     final Map<Integer, Integer> spellSlotResets = new HashMap<>();
+    final Map<Integer, String> companionResets = new HashMap<>();
 
     public void addFeatureReset(String name, int numToRestore) {
         Integer resets = featureResets.get(name);
@@ -33,4 +34,14 @@ public class AbstractRestRequest {
     public Map<Integer, Integer> getSpellSlotResets() {
         return spellSlotResets;
     }
+
+    public void addCompanionReset(String name, int companionIndex) {
+        companionResets.put(companionIndex, name);
+    }
+
+    @NonNull
+    public Map<Integer, String> getCompanionResets() {
+        return companionResets;
+    }
+
 }

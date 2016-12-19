@@ -599,7 +599,7 @@ public abstract class AbstractCharacter {
     }
 
     @NonNull
-    protected SimpleVariableContext getPopulatedVariableContext(@Nullable SimpleVariableContext variableContext) {
+    public SimpleVariableContext getPopulatedVariableContext(@Nullable SimpleVariableContext variableContext) {
         if (variableContext == null) variableContext = new SimpleVariableContext();
 
         // enumerate all the stat modifiers and values
@@ -654,6 +654,10 @@ public abstract class AbstractCharacter {
     public void setUsesRemaining(@NonNull FeatureInfo feature, int remaining) {
         int max = feature.evaluateMaxUses(this);
         int used = max - remaining;
+        if (used <= 0) {
+            usedFeatures.remove(feature.getName());
+            return;
+        }
         usedFeatures.put(feature.getName(), used);
     }
 
@@ -1037,8 +1041,6 @@ public abstract class AbstractCharacter {
         return notes.getNotes();
     }
 
-    public void addExtraFormulaVariables(SimpleVariableContext variableContext) {
-    }
 
     public abstract boolean anyContextFeats(FeatureContext toHit);
 

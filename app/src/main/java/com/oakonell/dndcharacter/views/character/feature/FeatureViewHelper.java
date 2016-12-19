@@ -51,6 +51,8 @@ import uk.co.deanwild.flowtextview.FlowTextView;
  * Created by Rob on 5/6/2016.
  */
 public class FeatureViewHelper {
+    private static final int ADJUSTMENT_VIEW = 1001;
+
     private final CharacterActivity context;
     final FeatureViewInterface view;
 
@@ -79,10 +81,12 @@ public class FeatureViewHelper {
     private final ViewGroup spell_slot_use_group;
 
     public final RecyclerView action_list;
+    private final boolean isForCompanion;
     private ActionAdapter actionsAdapter;
     private Set<FeatureContextArgument> filter;
 
-    FeatureViewHelper(CharacterActivity activity, @NonNull final FeatureViewInterface view) {
+    FeatureViewHelper(CharacterActivity activity, @NonNull final FeatureViewInterface view, boolean isCompanion) {
+        this.isForCompanion = isCompanion;
         this.context = activity;
         this.view = view;
 
@@ -131,9 +135,7 @@ public class FeatureViewHelper {
         });
 
         bindLimitedUseViews(info);
-
         bindSpellSlotViews(info);
-
         bindActions(info);
 
     }
@@ -153,10 +155,12 @@ public class FeatureViewHelper {
     }
 
     protected void bindSpellSlotViews(@NonNull FeatureInfo info) {
+
         if (!info.usesSpellSlot()) {
             spell_slot_use_group.setVisibility(View.GONE);
             return;
         }
+        final Character character = (Character) getCharacter(context);
         spell_slot_use_group.setVisibility(View.VISIBLE);
 
         ArrayList<String> spellLevels = view.getSpellLevels();
@@ -167,7 +171,7 @@ public class FeatureViewHelper {
             spell_slot_level.setAdapter(spell_slot_levelAdapter);
         }
         spellLevels.clear();
-        for (Character.SpellLevelInfo each : context.getCharacter().getSpellInfos()) {
+        for (Character.SpellLevelInfo each : character.getSpellInfos()) {
             if (each.getLevel() == 0) continue;
             spellLevels.add(context.getString(R.string.spell_slot_level_and_uses, each.getLevel(), view.getSpellSlotsAvailable(each)));
         }
@@ -176,7 +180,7 @@ public class FeatureViewHelper {
         spell_slot_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                final Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
+                final Character.SpellLevelInfo levelInfo = character.getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
                 use_spell_slot.setEnabled(FeatureViewHelper.this.view.getSpellSlotsAvailable(levelInfo) > 0);
             }
 
@@ -186,12 +190,12 @@ public class FeatureViewHelper {
             }
         });
 
-        Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
+        Character.SpellLevelInfo levelInfo = character.getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
         use_spell_slot.setEnabled(view.getSpellSlotsAvailable(levelInfo) > 0);
         use_spell_slot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Character.SpellLevelInfo levelInfo = context.getCharacter().getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
+                final Character.SpellLevelInfo levelInfo = character.getSpellInfos().get(spell_slot_level.getSelectedItemPosition() + 1);
                 view.useSpellSlot(context, levelInfo);
             }
         });
@@ -199,6 +203,8 @@ public class FeatureViewHelper {
     }
 
     protected void bindLimitedUseViews(@NonNull final FeatureInfo info) {
+        final AbstractCharacter character = getCharacter(context);
+
         boolean hasLimitedUses = info.hasLimitedUses();
         if (!hasLimitedUses) {
             limited_uses_group.setVisibility(View.GONE);
@@ -206,8 +212,8 @@ public class FeatureViewHelper {
         }
         limited_uses_group.setVisibility(View.VISIBLE);
 
-        final int maxUses = info.evaluateMaxUses(context.getCharacter());
-        final int usesRemaining = context.getCharacter().getUsesRemaining(info);
+        final int maxUses = info.evaluateMaxUses(character);
+        final int usesRemaining = character.getUsesRemaining(info);
 
 
         updateView(maxUses, usesRemaining);
@@ -224,6 +230,13 @@ public class FeatureViewHelper {
             uses_label.setText(R.string.pool);
         }
 
+    }
+
+    private AbstractCharacter getCharacter(CharacterActivity context) {
+        if (isForCompanion) {
+            return context.getCharacter().getDisplayedCompanion();
+        }
+        return context.getCharacter();
     }
 
     private void bindEditableLimitedUsesViews(final int maxUses) {
@@ -326,7 +339,7 @@ public class FeatureViewHelper {
 
         public void setFeature(@NonNull FeatureInfo info, @Nullable Set<FeatureContextArgument> filter) {
             list = new ArrayList<>();
-            for (IFeatureAction each : info.getActionsAndEffects(context.getCharacter())) {
+            for (IFeatureAction each : info.getActionsAndEffects(viewHelper.getCharacter(context))) {
                 if (filter == null || (!each.hasActionContext() || each.isActionInContext(filter))) {
                     list.add(each);
                 }
@@ -380,7 +393,7 @@ public class FeatureViewHelper {
             pool_apply_group.setVisibility(View.GONE);
             final FeatureInfo info = adapter.info;
 
-            int maxUses = info.evaluateMaxUses(context.getCharacter());
+            int maxUses = info.evaluateMaxUses(adapter.viewHelper.getCharacter(context));
             final int usesRemaining = maxUses == 0 ? 0 : adapter.viewHelper.view.getUsesRemaining(context, info);
 
             final String description = action.getActionDescription();
@@ -577,6 +590,97 @@ public class FeatureViewHelper {
             });
         }
         b.show();
+    }
+
+    public static class FeatureAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>>> {
+        @NonNull
+        private final CharacterActivity context;
+        private AbstractCharacter character;
+        private List<FeatureInfo> list;
+        private boolean isForCompanion;
+
+        public FeatureAdapter(@NonNull CharacterActivity context, AbstractCharacter character, boolean isForCompanion) {
+            this.context = context;
+            this.character = character;
+            this.isForCompanion = isForCompanion;
+            if (character == null) return;
+            list = new ArrayList<>(character.getFeatureInfos());
+        }
+
+
+        public void reloadList(@NonNull AbstractCharacter character) {
+            this.character = character;
+            if (character != null) {
+                list = new ArrayList<>(character.getFeatureInfos());
+            } else {
+                list = new ArrayList<>();
+            }
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getItemCount() {
+            if (character == null) return 0;
+            int numFeatures = list.size();
+            if (character.hasAdjustments()) return numFeatures + 1;
+            return numFeatures;
+        }
+
+
+        @Nullable
+        public FeatureInfo getItem(int position) {
+            if (character == null) return null;
+            return list.get(position);
+        }
+
+        @NonNull
+        @Override
+        public BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>> onCreateViewHolder(ViewGroup parent, int viewType) {
+            if (viewType == ADJUSTMENT_VIEW) {
+                View view = LayoutInflater.from(context).inflate(R.layout.adjustments_layout, parent, false);
+                FeaturesFragment.AdjustmentsViewHolder holder = new FeaturesFragment.AdjustmentsViewHolder(view);
+                return holder;
+            }
+
+            View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
+            FeatureViewHolder holder = new FeatureViewHolder(view, isForCompanion);
+            return holder;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (position == list.size()) {
+                if (character.hasAdjustments()) {
+                    return ADJUSTMENT_VIEW;
+                }
+            }
+            return super.getItemViewType(position);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>> viewHolder, final int position) {
+            if (position == list.size()) {
+                if (character.hasAdjustments()) {
+                    // slightly ugly...
+                    BindableComponentViewHolder genericHolder = viewHolder;
+                    FeaturesFragment.AdjustmentsViewHolder featureViewHolder = (FeaturesFragment.AdjustmentsViewHolder) genericHolder;
+                    featureViewHolder.bind(context, this, character);
+                }
+                return;
+            }
+
+
+            final FeatureInfo info = getItem(position);
+            // slightly ugly...
+            BindableComponentViewHolder genericHolder = viewHolder;
+            FeatureViewHolder featureViewHolder = (FeatureViewHolder) genericHolder;
+            featureViewHolder.bind(context, this, info);
+        }
+
+        public AbstractCharacter getCharacter() {
+            return character;
+        }
+
     }
 
 }

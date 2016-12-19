@@ -18,10 +18,13 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CompanionResetInfo;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.model.character.FeatureResetInfo;
 import com.oakonell.dndcharacter.model.character.SpellSlotResetInfo;
+import com.oakonell.dndcharacter.model.character.companion.CharacterCompanion;
 import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
+import com.oakonell.dndcharacter.model.companion.Companion;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.UIUtils;
@@ -39,9 +42,11 @@ import java.util.List;
 public abstract class AbstractRestDialogFragment extends AbstractCharacterDialogFragment {
     public static final String FEATURE_RESETS_SAVE_BUNDLE_KEY = "featureResets";
     public static final String SPELL_SLOT_RESETS_SAVE_BUNDLE_KEY = "spellSlotResets";
+    private static final String COMPANION_RESETS_SAVE_BUNDLE_KEY = "companionResets";
 
     public static final String RESET = "reset";
     public static final String NUM_TO_RESTORE = "numToRestore";
+
 
     private View extraHealingGroup;
     private TextView extraHealingtextView;
@@ -55,10 +60,17 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     private SpellSlotsResetsAdapter spellSlotResetAdapter;
     private RecyclerView spell_slot_list;
 
+
+    private CompanionResetsAdapter companionResetsAdapter;
+    private RecyclerView companionListView;
+    private View companion_resets;
+
     @Nullable
     private Bundle savedFeatureResets;
     @Nullable
     private Bundle savedSpellSlotResets;
+    @Nullable
+    private Bundle savedCompanionResets;
 
     protected boolean allowExtraHealing() {
         return getCharacter().getHP() != getCharacter().getMaxHP();
@@ -73,6 +85,7 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         if (savedInstanceState != null) {
             savedFeatureResets = savedInstanceState.getBundle(FEATURE_RESETS_SAVE_BUNDLE_KEY);
             savedSpellSlotResets = savedInstanceState.getBundle(SPELL_SLOT_RESETS_SAVE_BUNDLE_KEY);
+            savedCompanionResets = savedInstanceState.getBundle(COMPANION_RESETS_SAVE_BUNDLE_KEY);
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -80,8 +93,9 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Bundle resets = new Bundle();
         if (featureResetAdapter == null || featureResetAdapter.resets == null) return;
+
+        Bundle resets = new Bundle();
         for (FeatureResetInfo each : featureResetAdapter.resets) {
             Bundle reset = new Bundle();
             reset.putByte(RESET, (byte) (each.reset ? 1 : 0));
@@ -98,6 +112,16 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             slotResets.putBundle(each.level + "", reset);
         }
         outState.putBundle(SPELL_SLOT_RESETS_SAVE_BUNDLE_KEY, slotResets);
+
+        Bundle companionResets = new Bundle();
+        for (CompanionResetInfo each : companionResetsAdapter.resets) {
+            Bundle reset = new Bundle();
+            reset.putByte(RESET, (byte) (each.reset ? 1 : 0));
+            companionResets.putBundle(each.companionIndex + "", reset);
+        }
+        outState.putBundle(FEATURE_RESETS_SAVE_BUNDLE_KEY, companionResets);
+
+
     }
 
     @Override
@@ -118,49 +142,61 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
         startHp.setText(getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP()));
 
-        Collection<FeatureInfo> features = character.getFeatureInfos();
-        List<FeatureResetInfo> featureResets = new ArrayList<>();
-        for (FeatureInfo each : features) {
-            RefreshType refreshOn = each.getRefreshesOn();
-            if (refreshOn == null) continue;
 
-            FeatureResetInfo resetInfo = new FeatureResetInfo();
+        buildFeatureResets(character);
+        buildSpellSlotResets(character);
+
+        buildCompanionRests(character);
+
+    }
+
+    private void buildCompanionRests(Character character) {
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+
+        Collection<CharacterCompanion> companions = character.getCompanions();
+        List<CompanionResetInfo> companionResets = new ArrayList<>();
+        int index = -1;
+        for (CharacterCompanion each : companions) {
+            index++;
+            if (!each.isActive()) continue;
+
+            CompanionResetInfo resetInfo = new CompanionResetInfo();
             resetInfo.name = each.getName();
-            resetInfo.description = each.getShortDescription();
-            int maxUses = each.evaluateMaxUses(character);
-            int usesRemaining = character.getUsesRemaining(each);
+            resetInfo.companionIndex = index;
+            resetInfo.reset = true;
+            resetInfo.description = each.getRace().getName() + " - " + each.getType().getName(getResources());
+
             Bundle resetBundle = null;
-            if (savedFeatureResets != null) {
-                resetBundle = savedFeatureResets.getBundle(each.getName());
+            if (savedCompanionResets != null) {
+                resetBundle = savedCompanionResets.getBundle(index + "");
             }
             if (resetBundle != null) {
                 resetInfo.reset = resetBundle.getByte(RESET) != 0;
-                resetInfo.numToRestore = resetBundle.getInt(NUM_TO_RESTORE);
             } else {
-                resetInfo.reset = shouldReset(refreshOn);
-                if (resetInfo.reset) {
-                    resetInfo.numToRestore = maxUses - usesRemaining;
-                } else {
-                    resetInfo.numToRestore = 0;
-                }
+                resetInfo.reset = true;
             }
-            resetInfo.refreshOn = refreshOn;
-            resetInfo.maxToRestore = maxUses - usesRemaining;
-            resetInfo.uses = getString(R.string.fraction_d_slash_d, usesRemaining, maxUses);
-            resetInfo.needsResfesh = usesRemaining != maxUses;
-            featureResets.add(resetInfo);
+
+            companionResets.add(resetInfo);
         }
-        savedFeatureResets = null;
-        featureResetAdapter = new FeatureResetsAdapter(getActivity(), featureResets);
-        featureListView.setAdapter(featureResetAdapter);
+        savedCompanionResets = null;
 
-        featureListView.setHasFixedSize(false);
-        featureListView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        companionResetsAdapter = new CompanionResetsAdapter(getActivity(), companionResets);
+        companionListView.setAdapter(companionResetsAdapter);
 
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-        featureListView.addItemDecoration(itemDecoration);
+        companionListView.setHasFixedSize(false);
+        companionListView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
+        companionListView.addItemDecoration(itemDecoration);
 
+        if (companionResets.isEmpty()) {
+            companion_resets.setVisibility(View.GONE);
+        } else {
+            companion_resets.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    protected void buildSpellSlotResets(@NonNull Character character) {
         List<SpellSlotResetInfo> spellSlotResets = new ArrayList<>();
 
         final List<Character.SpellLevelInfo> spellInfos = character.getSpellInfos();
@@ -201,7 +237,51 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
         DividerItemDecoration horizontalDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL_LIST);
         spell_slot_list.addItemDecoration(horizontalDecoration);
+    }
 
+    protected void buildFeatureResets(@NonNull Character character) {
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+
+        Collection<FeatureInfo> features = character.getFeatureInfos();
+        List<FeatureResetInfo> featureResets = new ArrayList<>();
+        for (FeatureInfo each : features) {
+            RefreshType refreshOn = each.getRefreshesOn();
+            if (refreshOn == null) continue;
+
+            FeatureResetInfo resetInfo = new FeatureResetInfo();
+            resetInfo.name = each.getName();
+            resetInfo.description = each.getShortDescription();
+            int maxUses = each.evaluateMaxUses(character);
+            int usesRemaining = character.getUsesRemaining(each);
+            Bundle resetBundle = null;
+            if (savedFeatureResets != null) {
+                resetBundle = savedFeatureResets.getBundle(each.getName());
+            }
+            if (resetBundle != null) {
+                resetInfo.reset = resetBundle.getByte(RESET) != 0;
+                resetInfo.numToRestore = resetBundle.getInt(NUM_TO_RESTORE);
+            } else {
+                resetInfo.reset = shouldReset(refreshOn);
+                if (resetInfo.reset) {
+                    resetInfo.numToRestore = maxUses - usesRemaining;
+                } else {
+                    resetInfo.numToRestore = 0;
+                }
+            }
+            resetInfo.refreshOn = refreshOn;
+            resetInfo.maxToRestore = maxUses - usesRemaining;
+            resetInfo.uses = getString(R.string.fraction_d_slash_d, usesRemaining, maxUses);
+            resetInfo.needsResfesh = usesRemaining != maxUses;
+            featureResets.add(resetInfo);
+        }
+        savedFeatureResets = null;
+        featureResetAdapter = new FeatureResetsAdapter(getActivity(), featureResets);
+        featureListView.setAdapter(featureResetAdapter);
+
+        featureListView.setHasFixedSize(false);
+        featureListView.setLayoutManager(UIUtils.createLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        featureListView.addItemDecoration(itemDecoration);
     }
 
 
@@ -218,6 +298,8 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
         featureListView = (RecyclerView) view.findViewById(R.id.feature_list);
         spell_slot_list = (RecyclerView) view.findViewById(R.id.spell_slot_list);
+        companionListView = (RecyclerView) view.findViewById(R.id.companion_list);
+        companion_resets = view.findViewById(R.id.companion_resets);
 
         extraHealingtextView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -272,6 +354,11 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
             if (each.reset) {
                 isValid = isValid && each.restoreSlots <= each.maxSlots - each.availableSlots;
                 request.addSpellSlotReset(each.level, each.restoreSlots);
+            }
+        }
+        for (CompanionResetInfo each : companionResetsAdapter.resets) {
+            if (each.reset) {
+                request.addCompanionReset(each.name, each.companionIndex);
             }
         }
         return isValid;
@@ -346,6 +433,76 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
         public int getItemCount() {
             return resets.size();
         }
+    }
+
+    static class CompanionResetViewHolder extends BindableComponentViewHolder<CompanionResetInfo, Context, CompanionResetsAdapter> {
+        @NonNull
+        final CheckBox name;
+        @NonNull
+        final TextView description;
+
+        public CompanionResetViewHolder(@NonNull View view) {
+            super(view);
+            name = (CheckBox) view.findViewById(R.id.name);
+            description = (TextView) view.findViewById(R.id.description);
+        }
+
+        @Override
+        public void bind(@NonNull final Context context, final CompanionResetsAdapter adapter, @NonNull final CompanionResetInfo row) {
+            name.setOnCheckedChangeListener(null);
+            name.setText(row.name);
+            name.setChecked((row.reset));
+            description.setText(row.description);
+            name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    row.reset = isChecked;
+                }
+            });
+        }
+    }
+
+    static class CompanionResetsAdapter extends RecyclerView.Adapter<CompanionResetViewHolder> {
+        private final List<CompanionResetInfo> resets;
+        private final Context context;
+
+        public CompanionResetsAdapter(Context context, List<CompanionResetInfo> resets) {
+            this.context = context;
+            this.resets = resets;
+        }
+
+
+        public CompanionResetInfo getItem(int position) {
+            return resets.get(position);
+        }
+
+        @NonNull
+        @Override
+        public CompanionResetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = View.inflate(context, R.layout.companion_rest_layout, null);
+            CompanionResetViewHolder viewHolder = new CompanionResetViewHolder(view);
+
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final CompanionResetViewHolder viewHolder, int position) {
+            final CompanionResetInfo row = getItem(position);
+            viewHolder.bind(context, this, row);
+
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public int getItemCount() {
+            return resets.size();
+        }
+
+
     }
 
     static class FeatureResetsAdapter extends RecyclerView.Adapter<FeatureResetViewHolder> {

@@ -257,7 +257,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
 
 
     @NonNull
-    public Collection<IFeatureAction> getActionsAndEffects(@NonNull Character character) {
+    public Collection<IFeatureAction> getActionsAndEffects(@NonNull AbstractCharacter character) {
         Map<String, IFeatureAction> resultActionsAndEffects = new HashMap<>();
         for (IFeatureAction each : feature.getActionsAndEffects()) {
 
@@ -368,7 +368,7 @@ public class FeatureInfo implements IContextualComponent, ICharacterComponent {
         return getSource().originatesFrom(currentComponent);
     }
 
-    public IFeatureAction getActionNamed(@NonNull Character character, String actionName) {
+    public IFeatureAction getActionNamed(@NonNull AbstractCharacter character, String actionName) {
         List<IFeatureAction> matching = new ArrayList<>();
         for (IFeatureAction action : getActionsAndEffects(character)) {
             if (action.getName().equals(actionName)) matching.add(action);

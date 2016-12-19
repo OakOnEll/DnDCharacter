@@ -39,6 +39,7 @@ import com.oakonell.dndcharacter.views.character.MainFragment;
 import com.oakonell.dndcharacter.views.character.feat.InitiativeDialogFragment;
 import com.oakonell.dndcharacter.views.character.feat.PassivePerceptionDialogFragment;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.feature.FeatureViewHelper;
 import com.oakonell.dndcharacter.views.character.feature.FeaturesFragment;
 import com.oakonell.dndcharacter.views.character.feature.SelectEffectDialogFragment;
 import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
@@ -76,7 +77,7 @@ public class CompanionsFragment extends AbstractSheetFragment {
 
     AbstractCharacterViewHelper characterViewHelper = new AbstractCharacterViewHelper(this, true);
 
-    private FeaturesFragment.FeatureAdapter featureAdapter;
+    private FeatureViewHelper.FeatureAdapter featureAdapter;
     private RecyclerView featureGridView;
 
     private EquipmentFragmentHelper fragHelper = new EquipmentFragmentHelper(this, true);
@@ -169,7 +170,7 @@ public class CompanionsFragment extends AbstractSheetFragment {
         companions_list.setHasFixedSize(false);
 
         // features
-        featureAdapter = new FeaturesFragment.FeatureAdapter((CharacterActivity) this.getActivity(), character.getDisplayedCompanion());
+        featureAdapter = new FeatureViewHelper.FeatureAdapter((CharacterActivity) this.getActivity(), character.getDisplayedCompanion(), true);
         featureGridView.setAdapter(featureAdapter);
         // decide on 1 or 2 columns based on screen size
         int numColumns = getResources().getInteger(R.integer.feature_columns);
@@ -250,6 +251,7 @@ public class CompanionsFragment extends AbstractSheetFragment {
             }
             type.setText(info.getType().getName(context.getResources()));
 
+            activeView.setOnCheckedChangeListener(null);
             activeView.setChecked(info.isActive());
             activeView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -279,6 +281,15 @@ public class CompanionsFragment extends AbstractSheetFragment {
                         }
                     }
                     info.setActive(isChecked);
+
+//                    adapter.notifyDataSetChanged();
+                    delete.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            context.saveCharacter();
+                            context.updateViews();
+                        }
+                    }, 100);
 
                     // TODO handle if the companion is exclusive, and reset all other exclusive ones to not active
                 }

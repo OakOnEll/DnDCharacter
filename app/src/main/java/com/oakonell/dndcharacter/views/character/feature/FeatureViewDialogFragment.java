@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,10 +18,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.*;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.CharacterEffect;
+import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
-import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.UseType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
@@ -32,12 +32,10 @@ import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,12 +76,13 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
 
     @NonNull
-    public static FeatureViewDialogFragment createDialog(FeatureInfo featureInfo) {
+    public static FeatureViewDialogFragment createDialog(FeatureInfo featureInfo, boolean isForCompanion) {
         final FeatureViewDialogFragment dialogFragment = new FeatureViewDialogFragment();
         String name = featureInfo.getName();
 
         Bundle args = new Bundle();
         args.putString(NAME, name);
+        args.putBoolean(COMPANION_ARG, isForCompanion);
 
         dialogFragment.setArguments(args);
         return dialogFragment;
@@ -142,11 +141,12 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
     @Override
     public void onCharacterLoaded(com.oakonell.dndcharacter.model.character.Character character) {
         super.onCharacterLoaded(character);
-        viewHelper = new FeatureViewHelper(getMainActivity(), this);
-        FeatureInfo info = character.getFeatureNamed(getNameArgument());
+        viewHelper = new FeatureViewHelper(getMainActivity(), this, isForCompanion());
+        AbstractCharacter displayedCharacter = getDisplayedCharacter();
+        FeatureInfo info = displayedCharacter.getFeatureNamed(getNameArgument());
         viewHelper.bind(info);
         if (savedRemainingUses != null) {
-            final int maxUses = info.evaluateMaxUses(getCharacter());
+            final int maxUses = info.evaluateMaxUses(displayedCharacter);
             uses_remaining.setText(savedRemainingUses);
             uses_remaining_readonly.setText(savedRemainingUses);
             try {
@@ -171,8 +171,9 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
     @Override
     protected boolean onDone() {
         boolean isValid = super.onDone();
-        FeatureInfo info = getCharacter().getFeatureNamed(getNameArgument());
-        final int maxUses = info.evaluateMaxUses(getCharacter());
+        AbstractCharacter displayedCharacter = getDisplayedCharacter();
+        FeatureInfo info = displayedCharacter.getFeatureNamed(getNameArgument());
+        final int maxUses = info.evaluateMaxUses(displayedCharacter);
 
         String string = uses_remaining.getText().toString();
         int value = 0;
@@ -195,8 +196,9 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
     }
 
     private void commitChanges(FeatureInfo info, int value) {
+        AbstractCharacter character = getDisplayedCharacter();
         for (IPendingUse each : pendingActions) {
-            CharacterEffect effect = each.apply(getCharacter(), info);
+            CharacterEffect effect = each.apply(character, info);
             if (effect != null) {
                 // Possible multiple effects, don't show any?
                 // TODO open effect dialog, if one was added
@@ -204,7 +206,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
                 //dialog.show(getFragmentManager(), "effect_dialog");
             }
         }
-        getCharacter().setUsesRemaining(info, value);
+        character.setUsesRemaining(info, value);
 
         shortDescription.postDelayed(new Runnable() {
             @Override
@@ -311,7 +313,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
     @Override
     public void useAction(final CharacterActivity context, FeatureInfo info, IFeatureAction action, Map<String, String> values) {
-        final int maxUses = info.evaluateMaxUses(context.getCharacter());
+        final int maxUses = info.evaluateMaxUses(getDisplayedCharacter());
         if (maxUses > 0) {
             int value = Integer.parseInt(uses_remaining.getText().toString());
             value = value - action.getCost();
@@ -328,7 +330,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
     @Override
     public void useFeature(final CharacterActivity context, FeatureInfo info, int value) {
-        final int maxUses = info.evaluateMaxUses(context.getCharacter());
+        final int maxUses = info.evaluateMaxUses(getDisplayedCharacter());
         if (maxUses > 0) {
             int remaining = Integer.parseInt(uses_remaining.getText().toString());
             remaining = remaining - value;
@@ -373,7 +375,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         pendingActions.add(pendingUse);
         pendingActionsAdapter.notifyDataSetChanged();
 
-        FeatureInfo info = getCharacter().getFeatureNamed(getNameArgument());
+        FeatureInfo info = getDisplayedCharacter().getFeatureNamed(getNameArgument());
         viewHelper.bindSpellSlotViews(info);
 
         updateViews();
@@ -406,8 +408,8 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         }
 
         @Override
-        public CharacterEffect apply(Character character, FeatureInfo info) {
-            character.useSpellSlot(spellLevel);
+        public CharacterEffect apply(AbstractCharacter character, FeatureInfo info) {
+            ((Character)character).useSpellSlot(spellLevel);
             // TODO handle viewing created effects
             return null;
         }
@@ -467,8 +469,8 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         }
 
         @Override
-        public CharacterEffect apply(Character character, FeatureInfo info) {
-            IFeatureAction action = info.getActionNamed(character,actionName);
+        public CharacterEffect apply(AbstractCharacter character, FeatureInfo info) {
+            IFeatureAction action = info.getActionNamed(character, actionName);
             return character.useFeatureAction(info, action, values);
         }
 
@@ -496,10 +498,10 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
         @Override
         public void undo(FeatureViewDialogFragment dialog, FeatureInfo info) {
-            final int maxUses = info.evaluateMaxUses(dialog.getCharacter());
+            final int maxUses = info.evaluateMaxUses(dialog.getDisplayedCharacter());
             int value = 0;
             if (maxUses > 0) {
-                IFeatureAction action = info.getActionNamed(dialog.getCharacter(),actionName);
+                IFeatureAction action = info.getActionNamed(dialog.getDisplayedCharacter(), actionName);
                 value = Integer.parseInt(dialog.uses_remaining.getText().toString());
                 value = Math.min(value + action.getCost(), maxUses);
                 dialog.uses_remaining.setText(NumberUtils.formatNumber(value));
@@ -562,7 +564,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         }
 
         @Override
-        public CharacterEffect apply(Character character, FeatureInfo info) {
+        public CharacterEffect apply(AbstractCharacter character, FeatureInfo info) {
             character.useFeature(info, value);
             // TODO handle viewing created effects
             return null;
@@ -579,7 +581,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         @Override
         public void undo(FeatureViewDialogFragment dialog, FeatureInfo info) {
             int remaining = Integer.parseInt(dialog.uses_remaining.getText().toString());
-            final int maxUses = info.evaluateMaxUses(dialog.getCharacter());
+            final int maxUses = info.evaluateMaxUses(dialog.getDisplayedCharacter());
 
             remaining = Math.min(remaining + value, maxUses);
             dialog.uses_remaining.setText(NumberUtils.formatNumber(remaining));
@@ -607,7 +609,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
 
 
     interface IPendingUse extends Parcelable {
-        CharacterEffect apply(Character character, FeatureInfo info);
+        CharacterEffect apply(AbstractCharacter character, FeatureInfo info);
 
         String getText(Resources resources, FeatureInfo info);
 
@@ -626,7 +628,7 @@ public class FeatureViewDialogFragment extends AbstractCharacterDialogFragment i
         }
 
         public void bind(@NonNull final CharacterActivity context, @NonNull final PendingActionAdapter adapter, @NonNull final IPendingUse action) {
-            final FeatureInfo info = adapter.dialog.getCharacter().getFeatureNamed(adapter.dialog.getNameArgument());
+            final FeatureInfo info = adapter.dialog.getDisplayedCharacter().getFeatureNamed(adapter.dialog.getNameArgument());
             pending_action.setText(action.getText(context.getResources(), info));
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -39,8 +39,7 @@ import java.util.List;
  */
 public class FeaturesFragment extends AbstractSheetFragment {
 
-    private static final int ADJUSTMENT_VIEW = 1001;
-    private FeatureAdapter adapter;
+    private FeatureViewHelper.FeatureAdapter adapter;
     private RecyclerView gridView;
 
     @NonNull
@@ -69,7 +68,7 @@ public class FeaturesFragment extends AbstractSheetFragment {
         super.onCharacterLoaded(character);
         if (getActivity() == null) return;
 
-        adapter = new FeatureAdapter((CharacterActivity) this.getActivity(), getCharacter());
+        adapter = new FeatureViewHelper.FeatureAdapter((CharacterActivity) this.getActivity(), getCharacter(), false);
         gridView.setAdapter(adapter);
         // decide on 1 or 2 columns based on screen size
         int numColumns = getResources().getInteger(R.integer.feature_columns);
@@ -79,91 +78,6 @@ public class FeaturesFragment extends AbstractSheetFragment {
     }
 
 
-    public static class FeatureAdapter extends RecyclerView.Adapter<BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>>> {
-        @NonNull
-        private final CharacterActivity context;
-        private AbstractCharacter character;
-        private List<FeatureInfo> list;
-
-        public FeatureAdapter(@NonNull CharacterActivity context, AbstractCharacter character) {
-            this.context = context;
-            this.character = character;
-            if (character == null) return;
-            list = new ArrayList<>(character.getFeatureInfos());
-        }
-
-
-        public void reloadList(@NonNull AbstractCharacter character) {
-            this.character = character;
-            if (character != null) {
-                list = new ArrayList<>(character.getFeatureInfos());
-            } else {
-                list = new ArrayList<>();
-            }
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getItemCount() {
-            if (character == null) return 0;
-            int numFeatures = list.size();
-            if (character.hasAdjustments()) return numFeatures + 1;
-            return numFeatures;
-        }
-
-
-        @Nullable
-        public FeatureInfo getItem(int position) {
-            if (character == null) return null;
-            return list.get(position);
-        }
-
-        @NonNull
-        @Override
-        public BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>> onCreateViewHolder(ViewGroup parent, int viewType) {
-            if (viewType == ADJUSTMENT_VIEW) {
-                View view = LayoutInflater.from(context).inflate(R.layout.adjustments_layout, parent, false);
-                AdjustmentsViewHolder holder = new AdjustmentsViewHolder(view);
-                return holder;
-            }
-
-            View view = LayoutInflater.from(context).inflate(R.layout.feature_layout, parent, false);
-            FeatureViewHolder holder = new FeatureViewHolder(view);
-            return holder;
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            if (position == list.size()) {
-                if (character.hasAdjustments()) {
-                    return ADJUSTMENT_VIEW;
-                }
-            }
-            return super.getItemViewType(position);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull final BindableComponentViewHolder<?, CharacterActivity, RecyclerView.Adapter<?>> viewHolder, final int position) {
-            if (position == list.size()) {
-                if (character.hasAdjustments()) {
-                    // slightly ugly...
-                    BindableComponentViewHolder genericHolder = viewHolder;
-                    AdjustmentsViewHolder featureViewHolder = (AdjustmentsViewHolder) genericHolder;
-                    featureViewHolder.bind(context, this, character);
-                }
-                return;
-            }
-
-
-            final FeatureInfo info = getItem(position);
-            // slightly ugly...
-            BindableComponentViewHolder genericHolder = viewHolder;
-            FeatureViewHolder featureViewHolder = (FeatureViewHolder) genericHolder;
-            featureViewHolder.bind(context, this, info);
-        }
-
-
-    }
 
     public static class AdjustmentsViewHolder extends BindableComponentViewHolder<AbstractCharacter, CharacterActivity, RecyclerView.Adapter<?>> {
         RecyclerView list;

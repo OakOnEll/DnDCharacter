@@ -39,7 +39,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
 
     @NonNull
     //private final CharacterActivity context;
-    AbstractCharacterDialogFragment fragment;
+            AbstractCharacterDialogFragment fragment;
     private final Set<FeatureContextArgument> filter;
     private List<IContextualComponent> list;
     private final Map<String, Long> deletedEffects = new HashMap<>();
@@ -141,7 +141,7 @@ public class ContextualComponentAdapter extends RecyclerView.Adapter<BindableCom
 
         if (viewType == FEATURE) {
             View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.feature_layout, parent, false);
-            BindableComponentViewHolder holder = new FeatureViewHolder(view, filter);
+            BindableComponentViewHolder holder = new FeatureViewHolder(view, filter, fragment.isForCompanion());
             return holder;
         }
         if (viewType == EFFECT) {

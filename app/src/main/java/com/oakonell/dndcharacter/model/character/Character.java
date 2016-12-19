@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.character.companion.AbstractCompanionType;
@@ -197,7 +198,7 @@ public class Character extends AbstractCharacter {
 //    }
 
     @NonNull
-    protected SimpleVariableContext getPopulatedVariableContext(@Nullable SimpleVariableContext variableContext) {
+    public SimpleVariableContext getPopulatedVariableContext(@Nullable SimpleVariableContext variableContext) {
         variableContext = super.getPopulatedVariableContext(variableContext);
         variableContext.setNumber("level", getCharacterLevel());
         return variableContext;
@@ -223,6 +224,8 @@ public class Character extends AbstractCharacter {
         }
 
         resetSpellSlots(request);
+
+        resetCompanions(request, RefreshType.LONG_REST);
     }
 
     public void shortRest(@NonNull ShortRestRequest request) {
@@ -239,6 +242,8 @@ public class Character extends AbstractCharacter {
         }
 
         resetSpellSlots(request);
+
+        resetCompanions(request, RefreshType.SHORT_REST);
     }
 
 
@@ -768,6 +773,34 @@ public class Character extends AbstractCharacter {
         }
     }
 
+    private void resetCompanions(@NonNull AbstractRestRequest request, RefreshType type) {
+        final Map<Integer, String> companionResets = request.getCompanionResets();
+        for (Map.Entry<Integer, String> entry : companionResets.entrySet()) {
+            Integer index = entry.getKey();
+            String name = entry.getValue();
+
+            if (index <0 || index >= getCompanions().size()) {
+                Log.e("Character", "Companion Reset- index out of bounds error");
+                continue;
+            }
+            final CharacterCompanion companion = getCompanions().get(index);
+            if (!companion.getName().equals(name)) {
+                Log.e("Character", "Companion Reset- companion name/index mismatch");
+                continue;
+            }
+
+            if (type == RefreshType.LONG_REST) {
+                companion.setHP(companion.getMaxHP());
+            }
+            for (FeatureInfo each: companion.getFeatureInfos()) {
+                if (each.getRefreshesOn() == type ||type == RefreshType.LONG_REST ) {
+                    companion.setUsesRemaining(each, each.evaluateMaxUses(companion));
+                    // TODO temp, to fix and help track down misuse of companion feature on main character
+                    //setUsesRemaining(each, each.evaluateMaxUses(this));
+                }
+            }
+        }
+    }
     @NonNull
     public String getHitDiceString() {
         if (classes == null) return "";
@@ -1951,9 +1984,7 @@ public class Character extends AbstractCharacter {
         displayedCompanionIndex = index;
     }
 
-    public void addExtraFormulaVariables(SimpleVariableContext variableContext) {
-        variableContext.setNumber("level", getClasses().size());
-    }
+
 
 
     @Override
