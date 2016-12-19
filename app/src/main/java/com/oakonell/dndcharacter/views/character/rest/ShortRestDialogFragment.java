@@ -393,7 +393,8 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
                 public void onClick(View v) {
                     adapter.rolls.remove(getAdapterPosition());
                     context.diceCounts.get(adapter.hitDieRow).numDiceRemaining++;
-                    adapter.notifyItemChanged(adapter.hitDieRow);
+                    adapter.notifyDataSetChanged();//ItemChanged(adapter.hitDieRow);
+                    adapter.getHitDiceAdapter().notifyDataSetChanged();
                 }
             });
         }
@@ -432,6 +433,12 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment {
             this.rolls = rolls;
             notifyDataSetChanged();
         }
+
+
+        HitDiceAdapter getHitDiceAdapter() {
+            return adapter;
+        }
+
     }
 
 
