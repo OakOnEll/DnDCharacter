@@ -72,9 +72,6 @@ public class Character extends AbstractCharacter {
     @ElementList(required = false)
     private List<CharacterClass> classes = new ArrayList<>();
 
-    @NonNull
-    @ElementMap(entry = "hitDie", key = "die", value = "uses", required = false)
-    private Map<Integer, Integer> hitDieUses = new HashMap<>();
 
     @Element(required = false)
     private String backstory;
@@ -208,20 +205,6 @@ public class Character extends AbstractCharacter {
     public void longRest(@NonNull LongRestRequest request) {
         super.longRest(request);
 
-        // restore hit die / 2
-        for (Map.Entry<Integer, Integer> entry : request.getHitDiceToRestore().entrySet()) {
-            int die = entry.getKey();
-            int requestNumToRestore = entry.getValue();
-
-            Integer uses = hitDieUses.get(die);
-            if (uses == null) uses = 0;
-            uses -= requestNumToRestore;
-            if (uses <= 0) {
-                hitDieUses.remove(die);
-            } else {
-                hitDieUses.put(die, uses);
-            }
-        }
 
         resetSpellSlots(request);
 
@@ -230,16 +213,6 @@ public class Character extends AbstractCharacter {
 
     public void shortRest(@NonNull ShortRestRequest request) {
         super.shortRest(request);
-
-        for (Map.Entry<Integer, Integer> entry : request.getHitDieUses().entrySet()) {
-            int die = entry.getKey();
-            int requestUses = entry.getValue();
-
-            Integer uses = hitDieUses.get(die);
-            if (uses == null) uses = 0;
-            uses += requestUses;
-            hitDieUses.put(die, uses);
-        }
 
         resetSpellSlots(request);
 
@@ -832,7 +805,7 @@ public class Character extends AbstractCharacter {
             row.dieSides = entry.getKey();
             row.totalDice = entry.getValue();
             // TODO
-            Integer uses = hitDieUses.get(row.dieSides);
+            Integer uses = getHitDieUses(row.dieSides);
             if (uses != null) {
                 row.numDiceRemaining = row.totalDice - uses;
             } else {

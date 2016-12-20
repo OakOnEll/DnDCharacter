@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CompanionResetInfo;
 import com.oakonell.dndcharacter.model.character.FeatureInfo;
@@ -24,6 +25,7 @@ import com.oakonell.dndcharacter.model.character.FeatureResetInfo;
 import com.oakonell.dndcharacter.model.character.SpellSlotResetInfo;
 import com.oakonell.dndcharacter.model.character.companion.CharacterCompanion;
 import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
+import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
 import com.oakonell.dndcharacter.model.companion.Companion;
 import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
@@ -39,7 +41,7 @@ import java.util.List;
 /**
  * Created by Rob on 11/8/2015.
  */
-public abstract class AbstractRestDialogFragment extends AbstractCharacterDialogFragment {
+public abstract class AbstractRestDialogFragment<RT extends AbstractRestRequest, T extends RestHealingViewHelper<RT>> extends AbstractCharacterDialogFragment {
     public static final String FEATURE_RESETS_SAVE_BUNDLE_KEY = "featureResets";
     public static final String SPELL_SLOT_RESETS_SAVE_BUNDLE_KEY = "spellSlotResets";
     private static final String COMPANION_RESETS_SAVE_BUNDLE_KEY = "companionResets";
@@ -48,12 +50,14 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     public static final String NUM_TO_RESTORE = "numToRestore";
 
 
-    private View extraHealingGroup;
-    private TextView extraHealingtextView;
-    private TextView finalHp;
-    private TextView startHp;
-    private View finalHpGroup;
-    private View noHealingGroup;
+    T healingViewHelper = createHealingViewHelper();
+
+    @NonNull
+    protected abstract T createHealingViewHelper();
+
+    protected T getHealingViewHelper() {
+        return healingViewHelper;
+    }
 
     private FeatureResetsAdapter featureResetAdapter;
     private RecyclerView featureListView;
@@ -72,13 +76,6 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     @Nullable
     private Bundle savedCompanionResets;
 
-    protected boolean allowExtraHealing() {
-        return getCharacter().getHP() != getCharacter().getMaxHP();
-    }
-
-    protected void conditionallyShowExtraHealing() {
-        extraHealingGroup.setVisibility(allowExtraHealing() ? View.VISIBLE : View.GONE);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -125,29 +122,20 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
     }
 
     @Override
+    public void onCharacterChanged(@NonNull Character character) {
+        super.onCharacterChanged(character);
+        healingViewHelper.onCharacterChanged(character);
+        updateView();
+    }
+
+    @Override
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
-
-        conditionallyShowExtraHealing();
-
-        if (character.getHP() == character.getMaxHP()) {
-            noHealingGroup.setVisibility(View.VISIBLE);
-
-            finalHpGroup.setVisibility(View.GONE);
-        } else {
-            noHealingGroup.setVisibility(View.GONE);
-
-            finalHpGroup.setVisibility(View.VISIBLE);
-        }
-
-        startHp.setText(getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP()));
-
+        healingViewHelper.onCharacterLoaded(character);
 
         buildFeatureResets(character);
         buildSpellSlotResets(character);
-
         buildCompanionRests(character);
-
     }
 
     private void buildCompanionRests(Character character) {
@@ -287,63 +275,27 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
 
     protected abstract int getSlotsToRestore(Character.SpellLevelInfo each);
 
-    protected void configureCommon(@NonNull View view) {
+    protected void configureCommon(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //featureResetsGroup = view.findViewById(R.id.feature_resets);
-        startHp = (TextView) view.findViewById(R.id.start_hp);
-        finalHp = (TextView) view.findViewById(R.id.final_hp);
-        finalHpGroup = view.findViewById(R.id.final_hp_group);
-        extraHealingGroup = view.findViewById(R.id.extra_heal_group);
-        extraHealingtextView = (TextView) view.findViewById(R.id.extra_healing);
-        noHealingGroup = view.findViewById(R.id.no_healing_group);
+        healingViewHelper.configureCommon(view, savedInstanceState);
+
 
         featureListView = (RecyclerView) view.findViewById(R.id.feature_list);
         spell_slot_list = (RecyclerView) view.findViewById(R.id.spell_slot_list);
         companionListView = (RecyclerView) view.findViewById(R.id.companion_list);
         companion_resets = view.findViewById(R.id.companion_resets);
-
-        extraHealingtextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                updateView();
-            }
-        });
-
-
     }
 
     protected abstract boolean shouldReset(RefreshType refreshesOn);
 
-    protected int getExtraHealing() {
-        String extraHealString = extraHealingtextView.getText().toString();
-        if (extraHealString.trim().length() > 0) {
-            return Integer.parseInt(extraHealString);
-        }
-        return 0;
-    }
-
     public void updateView() {
         Character character = getCharacter();
         if (character == null) return;
-        int hp = character.getHP();
-        int healing = getHealing();
-        hp = Math.min(hp + healing, character.getMaxHP());
-        finalHp.setText(getString(R.string.fraction_d_slash_d, hp, character.getMaxHP()));
+        healingViewHelper.updateView(character);
     }
 
-    protected abstract int getHealing();
-
-    protected boolean updateCommonRequest(@NonNull AbstractRestRequest request) {
-        boolean isValid = true;
+    protected boolean updateCommonRequest(@NonNull RT request) {
+        boolean isValid = healingViewHelper.updateRequest(request);
         for (FeatureResetInfo each : featureResetAdapter.resets) {
             if (each.reset) {
                 isValid = isValid && each.numToRestore <= each.maxToRestore;
@@ -643,5 +595,10 @@ public abstract class AbstractRestDialogFragment extends AbstractCharacterDialog
                 }
             });
         }
+    }
+
+    @Override
+    public void hideKeyboardFrom(@NonNull TextView v) {
+        super.hideKeyboardFrom(v);
     }
 }

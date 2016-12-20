@@ -42,6 +42,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -99,6 +100,10 @@ public abstract class AbstractCharacter {
     @NonNull
     @ElementMap(entry = "note", key = "key", value = "value", required = false)
     private Map<FeatureContext, ContextNotes> contextNotes = new HashMap<>();
+
+    @NonNull
+    @ElementMap(entry = "hitDie", key = "die", value = "uses", required = false)
+    private Map<Integer, Integer> hitDieUses = new HashMap<>();
 
     public static void modifyRootAcs(@NonNull AbstractCharacter character, @NonNull List<ArmorClassWithSource> modifyingAcs, @NonNull List<ArmorClassWithSource> rootAcs) {
         // determine if using a shield
@@ -689,6 +694,23 @@ public abstract class AbstractCharacter {
 
         //refresh features
         resetFeatures(request);
+
+
+        // restore hit die / 2
+        for (Map.Entry<Integer, Integer> entry : request.getHitDiceToRestore().entrySet()) {
+            int die = entry.getKey();
+            int requestNumToRestore = entry.getValue();
+
+            Integer uses = hitDieUses.get(die);
+            if (uses == null) uses = 0;
+            uses -= requestNumToRestore;
+            if (uses <= 0) {
+                hitDieUses.remove(die);
+            } else {
+                hitDieUses.put(die, uses);
+            }
+        }
+
     }
 
     private void resetFeatures(@NonNull AbstractRestRequest request) {
@@ -714,6 +736,20 @@ public abstract class AbstractCharacter {
         hp = Math.min(hp + request.getHealing(), getMaxHP());
 
         resetFeatures(request);
+
+        for (Map.Entry<Integer, Integer> entry : request.getHitDieUses().entrySet()) {
+            int die = entry.getKey();
+            int requestUses = entry.getValue();
+
+            Integer uses = hitDieUses.get(die);
+            if (uses == null) uses = 0;
+            uses += requestUses;
+            hitDieUses.put(die, uses);
+        }
+    }
+
+    protected Integer getHitDieUses(int dieSides) {
+        return hitDieUses.get(dieSides);
     }
 
     public int getTempHp() {
@@ -727,6 +763,9 @@ public abstract class AbstractCharacter {
     public int getHP() {
         return hp;
     }
+
+    @NonNull
+    public abstract List<Character.HitDieRow> getHitDiceCounts() ;
 
     public void setHP(int HP) {
         this.hp = HP;

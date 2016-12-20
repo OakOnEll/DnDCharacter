@@ -7,12 +7,19 @@ import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.AbstractCharacterAbilityDeriver;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterAbilityDeriver;
+import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.ComponentVisitor;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.simpleframework.xml.Element;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rob on 10/31/2016.
@@ -144,4 +151,27 @@ public class CharacterCompanion extends AbstractCharacter {
     protected String getBaseACString() {
         return rootAc + "";
     }
+
+    @NonNull
+    @Override
+    public List<Character.HitDieRow> getHitDiceCounts() {
+        Map<Integer, Integer> dice = new LinkedHashMap<>();
+
+        // TODO
+
+        List<Character.HitDieRow> result = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : dice.entrySet()) {
+            Character.HitDieRow row = new Character.HitDieRow();
+            row.dieSides = entry.getKey();
+            row.totalDice = entry.getValue();
+            // TODO
+            Integer uses = getHitDieUses(row.dieSides);
+            if (uses != null) {
+                row.numDiceRemaining = row.totalDice - uses;
+            } else {
+                row.numDiceRemaining = row.totalDice;
+            }
+            result.add(row);
+        }
+        return result;    }
 }

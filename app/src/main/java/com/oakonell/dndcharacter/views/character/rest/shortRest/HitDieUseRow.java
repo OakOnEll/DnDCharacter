@@ -1,4 +1,4 @@
-package com.oakonell.dndcharacter.views.character.rest;
+package com.oakonell.dndcharacter.views.character.rest.shortRest;
 
 import android.os.Parcel;
 import android.os.Parcelable;
