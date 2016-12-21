@@ -24,150 +24,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/hit_dice_healing"
-                    style="@style/ac_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/hit_point_heal_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/hp_healing_title"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/starting_hp" />
-
-                        <TextView
-                            android:id="@+id/start_hp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            tools:text="8" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/full_heal_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:id="@+id/full_healing"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="@string/full_healing_checkbox" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/extra_heal_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/healing" />
-
-                        <com.oakonell.dndcharacter.views.MyEditText
-                            android:id="@+id/extra_healing"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="3"
-                            android:inputType="number" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/final_hp_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/hp_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/final_hp" />
-
-                        <TextView
-                            android:id="@+id/final_hp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            tools:text="8" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/no_healing_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/textView8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/no_helaing_required" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/hit_dice_refresh"
-                    style="@style/ac_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/hit_dice_restore_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/hit_dice_restoration"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                    <include layout="@layout/hit_dice_restore_item" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/hit_dice_restore_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout_height="100dp"
-                        tools:listitem="@layout/hit_dice_restore_item" />
-
-                </LinearLayout>
+                <include layout="@layout/long_rest_heal_layout"/>
 
                 <include layout="@layout/rest_spell_slot_reset_layout" />
 
@@ -181,7 +38,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="@string/companion_resets_title"
@@ -192,7 +49,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        tools:listitem="@layout/companion_rest_layout" />
+                        tools:listitem="@layout/companion_long_rest_layout" />
 
                 </LinearLayout>
 

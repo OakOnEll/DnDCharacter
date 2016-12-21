@@ -61,7 +61,7 @@ public abstract class RestHealingViewHelper<T extends AbstractRestRequest> {
 
     }
 
-    public void configureCommon(View view, Bundle savedInstanceState) {
+    public void configureCommon(View view) {
         startHp = (TextView) view.findViewById(R.id.start_hp);
         finalHp = (TextView) view.findViewById(R.id.final_hp);
         finalHpGroup = view.findViewById(R.id.final_hp_group);
@@ -115,4 +115,6 @@ public abstract class RestHealingViewHelper<T extends AbstractRestRequest> {
     }
 
     public abstract boolean updateRequest(T request);
+
+    public abstract int getCompanionRestLayoutId();
 }

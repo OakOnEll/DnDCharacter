@@ -156,10 +156,16 @@ public class CharacterCompanion extends AbstractCharacter {
     @Override
     public List<Character.HitDieRow> getHitDiceCounts() {
         Map<Integer, Integer> dice = new LinkedHashMap<>();
-
         // TODO
 
         List<Character.HitDieRow> result = new ArrayList<>();
+
+        Character.HitDieRow aRow = new Character.HitDieRow();
+        aRow.dieSides = 8;
+        aRow.numDiceRemaining = 3;
+        aRow.totalDice = 3;
+        result.add(aRow);
+
         for (Map.Entry<Integer, Integer> entry : dice.entrySet()) {
             Character.HitDieRow row = new Character.HitDieRow();
             row.dieSides = entry.getKey();

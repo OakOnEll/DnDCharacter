@@ -39,8 +39,8 @@ public class ShortRestHeadlerViewHelper extends RestHealingViewHelper<ShortRestR
     }
 
     @Override
-    public void configureCommon(View view, Bundle savedInstanceState) {
-        super.configureCommon(view, savedInstanceState);
+    public void configureCommon(View view) {
+        super.configureCommon(view);
         hitDiceListView = (RecyclerView) view.findViewById(R.id.hit_dice_list);
 
 
@@ -91,4 +91,10 @@ public class ShortRestHeadlerViewHelper extends RestHealingViewHelper<ShortRestR
         }
 
     }
+
+    @Override
+    public int getCompanionRestLayoutId() {
+        return R.layout.companion_short_rest_layout;
+    }
+
 }

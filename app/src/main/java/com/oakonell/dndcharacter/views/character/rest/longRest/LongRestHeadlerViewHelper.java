@@ -43,8 +43,13 @@ public  class LongRestHeadlerViewHelper extends RestHealingViewHelper<LongRestRe
     }
 
     @Override
-    public void configureCommon(View view, Bundle savedInstanceState) {
-        super.configureCommon(view, savedInstanceState);
+    public int getCompanionRestLayoutId() {
+        return R.layout.companion_long_rest_layout;
+    }
+
+    @Override
+    public void configureCommon(View view) {
+        super.configureCommon(view);
         fullHealingGroup = view.findViewById(R.id.full_heal_group);
         fullHealing = (CheckBox) view.findViewById(R.id.full_healing);
 

@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.oakonell.dndcharacter.R.string.healing;
+
 /**
  * Created by Rob on 11/8/2015.
  */
@@ -168,7 +170,7 @@ public abstract class AbstractRestDialogFragment<RT extends AbstractRestRequest,
         }
         savedCompanionResets = null;
 
-        companionResetsAdapter = new CompanionResetsAdapter(getActivity(), companionResets);
+        companionResetsAdapter = new CompanionResetsAdapter(this, companionResets);
         companionListView.setAdapter(companionResetsAdapter);
 
         companionListView.setHasFixedSize(false);
@@ -277,7 +279,7 @@ public abstract class AbstractRestDialogFragment<RT extends AbstractRestRequest,
 
     protected void configureCommon(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //featureResetsGroup = view.findViewById(R.id.feature_resets);
-        healingViewHelper.configureCommon(view, savedInstanceState);
+        healingViewHelper.configureCommon(view);
 
 
         featureListView = (RecyclerView) view.findViewById(R.id.feature_list);
@@ -393,10 +395,17 @@ public abstract class AbstractRestDialogFragment<RT extends AbstractRestRequest,
         @NonNull
         final TextView description;
 
-        public CompanionResetViewHolder(@NonNull View view) {
+        @NonNull
+        private final RestHealingViewHelper viewHelper;
+        //private final View healing_layout;
+
+        public CompanionResetViewHolder(@NonNull View view, RestHealingViewHelper viewHelper) {
             super(view);
             name = (CheckBox) view.findViewById(R.id.name);
             description = (TextView) view.findViewById(R.id.description);
+            //healing_layout = view.findViewById(R.id.healing_layout);
+            this.viewHelper = viewHelper;
+            //viewHelper.configureCommon(view);
         }
 
         @Override
@@ -404,22 +413,26 @@ public abstract class AbstractRestDialogFragment<RT extends AbstractRestRequest,
             name.setOnCheckedChangeListener(null);
             name.setText(row.name);
             name.setChecked((row.reset));
+          //  healing_layout.setEnabled(row.reset);
             description.setText(row.description);
             name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     row.reset = isChecked;
+            //        healing_layout.setEnabled(row.reset);
                 }
             });
+            final Character character = adapter.fragment.getCharacter();
+            //viewHelper.onCharacterLoaded(character.getCompanions().get(row.companionIndex));
         }
     }
 
     static class CompanionResetsAdapter extends RecyclerView.Adapter<CompanionResetViewHolder> {
         private final List<CompanionResetInfo> resets;
-        private final Context context;
+        private final AbstractRestDialogFragment fragment;
 
-        public CompanionResetsAdapter(Context context, List<CompanionResetInfo> resets) {
-            this.context = context;
+        public CompanionResetsAdapter(AbstractRestDialogFragment fragment, List<CompanionResetInfo> resets) {
+            this.fragment = fragment;
             this.resets = resets;
         }
 
@@ -431,8 +444,8 @@ public abstract class AbstractRestDialogFragment<RT extends AbstractRestRequest,
         @NonNull
         @Override
         public CompanionResetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = View.inflate(context, R.layout.companion_rest_layout, null);
-            CompanionResetViewHolder viewHolder = new CompanionResetViewHolder(view);
+            View view = View.inflate(fragment.getActivity(), fragment.getHealingViewHelper().getCompanionRestLayoutId(), null);
+            CompanionResetViewHolder viewHolder = new CompanionResetViewHolder(view, fragment.createHealingViewHelper());
 
             return viewHolder;
         }
@@ -440,7 +453,7 @@ public abstract class AbstractRestDialogFragment<RT extends AbstractRestRequest,
         @Override
         public void onBindViewHolder(@NonNull final CompanionResetViewHolder viewHolder, int position) {
             final CompanionResetInfo row = getItem(position);
-            viewHolder.bind(context, this, row);
+            viewHolder.bind(fragment.getActivity(), this, row);
 
         }
 
