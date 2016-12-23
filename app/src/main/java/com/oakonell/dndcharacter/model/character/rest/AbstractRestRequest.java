@@ -8,11 +8,11 @@ import java.util.Map;
 /**
  * Created by Rob on 11/9/2015.
  */
-public class AbstractRestRequest {
+public abstract class AbstractRestRequest {
     final Map<String, Integer> featureResets = new HashMap<>();
     final Map<Integer, Integer> spellSlotResets = new HashMap<>();
     final Map<Integer, String> companionResets = new HashMap<>();
-
+    
     public void addFeatureReset(String name, int numToRestore) {
         Integer resets = featureResets.get(name);
         if (resets == null) resets = 0;
