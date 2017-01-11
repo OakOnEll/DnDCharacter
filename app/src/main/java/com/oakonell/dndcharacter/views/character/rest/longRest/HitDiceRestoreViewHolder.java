@@ -48,7 +48,7 @@ class HitDiceRestoreViewHolder extends BindableComponentViewHolder<HitDieRestore
         currentDiceRemaining.setText(NumberUtils.formatNumber(row.currentDiceRemaining));
         numDiceToRestore.setText(NumberUtils.formatNumber(row.numDiceToRestore));
         totalDice.setText(NumberUtils.formatNumber(row.totalDice));
-        resultDice.setText(NumberUtils.formatNumber((row.currentDiceRemaining + row.numDiceToRestore)));
+        updateResultDice(row);
 
         numDiceToRestore.setEnabled(row.currentDiceRemaining != row.totalDice);
 
@@ -69,7 +69,7 @@ class HitDiceRestoreViewHolder extends BindableComponentViewHolder<HitDieRestore
                 String string = s.toString();
                 if (string.length() == 0) {
                     row.numDiceToRestore = 0;
-                    resultDice.setText(NumberUtils.formatNumber((row.currentDiceRemaining + row.numDiceToRestore)));
+                    updateResultDice(row);
                     return;
                 }
                 try {
@@ -80,7 +80,7 @@ class HitDiceRestoreViewHolder extends BindableComponentViewHolder<HitDieRestore
                         return;
                     }
                     row.numDiceToRestore = value;
-                    resultDice.setText(NumberUtils.formatNumber(row.currentDiceRemaining + row.numDiceToRestore));
+                    updateResultDice(row);
                 } catch (NumberFormatException e) {
                     row.numDiceToRestore = 0;
                     numDiceToRestore.setError(context.getString(R.string.enter_number_less_than_equal_n, (row.totalDice - row.currentDiceRemaining)));
@@ -88,5 +88,9 @@ class HitDiceRestoreViewHolder extends BindableComponentViewHolder<HitDieRestore
             }
         };
         numDiceToRestore.addTextChangedListener(numDiceToRestoreWatcher);
+    }
+
+    protected void updateResultDice(@NonNull HitDieRestoreRow row) {
+        resultDice.setText(NumberUtils.formatNumber(Math.min(row.currentDiceRemaining + row.numDiceToRestore, row.totalDice)));
     }
 }

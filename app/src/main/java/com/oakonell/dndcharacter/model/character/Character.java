@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -15,6 +16,9 @@ import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
+import com.oakonell.dndcharacter.model.character.rest.CompanionLongRest;
+import com.oakonell.dndcharacter.model.character.rest.CompanionRest;
+import com.oakonell.dndcharacter.model.character.rest.CompanionShortRest;
 import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
 import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
@@ -730,11 +734,14 @@ public class Character extends AbstractCharacter {
     }
 
 
-    private void resetSpellSlots(@NonNull AbstractRestRequest request) {
-        final Map<Integer, Integer> spellSlotResets = request.getSpellSlotResets();
-        for (Map.Entry<Integer, Integer> entry : spellSlotResets.entrySet()) {
-            Integer level = entry.getKey();
-            Integer toRestore = entry.getValue();
+    private void resetSpellSlots(@NonNull AbstractRestRequest<?> request) {
+        final List<SpellSlotResetInfo> spellSlotResets = request.getSpellSlotResets();
+        for (SpellSlotResetInfo each : spellSlotResets) {
+            if (!each.reset) continue;
+
+            Integer level = each.level;
+            Integer toRestore = each.restoreSlots;
+
             Integer used = spellSlotsUsed.get(level);
             if (used == null) used = 0;
             used = Math.max(0, used - toRestore);
@@ -746,34 +753,27 @@ public class Character extends AbstractCharacter {
         }
     }
 
-    private void resetCompanions(@NonNull AbstractRestRequest request, RefreshType type) {
-        final Map<Integer, String> companionResets = request.getCompanionResets();
-        for (Map.Entry<Integer, String> entry : companionResets.entrySet()) {
-            Integer index = entry.getKey();
-            String name = entry.getValue();
+    private <C extends CompanionRest> void resetCompanions(@NonNull AbstractRestRequest<C> request, RefreshType type) {
+        final List<C> companionResets = request.getCompanionRestRequests();
 
-            if (index <0 || index >= getCompanions().size()) {
-                Log.e("Character", "Companion Reset- index out of bounds error");
-                continue;
-            }
+        for (C entry : companionResets) {
+            if (!entry.shouldReset()) continue;
+
+            int index = entry.getCompanionIndex();
             final CharacterCompanion companion = getCompanions().get(index);
-            if (!companion.getName().equals(name)) {
+            if (!companion.getName().equals(entry.getName())) {
                 Log.e("Character", "Companion Reset- companion name/index mismatch");
                 continue;
             }
 
             if (type == RefreshType.LONG_REST) {
-                companion.setHP(companion.getMaxHP());
-            }
-            for (FeatureInfo each: companion.getFeatureInfos()) {
-                if (each.getRefreshesOn() == type ||type == RefreshType.LONG_REST ) {
-                    companion.setUsesRemaining(each, each.evaluateMaxUses(companion));
-                    // TODO temp, to fix and help track down misuse of companion feature on main character
-                    //setUsesRemaining(each, each.evaluateMaxUses(this));
-                }
+                companion.longRest((LongRestRequest) entry);
+            } else {
+                companion.shortRest((ShortRestRequest) entry);
             }
         }
     }
+
     @NonNull
     public String getHitDiceString() {
         if (classes == null) return "";
@@ -1958,8 +1958,6 @@ public class Character extends AbstractCharacter {
     }
 
 
-
-
     @Override
     public CharacterAbilityDeriver getAbilityDeriver(ComponentVisitor visitor, boolean skipFeatures) {
         return new CharacterAbilityDeriver(visitor, skipFeatures);
@@ -1969,4 +1967,37 @@ public class Character extends AbstractCharacter {
     protected String getBaseACString() {
         return "10 + dexterityMod";
     }
+
+    @Override
+    public ShortRestRequest createShortRestRequest(Context context) {
+        final ShortRestRequest request = super.createShortRestRequest(context);
+
+        request.populateSpellSlotResets(this);
+        request.populateCompanionRests(this, context);
+
+        return request;
+    }
+
+    @Override
+    public LongRestRequest createLongRestRequest(Context context) {
+        final LongRestRequest request = super.createLongRestRequest(context);
+
+        request.populateSpellSlotResets(this);
+        request.populateCompanionRests(this, context);
+
+        return request;
+    }
+
+
+    @NonNull
+    protected ShortRestRequest privateCreateCorrectShortRequest() {
+        return new ShortRestRequest();
+    }
+
+    @NonNull
+    @Override
+    protected LongRestRequest privateCreateCorrectLongRequest() {
+        return new LongRestRequest();
+    }
+
 }

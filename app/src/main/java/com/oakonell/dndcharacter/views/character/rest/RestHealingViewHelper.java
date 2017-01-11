@@ -1,22 +1,18 @@
 package com.oakonell.dndcharacter.views.character.rest;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.AbstractCharacter;
-import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
-import com.oakonell.dndcharacter.views.character.CharacterActivity;
+import com.oakonell.dndcharacter.model.character.rest.RestRequest;
 
 /**
  * Created by Rob on 12/19/2016.
  */
 
-public abstract class RestHealingViewHelper<T extends AbstractRestRequest> {
+public abstract class RestHealingViewHelper<T extends RestRequest> {
     private final AbstractRestDialogFragment context;
 
     private View extraHealingGroup;
@@ -25,7 +21,13 @@ public abstract class RestHealingViewHelper<T extends AbstractRestRequest> {
     private TextView startHp;
     private View finalHpGroup;
     private View noHealingGroup;
-    private AbstractCharacter character;
+
+    private T request;
+    private TextWatcher textWatcher;
+
+    public T getRequest() {
+        return request;
+    }
 
     protected RestHealingViewHelper(AbstractRestDialogFragment context) {
         this.context = context;
@@ -36,29 +38,27 @@ public abstract class RestHealingViewHelper<T extends AbstractRestRequest> {
     }
 
     protected boolean allowExtraHealing() {
-        return getCharacter().getHP() != getCharacter().getMaxHP();
+        return request.getStartHP() != request.getMaxHP();
     }
 
     public void conditionallyShowExtraHealing() {
         extraHealingGroup.setVisibility(allowExtraHealing() ? View.VISIBLE : View.GONE);
     }
 
-    public void onCharacterLoaded(AbstractCharacter character) {
-        this.character = character;
+
+    public void onCharacterLoaded(T request) {
+        this.request = request;
         conditionallyShowExtraHealing();
 
-        if (character.getHP() == character.getMaxHP()) {
+        if (!allowExtraHealing()) {
             noHealingGroup.setVisibility(View.VISIBLE);
-
             finalHpGroup.setVisibility(View.GONE);
         } else {
             noHealingGroup.setVisibility(View.GONE);
-
             finalHpGroup.setVisibility(View.VISIBLE);
         }
 
-        startHp.setText(context.getString(R.string.fraction_d_slash_d, character.getHP(), character.getMaxHP()));
-
+        startHp.setText(context.getString(R.string.fraction_d_slash_d, request.getStartHP(), request.getMaxHP()));
     }
 
     public void configureCommon(View view) {
@@ -68,9 +68,23 @@ public abstract class RestHealingViewHelper<T extends AbstractRestRequest> {
         extraHealingGroup = view.findViewById(R.id.extra_heal_group);
         extraHealingtextView = (TextView) view.findViewById(R.id.extra_healing);
         noHealingGroup = view.findViewById(R.id.no_healing_group);
+    }
 
 
-        extraHealingtextView.addTextChangedListener(new TextWatcher() {
+    public void updateView(final T request) {
+        if (textWatcher != null) {
+            extraHealingtextView.removeTextChangedListener(textWatcher);
+            textWatcher = null;
+        }
+
+        int hp = request.getStartHP();
+        int healing = request.getTotalHealing();
+        hp = Math.min(hp + healing, request.getMaxHP());
+
+        finalHp.setText(context.getString(R.string.fraction_d_slash_d, hp, request.getMaxHP()));
+        extraHealingtextView.setText("" + request.getExtraHealing());
+
+        textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -83,38 +97,24 @@ public abstract class RestHealingViewHelper<T extends AbstractRestRequest> {
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateView(getCharacter());
+                // TODO adjust the request's extra healing
+                if (request == null) return;
+                int hp = 0;
+                try {
+                    hp = Integer.parseInt(s.toString());
+                } catch (NumberFormatException e) {
+                    request.setExtraHealing(0);
+                    // don't update the view
+                    return;
+                }
+                request.setExtraHealing(hp);
+                updateView(request);
             }
-        });
+        };
+        extraHealingtextView.addTextChangedListener(textWatcher);
     }
 
-    public AbstractCharacter getCharacter() {
-        return character;
-    }
-
-    public int getExtraHealing() {
-        String extraHealString = extraHealingtextView.getText().toString();
-        if (extraHealString.trim().length() > 0) {
-            return Integer.parseInt(extraHealString);
-        }
-        return 0;
-    }
-
-    public void updateView(AbstractCharacter character) {
-        int hp = character.getHP();
-        int healing = getHealing();
-        hp = Math.min(hp + healing, character.getMaxHP());
-
-        finalHp.setText(context.getString(R.string.fraction_d_slash_d, hp, character.getMaxHP()));
-    }
-
-    protected abstract int getHealing();
-
-    public void onCharacterChanged(AbstractCharacter character) {
-
-    }
-
-    public abstract boolean updateRequest(T request);
 
     public abstract int getCompanionRestLayoutId();
+
 }

@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.model.character.companion;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -11,6 +12,10 @@ import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.ComponentVisitor;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
+import com.oakonell.dndcharacter.model.character.rest.CompanionLongRest;
+import com.oakonell.dndcharacter.model.character.rest.CompanionShortRest;
+import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
+import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 
 import org.simpleframework.xml.Element;
@@ -179,5 +184,39 @@ public class CharacterCompanion extends AbstractCharacter {
             }
             result.add(row);
         }
-        return result;    }
+        return result;
+    }
+
+    @NonNull
+    protected CompanionShortRest privateCreateCorrectShortRequest() {
+        return new CompanionShortRest();
+    }
+
+    @NonNull
+    @Override
+    protected LongRestRequest privateCreateCorrectLongRequest() {
+        return new CompanionLongRest();
+    }
+
+    @Override
+    public LongRestRequest createLongRestRequest(Context context) {
+        final CompanionLongRest request = (CompanionLongRest) super.createLongRestRequest(context);
+
+        request.shouldReset(true);
+        request.setName(getName());
+        request.setDescription(getRace().getDescription());
+
+        return request;
+    }
+
+    @Override
+    public ShortRestRequest createShortRestRequest(Context context) {
+        final CompanionShortRest request = (CompanionShortRest) super.createShortRestRequest(context);
+
+        request.shouldReset(true);
+        request.setName(getName());
+        request.setDescription(getRace().getDescription());
+
+        return request;
+    }
 }

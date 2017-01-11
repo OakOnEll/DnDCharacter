@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
 import com.oakonell.dndcharacter.views.character.rest.AbstractRestDialogFragment;
 
 import java.util.ArrayList;
@@ -21,27 +22,18 @@ public class HitDiceRestoreAdapter extends RecyclerView.Adapter<HitDiceRestoreVi
     List<HitDieRestoreRow> diceCounts;
     private final AbstractRestDialogFragment context;
 
-    public HitDiceRestoreAdapter(AbstractRestDialogFragment context, @NonNull AbstractCharacter character) {
+    public HitDiceRestoreAdapter(AbstractRestDialogFragment context, @NonNull LongRestRequest request) {
         this.context = context;
-        populateDiceCounts(character);
+        populateDiceCounts(request);
     }
 
-    private void populateDiceCounts(@NonNull AbstractCharacter character) {
-        diceCounts = new ArrayList<>();
-        for (Character.HitDieRow each : character.getHitDiceCounts()) {
-            HitDieRestoreRow newRow = new HitDieRestoreRow();
-            newRow.dieSides = each.dieSides;
-            newRow.currentDiceRemaining = each.numDiceRemaining;
-            newRow.totalDice = each.totalDice;
-            newRow.numDiceToRestore = Math.min(Math.max(each.totalDice / 2, 1), each.totalDice - each.numDiceRemaining);
-
-            diceCounts.add(newRow);
-        }
+    private void populateDiceCounts(@NonNull LongRestRequest request) {
+        diceCounts = request.getHitDiceToRestore();
     }
 
 
-    public void reloadList(@NonNull AbstractCharacter character) {
-        populateDiceCounts(character);
+    public void reloadList(@NonNull LongRestRequest request) {
+        populateDiceCounts(request);
         notifyDataSetChanged();
     }
 

@@ -121,6 +121,10 @@ public class CompanionsFragment extends AbstractSheetFragment {
     @Override
     protected void updateViews(View rootView) {
         super.updateViews(rootView);
+        if (companion_layout == null) {
+            // this was triggered at some point by a onCharacterChanged... presumably before onCreateTheView?!
+            return;
+        }
         if (getCharacter() == null) {
 
         } else {

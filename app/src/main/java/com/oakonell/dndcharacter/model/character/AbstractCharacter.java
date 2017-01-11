@@ -1,6 +1,8 @@
 package com.oakonell.dndcharacter.model.character;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -21,7 +23,10 @@ import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
+import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
+import com.oakonell.dndcharacter.views.character.rest.longRest.HitDieRestoreRow;
+import com.oakonell.dndcharacter.views.character.rest.shortRest.HitDieUseRow;
 import com.oakonell.expression.Expression;
 import com.oakonell.expression.ExpressionContext;
 import com.oakonell.expression.ExpressionType;
@@ -687,7 +692,11 @@ public abstract class AbstractCharacter {
     }
 
     public void longRest(@NonNull LongRestRequest request) {
-        hp = Math.min(hp + request.getHealing(), getMaxHP());
+        if (request.isFullHealing()) {
+            hp = getMaxHP();
+        } else {
+            hp = Math.min(hp + request.getExtraHealing(), getMaxHP());
+        }
 
         // temp HP disappear, unless a spell/effect?
         tempHp = 0;
@@ -697,9 +706,9 @@ public abstract class AbstractCharacter {
 
 
         // restore hit die / 2
-        for (Map.Entry<Integer, Integer> entry : request.getHitDiceToRestore().entrySet()) {
-            int die = entry.getKey();
-            int requestNumToRestore = entry.getValue();
+        for (HitDieRestoreRow row : request.getHitDiceToRestore()) {
+            int die = row.dieSides;
+            int requestNumToRestore = row.numDiceToRestore;
 
             Integer uses = hitDieUses.get(die);
             if (uses == null) uses = 0;
@@ -713,39 +722,48 @@ public abstract class AbstractCharacter {
 
     }
 
-    private void resetFeatures(@NonNull AbstractRestRequest request) {
-        Collection<FeatureInfo> featureInfos = getFeatureInfos();
-        for (FeatureInfo each : featureInfos) {
-            Integer resetRequest = request.getFeatureResets().get(each.getName());
-            if (resetRequest == null || resetRequest == 0) continue;
+    private void resetFeatures(@NonNull AbstractRestRequest<?> request) {
+        for (FeatureResetInfo each : request.getFeatureResets()) {
+            if (!each.reset) continue;
 
-            Integer used = usedFeatures.get(each.getName());
+            final FeatureInfo featureInfo = getFeatureNamed(each.name);
+            if (featureInfo == null) {
+                // shouldn't be possible
+                continue;
+            }
+            int resetRequest = each.numToRestore;
+
+            Integer used = usedFeatures.get(each.name);
             if (used == null) continue;
 
             used = used - resetRequest;
             if (used <= 0) {
-                usedFeatures.remove(each.getName());
+                usedFeatures.remove(each.name);
             } else {
-                usedFeatures.put(each.getName(), used);
+                usedFeatures.put(each.name, used);
             }
         }
-
     }
 
     public void shortRest(@NonNull ShortRestRequest request) {
-        hp = Math.min(hp + request.getHealing(), getMaxHP());
+        int hitDiceHealing = 0;
+        for (HitDieUseRow use : request.getHitDieUses()) {
+            int die = use.dieSides;
+            int requestUses = use.rolls.size();
 
-        resetFeatures(request);
-
-        for (Map.Entry<Integer, Integer> entry : request.getHitDieUses().entrySet()) {
-            int die = entry.getKey();
-            int requestUses = entry.getValue();
+            for (int roll : use.rolls) {
+                hitDiceHealing += roll;
+            }
 
             Integer uses = hitDieUses.get(die);
             if (uses == null) uses = 0;
             uses += requestUses;
             hitDieUses.put(die, uses);
         }
+
+        hp = Math.min(hp + request.getExtraHealing() + hitDiceHealing, getMaxHP());
+
+        resetFeatures(request);
     }
 
     protected Integer getHitDieUses(int dieSides) {
@@ -765,7 +783,7 @@ public abstract class AbstractCharacter {
     }
 
     @NonNull
-    public abstract List<Character.HitDieRow> getHitDiceCounts() ;
+    public abstract List<Character.HitDieRow> getHitDiceCounts();
 
     public void setHP(int HP) {
         this.hp = HP;
@@ -1086,6 +1104,59 @@ public abstract class AbstractCharacter {
     public abstract boolean isProficientWith(CharacterArmor characterArmor);
 
     public abstract void removeEffect(CharacterEffect effect);
+
+    public ShortRestRequest createShortRestRequest(Context context) {
+        final ShortRestRequest request = privateCreateCorrectShortRequest();
+
+        request.setStartHP(getHP());
+        request.setMaxHP(getMaxHP());
+
+        List<HitDieUseRow> uses = request.getHitDieUses();
+        for (Character.HitDieRow each : getHitDiceCounts()) {
+            HitDieUseRow use = new HitDieUseRow();
+            use.dieSides = each.dieSides;
+            use.totalDice = each.totalDice;
+            use.numDiceRemaining = each.numDiceRemaining;
+            uses.add(use);
+        }
+
+        // TODO handle features and spells
+        request.populateFeatureResets(this, context);
+
+        return request;
+    }
+
+    public LongRestRequest createLongRestRequest(Context context) {
+        final LongRestRequest request = privateCreateCorrectLongRequest();
+
+        request.setStartHP(getHP());
+        request.setMaxHP(getMaxHP());
+
+        request.setFullHealing(true);
+
+        List<HitDieRestoreRow> uses = request.getHitDiceToRestore();
+        for (Character.HitDieRow each : getHitDiceCounts()) {
+            HitDieRestoreRow use = new HitDieRestoreRow();
+            use.dieSides = each.dieSides;
+            use.currentDiceRemaining = each.numDiceRemaining;
+            use.totalDice = each.totalDice;
+            final int defaultNumToRestore = Math.max(1, use.totalDice / 2);
+            use.numDiceToRestore = Math.min(defaultNumToRestore, use.totalDice - use.currentDiceRemaining);
+            uses.add(use);
+        }
+
+        // TODO handle features and spells
+        request.populateFeatureResets(this, context);
+
+
+        return request;
+    }
+
+    @NonNull
+    abstract protected ShortRestRequest privateCreateCorrectShortRequest();
+
+    @NonNull
+    abstract protected LongRestRequest privateCreateCorrectLongRequest();
 
     interface RootArmorClassDeriver {
         void derive(FeatureInfo info);

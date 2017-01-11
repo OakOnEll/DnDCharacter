@@ -30,45 +30,18 @@ public class ShortRestHeadlerViewHelper extends RestHealingViewHelper<ShortRestR
     }
 
     @Override
-    public boolean updateRequest(ShortRestRequest request) {
-        for (HitDieUseRow each : diceAdapter.diceCounts) {
-            request.addHitDiceUsed(each.dieSides, each.rolls.size());
-        }
-        request.setHealing(getHealing());
-        return true;
-    }
-
-    @Override
     public void configureCommon(View view) {
         super.configureCommon(view);
         hitDiceListView = (RecyclerView) view.findViewById(R.id.hit_dice_list);
-
-
-    }
-
-    protected int getHealing() {
-        int healing = 0;
-        for (HitDieUseRow each : diceAdapter.diceCounts) {
-            for (Integer eachRoll : each.rolls) {
-                healing += eachRoll;
-            }
-        }
-
-        healing += getExtraHealing();
-        return healing;
-    }
-
-    public void onCharacterChanged(AbstractCharacter character) {
-        diceAdapter.reloadList(character);
     }
 
     @Override
-    public void onCharacterLoaded(AbstractCharacter character) {
-        super.onCharacterLoaded(character);
+    public void onCharacterLoaded(ShortRestRequest request) {
+        super.onCharacterLoaded(request);
 
         AbstractRestDialogFragment fragment = getFragment();
 
-        diceAdapter = new HitDiceAdapter(fragment, character);
+        diceAdapter = new HitDiceAdapter(fragment, request);
 
         hitDiceListView.setAdapter(diceAdapter);
         hitDiceListView.setHasFixedSize(false);
@@ -79,17 +52,16 @@ public class ShortRestHeadlerViewHelper extends RestHealingViewHelper<ShortRestR
     }
 
     @Override
-    public void updateView(AbstractCharacter character) {
-        super.updateView(character);
+    public void updateView(ShortRestRequest request) {
+        super.updateView(request);
         if (diceAdapter != null) {
             diceAdapter.notifyDataSetChanged();
         }
-        if (getCharacter().getHP() == getCharacter().getMaxHP()) {
+        if (!allowExtraHealing()) {
             hitDiceListView.setVisibility(View.GONE);
         } else {
             hitDiceListView.setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override

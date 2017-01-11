@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
 import com.oakonell.dndcharacter.views.character.rest.AbstractRestDialogFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,44 +23,20 @@ import java.util.Map;
  */
 
 public class HitDiceAdapter extends RecyclerView.Adapter<HitDiceViewHolder> {
-    ArrayList<HitDieUseRow> diceCounts;
+    List<HitDieUseRow> diceCounts;
     private final AbstractRestDialogFragment context;
 
-    public HitDiceAdapter(AbstractRestDialogFragment context, @NonNull AbstractCharacter character) {
+    public HitDiceAdapter(AbstractRestDialogFragment context, @NonNull ShortRestRequest request) {
         this.context = context;
-        populateDiceCounts(character, null);
+        populateDiceCounts(request);
     }
 
-    protected void populateDiceCounts(@NonNull AbstractCharacter character, @Nullable Map<Integer, HitDieUseRow> existingRows) {
-        diceCounts = new ArrayList<>();
-        for (Character.HitDieRow each : character.getHitDiceCounts()) {
-            HitDieUseRow newRow = new HitDieUseRow();
-            newRow.dieSides = each.dieSides;
-            newRow.numDiceRemaining = each.numDiceRemaining;
-            newRow.totalDice = each.totalDice;
-
-            if (existingRows != null) {
-                HitDieUseRow existing = existingRows.get(newRow.dieSides);
-                if (existing != null) {
-                    newRow.rolls.addAll(existing.rolls);
-                    if (newRow.rolls.size() > newRow.numDiceRemaining && newRow.numDiceRemaining > 1) {
-                        newRow.rolls.subList(0, newRow.numDiceRemaining - 1);
-                    }
-                    newRow.numDiceRemaining -= newRow.rolls.size();
-                }
-            }
-
-            diceCounts.add(newRow);
-        }
+    protected void populateDiceCounts(@NonNull ShortRestRequest request) {
+        diceCounts = request.getHitDieUses();
     }
 
-    public void reloadList(@NonNull AbstractCharacter character) {
-        // TODO don't throw away user entered data?
-        Map<Integer, HitDieUseRow> existing = new HashMap<>();
-        for (HitDieUseRow each : diceCounts) {
-            existing.put(each.dieSides, each);
-        }
-        populateDiceCounts(character, existing);
+    public void reloadList(@NonNull ShortRestRequest request) {
+        populateDiceCounts(request);
         notifyDataSetChanged();
     }
 

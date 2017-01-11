@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.AbstractCharacter;
+import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
 import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
@@ -20,7 +21,7 @@ import com.oakonell.dndcharacter.views.character.rest.RestHealingViewHelper;
  * Created by Rob on 12/19/2016.
  */
 
-public  class LongRestHeadlerViewHelper extends RestHealingViewHelper<LongRestRequest> {
+public class LongRestHeadlerViewHelper extends RestHealingViewHelper<LongRestRequest> {
     private View fullHealingGroup;
     private CheckBox fullHealing;
     protected HitDiceRestoreAdapter diceAdapter;
@@ -29,17 +30,6 @@ public  class LongRestHeadlerViewHelper extends RestHealingViewHelper<LongRestRe
 
     LongRestHeadlerViewHelper(LongRestDialogFragment context) {
         super(context);
-    }
-
-    @Override
-    public boolean updateRequest(LongRestRequest request) {
-        for (HitDieRestoreRow each : diceAdapter.diceCounts) {
-            if (each.numDiceToRestore > 0) {
-                request.restoreHitDice(each.dieSides, each.numDiceToRestore);
-            }
-        }
-        request.setHealing(getHealing());
-        return true;
     }
 
     @Override
@@ -55,29 +45,28 @@ public  class LongRestHeadlerViewHelper extends RestHealingViewHelper<LongRestRe
 
         hitDiceListView = (RecyclerView) view.findViewById(R.id.hit_dice_restore_list);
 
-        fullHealing.setChecked(true);
-
         fullHealing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 conditionallyShowExtraHealing();
-                updateView(getCharacter());
+                updateView(getRequest());
             }
         });
 
         // touch up hit die restore list header
         view.findViewById(R.id.restore_lbl).setVisibility(View.VISIBLE);
         view.findViewById(R.id.dice_to_restore).setVisibility(View.GONE);
-
     }
 
     @Override
-    public void onCharacterLoaded(AbstractCharacter character) {
-        super.onCharacterLoaded(character);
+    public void onCharacterLoaded(LongRestRequest request) {
+        super.onCharacterLoaded(request);
+
+        fullHealing.setChecked(getRequest().isFullHealing());
 
         AbstractRestDialogFragment fragment = getFragment();
 
-        diceAdapter = new HitDiceRestoreAdapter(fragment, character);
+        diceAdapter = new HitDiceRestoreAdapter(fragment, request);
 
         hitDiceListView.setAdapter(diceAdapter);
 
@@ -88,34 +77,21 @@ public  class LongRestHeadlerViewHelper extends RestHealingViewHelper<LongRestRe
         hitDiceListView.addItemDecoration(itemDecoration);
     }
 
-
-    @Override
-    public void onCharacterChanged(AbstractCharacter character) {
-        super.onCharacterChanged(character);
-        diceAdapter.reloadList(character);
-    }
-
     @Override
     protected boolean allowExtraHealing() {
-        return !fullHealing.isChecked();
+        return !getRequest().isFullHealing();
     }
 
     @Override
-    protected int getHealing() {
-        if (fullHealing.isChecked()) {
-            return getCharacter().getMaxHP() - getCharacter().getHP();
-        }
-        return getExtraHealing();
-    }
-
-    @Override
-    public void updateView(AbstractCharacter character) {
-        super.updateView(character);
-        if (getCharacter() == null) return;
-        if (getCharacter().getHP() == getCharacter().getMaxHP()) {
+    public void updateView(LongRestRequest request) {
+        super.updateView(request);
+        if (request == null) return;
+        if (allowExtraHealing()) {
             fullHealingGroup.setVisibility(View.GONE);
         } else {
             fullHealingGroup.setVisibility(View.VISIBLE);
         }
     }
+
+
 }

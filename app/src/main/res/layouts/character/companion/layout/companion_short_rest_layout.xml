@@ -24,7 +24,7 @@
             android:layout_marginLeft="8dp"
             tools:text="Cat - Familiar" />
     </LinearLayout>
-<!--
+
     <LinearLayout
         android:id="@+id/healing_layout"
         android:layout_width="match_parent"
@@ -34,5 +34,5 @@
 
         <include layout="@layout/short_rest_heal_layout" />
     </LinearLayout>
--->
+
 </LinearLayout>
