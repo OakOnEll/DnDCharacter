@@ -4,10 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
-
-import static com.oakonell.dndcharacter.R.id.source;
-
 /**
  * Created by Rob on 1/27/2016.
  */

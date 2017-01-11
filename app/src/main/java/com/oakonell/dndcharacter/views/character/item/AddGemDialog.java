@@ -14,8 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.*;
 import com.oakonell.dndcharacter.model.character.Character;
+import com.oakonell.dndcharacter.model.character.MoneyValue;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
 /**

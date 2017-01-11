@@ -6,12 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.AbstractCharacter;
-import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
 import com.oakonell.dndcharacter.views.character.rest.AbstractRestDialogFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

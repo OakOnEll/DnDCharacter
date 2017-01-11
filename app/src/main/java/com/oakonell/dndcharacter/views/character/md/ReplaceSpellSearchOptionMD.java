@@ -1,17 +1,12 @@
 package com.oakonell.dndcharacter.views.character.md;
 
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterClass;
-import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 

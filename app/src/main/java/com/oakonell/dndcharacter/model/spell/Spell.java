@@ -10,7 +10,6 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
-import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.utils.XmlUtils;

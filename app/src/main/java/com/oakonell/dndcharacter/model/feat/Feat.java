@@ -1,16 +1,10 @@
 package com.oakonell.dndcharacter.model.feat;
 
-import android.content.Context;
 import android.provider.BaseColumns;
-import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
-import com.oakonell.dndcharacter.utils.XmlUtils;
-
-import org.w3c.dom.Element;
 
 /**
  * Created by Rob on 1/3/2016.

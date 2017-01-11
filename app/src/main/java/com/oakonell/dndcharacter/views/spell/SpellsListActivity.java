@@ -2,13 +2,11 @@ package com.oakonell.dndcharacter.views.spell;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
-import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.EnumHelper;

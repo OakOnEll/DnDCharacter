@@ -4,10 +4,7 @@ import android.content.res.Resources;
 
 import com.oakonell.dndcharacter.model.character.Character;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Rob on 11/27/2016.

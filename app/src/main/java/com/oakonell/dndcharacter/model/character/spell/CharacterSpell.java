@@ -9,7 +9,6 @@ import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.model.spell.SpellSchool;
-import com.oakonell.dndcharacter.utils.NumberUtils;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;

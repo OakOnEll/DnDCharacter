@@ -14,7 +14,6 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
 import com.oakonell.dndcharacter.model.character.rest.CompanionRest;
-import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;

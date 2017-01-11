@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.views.settings.SettingsActivity;

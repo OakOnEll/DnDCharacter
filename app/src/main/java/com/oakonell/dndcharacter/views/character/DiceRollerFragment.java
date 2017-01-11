@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.SoundFXUtils;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
@@ -31,14 +30,12 @@ import com.oakonell.expression.ExpressionContext;
 import com.oakonell.expression.ExpressionType;
 import com.oakonell.expression.context.SimpleFunctionContext;
 import com.oakonell.expression.context.SimpleVariableContext;
-import com.oakonell.expression.grammar.ExpressionParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

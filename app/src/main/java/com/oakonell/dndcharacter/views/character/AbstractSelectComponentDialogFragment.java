@@ -22,12 +22,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
 import com.oakonell.dndcharacter.utils.UIUtils;
-import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorBindableRecyclerViewHolder;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;

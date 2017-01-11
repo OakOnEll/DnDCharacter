@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.ComponentSource;
 import com.oakonell.dndcharacter.model.character.SavedChoices;
 
 import java.util.List;

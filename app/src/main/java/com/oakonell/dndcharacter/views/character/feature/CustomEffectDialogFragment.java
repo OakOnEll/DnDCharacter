@@ -1,10 +1,8 @@
 package com.oakonell.dndcharacter.views.character.feature;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +13,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
-import com.oakonell.dndcharacter.model.character.CustomAdjustmentType;
-import com.oakonell.dndcharacter.model.effect.AddEffectToCharacterVisitor;
-import com.oakonell.dndcharacter.model.effect.Effect;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
-import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
-import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 /**
  * Created by Rob on 1/3/2016.

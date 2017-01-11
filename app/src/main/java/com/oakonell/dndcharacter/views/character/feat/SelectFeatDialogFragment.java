@@ -1,20 +1,10 @@
 package com.oakonell.dndcharacter.views.character.feat;
 
-import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.model.feat.Feat;
-import com.oakonell.dndcharacter.model.spell.SpellSchool;
-import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;
-import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 /**
  * Created by Rob on 2/1/2016.

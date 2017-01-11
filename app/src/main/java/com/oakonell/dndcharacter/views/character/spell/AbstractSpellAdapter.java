@@ -12,7 +12,6 @@ import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.spell.CharacterSpell;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

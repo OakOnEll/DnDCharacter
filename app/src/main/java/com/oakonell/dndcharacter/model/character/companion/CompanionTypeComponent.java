@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.ComponentType;
 import com.oakonell.expression.context.SimpleVariableContext;
 
 import org.simpleframework.xml.Element;

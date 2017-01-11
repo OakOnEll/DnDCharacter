@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.oakonell.dndcharacter.model.AbstractComponentModel;
 import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
 import com.oakonell.dndcharacter.model.EnumHelper;
 import com.oakonell.dndcharacter.utils.XmlUtils;

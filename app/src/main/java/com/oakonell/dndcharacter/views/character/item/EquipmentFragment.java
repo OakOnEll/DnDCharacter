@@ -8,9 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,17 +28,13 @@ import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.character.item.CharacterWeapon;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
-import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
-import com.oakonell.dndcharacter.views.DividerItemDecoration;
 import com.oakonell.dndcharacter.views.ItemTouchHelperAdapter;
 import com.oakonell.dndcharacter.views.ItemTouchHelperViewHolder;
-import com.oakonell.dndcharacter.views.SimpleItemTouchHelperCallback;
 import com.oakonell.dndcharacter.views.character.AbstractSheetFragment;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

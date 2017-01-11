@@ -2,7 +2,6 @@ package com.oakonell.dndcharacter.model.character;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -23,7 +22,6 @@ import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.model.components.IFeatureAction;
 import com.oakonell.dndcharacter.model.components.Proficiency;
 import com.oakonell.dndcharacter.model.components.ProficiencyType;
-import com.oakonell.dndcharacter.model.components.RefreshType;
 import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import com.oakonell.dndcharacter.views.character.rest.longRest.HitDieRestoreRow;
 import com.oakonell.dndcharacter.views.character.rest.shortRest.HitDieUseRow;
@@ -47,7 +45,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 

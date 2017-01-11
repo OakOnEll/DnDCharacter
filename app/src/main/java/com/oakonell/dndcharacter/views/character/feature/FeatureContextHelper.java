@@ -12,7 +12,6 @@ import android.widget.ImageView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.AbstractCharacter;
-import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.ContextNote;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.utils.UIUtils;

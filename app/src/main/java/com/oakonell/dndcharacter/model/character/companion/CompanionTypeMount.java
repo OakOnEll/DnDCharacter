@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.model.character.companion;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.Character;
 
 /**
  * Created by Rob on 11/27/2016.

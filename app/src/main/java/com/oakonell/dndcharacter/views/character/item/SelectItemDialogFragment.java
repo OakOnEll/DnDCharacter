@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.ApplyChangesToGenericComponent;
 import com.oakonell.dndcharacter.model.EnumHelper;
@@ -27,7 +26,6 @@ import com.oakonell.dndcharacter.model.item.CreateCharacterWeaponVisitor;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
 import com.oakonell.dndcharacter.utils.XmlUtils;
-import com.oakonell.dndcharacter.views.AbstractComponentListActivity;
 import com.oakonell.dndcharacter.views.CursorIndexesByName;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractSelectComponentDialogFragment;

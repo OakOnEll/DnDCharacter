@@ -2,22 +2,14 @@ package com.oakonell.dndcharacter.model.companion;
 
 import android.content.Context;
 import android.provider.BaseColumns;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.From;
-import com.activeandroid.query.Select;
 import com.oakonell.dndcharacter.model.AbstractDescriptionComponentModel;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 
 import org.w3c.dom.Element;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Rob on 11/10/2015.

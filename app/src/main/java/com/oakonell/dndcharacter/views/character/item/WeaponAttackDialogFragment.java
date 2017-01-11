@@ -1,7 +1,6 @@
 package com.oakonell.dndcharacter.views.character.item;
 
 import android.content.res.Resources;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;

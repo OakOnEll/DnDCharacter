@@ -1,7 +1,5 @@
 package com.oakonell.dndcharacter.views.character.rest.longRest;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,8 +7,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.AbstractCharacter;
-import com.oakonell.dndcharacter.model.character.rest.AbstractRestRequest;
 import com.oakonell.dndcharacter.model.character.rest.LongRestRequest;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;

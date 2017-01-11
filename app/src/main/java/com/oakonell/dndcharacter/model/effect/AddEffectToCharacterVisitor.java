@@ -14,7 +14,6 @@ import com.oakonell.dndcharacter.model.components.Feature;
 import com.oakonell.dndcharacter.utils.XmlUtils;
 import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.feature.FeatureViewHelper;
-import com.oakonell.dndcharacter.views.character.feature.FeatureViewHolder;
 
 import org.w3c.dom.Element;
 

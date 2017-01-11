@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.activeandroid.Model;
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.effect.AddEffectToCharacterVisitor;

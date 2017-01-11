@@ -12,9 +12,7 @@ import com.oakonell.dndcharacter.views.character.rest.shortRest.HitDieUseRow;
 import com.oakonell.expression.context.SimpleVariableContext;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Rob on 11/8/2015.

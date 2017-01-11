@@ -3,9 +3,6 @@ package com.oakonell.dndcharacter.model.character.rest;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by Rob on 12/26/2016.
  */

@@ -10,18 +10,13 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.AbstractCharacter;
-import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.FeatureResetInfo;
-import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 import com.oakonell.dndcharacter.model.character.rest.CompanionRest;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.BindableComponentViewHolder;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
-import com.oakonell.dndcharacter.views.character.feature.FeatureContextHelper;
 
 import java.util.Collections;
-import java.util.Set;
 
 /**
  * Created by Rob on 1/10/2017.

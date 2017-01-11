@@ -3,13 +3,7 @@ package com.oakonell.dndcharacter.model.character.companion;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.AbstractCharacterAbilityDeriver;
-import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.CharacterBackground;
-import com.oakonell.dndcharacter.model.character.CharacterClass;
-import com.oakonell.dndcharacter.model.character.CharacterRace;
 import com.oakonell.dndcharacter.model.character.ComponentVisitor;
-
-import java.util.List;
 
 /**
  * Created by Rob on 1/3/2016.

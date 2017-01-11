@@ -3,7 +3,6 @@ package com.oakonell.dndcharacter.model.components;
 import android.support.annotation.NonNull;
 
 import com.oakonell.dndcharacter.model.character.AbstractCharacter;
-import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
 

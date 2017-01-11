@@ -2,7 +2,6 @@ package com.oakonell.dndcharacter.views.character.feature;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -17,7 +16,6 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.CustomAdjustments;
-import com.oakonell.dndcharacter.model.character.FeatureInfo;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
 import com.oakonell.dndcharacter.utils.NumberUtils;
 import com.oakonell.dndcharacter.utils.UIUtils;
@@ -30,9 +28,6 @@ import com.oakonell.dndcharacter.views.character.feat.PassivePerceptionDialogFra
 import com.oakonell.dndcharacter.views.character.item.ArmorClassDialogFragment;
 import com.oakonell.dndcharacter.views.character.race.SpeedDialogFragment;
 import com.oakonell.dndcharacter.views.character.stats.StatBlockDialogFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Rob on 10/26/2015.

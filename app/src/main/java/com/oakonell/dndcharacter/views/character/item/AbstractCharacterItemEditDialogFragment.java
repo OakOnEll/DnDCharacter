@@ -19,12 +19,10 @@ import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.item.CharacterItem;
 import com.oakonell.dndcharacter.model.item.ItemRow;
 import com.oakonell.dndcharacter.model.item.ItemType;
-import com.oakonell.dndcharacter.model.race.Race;
 import com.oakonell.dndcharacter.views.NoDefaultSpinner;
 import com.oakonell.dndcharacter.views.character.AbstractCharacterDialogFragment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

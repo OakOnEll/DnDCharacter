@@ -13,7 +13,6 @@ import com.oakonell.dndcharacter.model.classes.AClass;
 import com.oakonell.dndcharacter.model.classes.ApplyClassToCharacterVisitor;
 import com.oakonell.dndcharacter.model.race.ApplyRaceToCharacterVisitor;
 import com.oakonell.dndcharacter.model.race.Race;
-import com.oakonell.dndcharacter.utils.ProgressData;
 import com.oakonell.dndcharacter.utils.ProgressUpdater;
 
 import org.simpleframework.xml.Serializer;

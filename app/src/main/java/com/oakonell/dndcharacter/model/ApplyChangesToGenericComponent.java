@@ -43,8 +43,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import ch.qos.logback.core.joran.spi.XMLUtil;
-
 /**
  * Created by Rob on 11/18/2015.
  */

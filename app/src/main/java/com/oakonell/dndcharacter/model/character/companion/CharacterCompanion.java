@@ -5,10 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.oakonell.dndcharacter.model.character.AbstractCharacter;
-import com.oakonell.dndcharacter.model.character.AbstractCharacterAbilityDeriver;
 import com.oakonell.dndcharacter.model.character.Character;
-import com.oakonell.dndcharacter.model.character.CharacterAbilityDeriver;
-import com.oakonell.dndcharacter.model.character.CharacterClass;
 import com.oakonell.dndcharacter.model.character.CharacterEffect;
 import com.oakonell.dndcharacter.model.character.ComponentVisitor;
 import com.oakonell.dndcharacter.model.character.item.CharacterArmor;
@@ -21,7 +18,6 @@ import com.oakonell.dndcharacter.views.character.feature.FeatureContext;
 import org.simpleframework.xml.Element;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

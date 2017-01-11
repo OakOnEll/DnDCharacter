@@ -1,18 +1,13 @@
 package com.oakonell.dndcharacter.views.character.rest.shortRest;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.oakonell.dndcharacter.R;
-import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.rest.ShortRestRequest;
 import com.oakonell.dndcharacter.utils.UIUtils;
 import com.oakonell.dndcharacter.views.DividerItemDecoration;
-import com.oakonell.dndcharacter.views.character.CharacterActivity;
 import com.oakonell.dndcharacter.views.character.rest.AbstractRestDialogFragment;
 import com.oakonell.dndcharacter.views.character.rest.RestHealingViewHelper;
 

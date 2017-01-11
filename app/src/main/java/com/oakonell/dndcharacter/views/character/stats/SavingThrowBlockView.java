@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.AbstractCharacter;
-import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.Proficient;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
