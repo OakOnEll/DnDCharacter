@@ -35,4 +35,8 @@
         <include layout="@layout/short_rest_heal_layout" />
     </LinearLayout>
 
+    <include layout="@layout/feature_reset_layout" />
+
+    <!--    <include layout="@layout/feature_context" /> -->
+
 </LinearLayout>

@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Rob on 1/10/2017.
  */
 class FeatureResetsAdapter extends RecyclerView.Adapter<FeatureResetViewHolder> {
-    private final List<FeatureResetInfo> resets;
+    private List<FeatureResetInfo> resets;
     private final Context context;
 
     public FeatureResetsAdapter(Context context, List<FeatureResetInfo> resets) {
@@ -26,6 +26,11 @@ class FeatureResetsAdapter extends RecyclerView.Adapter<FeatureResetViewHolder> 
 
     public FeatureResetInfo getItem(int position) {
         return resets.get(position);
+    }
+
+    public void setResets(List<FeatureResetInfo> resets) {
+        this.resets = resets;
+        notifyDataSetChanged();
     }
 
     @NonNull

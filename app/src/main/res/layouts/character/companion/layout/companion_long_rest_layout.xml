@@ -25,7 +25,6 @@
             tools:text="Cat - Familiar" />
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/healing_layout"
         android:layout_width="match_parent"
@@ -35,5 +34,9 @@
 
         <include layout="@layout/long_rest_heal_layout" />
     </LinearLayout>
+
+    <include layout="@layout/feature_reset_layout" />
+
+<!--    <include layout="@layout/feature_context" /> -->
 
 </LinearLayout>
