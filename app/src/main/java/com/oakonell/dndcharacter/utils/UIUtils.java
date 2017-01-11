@@ -1,5 +1,6 @@
 package com.oakonell.dndcharacter.utils;
 
+import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
  */
 public class UIUtils {
 
-    public static RecyclerView.LayoutManager createLinearLayoutManager(FragmentActivity mainActivity, int orientation, boolean b) {
+    public static RecyclerView.LayoutManager createLinearLayoutManager(Context mainActivity, int orientation, boolean b) {
         return new LinearLayoutManager(mainActivity, orientation, b);
     }
 
