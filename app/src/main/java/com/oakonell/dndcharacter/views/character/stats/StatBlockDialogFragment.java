@@ -109,7 +109,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
         filter.add(new FeatureContextArgument(FeatureContext.SKILL_ROLL, getType().name()));
@@ -118,7 +118,7 @@ public class StatBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     @Override
-    protected FeatureContextArgument getNoteContext() {
+    public FeatureContextArgument getNoteContext() {
         return new FeatureContextArgument(FeatureContext.STAT_BLOCK, getType().name());
     }
 

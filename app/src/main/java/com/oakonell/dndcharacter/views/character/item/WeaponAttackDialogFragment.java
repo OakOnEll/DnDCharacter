@@ -330,7 +330,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
         filter.add(new FeatureContextArgument(FeatureContext.WEAPON_ATTACK));

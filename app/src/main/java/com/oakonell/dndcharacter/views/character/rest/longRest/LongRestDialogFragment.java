@@ -44,14 +44,14 @@ public class LongRestDialogFragment extends AbstractRestDialogFragment<LongRestR
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.LONG_REST));
         return filter;
     }
 
     @Override
-    protected FeatureContextArgument getNoteContext() {
+    public FeatureContextArgument getNoteContext() {
         return new FeatureContextArgument(FeatureContext.LONG_REST);
     }
 

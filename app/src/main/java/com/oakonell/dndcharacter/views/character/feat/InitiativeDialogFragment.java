@@ -78,14 +78,14 @@ public class InitiativeDialogFragment extends RollableDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.INITIATIVE));
         return filter;
     }
 
     @Override
-    protected FeatureContextArgument getNoteContext() {
+    public FeatureContextArgument getNoteContext() {
         return new FeatureContextArgument(FeatureContext.INITIATIVE);
     }
 

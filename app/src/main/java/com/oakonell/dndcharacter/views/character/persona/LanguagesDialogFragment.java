@@ -53,7 +53,7 @@ public class LanguagesDialogFragment extends AbstractCharacterDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.LANGUAGES));
         return filter;

@@ -79,14 +79,14 @@ public class PassivePerceptionDialogFragment extends AbstractCharacterDialogFrag
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.PASSIVE_PERCEPTION));
         return filter;
     }
 
     @Override
-    protected FeatureContextArgument getNoteContext() {
+    public FeatureContextArgument getNoteContext() {
         return new FeatureContextArgument(FeatureContext.PASSIVE_PERCEPTION);
     }
 

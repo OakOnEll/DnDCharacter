@@ -80,7 +80,7 @@ public class DeathSaveDialogFragment extends RollableDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.DEATH_SAVE));
         return filter;

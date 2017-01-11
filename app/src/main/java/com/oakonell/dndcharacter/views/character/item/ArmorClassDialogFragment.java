@@ -185,7 +185,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.ARMOR_CLASS));
         filter.add(new FeatureContextArgument(FeatureContext.TO_HIT));
@@ -193,7 +193,7 @@ public class ArmorClassDialogFragment extends AbstractCharacterDialogFragment {
     }
 
     @Override
-    protected FeatureContextArgument getNoteContext() {
+    public FeatureContextArgument getNoteContext() {
         return new FeatureContextArgument(FeatureContext.ARMOR_CLASS);
     }
 

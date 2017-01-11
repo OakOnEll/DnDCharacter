@@ -98,7 +98,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
         filter.add(new FeatureContextArgument(FeatureContext.SAVING_THROW, getType().name()));
@@ -106,7 +106,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     }
 
     @Override
-    protected FeatureContextArgument getNoteContext() {
+    public FeatureContextArgument getNoteContext() {
         return new FeatureContextArgument(FeatureContext.SAVING_THROW, getType().name());
     }
 

@@ -44,7 +44,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment<ShortRes
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.SHORT_REST));
         filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
@@ -52,7 +52,7 @@ public class ShortRestDialogFragment extends AbstractRestDialogFragment<ShortRes
     }
 
     @Override
-    protected FeatureContextArgument getNoteContext() {
+    public FeatureContextArgument getNoteContext() {
         return new FeatureContextArgument(FeatureContext.SHORT_REST);
     }
 

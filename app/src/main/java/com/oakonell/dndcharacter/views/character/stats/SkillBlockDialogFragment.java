@@ -110,7 +110,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
         filter.add(new FeatureContextArgument(FeatureContext.SKILL_ROLL, type.name()));
@@ -119,7 +119,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    protected FeatureContextArgument getNoteContext() {
+    public FeatureContextArgument getNoteContext() {
         return new FeatureContextArgument(FeatureContext.SKILL_ROLL, type.getStatType().name());
     }
 

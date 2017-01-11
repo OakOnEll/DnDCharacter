@@ -431,7 +431,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
 
     @NonNull
     @Override
-    protected Set<FeatureContextArgument> getContextFilter() {
+    public Set<FeatureContextArgument> getContextFilter() {
         Set<FeatureContextArgument> filter = new HashSet<>();
         // TODO include spell name as arg?
         filter.add(new FeatureContextArgument(FeatureContext.DICE_ROLL));
@@ -440,7 +440,7 @@ public class SpellDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    protected FeatureContextArgument getNoteContext() {
+    public FeatureContextArgument getNoteContext() {
         // TODO include spell name as arg?
         return new FeatureContextArgument(FeatureContext.SPELL_CAST);
     }
