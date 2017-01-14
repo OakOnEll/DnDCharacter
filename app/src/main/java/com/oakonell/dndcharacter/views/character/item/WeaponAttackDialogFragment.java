@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.EnumHelper;
+import com.oakonell.dndcharacter.model.character.AbstractCharacter;
 import com.oakonell.dndcharacter.model.character.Character;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.feature.FeatureContextArgument;
@@ -87,11 +88,12 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
 
 
     @NonNull
-    public static WeaponAttackDialogFragment create(@NonNull CharacterItem item) {
+    public static WeaponAttackDialogFragment create(@NonNull CharacterItem item, boolean isForCompanion) {
         WeaponAttackDialogFragment newMe = new WeaponAttackDialogFragment();
 
         Bundle args = new Bundle();
         args.putLong(WEAPON, item.getId());
+        args.putBoolean(COMPANION_ARG, isForCompanion);
         newMe.setArguments(args);
 
         return newMe;
@@ -314,6 +316,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     @Override
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
+        //AbstractCharacter character = getDisplayedCharacter();
 
         loadWeapon(character);
         updateViews();
@@ -322,6 +325,7 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     @Override
     public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
+        //AbstractCharacter character = getDisplayedCharacter();
 
         loadWeapon(character);
         updateViews();
@@ -337,7 +341,8 @@ public class WeaponAttackDialogFragment extends RollableDialogFragment {
     }
 
     private void updateViews() {
-        Character character = getCharacter();
+        //AbstractCharacter character = getDisplayedCharacter();
+        final Character character = getCharacter();
         final CharacterWeapon.AttackModifier attackModifier = weapon.getBaseAttackModifier(character, use_dexterity.isChecked());
         damageModifier = attackModifier.getDamageModifier();
         setModifier(attackModifier.getAttackBonus());

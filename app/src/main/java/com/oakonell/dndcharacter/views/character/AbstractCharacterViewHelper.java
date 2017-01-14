@@ -301,7 +301,7 @@ public class AbstractCharacterViewHelper {
             entry.getValue().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SkillBlockDialogFragment dialog = SkillBlockDialogFragment.create(character.getSkillBlock(entry.getKey()));
+                    SkillBlockDialogFragment dialog = SkillBlockDialogFragment.create(character.getSkillBlock(entry.getKey()), isForCompanion);
                     dialog.show(getFragmentManager(), "skill_frag");
                 }
             });

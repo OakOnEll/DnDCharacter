@@ -47,10 +47,11 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     private SkillSourceAdapter adapter;
 
     @NonNull
-    public static SkillBlockDialogFragment create(@NonNull SkillBlock block) {
+    public static SkillBlockDialogFragment create(@NonNull SkillBlock block, boolean isForCompanion) {
         SkillBlockDialogFragment frag = new SkillBlockDialogFragment();
         int typeIndex = block.getType().ordinal();
         Bundle args = new Bundle();
+        args.putBoolean(COMPANION_ARG, isForCompanion);
         args.putInt(TYPE, typeIndex);
         frag.setArguments(args);
 
@@ -87,8 +88,10 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
 
     @Override
-    public void onCharacterLoaded(@NonNull Character character) {
-        super.onCharacterLoaded(character);
+    public void onCharacterLoaded(@NonNull Character topCharacter) {
+        super.onCharacterLoaded(topCharacter);
+        AbstractCharacter character = getDisplayedCharacter();
+
         skillBlock = character.getSkillBlock(type);
 
         updateView(character);
@@ -123,7 +126,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
         return new FeatureContextArgument(FeatureContext.SKILL_ROLL, type.getStatType().name());
     }
 
-    private void updateView(Character character) {
+    private void updateView(AbstractCharacter character) {
         setModifier(skillBlock.getBonus());
 
         List<Character.ProficientWithSource> proficiencies = skillBlock.getProficiencies();
@@ -143,8 +146,9 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
     }
 
     @Override
-    public void onCharacterChanged(@NonNull Character character) {
-        super.onCharacterChanged(character);
+    public void onCharacterChanged(@NonNull Character topCharacter) {
+        super.onCharacterChanged(topCharacter);
+        AbstractCharacter character = getDisplayedCharacter();
 
         int typeIndex = getArguments().getInt(TYPE);
         SkillType type = SkillType.values()[typeIndex];
@@ -178,7 +182,7 @@ public class SkillBlockDialogFragment extends RollableDialogFragment {
 
     public static class SkillSourceAdapter extends RowWithSourceAdapter<Character.ProficientWithSource, SkillProfWithSourceViewHolder> {
         SkillSourceAdapter(@NonNull SkillBlockDialogFragment fragment, @NonNull ListRetriever<Character.ProficientWithSource> listRetriever, boolean isForCompanion) {
-            super(fragment.getMainActivity(), listRetriever,isForCompanion);
+            super(fragment.getMainActivity(), listRetriever, isForCompanion);
         }
 
 

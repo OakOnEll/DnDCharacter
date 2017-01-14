@@ -20,26 +20,15 @@ public abstract class AbstractStatBlockBasedDialog extends RollableDialogFragmen
     private StatBlock statBlock;
     private StatType type;
 
-    private boolean isForCompanion;
 
-    protected void setStatTypeArg(@NonNull StatBlock block) {
+    protected void setStatTypeArg(@NonNull StatBlock block, boolean isForCompanion) {
         int typeIndex = block.getType().ordinal();
         Bundle args = new Bundle();
         args.putInt(TYPE, typeIndex);
+        args.putBoolean(COMPANION_ARG, isForCompanion);
         setArguments(args);
     }
 
-    public void setIsForCompanion(boolean isForCompanion) {
-        this.isForCompanion = isForCompanion;
-    }
-
-    public boolean isForCompanion() {
-        return isForCompanion;
-    }
-
-    public void setForCompanion(boolean isForCompanion) {
-        this.isForCompanion = isForCompanion;
-    }
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,11 +38,8 @@ public abstract class AbstractStatBlockBasedDialog extends RollableDialogFragmen
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    protected StatBlock setStatBlock(@NonNull com.oakonell.dndcharacter.model.character.Character character) {
+    protected StatBlock setStatBlock(@NonNull AbstractCharacter character) {
         AbstractCharacter source = character;
-        if (isForCompanion) {
-            source = character.getDisplayedCompanion();
-        }
         statBlock = source.getStatBlock(type);
         return statBlock;
     }

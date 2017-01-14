@@ -121,10 +121,8 @@ public class DeathSaveDialogFragment extends RollableDialogFragment {
             death_save_result.startAnimation(shake);
             return false;
         }
-        AbstractCharacter character = getCharacter();
-        if (isForCompanion()) {
-            character = getCharacter().getDisplayedCompanion();
-        }
+        AbstractCharacter character = getDisplayedCharacter();
+
         int position = death_save_result.getSelectedItemPosition();
         final DeathSaveResult result = deathSaveResultValues.get(position);
         switch (result) {

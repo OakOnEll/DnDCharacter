@@ -44,8 +44,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     @NonNull
     public static SaveThrowBlockDialogFragment create(@NonNull StatBlock block, boolean isForCompanion) {
         SaveThrowBlockDialogFragment frag = new SaveThrowBlockDialogFragment();
-        frag.setStatTypeArg(block);
-        frag.setForCompanion(isForCompanion);
+        frag.setStatTypeArg(block,isForCompanion);
         return frag;
     }
 
@@ -76,7 +75,7 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     @Override
     public void onCharacterLoaded(@NonNull Character character) {
         super.onCharacterLoaded(character);
-        StatBlock statBlock = setStatBlock(character);
+        StatBlock statBlock = setStatBlock(getDisplayedCharacter());
 
 
         updateView(statBlock);
@@ -132,14 +131,10 @@ public class SaveThrowBlockDialogFragment extends AbstractStatBlockBasedDialog {
     public void onCharacterChanged(@NonNull Character character) {
         super.onCharacterChanged(character);
 
-        StatBlock statBlock = setStatBlock(character);
+        AbstractCharacter source = getDisplayedCharacter();
+        StatBlock statBlock = setStatBlock(source);
 
         updateView(statBlock);
-
-        AbstractCharacter source = character;
-        if (isForCompanion()) {
-            source = character.getDisplayedCompanion();
-        }
 
         adapter.reloadList(source);
     }
