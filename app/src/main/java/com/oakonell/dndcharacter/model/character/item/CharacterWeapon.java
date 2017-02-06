@@ -3,6 +3,7 @@ package com.oakonell.dndcharacter.model.character.item;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
+import com.oakonell.dndcharacter.R;
 import com.oakonell.dndcharacter.model.character.DamageType;
 import com.oakonell.dndcharacter.model.character.stats.StatBlock;
 import com.oakonell.dndcharacter.model.character.stats.StatType;
@@ -99,7 +100,11 @@ public class CharacterWeapon extends CharacterItem {
             }
             builder.append(each.damageFormula);
             builder.append(" ");
-            builder.append(resources.getString(each.type.getStringResId()));
+            if (each.type != null) {
+                builder.append(resources.getString(each.type.getStringResId()));
+            } else {
+                builder.append(resources.getString(R.string.unknown_damage_type));
+            }
             isFirst = false;
         }
         return builder.toString();

@@ -30,5 +30,12 @@
         android:layout_height="wrap_content"
         android:text="@string/add_another_button_label" />
 
+    <Button
+        android:id="@id/delete_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X" />
+
 
 </LinearLayout>

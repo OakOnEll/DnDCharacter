@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -477,14 +478,14 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
         private final EditText damage;
         private final Spinner damageType;
         private final View add_another;
+        private final Button delete_button;
 
         public DamagesViewHolder(@NonNull View itemView) {
             super(itemView);
             damage = (EditText) itemView.findViewById(R.id.damage);
             damageType = (Spinner) itemView.findViewById(R.id.damage_type);
             add_another = itemView.findViewById(R.id.add_another);
-
-
+            delete_button = (Button) itemView.findViewById(R.id.delete_button);
         }
 
         @Override
@@ -517,6 +518,13 @@ public class CharacterWeaponEditDialogFragment extends AbstractCharacterItemEdit
                 @Override
                 public void onClick(View v) {
                     adapter.damages.add(new CharacterWeapon.DamageFormula());
+                    adapter.notifyDataSetChanged();
+                }
+            });
+            delete_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapter.damages.remove(info);
                     adapter.notifyDataSetChanged();
                 }
             });
